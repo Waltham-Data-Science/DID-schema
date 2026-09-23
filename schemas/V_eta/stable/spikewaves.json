@@ -1,0 +1,59 @@
+{
+    "document_class": {
+        "class_name": "spikewaves",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "extraction_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The extraction parameters used.",
+            "must_refer_to_document_class": "spike_extraction_parameters",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [
+        {
+            "name": "spikewaves.vsw",
+            "documentation": "The waveform snippets (binary, with a header)."
+        },
+        {
+            "name": "spiketimes.bin",
+            "documentation": "The spike times, as bytes."
+        }
+    ],
+    "fields": [
+        {
+            "name": "extraction_name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the extraction parameters document.",
+            "constraints": {}
+        }
+    ]
+}

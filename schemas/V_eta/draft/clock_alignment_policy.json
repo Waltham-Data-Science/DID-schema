@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "clock_alignment_policy",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The session whose clocks this policy governs.",
+            "must_refer_to_document_class": "session"
+        },
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "v1's `ndi_syncgraph_class`, folded to a software entity (R1).",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "clock_alignment_configuration_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The rules this policy applies. OPTIONAL -- a policy with no rules yet is legitimate, which is what NDI's own \"mustbenotempty\": 0 on syncrule_id says.",
+            "must_refer_to_document_class": "clock_alignment_configuration",
+            "multiple": true,
+            "min_count": 0
+        }
+    ],
+    "file": [],
+    "fields": []
+}

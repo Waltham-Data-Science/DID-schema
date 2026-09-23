@@ -1,0 +1,37 @@
+{
+    "document_class": {
+        "class_name": "ontology_label",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document this label is about. NOT a subject -- reaching the subject means following this edge through the migrated-id graph, which is why the class is deferred to the NDI second pass.",
+            "must_refer_to_document_class": "base",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ontology_node",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The ontology node id as ontology:nodeID (e.g. 'UBERON:3373'). Spelled `ontologyNode` in did_v1; snake_cased by universalRenames.",
+            "constraints": {}
+        }
+    ]
+}

@@ -5,7 +5,21 @@ on:
     branches: [main]
     paths:
       - "web/**"
-      - "schemas/V_delta/**"
+      - "schemas/V_*/**"
+      # `schemas/V_*/**` needs a directory segment, so it matches
+      # schemas/V_eta/stable/foo.json but NOT the generated ledger, which is a
+      # file sitting directly under schemas/. Without this line a commit that
+      # only re-runs tools/coverage.py updates the ledger and deploys nothing,
+      # and the viewer's Coverage panel drifts behind the schemas with no signal
+      # that it has.
+      - "schemas/V_*_coverage_ledger.json"
+      # Same trap, same reason: the decision families are a file directly under
+      # schemas/, so `schemas/V_*/**` does not match them either. Without this
+      # line, signing off a family or landing its build would update the
+      # artifact the viewer reads and deploy nothing -- and the viewer would go
+      # on showing a settled family as open, which is the precise failure the
+      # artifact was added to remove.
+      - "schemas/V_*_decisions.json"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 

@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "resistance_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_observation"
+            },
+            {
+                "class_name": "resistance"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

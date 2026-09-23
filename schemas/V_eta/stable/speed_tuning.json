@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "speed_tuning",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "tuning_curve"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

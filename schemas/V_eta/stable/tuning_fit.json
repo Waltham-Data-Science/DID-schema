@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "tuning_fit",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "calculator"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

@@ -70,6 +70,9 @@ def test_index_agrees_with_disk():
 
 
 def test_superclasses_resolve():
+    # DENOMINATOR -- see the same guard in test_veta.py. Without it this passes
+    # when RECORDS is empty, i.e. exactly when the schema set failed to load.
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} V_zeta schemas loaded"
     names = set(RECORDS)
     for name, (_, d) in RECORDS.items():
         for s in d["document_class"]["superclasses"]:
@@ -186,7 +189,8 @@ def test_image_stack_folded_into_imageseries():
     assert _flat_field_types("imageseries_observation").get("kind") == "ontology_term"
     # nothing folds the geometry loss: storage carries dtype/limits; series a caption
     st = {s["name"] for s in
-          [f for f in RECORDS["dataseries_data"][1]["fields"] if f["name"] == "storage"][0]["fields"]}
+          next(f for f in RECORDS["dataseries_data"][1]["fields"]
+               if f["name"] == "storage")["fields"]}
     assert {"data_type", "data_limits"} <= st, "dataseries_data.storage must carry dtype/limits"
     assert _flat_field_types("imageseries_observation").get("label") == "char", \
         "the folded image_stack.label caption must be inherited from dataseries_observation"

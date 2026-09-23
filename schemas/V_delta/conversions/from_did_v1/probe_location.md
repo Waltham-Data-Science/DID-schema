@@ -5,12 +5,22 @@
 - **V_delta `class_name`:** `probe_location`
 - **V_delta tier:** `stable`
 - **V_delta schema path:** `schemas/V_delta/stable/probe_location.json`
-- **did_v1 source:** legacy NDI/DID `probe_location` document type
-  (`_classname: "probe_location"`). The schema-shape ancestor in this
-  repository is `schemas/V_alpha/probe_location.json`; the
-  `schemas/V_beta/probe_location.json` revision is the same shape with
-  only naming-convention housekeeping applied.
+- **did_v1 source:** `VH-Lab/NDI-matlab` —
+  `src/ndi/ndi_common/database_documents/probe/probe_location.json`, whose block
+  is `{ ontology_name, name }` with a `probe_id` dependency. **Verified against
+  the template**: the mapping below is correct.
 - **Status:** `drafted`
+
+
+> ⚠️ **PROVENANCE CORRECTED (see `V_eta_ground_truth_plan.md`).** This document
+> previously cited `schemas/V_alpha/probe_location.json` as its did_v1 "schema-shape
+> ancestor". **`V_alpha` is a DID-side snapshot, not evidence of what NDI ships.**
+> The authoritative did_v1 source is the NDI template below, and where a template
+> and its WRITER disagree the writer wins — the data follows the writer.
+
+> The mapping here happens to be **right** — `V_alpha` matches the NDI template
+> for this class. The citation was still wrong, and a correct answer from a
+> wrong source is luck, not evidence. Re-verified against the template directly.
 
 ## Summary
 

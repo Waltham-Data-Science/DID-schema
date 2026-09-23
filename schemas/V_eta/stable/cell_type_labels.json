@@ -1,0 +1,140 @@
+{
+    "document_class": {
+        "class_name": "cell_type_labels",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "cells_document_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The cells document these labels are aligned to. Row order must match.",
+            "must_refer_to_document_class": "spatial_gene_expression_cells",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "reference_document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional back-pointer to the source atlas / taxonomy / clustering result the labels came from.",
+            "must_refer_to_document_class": "base",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "labels.tsv",
+            "documentation": "One row per cell, aligned to the cells document's row order."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A human-readable label for this labeling (e.g. 'G&T 2026 subclass, NN transfer').",
+            "constraints": {}
+        },
+        {
+            "name": "label_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the labeled variable as it appeared in the source (e.g. 'subclass_nn_column', 'leiden').",
+            "constraints": {}
+        },
+        {
+            "name": "taxonomy_level",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Where this sits in a class/subclass/type hierarchy, if any. Free text; use '' for flat or unsupervised labelings.",
+            "constraints": {}
+        },
+        {
+            "name": "n_cells",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of data rows in labels.tsv. Must equal the n_cells of the cells document.",
+            "constraints": {}
+        },
+        {
+            "name": "n_categories",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of distinct non-empty categories.",
+            "constraints": {}
+        },
+        {
+            "name": "n_unlabeled",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many cells have no category.",
+            "constraints": {}
+        },
+        {
+            "name": "assignment_method",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How labels were assigned (e.g. 'nearest-neighbor transfer from a dissociated atlas', 'Leiden clustering', 'manual').",
+            "constraints": {}
+        },
+        {
+            "name": "is_unsupervised",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if the labels come from unsupervised clustering and therefore carry no biological identity. Leiden and SNN clusterings must set this to 1 so they are not mistaken for cell type calls.",
+            "constraints": {}
+        }
+    ]
+}

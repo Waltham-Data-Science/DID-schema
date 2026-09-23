@@ -1,0 +1,239 @@
+{
+    "document_class": {
+        "class_name": "valid_interval",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The element -- in practice a PROBE, since savevalidinterval errors on anything else (markgarbage.m:76-78) -- whose data these intervals judge. Typed `subject` because migrators_j.element promotes elements to subjects with their ids preserved. NDI's schema marks it mustbenotempty: 1 and the writer always sets it (markgarbage.m:95); declared OPTIONAL here to match every sibling tombstone and because a tombstone must not be the thing that rejects a v1 document.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "timeref_structt0",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The time reference the interval's START is expressed against (markgarbage.m:55).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "referent_epochsetname",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "epochsetname() of the referent -- the probe/element/daq system whose clock this time is expressed in.",
+                    "constraints": {}
+                },
+                {
+                    "name": "referent_classname",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "MATLAB class of the referent (e.g. 'ndi.probe.timeseries.mfdaq'). With referent_epochsetname it is how v1 re-finds the object: session.findexpobj(name, classname) at timereference.m:46.",
+                    "constraints": {}
+                },
+                {
+                    "name": "clocktypestring",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The clock this time is measured on. NDI's vocabulary is NINE values (clocktype.m:69-71): utc, approx_utc, exp_global_time, approx_exp_global_time, dev_global_time, approx_dev_global_time, dev_local_time, no_time, inherited. Deliberately declared with NO enum -- the V_zeta shape this replaces enumerated only six and would have rejected the other three.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epoch",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The epoch providing the time origin. Required only when the clocktype needsepoch(); otherwise timereference.m:71 leaves it EMPTY. NDI documents it as 'either a string or a number' -- declared `string` because that type also accepts the empty-numeric case, but a numeric epoch number would still fail the type check and the meta-schema has no union type. Open question.",
+                    "constraints": {}
+                },
+                {
+                    "name": "session_ID",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The session containing the epoch. WRITTEN BY THE WRITER (timereference.m:110, via ndi_timereference_struct) and DECLARED BY NO NDI TEMPLATE -- 0 commits in valid_interval.json's history mention it. Declared here because the writer wins, and because an undeclared block field is `undeclaredField` on every real document. Kept in its CAMEL spelling on purpose: universalRenames snake_cases only a block's immediate field names, and this one is nested.",
+                    "constraints": {}
+                },
+                {
+                    "name": "time",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The time offset, in the units of clocktypestring, that serves as the origin.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "t0",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Start of the valid interval, in the units of timeref_structt0.",
+            "constraints": {}
+        },
+        {
+            "name": "timeref_structt1",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The time reference the interval's END is expressed against (markgarbage.m:57). SEPARATE from timeref_structt0 by design: markvalidinterval takes an independent timeref for each end.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "referent_epochsetname",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "epochsetname() of the referent -- the probe/element/daq system whose clock this time is expressed in.",
+                    "constraints": {}
+                },
+                {
+                    "name": "referent_classname",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "MATLAB class of the referent (e.g. 'ndi.probe.timeseries.mfdaq'). With referent_epochsetname it is how v1 re-finds the object: session.findexpobj(name, classname) at timereference.m:46.",
+                    "constraints": {}
+                },
+                {
+                    "name": "clocktypestring",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The clock this time is measured on. NDI's vocabulary is NINE values (clocktype.m:69-71): utc, approx_utc, exp_global_time, approx_exp_global_time, dev_global_time, approx_dev_global_time, dev_local_time, no_time, inherited. Deliberately declared with NO enum -- the V_zeta shape this replaces enumerated only six and would have rejected the other three.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epoch",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The epoch providing the time origin. Required only when the clocktype needsepoch(); otherwise timereference.m:71 leaves it EMPTY. NDI documents it as 'either a string or a number' -- declared `string` because that type also accepts the empty-numeric case, but a numeric epoch number would still fail the type check and the meta-schema has no union type. Open question.",
+                    "constraints": {}
+                },
+                {
+                    "name": "session_ID",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The session containing the epoch. WRITTEN BY THE WRITER (timereference.m:110, via ndi_timereference_struct) and DECLARED BY NO NDI TEMPLATE -- 0 commits in valid_interval.json's history mention it. Declared here because the writer wins, and because an undeclared block field is `undeclaredField` on every real document. Kept in its CAMEL spelling on purpose: universalRenames snake_cases only a block's immediate field names, and this one is nested.",
+                    "constraints": {}
+                },
+                {
+                    "name": "time",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The time offset, in the units of clocktypestring, that serves as the origin.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "t1",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "End of the valid interval, in the units of timeref_structt1.",
+            "constraints": {}
+        }
+    ]
+}

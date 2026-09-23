@@ -363,6 +363,38 @@ main {
   vertical-align: middle;
 }
 
+/* migration-disposition badges (index.json `disposition`) */
+.badge-retire,
+.badge-wip {
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  color: var(--bg);
+}
+.badge-retire {
+  background: var(--maturity-deprecated);
+}
+.badge-wip {
+  background: #d29922; /* amber: not yet finalized */
+}
+/* dim classes that are leaving so the persist set reads as the primary tree */
+.tree-label.disposition-retire {
+  opacity: 0.62;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.tree-label.disposition-in_progress {
+  font-style: italic;
+}
+.legend-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border);
+  margin: 0 0.2rem;
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -508,6 +540,46 @@ main {
   font-size: 0.75rem;
 }
 
+/* An ontology CURIE shown alongside a human label. */
+.node-curie {
+  color: var(--text-muted);
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+}
+
+/* The directed-edge arrow between child and parent endpoint types. */
+.rel-arrow {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Binding registry view */
+.registry-description {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+  max-width: 60rem;
+}
+
+.section-note {
+  margin: 0 0 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  max-width: 60rem;
+}
+
+.count-pill {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.45rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  vertical-align: middle;
+}
+
 .constraints {
   list-style: none;
   padding: 0;
@@ -569,6 +641,40 @@ main {
 
 .legend-item {
   font-weight: 600;
+}
+/* interactive filter toggles in the legend */
+button.legend-item {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 0 0.35rem;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+}
+button.legend-item:hover {
+  filter: brightness(1.25);
+}
+/* the badge-* legend items normally paint via background; as buttons keep text-color coding */
+button.badge-retire,
+button.badge-wip,
+button.badge-persist {
+  background: transparent;
+  color: inherit;
+}
+button.badge-retire {
+  color: var(--maturity-deprecated);
+}
+button.badge-wip {
+  color: #d29922;
+}
+button.badge-persist {
+  color: var(--maturity-stable);
+}
+.legend-off {
+  opacity: 0.4;
+  text-decoration: line-through;
 }
 
 .loading,
@@ -766,4 +872,591 @@ main {
   margin-top: 0.2rem;
   color: var(--maturity-deprecated);
   font-size: 0.8rem;
+}
+
+/* ============================ Coverage ledger ============================ */
+.btn-coverage {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+.btn-coverage:hover {
+  border-color: var(--link);
+  color: var(--link);
+}
+.btn-coverage[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--link);
+  color: var(--link);
+}
+
+.coverage .cov-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.25rem;
+}
+.cov-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.cov-stat-n {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.cov-stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+.cov-stat-warn {
+  border-color: var(--maturity-deprecated);
+}
+.cov-stat-warn .cov-stat-n {
+  color: var(--maturity-deprecated);
+}
+
+.cov-gap-banner {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--maturity-deprecated) 12%, var(--bg));
+  border: 1px solid var(--maturity-deprecated);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.cov-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0.4rem;
+}
+.cov-search {
+  flex: 1 1 12rem;
+  min-width: 10rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.cov-kind-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cov-chip {
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.cov-chip .cov-chip-n {
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+.cov-chip-off {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.cov-chip.cov-gap {
+  border-color: var(--maturity-deprecated);
+}
+
+.cov-source-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cov-source-toggle button {
+  padding: 0.25rem 0.55rem;
+  border: none;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.cov-source-toggle button + button {
+  border-left: 1px solid var(--border);
+}
+.cov-source-toggle button.active {
+  background: var(--selected-bg);
+  color: var(--link);
+}
+
+.cov-table td {
+  vertical-align: middle;
+}
+.cov-row-gap {
+  background: color-mix(in srgb, var(--maturity-deprecated) 8%, transparent);
+}
+.cov-link {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+.cov-link:hover {
+  outline: 1px solid var(--link);
+}
+.cov-yes {
+  color: var(--maturity-stable);
+  font-weight: 600;
+}
+.cov-writer {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.cov-dissolved-target {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* fate badges */
+.cov-badge {
+  display: inline-block;
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bg);
+  white-space: nowrap;
+}
+.cov-persist { background: var(--maturity-stable); }
+.cov-retire { background: var(--maturity-deprecated); }
+.cov-wip { background: #d29922; }
+.cov-dissolved { background: var(--maturity-meta); }
+.cov-nonprod { background: var(--maturity-meta); opacity: 0.75; }
+.cov-gap { background: var(--maturity-deprecated); }
+.cov-badge.cov-gap {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--maturity-deprecated) 40%, transparent);
+}
+/* chips reuse the same fills but as tinted outlines when active */
+.cov-chip.cov-persist { border-color: var(--maturity-stable); }
+.cov-chip.cov-retire { border-color: var(--maturity-deprecated); }
+.cov-chip.cov-wip { border-color: #d29922; }
+
+/* V_eta-class chip styled by the TARGET class's disposition, matching the
+   sidebar tree: a retiring/deprecated same-name class is a tombstone, not a
+   real go-forward home, so strike it through; in-progress reads italic. */
+.cov-target-retire {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  opacity: 0.7;
+}
+.cov-target-in_progress {
+  font-style: italic;
+}
+.cov-target-note {
+  font-size: 0.72rem;
+  color: var(--maturity-deprecated);
+}
+
+/* target cell: emitted V_eta class chips */
+.cov-targets { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+.cov-target-emit { border-color: var(--maturity-stable); }
+.cov-target-2pass { border-color: var(--link); border-style: dashed; }
+.cov-target-carried { opacity: 0.75; border-style: dotted; }
+.cov-carried { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; color: var(--text-muted); font-size: 0.8rem; }
+.cov-target-flag { cursor: help; color: var(--maturity-draft); font-size: 0.85rem; }
+
+/* ---- Decision families (public/decisions.json) ---------------------------
+   The `fate` badge says what happens to a class; these say whether the MODEL
+   behind it has been decided. Deliberately distinct from the fate palette:
+   green there means "persists", green here means "signed off", and reading one
+   as the other is the confusion this column exists to remove. */
+.cov-decision-banner {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--maturity-stable) 10%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--maturity-stable) 45%, var(--bg));
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.cov-dec-signed { background: #2f6f4f; }
+.cov-dec-unsigned { background: #d29922; }
+.cov-dec-proposed { background: #9a6bcc; }
+.cov-dec-open { background: var(--maturity-deprecated); }
+
+/* The class-detail banner: reachable from any class, so a decided-but-unbuilt
+   class says so wherever you land on it rather than only in the ledger. */
+.decision-banner {
+  margin: 0 0 0.9rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--maturity-stable) 45%, var(--bg));
+  background: color-mix(in srgb, var(--maturity-stable) 8%, var(--bg));
+  font-size: 0.86rem;
+}
+.decision-banner.decision-unsigned {
+  border-color: #d29922;
+  background: color-mix(in srgb, #d29922 10%, var(--bg));
+}
+.decision-banner.decision-proposed {
+  border-color: #9a6bcc;
+  background: color-mix(in srgb, #9a6bcc 10%, var(--bg));
+}
+.decision-banner-head {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.decision-banner-signoff {
+  margin-top: 0.35rem;
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+/* A passthrough is NOT a migration. Muted and prefixed so it cannot be mistaken
+   for a measured 1:1 emit, and carrying the signed decision where one exists --
+   15 of these rows had a decision naming a different target while the cell said
+   `X -> X`. */
+.cov-passthrough {
+  font-size: 0.82rem;
+}
+.cov-passthrough-mark {
+  opacity: 0.7;
+  font-style: italic;
+}
+.cov-target-passthrough {
+  opacity: 0.75;
+  border-style: dashed;
+}
+.cov-passthrough-decided {
+  opacity: 0.9;
+}
+.cov-passthrough-decided span {
+  border-bottom: 1px dotted currentColor;
+  cursor: help;
+}
+
+/* A migrator runs and nothing records its output: actionable, so it reads as a
+   warning rather than as muted absence. */
+.cov-uncurated {
+  font-size: 0.82rem;
+  color: var(--maturity-deprecated);
+  font-weight: 600;
+}
+
+/* The authored per-class account, rendered as a readable row under its class
+   rather than as a `title=` tooltip. A tooltip is invisible when scanning, on a
+   phone, and in print -- and this is the field that answers "what happens to
+   this class", so hiding it defeated the ledger's purpose. */
+.cov-how-row td {
+  border-top: none;
+  padding-top: 0;
+}
+.cov-how {
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--muted-fg, #5a6472);
+  max-width: 72ch;
+  padding-bottom: 0.6em;
+}
+.cov-how-caveat {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.94em;
+  color: var(--warn-fg, #8a6414);
+}
+/* A signed destination that nothing emits yet. Deliberately NOT styled like an
+   emitted target -- same visual weight would make unbuilt work read as done. */
+.cov-target-decided {
+  border-style: dashed !important;
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   THE PER-CLASS WALKTHROUGH (ClassDetail.tsx)
+
+   Every panel states the artifact its facts come from. Four generators feed
+   this page -- the ledger, the ground truth, the decision families and the
+   built tree -- and "which of these is wrong" is the first question anyone
+   asks when two disagree, so the provenance line is part of the layout rather
+   than a footnote.
+   ========================================================================== */
+.cw-back {
+  margin-bottom: 1rem;
+}
+.cw-writer {
+  margin-left: 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15em 0.6em;
+  vertical-align: middle;
+}
+.cw-step {
+  margin: 2rem 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.cw-step h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.15rem;
+}
+.cw-step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+.cw-source {
+  margin: 0 0 1rem 2.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.cw-step h4 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.cw-stage {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+.cw-stage-n {
+  font-weight: 700;
+  padding: 0.15em 0.65em;
+  border-radius: 999px;
+  background: var(--selected-bg);
+  border: 1px solid var(--selected-border);
+}
+/* A divergence is not a decoration: where the template and the WRITER
+   disagree, the writer wins, and a reader looking only at the template takes
+   the losing side. */
+.cw-warn {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--maturity-draft);
+  background: var(--bg-alt);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.88rem;
+}
+.cw-warn dl {
+  margin: 0.5rem 0 0;
+}
+.cw-flags {
+  color: var(--maturity-draft);
+  font-size: 0.88rem;
+  max-width: 78ch;
+}
+.cw-target-source {
+  max-width: 78ch;
+}
+.cw-mentions {
+  margin: 0.5rem 0;
+  font-size: 0.86rem;
+}
+.cw-mentions summary {
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+.cw-code-line {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding-left: 1rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+.cw-build-table th {
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 1%;
+}
+.cw-target-schema {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+}
+.cw-target-schema > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 600;
+}
+.cw-target-schema table {
+  margin-top: 0.6rem;
+}
+.cw-tenet-list {
+  list-style: none;
+  padding: 0;
+}
+.cw-tenet-list li {
+  margin-bottom: 0.7rem;
+  max-width: 80ch;
+}
+.cw-tenet-id {
+  font-weight: 700;
+  color: var(--link);
+  margin-right: 0.3rem;
+}
+/* The v1 class name in the coverage table is now the way into the walkthrough,
+   so it has to look like a way in. */
+.cov-v1-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--link);
+  font: inherit;
+  text-align: left;
+}
+.cov-v1-link:hover code {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   THE TENET PANEL (Tenets.tsx)
+   ========================================================================== */
+.tenet-block {
+  margin: 2rem 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.tenet-block h3 {
+  max-width: 80ch;
+}
+.tenet-id {
+  display: inline-block;
+  min-width: 2.6em;
+  font-weight: 700;
+  color: var(--link);
+}
+.tenet-toggle {
+  margin-bottom: 0.8rem;
+  font-size: 0.78rem;
+}
+.tenet-statement {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  max-width: 84ch;
+  overflow-x: auto;
+}
+.tenet-row {
+  margin: 1rem 0 1.4rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+}
+.tenet-change {
+  max-width: 80ch;
+  margin-bottom: 0.6rem;
+}
+.tenet-ba {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.tenet-ba-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+.tenet-ba-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-right: 0.2rem;
+}
+.tenet-arrow {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+.tenet-chip-before {
+  opacity: 0.85;
+}
+.tenet-chip-after {
+  border-color: var(--maturity-stable) !important;
+}
+/* A class named ONLY by the cited plan -- decided-but-unbuilt, or superseded.
+   Dashed and disabled, because drawing it like a shipped class is the most
+   misleading thing this panel could do in front of someone deciding what is
+   finished. */
+.cw-plan-only {
+  border-style: dashed !important;
+  opacity: 0.75;
+  cursor: default;
+}
+.tenet-chip-mark {
+  margin-left: 0.25em;
+  font-size: 0.85em;
+}
+.tenet-unbuilt {
+  font-size: 0.84rem;
+  color: var(--maturity-draft);
+  max-width: 80ch;
+}
+.tenet-note {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  max-width: 80ch;
+}
+/* The citation is the only reason to believe the row, so it is shown, not
+   hidden behind a tooltip. */
+.tenet-citation {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-alt);
+  border-radius: 4px;
+  max-width: 84ch;
+}
+.tenet-citation-quote {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-x: auto;
+}
+.tenet-citation-src {
+  margin-top: 0.35rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
 }

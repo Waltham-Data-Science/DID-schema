@@ -1,0 +1,50 @@
+{
+    "document_class": {
+        "class_name": "electrode_offset_voltage",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "probe_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The probe, promoted to a subject with its id preserved (device-as-subject, D2).",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "offset",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The DC offset, a SCALAR (one document per CSV row, not a per-channel array). Volts, inferred from the writer's `offsetV` column name.",
+            "constraints": {}
+        },
+        {
+            "name": "temperature",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The temperature the offset was measured at. The NDI schema explicitly documents this as able to be NaN or empty, so it is neither required nor NaN-checked.",
+            "constraints": {}
+        }
+    ]
+}

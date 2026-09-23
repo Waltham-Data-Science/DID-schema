@@ -89,6 +89,21 @@ class TestBaseSchema:
                 f"Field '{entry_get(field, 'name')}' has invalid type '{field['type']}'"
             )
 
+    def test_the_sweeps_have_a_denominator(self, base_schema, schemas_dir):
+        """Guard for every for-loop sweep in this file.
+
+        The sweeps below iterate `schema_fields(...)` and the schema directory
+        and assert a property of each element. Every one of them passes when its
+        collection is EMPTY -- a broken build or a mis-set fixture path would go
+        green on the tests that exist to check the whole set. Rather than repeat
+        a count in each, the sources are pinned once here.
+        """
+        assert schema_fields(base_schema), "base schema exposes no fields"
+        files = glob.glob(os.path.join(schemas_dir, "*.json"))
+        assert len(files) > 10, (
+            f"only {len(files)} schema file(s) under {schemas_dir} -- the sweeps "
+            "in this file would iterate almost nothing and still pass")
+
     def test_all_field_names_match_pattern(self, base_schema):
         for field in schema_fields(base_schema):
             fname = entry_get(field, "name")

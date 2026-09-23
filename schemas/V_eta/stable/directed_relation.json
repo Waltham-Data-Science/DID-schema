@@ -1,0 +1,151 @@
+{
+    "document_class": {
+        "class_name": "directed_relation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "relation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "child",
+            "mustBeNonEmpty": true,
+            "documentation": "The finer/subordinate/derived ENTITY (any entity \u2014 subject part, dataset, funding, \u2026).",
+            "must_refer_to_document_class": "entity"
+        },
+        {
+            "name": "parent",
+            "mustBeNonEmpty": true,
+            "documentation": "The whole/group/source/target ENTITY.",
+            "must_refer_to_document_class": "entity"
+        },
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`, or a `derived_from` creation event), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record you anchor other times against (an `event_relative_reference`). Empty for timeless relations (part_of). (D10 multi-party binding.) #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different, and the `_1`/`_2` index means nothing on its own. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it.",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true,
+            "min_count": 0,
+            "referent_unique_by": "value.clock"
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL scope: the recording this relation was observed in, for relations whose truth is per-epoch. The ensemble's `member_of` edges are the signed case -- the recorded neuron set changes epoch to epoch, so the roster is preserved as one edge per (member, epoch) rather than lost to the cache. NOT a restatement of `time_reference_#`: that says WHEN the relation happened, this says WHICH RECORDING it holds in. Empty for every timeless or session-wide relation (part_of, has_author, derived_from), which is why it is optional.",
+            "must_refer_to_document_class": "epoch"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The specific relationship as an enumerated ontology term (RO-backed). directed: part_of/contained_in/member_of (containment) or derived_from/aliquot_of/sample_of/passage_of (provenance). V_eta declares the corpus-exercised minimum (D6).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the procedure that produced a provenance/creation relation \u2014 the `how` (surgical_dissection, cell_culture_passage, biological_pooling, biological_reproduction, aliquoting, \u2026). This absorbs the retired `derivation` class's `derivation_method`: a timed `derived_from`/`sample_of`/\u2026 relation with a `method` and a `time_reference` IS the creation event (e.g. a birth = `derived_from` + method `biological_reproduction`), so there is no separate manipulation-tier derivation document. Empty for standing structural relations (part_of, member_of).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "sequence",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge). Empty for unordered relations.",
+            "constraints": {}
+        }
+    ]
+}

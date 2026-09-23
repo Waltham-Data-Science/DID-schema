@@ -1,0 +1,190 @@
+{
+    "document_class": {
+        "class_name": "spatial_gene_expression_cells",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "spatial_gene_expression_pyramid_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The pyramid this cell segmentation was computed for.",
+            "must_refer_to_document_class": "spatial_gene_expression_pyramid",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject (specimen) this segmentation is about.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
+        },
+        {
+            "name": "source_file_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The external source file (e.g. h5ad) the cell data was imported from, if any.",
+            "must_refer_to_document_class": "file_reference",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "cells.tsv",
+            "documentation": "One row per cell (centroid + per-gene counts)."
+        },
+        {
+            "name": "contours.bin",
+            "documentation": "The polygon vertices of each cell (only when contours_present is 1)."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A human-readable label for this segmentation (e.g. 'SAW cellbin adjusted').",
+            "constraints": {}
+        },
+        {
+            "name": "n_cells",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of data rows in cells.tsv.",
+            "constraints": {}
+        },
+        {
+            "name": "segmentation_method",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How cells were segmented (e.g. 'SAW v7.1.2 CellBin', 'Cellpose 2.0').",
+            "constraints": {}
+        },
+        {
+            "name": "segmentation_dilation",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The radial expansion applied to each segmented nucleus, in coordinate_units. 0 if none.",
+            "constraints": {}
+        },
+        {
+            "name": "coordinate_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the centroid and contour coordinates. SOURCE coordinate units, the same frame as the pyramid's origin_x and origin_y, NOT micrometers unless stated.",
+            "constraints": {}
+        },
+        {
+            "name": "contours_present",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if contours.bin was written, 0 if only centroids are available.",
+            "constraints": {}
+        },
+        {
+            "name": "contour_reference",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "centroid",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether contour vertices are stored relative to their cell centroid ('centroid') or in absolute source coordinates ('absolute').",
+            "constraints": {}
+        },
+        {
+            "name": "n_vertices_per_cell",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "0 means contours are ragged and contours.bin carries an offset array. A positive value means every cell has exactly that many vertices and no offset array is present.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_vertex",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "int16",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the contour vertex arrays.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_offset",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint32",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the contour offset array.",
+            "constraints": {}
+        },
+        {
+            "name": "contour_format_version",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The version of the contour binary layout.",
+            "constraints": {}
+        }
+    ]
+}

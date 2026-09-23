@@ -131,9 +131,11 @@ function ClassLabel({
   onSelect: (className: string) => void;
 }) {
   const maturity = entry.maturity_level ?? "meta";
+  const disposition = entry.disposition ?? "persist";
   const cls = [
     "tree-label",
     `maturity-${maturity}`,
+    `disposition-${disposition}`,
     selected ? "selected" : "",
   ]
     .filter(Boolean)
@@ -142,6 +144,16 @@ function ClassLabel({
     <button className={cls} onClick={() => onSelect(entry.class_name)}>
       {entry.class_name}
       {entry.is_meta && <span className="badge-meta">meta</span>}
+      {disposition === "retire" && (
+        <span className="badge-retire" title={entry.disposition_note ?? "retire"}>
+          retire
+        </span>
+      )}
+      {disposition === "in_progress" && (
+        <span className="badge-wip" title={entry.disposition_note ?? "in progress"}>
+          wip
+        </span>
+      )}
     </button>
   );
 }

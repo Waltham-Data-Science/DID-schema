@@ -1,0 +1,91 @@
+name: Web viewer build
+
+# WHY THIS EXISTS, SEPARATELY FROM deploy-web.yml
+#
+# `deploy-web.yml` builds the viewer and publishes it to Pages, and it triggers
+# on `push: branches: [main]` only. That is correct for a DEPLOY -- a feature
+# branch must not overwrite the published site. The side effect is that the
+# viewer was never COMPILED on any feature branch, so for the whole V_eta
+# migration `tsc -b` had not once run against the artifacts being generated.
+#
+# What that hid, found 2026-08-11: `Editor.tsx` fetched
+# `schemas/V_delta/stable/did_schema_meta.json` as a fixed string while the
+# rest of the app followed the set-version selector (default V_eta). V_eta's
+# meta-schema is a strict superset -- 46 paths added, 0 removed -- and V_delta
+# declares `additionalProperties: false` on `dependency_object`, so 55 of the
+# 245 classes in the tree could not have been authored in the editor. Their
+# dependency keys would have been reported as illegal properties.
+#
+# The pin is invisible to every other gate: it is not a schema, so no schema
+# gate reads it, and `tools/gates.py` does not compile TypeScript. A type error
+# or a broken import in the viewer would likewise have reached `main` and
+# failed in the deploy job, where the failure is furthest from the change that
+# caused it.
+#
+# So: compile on the branch, deploy only from main. This workflow deliberately
+# has NO deploy step and NO `pages` permission -- it cannot publish, and adding
+# a publish step here would silently give every feature branch the ability to
+# overwrite the live site.
+
+on:
+  push:
+    branches: ["claude/**", "main"]
+    paths:
+      - "web/**"
+      # The build runs `sync-schemas` first, which copies every V_* set plus
+      # the generated ledger and decision families into public/. A change to
+      # any of them is therefore an input to this build -- and the two
+      # generated files sit DIRECTLY under schemas/, which `schemas/V_*/**`
+      # does not match. deploy-web.yml documents that same trap at length;
+      # repeating the paths here rather than narrowing to `web/**` is what
+      # keeps a ledger-only commit from skipping the compile.
+      - "schemas/V_*/**"
+      - "schemas/V_*_coverage_ledger.json"
+      - "schemas/V_*_decisions.json"
+      - ".github/workflows/web-build.yml"
+  pull_request:
+    paths:
+      - "web/**"
+      - "schemas/V_*/**"
+      - "schemas/V_*_coverage_ledger.json"
+      - "schemas/V_*_decisions.json"
+      - ".github/workflows/web-build.yml"
+  workflow_dispatch:
+
+# Read-only. The deploy job lives in deploy-web.yml and this must never gain
+# the ability to publish.
+permissions:
+  contents: read
+
+concurrency:
+  group: web-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      # `npm run build` is `sync-schemas && tsc -b && vite build`. The type
+      # check is the part that earns this job; the bundle is discarded.
+      - run: npm run build
+      # A build that emits nothing must not pass. `vite build` writing an empty
+      # or absent dist/ would otherwise look identical to a successful compile,
+      # which is the shape of defect this repository keeps finding: an absent
+      # answer wearing a green badge.
+      - name: Assert the build produced a bundle
+        run: |
+          test -f dist/index.html || {
+            echo "dist/index.html is absent -- the build emitted no bundle"; exit 1; }
+          n=$(find dist/assets -name '*.js' | wc -l)
+          echo "DENOMINATOR: $(find dist -type f | wc -l) file(s) in dist/, $n JS chunk(s)"
+          test "$n" -ge 1 || { echo "no JS chunk in dist/assets"; exit 1; }

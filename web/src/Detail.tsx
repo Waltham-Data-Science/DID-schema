@@ -1,8 +1,14 @@
 import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
-import type { IndexEntry, FieldDef, SchemaDocument } from "./types";
+import type {
+  IndexEntry,
+  FieldDef,
+  SchemaDocument,
+  DecisionFamily,
+  DecisionsDoc,
+} from "./types";
 import { superclassName } from "./types";
-import { loadSchema } from "./schemaIndex";
+import { loadDecisions, loadSchema } from "./schemaIndex";
 
 interface Props {
   entry: IndexEntry;
@@ -25,8 +31,12 @@ const TYPE_DESCRIPTIONS: Record<string, string> = {
   null: "JSON null value.",
   frequency:
     "Named composite type: a frequency value with full unit provenance. Sub-fields: `hertz` (canonical value), `approximate` (bool), `source_unit` (e.g. \"kHz\"), `source_value` (number in source units). Constraints: minimum, maximum (bound the canonical `hertz`), allowed_units.",
+  time:
+    "Named composite type: a dimensioned scalar of TIME with full unit provenance — neutral between an instant/offset and an extent; the role is carried by the field name (`start` vs `duration`), never by the type. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units.",
+  // The V_zeta spelling. Kept because this viewer renders V_zeta as well as
+  // V_eta, and a type with no glossary entry renders bare.
   duration:
-    "Named composite type: a duration with full unit provenance. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units.",
+    "Named composite type: a duration with full unit provenance. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units. RENAMED `time` in V_eta (TEAM-SIGN-OFF [time dtype], 2026-08-17).",
   length:
     "Named composite type: a length with full unit provenance. Sub-fields: `meters` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `meters`), allowed_units.",
   mass:
@@ -49,6 +59,20 @@ export function Detail({ entry }: Props) {
   const [doc, setDoc] = useState<SchemaDocument | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showRaw, setShowRaw] = useState(false);
+  const [dec, setDec] = useState<DecisionsDoc | null>(null);
+
+  // Loaded once and kept across class selections. Non-fatal: a bundle without
+  // decisions.json still shows the class, it just cannot say whether the model
+  // behind it is settled.
+  useEffect(() => {
+    let cancelled = false;
+    loadDecisions()
+      .then((d) => !cancelled && setDec(d))
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -78,12 +102,23 @@ export function Detail({ entry }: Props) {
   };
   const maturity = dc.maturity_level ?? entry.maturity_level ?? null;
 
+  const family = dec
+    ? dec.families.find((f) => f.name === dec.by_class[dc.class_name])
+    : undefined;
+
   return (
     <div className="detail">
+      {family && <DecisionBanner fam={family} />}
       <header className="detail-header">
         <h2>
           {dc.class_name}
           {entry.is_meta && <span className="badge-meta">meta</span>}
+          {entry.disposition === "retire" && (
+            <span className="badge-retire">retire</span>
+          )}
+          {entry.disposition === "in_progress" && (
+            <span className="badge-wip">wip</span>
+          )}
         </h2>
         <dl className="detail-meta">
           <dt>Version</dt>
@@ -93,6 +128,11 @@ export function Detail({ entry }: Props) {
             <span className={`maturity-${maturity ?? "meta"}`}>
               {maturity ?? "(none)"}
             </span>
+          </dd>
+          <dt>Disposition</dt>
+          <dd>
+            {entry.disposition ?? "persist"}
+            {entry.disposition_note ? ` — ${entry.disposition_note}` : ""}
           </dd>
           <dt>Tier</dt>
           <dd>{entry.tier}</dd>
@@ -180,7 +220,11 @@ export function Detail({ entry }: Props) {
   );
 }
 
-function FieldsTable({ fields }: { fields: FieldDef[] }) {
+// EXPORTED so the class-walkthrough view renders a built schema's fields the
+// same way this one does. A second field renderer beside this one would drift,
+// and the two would then disagree about the same schema in two panels of the
+// same app.
+export function FieldsTable({ fields }: { fields: FieldDef[] }) {
   return (
     <table className="fields-table">
       <thead>
@@ -307,4 +351,51 @@ function formatValue(v: unknown): string {
   if (v === undefined) return "—";
   if (typeof v === "string") return v === "" ? '""' : v;
   return JSON.stringify(v);
+}
+
+// WHY THIS BANNER SITS ABOVE THE HEADER. The `wip` badge beside the class name
+// says the class is unfinished; it does not say whether anyone has DECIDED what
+// it should become. Those read the same and are not: 18 families are settled,
+// signed off and merely queued for build. Someone landing on
+// `session_relative_reference` from a search should not have to find the status
+// board to learn that its model was agreed days ago.
+function DecisionBanner({ fam }: { fam: DecisionFamily }) {
+  const cls =
+    fam.state === "signed_awaiting_build"
+      ? ""
+      : fam.state === "awaiting_signature"
+        ? "decision-unsigned"
+        : "decision-proposed";
+  const head =
+    fam.state === "signed_awaiting_build"
+      ? "DECIDED and signed off — awaiting build"
+      : fam.state === "awaiting_signature"
+        ? "Decided in a walkthrough — awaiting a signature"
+        : fam.state === "proposed_unreviewed"
+          ? "PROPOSED by Claude alone — not a decision"
+          : "No proposal yet";
+  return (
+    <div className={`decision-banner ${cls}`}>
+      <div className="decision-banner-head">
+        {head} · <code>{fam.name}</code>
+      </div>
+      <div>{fam.decision}</div>
+      {fam.plan && (
+        <div className="section-note">
+          Recorded in <code>schemas/{fam.plan}</code>
+          {fam.open_members.length > 0 && (
+            <>
+              {" "}· still open in this family:{" "}
+              {fam.open_members.map((m) => (
+                <code key={m}>{m} </code>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+      {fam.signoff && (
+        <div className="decision-banner-signoff">TEAM-SIGN-OFF: {fam.signoff}</div>
+      )}
+    </div>
+  );
 }

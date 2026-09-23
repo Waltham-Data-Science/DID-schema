@@ -1,0 +1,106 @@
+{
+    "document_class": {
+        "class_name": "control_stimulus_ids",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional pointer to the stimulus_presentation document these control IDs annotate.",
+            "must_refer_to_document_class": "stimulus_presentation",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "control_stimulus_ids",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Integer identifier(s) of the stimulus condition(s) that serve as the control reference for the linked stimulus_presentation. v1 sometimes ships NaN when no control was recorded; sometimes a scalar; sometimes an array.",
+            "constraints": {}
+        },
+        {
+            "name": "control_stimulus_id_method",
+            "type": "structure",
+            "blank_value": {
+                "method": "",
+                "controlid": "",
+                "controlid_value": 0
+            },
+            "default_value": {
+                "method": "",
+                "controlid": "",
+                "controlid_value": 0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the control_stimulus_ids were derived. v1 uniformly ships a 3-field struct: method (e.g., 'pseudorandom'), controlid (e.g., 'isblank'), and controlid_value (numeric tag, e.g., 1).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "method",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Name of the algorithm used to identify which stimuli are controls (e.g., 'pseudorandom', 'explicit_list').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "controlid",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Name of the per-stimulus key that flags control trials (e.g., 'isblank').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "controlid_value",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Value of `controlid` that marks a trial as a control (e.g., 1).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

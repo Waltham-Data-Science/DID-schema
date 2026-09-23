@@ -1,0 +1,47 @@
+{
+    "document_class": {
+        "class_name": "demo",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "filename1.ext",
+            "documentation": "Required by the did_v1 demoNDI schema, and inherited by demoNDIMock. V_eta had dropped it -- silent file loss."
+        }
+    ],
+    "fields": [
+        {
+            "name": "value",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The demonstration value the example calculator reads (ndi.calc.example.simple queries demoNDI.value by exact_number). Typed from the WRITER: the did_v1 template declares char, the writer sets numbers.",
+            "constraints": {}
+        },
+        {
+            "name": "is_mock",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "TRUE when this document is self-test/demonstration data rather than a record of an experiment. Carried from did_v1 `mock.ismock`, which demoNDIMock held as a superclass. The ONLY marker separating self-test artefacts from real data -- ndi.calc.example.simple sets numberOfSelfTests = 2 and writes these documents against a LIVE session.",
+            "constraints": {}
+        }
+    ]
+}

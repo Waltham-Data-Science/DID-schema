@@ -1,0 +1,42 @@
+{
+    "document_class": {
+        "class_name": "acquisition_system",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The implementation of the acquisition system itself (v1's `daqsystem.ndi_daqsystem_class`, e.g. 'ndi.daq.system.mfdaq', became an edge rather than a string field -- the same fold `epoch_file_pattern` and `acquisition_metadata_reader` make of their own class names). It is the object-reconstruction key read at +ndi/+database/+fun/ndi_document2ndi_object.m:38-42 through a CONSTRUCTED field name, so no literal grep finds the reader. Distinct from `reader_id`, which names a DIFFERENT component.",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "reader_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The reader this system acquires through. REPOINTED from `software` to `acquisition_reader`: the parenthesis here used to read \"it is the only one of the four with no parameters of its own\", and that was the error -- `reader_string` is a parameter of its own, and pointing straight at `software` left it homeless (both PRED `daqreader_ndr` documents carry one). The edge now has the same shape as `acquisition_metadata_reader_#`: a reader class that owns its configuration and points on at the `software` that implements it.",
+            "must_refer_to_document_class": "acquisition_reader"
+        },
+        {
+            "name": "epoch_file_pattern_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The rule that decides which files form one epoch on this system.",
+            "must_refer_to_document_class": "epoch_file_pattern"
+        },
+        {
+            "name": "acquisition_metadata_reader_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The companion-spreadsheet reader(s), if any.",
+            "must_refer_to_document_class": "acquisition_metadata_reader",
+            "multiple": true,
+            "min_count": 0
+        }
+    ],
+    "file": [],
+    "fields": []
+}

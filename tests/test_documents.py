@@ -101,24 +101,24 @@ def validate_document(doc, schemas_dir):
             continue
 
         # mustBeNonEmpty check (null/empty string/empty list/empty dict).
-        if entry_get(field_def, "mustBeNonEmpty", default=False):
-            if value is None or value == "" or value == [] or value == {}:
-                errors.append(
-                    f"Field '{name}' must be non-empty but got: {value!r}"
-                )
-                continue
+        if entry_get(field_def, "mustBeNonEmpty", default=False) and (
+                value is None or value == "" or value == [] or value == {}):
+            errors.append(
+                f"Field '{name}' must be non-empty but got: {value!r}"
+            )
+            continue
 
-        if field_type == "timestamp" and isinstance(value, str) and value != "":
-            if not TIMESTAMP_RE.match(value):
-                errors.append(
-                    f"Field '{name}' has invalid timestamp format: {value!r}"
-                )
+        if (field_type == "timestamp" and isinstance(value, str)
+                and value != "" and not TIMESTAMP_RE.match(value)):
+            errors.append(
+                f"Field '{name}' has invalid timestamp format: {value!r}"
+            )
 
-        if field_type == "did_uid" and isinstance(value, str) and value != "":
-            if not DID_UID_RE.match(value):
-                errors.append(
-                    f"Field '{name}' has invalid DID UID format: {value!r}"
-                )
+        if (field_type == "did_uid" and isinstance(value, str)
+                and value != "" and not DID_UID_RE.match(value)):
+            errors.append(
+                f"Field '{name}' has invalid DID UID format: {value!r}"
+            )
 
         if field_type in ("char", "string") and isinstance(value, str):
             constraints = entry_get(field_def, "constraints", default={})

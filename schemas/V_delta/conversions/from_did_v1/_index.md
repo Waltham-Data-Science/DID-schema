@@ -4,6 +4,16 @@ This file enumerates every V_delta document type that needs a conversion
 doc from `did_v1`, and tracks its status. Update this index whenever a
 new conversion doc is added or its status changes.
 
+> ⚠️ **SOURCE OF TRUTH.** The did_v1 side of every doc here must come from the
+> NDI document template under `ndi_common/database_documents/` (and its writer,
+> which wins where the two disagree). `schemas/V_alpha/` and `schemas/V_beta/`
+> are **history, not evidence** — for several classes they never matched NDI.
+> Four docs here once cited them (`ontology_image`, `ontology_label`,
+> `probe_location`, `treatment`); two of those mappings were outright false, and
+> the error propagated into the migrators, their test fixtures, and NDI's own
+> `ndi.compat.fieldAliases`, which cited these docs as *its* source of truth.
+> All corrected. See `V_eta_ground_truth_plan.md`.
+
 The corresponding template is [`_TEMPLATE.md`](_TEMPLATE.md). The shared
 file-handling rules are in [`_files.md`](_files.md). Cross-cutting renames
 that apply to **every** did_v1 → V_delta migration (underscore-prefix

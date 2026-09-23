@@ -1,0 +1,73 @@
+{
+    "document_class": {
+        "class_name": "ngrid",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "data_size",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Bytes per element (`props.bytes/numel(x)` in mat2ngrid). RESTATES data_type and is marked for the drop at the fold (V_eta_image_model_plan.md); declared here because a passthrough must validate against what the document actually carries.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The numeric class of the grid values ('double', 'uint16', 'ubit1' for logical). `class(x)` in mat2ngrid.",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "data_dim",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "`size(x)` -- the extent of each dimension, one entry per dimension. NOT `dim_sizes`: that name is the V_delta migrator's output.",
+            "constraints": {
+                "element_type": "integer",
+                "min_value": 1
+            }
+        },
+        {
+            "name": "coordinates",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vertically concatenated coordinate positions, size [sum(data_dim),1] -- split by data_dim to recover one coordinate vector per axis. CARRIED, NOT DROPPED: its decided destination is `axes[k].values` (V_eta_image_model_plan.md), which belongs to the data_body tier (#45, blocked on #32). The v1 format ADMITS real positions (`mat2ngrid(X,c1,...,cn)`); the one in-tree caller passes a single argument, so every ontologyImage document's coordinates are the default index vector -- which is a fact about today's writers, not about the format.",
+            "constraints": {}
+        }
+    ]
+}

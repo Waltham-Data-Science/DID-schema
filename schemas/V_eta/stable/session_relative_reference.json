@@ -1,0 +1,38 @@
+{
+    "document_class": {
+        "class_name": "session_relative_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Ordinal relation of the interaction to the session, with no metric offset (the case where there is neither a device clock nor a wall-clock date).",
+            "constraints": {
+                "enum": [
+                    "before",
+                    "after",
+                    "at_start_of",
+                    "at_end_of",
+                    "concurrent_with",
+                    "during"
+                ]
+            }
+        }
+    ]
+}

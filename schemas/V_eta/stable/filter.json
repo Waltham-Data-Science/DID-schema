@@ -1,0 +1,69 @@
+{
+    "document_class": {
+        "class_name": "filter",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A user label.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The filter type: 'bandpass', 'low', 'high', 'none'.",
+            "constraints": {}
+        },
+        {
+            "name": "algorithm",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The filter algorithm: 'chebyshev_1', 'chebyshev_2', 'butterworth', 'bessel', 'elliptic', 'none'.",
+            "constraints": {}
+        },
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A structure containing filter parameters: sampleFrequency, order, filterFrequency, passbandRipple, stopbandAttenuation.",
+            "constraints": {},
+            "fields": []
+        }
+    ]
+}

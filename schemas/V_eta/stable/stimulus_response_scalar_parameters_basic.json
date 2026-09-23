@@ -1,0 +1,104 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response_scalar_parameters_basic",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "stimulus_response_scalar_parameters"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "temporalfreqfunc",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Fully-qualified NDI function name that produced the temporal-frequency component of the scalar response (e.g., 'ndi.fun.stimulustemporalfrequency'). Identifies the analysis routine.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "freq_response",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The HARMONIC of the stimulus fundamental this response reduces to: 0 = DC (the writer's 'mean'), 1 = F1, 2 = F2. NOT a boolean -- it was declared {min:0,max:1} and documented as a frequency-domain flag, which would reject every F2 document. +ndi/+app/+stimulus/tuning_response.m:202 sweeps [0 1 2] by default and :207 takes the value from the caller, so no maximum is declared. :262-266 derives `response_type` from it, which is why the harmonic is recoverable from the response document alone and this document is foldable.",
+            "constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "name": "prestimulus_time",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional pre-stimulus baseline window. v1 ships either an empty array (no baseline subtraction) or a [start, stop] pair in seconds before stimulus onset.",
+            "constraints": {}
+        },
+        {
+            "name": "prestimulus_normalization",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional normalization vector applied during the prestimulus baseline computation. v1 commonly ships an empty array; populated when a non-trivial baseline scheme is in use.",
+            "constraints": {}
+        },
+        {
+            "name": "isspike",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if the source signal is a spike train (analysed at spiketrain_dt resolution), 0 if it is a continuous signal.",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        {
+            "name": "spiketrain_dt",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.001,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Time step (seconds) at which a spike train is discretised before computing the scalar response (e.g., 0.001 for 1 ms bins). Only meaningful when isspike == 1.",
+            "constraints": {}
+        }
+    ]
+}

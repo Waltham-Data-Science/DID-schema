@@ -15,3 +15,81 @@ packages = []
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+# THE LINT GATE HAD NO DECLARED RULE SET, ONLY RUFF'S DEFAULTS -- AND A DEFAULT
+# SET IS NOT A DECISION, IT IS A RELEASE NOTE.
+#
+# `.github/workflows/tests.yml` pins ruff==0.16.2 with the comment "Pinned
+# FORWARD to the version that caught these -- not back to the one that missed
+# them." Measured 2026-08-11, that sentence is HALF TRUE, and the half it gets
+# wrong is the dangerous half. `ruff check tests --show-settings`, both
+# versions, counting `linter.rules.enabled`:
+#
+#       DENOMINATOR: 2 ruff versions, every enabled rule listed by each
+#       0.15.8    59 rules
+#       0.16.2   413 rules
+#       gained by the bump   372
+#       LOST by the bump      18   <-- nothing was looking for these
+#
+# The 18 dropped from ruff's defaults between those releases are E401, E402,
+# E701, E702, E703, E711, E712, E713, E714, E721, E731, E741, E742, E743, F403,
+# F405, F406 and F722. That is not a cosmetic list: F405 is "name may be
+# undefined, or defined from a star import", E711/E712 are `== None` / `== True`,
+# E721 is comparing types with `==`. Four real violations were live in `tests/`
+# at the moment this was measured and NO gate saw them, because CI ran 0.16.2
+# and the only machine running 0.15.8 was a developer's.
+#
+# So the rule set is declared HERE, where a change to it is a diff someone
+# signs, rather than inherited from whichever ruff a machine happens to have.
+# `tests/test_ruff_rule_set.py` fails if the enabled set ever SHRINKS again.
+[tool.ruff.lint]
+extend-select = ["E4", "E7", "E9", "F"]
+
+# `tools/` WAS LINTED BY NOBODY UNTIL 2026-08-11. The gate step was
+# `ruff check tests`, and `tools/` is where every generated artifact in
+# `schemas/` comes from. First measurement under the rule set above: 559
+# findings. 506 were fixed immediately and the step covers `tools` as well; 53
+# were carved out DELIBERATELY, and 33 of those 53 have since been PAID OFF.
+# The 19 below are what is left, and each carve-out names what is still owed.
+#
+# The sweep was not cosmetic. It found an undefined `Path` (F821) that would
+# have raised in `status_board.py --check`, and it is what led to
+# `ndi_ground_truth.py` counting `files` from the SURVIVORS of a silent
+# `except Exception: continue` -- the same defect as `silentLoss`'s
+# `total_docs`, in the tool the ground truth comes from.
+#
+#   BLE001 / S112 / S110  --  PAID OFF 2026-08-11, and removed from this list
+#       rather than reduced. 33 diagnostics over 20 physical `except Exception`
+#       clauses in coverage.py, ndi_ground_truth.py, ndi_required_stamp.py,
+#       refresh_migration_targets.py and build_v_eta.py, audited one at a time
+#       for the question this comment used to defer -- is the skip a legitimate
+#       filter, or a denominator quietly shrinking?
+#
+#           DENOMINATOR: 20 sites read (33 diagnostics = 20 BLE001 + 12 S112
+#                        + 1 S110)
+#            5 LEGITIMATE FILTERS  the failure is the expected one AND the skip
+#                                  is already recorded in a number the tool
+#                                  prints. Narrowed to the named exceptions; the
+#                                  control flow is untouched.
+#           15 SHRINKING DENOMINATORS  the skip removed an item from a count the
+#                                  tool went on to report. Narrowed AND counted,
+#                                  with the candidate total printed beside the
+#                                  skips.
+#
+#       The one that mattered was `ndi_templates` -- the sibling of the function
+#       already repaired in the same file, feeding the `NDI classes captured: 91`
+#       headline gates.py matches on. Held by tests/test_tool_skip_denominators.py
+#       (and, for the original scan, tests/test_ground_truth_scan_denominator.py),
+#       which fail if any of the three rules is carved out here again.
+#   UP031 18   percent-format whose operand source spans lines AND contains a
+#       string literal, so the scripted rewrite refuses it rather than
+#       collapsing whitespace inside data. Style only.
+#   PLC0206 1   one site, style only. (E402 was in this list for one
+#       revision and is NOT: its single site already carried a `# noqa`,
+#       which the ignore then made dead -- RUF100 said so immediately.
+#       An ignore that silences a suppression is a carve-out hiding a
+#       carve-out.)
+#
+# A carve-out is a promise, not a pass. Shrink this list; do not grow it.
+[tool.ruff.lint.per-file-ignores]
+"tools/*.py" = ["UP031", "PLC0206"]

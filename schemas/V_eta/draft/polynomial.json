@@ -1,0 +1,58 @@
+{
+    "document_class": {
+        "class_name": "polynomial",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A polynomial, as its coefficients.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "coefficients",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficients, HIGHEST ORDER FIRST -- MATLAB's polyval convention. Documented because the opposite convention is equally common and the two are silently interchangeable.",
+                    "constraints": {}
+                },
+                {
+                    "name": "degree",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "numel(coefficients) - 1. DERIVABLE, and kept anyway: the did2 query layer has no length predicate, so `degree > 1` -- which alignments are non-linear, the interesting question about a clock mapping -- is expressible ONLY if degree is stored. Same test that kept `axis.n` and dropped `ngrid.data_size`: derivable AT QUERY TIME, not derivable in code. CHECKED against coefficients, so it is an index rather than a second source of truth.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

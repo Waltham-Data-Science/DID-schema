@@ -1,0 +1,63 @@
+{
+    "document_class": {
+        "class_name": "position_metadata",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The element whose position was recorded, promoted to a subject with its id preserved. The numeric coordinates live in THAT timeseries document, not in this one.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ontology_node",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "WHAT kind of position this is -- a CURIE for the body part or landmark (e.g. a C. elegans head/midpoint/tail term). The migrator maps this to its output's `measurement`; the two are not the same field, and naming the tombstone after the output is how the real one went undeclared.",
+            "constraints": {}
+        },
+        {
+            "name": "dimensions",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis coordinate-column CURIEs.",
+            "constraints": {}
+        },
+        {
+            "name": "units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The CURIE for the coordinate unit (e.g. pixels).",
+            "constraints": {}
+        }
+    ]
+}

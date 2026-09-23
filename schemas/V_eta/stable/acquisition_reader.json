@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "acquisition_reader",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The reader program itself, as a `software` entity -- the R1 replacement for an NDI class-handle string. Same edge, same meaning and same optionality as on `acquisition_metadata_reader`.",
+            "must_refer_to_document_class": "software"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "reader_string",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Reader/file-type string (e.g. 'intan', 'SpikeGadgets') -- the de-encoded did_v1 `daqreader_ndr.ndr_reader_string`. Optional: the concrete reader is discriminated by its `software` entity, and only some readers take a format selector.",
+            "constraints": {}
+        }
+    ]
+}

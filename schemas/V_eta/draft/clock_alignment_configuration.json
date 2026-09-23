@@ -1,0 +1,143 @@
+{
+    "document_class": {
+        "class_name": "clock_alignment_configuration",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The implementation that computes this alignment -- v1's `ndi_syncrule_class`, folded to a software entity (R1).",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "acquisition_channels_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: the rule is symmetric, so neither endpoint is 'first'.",
+            "must_refer_to_document_class": "acquisition_channels",
+            "multiple": true,
+            "min_count": 0,
+            "max_count": 2
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "clock",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The clock this rule aligns, from did_clocktype -- the SAME FOUR terms as relative_reference.value.clock, which is what gate 1 of this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no NDIC identifier can be assigned from any repository in scope. <- v1 `epochclocktype`.",
+            "constraints": {
+                "binding": {
+                    "root": "did_clocktype",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "",
+                            "name": "utc"
+                        },
+                        {
+                            "node": "",
+                            "name": "dev_local_time"
+                        },
+                        {
+                            "node": "",
+                            "name": "dev_global_time"
+                        },
+                        {
+                            "node": "",
+                            "name": "exp_global_time"
+                        }
+                    ],
+                    "strength": "required",
+                    "source": "value_set"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "minimum_matching_file_paths",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many full path components must match. <- v1 `number_fullpath_matches`.",
+            "constraints": {}
+        },
+        {
+            "name": "sync_file_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The sync file to read. <- v1 `syncfilename`.",
+            "constraints": {}
+        },
+        {
+            "name": "minimum_embedded_file_overlap",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Minimum overlap required between embedded files. <- v1 `minEmbeddedFileOverlap`.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{
+    "document_class": {
+        "class_name": "clock_alignment",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "relation"
+            },
+            {
+                "class_name": "polynomial"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "from_reference",
+            "mustBeNonEmpty": true,
+            "documentation": "The timeline this alignment maps FROM. The rule is symmetric but its OUTPUT is directed, which is why these are named endpoints and not a `_#` family.",
+            "must_refer_to_document_class": "relative_reference"
+        },
+        {
+            "name": "to_reference",
+            "mustBeNonEmpty": true,
+            "documentation": "The timeline this alignment maps TO.",
+            "must_refer_to_document_class": "relative_reference"
+        },
+        {
+            "name": "clock_alignment_configuration_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The rule that produced this alignment.",
+            "must_refer_to_document_class": "clock_alignment_configuration"
+        },
+        {
+            "name": "clock_alignment_policy_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The policy this alignment belongs to.",
+            "must_refer_to_document_class": "clock_alignment_policy"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "\"Temporally aligned with\". STAGED with an empty node (#67/#70): this is a MAPPING predicate, not an OWL-Time interval relation, so it cannot reuse relative_reference's binding and needs an NDIC term.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "cost",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The path-finding edge weight. On the leaf rather than inside `value` because it is a property of the ALIGNMENT, not of the polynomial.",
+            "constraints": {}
+        }
+    ]
+}

@@ -5,13 +5,34 @@
 - **V_delta `class_name`:** `ontology_image`
 - **V_delta tier:** `stable`
 - **V_delta schema path:** `schemas/V_delta/stable/ontology_image.json`
-- **did_v1 source:** legacy NDI/DID `ontologyImage` document type
-  (`_classname: "ontologyImage"` — camelCase). Schema-shape ancestor in
-  this repository is `schemas/V_alpha/ontologyImage.json`;
-  `schemas/V_beta/ontology_image.json` is the same shape after the
-  V_alpha → V_beta snake-case housekeeping
-  (`ontologyImage` → `ontology_image`).
-- **Status:** `drafted`
+- **did_v1 source:** `VH-Lab/NDI-matlab` —
+  `src/ndi/ndi_common/database_documents/data/ontologyImage.json`, whose block is
+  `{ ontologyNode: "" }`. The WRITER
+  (`+ndi/+setup/+NDIMaker/imageDocMaker.m`) emits the **plural**
+  `ontologyNodes`, a comma-joined list of one *or more* CURIEs, and NDI's own
+  lookup query uses the plural too — so the template is stale and **the writer
+  is authoritative**. Dependency: `ontologyTableRow_id`. File:
+  `ontologyImage.ngrid`. Superclasses: `base`, `ngrid`.
+- **Status:** `CORRECTED — the field mapping below is WRONG, see the warning`
+
+
+> ⚠️ **PROVENANCE CORRECTED (see `V_eta_ground_truth_plan.md`).** This document
+> previously cited `schemas/V_alpha/ontologyImage.json` as its did_v1 "schema-shape
+> ancestor". **`V_alpha` is a DID-side snapshot, not evidence of what NDI ships.**
+> The authoritative did_v1 source is the NDI template below, and where a template
+> and its WRITER disagree the writer wins — the data follows the writer.
+
+> **THE FIELD MAPPING IN THIS DOCUMENT IS FALSE.** `ontology_name` and
+> `ontology_region` **have never existed** on `ontologyImage`. NDI created the
+> class on 2025-07-03 and it has had `ontologyNode` in all three of its commits.
+> The mapping was written from the `V_alpha` snapshot, which was authored later
+> (2026-02) and never matched NDI. Consequences that followed from it:
+> `+migrators_j/ontology_image.m` read a field no document has and emitted an
+> observation about nobody, of nothing, on every document — silently, because an
+> all-blank composite satisfies `mustBeNonEmpty` and an empty `depends_on` edge
+> is skipped by the reference validator. NDI's `ndi.compat.fieldAliases` carried
+> the same false rows because it cited *this document* as its source of truth.
+> Both are now fixed. Retained for the audit trail; do not migrate from it.
 
 ## Summary
 

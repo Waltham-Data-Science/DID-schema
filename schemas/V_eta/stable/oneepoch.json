@@ -1,0 +1,98 @@
+{
+    "document_class": {
+        "class_name": "oneepoch",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The element whose epochs were concatenated, promoted to a subject with its id preserved by migrators_j.element. REQUIRED: NDI marks it so and element.m:392 always sets it.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [
+        {
+            "name": "epoch_binary_data.vhsb",
+            "documentation": "The concatenated samples, written by ndi.element.timeseries.addepoch from (timepoints, datapoints). Under fork A1 this becomes a sampled_body."
+        }
+    ],
+    "fields": [
+        {
+            "name": "clocks",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The concatenated epoch's extent, one record per clock. did_v1 stores this as `epoch_clock` (a COMMA-JOINED list of every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix; the base element_epoch migrator collapses that pair into these records before validation ever sees the document. Under fork A1 these become relative_reference documents.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The clock identifier.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Start time in that clock.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t1",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "End time in that clock.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "epoch_ids",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The epoch ids that were concatenated, comma-joined, exactly as did_v1 stores them. THE ONLY FIELD THE CLASS DECLARES ITSELF, and the whole reason it is distinct from element_epoch. Under fork A1 these resolve to `derived_from_#` edges on the concatenated observation.",
+            "constraints": {}
+        }
+    ]
+}

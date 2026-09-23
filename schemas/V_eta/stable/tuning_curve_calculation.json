@@ -1,0 +1,148 @@
+{
+    "document_class": {
+        "class_name": "tuning_curve_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_calculation"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "significance",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Statistical significance of the tuning (ANOVA p-values). Calc-produced: computed by the fit calculator per paper \u00a72.1, not carried by the raw curve.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "visual_response_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA relating mean response values between the raw (stimulus) and control groups.",
+                    "constraints": {}
+                },
+                {
+                    "name": "across_stimuli_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA relating mean response values across different stimuli (tuning vs. flat).",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "model_fit",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "ARRAY of fitted models, each {model, coefficients, goodness}; a curve may carry several co-existing fits (freq tunings carry 5). Data-in-array (R2 preserved), not typed field declarations per family.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "model",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fitted model as a controlled term (T8): double_gaussian | naka_rushton | difference_of_gaussians | movshon | spline | gausslog | priebe | ....",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "coefficients",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fit coefficients (named, per the `model`).",
+                    "constraints": {},
+                    "fields": []
+                },
+                {
+                    "name": "goodness",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Fit-quality scalars (r-squared, residual, ...).",
+                    "constraints": {},
+                    "fields": []
+                }
+            ]
+        }
+    ]
+}

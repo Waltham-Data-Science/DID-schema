@@ -1,0 +1,34 @@
+{
+    "document_class": {
+        "class_name": "session",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "ncit:C169028",
+                "name": "Study Unique Identifier"
+            },
+            "documentation": "Human-facing handle for this session, unique within its dataset. Renamed from `reference` 2026-08-13 to match `subject` and `epoch`.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

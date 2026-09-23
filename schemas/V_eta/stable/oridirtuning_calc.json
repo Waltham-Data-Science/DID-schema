@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "oridirtuning_calc",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "tuning_curve_calculation"
+            },
+            {
+                "class_name": "orientation_direction_tuning"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

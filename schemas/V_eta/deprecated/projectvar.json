@@ -1,0 +1,102 @@
+{
+    "document_class": {
+        "class_name": "projectvar",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The element this variable is about. The sole writer never populates it, so it is empty on every real document.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "project",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Name of the project. Never set by the writer.",
+            "constraints": {}
+        },
+        {
+            "name": "type",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free user-chosen type string.",
+            "constraints": {}
+        },
+        {
+            "name": "user",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free user-chosen user string. Never set by the writer.",
+            "constraints": {}
+        },
+        {
+            "name": "lab",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free user-chosen lab string. Never set by the writer.",
+            "constraints": {}
+        },
+        {
+            "name": "description",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free user-chosen description of the work.",
+            "constraints": {}
+        },
+        {
+            "name": "data",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The variable's payload -- an ARBITRARY value passed by the caller. Declared `string` because that is the template's literal (`\"\"`) and `string` also accepts an empty numeric; the meta-schema has no union or any type, so a non-empty NUMERIC payload would fail. Same limitation as vmneuralresponseresiduals.goodness_of_fit. THIS IS STILL OPEN, and it is why the class is filed as needing real documents rather than modelled: the failure is a hard quarantine (did2:validation:typeMismatch, +did2/+schema/cache.m:1290-1310), not a silent loss, and it is pinned by testMiscSingletons/testProjectvarNumericPayloadQuarantinesToday so nobody meets it first on a corpus run.",
+            "constraints": {}
+        }
+    ]
+}

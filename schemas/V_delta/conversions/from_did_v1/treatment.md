@@ -5,12 +5,24 @@
 - **V_delta `class_name`:** `treatment`
 - **V_delta tier:** `stable`
 - **V_delta schema path:** `schemas/V_delta/stable/treatment.json`
-- **did_v1 source:** legacy NDI/DID `treatment` document type
-  (`_classname: "treatment"`). Schema-shape ancestor in this repository
-  is `schemas/V_alpha/treatment.json`; `schemas/V_beta/treatment.json`
-  is the same shape with naming-convention housekeeping applied
-  (`ontologyName` → `ontology_name`).
+- **did_v1 source:** `VH-Lab/NDI-matlab` —
+  `src/ndi/ndi_common/database_documents/treatment.json`, whose block is
+  `{ ontologyName, name, numeric_value, string_value }` with `subject_id`,
+  `manipulation_id` and `protocol_id` dependencies. Note the template spells it
+  **`ontologyName`** (camelCase); `universalRenames` snake-cases it on read.
+  **Verified against the template**: the mapping below is correct.
 - **Status:** `drafted`
+
+
+> ⚠️ **PROVENANCE CORRECTED (see `V_eta_ground_truth_plan.md`).** This document
+> previously cited `schemas/V_alpha/treatment.json` as its did_v1 "schema-shape
+> ancestor". **`V_alpha` is a DID-side snapshot, not evidence of what NDI ships.**
+> The authoritative did_v1 source is the NDI template below, and where a template
+> and its WRITER disagree the writer wins — the data follows the writer.
+
+> The mapping here happens to be **right** — `V_alpha` matches the NDI template
+> for this class. The citation was still wrong, and a correct answer from a
+> wrong source is luck, not evidence. Re-verified against the template directly.
 
 ## Summary
 

@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "openminds_stimulus",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "openminds"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulus ELEMENT this openMINDS term describes. Named as NDI's template, schema and writer all name it; the earlier `stimulus_id` was a DID-side invention that no did_v1 document carries.",
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": []
+}

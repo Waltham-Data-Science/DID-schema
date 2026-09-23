@@ -10,7 +10,15 @@
 - **V_delta `class_name`:** `<class_name>`
 - **V_delta tier:** `stable` | `draft` | `deprecated`
 - **V_delta schema path:** `schemas/V_delta/<tier>/<class_name>.json`
-- **did_v1 source:** repo + path (or "synthesized from MATLAB class
+- **did_v1 source:** the NDI document TEMPLATE this class actually ships as --
+  repo + path under `ndi_common/database_documents/` -- plus the WRITER that
+  produces the documents where the two disagree. **NEVER cite
+  `schemas/V_alpha/` or `schemas/V_beta/`**: those are DID-side snapshots kept
+  for history, not evidence of what NDI ships, and for several classes they
+  never matched NDI at all. Citing them is what produced migrators reading
+  fields no document has -- see `V_eta_ground_truth_plan.md`. Where the template
+  and the writer disagree, **the writer wins**: the data follows the writer.
+  (or "synthesized from MATLAB class
   `<...>`")
 - **Status:** `drafted` | `reviewed` | `applied-in-tooling` | `frozen`
 

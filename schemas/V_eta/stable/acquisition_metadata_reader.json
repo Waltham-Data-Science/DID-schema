@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "acquisition_metadata_reader",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The reader program itself, as a `software` entity -- the R1 replacement for an NDI class-handle string.",
+            "must_refer_to_document_class": "software"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "metadata_file_pattern",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Pattern matching the metadata files this reader consumes (e.g. \".*\\\\.tsv\\\\>\").",
+            "constraints": {}
+        }
+    ]
+}

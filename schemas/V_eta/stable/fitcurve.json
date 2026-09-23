@@ -1,0 +1,143 @@
+{
+    "document_class": {
+        "class_name": "fitcurve",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "fit_example_data_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Example data for the fit. NDI's ONLY dependency on this class. Left untyped -- the referent class is not established.",
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "fit_name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the fit.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_equation",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The fitted equation; the migrator uses it as the observation's `method`. V_eta called this `fit_function`, a name no NDI template has ever carried.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_parameters",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The fitted parameter values.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_parameter_names",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Names of the fitted parameters, positionally matching fit_parameters.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_independent_variable_names",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Names of the independent variables.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_dependent_variable_names",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Names of the dependent variables.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_sse",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sum of squared errors. Unbounded, units squared, LOWER IS BETTER -- NOT the 0..1 higher-is-better `goodness_of_fit` V_eta declared. NDI types it `string`.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_constraints",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The constraints the fit was run under.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "fit_data",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The data the fit was computed over. Unlike vmspikefit, this class DOES ship the data, so r^2 is derivable here -- deliberately not derived, because doing it on one side only would leave two classes emitting the same variable name for different quantities.",
+            "constraints": {},
+            "fields": []
+        }
+    ]
+}

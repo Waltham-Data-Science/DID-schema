@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "hartley_reverse_correlation",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "reverse_correlation"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}
