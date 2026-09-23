@@ -70,7 +70,7 @@
       "unit"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-07-31"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -192,7 +192,7 @@
       "version"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-13"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -528,7 +528,7 @@
       "time_type"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-24"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -621,8 +621,16 @@
      "num_bins"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-03-25)"
+     "first_version_fields": [
+      "exactbintime",
+      "firingrate_observations",
+      "parameters",
+      "stimids",
+      "timepoints",
+      "voltage_observations"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -655,7 +663,13 @@
   "cellTypeLabels": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/cell_type_labels.m",
+      "spelling": "cell_type_labels"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -848,8 +862,12 @@
      "num_control_ids"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "control_stimulus_id_method",
+      "control_stimulus_ids"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -904,7 +922,7 @@
       "tab_separated_file_parameter"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-13"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -980,7 +998,7 @@
     "provenance": {
      "first_version_fields": [],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-01-15"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1069,9 +1087,11 @@
      "ingestion_status"
     ],
     "provenance": {
-     "first_version_fields": [],
+     "first_version_fields": [
+      "epochtable"
+     ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-12-29"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1246,9 +1266,11 @@
      "ingestion_status"
     ],
     "provenance": {
-     "first_version_fields": [],
+     "first_version_fields": [
+      "parameters"
+     ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-12-30"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1304,7 +1326,7 @@
       "ndr_reader_string"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-04-25"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1408,7 +1430,7 @@
       "organization_id"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-05-20"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1460,7 +1482,7 @@
       "dataset_session_info"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-03-06"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1513,7 +1535,7 @@
       "value"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-14"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1557,7 +1579,7 @@
     "provenance": {
      "first_version_fields": [],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-12-15"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1705,13 +1727,18 @@
     ],
     "provenance": {
      "first_version_fields": [
-      "dimensions",
-      "ontology_node",
-      "ontology_node_string_values",
-      "ontology_numeric_value"
+      "integer_i_ds_a",
+      "integer_i_ds_b",
+      "ontology_node_a",
+      "ontology_node_b",
+      "ontology_numeric_values_a",
+      "ontology_numeric_values_b",
+      "ontology_string_values_a",
+      "ontology_string_values_b",
+      "units"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-07-11"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1789,7 +1816,7 @@
       "temperature"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-10-31"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1883,7 +1910,7 @@
       "type"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-13"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -1948,8 +1975,12 @@
      "t1"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "epoch_clock",
+      "t0_t1"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2056,8 +2087,12 @@
      "t1"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "clocktype",
+      "t0_t1"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2165,10 +2200,11 @@
     "provenance": {
      "first_version_fields": [
       "epoch_id",
+      "epochprobemap",
       "files"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-12-07"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2266,7 +2302,13 @@
   "fileReference": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/file_reference.m",
+      "spelling": "file_reference"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2402,11 +2444,12 @@
     "provenance": {
      "first_version_fields": [
       "algorithm",
+      "label",
       "parameters",
       "type"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2026-02-24"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2485,8 +2528,19 @@
      "goodness_of_fit_type"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-03-28)"
+     "first_version_fields": [
+      "fit_constraints",
+      "fit_data",
+      "fit_dependent_variable_names",
+      "fit_equation",
+      "fit_independent_variable_names",
+      "fit_name",
+      "fit_parameter_names",
+      "fit_parameters",
+      "fit_sse"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2494,7 +2548,13 @@
   "geneExpression": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/gene_expression.m",
+      "spelling": "gene_expression"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2526,7 +2586,13 @@
   "geneList": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/gene_list.m",
+      "spelling": "gene_list"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2570,7 +2636,13 @@
   "geneListMapping": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/gene_list_mapping.m",
+      "spelling": "gene_list_mapping"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2704,12 +2776,14 @@
     ],
     "provenance": {
      "first_version_fields": [
-      "file_extension",
-      "ontology_file_type",
-      "original_file_name"
+      "checksum",
+      "date_created",
+      "date_updated",
+      "filename",
+      "format_ontology"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-08-19"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2826,7 +2900,7 @@
       "label"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-08-01"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2884,7 +2958,7 @@
       "label"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-08-01"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -2956,8 +3030,12 @@
      "y_pixels"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2025-08-29)"
+     "first_version_fields": [
+      "format_ontology",
+      "label"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3042,11 +3120,10 @@
       "dimension_scale",
       "dimension_scale_units",
       "dimension_size",
-      "duration",
       "timestamp"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-07-23"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3111,7 +3188,7 @@
       "res_mat_md5_checksum"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2020-11-04"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3310,7 +3387,7 @@
       "string_value"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2026-01-05"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3357,9 +3434,11 @@
      "target_classname"
     ],
     "provenance": {
-     "first_version_fields": [],
+     "first_version_fields": [
+      "metadata_structure"
+     ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-06-05"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3492,10 +3571,11 @@
       "number_of_channels",
       "number_of_samples_per_channel",
       "quality_label",
-      "quality_number"
+      "quality_number",
+      "waveform_sample_times"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2020-11-12"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3558,7 +3638,7 @@
       "data_type"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-26"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": [
@@ -3618,7 +3698,7 @@
       "epoch_ids"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-04-21"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3696,12 +3776,10 @@
     ],
     "provenance": {
      "first_version_fields": [
-      "decibels",
-      "frequency_ngrid_dim",
-      "timestamp_ngrid_dim"
+      "ontology_node"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-07-03"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": [
@@ -3812,7 +3890,7 @@
       "ontology_node"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-08-01"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -3974,7 +4052,7 @@
       "openminds_type"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-10-16"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4201,8 +4279,15 @@
      "tuning_width"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "fit",
+      "properties",
+      "significance",
+      "tuning_curve",
+      "vector"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4272,16 +4357,12 @@
     ],
     "provenance": {
      "first_version_fields": [
-      "cluster_index",
-      "mean_waveform",
-      "number_of_channels",
-      "number_of_samples_per_channel",
-      "quality_label",
-      "quality_number",
-      "waveform_sample_times"
+      "dimensions",
+      "ontology_node",
+      "units"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-07-11"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4409,8 +4490,25 @@
      "probe_type"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2020-06-03)"
+     "first_version_fields": [
+      "contact_shape",
+      "contact_shape_height",
+      "contact_shape_radius",
+      "contact_shape_width",
+      "contour_x",
+      "contour_y",
+      "has_planar_contour",
+      "manufacturer",
+      "ndim",
+      "probe_model",
+      "shank_id",
+      "site_locations_depth",
+      "site_locations_frontback",
+      "site_locations_leftright",
+      "unit"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4515,10 +4613,11 @@
       "description",
       "lab",
       "project",
+      "type",
       "user"
      ],
-     "verdict": "NDI-CHANGED",
-     "why": "first NDI version 2023-04-13"
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4673,7 +4772,7 @@
       "reference"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-02-12"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4746,8 +4845,20 @@
      "dataset_id"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2025-12-11)"
+     "first_version_fields": [
+      "is_linked",
+      "session_creator",
+      "session_creator_input1",
+      "session_creator_input2",
+      "session_creator_input3",
+      "session_creator_input4",
+      "session_creator_input5",
+      "session_creator_input6",
+      "session_id",
+      "session_reference"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4826,8 +4937,12 @@
      "result_value"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "answer",
+      "input_parameters"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4900,8 +5015,11 @@
      "site_to_channel"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "map"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4956,8 +5074,16 @@
      "sorter_name"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-02-15)"
+     "first_version_fields": [
+      "graphical_mode",
+      "interpolation",
+      "max_clusters",
+      "min_clusters",
+      "num_pca_features",
+      "num_start"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -4965,7 +5091,13 @@
   "spatialGeneExpressionCells": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spatial_gene_expression_cells.m",
+      "spelling": "spatial_gene_expression_cells"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5032,7 +5164,13 @@
   "spatialGeneExpressionPyramid": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spatial_gene_expression_pyramid.m",
+      "spelling": "spatial_gene_expression_pyramid"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5105,7 +5243,13 @@
   "spatialGeneExpressionTiles": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spatial_gene_expression_tiles.m",
+      "spelling": "spatial_gene_expression_tiles"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5351,8 +5495,13 @@
      "num_spikes"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-02-15)"
+     "first_version_fields": [
+      "clusterinfo",
+      "epoch_info",
+      "waveform_sample_times"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5440,8 +5589,25 @@
      "threshold_type"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-09-06)"
+     "first_version_fields": [
+      "center_range_time",
+      "do_filter",
+      "filter_high",
+      "filter_low",
+      "filter_order",
+      "filter_ripple",
+      "filter_type",
+      "overlap",
+      "read_time",
+      "refractory_time",
+      "spike_end_time",
+      "spike_start_time",
+      "threshold_method",
+      "threshold_parameter",
+      "threshold_sign"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5561,7 +5727,7 @@
       "threshold_sign"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2020-09-15"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5641,8 +5807,11 @@
      "samples_per_spike"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-09-08)"
+     "first_version_fields": [
+      "extraction_name"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5735,8 +5904,12 @@
      "solution_name"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "location",
+      "mixture_table"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5805,7 +5978,7 @@
       "value"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-10-01"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5860,7 +6033,7 @@
       "string"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-10-18"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5923,8 +6096,13 @@
      "stimulus_type"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "presentation_order",
+      "presentation_time",
+      "stimuli"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -5987,8 +6165,12 @@
      "response_type"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "element_epochid",
+      "stimulator_epochid"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6083,8 +6265,12 @@
      "stimulus_values"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "response_type",
+      "responses"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6183,8 +6369,16 @@
      "response_window_start"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "freq_response",
+      "isspike",
+      "prestimulus_normalization",
+      "prestimulus_time",
+      "spiketrain_dt",
+      "temporalfreqfunc"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6286,8 +6480,26 @@
      "independent_variable"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-12-16)"
+     "first_version_fields": [
+      "control_individual_responses_imaginary",
+      "control_individual_responses_real",
+      "control_response_mean",
+      "control_response_stddev",
+      "control_response_stderr",
+      "control_stimid",
+      "independent_variable_label",
+      "independent_variable_value",
+      "individual_responses_imaginary",
+      "individual_responses_real",
+      "response_mean",
+      "response_stddev",
+      "response_stderr",
+      "response_units",
+      "stimid",
+      "stimulus_presentation_number"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6447,7 +6659,7 @@
     "provenance": {
      "first_version_fields": [],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-08-19"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6690,7 +6902,7 @@
       "mapping"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2024-02-06"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -6885,8 +7097,16 @@
      "route"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "first_version_fields": [
+      "administration_duration",
+      "administration_offset_time",
+      "administration_onset_time",
+      "location_name",
+      "location_ontology_node",
+      "mixture_table"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7008,10 +7228,11 @@
     "provenance": {
      "first_version_fields": [
       "depends_on",
-      "input_parameters"
+      "input_parameters",
+      "log"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2023-04-26"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7086,7 +7307,7 @@
     ],
     "provenance": {
      "verdict": "UNKNOWN",
-     "why": "unparseable first version"
+     "why": "no property block at first version (2026-09-22)"
     }
    },
    "writer_divergence": []
@@ -7185,7 +7406,7 @@
       "virus_ontology_name"
      ],
      "verdict": "DID-INVENTED",
-     "why": "first NDI version 2025-05-12"
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7270,8 +7491,16 @@
      "mean_residual"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2020-01-09)"
+     "first_version_fields": [
+      "column_labels",
+      "element_epochid",
+      "goodness_of_fit",
+      "parameters",
+      "residual_power",
+      "total_power"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7347,8 +7576,18 @@
      "filter_window"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-04-23)"
+     "first_version_fields": [
+      "filter_algorithm",
+      "filter_algorithm_parameters",
+      "new_sampling_rate",
+      "refract",
+      "rm60_hz",
+      "sampling_rate",
+      "spiketimes",
+      "threshold"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7423,8 +7662,17 @@
      "r_squared"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2019-04-23)"
+     "first_version_fields": [
+      "fit_constraints",
+      "fit_equation",
+      "fit_name",
+      "fit_parameter_names",
+      "fit_parameters",
+      "fit_sse",
+      "fit_sse_perpoint"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7539,8 +7787,21 @@
      "recording_duration"
     ],
     "provenance": {
-     "verdict": "UNKNOWN",
-     "why": "no property block at first version (2020-01-21)"
+     "first_version_fields": [
+      "mean_spikewave",
+      "median_fullwidthhalfmaximum",
+      "median_kink_index",
+      "median_max_dvdt",
+      "median_postsk_halfwidthmaximum",
+      "median_presk_halfwidthmaximum",
+      "median_spikekink_vm",
+      "median_voltageofhalfmaximum",
+      "number_of_spikes",
+      "sample_times",
+      "slope_criterion"
+     ],
+     "verdict": "DID-INVENTED",
+     "why": "first NDI version 2026-09-22"
     }
    },
    "writer_divergence": []
@@ -7557,7 +7818,7 @@
    "migrators_i"
   ],
   "ndi_ground_truth_classes": 102,
-  "rows_with_a_per_class_migrator_file": 88,
+  "rows_with_a_per_class_migrator_file": 96,
   "rows_with_an_ndi_declaration": 102,
   "rows_without_one": 11
  },

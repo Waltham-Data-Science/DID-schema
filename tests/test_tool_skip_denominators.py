@@ -50,6 +50,52 @@ AUDITED = ("coverage.py", "ndi_ground_truth.py", "ndi_required_stamp.py",
            "refresh_migration_targets.py", "build_v_eta.py")
 
 
+# --------------------------------------------------------------------------
+# ISOLATION: two of the tool subprocess tests below (ndi_ground_truth,
+# coverage) invoke the tool by its ABSOLUTE PATH -- unavoidable, because the
+# assertion is about what THIS committed tool prints on a real run, not a
+# temp-tree copy of it. Absolute-path + cwd=REPO means the tool's `__file__`
+# resolves inside the repo and its output path (`SCHEMA_ROOT / schemas / ...`)
+# points AT THE WORKING TREE. Running the tool under pytest then mutates the
+# tracked artifact, which is exactly what `tools/gates.py`'s WORKING-TREE
+# GUARD is meant to catch -- and DID catch on CI run 35787827462: `pytest`
+# tripped the guard even though the underlying assertions were fine, because
+# the guard cannot tell "a driver bug wrote this" apart from "a test
+# subprocess wrote this". The bytes are the same; only the caller differs.
+#
+# This fixture snapshots the four artifacts the AUDITED tools can write and
+# restores them after the test. It runs on every test in this file because
+# a future test that adds a similar subprocess invocation must not silently
+# reintroduce the same guard trip -- the cost is one read per file per test,
+# ~500 KB, which is nothing on a run measured in seconds.
+_WRITE_TARGETS = (
+    REPO / "schemas/V_eta_ndi_ground_truth.json",
+    REPO / "schemas/V_eta_coverage_ledger.json",
+    REPO / "schemas/V_eta_coverage_ledger.md",
+    REPO / "schemas/V_eta_migration_targets.json",
+)
+
+
+@pytest.fixture(autouse=True)
+def _restore_generated_artifacts():
+    """Snapshot the four artifacts, yield the test, then restore any that
+    changed. Absent files are restored to absent, present files to their
+    exact original bytes -- both directions matter because a test that
+    creates an artifact where none existed is the mirror-image guard trip
+    of a test that mutates an existing one."""
+    snapshots = {p: (p.read_bytes() if p.exists() else None)
+                 for p in _WRITE_TARGETS}
+    try:
+        yield
+    finally:
+        for p, content in snapshots.items():
+            if content is None:
+                if p.exists():
+                    p.unlink()
+            elif not p.exists() or p.read_bytes() != content:
+                p.write_bytes(content)
+
+
 def _template(tmp, name, class_name):
     """A minimal NDI document template, in NDI's own shape."""
     return json.dumps({

@@ -728,23 +728,26 @@ class TestTheCommittedLedger(unittest.TestCase):
         an = _ledger()["summary"]["stage_rollup"]["anomalies"]
         failed = sorted({a["v1_class"] for a in an["rows"]
                          if a["kind"] == "over_failed"})
-        # WAS THREE UNTIL 2026-09-22 AND IS NOW ELEVEN. The eight new entries
-        # are the spatial-transcriptomics family: TEAM-SIGN-OFF
-        # [spatial_transcriptomics_family] (Corrected Option C,
-        # V_eta_go_forward_class_audit.md:796) built the V_eta target
-        # classes (rung 2 satisfied) while the migrators are deferred to
-        # Session 2 (#122; rung 1 not yet). That is exactly the
-        # build-ahead-of-migrator shape this bucket names, so the eight
-        # sources belong here rather than in `genuinely_untouched`.
-        # NB: `spatial_gene_expression_pyramid` is a signed reshape (#119);
-        # the other seven are ⊂ base passthroughs (#121). Both shapes read
-        # the same on the ladder -- the row's build-state exposes only the
-        # rung answers, not what the target's superclass list says.
+        # WAS ELEVEN BETWEEN 2026-09-22 and 2026-09-23; BACK TO THREE.
+        # The eight spatial-transcriptomics classes (cellTypeLabels,
+        # fileReference, geneExpression, geneList, geneListMapping,
+        # spatialGeneExpressionCells, spatialGeneExpressionPyramid,
+        # spatialGeneExpressionTiles) were briefly build-ahead-of-migrator
+        # after DID-schema #64 landed the schemas + `variable` binding
+        # (TEAM-SIGN-OFF [spatial_transcriptomics_family], Corrected
+        # Option C, V_eta_go_forward_class_audit.md:796) while Session 2's
+        # migrators were still queued as OPEN_WORK #122. Session 2's
+        # DID-matlab PR #151 (merged as commit 932d653 into the veta
+        # branch) closed that gap: all 8 migrators exist in
+        # +migrators_j/, the row set in V_eta_migration_targets.json was
+        # extended via `refresh_migration_targets.py`, and each class now
+        # reaches stage 3 (migrator emits its decided targets), which is
+        # the SAME climb `app`->`software` made -- so like `app`, the
+        # eight no longer belong here. If this list grows an entry, the
+        # question is which channel cannot see the emitter, not whether
+        # the number needs updating.
         self.assertEqual(failed, [
-            "cellTypeLabels", "ensemble", "fileReference", "geneExpression",
-            "geneList", "geneListMapping", "projectvar",
-            "spatialGeneExpressionCells", "spatialGeneExpressionPyramid",
-            "spatialGeneExpressionTiles", "stimulus_parameter_table"])
+            "ensemble", "projectvar", "stimulus_parameter_table"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

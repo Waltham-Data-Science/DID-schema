@@ -233,7 +233,7 @@
       "ndi": 102,
       "app": 11
     },
-    "with_migrator": 88,
+    "with_migrator": 96,
     "gaps": 2,
     "no_target": {
       "rows_naming_no_target": 9,
@@ -272,16 +272,16 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 113,
-        "yes": 92,
-        "no": 21,
+        "yes": 100,
+        "no": 13,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 21,
+        "0": 13,
         "1": 63,
         "2": 5,
-        "3": 24,
+        "3": 32,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -289,8 +289,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 92,
-          "no": 21
+          "yes": 100,
+          "no": 13
         },
         "2": {
           "not measured": 71,
@@ -308,25 +308,17 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 92,
+        "1": 100,
         "2": 39,
         "3": 31,
         "4": 0
       },
       "capped": {
         "denominator": 113,
-        "rows": 11,
+        "rows": 3,
         "row_names": [
-          "cellTypeLabels",
           "ensemble",
-          "fileReference",
-          "geneExpression",
-          "geneList",
-          "geneListMapping",
           "projectvar",
-          "spatialGeneExpressionCells",
-          "spatialGeneExpressionPyramid",
-          "spatialGeneExpressionTiles",
           "stimulus_parameter_table"
         ],
         "highest_rung_satisfied_independently_histogram": {
@@ -492,34 +484,18 @@
         "why_the_join_moves_none_of_them": "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 19,
-        "classes": 11,
+        "total": 3,
+        "classes": 3,
         "by_kind": {
-          "over_failed": 19
+          "over_failed": 3
         },
         "by_stage": {
           "1": 0,
-          "2": 11,
-          "3": 8,
+          "2": 3,
+          "3": 0,
           "4": 0
         },
         "rows": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "cellTypeLabels"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "cellTypeLabels"
-          },
           {
             "stage": 2,
             "stage_name": "its decided target classes EXIST in the build",
@@ -534,119 +510,7 @@
             "satisfied_over": 1,
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
-            "v1_class": "fileReference"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "fileReference"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneExpression"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneExpression"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneList"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneList"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneListMapping"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "geneListMapping"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
             "v1_class": "projectvar"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionCells"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionCells"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionPyramid"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionPyramid"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionTiles"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionTiles"
           },
           {
             "stage": 2,
@@ -1953,7 +1817,7 @@
       "v1_class": "cellTypeLabels",
       "veta_class": "cell_type_labels",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -1970,7 +1834,7 @@
         "mapping_fragment": "is_unsupervised flag load-bearing",
         "account": "PERSIST as `cell_type_labels`, \u2282 base. Labeling attached to a cells document, not directly to a subject; `is_unsupervised` is load-bearing (a cluster index is not a cell type)."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -1983,7 +1847,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -1997,7 +1861,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -2024,16 +1888,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -2054,24 +1918,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -4791,7 +4640,7 @@
       "v1_class": "fileReference",
       "veta_class": "file_reference",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -4808,7 +4657,7 @@
         "mapping_fragment": "generic_file holds bytes, fileReference records identity of an external file",
         "account": "PERSIST as `file_reference`, \u2282 base. DELIBERATELY NOT folded to generic_file; the two coexist by design per the class's own .md doc (generic_file holds bytes, file_reference records identity of an external file). T8 bindings for checksumAlgorithm and formatOntology deferred to #126."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -4821,7 +4670,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -4835,7 +4684,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -4862,16 +4711,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -4892,24 +4741,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -5240,7 +5074,7 @@
       "v1_class": "geneExpression",
       "veta_class": "gene_expression",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -5257,7 +5091,7 @@
         "mapping_fragment": "assay/count_type/count_units",
         "account": "PERSIST as `gene_expression` -- a \u2282 base SHAPE MIXIN (assay/count_type/count_units). Semantically a shape, not an observation; the observation-ness lives on the concrete pyramid class that binds it to a subject."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -5270,7 +5104,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -5284,7 +5118,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -5311,16 +5145,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -5341,24 +5175,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -5369,7 +5188,7 @@
       "v1_class": "geneList",
       "veta_class": "gene_list",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -5386,7 +5205,7 @@
         "mapping_fragment": "`geneList` STAYS \u2282 base reference table",
         "account": "PERSIST as `gene_list`, \u2282 base. Outside #70's original six but confirmed in the same signature. Reference table of gene identifiers the pyramid + mappings key on."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -5399,7 +5218,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -5413,7 +5232,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -5440,16 +5259,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -5470,24 +5289,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -5498,7 +5302,7 @@
       "v1_class": "geneListMapping",
       "veta_class": "gene_list_mapping",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -5515,7 +5319,7 @@
         "mapping_fragment": "alias vs ortholog matters, not a bare directed_relation",
         "account": "PERSIST as `gene_list_mapping`, \u2282 base. Between-entity relation with structure (coverage counters, symmetric flag, method, mapping type). The alias-vs-ortholog distinction is load-bearing, so this stays a typed class rather than a bare directed_relation."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -5528,7 +5332,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -5542,7 +5346,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -5569,16 +5373,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -5599,24 +5403,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -8518,7 +8307,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 260 json file(s) under schemas/V_eta declare it (was 249; #67 added 11 files), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 268 json file(s) under schemas/V_eta declare it (was 260; #64 added 8 spatial-transcriptomics files), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -9089,7 +8878,7 @@
       "v1_class": "spatialGeneExpressionCells",
       "veta_class": "spatial_gene_expression_cells",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -9106,7 +8895,7 @@
         "mapping_fragment": "subject_id required",
         "account": "PERSIST as `spatial_gene_expression_cells`, \u2282 base. Data-of-record for the pyramid observation. Cell segmentation attached to the pyramid; id preserved on migration."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -9119,7 +8908,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -9133,7 +8922,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -9160,16 +8949,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -9190,24 +8979,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -9218,11 +8992,12 @@
       "v1_class": "spatialGeneExpressionPyramid",
       "veta_class": "spatial_gene_expression_pyramid",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [
+        "session_relative_reference",
         "spatial_gene_expression_pyramid"
       ],
       "decided_targets": [
@@ -9235,7 +9010,7 @@
         "mapping_fragment": "picking up variable/method_parameters/sample_time/time_reference_# from the subject_observation direction; the existing subject_id required-ness moves from the class's own declaration to the inherited slot",
         "account": "RESHAPE + PERSIST as `spatial_gene_expression_pyramid`. \u2282 [base, gene_expression, subject_observation]; picks up variable / method_parameters / sample_time / time_reference_# from the subject_observation direction; the `subject_id` required-ness moves onto the inherited subject_statement slot (no local declaration). Migrator is #122's scope; corpus proof deferred to #124 (no corpus carries this class)."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -9248,7 +9023,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -9262,7 +9037,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -9289,16 +9064,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -9319,24 +9094,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -9347,7 +9107,7 @@
       "v1_class": "spatialGeneExpressionTiles",
       "veta_class": "spatial_gene_expression_tiles",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -9364,7 +9124,7 @@
         "mapping_fragment": "subject_id optional because the pyramid dep carries it",
         "account": "PERSIST as `spatial_gene_expression_tiles`, \u2282 base. The tile-level payload; subject_id optional because the pyramid dep carries it transitively. Strongest 2.D data_body candidate later (#125)."
       },
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
@@ -9377,7 +9137,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -9391,7 +9151,7 @@
       "carried": [],
       "second_pass": [],
       "how": "",
-      "target_flags": "",
+      "target_flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
       "decided_by_family": {
         "family": "spatial_transcriptomics_family",
         "document": "V_eta_go_forward_class_audit.md",
@@ -9418,16 +9178,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -9448,24 +9208,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,

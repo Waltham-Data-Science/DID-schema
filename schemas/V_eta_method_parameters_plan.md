@@ -792,3 +792,5 @@ which is the per-document cost `check_prose_counts` exists to find.
 
 
 RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 254 distinct V_eta class names; 260 json file(s) under schemas/V_eta. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).
+
+RE-DERIVED 2026-09-23 (spatial-transcriptomics family landed via #64 commit `71298fd`, `check_prose_counts`): **262 distinct V_eta class names** (was 254; +8 spatial-transcriptomics classes); **268 json file(s) under `schemas/V_eta`** (was 260; +8). Re-derive with `python3 tools/check_prose_counts.py`, do not quote these directly.

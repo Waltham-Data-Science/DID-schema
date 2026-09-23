@@ -1426,3 +1426,5 @@ RE-DERIVED 2026-08-21 (ndi_m_files, sibling drift): NDI `origin/main` advanced t
 
 
 RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 260 json file(s) under schemas/V_eta; 102 NDI templates on origin/main; 1,179 .m files. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).
+
+RE-DERIVED 2026-09-23 (spatial-transcriptomics family landed via #64 commit `71298fd`, `check_prose_counts`): **268 json file(s) under `schemas/V_eta`** (was 260; +8 spatial-transcriptomics classes); 102 NDI templates on origin/main; 1,180 .m files (was 1,179; sibling drift). Re-derive with `python3 tools/check_prose_counts.py`, do not quote directly.

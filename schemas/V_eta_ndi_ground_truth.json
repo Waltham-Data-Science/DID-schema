@@ -10,7 +10,7 @@
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1179,
+      "m_files_scanned": 1180,
       "dependency_call_sites": 156,
       "distinct_dependencies_written": [
         "cells_document_id",
@@ -71,9 +71,9 @@
       "dependency_names_ndi_states_nothing_about": 9
     },
     "provenance": {
-      "DID-INVENTED": 39,
-      "NDI-CHANGED": 1,
-      "UNKNOWN": 27
+      "DID-INVENTED": 66,
+      "NDI-CHANGED": 0,
+      "UNKNOWN": 1
     }
   },
   "writer_divergence": [
@@ -113,7 +113,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-07-31",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "sample_rate",
           "sorter_name",
@@ -134,7 +134,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-13",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "interpreter",
           "interpreter_version",
@@ -164,7 +164,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-24",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "data_dim",
           "data_size",
@@ -191,8 +191,16 @@
         "voltage_observations"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-03-25)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "exactbintime",
+          "firingrate_observations",
+          "parameters",
+          "stimids",
+          "timepoints",
+          "voltage_observations"
+        ]
       }
     },
     {
@@ -207,8 +215,12 @@
         "control_stimulus_ids"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "control_stimulus_id_method",
+          "control_stimulus_ids"
+        ]
       }
     },
     {
@@ -224,7 +236,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-13",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "ndi_daqmetadatareader_class",
           "tab_separated_file_parameter"
@@ -240,7 +252,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-01-15",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": []
       }
     },
@@ -255,8 +267,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-12-29",
-        "first_version_fields": []
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "epochtable"
+        ]
       }
     },
     {
@@ -270,8 +284,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-12-30",
-        "first_version_fields": []
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "parameters"
+        ]
       }
     },
     {
@@ -287,7 +303,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-04-25",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "ndi_daqreader_ndr_class",
           "ndr_reader_string"
@@ -306,7 +322,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-05-20",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "dataset_id",
           "organization_id"
@@ -326,7 +342,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-03-06",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "dataset_session_info"
         ]
@@ -344,7 +360,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-14",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "value"
         ]
@@ -360,7 +376,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-12-15",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": []
       }
     },
@@ -384,12 +400,17 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-07-11",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
-          "dimensions",
-          "ontology_node",
-          "ontology_node_string_values",
-          "ontology_numeric_value"
+          "integer_i_ds_a",
+          "integer_i_ds_b",
+          "ontology_node_a",
+          "ontology_node_b",
+          "ontology_numeric_values_a",
+          "ontology_numeric_values_b",
+          "ontology_string_values_a",
+          "ontology_string_values_b",
+          "units"
         ]
       }
     },
@@ -406,7 +427,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-10-31",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "offset",
           "temperature"
@@ -426,7 +447,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-13",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "direct",
           "name",
@@ -447,8 +468,12 @@
         "t0_t1"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "epoch_clock",
+          "t0_t1"
+        ]
       }
     },
     {
@@ -464,8 +489,12 @@
         "t0_t1"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "clocktype",
+          "t0_t1"
+        ]
       }
     },
     {
@@ -482,9 +511,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-12-07",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "epoch_id",
+          "epochprobemap",
           "files"
         ]
       }
@@ -500,9 +530,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-02-24",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "algorithm",
+          "label",
           "parameters",
           "type"
         ]
@@ -527,8 +558,19 @@
         "fit_sse"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-03-28)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "fit_constraints",
+          "fit_data",
+          "fit_dependent_variable_names",
+          "fit_equation",
+          "fit_independent_variable_names",
+          "fit_name",
+          "fit_parameter_names",
+          "fit_parameters",
+          "fit_sse"
+        ]
       }
     },
     {
@@ -546,11 +588,13 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-08-19",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
-          "file_extension",
-          "ontology_file_type",
-          "original_file_name"
+          "checksum",
+          "date_created",
+          "date_updated",
+          "filename",
+          "format_ontology"
         ]
       }
     },
@@ -571,7 +615,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-08-01",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "compression",
           "format",
@@ -593,7 +637,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-08-01",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "format",
           "label"
@@ -614,8 +658,12 @@
         "label"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2025-08-29)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "format_ontology",
+          "label"
+        ]
       }
     },
     {
@@ -641,7 +689,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-07-23",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "clocktype",
           "data_limits",
@@ -651,7 +699,6 @@
           "dimension_scale",
           "dimension_scale_units",
           "dimension_size",
-          "duration",
           "timestamp"
         ]
       }
@@ -668,7 +715,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2020-11-04",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "res_mat_md5_checksum"
         ]
@@ -689,7 +736,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-01-05",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "name",
           "numeric_value",
@@ -710,8 +757,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-06-05",
-        "first_version_fields": []
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "metadata_structure"
+        ]
       }
     },
     {
@@ -734,14 +783,15 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2020-11-12",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "cluster_index",
           "mean_waveform",
           "number_of_channels",
           "number_of_samples_per_channel",
           "quality_label",
-          "quality_number"
+          "quality_number",
+          "waveform_sample_times"
         ]
       }
     },
@@ -760,7 +810,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-26",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "coordinates",
           "data_dim",
@@ -782,7 +832,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-04-21",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "epoch_ids"
         ]
@@ -800,11 +850,9 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-07-03",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
-          "decibels",
-          "frequency_ngrid_dim",
-          "timestamp_ngrid_dim"
+          "ontology_node"
         ]
       }
     },
@@ -821,7 +869,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-08-01",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "ontology_node"
         ]
@@ -841,7 +889,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-10-16",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "fields",
           "matlab_type",
@@ -868,8 +916,15 @@
         "vector"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "fit",
+          "properties",
+          "significance",
+          "tuning_curve",
+          "vector"
+        ]
       }
     },
     {
@@ -889,15 +944,11 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-07-11",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
-          "cluster_index",
-          "mean_waveform",
-          "number_of_channels",
-          "number_of_samples_per_channel",
-          "quality_label",
-          "quality_number",
-          "waveform_sample_times"
+          "dimensions",
+          "ontology_node",
+          "units"
         ]
       }
     },
@@ -928,8 +979,25 @@
         "unit"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2020-06-03)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "contact_shape",
+          "contact_shape_height",
+          "contact_shape_radius",
+          "contact_shape_width",
+          "contour_x",
+          "contour_y",
+          "has_planar_contour",
+          "manufacturer",
+          "ndim",
+          "probe_model",
+          "shank_id",
+          "site_locations_depth",
+          "site_locations_frontback",
+          "site_locations_leftright",
+          "unit"
+        ]
       }
     },
     {
@@ -940,13 +1008,14 @@
         "type"
       ],
       "provenance": {
-        "verdict": "NDI-CHANGED",
-        "why": "first NDI version 2023-04-13",
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "data",
           "description",
           "lab",
           "project",
+          "type",
           "user"
         ]
       }
@@ -962,7 +1031,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-02-12",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "reference"
         ]
@@ -987,8 +1056,20 @@
         "session_reference"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2025-12-11)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "is_linked",
+          "session_creator",
+          "session_creator_input1",
+          "session_creator_input2",
+          "session_creator_input3",
+          "session_creator_input4",
+          "session_creator_input5",
+          "session_creator_input6",
+          "session_id",
+          "session_reference"
+        ]
       }
     },
     {
@@ -1004,8 +1085,12 @@
         "input_parameters"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "answer",
+          "input_parameters"
+        ]
       }
     },
     {
@@ -1019,8 +1104,11 @@
         "map"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "map"
+        ]
       }
     },
     {
@@ -1031,8 +1119,16 @@
       ],
       "only_in_ndi_template": [],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-02-15)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "graphical_mode",
+          "interpolation",
+          "max_clusters",
+          "min_clusters",
+          "num_pca_features",
+          "num_start"
+        ]
       }
     },
     {
@@ -1048,8 +1144,13 @@
         "waveform_sample_times"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-02-15)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "clusterinfo",
+          "epoch_info",
+          "waveform_sample_times"
+        ]
       }
     },
     {
@@ -1075,8 +1176,25 @@
         "threshold_sign"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-09-06)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "center_range_time",
+          "do_filter",
+          "filter_high",
+          "filter_low",
+          "filter_order",
+          "filter_ripple",
+          "filter_type",
+          "overlap",
+          "read_time",
+          "refractory_time",
+          "spike_end_time",
+          "spike_start_time",
+          "threshold_method",
+          "threshold_parameter",
+          "threshold_sign"
+        ]
       }
     },
     {
@@ -1105,7 +1223,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2020-09-15",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "center_range_time",
           "do_filter",
@@ -1137,8 +1255,11 @@
         "extraction_name"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-09-08)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "extraction_name"
+        ]
       }
     },
     {
@@ -1154,8 +1275,12 @@
         "mixture_table"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "location",
+          "mixture_table"
+        ]
       }
     },
     {
@@ -1173,7 +1298,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-10-01",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "name",
           "ontology_name",
@@ -1194,7 +1319,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-10-18",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "string"
         ]
@@ -1212,8 +1337,13 @@
         "stimuli"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "presentation_order",
+          "presentation_time",
+          "stimuli"
+        ]
       }
     },
     {
@@ -1227,8 +1357,12 @@
         "stimulator_epochid"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "element_epochid",
+          "stimulator_epochid"
+        ]
       }
     },
     {
@@ -1244,8 +1378,12 @@
         "responses"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "response_type",
+          "responses"
+        ]
       }
     },
     {
@@ -1263,8 +1401,16 @@
         "temporalfreqfunc"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "freq_response",
+          "isspike",
+          "prestimulus_normalization",
+          "prestimulus_time",
+          "spiketrain_dt",
+          "temporalfreqfunc"
+        ]
       }
     },
     {
@@ -1291,8 +1437,26 @@
         "stimulus_presentation_number"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-12-16)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "control_individual_responses_imaginary",
+          "control_individual_responses_real",
+          "control_response_mean",
+          "control_response_stddev",
+          "control_response_stderr",
+          "control_stimid",
+          "independent_variable_label",
+          "independent_variable_value",
+          "individual_responses_imaginary",
+          "individual_responses_real",
+          "response_mean",
+          "response_stddev",
+          "response_stderr",
+          "response_units",
+          "stimid",
+          "stimulus_presentation_number"
+        ]
       }
     },
     {
@@ -1306,7 +1470,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-08-19",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": []
       }
     },
@@ -1325,7 +1489,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2024-02-06",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "cost",
           "epochnode_a",
@@ -1352,8 +1516,16 @@
         "mixture_table"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "administration_duration",
+          "administration_offset_time",
+          "administration_onset_time",
+          "location_name",
+          "location_ontology_node",
+          "mixture_table"
+        ]
       }
     },
     {
@@ -1370,10 +1542,11 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2023-04-26",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "depends_on",
-          "input_parameters"
+          "input_parameters",
+          "log"
         ]
       }
     },
@@ -1389,7 +1562,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "UNKNOWN",
-        "why": "unparseable first version"
+        "why": "no property block at first version (2026-09-22)"
       }
     },
     {
@@ -1415,7 +1588,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2025-05-12",
+        "why": "first NDI version 2026-09-22",
         "first_version_fields": [
           "diluent_name",
           "diluent_ontology_name",
@@ -1444,8 +1617,16 @@
         "total_power"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2020-01-09)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "column_labels",
+          "element_epochid",
+          "goodness_of_fit",
+          "parameters",
+          "residual_power",
+          "total_power"
+        ]
       }
     },
     {
@@ -1466,8 +1647,18 @@
         "threshold"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-04-23)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "filter_algorithm",
+          "filter_algorithm_parameters",
+          "new_sampling_rate",
+          "refract",
+          "rm60_hz",
+          "sampling_rate",
+          "spiketimes",
+          "threshold"
+        ]
       }
     },
     {
@@ -1486,8 +1677,17 @@
         "fit_sse_perpoint"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2019-04-23)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "fit_constraints",
+          "fit_equation",
+          "fit_name",
+          "fit_parameter_names",
+          "fit_parameters",
+          "fit_sse",
+          "fit_sse_perpoint"
+        ]
       }
     },
     {
@@ -1513,8 +1713,21 @@
         "slope_criterion"
       ],
       "provenance": {
-        "verdict": "UNKNOWN",
-        "why": "no property block at first version (2020-01-21)"
+        "verdict": "DID-INVENTED",
+        "why": "first NDI version 2026-09-22",
+        "first_version_fields": [
+          "mean_spikewave",
+          "median_fullwidthhalfmaximum",
+          "median_kink_index",
+          "median_max_dvdt",
+          "median_postsk_halfwidthmaximum",
+          "median_presk_halfwidthmaximum",
+          "median_spikekink_vm",
+          "median_voltageofhalfmaximum",
+          "number_of_spikes",
+          "sample_times",
+          "slope_criterion"
+        ]
       }
     }
   ],
