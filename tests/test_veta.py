@@ -220,20 +220,26 @@ def test_instrument_id_is_optional_device_edge():
 
 
 def test_derived_from_is_statement_typed_provenance():
-    # A computed observation records its inputs via derived_from_#, typed to a
-    # subject_statement leaf (NEVER an entity) -- the provenance inverse of
-    # directed_relation's entity->entity child/parent.
-    deps = {d["name"]: d for d in RECORDS["subject_observation"][1]["depends_on"]}
+    # #73 (2026-09-23) THE OBSERVATION / CALCULATION RULE: a statement whose
+    # inputs are other statements in the dataset is a CALCULATION and records them
+    # via derived_from_#, typed to a subject_statement leaf (NEVER an entity) --
+    # the provenance inverse of directed_relation's entity->entity child/parent.
+    # INVERTED, not updated: this asserted the edge on subject_observation (the
+    # "computed observation"), which the rule abolishes.
+    deps = {d["name"]: d for d in RECORDS["subject_calculation"][1]["depends_on"]}
     assert "derived_from_#" in deps
     df = deps["derived_from_#"]
     assert df["must_refer_to_document_class"] == "subject_statement"
     assert df["must_refer_to_document_class"] != "entity"
     assert df["mustBeNonEmpty"] is False
-    # inherited by the value leaves (a computed observation is a leaf)...
-    assert "derived_from_#" in _flat_dep_names("angle_observation")
-    assert "derived_from_#" in _flat_dep_names("score_observation")
-    # ...but NOT on manipulations or assertions: computation is an observation mode
-    # (a manipulation is imposed, an assertion is declared -- neither is derived).
+    # inherited by the calculation leaves...
+    assert "derived_from_#" in _flat_dep_names("tuning_curve_calculation")
+    assert "derived_from_#" in _flat_dep_names("receptive_field_calculation")
+    # ...and on NO other direction: an observation comes from outside the
+    # dataset, a manipulation is imposed, an assertion is declared.
+    assert "derived_from_#" not in _flat_dep_names("subject_observation")
+    assert "derived_from_#" not in _flat_dep_names("angle_observation")
+    assert "derived_from_#" not in _flat_dep_names("score_observation")
     assert "derived_from_#" not in _flat_dep_names("subject_manipulation")
     assert "derived_from_#" not in _flat_dep_names("term_assertion")
 
@@ -3527,34 +3533,27 @@ def test_logical_does_not_carry_a_v1_array_position():
         "sequence and was never part of HAZARD 2")
 
 
-def test_logical_forecloses_neither_answer_on_the_inheritance_question():
-    """HAZARD 3, WHICH IS NOT DECIDED AND IS NOT CLAIMED HERE.
+def test_logical_inheritance_is_re_derived_not_materialised():
+    """HAZARD 3 IS DECIDED: RE-DERIVE (team, 2026-08-11; re-affirmed in #73).
 
     `loadvalidinterval` falls back to `underlying_element` when a derived
     element has no intervals of its own (markgarbage.m:146-155) -- a QUERY-TIME
-    rule in NDI. Whether V_eta re-derives that through the `derived_from` chain
-    or materialises copies onto derived subjects is an OPEN SUB-QUESTION for the
-    team.
-
-    This test asserts only that both answers remain buildable: the edge a
-    materialising decision would need already exists and is OPTIONAL (so pass 1
-    is not obliged to fill it, and does not), and the statement points at the
-    element the v1 document named, so a re-deriving decision still has the exact
-    v1 graph to walk. It does NOT assert which answer is right.
+    rule in NDI, and V_eta keeps it one. The statement is stored once, on the
+    element the v1 document named, and a consumer walks the element lineage to
+    find it. RENAMED from ..._forecloses_neither_answer_..., which kept the
+    materialising answer buildable through `subject_observation.derived_from_#`;
+    that edge left the observation chain in #73 (an observation derived from
+    other statements is a calculation), and no copy is ever written, so nothing
+    needs it.
     """
     inherited = RECORDS["subject_observation"][1]["depends_on"]
-    df = [d for d in inherited if d["name"] == "derived_from_#"]
-    assert len(df) == 1, (
-        "subject_observation lost derived_from_# -- the edge a materialising "
-        "answer to the inheritance question would ride on")
-    assert df[0]["mustBeNonEmpty"] is False and (df[0].get("min_count") or 0) == 0, (
-        "derived_from_# became required; pass 1 mints no such edge for a "
-        "logical statement, so requiring it would quarantine every one of them "
-        "and would ALSO pre-empt a team decision by making the materialising "
-        "answer the only legal one")
-    # The referent is the element-subject, unqualified: subject_statement's own
-    # edge, typed `subject`, which is what element.m's id-preserving promotion
-    # lands on.
+    assert not [d for d in inherited if d["name"] == "derived_from_#"], (
+        "subject_observation carries derived_from_# again -- under the #73 rule "
+        "an observation has no inputs in the dataset, and a materialised copy "
+        "of a validity statement is ruled out by the re-derive decision")
+    # What the re-derive walk DOES need: the statement points at the element
+    # the v1 document named -- subject_statement's own edge, typed `subject`,
+    # which is what element.m's id-preserving promotion lands on.
     sid = [d for d in RECORDS["subject_statement"][1]["depends_on"]
            if d["name"] == "subject_id"]
     assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "subject"

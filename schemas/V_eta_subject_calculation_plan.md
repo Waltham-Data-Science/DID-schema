@@ -313,3 +313,29 @@ stand. Source: Waltham-Data-Science/DID-schema#73.
 - **Cross-repo:** any migrator that writes `calculator` into a document's
   superclass list, or emits a `calculator:` block, must stop. That is the
   DID-matlab half of #73.
+
+### Amendment — #73 (2026-09-23): what makes a statement a calculation
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-23. It restates
+the §0 line *"Everything a calculator emits is a calculation"* as a rule that does not
+depend on knowing which software counts as a "calculator":
+
+- **A statement whose inputs are other statements in the dataset is a
+  `subject_calculation`** and records them in `derived_from_#`. **A statement produced from
+  data held outside the dataset is a `subject_observation`** and has no `derived_from`.
+- **Why provenance and not "was software involved":** almost every measurement is
+  processed. Stereo-seq bin counts are computed by the SAW pipeline from sequencing reads,
+  and nobody would call them a calculation. Whether the inputs are in the dataset can be
+  read off the document itself (T14).
+- **Schema consequence:** `derived_from_#` is declared on `subject_calculation` only. It
+  was removed from `subject_observation`, where it existed for a "computed observation".
+  Measured before removal: the one emitter of such an observation
+  (`migrators_j.private.jComputedScalar`) has no caller, because its only caller
+  (`jDecomposeScalars`) is itself called by nothing, so no document loses an edge.
+- **Two recorded designs settled with it:** `oneepoch`'s concatenation (fork A1) becomes a
+  calculation (see `V_eta_epoch_plan.md`); `valid_interval` inheritance stays RE-DERIVED
+  (team, 2026-08-11), so no materialised copy needs an observation-side `derived_from`.
+- **Left open, as its own item:** spike-sorter output. `jSorterOutput.m` emits
+  `count_observation` with no `derived_from`, but its input (the voltage recording) is
+  stored in the dataset, so by this rule it should become a calculation with a
+  `derived_from` to that recording.

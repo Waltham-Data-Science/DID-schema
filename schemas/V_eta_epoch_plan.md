@@ -620,6 +620,15 @@ as well as `.m` files. A `depends_on` sweep could not have: `oneepoch` reaches
 
 ### `oneepoch` — the team chose fork A1 (2026-08-10). NOT YET SIGNED.
 
+> **#73 (2026-09-23) revises A1's DIRECTION, not its shape.** Under the observation /
+> calculation rule (`V_eta_tenets.md` T2; `V_eta_subject_calculation_plan.md`, #73
+> amendment), a statement derived from other statements in the dataset is a
+> CALCULATION. The concatenation's `derived_from_1..N` point at the N stored per-epoch
+> observations, so it becomes a `<modality>_calculation`, not a `<modality>_observation`.
+> Decided by jess@walthamdatascience.com, 2026-09-23 (option 1A in the #73 review).
+> Everything else below stands. The diagram's `<modality>_observation ⊂
+> subject_observation` line reads as `<modality>_calculation ⊂ subject_calculation`.
+
 Three options were put to the team and **A1 was chosen**. Recorded here as the
 team's choice; the `TEAM-SIGN-OFF` line is theirs to write (Operating Rule 4),
 and this decision additionally cannot be *built* until its own prerequisite is

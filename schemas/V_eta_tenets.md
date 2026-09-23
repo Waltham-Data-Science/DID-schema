@@ -43,6 +43,16 @@ assertion has no act/series; an interaction (observation/manipulation/calculatio
 `method` (the verb), a per-sample `sample_time` cadence, an optional `instrument_id`, and
 requires a `time_reference`. (SPEC §3–§5)
 
+**Observation vs calculation is decided by provenance, not by whether software ran**
+(#73, 2026-09-23). A statement whose inputs are **other statements in the dataset** is a
+`subject_calculation` and records them in `derived_from_#`; a statement produced from data
+held **outside** the dataset (an instrument, raw reads that are not stored) is a
+`subject_observation` and has no `derived_from`. Almost every measurement is processed by
+some pipeline, so "computed by software" cannot be the test; whether the inputs are in the
+dataset can be read off the document. Consequences: there is no "computed observation";
+`derived_from_#` is declared on `subject_calculation` only; a lossless re-assembly of stored
+statements (`oneepoch`'s concatenation) is a calculation too.
+
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
 `term`, `visual_grating`, …) × directions = one-word leaves (`mass_observation`,

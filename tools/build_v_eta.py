@@ -787,27 +787,34 @@ si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3
          fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV, CHANNELS])
 write("stable", "subject_interaction", si)
 
-# derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
-# COMPUTED observation -- one whose subject_interaction.method names the algorithm
-# -- records the input statement(s) it was derived from (e.g. an OSI
-# score_observation derived_from the raw tuning-curve frequency_observation). This
-# is the provenance INVERSE of directed_relation: directed_relation is
-# entity->entity (child/parent), derived_from is statement->statement. It is typed
-# to a `subject_statement` leaf and MUST NOT point at an `entity`. It lives on
-# subject_observation only -- a manipulation is imposed and an assertion is
-# declared, neither is "derived". Optional and repeatable (_#): a single fit has
-# one input, an aggregate calc (contrast_sensitivity) has many. Reference typing
-# is declarative (did2.validate.references is existence-only); a type-enforcing
-# check would be a separate validator.
+# derived_from: computation provenance, statement -> statement. The provenance
+# INVERSE of directed_relation: directed_relation is entity->entity (child/parent),
+# derived_from is statement->statement. It is typed to a `subject_statement` leaf and
+# MUST NOT point at an `entity`. Optional and repeatable (_#): a single fit has one
+# input, an aggregate calc (contrast_sensitivity) has many. Reference typing is
+# declarative (did2.validate.references is existence-only).
+#
+# #73 (2026-09-23), THE OBSERVATION / CALCULATION RULE: a statement whose inputs are
+# other statements IN THE DATASET is a `subject_calculation` and records them here;
+# a statement produced from data held OUTSIDE the dataset (an instrument, raw reads
+# not stored) is a `subject_observation` and has no derived_from. So the edge is
+# declared on `subject_calculation` ONLY. It USED to be on `subject_observation` too,
+# for a "computed observation" (an OSI score derived from a stored tuning curve);
+# under this rule that IS a calculation, so the category is gone. Measured before
+# removal: the one emitter of such an observation, migrators_j.private.
+# jComputedScalar, has no caller (its only caller, jDecomposeScalars, is itself
+# called by nothing), so no document loses an edge. The two designs that leaned on
+# the observation-side edge were settled with the rule: `oneepoch` (fork A1) becomes
+# a calculation, and valid_interval inheritance is RE-DERIVED (team, 2026-08-11), so
+# no materialised copy ever needs it.
 DERIVED_FROM = dep(
     "derived_from_#", "subject_statement",
     "The subject_statement leaf(s) this value was COMPUTED from (its inputs). "
-    "Present only on computed observations, whose subject_interaction.method names "
-    "the algorithm. Typed to a statement leaf -- never an entity; the provenance "
+    "A statement with inputs in the dataset is a calculation; this edge is what "
+    "makes it one. Typed to a statement leaf -- never an entity; the provenance "
     "inverse of directed_relation's entity->entity child/parent.",
     non_empty=False)
 so = load(os.path.join(VETA, "stable", "subject_observation.json"))
-so.setdefault("depends_on", []).append(DERIVED_FROM)
 
 # NOTE: the device half (`acquisition_system_id` + `channels`) USED to be added
 # here on subject_observation. As of #66 increment 3 (2026-08-21) it is HOISTED
@@ -1335,7 +1342,7 @@ write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
               "records origin, not precedence, and the variant carries a COMPLETE "
               "copy of every setting rather than a diff. Reuses the word the "
               "schema already spends on this relation (`derived_from_#` on "
-              "calculations and observations); `parent_id` was rejected because it "
+              "calculations); `parent_id` was rejected because it "
               "implies the child inherits, and it does not.",
               non_empty=False)]))
 
@@ -3418,8 +3425,9 @@ write("draft", "control_designation",
                   "The presentation whose stimuli these controls annotate.", non_empty=False),
               # `derived_from_#`, NOT `derived_from_1`. Found 2026-08-08 in the stimulus
               # sign-off review: this was the ONLY class in the set declaring a CONCRETE
-              # numbered edge instance where the FAMILY belongs. `subject_calculation` and
-              # `subject_observation` both declare `derived_from_#`; a schema declares the
+              # numbered edge instance where the FAMILY belongs. `subject_calculation`
+              # declares `derived_from_#` (and, until #73, `subject_observation` did too);
+              # a schema declares the
               # template name and a DOCUMENT names the instances. Hardcoding `_1` also caps
               # the provenance at one antecedent, which T10 does not.
               dep("derived_from_#", "subject_interaction",
@@ -5521,7 +5529,10 @@ _tombstone(
 # The team chose fork A1 for the go-forward model on 2026-08-10 (the
 # concatenation becomes a typed observation whose `derived_from_#` edges point at
 # the N per-epoch observations; NO `epoch` entity is minted for the synthetic
-# `whole_session_<ref>` id). That build is GATED on the raw-recording model being
+# `whole_session_<ref>` id). #73 (2026-09-23) REVISES ITS DIRECTION: under the
+# observation / calculation rule a statement derived from other statements in the
+# dataset is a CALCULATION, so the concatenation becomes a `<modality>_calculation`
+# carrying those `derived_from_#` edges; everything else about A1 stands. That build is GATED on the raw-recording model being
 # signed. THIS IS NOT THAT BUILD -- it is the passthrough repair that keeps the
 # documents alive in the meantime, required under every fork.
 #
@@ -6173,19 +6184,16 @@ _tombstone(
 #   INPUT to that union either way -- but the sort behaviour itself is
 #   unverified here.
 #
-# HAZARD 3 -- VALIDITY INHERITS, AND THAT IS NOT DECIDED HERE.
-# `loadvalidinterval` falls back to `underlying_element` when a derived element
-# has no intervals of its own (markgarbage.m:146-155). That is a QUERY-TIME rule
-# in NDI, and whether V_eta re-derives it through `derived_from` or materialises
-# it onto the derived subject is an OPEN SUB-QUESTION for the team. NOTHING here
-# forecloses either answer:
-#   * `subject_id` is the element the v1 document named and nothing else, so a
-#     re-derivation still has the exact v1 graph to walk;
-#   * `subject_observation.derived_from_#` already exists (optional, min_count
-#     0), so a materialising decision has its edge with no schema change.
-# What a later decision WOULD have to change is written out in
-# did2.convert.resolveValidIntervals's header, next to the counter that
-# measures how often the fallback could fire.
+# HAZARD 3 -- VALIDITY INHERITS, AND IT IS RE-DERIVED (team, 2026-08-11,
+# V_eta_OPEN_WORK.md "valid_interval inheritance is RE-DERIVED, not materialised";
+# re-affirmed 2026-09-23 in #73). `loadvalidinterval` falls back to
+# `underlying_element` when a derived element has no intervals of its own
+# (markgarbage.m:146-155), a QUERY-TIME rule, and V_eta keeps it one: the
+# statement is stored once, on the element the v1 document named (`subject_id`),
+# and a consumer walks the element lineage (the directed_relation `derived_from`
+# that migrators_j.element emits for `underlying_element_id`) to find it. No copy
+# is ever written, which is why `subject_observation` no longer needs a
+# `derived_from_#` edge for one (#73).
 write("draft", "logical",
       doc("logical", ["data_type"], abstract=True, maturity="draft",
           fields=[field(
@@ -6606,9 +6614,10 @@ write("stable", "image", _img)
 # `ontology_table_row_id` -- the metadata row that gives this image its data
 # context. Added 2026-08-11 at the team's direction, after image_stack.m was found
 # to DROP the did_v1 `document_id` edge on its fold arm for want of anywhere to put
-# it: image_observation and its seven ancestors declare six edges between them
+# it: image_observation and its seven ancestors declared six edges between them
 # (subject_id, time_reference_#, instrument_id, software_id, method_parameters_id,
-# derived_from_#) and not one means "the metadata row this image belongs to".
+# derived_from_#; the last left the observation chain in #73) and not one means
+# "the metadata row this image belongs to".
 # `derived_from_#` is the near miss and is wrong twice -- typed to
 # `subject_statement` (the row migrates to an `ontology_table_row`) and it asserts
 # COMPUTATION, which this is not.
@@ -7071,7 +7080,6 @@ _EDGE_COUNTS = {
     ("syncgraph", "syncrule_id_#"): (0, None),
     # provenance: real when present, absent for a directly-measured value
     ("subject_calculation", "derived_from_#"): (0, None),
-    ("subject_observation", "derived_from_#"): (0, None),
     ("control_designation", "derived_from_#"): (0, None),
     # a relation may state times or not
     ("directed_relation", "time_reference_#"): (0, None),
