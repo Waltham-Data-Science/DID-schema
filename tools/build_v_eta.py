@@ -8611,12 +8611,21 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 #
 # Canonical names for the 9 single-canonical types + concentration are ATTESTED in migrator
 # code (canonicalComposite('celsius'|'hertz'|'seconds'|'liters'|'kilograms'|'meters'|'volts'|
-# 'amperes'|'mmhg'), 'molar'), so those are RECORDED, not invented. The J §7 pre-seeded
+# 'amperes'|'mmhg'), 'molar'), so those are RECORDED, not invented.
+# MASS IS THE EXCEPTION as of 2026-09-23 (#73, jess): canonical mass is GRAMS, not
+# kilograms -- consistent with the practical (not SI-base) units the table already uses
+# (liters, celsius, mmhg) and with concentration's `grams_per_liter`. The "attestation"
+# for `kilograms` was the V_iota package (+migrators_i/ontology_table_row.m
+# canonicalComposite), which is not on the V_eta path; on that path nothing writes the
+# slot (migrators_j/private/jMeasurementFold.m leaves it ABSENT when no unit is known,
+# and NDI-matlab's V_eta branch has 0 mentions), so the rename strands no document.
+# Separately recorded: that V_iota helper copies the raw number into the canonical slot
+# WITHOUT unit conversion, so any source unit other than the canonical one is mis-stored. The J §7 pre-seeded
 # numerics have no attested canonical (nothing populates them yet), so their canonical key is
 # named here from the documented SI unit, following the same spelled-out-plural convention.
 _DIM_CANON = {
     # --- attested in migrator code (do NOT rename without a coupled migrator change) ---
-    "time": ["seconds"], "volume": ["liters"], "mass": ["kilograms"],
+    "time": ["seconds"], "volume": ["liters"], "mass": ["grams"],
     "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
     "frequency": ["hertz"], "temperature": ["celsius"], "pressure": ["mmhg"],
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical

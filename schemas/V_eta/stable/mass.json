@@ -33,7 +33,7 @@
             "constraints": {},
             "fields": [
                 {
-                    "name": "kilograms",
+                    "name": "grams",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,
