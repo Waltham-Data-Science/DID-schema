@@ -3406,8 +3406,9 @@ write("draft", "timed_sequence",
           # `presented_id_#`, NOT `presented_id` (team, 2026-09-24: every repeated edge
           # is a numbered `_#` family AND carries `multiple`, so the validator -- which
           # recognises families by the suffix, did2 cache.m requiredDependencies --
-          # sees it as one). NDI already writes presented_id_1..N
-          # (stimulusPresentationToTimedSequence.m), so no emitter changes.
+          # sees it as one). Members are numbered FROM 0 (T14, team 2026-09-24);
+          # NDI writes presented_id_1..N today (stimulusPresentationToTimedSequence.m),
+          # so its emitter renumbers -- a PR #76 follow-up.
           deps=[dep("presented_id_#", "data_type",
                     "References to the DISTINCT presented stimulus data_type docs "
                     "(deduped); the playlist indexes these.", non_empty=False, multiple=True)],
@@ -3415,8 +3416,9 @@ write("draft", "timed_sequence",
                         "An ordered, timed list of references to presented data_type docs.",
                         non_empty=True, blank={}, sub_fields=[
               subfield("presentation_order", "matrix",
-                       "Playlist: an index array into the `presented_id_#` references, one "
-                       "entry per trial (distinct-refs + index-array encoding).", scalar=False),
+                       "Playlist: one entry per trial, each a 0-based index naming a "
+                       "`presented_id_#` edge directly (value k -> `presented_id_k`); "
+                       "distinct-refs + index-array encoding.", scalar=False),
           ])]))
 write("draft", "timed_sequence_manipulation",
       doc("timed_sequence_manipulation", ["subject_manipulation", "timed_sequence"],
@@ -9552,6 +9554,25 @@ idx["schemas"] = schemas
 with open(os.path.join(VETA, "index.json"), "w") as f:
     json.dump(idx, f, indent=4)
     f.write("\n")
+
+# ---- edge families are numbered FROM 0 (team, 2026-09-24, T14) ---------------
+# The example documents are copied in from V_zeta, which numbered family members
+# from 1 (`time_reference_1`). V_eta numbers every family it mints from 0, so a
+# 0-based index names its edge directly (`presentation_order` value k ->
+# `presented_id_k`). Renumber the copied examples' family members down by one;
+# the schemas themselves declare `name_#` templates and need no change.
+# Rewritten as TEXT, one exact `"name": "<edge>"` at a time, so the copied file
+# keeps its hand layout and the diff shows only the renumbering.
+for _ex in sorted(glob.glob(os.path.join(VETA, "examples", "*.json"))):
+    _text = Path(_ex).read_text()
+    _new = _text
+    for _x in load(_ex).get("depends_on") or []:
+        _m = _re.match(r"^(.+)_(\d+)$", _x.get("name", ""))
+        if _m and int(_m.group(2)) >= 1:
+            _new = _new.replace(f'"{_x["name"]}"',
+                                f'"{_m.group(1)}_{int(_m.group(2)) - 1}"', 1)
+    if _new != _text:
+        Path(_ex).write_text(_new)
 
 print(f"V_eta built: {len(schemas)} schemas across {TIERS}")
 if _TRANSITIVE_SUPER_UNREADABLE:

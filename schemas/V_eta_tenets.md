@@ -289,6 +289,23 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.
+- **Counting starts at 0, everywhere, and is declared once** (team, 2026-09-24). An index
+  base is exactly the kind of fact a reader cannot recover from the numbers themselves, so
+  V_eta has ONE rule rather than a per-field note:
+  - **every index is 0-based**: a position along a key, a row of a document named by
+    `labels_from`, a chunk number, `timed_sequence.value.presentation_order`;
+  - **every numbered edge family is numbered from 0**: `time_reference_0`,
+    `derived_from_0`, `presented_id_0`, … — so a 0-based index names its edge directly
+    (`presentation_order` value *k* → `presented_id_k`);
+  - **every file-series member is numbered from 0**: `body_data_0`, `body_data_1`, ….
+  A family is declared as a `name_#` template carrying `multiple`, and the two always go
+  together. did_v1 numbered its edges from 1 (NDI's `add_dependency_value_n` appends
+  `name_(n+1)`). Migrators READ that numbering and never re-emit it. The three v1
+  tombstones that declare a family (`ensemble` `neuron_id_#`, `daqsystem`
+  `daqmetadatareader_id_#`, `syncgraph` `syncrule_id_#`) describe v1 documents as written,
+  and a `_#` template matches a member whatever its number, so they need no change. Where a v1 number carried
+  meaning (an ensemble's `neuron_id_3` is its third column), the migrator restates it as
+  data — a `sequence` field — rather than trusting a name.
 
 **The failure this names is not hypothetical.** The named types shipped for most of the
 project as enum strings whose real layout lived in the meta-schema's prose and in

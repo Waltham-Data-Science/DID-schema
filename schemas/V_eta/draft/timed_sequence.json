@@ -44,7 +44,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Playlist: an index array into the `presented_id_#` references, one entry per trial (distinct-refs + index-array encoding).",
+                    "documentation": "Playlist: one entry per trial, each a 0-based index naming a `presented_id_#` edge directly (value k -> `presented_id_k`); distinct-refs + index-array encoding.",
                     "constraints": {}
                 }
             ]
