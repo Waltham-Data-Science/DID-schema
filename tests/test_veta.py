@@ -374,7 +374,8 @@ def test_demo_family_collapsed_to_one_class():
         (`mode` was cardinality, not a class axis). A mock voltage_observation
         would still be a voltage observation.
 
-    So three classes collapse to one: `demo` with an `is_mock` boolean. `mock`
+    So three classes collapse to one: `demo` with a `mock` boolean (named `is_mock`
+    until 2026-09-24, when T13 dropped the `is_` prefix from booleans). `mock`
     and `demo_ndi_mock` cease to exist, and `demo` drops the framework's own name
     out of a class name in the framework's own schema (T13).
 
@@ -388,12 +389,12 @@ def test_demo_family_collapsed_to_one_class():
         assert gone not in RECORDS, f"{gone} should have collapsed into `demo`"
 
     fields = {f["name"]: f for f in RECORDS["demo"][1]["fields"]}
-    assert set(fields) == {"value", "is_mock"}, set(fields)
+    assert set(fields) == {"value", "mock"}, set(fields)
     # Typed from the WRITER, not the template: the did_v1 template says char, but
     # ndi.calc.example.simple sets 5/10 and queries with exact_number.
     assert fields["value"]["type"] == "double"
-    assert fields["is_mock"]["type"] == "boolean"
-    assert fields["is_mock"]["default_value"] is False
+    assert fields["mock"]["type"] == "boolean"
+    assert fields["mock"]["default_value"] is False
     # The required file was dropped by V_eta -- silent file loss. It is back.
     assert [f["name"] for f in RECORDS["demo"][1].get("file", [])] == ["filename1.ext"]
 
@@ -1395,7 +1396,7 @@ def test_visual_grating_manipulation_leaf():
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
-            "size", "position", "duration", "is_blank"} <= subs
+            "size", "position", "duration", "blank"} <= subs
     leaf = RECORDS["visual_grating_manipulation"][1]
     supers = {s["class_name"] for s in leaf["document_class"]["superclasses"]}
     assert supers == {"subject_manipulation", "visual_grating"}

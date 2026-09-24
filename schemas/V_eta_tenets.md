@@ -209,6 +209,17 @@ a footnote**.
   lowercase. The *only* verbatim-cased strings are **external identifiers carried as
   values**: ontology CURIEs (`obi:0000750`), openMINDS term-set names. PascalCase/camelCase
   in a document block is a migration smell (snake-case it) unless it is such an external id.
+- **Booleans name the property, with no `is_`/`has_` prefix** (team, 2026-09-24). A
+  boolean field is named for the property it asserts: `approximate`, `regular`,
+  `complete`, `cyclic`, `blank`, `mock`, `modulated_response`, `redundant` — never
+  `is_approximate`, `is_blank`. The type already says it is a yes/no; the prefix adds
+  nothing a reader needs. This was already the practice in every field V_eta designed
+  (the value cell's `approximate`, 54 uses; axes' `regular`, 4) and the `is_` names were
+  did_v1 carry-overs. **The one exemption is a did_v1 SOURCE TOMBSTONE**, which must keep
+  the v1 writer's spelling verbatim so a passthrough still validates (`israster`,
+  `is_unsupervised`, `has_score`, `has_planar_contour`, `isspike`, `do_filter` stay as
+  v1 wrote them). `time_reference.is_approximate` is not renamed because the signed time
+  model already deletes it (`V_eta_time_reference_model_plan.md`, "both go").
 - **Right altitude — the `visual_grating` rule.** Pitch the name at the level a domain
   expert names the thing. Two failure modes, both detectable by their tell:
   - **Too generic → needs a rescue qualifier.** If a base name only becomes usable with a

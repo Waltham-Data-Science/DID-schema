@@ -2323,7 +2323,10 @@ _demo = doc("demo", ["base"], fields=[
           "The demonstration value the example calculator reads "
           "(ndi.calc.example.simple queries demoNDI.value by exact_number). Typed from "
           "the WRITER: the did_v1 template declares char, the writer sets numbers."),
-    field("is_mock", "boolean",
+    # NAMED `mock`, NOT `is_mock` (T13, team 2026-09-24: booleans carry no `is_`
+    # prefix). The migrator follow-up is recorded on PR #76 -- DID-matlab
+    # jDemoFold.m still writes `is_mock` until it is renamed in lockstep.
+    field("mock", "boolean",
           "TRUE when this document is self-test/demonstration data rather than a record "
           "of an experiment. Carried from did_v1 `mock.ismock`, which demoNDIMock held "
           "as a superclass. The ONLY marker separating self-test artefacts from real "
@@ -2336,7 +2339,7 @@ _demo["file"] = [{
                      "demoNDIMock. V_eta had dropped it -- silent file loss."}]
 write("stable", "demo", _demo)
 
-# did_v1 demoNDI -> demo, and demoNDIMock -> demo with is_mock TRUE (the migrator sets
+# did_v1 demoNDI -> demo, and demoNDIMock -> demo with mock TRUE (the migrator sets
 # the flag; there is no second class to route to).
 for _gone in ("demo_ndi", "demo_ndi_mock", "mock"):
     _t, _p = path_of(_gone)
@@ -2716,7 +2719,9 @@ GRATING_SUBS = [
                  subfield("x", "double", "Horizontal position, degrees."),
                  subfield("y", "double", "Vertical position, degrees.")]),
     subfield("duration", "double", "Presentation duration, seconds."),
-    subfield("is_blank", "boolean",
+    # `blank`, not `is_blank` (T13, team 2026-09-24: no `is_` prefix on booleans).
+    # NDI's second-pass assemblers still write `is_blank` -- lockstep follow-up, PR #76.
+    subfield("blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
     # PHASE ADDED, team, 2026-08-17: "Add phase."
     #
@@ -3510,7 +3515,10 @@ _CS_SUBS = [
                           "Bonferroni-corrected response-varies p per spatial frequency.",
                           scalar=False),
              ]),
-    subfield("is_modulated_response", "boolean",
+    # `modulated_response`, not `is_modulated_response` (T13, team 2026-09-24: no
+    # `is_` prefix on booleans). DID-matlab jContrastSensitivityValue.m still writes
+    # the old name -- lockstep follow-up, PR #76.
+    subfield("modulated_response", "boolean",
              "True when the response is modulated (F1) rather than mean (F0)."),
     subfield("response_type", "char", "Which response measure the profile was built on."),
 ]
@@ -8058,6 +8066,13 @@ for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
     s = s.replace("scalar_observation", "subject_observation")
     s = s.replace("scalar_manipulation", "subject_manipulation")
     s = s.replace("categorical_observation", "term_observation")
+    # T13 boolean naming (team, 2026-09-24): V_eta drops the `is_` prefix, so the
+    # V_zeta row "`is_modulated_response` | same" is no longer the same name.
+    s = s.replace("| `is_modulated_response` | same |",
+                  "| `is_modulated_response` | `modulated_response` |")
+    s = s.replace("- **`is_modulated_response` promoted to boolean.**",
+                  "- **`is_modulated_response` promoted to boolean, and renamed "
+                  "`modulated_response`** (T13: no `is_` prefix on booleans).")
     s = s.replace("V_zeta", "V_eta").replace("Brainstorm I", "Brainstorm J")
     s = s.replace("Brainstorm-I", "Brainstorm-J")
     Path(p).write_text(s)
