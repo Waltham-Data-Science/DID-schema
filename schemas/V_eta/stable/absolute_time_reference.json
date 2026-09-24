@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "absolute_reference",
+        "class_name": "absolute_time_reference",
         "class_version": "2.0.0",
         "superclasses": [
             {
@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_reference. ANCHOR (`start`) and EXTENT (`duration`) are separate facts with separate precisions.",
+            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_time_reference. ANCHOR (`start`) and EXTENT (`duration`) are separate facts with separate precisions.",
             "constraints": {},
             "fields": [
                 {

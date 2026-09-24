@@ -37,7 +37,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The concatenated epoch's extent, one record per clock. did_v1 stores this as `epoch_clock` (a COMMA-JOINED list of every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix; the base element_epoch migrator collapses that pair into these records before validation ever sees the document. Under fork A1 these become relative_reference documents.",
+            "documentation": "The concatenated epoch's extent, one record per clock. did_v1 stores this as `epoch_clock` (a COMMA-JOINED list of every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix; the base element_epoch migrator collapses that pair into these records before validation ever sees the document. Under fork A1 these become relative_time_reference documents.",
             "constraints": {},
             "fields": [
                 {

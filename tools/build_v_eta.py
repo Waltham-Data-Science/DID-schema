@@ -46,7 +46,7 @@ DIMS = ["mass", "length", "volume", "time", "temperature", "pressure",
 #   physical quantity here is named for its DIMENSION (voltage, mass, charge,
 #   frequency, ...) -- and it had come to carry mostly non-durations. Measured
 #   at signing time: of 10 fields typed `duration`, 3 were extents, FOUR were
-#   instants/offsets (relative_reference.value.start,
+#   instants/offsets (relative_time_reference.value.start,
 #   epoch_bounded_reference.value.start, session_bounded_reference.start/.end)
 #   and two were neither (sample_time.dt a step, clock_tolerance a tolerance).
 #
@@ -87,7 +87,7 @@ DIM_RETYPED_DOC = {
 # WHY THIS IS A NAMED CONSTANT AND NOT THREE LITERALS IN TWO LADDERS: it was
 # two literals in two ladders, and `timestamp` was in neither. Both ladders
 # fell through to `0.0`, so `subjectmeasurement.datestamp` and
-# `absolute_reference.value.start.utc` were emitted with a DOUBLE blank for a
+# `absolute_time_reference.value.start.utc` were emitted with a DOUBLE blank for a
 # type the validator accepts only as char -- a blank document built from the
 # schema cache would have failed its own type check. `base.datestamp` was
 # right only because it is copied verbatim from the V_zeta snapshot and never
@@ -726,7 +726,7 @@ EXEC_ENV = field(
 # "completing the family" would helpfully fix.
 #
 # A statement already reaches its epoch:
-#   subject_interaction --time_reference_#--> relative_reference
+#   subject_interaction --time_reference_#--> relative_time_reference
 #                       --relative_to------> epoch
 # A direct edge would store one fact twice, which is the hazard the epoch plan
 # itself flags for base.session_id vs part_of and marks "Flagged, not solved".
@@ -1387,7 +1387,7 @@ write("stable", "epoch", doc("epoch", ["entity"], fields=[
           non_empty=True)],
     deps=[dep("session_id", "session",
               "The session this recording belongs to.", non_empty=True),
-          dep("time_reference_#", "relative_reference",
+          dep("time_reference_#", "relative_time_reference",
               "The epoch's own extent. One entry per (clock, extent) pair -- the "
               "real per-clock extents live in "
               "`daqreader_epochdata_ingested.epochtable`, one pair per entry, which "
@@ -2345,7 +2345,7 @@ for _gone in ("demo_ndi", "demo_ndi_mock", "mock"):
 
 
 # ---------- 8a. register the `time` CURIE prefix (OWL-Time) ----------
-# REPAIR. Increment 1 below binds `relative_reference.value.relation` to OWL-Time
+# REPAIR. Increment 1 below binds `relative_time_reference.value.relation` to OWL-Time
 # CURIEs (time:intervalBefore, ...), but `time` was NOT one of the 11 registered
 # prefixes, so those CURIEs expanded to nothing -- a binding that LOOKS governed and
 # is not, which is worse than a plain enum. Registering it is the fix, and OWL-Time is
@@ -2358,7 +2358,7 @@ _curie["prefixes"]["time"] = {
     "approximate": False,
     "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' "
                      "-> 'http://www.w3.org/2006/time#intervalDuring'. Used by "
-                     "relative_reference.value.relation for Allen's thirteen interval "
+                     "relative_time_reference.value.relation for Allen's thirteen interval "
                      "relations. A W3C Recommendation, so terms are stable and nothing "
                      "needs minting.",
 }
@@ -2468,7 +2468,7 @@ _OWL_TIME_BINDING = {
 #             minutes in duration", which start+end cannot express because a fuzzy anchor
 #             makes both offsets fuzzy and the exactness of their DIFFERENCE is
 #             unrecoverable. Informationally equivalent (end = start + duration).
-#             absolute_reference takes the same change for the same reason.
+#             absolute_time_reference takes the same change for the same reason.
 #   CHANGE 2  every VALUE-LEVEL `approximate` is DELETED (`value.approximate` on both
 #             children). Approximateness lives ONLY where there is a quantity to qualify
 #             -- the start/duration cells already carry their own `approximate`, and when
@@ -2496,7 +2496,7 @@ _OWL_TIME_BINDING = {
 #   emitters stand would quarantine 127,719 documents on a 0-quarantine gate -- the
 #   epochfiles_ingested regression, at 50x the size.
 #
-# The emitters cannot simply be moved either: `relative_reference.relative_to` is
+# The emitters cannot simply be moved either: `relative_time_reference.relative_to` is
 # REQUIRED, and a pass-1 migrator CANNOT fill it. It has `base.session_id`, while the
 # edge needs the session DOCUMENT's `base.id`, which is a FRESH uid
 # (NDI-matlab +ndi/document.m:57-58 `document_properties.base.id = ndiido.id()`;
@@ -2573,17 +2573,17 @@ _RELATIVE_REFERENCE_SUBS = [
              "expressible."),
 ]
 
-write("stable", "absolute_reference",
-      doc("absolute_reference", ["time_reference"], version="2.0.0", fields=[
+write("stable", "absolute_time_reference",
+      doc("absolute_time_reference", ["time_reference"], version="2.0.0", fields=[
           field("value", "structure",
                 "A wall-clock instant or interval. Carries NO dependency: it is "
                 "interpretable on its own, which is what distinguishes it from "
-                "relative_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
+                "relative_time_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
                 "separate facts with separate precisions.",
                 non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
 
-write("stable", "relative_reference",
-      doc("relative_reference", ["time_reference"], version="2.0.0",
+write("stable", "relative_time_reference",
+      doc("relative_time_reference", ["time_reference"], version="2.0.0",
           deps=[dep("relative_to", "base",
                     "What the time is measured against -- an epoch, a session, an "
                     "interaction, another reference. REQUIRED (team call): a relative "
@@ -2613,9 +2613,9 @@ write("stable", "relative_reference",
 # It must NOT fold into a boolean -- that has no magnitude and the five seconds would be
 # lost. It de-encodes to DATA: the bare clock plus `clock_tolerance {seconds: 5}`.
 #
-# ON THE ROOT, not on relative_reference. The team caught this: a UTC time good to +/-5 s
-# can land on EITHER class -- as a wall-clock instant it is an absolute_reference, as
-# offsets measured in UTC seconds from a referent it is a relative_reference with
+# ON THE ROOT, not on relative_time_reference. The team caught this: a UTC time good to +/-5 s
+# can land on EITHER class -- as a wall-clock instant it is an absolute_time_reference, as
+# offsets measured in UTC seconds from a referent it is a relative_time_reference with
 # `clock: utc`. Putting the tolerance on the relative class only would silently drop it
 # for every absolute one.
 _tr = load(os.path.join(VETA, "stable", "time_reference.json"))
@@ -2645,8 +2645,8 @@ _tr["fields"].append(field(
     "(+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance "
     "{seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, "
     "not invention. On the ROOT because a tolerance-bearing UTC time can be an "
-    "absolute_reference (a wall-clock instant) or a relative_reference (offsets on the "
-    "UTC clock); for absolute_reference the timeline is UTC by construction.",
+    "absolute_time_reference (a wall-clock instant) or a relative_time_reference (offsets on the "
+    "UTC clock); for absolute_time_reference the timeline is UTC by construction.",
     non_empty=False))
 write("stable", "time_reference", _tr)
 
@@ -3208,7 +3208,7 @@ if os.path.exists(_hcc):
 #           at 34 migrator sites -- and the backlog is counted by #70's ratchet.
 #   gate 2  `clock_alignment.relation` needs a term. "Temporally aligned with" is a
 #           MAPPING predicate, not an OWL-Time interval relation, so it cannot reuse
-#           relative_reference's binding. Staged the same way.
+#           relative_time_reference's binding. Staged the same way.
 #   gate 3  "EXACTLY 2" was prose until #63 landed. #63 HAS landed, so
 #           `acquisition_channels_#` gets a real min_count/max_count of 2 below --
 #           this gate is now MET.
@@ -3277,11 +3277,11 @@ write("draft", "polynomial",
 write("draft", "clock_alignment",
       doc("clock_alignment", ["relation", "polynomial"], maturity="draft",
           deps=[
-              dep("from_reference", "relative_reference",
+              dep("from_reference", "relative_time_reference",
                   "The timeline this alignment maps FROM. The rule is symmetric but "
                   "its OUTPUT is directed, which is why these are named endpoints and "
                   "not a `_#` family.", non_empty=True),
-              dep("to_reference", "relative_reference",
+              dep("to_reference", "relative_time_reference",
                   "The timeline this alignment maps TO.", non_empty=True),
               dep("clock_alignment_configuration_id", "clock_alignment_configuration",
                   "The rule that produced this alignment.", non_empty=True),
@@ -3292,7 +3292,7 @@ write("draft", "clock_alignment",
               field("relation", "ontology_term",
                     "\"Temporally aligned with\". STAGED with an empty node (#67/#70): "
                     "this is a MAPPING predicate, not an OWL-Time interval relation, so "
-                    "it cannot reuse relative_reference's binding and needs an NDIC term."),
+                    "it cannot reuse relative_time_reference's binding and needs an NDIC term."),
               field("cost", "double",
                     "The path-finding edge weight. On the leaf rather than inside "
                     "`value` because it is a property of the ALIGNMENT, not of the "
@@ -3314,7 +3314,7 @@ write("draft", "clock_alignment_configuration",
           fields=[
               field("clock", "ontology_term",
                     "The clock this rule aligns, from did_clocktype -- the SAME FOUR "
-                    "terms as relative_reference.value.clock, which is what gate 1 of "
+                    "terms as relative_time_reference.value.clock, which is what gate 1 of "
                     "this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no "
                     "NDIC identifier can be assigned from any repository in scope. "
                     "<- v1 `epochclocktype`.",
@@ -5573,7 +5573,7 @@ write("stable", "oneepoch",
                     " every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix;"
                     " the base element_epoch migrator collapses that pair into"
                     " these records before validation ever sees the document."
-                    " Under fork A1 these become relative_reference documents.",
+                    " Under fork A1 these become relative_time_reference documents.",
                     scalar=False,
                     sub_fields=[
                         field("name", "char", "The clock identifier."),
@@ -6823,12 +6823,12 @@ if "date" not in type_enum:
 # ensureClassBlocks and before validation -- the only point every body passes
 # through, passthroughs included. Migrators keep reading and writing did_v1
 # spelling internally and not one of them changed.
-# ---- the epoch handle gains the extent, by COPYING relative_reference.value --
+# ---- the epoch handle gains the extent, by COPYING relative_time_reference.value --
 # TEAM GRANT 2026-08-13: "you can change any of the transitional schema... as
 # long as they aren't in V_eta's final schema." `epoch_bounded_reference` is a
 # pass-1 HANDLE -- it is consumed by ndi.migrate.internal.epochAnchorFold and is
 # NOT in the persist set (V_eta_final_class_set.md's tier 5 is exactly
-# `absolute_reference`, `relative_reference`), so a slot added here never reaches
+# `absolute_time_reference`, `relative_time_reference`), so a slot added here never reaches
 # the schema we keep.
 #
 # WHY IT IS NEEDED. pyraview is epoch-scoped by declaration and carries the
@@ -6839,13 +6839,13 @@ if "date" not in type_enum:
 # own `time_reference_#`.
 #
 # COPIED, NOT RE-DECLARED, and that is the point: the fold's job becomes a
-# straight copy of `value` into the `relative_reference` it emits, with no
+# straight copy of `value` into the `relative_time_reference` it emits, with no
 # translation step to get wrong, and the two shapes CANNOT DRIFT -- change
-# relative_reference.value and this follows on the next build.
-_rr_tier, _rr_path = path_of("relative_reference")
+# relative_time_reference.value and this follows on the next build.
+_rr_tier, _rr_path = path_of("relative_time_reference")
 _rr_value = [f for f in load(_rr_path)["fields"] if f["name"] == "value"]
 if len(_rr_value) != 1:
-    raise SystemExit("build_v_eta: relative_reference must declare exactly one "
+    raise SystemExit("build_v_eta: relative_time_reference must declare exactly one "
                      "`value` field; found %d" % len(_rr_value))
 _ebr_tier, _ebr_path = path_of("epoch_bounded_reference")
 _ebr = load(_ebr_path)
@@ -6853,7 +6853,7 @@ if not any(f["name"] == "value" for f in _ebr["fields"]):
     _v = json.loads(json.dumps(_rr_value[0]))      # deep copy
 
     def _strip_governance(node):
-        # THE COPY CARRIES SHAPE, NOT GOVERNANCE. relative_reference.value's
+        # THE COPY CARRIES SHAPE, NOT GOVERNANCE. relative_time_reference.value's
         # `relation` and `clock` are BOUND (OWL-Time, and the four clock terms),
         # and those bindings belong to the class we KEEP. Copying them onto a
         # transitional handle would grow the bound-field count -- which
@@ -6880,7 +6880,7 @@ if not any(f["name"] == "value" for f in _ebr["fields"]):
     _strip_governance(_v)
     _v["mustBeNonEmpty"] = False                   # a handle may carry no extent
     _v["documentation"] = (
-        "The epoch's extent and clock, shaped EXACTLY as relative_reference."
+        "The epoch's extent and clock, shaped EXACTLY as relative_time_reference."
         "value so the fold is a copy rather than a translation. OPTIONAL here "
         "and required there: a handle may name an epoch without knowing its "
         "bounds, which is the `no times => no reference` rule applied to the "
@@ -8888,7 +8888,7 @@ _DECIDED_PENDING = {
         "The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; "
         "`coordinates` rides through undeleted until axes[].values exists (#45)",
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
-    # (absolute_reference, relative_reference); these eight stay until the migrators
+    # (absolute_time_reference, relative_time_reference); these eight stay until the migrators
     # move, because 24 files emit session_relative_reference, 5 emit
     # epoch_bounded_reference and 1 emits session_bounded_reference. Deleting them
     # before the emitters move would red the corpus gate.
@@ -8899,23 +8899,23 @@ _DECIDED_PENDING = {
         "increment 3, gated on did2.convert.resolveSessionAnchors reporting "
         "refused_total 0 and zero surviving session_*_reference documents",
     "session_relative_reference":
-        "#65 -> relative_reference (relative_to -> session; relation only, no metric). "
+        "#65 -> relative_time_reference (relative_to -> session; relation only, no metric). "
         "107,308 documents -- the largest emitter",
     "session_bounded_reference":
-        "#65 -> relative_reference (relative_to -> session; start/end populated). "
+        "#65 -> relative_time_reference (relative_to -> session; start/end populated). "
         "20,411 documents",
     "epoch_relative_reference":
-        "#65 -> relative_reference (relative_to -> epoch). ZERO documents; no migrator "
+        "#65 -> relative_time_reference (relative_to -> epoch). ZERO documents; no migrator "
         "has ever emitted one",
     "epoch_bounded_reference":
-        "#65 -> relative_reference (relative_to -> epoch; start/end populated). ZERO "
+        "#65 -> relative_time_reference (relative_to -> epoch; start/end populated). ZERO "
         "documents, but 5 migrator files name it",
     "event_relative_reference":
-        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+        "#65 -> relative_time_reference (relative_to -> the event document). ZERO documents",
     "event_bounded_reference":
-        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+        "#65 -> relative_time_reference (relative_to -> the event document). ZERO documents",
     "utc_reference":
-        "#65 -> absolute_reference. ZERO documents. The class was named for the "
+        "#65 -> absolute_time_reference. ZERO documents. The class was named for the "
         "canonical frame; the target is named for the KIND, the same reason the class "
         "is `voltage` and not `volt`",
     # R5 targets were named in an earlier naming pass, but the ⑦ walkthrough RE-OPENED
@@ -9261,13 +9261,13 @@ _DELETE_PHASE8 = {
 #
 # THE SIGNED DECISION: `V_eta_time_reference_model_plan.md`,
 # TEAM-SIGN-OFF [time_reference] jess@walthamdatascience.com / 2026-08-08 --
-# 8 classes collapse to `absolute_reference` + `relative_reference`. The 8 are
+# 8 classes collapse to `absolute_time_reference` + `relative_time_reference`. The 8 are
 # the abstract root plus its seven concrete children; the root STAYS.
 #
 # THE OTHER THREE CHILDREN ARE NOT TOUCHED, AND THE REASON IS EVIDENCE, NOT
 # CAUTION. `session_relative_reference` (22 mint sites), `session_bounded_
 # reference` (1) and `epoch_bounded_reference` (1) are minted TODAY -- a
-# deliberate pass-1 handle, because a migrator cannot emit `relative_reference`
+# deliberate pass-1 handle, because a migrator cannot emit `relative_time_reference`
 # without the session DOCUMENT's id. Deleting a class its emitters still mint
 # is the `epochfiles_ingested` regression: 2,484 corpus-B quarantines.
 #
@@ -9310,7 +9310,7 @@ _DELETE_PHASE8 = {
 #                     resolveSessionAnchors.m:43 says the `epoch_*`/`event_*`/
 #                     `utc_reference` classes are NOT touched there). A comment
 #                     is not an emitter. The same sweep returns 411 lines for
-#                     `relative_reference` and 188 for `session_relative_
+#                     `relative_time_reference` and 188 for `session_relative_
 #                     reference`, which is what makes these zeros readable.
 #   V_eta schemas     0 superclass references and 0 `must_refer_to_document_
 #                     class` references, over 243 class-declaring schema files.
@@ -9337,7 +9337,7 @@ _DELETE_PHASE8 = {
 #   2. `directed_relation`'s `time_reference_#` field documentation names
 #      `event_relative_reference` in PROSE (see the `write()` call above). It
 #      is documentation, not a structural reference, so it does not block the
-#      deletion; under the collapse the right word is `relative_reference`.
+#      deletion; under the collapse the right word is `relative_time_reference`.
 # Both are left for the team: fixing 1 means hand-editing under `schemas/`
 # (operating rule 1) and fixing 2 is a change to another class's schema.
 #

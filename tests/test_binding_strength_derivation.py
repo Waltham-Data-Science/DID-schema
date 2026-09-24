@@ -255,7 +255,7 @@ def test_every_binding_in_the_built_tree_declares_a_strength():
     assert len(index) >= 13, (
         f'only {len(index)} bound declarations found -- the sweep stopped descending, and a shrinking denominator is how this check goes quietly vacuous')
     assert den["bound_field_declarations_nested"] >= 2, (
-        "the two nested bindings on relative_reference.value are not being "
+        "the two nested bindings on relative_time_reference.value are not being "
         "reached; a top-level-only sweep would call the tree consistent")
     missing = sorted(k for k, v in index.items()
                      if v["binding"].get("strength") is None)

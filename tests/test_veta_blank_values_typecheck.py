@@ -9,7 +9,7 @@ schema could declare a blank the validator would reject -- a document built
 from the schema failing its own schema.
 
 Two fields did. `subjectmeasurement.datestamp` and
-`absolute_reference.value.start.utc` are `timestamp`-typed and carried
+`absolute_time_reference.value.start.utc` are `timestamp`-typed and carried
 `blank_value: 0.0`, while validateTypeShape accepts `timestamp` only as
 char/scalar-string. `base.datestamp` was right (`''`) purely by accident of
 provenance: it is copied verbatim from the V_zeta snapshot and never passes
@@ -175,7 +175,7 @@ def _structure_blank_is_rebuilt(ftype, blank):
 # Each entry is (class_name, dotted field path, declared type).
 # ---------------------------------------------------------------------------
 KNOWN_DIVERGENT = {
-    ("absolute_reference", "value.duration", "time"),
+    ("absolute_time_reference", "value.duration", "time"),
     ("chemical", "value.amount", "concentration"),
     ("concentration", "value", "concentration"),
     ("current", "value", "current"),
@@ -193,8 +193,8 @@ KNOWN_DIVERGENT = {
     ("pyraview", "decimation_levels", "matrix"),
     ("pyraview", "decimation_sampling_rates", "matrix"),
     ("pyraview", "decimation_start_times", "matrix"),
-    ("relative_reference", "value.duration", "time"),
-    ("relative_reference", "value.start", "time"),
+    ("relative_time_reference", "value.duration", "time"),
+    ("relative_time_reference", "value.start", "time"),
     # ("sampled_body", "sample_time.dt"/".t0") REMOVED 2026-08-15: the body-side
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
     # name fields that no longer exist. Deleted in the same commit that retired

@@ -572,7 +572,7 @@ def batch_pass_entries(v1_class, veta_class):
 # A RENAME IS A FOURTH SPELLING, and it is the only one of its kind that is
 # safe to join on. Added 2026-08-17 for `epochMint`, which reads
 # `acquisition_epoch` bodies -- the migrated form of did_v1 `element_epoch` --
-# and mints a `relative_reference` per clock. It declared that consumption
+# and mints a `relative_time_reference` per clock. It declared that consumption
 # truthfully and the ledger still could not credit it, because `element_epoch`
 # carries `veta_class = None`, so none of the three spellings above is the name
 # the batch actually holds at that point in the chain.
@@ -757,7 +757,16 @@ def helper_entries(v1_class, veta_class):
 #     path would emit a `bath` V_eta lacks (the corpus is unaffected -- it uses the
 #     coarse resolveDeferredBaths -> dose_manipulation). FIX: make the V_eta stimulus
 #     _bath assembly emit dose_manipulation (TaskList: stimulusBathToBath V_eta path).
-KNOWN_NON_VETA = {"bath", "pharmacological_manipulation"}
+# RENAME IN FLIGHT, added 2026-09-24 (#73, option A, jess): `absolute_reference` and
+# `relative_reference` became `absolute_time_reference` / `relative_time_reference`
+# (the leaves had dropped the "time" their root and edge carry). DID-matlab still
+# emits the OLD names (jAbsoluteReference.m; epochAnchorFold.m, jClockAlignmentBodies.m,
+# jEpochClockReferences.m, pyraview.m on claude/v-eta-migration-plan-35jj1z and V2), so
+# they are ACKNOWLEDGED here, not allowed silently. REMOVE BOTH ENTRIES when the
+# DID-matlab rename lands -- until then a migrated document of either class does not
+# validate against this schema, which is why PR #76 must not merge ahead of it.
+KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
+                  "absolute_reference", "relative_reference"}
 
 
 def guardrail(veta, emitted):

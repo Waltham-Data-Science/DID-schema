@@ -528,7 +528,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # simply did not LIST it. The `epoch` family's summary has read
         # "element_epoch dissolves" since it was written, and its signature at
         # V_eta_epoch_plan.md:869 says "acquisition_epoch dissolves and its
-        # clocks become relative_reference documents; epochid is DROPPED" --
+        # clocks become relative_time_reference documents; epochid is DROPPED" --
         # so the decision was never missing, never unwritten, and not even in
         # an uncited document. The class name was absent from a five-element
         # list two lines from the sentence deciding its fate, and the ledger

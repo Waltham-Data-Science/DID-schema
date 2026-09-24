@@ -2313,7 +2313,7 @@ DID_CLOCKTYPE_TERMS = ["utc", "dev_local_time", "dev_global_time", "exp_global_t
 # model -- so both are listed and the test compares them to each other, not each
 # to a separate expectation.
 _CLOCKTYPE_FIELDS = [
-    ("relative_reference", ("value", "clock")),
+    ("relative_time_reference", ("value", "clock")),
     ("clock_alignment_configuration", ("clock",)),
 ]
 

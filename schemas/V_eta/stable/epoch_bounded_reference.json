@@ -64,7 +64,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The epoch's extent and clock, shaped EXACTLY as relative_reference.value so the fold is a copy rather than a translation. OPTIONAL here and required there: a handle may name an epoch without knowing its bounds, which is the `no times => no reference` rule applied to the transitional class. Populated from the did_v1 `epochclocktimes` block.",
+            "documentation": "The epoch's extent and clock, shaped EXACTLY as relative_time_reference.value so the fold is a copy rather than a translation. OPTIONAL here and required there: a handle may name an epoch without knowing its bounds, which is the `no times => no reference` rule applied to the transitional class. Populated from the did_v1 `epochclocktimes` block.",
             "constraints": {},
             "fields": [
                 {

@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "relative_reference",
+        "class_name": "relative_time_reference",
         "class_version": "2.0.0",
         "superclasses": [
             {

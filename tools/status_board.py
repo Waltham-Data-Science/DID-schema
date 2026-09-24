@@ -212,7 +212,7 @@ FAMILIES = [
     # decided both models in session and both are BUILT and running in all six
     # corpora: `generic_file` -> term_observation + opaque_body
     # (`foldGenericFiles.m`), `valid_interval` -> boolean logical_observation +
-    # relative_reference (`resolveValidIntervals.m`; the classes were named
+    # relative_time_reference (`resolveValidIntervals.m`; the classes were named
     # `validity`/`validity_observation` until the 2026-08-12 rename),
     # `imageCollection` ->
     # tombstone (`V_eta/stable/image_collection.json`). `batch_consumers()` --
@@ -351,7 +351,7 @@ FAMILIES = [
     ("epochclocktimes", ["epochclocktimes"],
      "V_eta_time_reference_family_plan.md",
      ("epochclocktimes == acquisition_epoch.clocks[], so its content becomes "
-      "relative_reference documents; the class does not return. EQUIVALENCE "
+      "relative_time_reference documents; the class does not return. EQUIVALENCE "
       "ONLY -- Fork A (where the epoch anchor lives) is open and gates the build"),
      "team"),
 
@@ -359,7 +359,7 @@ FAMILIES = [
         "time_reference", "session_bounded_reference", "session_relative_reference",
         "epoch_bounded_reference"],
      "V_eta_time_reference_model_plan.md",
-     ("8 classes collapse to absolute_reference + relative_reference "
+     ("8 classes collapse to absolute_time_reference + relative_time_reference "
      "(4 of the 8 executed 2026-08-11: epoch_relative_reference, "
      "event_bounded_reference, event_relative_reference, utc_reference deleted "
      "-- no template, no emitter, no reference; the other 4 await their emitters)"),
@@ -554,19 +554,19 @@ FAMILIES = [
     # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
     # the team corrected that -- they read the options and did not adopt one.
     # What IS established is negative and evidence-backed: the old "folds into
-    # relative_reference" claim FAILS (two referents / two frames / an affine
+    # relative_time_reference" claim FAILS (two referents / two frames / an affine
     # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
     # DECIDED with the team 2026-08-06 ("Record the whole cluster"); SIGNED 2026-08-08.
     # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
     # comes from a new `polynomial` data_type -- NOT {slope,intercept}, because
     # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
-    # would be LOSSY. Endpoints are relative_reference DOCUMENTS (each carrying epoch +
+    # would be LOSSY. Endpoints are relative_time_reference DOCUMENTS (each carrying epoch +
     # clock), not clocktype terms. syncgraph_id restored; the invented required
     # `epochid` (5,316 docs, 100% empty) removed.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_clock_alignment_cluster_plan.md",
      ("-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
-     "relative_reference docs; syncgraph_id restored, invented epochid removed"),
+     "relative_time_reference docs; syncgraph_id restored, invented epochid removed"),
      "team"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
@@ -695,7 +695,7 @@ FAMILIES = [
     ("subject measurement", ["subjectmeasurement"],
      "V_eta_go_forward_class_audit.md",
      ("route through the `measurement` fold -- no new class; `datestamp` is a TIME "
-     "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)"),
+     "ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06)"),
      "team"),
 
     # SIGNED 2026-08-10; the FAMILY ROW is 2026-08-13, and the row is the only
@@ -928,7 +928,7 @@ def scan_signoff_lines(text):
         # narrowing is 2026-08-13.
         #
         # v1 rejected any line containing "<" or ">", so a sign-off saying
-        # "datestamp -> absolute_reference" was silently ignored.
+        # "datestamp -> absolute_time_reference" was silently ignored.
         # v2 rejected any PAIRED <...>, which is what this comment used to
         # describe -- and it was still too broad, because prose legitimately
         # names a class-name PATTERN in angle brackets. It threw away a real,
@@ -1829,7 +1829,7 @@ def assignment_split(code):
 #                class (fitcurve.m:139 `classBlock('session_relative_reference',
 #                {'time_reference'})`, then `anchor.session_relative_reference =
 #                struct(...)`). The open work on that class is its COLLAPSE into
-#                `relative_reference`; a migrator still writing the old class is
+#                `relative_time_reference`; a migrator still writing the old class is
 #                evidence the collapse has NOT landed, and counting it as
 #                "built" inverted the meaning of the number.
 #
@@ -2379,7 +2379,7 @@ def census_evidence(classes, roots):
 RETIRED_BY_ITS_OWN_DECISION = {
     # V_eta_time_reference_model_plan.md:468 --
     #   "TEAM-SIGN-OFF [time_reference]: ... 8 classes collapse to
-    #    absolute_reference + relative_reference ..."
+    #    absolute_time_reference + relative_time_reference ..."
     # Three of the eight are minted today -- session_relative_reference,
     # session_bounded_reference and epoch_bounded_reference -- and every site is
     # work the collapse has still to undo.
@@ -2394,10 +2394,10 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # repositories, are listed in `schemas/V_eta_STATUS.md` under each class --
     # generated, and therefore correct or loudly broken.
     # FOUR ENTRIES REMOVED 2026-08-11 (#65 increment 3a):
-    # `epoch_relative_reference` -> relative_reference,
-    # `event_bounded_reference` -> relative_reference,
-    # `event_relative_reference` -> relative_reference and
-    # `utc_reference` -> absolute_reference are gone from this dict because the
+    # `epoch_relative_reference` -> relative_time_reference,
+    # `event_bounded_reference` -> relative_time_reference,
+    # `event_relative_reference` -> relative_time_reference and
+    # `utc_reference` -> absolute_time_reference are gone from this dict because the
     # CLASSES are gone from the built set. A discount only means anything for a
     # class that still has a board row to discount; keeping the keys made them
     # "discounted but claimed by no decision family", which
@@ -2405,10 +2405,10 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # correctly, since the sign-off a discount is transcribed from has to be
     # locatable through a family. The collapse they name is EXECUTED for those
     # four, not pending.
-    "time_reference": "relative_reference",
-    "session_bounded_reference": "relative_reference",
-    "session_relative_reference": "relative_reference",
-    "epoch_bounded_reference": "relative_reference",
+    "time_reference": "relative_time_reference",
+    "session_bounded_reference": "relative_time_reference",
+    "session_relative_reference": "relative_time_reference",
+    "epoch_bounded_reference": "relative_time_reference",
     # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
     # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
     # entity; `epoch_id` is a dependency name, not a class, so the replacement

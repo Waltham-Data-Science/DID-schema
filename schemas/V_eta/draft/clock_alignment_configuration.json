@@ -44,7 +44,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The clock this rule aligns, from did_clocktype -- the SAME FOUR terms as relative_reference.value.clock, which is what gate 1 of this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no NDIC identifier can be assigned from any repository in scope. <- v1 `epochclocktype`.",
+            "documentation": "The clock this rule aligns, from did_clocktype -- the SAME FOUR terms as relative_time_reference.value.clock, which is what gate 1 of this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no NDIC identifier can be assigned from any repository in scope. <- v1 `epochclocktype`.",
             "constraints": {
                 "binding": {
                     "root": "did_clocktype",

@@ -503,7 +503,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
 
 
 def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
-    """Revision 2 anchors `element_epochid` as a `relative_reference` whose
+    """Revision 2 anchors `element_epochid` as a `relative_time_reference` whose
     `relative_to` points at an `epoch` document. `relative_to` is mustBeNonEmpty,
     so emitting one in pass 1 would write an empty required edge -- a husk that
     +did2/+validate/references.m:90 skips and no gate catches.
@@ -520,7 +520,7 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     migrator constructs an `epoch`.
 
     WHEN THE EPOCH MINT LANDS THIS TEST MUST BE INVERTED, not patched."""
-    _tier, d = BUILT["relative_reference"]
+    _tier, d = BUILT["relative_time_reference"]
     rel = next(x for x in d["depends_on"] if x["name"] == "relative_to")
     assert rel["mustBeNonEmpty"] is True
     epoch = BUILT["epoch"][1]

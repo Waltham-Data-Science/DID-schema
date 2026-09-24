@@ -36,7 +36,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The stated precision of the TIMELINE these times are expressed on -- NOT of any one value. ABSENT = no stated tolerance. De-encoded from NDI's `approx_` clocktype prefix, which documents +/-5 s in a docstring (+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance {seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, not invention. On the ROOT because a tolerance-bearing UTC time can be an absolute_reference (a wall-clock instant) or a relative_reference (offsets on the UTC clock); for absolute_reference the timeline is UTC by construction.",
+            "documentation": "The stated precision of the TIMELINE these times are expressed on -- NOT of any one value. ABSENT = no stated tolerance. De-encoded from NDI's `approx_` clocktype prefix, which documents +/-5 s in a docstring (+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance {seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, not invention. On the ROOT because a tolerance-bearing UTC time can be an absolute_time_reference (a wall-clock instant) or a relative_time_reference (offsets on the UTC clock); for absolute_time_reference the timeline is UTC by construction.",
             "constraints": {},
             "fields": [
                 {

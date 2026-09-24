@@ -701,3 +701,27 @@ timeline, not of a value. The de-encoding is right; the destination was not. See
 4. **Whether `is_approximate` was ever `false`** on the 107,308 `session_relative_reference`
    documents. The field is being deleted either way, but if a v1 writer ever set it
    meaningfully, that meaning needs a home before the migrators are moved.
+
+
+## Amendment — #73 (2026-09-24): the two leaves say "time"
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-24 (option A).
+`absolute_reference` → **`absolute_time_reference`**, `relative_reference` →
+**`relative_time_reference`**. The root `time_reference` and the `time_reference_#` edge are
+unchanged. Everything above that names the old two classes is the record of what was decided
+at the time; read the names through this amendment.
+
+- **Why.** The root and the edge already said "time"; the leaves dropped it, so the suffix
+  `_reference` silently carried the domain (T13, T14), and every other `*_reference` reader —
+  `file_reference` uses the word in its plain sense — had to know the convention. The grammar
+  is now `<domain>_reference` = a document anchoring a statement to a particular *when* (or,
+  later, *where*: `spatial_reference` is reserved for that).
+- **Not renamed:** the three old-family classes (`session_relative_reference`,
+  `session_bounded_reference`, `epoch_bounded_reference`), which the 8 → 2 collapse above
+  retires.
+- **Cross-repo.** DID-matlab still emits the old names (`jAbsoluteReference.m`;
+  `epochAnchorFold.m`, `jClockAlignmentBodies.m`, `jEpochClockReferences.m`, `pyraview.m`,
+  identical on `claude/v-eta-migration-plan-35jj1z` and `V2`). They are acknowledged in
+  `tools/coverage.py` `KNOWN_NON_VETA` until that rename lands.
+- **Measured alongside:** the 8 → 2 collapse itself is mostly unbuilt on the migrator side —
+  `'session_relative_reference'` still appears in 23 DID-matlab files and 2 NDI-matlab files.

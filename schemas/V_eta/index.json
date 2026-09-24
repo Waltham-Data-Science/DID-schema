@@ -54,14 +54,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "absolute_reference",
+            "class_name": "absolute_time_reference",
             "tier": "stable",
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/absolute_reference.json",
+            "path": "schemas/V_eta/stable/absolute_time_reference.json",
             "disposition": "persist"
         },
         {
@@ -2064,14 +2064,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "relative_reference",
+            "class_name": "relative_time_reference",
             "tier": "stable",
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/relative_reference.json",
+            "path": "schemas/V_eta/stable/relative_time_reference.json",
             "disposition": "persist"
         },
         {

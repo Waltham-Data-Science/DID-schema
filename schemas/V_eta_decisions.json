@@ -84,7 +84,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_time_reference_family_plan.md",
-      "decision": "epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build",
+      "decision": "epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
@@ -118,7 +118,7 @@
         "epoch_bounded_reference"
       ],
       "plan": "V_eta_time_reference_model_plan.md",
-      "decision": "8 classes collapse to absolute_reference + relative_reference (4 of the 8 executed 2026-08-11: epoch_relative_reference, event_bounded_reference, event_relative_reference, utc_reference deleted -- no template, no emitter, no reference; the other 4 await their emitters)",
+      "decision": "8 classes collapse to absolute_time_reference + relative_time_reference (4 of the 8 executed 2026-08-11: epoch_relative_reference, event_bounded_reference, event_relative_reference, utc_reference deleted -- no template, no emitter, no reference; the other 4 await their emitters)",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- 8 classes collapse to absolute_reference + relative_reference; anchor and extent are separated (start + duration, NOT start + end); every value-level `approximate` is deleted; `clock` becomes a bound ontology_term over FOUR terms and the approx_ prefix de-encodes to an explicit clock_tolerance on the root.",
@@ -372,7 +372,7 @@
         "syncrule_mapping"
       ],
       "plan": "V_eta_clock_alignment_cluster_plan.md",
-      "decision": "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_reference docs; syncgraph_id restored, invented epochid removed",
+      "decision": "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_time_reference docs; syncgraph_id restored, invented epochid removed",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
@@ -542,7 +542,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_go_forward_class_audit.md",
-      "decision": "route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)",
+      "decision": "route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06)",
       "status": "team",
       "signed": true,
       "signoff": "jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.",
@@ -1605,7 +1605,7 @@
           "migrator `DID-matlab:migrators_j/daqreader_epochdata_ingested.m`",
           "3 consuming reference(s) (3 per-document migrator)",
           "minted as a document class at 1 site(s) (1 per-document migrator)",
-          "decided target(s) built: `relative_reference`"
+          "decided target(s) built: `relative_time_reference`"
         ],
         "migrator_file": "DID-matlab:migrators_j/daqreader_epochdata_ingested.m",
         "n_consuming_refs": 3,
@@ -1693,10 +1693,10 @@
           }
         },
         "decided_targets": [
-          "relative_reference"
+          "relative_time_reference"
         ],
         "decided_targets_built": [
-          "relative_reference"
+          "relative_time_reference"
         ],
         "decided_targets_missing": [],
         "survivors": null,
@@ -1711,7 +1711,7 @@
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m`",
-          "decided target(s) built: `image_observation`, `relative_reference`, `sampled_body`"
+          "decided target(s) built: `image_observation`, `relative_time_reference`, `sampled_body`"
         ],
         "migrator_file": "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m",
         "n_consuming_refs": 0,
@@ -1772,12 +1772,12 @@
         },
         "decided_targets": [
           "image_observation",
-          "relative_reference",
+          "relative_time_reference",
           "sampled_body"
         ],
         "decided_targets_built": [
           "image_observation",
-          "relative_reference",
+          "relative_time_reference",
           "sampled_body"
         ],
         "decided_targets_missing": [],
@@ -1983,8 +1983,8 @@
           "NDI-matlab:ndi_second_pass/stimulusBathToBath.m:166 (emitted_class)"
         ],
         "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": "relative_reference",
-        "emission_discounted": "minted at 2 site(s) (2 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
+        "retired_by_decision_in_favour_of": "relative_time_reference",
+        "emission_discounted": "minted at 2 site(s) (2 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_time_reference`, so an emission is work still to undo",
         "n_field_write_refs": 3,
         "field_write_refs": [
           "DID-matlab:migrators_j/pyraview.m:205 (field_write)",
@@ -2696,8 +2696,8 @@
           "DID-matlab:migrators_j/ontology_table_row.m:275 (emitted_class)"
         ],
         "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": "relative_reference",
-        "emission_discounted": "minted at 1 site(s) (1 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
+        "retired_by_decision_in_favour_of": "relative_time_reference",
+        "emission_discounted": "minted at 1 site(s) (1 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_time_reference`, so an emission is work still to undo",
         "n_field_write_refs": 1,
         "field_write_refs": [
           "DID-matlab:migrators_j/ontology_table_row.m:281 (field_write)"
@@ -2791,8 +2791,8 @@
           "DID-matlab:migrators_j/neuron_extracellular.m:357 (emitted_class)"
         ],
         "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": "relative_reference",
-        "emission_discounted": "minted at 11 site(s) (9 per-document migrator, 2 batch post-pass), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
+        "retired_by_decision_in_favour_of": "relative_time_reference",
+        "emission_discounted": "minted at 11 site(s) (9 per-document migrator, 2 batch post-pass), NOT counted as build progress: the signed decision retires this class in favour of `relative_time_reference`, so an emission is work still to undo",
         "n_field_write_refs": 11,
         "field_write_refs": [
           "DID-matlab:convert/resolveDeferredBaths.m:395 (field_write)",
@@ -3297,7 +3297,7 @@
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": "relative_reference",
+        "retired_by_decision_in_favour_of": "relative_time_reference",
         "emission_discounted": null,
         "n_field_write_refs": 18,
         "field_write_refs": [
