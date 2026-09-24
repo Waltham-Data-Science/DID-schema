@@ -298,7 +298,7 @@ def test_relation_branch():
     assert "subject_relation" not in RECORDS
     assert RECORDS["relation"][1]["document_class"].get("abstract") is True
     for cls, endpoints in (("directed_relation", {"child", "parent"}),
-                           ("undirected_relation", {"entities"})):
+                           ("undirected_relation", {"entities_#"})):
         assert "relation" in _chain(cls)
         assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
         assert _flat_field_types(cls).get("relation") == "ontology_term"
@@ -3558,3 +3558,20 @@ def test_logical_inheritance_is_re_derived_not_materialised():
     sid = [d for d in RECORDS["subject_statement"][1]["depends_on"]
            if d["name"] == "subject_id"]
     assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "subject"
+
+
+def test_repeated_edges_are_numbered_families():
+    """Every repeated edge is a `_#` family AND carries `multiple`, and vice versa
+    (team, 2026-09-24: "make all match"). The validator recognises a family by the
+    `_#` suffix (did2 cache.m requiredDependencies), so a `multiple` edge without
+    it is not seen as a family, and a `_#` edge without `multiple` understates
+    itself. Found three mismatches when this was decided: timed_sequence
+    `presented_id`, undirected_relation `entities`, and `derived_from_#` on
+    subject_calculation / control_designation."""
+    bad = []
+    for name, (_, schema) in RECORDS.items():
+        for d in schema.get("depends_on", []):
+            numbered = d["name"].endswith("_#")
+            if numbered != bool(d.get("multiple")):
+                bad.append((name, d["name"], bool(d.get("multiple"))))
+    assert not bad, bad

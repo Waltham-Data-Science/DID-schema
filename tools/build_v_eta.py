@@ -813,7 +813,7 @@ DERIVED_FROM = dep(
     "A statement with inputs in the dataset is a calculation; this edge is what "
     "makes it one. Typed to a statement leaf -- never an entity; the provenance "
     "inverse of directed_relation's entity->entity child/parent.",
-    non_empty=False)
+    non_empty=False, multiple=True)
 so = load(os.path.join(VETA, "stable", "subject_observation.json"))
 
 # NOTE: the device half (`acquisition_system_id` + `channels`) USED to be added
@@ -1117,7 +1117,10 @@ write("stable", "directed_relation",
                         "unordered relations.", non_empty=False)]))
 write("stable", "undirected_relation",
       doc("undirected_relation", ["relation"],
-          deps=[dep("entities", "entity", "The unordered pair of entities "
+          # `entities_#` with `multiple` (team, 2026-09-24: every repeated edge is a
+          # numbered `_#` family). Exactly two, declared as min/max count in
+          # _EDGE_COUNTS. No emitter writes an undirected_relation today.
+          deps=[dep("entities_#", "entity", "The unordered pair of entities "
                     "(exactly two); order is meaningless.", multiple=True)],
           fields=[field("relation", "ontology_term",
                         "An association term (paired_with, same_as).",
@@ -3400,14 +3403,19 @@ write("draft", "acquisition_channels",
 # passes through carrying that id.
 write("draft", "timed_sequence",
       doc("timed_sequence", ["data_type"], maturity="draft",
-          deps=[dep("presented_id", "data_type",
+          # `presented_id_#`, NOT `presented_id` (team, 2026-09-24: every repeated edge
+          # is a numbered `_#` family AND carries `multiple`, so the validator -- which
+          # recognises families by the suffix, did2 cache.m requiredDependencies --
+          # sees it as one). NDI already writes presented_id_1..N
+          # (stimulusPresentationToTimedSequence.m), so no emitter changes.
+          deps=[dep("presented_id_#", "data_type",
                     "References to the DISTINCT presented stimulus data_type docs "
                     "(deduped); the playlist indexes these.", non_empty=False, multiple=True)],
           fields=[field("value", "structure",
                         "An ordered, timed list of references to presented data_type docs.",
                         non_empty=True, blank={}, sub_fields=[
               subfield("presentation_order", "matrix",
-                       "Playlist: an index array into the `presented_id` references, one "
+                       "Playlist: an index array into the `presented_id_#` references, one "
                        "entry per trial (distinct-refs + index-array encoding).", scalar=False),
           ])]))
 write("draft", "timed_sequence_manipulation",
@@ -3437,7 +3445,8 @@ write("draft", "control_designation",
               # the provenance at one antecedent, which T10 does not.
               dep("derived_from_#", "subject_interaction",
                   "Provenance: the analysis/interaction(s) this designation was derived "
-                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False),
+                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False,
+                  multiple=True),
           ],
           fields=[
               field("control_stimulus", "matrix",
@@ -7133,6 +7142,12 @@ _EDGE_COUNTS = {
     # class, which is the invented-empty-edge pattern this project already paid
     # for six times.
     ("ensemble", "neuron_id_#"): (0, None),
+    # 2026-09-24: the two edges renamed into `_#` families. A timed sequence's
+    # distinct stimuli: NDI's assembler refuses a presentation with no stimuli, but
+    # min 0 keeps this from becoming a new required edge on a draft class. An
+    # undirected relation is a PAIR: exactly two.
+    ("timed_sequence", "presented_id_#"): (0, None),
+    ("undirected_relation", "entities_#"): (2, 2),
 }
 for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
     _t, _p = path_of(_cls)

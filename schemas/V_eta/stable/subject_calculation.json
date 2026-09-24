@@ -16,6 +16,7 @@
             "mustBeNonEmpty": false,
             "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). A statement with inputs in the dataset is a calculation; this edge is what makes it one. Typed to a statement leaf -- never an entity; the provenance inverse of directed_relation's entity->entity child/parent.",
             "must_refer_to_document_class": "subject_statement",
+            "multiple": true,
             "min_count": 0
         },
         {
