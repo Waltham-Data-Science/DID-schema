@@ -346,3 +346,12 @@ depend on knowing which software counts as a "calculator":
   `decided_targets` (a decided target must name a built class); it is carried in the
   three rows' `flags` in `V_eta_migration_targets.json` until `count_calculation` exists.
   `spike_interface_sorting_outputs` is untouched: it still passes through, undecided.
+- **Amended 2026-09-24: the sorter target is `label_calculation`, not `count_calculation`.**
+  A cluster assignment ("spike 17 is in cluster 4") names a group that means nothing
+  outside one sorting run; it is not four of anything. The #73 review added a `label` data
+  type for exactly this (a term without a `node`: a value whose meaning is local to one
+  source or run), so the three rows' `flags` now name `label_calculation` (variable "spike
+  cluster assignment", keys [spike], `derived_from` the recording). Still NOT BUILT:
+  neither `label` nor `label_calculation` exists yet. `spike_clusters` itself passes through
+  to the NDI second pass today (`+migrators_j/spike_clusters.m`); when that pass is built,
+  it targets the same shape.
