@@ -723,5 +723,11 @@ at the time; read the names through this amendment.
   `epochAnchorFold.m`, `jClockAlignmentBodies.m`, `jEpochClockReferences.m`, `pyraview.m`,
   identical on `claude/v-eta-migration-plan-35jj1z` and `V2`). They are acknowledged in
   `tools/coverage.py` `KNOWN_NON_VETA` until that rename lands.
-- **Measured alongside:** the 8 → 2 collapse itself is mostly unbuilt on the migrator side —
-  `'session_relative_reference'` still appears in 23 DID-matlab files and 2 NDI-matlab files.
+- **Measured alongside:** none of the eight time classes is a did_v1 class (NDI's 102 templates
+  carry only `epochclocktimes`, whose decided target is `relative_time_reference`), so there is
+  nothing to migrate FROM. What is unfinished is what the migrators MINT: every emitted statement
+  gets a time anchor, and the shared helper `+migrators_j/private/jSessionAnchor.m` (17 callers)
+  still mints the old `session_relative_reference` — hence `'session_relative_reference'` in 23
+  DID-matlab files and 2 NDI-matlab files. Follow-up (DID-matlab): switch the helpers to mint
+  `relative_time_reference` / `absolute_time_reference`; then delete the three old-family
+  classes, which no v1 document and no production document carries.
