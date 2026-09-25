@@ -130,6 +130,16 @@ Decisions needed before the schema and migrator can be written:
   would need a new statement id).
 - **L2. The value of a missing chunk.** Item 17 says a missing member is an "empty chunk" and
   never says what value it holds; the format declares `fill_value`.
+  **Walked 2026-09-25 (jess agreed; not built, no sign-off line):** B + i. `fill_value` is
+  added to `sampled_body` (optional, in `datum_type` encoding, meaningful only when
+  `complete: true`). The `chunk` doc states: a dense body's chunks are stored at full chunk
+  shape and positions at or past `n` are padding, not values (lightsheet `padPermuteBytes`
+  `:791-800`, the Zarr v2 convention); a dense body's missing member holds `fill_value` and is
+  not allowed without one (batch census flags it); a sparse body's (`complete: false`)
+  missing member is no rows (the spatial tiles' "absent tile held nothing"). "Empty chunk"
+  leaves the doc. Rejected: a fixed all-zeros rule (wrong where 0 is a real value), fill as a
+  condition (an encoding fact, not a value fact), cut-short edge chunks, a per-body padding
+  field.
 - **L3. Levels with no bytes (the default).** Each level would be an unheld body recorded by
   location, and the store's `fileReference` a second unheld copy of level 0.
 - **L4. `blosc-zstd` with shuffle** is the first instance of the per-chunk codec the data_body
