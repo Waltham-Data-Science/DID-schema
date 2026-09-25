@@ -886,7 +886,14 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert _dep("epochfiles_ingested", "filenavigator_id") is not None, \
         "the source tombstone must carry the edge NDI actually writes"
     assert "ingestion_manifest" in RECORDS
-    assert _dep("ingestion_manifest", "filenavigator_id")["mustBeNonEmpty"] is True
+    # #73 review item 40 (2026-09-25): the restored navigator edge carries the
+    # V_eta name, pointing at `epoch_file_pattern` (the navigator's signed
+    # successor, id preserved). The v1 tombstone keeps `filenavigator_id`.
+    _efp = _dep("ingestion_manifest", "epoch_file_pattern_id")
+    assert _efp["mustBeNonEmpty"] is True
+    assert _efp["must_refer_to_document_class"] == "epoch_file_pattern"
+    assert not any(d["name"] == "filenavigator_id"
+                   for d in RECORDS["ingestion_manifest"][1]["depends_on"])
     assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"
     assert not any(d["name"] == "epochid"
                    for d in RECORDS["ingestion_manifest"][1]["depends_on"])

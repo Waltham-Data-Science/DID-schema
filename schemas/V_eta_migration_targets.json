@@ -471,7 +471,7 @@
       "second_pass": [
         "epoch"
       ],
-      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. `filenavigator_id` is restored (NDI writes it) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
+      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. the navigator edge NDI writes is restored (`filenavigator_id`, renamed `epoch_file_pattern_id` 2026-09-25) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
       "flags": "DECIDED AND SIGNED; THE MIGRATOR DELIBERATELY DOES NOT FOLD. A migrator EXISTS (migrators_j/epochfiles_ingested.m) and is a guarded passthrough returning {preBody} at :147; its header states the two measured blockers -- `ingestion_manifest.epoch_id` is REQUIRED and no `epoch` document exists in pass 1 (minting them is a corpus-wide grouping only the NDI second pass can do), and emitting the class with that edge left '' would be the invented-empty-edge pattern again. So the schema half of #60 has landed and the rename has not.",
       "target_completeness": {
         "state": "carry_forward",

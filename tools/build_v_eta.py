@@ -8332,10 +8332,17 @@ if _efi_path:
     _efi["document_class"]["class_name"] = "ingestion_manifest"
     _efi["document_class"]["class_version"] = "2.0.0"
     _efi["depends_on"] = [
-        dep("filenavigator_id", "filenavigator",
-            "The file navigator that produced this manifest. REQUIRED, and "
-            "RESTORED: this is the edge NDI actually writes, which V_eta had "
-            "dropped in favour of an invented `epochid`.", non_empty=True),
+        # RENAMED 2026-09-25 (#73 review item 40, jess: option A). Restored
+        # 2026-08-08 under NDI's name `filenavigator_id -> filenavigator`, a v1
+        # class the signed file-navigation decision (2026-08-06) turns into
+        # `epoch_file_pattern` with base.id PRESERVED -- so a v1 document's
+        # filenavigator id resolves here unchanged (must_refer is existence-only).
+        # Same edge name as `acquisition_system.epoch_file_pattern_id`.
+        dep("epoch_file_pattern_id", "epoch_file_pattern",
+            "The epoch file pattern whose match produced this manifest (v1 "
+            "`filenavigator_id`, id preserved). REQUIRED: it is the one edge NDI "
+            "writes, restored after V_eta had dropped it for an invented "
+            "`epochid`.", non_empty=True),
         dep("epoch_id", "epoch",
             "The epoch these files were ingested for. Replaces the invented "
             "`epochid` edge, which was empty on all 6,921 documents.",

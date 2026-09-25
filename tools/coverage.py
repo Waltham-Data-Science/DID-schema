@@ -941,8 +941,9 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         ["ingestion_manifest"], "V_eta_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`",
         "epochfiles_ingested becomes `ingestion_manifest`",
-        ("Becomes `ingestion_manifest`, with `filenavigator_id` restored and "
-        "the invented required `epochid` edge replaced by `epoch_id`.")),
+        ("Becomes `ingestion_manifest`, with the navigator edge restored "
+        "(as `epoch_file_pattern_id` since 2026-09-25) and the invented "
+        "required `epochid` edge replaced by `epoch_id`.")),
 
     # The sign-off names both classes and says the presentation is DECOMPOSED
     # around its preserved id rather than dissolved. Which of the two carries

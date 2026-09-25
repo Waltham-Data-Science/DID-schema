@@ -166,6 +166,12 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     REFUSED by the migrator, visibly, rather than carried in the string. The stated
     read-back use was never built (no NDI file reads `ingestion_manifest`). The v1
     `epochfiles_ingested` tombstone keeps the field.
+40. **`ingestion_manifest.filenavigator_id` → `epoch_file_pattern_id`** (2026-09-25, option
+    A). The edge was restored 2026-08-08 under NDI's name, pointing at the v1
+    `filenavigator` class; the signed file-navigation decision (2026-08-06) makes that
+    class `epoch_file_pattern` with its id preserved, so the edge now names and targets
+    the V_eta class, matching `acquisition_system.epoch_file_pattern_id`. Still REQUIRED.
+    The v1 `epochfiles_ingested` tombstone keeps `filenavigator_id`.
 
 ## F. What is built (schema side), and what is not
 
