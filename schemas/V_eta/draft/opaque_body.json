@@ -10,11 +10,6 @@
         "maturity_level": "draft"
     },
     "depends_on": [],
-    "file": [
-        {
-            "name": "body_data",
-            "documentation": "The byte payload (>=1 file)."
-        }
-    ],
+    "file": [],
     "fields": []
 }

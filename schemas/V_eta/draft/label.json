@@ -1,0 +1,44 @@
+{
+    "document_class": {
+        "class_name": "label",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A value meaningful only LOCALLY -- a source identifier, a cluster number, a condition name. A TERM has a namespace and an id; a label has neither, only a name. Boundary test: shared or compared across datasets -> a term (mint one if none exists); confined to one source or run -> a label (item 33).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The label. A string even when it looks numeric (leading zeros; identifiers wider than 2^53).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

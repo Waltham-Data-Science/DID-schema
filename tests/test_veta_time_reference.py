@@ -82,7 +82,7 @@ COLLAPSED_AWAY = (
     "event_relative_reference",
     "utc_reference",
 )
-TARGETS = ("absolute_reference", "relative_reference")
+TARGETS = ("absolute_time_reference", "relative_time_reference")
 
 
 def _built():
@@ -225,12 +225,12 @@ def test_the_three_precisions_are_distinct_and_none_restates_another():
     # withdrawn rather than narrowed.
     assert _field(root, "clock_tolerance")["type"] == "time"
 
-    _t, rel = BUILT["relative_reference"]
+    _t, rel = BUILT["relative_time_reference"]
     value = _field(rel, "value")
     assert _sub(_sub(value, "start"), "approximate")["type"] == "boolean"
     assert _sub(_sub(value, "duration"), "approximate")["type"] == "boolean"
 
-    _t, absolute = BUILT["absolute_reference"]
+    _t, absolute = BUILT["absolute_time_reference"]
     value = _field(absolute, "value")
     assert _sub(_sub(value, "start"), "approximate")["type"] == "boolean"
     assert _sub(_sub(value, "duration"), "approximate")["type"] == "boolean"
@@ -238,8 +238,8 @@ def test_the_three_precisions_are_distinct_and_none_restates_another():
 
 def test_change_4_clock_tolerance_sits_on_the_ROOT_not_the_relative_child():
     """The team caught this one. A UTC time good to +/-5 s can land on EITHER
-    class -- as a wall-clock instant it is an absolute_reference, as offsets
-    measured in UTC seconds from a referent it is a relative_reference with
+    class -- as a wall-clock instant it is an absolute_time_reference, as offsets
+    measured in UTC seconds from a referent it is a relative_time_reference with
     `clock: utc`. On the relative child only, every absolute reference would have
     silently dropped its tolerance.
 
@@ -266,13 +266,13 @@ def test_change_4_clock_tolerance_sits_on_the_ROOT_not_the_relative_child():
     assert checked == 2
 
 
-# ------------------------------------------------- absolute_reference's shape
+# ------------------------------------------------- absolute_time_reference's shape
 
 def test_absolute_reference_anchor_is_a_cell_carrying_its_own_provenance():
     """The flat start_utc / source_start / source_timezone fields are gone: the
     canonical instant and the string the source actually wrote travel together,
     exactly as every dimensioned value does (T14)."""
-    _t, d = BUILT["absolute_reference"]
+    _t, d = BUILT["absolute_time_reference"]
     value = _field(d, "value")
     assert _subnames(value) == ["start", "duration", "source_end"], _subnames(value)
     start = _sub(value, "start")
@@ -291,14 +291,14 @@ def test_source_end_is_not_renamed_source_duration():
     string in a duration's source slot would label it as something it is not --
     the distance_metadata assumed-shape error. It stays at value level, as
     provenance of the SOURCE'S SHAPE rather than of one of our fields."""
-    _t, d = BUILT["absolute_reference"]
+    _t, d = BUILT["absolute_time_reference"]
     value = _field(d, "value")
     assert _sub(value, "source_end")["type"] == "char"
     assert "source_duration" not in _subnames(value)
     assert "source_duration" not in _subnames(_sub(value, "duration"))
 
 
-# ------------------------------------------------- relative_reference's shape
+# ------------------------------------------------- relative_time_reference's shape
 
 def test_relative_to_is_required_and_says_it_cannot_be_filled_in_pass_one():
     """Fork A: a reference must name what it is measured against.
@@ -309,15 +309,15 @@ def test_relative_to_is_required_and_says_it_cannot_be_filled_in_pass_one():
     Anyone who reads this schema and reaches for jSessionAnchor needs to hit that
     sentence before they write an empty required edge into 127,719 documents.
     """
-    _t, d = BUILT["relative_reference"]
-    rel = next(x for x in d["depends_on"] if x["name"] == "relative_to")
+    _t, d = BUILT["relative_time_reference"]
+    rel = next(x for x in d["depends_on"] if x["name"] == "referent_id")
     assert rel["mustBeNonEmpty"] is True
     assert rel["must_refer_to_document_class"] == "base"
     assert "resolveSessionAnchors" in rel["documentation"]
 
 
 def test_relative_reference_value_is_exactly_the_signed_four():
-    _t, d = BUILT["relative_reference"]
+    _t, d = BUILT["relative_time_reference"]
     assert _subnames(_field(d, "value")) == \
         ["relation", "clock", "start", "duration"]
 
@@ -327,7 +327,7 @@ def test_relation_still_binds_all_thirteen_allen_relations():
     (resolveSessionAnchors.owlTimeTerm) reads it: five of v1's six enum members
     map onto these, and `concurrent_with` is REFUSED because it is ambiguous
     between intervalEquals and intervalOverlaps."""
-    _t, d = BUILT["relative_reference"]
+    _t, d = BUILT["relative_time_reference"]
     binding = _sub(_field(d, "value"), "relation")["constraints"]["binding"]
     assert binding["root"] == "owl_time_interval"
     assert len(binding["values"]) == 13
@@ -349,31 +349,23 @@ def test_the_time_curie_prefix_resolves():
 # ------------------------------------------------- what increment 2 does NOT do
 
 def test_the_still_minted_retiring_classes_are_still_present():
-    """NOT DONE, ON PURPOSE, and this test is the record of why.
+    """INVERTED 2026-09-25, #65 increment 3b. This was the record of why the three
+    still-minted classes were NOT deleted: a class with no schema quarantines every
+    surviving document of it. The team chose to delete them SCHEMA-FIRST anyway
+    (jess: "do 4 first, then add 1-3 to the checklist"), knowing that until the PR
+    #76 DID-matlab items land -- resolveSessionAnchors writing
+    relative_time_reference, pass-1 migrators emitting it directly, a corpus re-run
+    -- any anchor the fold refuses or never reaches quarantines instead of passing
+    through. The test now pins the deletion, so the classes cannot drift back
+    without someone reversing that decision.
 
-    A class removed from the built set has no schema to validate against, so
-    every surviving document of it quarantines. That is the epochfiles_ingested
-    regression -- 2,484 quarantines on a 0-quarantine gate -- and here the
-    exposure is 127,719 documents.
-
-    THE GATE FOR DELETING THEM: a corpus run in which
-    `session_anchor_fold.refused_total` is 0 AND no session_*_reference appears
-    in `by_class`. Delete this test WITH the classes.
-
-    NARROWED 2026-08-11, NOT WEAKENED. It named all seven concrete classes and
-    the 127,719-document exposure it cites is entirely the session pair; the
-    four with no emitter contributed nothing to it. They are now deleted, and
-    the ground this test vacated is covered in the OPPOSITE direction by
-    `test_the_collapsed_reference_classes_stay_deleted` below -- so the family
-    is guarded both ways rather than one class fewer.
-
-    DENOMINATOR: 3 classes named, all 3 looked up.
+    DENOMINATOR: 3 classes named, all 3 looked up, against a built set whose size
+    is asserted first.
     """
+    assert len(BUILT) > 200, f"only {len(BUILT)} schemas loaded"
     assert len(RETIRING) == 3
-    missing = [c for c in RETIRING if c not in BUILT]
-    assert missing == [], (
-        "the retiring reference classes were deleted before their documents "
-        f"were folded: {missing!r}")
+    back = [c for c in RETIRING if c in BUILT]
+    assert back == [], f"{back!r} came back; increment 3b deleted them"
 
 
 def test_the_collapsed_reference_classes_stay_deleted():
@@ -442,30 +434,23 @@ def test_the_collapsed_reference_classes_are_deleted_by_the_named_mechanism():
             f"{cls} is in _DELETE_PHASE8, which asserts it is a did_v1 source "
             "consumed by a completed migrator. It is neither: its provenance "
             "is V_epsilon and no migrator has ever emitted one.")
-    # The three still-minted siblings must be in NEITHER set.
+    # The three still-minted siblings: since 2026-09-25 (#65 increment 3b) they
+    # ARE deleted, schema-first by team decision, through the same no-v1-provenance
+    # set (V_epsilon/V_eta provenance, never did_v1) -- and never through phase 8.
     for cls in RETIRING:
-        assert cls not in phase8 and cls not in invented, (
-            f"{cls} is minted by live emitters and may not be queued for deletion "
-            "-- that is the epochfiles_ingested regression")
+        assert cls in invented and cls not in phase8, (
+            f"{cls} must be deleted via _DELETE_NO_V1_PROVENANCE, not phase 8")
 
 
 def test_is_approximate_survives_on_the_root_and_says_it_is_deprecated():
-    """CHANGE 2 deletes this field, and increment 2 does not, for a mechanical
-    reason: the strict-fields check (+did2/+schema/cache.m:695-706) raises
-    `undeclaredField` on any block carrying an undeclared field, and 16
-    jSessionAnchor call sites plus 11 inline copies still write
-    `time_reference.is_approximate`. Removing the declaration first would
-    quarantine every live anchor.
-
-    The documentation must SAY so, because a bare surviving field reads as a
-    decision rather than as a queue.
-    """
+    """INVERTED 2026-09-25, #65 increment 3b. CHANGE 2 of the signed walkthrough
+    deletes `is_approximate`; increment 2 held it back only because live emitters
+    still write it and strict-fields would quarantine them. The team chose to
+    remove it schema-first; the emitter change is on the PR #76 checklist."""
     _t, root = BUILT["time_reference"]
-    fld = _field(root, "is_approximate")
-    assert fld["mustBeNonEmpty"] is False
-    doc = fld["documentation"]
-    assert "DEPRECATED" in doc
-    assert "increment 3" in doc
+    names = [f["name"] for f in root["fields"]]
+    assert "is_approximate" not in names, names
+    assert "clock_tolerance" in names, names
 
 
 def test_the_targets_declare_no_field_the_retiring_classes_would_collide_with():

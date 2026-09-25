@@ -53,7 +53,7 @@
                 "node": "schema:name",
                 "name": "name"
             },
-            "documentation": "Human-readable name for this document.",
+            "documentation": "did_v1 ONLY (#73 item 54). Carried by v1 documents that pass through under a retired tombstone; V_eta documents never write it -- a V_eta class that has a name declares its own `name` field. Deleted when the last passthrough class is converted.",
             "constraints": {
                 "maxLength": 256
             }

@@ -528,7 +528,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # simply did not LIST it. The `epoch` family's summary has read
         # "element_epoch dissolves" since it was written, and its signature at
         # V_eta_epoch_plan.md:869 says "acquisition_epoch dissolves and its
-        # clocks become relative_reference documents; epochid is DROPPED" --
+        # clocks become relative_time_reference documents; epochid is DROPPED" --
         # so the decision was never missing, never unwritten, and not even in
         # an uncited document. The class name was absent from a five-element
         # list two lines from the sentence deciding its fate, and the ledger
@@ -558,10 +558,16 @@ class TestTheCommittedLedger(unittest.TestCase):
         # `transcribed` climbs by 8 -- the "one fact, two records" join, per
         # the row above under stimulus_bath. G_SIGNED climbs by 8: eight rows
         # were previously "no signature found" and now read `signed`.
-        self.assertEqual(transcribed, 17)
+        # transcribed 17 -> 9 on 2026-09-25: the #73 review SUPERSEDED Corrected
+        # Option C (nothing carried forward), so the eight spatial transcriptions
+        # were removed and the family now cites the review's record, which has no
+        # signature line yet. `derived` is unchanged (the family is unsigned, so
+        # it joins nothing); G_SIGNED drops by the eight rows that are now
+        # "decided, unsigned" -- the truth until the team signs.
+        self.assertEqual(transcribed, 9)
         self.assertEqual(derived, 40)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 56,
-                         "17 transcribed + 40 derived, less `ngrid`, whose "
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 48,
+                         "9 transcribed + 40 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):
@@ -583,7 +589,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         via = j["target_only_reached_via"]
         self.assertTrue(via, "the reach must be itemised, not just counted")
         top = max(via.items(), key=lambda kv: kv[1])
-        self.assertIn("session_relative_reference", top[0])
+        # Was `session_relative_reference`; that class was deleted 2026-09-25
+        # (#65 increment 3b), so the reach is re-derived rather than pinned to
+        # a name. What this test protects is below: reach is REPORTED, never
+        # joined.
+        self.assertTrue(top[0])
         for name in j["unmoved_rows_by_cause"][coverage.GAP_TARGET_ONLY]:
             row = next(r for r in self.rows if r["v1_class"] == name)
             self.assertIsNone(row["decided_by_family"],
@@ -691,8 +701,10 @@ class TestTheReconciliation(unittest.TestCase):
         # 8 spatial-transcriptomics rows added to DECIDED_TARGETS_BY_SIGNOFF,
         # all 8 also named by the new signed family. Matched-by-a-family count
         # tracks: 8 -> 16.
-        self.assertIn("17 transcription(s)", den[0])
-        self.assertIn("16 also named by a signed family", den[0],
+        # 17 -> 9 on 2026-09-25 (#73 review superseded the eight spatial
+        # transcriptions); matched-by-a-family 16 -> 8.
+        self.assertIn("9 transcription(s)", den[0])
+        self.assertIn("8 also named by a signed family", den[0],
                       "a reconciliation that matches nothing proves nothing")
 
     def test_the_table_still_carries_what_the_join_cannot(self):
@@ -997,7 +1009,8 @@ class TestMutationsRedden(unittest.TestCase):
         # 9 -> 17 on 2026-09-22 (#70 Corrected Option C): 8 spatial-transcriptomics
         # transcriptions added. With FAMILIES emptied, all 17 transcriptions
         # fall into "named by no family at all".
-        self.assertIn("17 named by no family at all", den)
+        # 17 -> 9 on 2026-09-25 (#73 review).
+        self.assertIn("9 named by no family at all", den)
 
 
 if __name__ == "__main__":

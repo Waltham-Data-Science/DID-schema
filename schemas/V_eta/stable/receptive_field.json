@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -23,69 +22,9 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag, with the estimation method and one entry per stored plane. The volume itself lives in `sampled_body` documents; the axes (including real lag coordinates) are declared there, on `axes[]`.",
+            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag, with the estimation method and one entry per stored plane. The volume itself lives in `sampled_body` documents; the keys (including real lag coordinates) are declared there, on `keys` (renamed from `axes`, #73 item 14).",
             "constraints": {},
             "fields": [
-                {
-                    "name": "method",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "How the field was estimated -- e.g. Hartley subspace reverse correlation. The METHOD, never part of the class name (T11).",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "storage_mode",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Where the response volume lives. `body` for a sampled_body per plane, which is the only mode a real receptive field uses.",
-                    "constraints": {}
-                },
                 {
                     "name": "planes",
                     "type": "structure",

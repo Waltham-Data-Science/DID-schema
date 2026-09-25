@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's 14 tenets shaped.
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (15 since T15, 2026-09-25).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 14 tenets declared, N with at least one row, and
+  1. It states its denominator: 15 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 15)]
+TENET_IDS = [f"T{i}" for i in range(1, 16)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T14
+    tenet    T1..T15
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -120,19 +120,20 @@ TENET_MAP = [
         "of value. The semantic moved onto `subject_statement.variable`, where "
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
-        ["logical", "logical_observation"],
+        ["logical"],
         "V_eta_logical_observation_plan.md",
         "The semantic belongs in `subject_statement.variable`.",
         "T2's 'identity rides on `variable`, not the class' is what makes one "
         "query span every statement; a class per semantic breaks it."),
     Row("T3",
-        "One raster type crossed with the statement direction gives the "
-        "measured case and the shown-as-stimulus case, instead of two "
-        "unrelated image classes.",
-        ["imageStack", "image"],
-        ["image", "image_observation", "image_manipulation"],
-        "V_eta_image_model_plan.md",
-        "**Two directions** (T3):",
+        "One temperature type crossed with the statement direction gives the "
+        "measured case and the imposed case; a leaf is made only when something "
+        "needs it (#73 item 50), so the other directions of `temperature` do "
+        "not exist until a use appears.",
+        ["treatment"],
+        ["temperature", "temperature_observation", "temperature_manipulation"],
+        "V_eta_tenets.md",
+        "A leaf class = a direction × a data type",
         "T3 is the factoring move: data_type x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
     Row("T4",
@@ -302,13 +303,13 @@ TENET_MAP = [
         "`significance` / `circular_statistics` / `interpolated_values` -- and "
         "they stay typed and queryable, which the bag would have cost."),
     Row("T14",
-        "`image` carries its pixels in exactly one `value` slot, with dtype, "
-        "axes, colour model and channels declared INSIDE the cell beside them "
-        "-- because dtype is not recoverable from an inline matrix.",
+        "A raster needs no image class: it is a value of what its pixels "
+        "measure (brightness -> `intensity`, a mask -> `label`), keyed "
+        "[y, x, channel], in the one `value` slot every data type has.",
         ["imageStack"],
-        ["image", "image_observation", "image_manipulation"],
-        "V_eta_tenet_audit.md",
-        "one `value` cell (T14)",
+        ["intensity", "intensity_observation", "label_calculation"],
+        "V_eta_spatial_transcriptomics_plan.md",
+        "goes by what its pixels measure",
         "One payload slot is what makes T3's factoring mechanical: `mass.value` "
         "means the same thing under every direction."),
     Row("T14",
@@ -317,11 +318,25 @@ TENET_MAP = [
         "composites emitted no query path at all. Declaring the cell inline is "
         "what made the values indexable.",
         ["stimulus_tuningcurve"],
-        ["tuning_curve", "voltage", "image"],
+        ["tuning_curve", "voltage", "visual_grating"],
         "V_eta_tenet_audit.md",
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "
         "T14 governs the value's own shape."),
+    Row("T15",
+        "v1 numbered repeated edges into the name (`syncrule_id_1`, "
+        "`syncrule_id_2`, ...), so the spelling depended on the count. V_eta "
+        "repeats ONE noun-with-`_id` name and declares `ordered`: the sync policy "
+        "carries N `clock_alignment_configuration_id` entries whose order is data "
+        "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
+        "whose order is not.",
+        ["syncgraph"],
+        ["clock_alignment_policy", "subject_calculation", "timed_sequence",
+         "relative_time_reference"],
+        "V_eta_tenets.md",
+        "a repeated edge repeats that one name",
+        "Built schema-side 2026-09-25; DID-matlab's depends_on must gain a "
+        "position before a repeated name can be stored."),
 ]
 
 

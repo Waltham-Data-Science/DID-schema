@@ -157,7 +157,7 @@ BASELINE_VALUE_SET_DISAGREEMENTS = 1
 
 # B4: three ontology_term-typed fields carry BARE STRINGS in `values`
 # (frequency_filter.algorithm, frequency_filter.band,
-# relative_reference.value.relation) where the two clock bindings carry
+# relative_time_reference.value.relation) where the two clock bindings carry
 # `{node, name}` NodeRefs. build_v_eta.py states the rule in its own comment
 # -- "values are NodeRefs, not bare strings, because the field is now
 # ontology_term" -- and three declarations do not follow it.

@@ -13,7 +13,7 @@
         {
             "name": "acquisition_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "The device half of v1's devicestring -- the rig this channel group is read on. THIS DOCUMENTATION READ 'UNTYPED for now: `acquisition_system` is #59's class and does not exist yet' until 2026-08-12; the class was minted 2026-08-10 (\u2282 entity, stable) and the sentence outlived its reason. OPTIONAL and emitted by nothing today: a syncrule stores a device NAME, which rides on `base.name`, and resolving name -> document id needs the migrated-id graph a single-document migrator does not have (DID-matlab jAcquisitionChannels.m). The type says what the edge will mean when a second pass fills it.",
+            "documentation": "The rig this channel group is read on -- the device half of v1's `devicestring` or a syncrule's device name. DECIDED REQUIRED (#73 item 56), kept OPTIONAL until the minting pass lands, because nothing fills it today and #37 would quarantine every syncrule-fold document: a batch pass resolves the device name by (session, name); when no `acquisition_system` has that name it MINTS one whose `name` is the device name, so the edge always resolves and the rig's name lives in one place. (Until item 54 an unresolved name rode on `base.name`.)",
             "must_refer_to_document_class": "acquisition_system"
         }
     ],

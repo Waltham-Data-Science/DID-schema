@@ -46,7 +46,7 @@ DIMS = ["mass", "length", "volume", "time", "temperature", "pressure",
 #   physical quantity here is named for its DIMENSION (voltage, mass, charge,
 #   frequency, ...) -- and it had come to carry mostly non-durations. Measured
 #   at signing time: of 10 fields typed `duration`, 3 were extents, FOUR were
-#   instants/offsets (relative_reference.value.start,
+#   instants/offsets (relative_time_reference.value.start,
 #   epoch_bounded_reference.value.start, session_bounded_reference.start/.end)
 #   and two were neither (sample_time.dt a step, clock_tolerance a tolerance).
 #
@@ -87,7 +87,7 @@ DIM_RETYPED_DOC = {
 # WHY THIS IS A NAMED CONSTANT AND NOT THREE LITERALS IN TWO LADDERS: it was
 # two literals in two ladders, and `timestamp` was in neither. Both ladders
 # fell through to `0.0`, so `subjectmeasurement.datestamp` and
-# `absolute_reference.value.start.utc` were emitted with a DOUBLE blank for a
+# `absolute_time_reference.value.start.utc` were emitted with a DOUBLE blank for a
 # type the validator accepts only as char -- a blank document built from the
 # schema cache would have failed its own type check. `base.datestamp` was
 # right only because it is copied verbatim from the V_zeta snapshot and never
@@ -196,8 +196,9 @@ def axis_subfields():
                        non_empty=True),
               subfield("unit", "ontology_term",
                        "Canonical unit of `origin`/`spacing`/`values`. Angles "
-                       "are RADIANS, per angle.value.radians and the SI "
-                       "convention every other quantity in V_eta follows. "
+                       "are DEGREES, per angle.value.degrees. V_eta's canonical "
+                       "units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: "
+                       "grams, liters, celsius, mmHg. "
                        "Absent for a categorical axis, which uses `labels`."),
               subfield("source_unit", "char",
                        "The unit exactly as the source gave it. OMITTED when "
@@ -608,16 +609,15 @@ CONDITIONS = field(
     "conditions", "structure",
     "D10 qualifiers: the experimental conditions a statement was taken under, as a "
     "list of typed {variable, value} entries. Each names its `variable` and carries "
-    "exactly one nested data-type block (term / count / quantity). A condition whose "
-    "value is a per-reading ARRAY is the independent-variable axis (e.g. a tuning "
-    "curve's direction); a length-1 value is a held-fixed covariate -- same kind of "
-    "thing, distinguished only by cardinality. Distinct from "
+    "exactly one nested data-type block (term / count / quantity). A condition is "
+    "HELD FIXED for the whole statement: cardinality exactly 1 (data_body plan, "
+    "signed 2026-08-14). Anything that varies per reading -- a tuning curve's "
+    "direction, time -- is a KEY on `keys`, not a condition. Distinct from "
     "`subject_interaction.method_parameters` (the algorithm's config -- how it was "
     "computed). 'Exactly one populated' is an ingest validator (the closed "
-    "meta-schema has no oneOf); the full per-dimension type set is a provisional "
-    "extension (D10). Value cardinality: length 1 (a constant condition) or the "
-    "measurement's value length (one per reading). Typed by data type via the D9 "
-    "registry keyed on `variable`.",
+    "meta-schema has no oneOf). Typed by data type via the D9 registry keyed on "
+    "`variable`. NOTE: the signed Amendment 2 restructure (descriptors up, `count` "
+    "flattened) is NOT BUILT yet; this shape is the pre-amendment one.",
     non_empty=False, scalar=False, blank=[], default=[], sub_fields=[
         subfield("variable", "ontology_term",
                  "The condition's name (arm direction, OD600, trial type); "
@@ -700,21 +700,12 @@ SOFTWARE_ID = dep("software_id", "software",
                   "from derived_from (the input data). Empty for hand/DAQ measurements; "
                   "populated on calculations, optional on computed observations. "
                   "Supersedes the v1 `app` block.", non_empty=False)
-EXEC_ENV = field(
-    "execution_environment", "structure",
-    "Optional per-run provenance of a software-produced value: the actual OS + "
-    "interpreter the producing run used. This is provenance of THIS execution, distinct "
-    "from the software's identity (the `software` entity) and from the SUPPORTED os "
-    "(openMINDS SoftwareVersion.operatingSystem). Empty for hand/DAQ measurements.",
-    non_empty=False, scalar=True, blank={}, default={},
-    sub_fields=[
-        subfield("os", "char", "Operating system the run executed on.", non_empty=False),
-        subfield("os_version", "char", "Operating-system version.", non_empty=False),
-        subfield("interpreter", "char",
-                 "Language/interpreter the run used (e.g. MATLAB, Python).",
-                 non_empty=False),
-        subfield("interpreter_version", "char", "Interpreter version.", non_empty=False),
-    ])
+# THE INLINE `execution_environment` BLOCK THAT STOOD HERE IS DROPPED (#73 item 53,
+# jess, 2026-09-25). R1 put the per-run os/interpreter on the interaction; #67 then
+# made it a REQUIRED entity on every calculation, and jCalculation.m wrote the same
+# value both ways. Under the provenance rule every software-produced statement is a
+# calculation, so the inline block could only repeat the entity -- which is itself
+# now split into `interpreter_id` + `operating_system_id` -> `software` (item 53).
 
 # NO `epoch_id` HERE, DELIBERATELY -- team decision, jess, 2026-08-10:
 #   "Use the reference chain, don't add the direct edge"
@@ -726,7 +717,7 @@ EXEC_ENV = field(
 # "completing the family" would helpfully fix.
 #
 # A statement already reaches its epoch:
-#   subject_interaction --time_reference_#--> relative_reference
+#   subject_interaction --time_reference_#--> relative_time_reference
 #                       --relative_to------> epoch
 # A direct edge would store one fact twice, which is the hazard the epoch plan
 # itself flags for base.session_id vs part_of and marks "Flagged, not solved".
@@ -784,30 +775,37 @@ CHANNELS = field(
     ])
 si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.1.0",
          deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID, ACQ_SYSTEM_ID],
-         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV, CHANNELS])
+         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, CHANNELS])
 write("stable", "subject_interaction", si)
 
-# derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
-# COMPUTED observation -- one whose subject_interaction.method names the algorithm
-# -- records the input statement(s) it was derived from (e.g. an OSI
-# score_observation derived_from the raw tuning-curve frequency_observation). This
-# is the provenance INVERSE of directed_relation: directed_relation is
-# entity->entity (child/parent), derived_from is statement->statement. It is typed
-# to a `subject_statement` leaf and MUST NOT point at an `entity`. It lives on
-# subject_observation only -- a manipulation is imposed and an assertion is
-# declared, neither is "derived". Optional and repeatable (_#): a single fit has
-# one input, an aggregate calc (contrast_sensitivity) has many. Reference typing
-# is declarative (did2.validate.references is existence-only); a type-enforcing
-# check would be a separate validator.
+# derived_from: computation provenance, statement -> statement. The provenance
+# INVERSE of directed_relation: directed_relation is entity->entity (child/parent),
+# derived_from is statement->statement. It is typed to a `subject_statement` leaf and
+# MUST NOT point at an `entity`. Optional and repeatable (_#): a single fit has one
+# input, an aggregate calc (contrast_sensitivity) has many. Reference typing is
+# declarative (did2.validate.references is existence-only).
+#
+# #73 (2026-09-23), THE OBSERVATION / CALCULATION RULE: a statement whose inputs are
+# other statements IN THE DATASET is a `subject_calculation` and records them here;
+# a statement produced from data held OUTSIDE the dataset (an instrument, raw reads
+# not stored) is a `subject_observation` and has no derived_from. So the edge is
+# declared on `subject_calculation` ONLY. It USED to be on `subject_observation` too,
+# for a "computed observation" (an OSI score derived from a stored tuning curve);
+# under this rule that IS a calculation, so the category is gone. Measured before
+# removal: the one emitter of such an observation, migrators_j.private.
+# jComputedScalar, has no caller (its only caller, jDecomposeScalars, is itself
+# called by nothing), so no document loses an edge. The two designs that leaned on
+# the observation-side edge were settled with the rule: `oneepoch` (fork A1) becomes
+# a calculation, and valid_interval inheritance is RE-DERIVED (team, 2026-08-11), so
+# no materialised copy ever needs it.
 DERIVED_FROM = dep(
     "derived_from_#", "subject_statement",
     "The subject_statement leaf(s) this value was COMPUTED from (its inputs). "
-    "Present only on computed observations, whose subject_interaction.method names "
-    "the algorithm. Typed to a statement leaf -- never an entity; the provenance "
+    "A statement with inputs in the dataset is a calculation; this edge is what "
+    "makes it one. Typed to a statement leaf -- never an entity; the provenance "
     "inverse of directed_relation's entity->entity child/parent.",
-    non_empty=False)
+    non_empty=False, multiple=True)
 so = load(os.path.join(VETA, "stable", "subject_observation.json"))
-so.setdefault("depends_on", []).append(DERIVED_FROM)
 
 # NOTE: the device half (`acquisition_system_id` + `channels`) USED to be added
 # here on subject_observation. As of #66 increment 3 (2026-08-21) it is HOISTED
@@ -832,52 +830,53 @@ write("stable", "subject_observation", so)
 # `mustBeNonEmpty: true` is the enforceable form; `min_count: 1` is recorded
 # alongside per issue #67's own text (numbered-family cardinality vocabulary
 # extended to single required deps as an intent marker).
-_CALCULATOR_SOFTWARE_ID = dep(
+#
+# #73 (2026-09-23) SUPERSEDES the standalone-abstract half of the above: the
+# `calculator` MIXIN IS DROPPED from every V_eta chain. It had exactly one
+# persisting child (`subject_calculation`), its only unique content was these two
+# edges, and its name described the PRODUCER (the software is the calculator)
+# rather than the document (T13 -- the honest stance word `_calculation` is
+# already on the child). The two edges move onto `subject_calculation` below,
+# unchanged in required-ness. What stays here is a v1 SOURCE TOMBSTONE only:
+# NDI ships `database_documents/calculator.json` (⊂ [base, app], no fields, no
+# deps -- V_eta_ndi_ground_truth.json), so `calculator` is a did_v1 class name,
+# and nothing in the tree establishes that no v1 document carries it. The
+# tombstone restates the NDI template so such a document can still pass
+# through; it is `retire` (see _RET_HOLDOVER) and is in NO V_eta chain.
+_SUBJECT_CALCULATION_SOFTWARE_ID = dep(
     "software_id", "software",
     "The software that produced this document, as a `software` entity (name + "
-    "version + citation id). REQUIRED on every calculator output (issue #67 §②, "
-    "Shape 2): a calculator without a named producer cannot be re-run. Supersedes "
-    "the v1 `app` mixin; distinct from `instrument_id` (a measuring device) and "
-    "from `derived_from` (the input data).")
-_CALCULATOR_SOFTWARE_ID["min_count"] = 1
-_CALCULATOR_RUNTIME_ID = dep(
-    "runtime_environment_id", "runtime_environment",
-    "The per-run environment (os / os_version / interpreter / interpreter_version) "
-    "the producing run used, as a `runtime_environment` entity. REQUIRED on every "
-    "calculator output (issue #67 §②, Shape 2 -- no `software_run` join). Distinct "
-    "from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) "
-    "and from the `software` entity's own identity.")
-_CALCULATOR_RUNTIME_ID["min_count"] = 1
+    "version + citation id). REQUIRED on every calculation (issue #67 §②, "
+    "Shape 2): a calculation without a named producer cannot be re-run. "
+    "Redeclares -- and TIGHTENS to required -- the optional `software_id` every "
+    "subject_interaction carries; the target class is unchanged. Moved here "
+    "from the dropped `calculator` mixin (#73). Distinct from `instrument_id` "
+    "(a measuring device) and from `derived_from` (the input data).")
+# #73 ITEM 53, FINAL FORM (jess, 2026-09-25): the run environment is SPLIT into the
+# two pieces of software it named. The interpreter (MATLAB R2023b) and the operating
+# system (macOS 14.5) are each a name + version, which is exactly `software`; a
+# separate `execution_environment` / `runtime_environment` entity stored them as
+# loose strings, modelling software twice (T12). Each is its own ROLE edge (T15)
+# beside the calculator's `software_id`. They sit on the calculation -- this run --
+# so R1's "the os this run used, not the os the software supports" still holds.
+# Required, as #67 required the environment. `mustBeNonEmpty` says so; `min_count`
+# is for REPEATED edges only (the build enforces that, after the T15 pass).
+_SUBJECT_CALCULATION_INTERPRETER_ID = dep(
+    "interpreter_id", "software",
+    "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python "
+    "3.11), as a `software` entity (name + version). REQUIRED on every "
+    "calculation (#73 item 53; replaces the environment entity's interpreter / "
+    "interpreter_version). The run's, not the calculator's supported interpreters.")
+_SUBJECT_CALCULATION_OS_ID = dep(
+    "operating_system_id", "software",
+    "The operating system the producing run executed on (e.g. macOS 14.5), as a "
+    "`software` entity (name + version). REQUIRED on every calculation (#73 item "
+    "53; replaces the environment entity's os / os_version). The run's OS, not the "
+    "OS the software supports (openMINDS SoftwareVersion.operatingSystem).")
 write("stable", "calculator",
-      doc("calculator", ["base"], abstract=True, version="2.0.0",
-          deps=[_CALCULATOR_SOFTWARE_ID, _CALCULATOR_RUNTIME_ID]))
-# `runtime_environment`: NEW entity (issue #67 §②, Shape 2 -- no `software_run`
-# join). One `runtime_environment` doc per distinct execution environment; each
-# calculator output references it via `runtime_environment_id`. Field set matches
-# the v1 `app`'s per-run subfields (os / os_version / interpreter /
-# interpreter_version) so migration is a straight lift into a citable entity.
-write("stable", "runtime_environment",
-      doc("runtime_environment", ["entity"],
-          fields=[
-              field("os", "char",
-                    "Operating system the producing run executed on "
-                    "(e.g., 'Linux', 'macOS', 'Windows').",
-                    ontology={"node": "schema:operatingSystem",
-                              "name": "operatingSystem"}),
-              field("os_version", "char",
-                    "Operating-system version.",
-                    ontology={"node": "schema:softwareVersion",
-                              "name": "softwareVersion"}),
-              field("interpreter", "char",
-                    "Language/interpreter the run used (e.g., 'MATLAB', "
-                    "'python3').",
-                    ontology={"node": "schema:runtimePlatform",
-                              "name": "runtimePlatform"}),
-              field("interpreter_version", "char",
-                    "Interpreter version.",
-                    ontology={"node": "schema:softwareVersion",
-                              "name": "softwareVersion"}),
-          ]))
+      doc("calculator", ["base", "app"], version="3.0.0"))
+# (the `execution_environment` entity is gone: #73 item 53 split it into two
+# `software` edges on subject_calculation, above.)
 
 # subject_calculation: the COMPUTED statement direction (Lepsky et al., the
 # calculator-motif paper). A calculator produces ONE output document type; in V_eta
@@ -899,9 +898,15 @@ write("stable", "runtime_environment",
 # Multi-inheritance keeps subject_calculation's semantics (the COMPUTED statement
 # direction) AND picks up calculator's required provenance edges structurally,
 # so every ④ calc leaf inherits both without redeclaring.
+# #73 (2026-09-23): the `calculator` parent is DROPPED; its two required
+# provenance edges are declared here directly instead (see the `calculator`
+# tombstone note above). Single inheritance again.
 write("stable", "subject_calculation",
-      doc("subject_calculation", ["subject_interaction", "calculator"],
-          abstract=True, deps=[DERIVED_FROM]))
+      doc("subject_calculation", ["subject_interaction"],
+          abstract=True, deps=[DERIVED_FROM,
+                               _SUBJECT_CALCULATION_SOFTWARE_ID,
+                               _SUBJECT_CALCULATION_INTERPRETER_ID,
+                               _SUBJECT_CALCULATION_OS_ID]))
 
 
 # ---------- 4. subject_assertion genus + leaves ----------
@@ -1030,7 +1035,7 @@ write("stable", "directed_relation",
                     "Optional: when an EVENT relation happened (e.g. `encountered`, or "
                     "a `derived_from` creation event), as one or more time_reference "
                     "anchors — so an event-relation can be the timestamped record you "
-                    "anchor other times against (an `event_relative_reference`). Empty "
+                    "anchor other times against (via a `relative_time_reference`). Empty "
                     "for timeless relations (part_of). (D10 multi-party binding.)",
                     non_empty=False, multiple=True),
                 # ---- #60: the `epoch_id` slot, the second half of a recorded blocker
@@ -1090,7 +1095,10 @@ write("stable", "directed_relation",
                         "unordered relations.", non_empty=False)]))
 write("stable", "undirected_relation",
       doc("undirected_relation", ["relation"],
-          deps=[dep("entities", "entity", "The unordered pair of entities "
+          # `entities_#` with `multiple` (team, 2026-09-24: every repeated edge is a
+          # numbered `_#` family). Exactly two, declared as min/max count in
+          # _EDGE_COUNTS. No emitter writes an undirected_relation today.
+          deps=[dep("entities_#", "entity", "The unordered pair of entities "
                     "(exactly two); order is meaningless.", multiple=True)],
           fields=[field("relation", "ontology_term",
                         "An association term (paired_with, same_as).",
@@ -1211,23 +1219,15 @@ write("stable", "acquisition_reader",
                     "meaning and same optionality as on "
                     "`acquisition_metadata_reader`.",
                     non_empty=False)]))
-write("stable", "acquisition_metadata_file",
-      doc("acquisition_metadata_file", ["base"], fields=[],
-          deps=[dep("acquisition_metadata_reader_id", "acquisition_metadata_reader",
-                    "The reader whose output these bytes are.", non_empty=True),
-                dep("epoch_id", "epoch",
-                    "The epoch these bytes were ingested for.", non_empty=True)]))
-_amf_tier, _amf_path = path_of("acquisition_metadata_file")
-_amf = load(_amf_path)
-_amf["file"] = [{"name": "data.bin",
-                 "documentation":
-                     "The reader's ingested bytes for this epoch. The ONLY content "
-                     "this class has -- it declares no fields. Do NOT type the "
-                     "payload: the readers produce TSV in the cases seen, but "
-                     "nothing declares that, and proposing a shape from a template "
-                     "alone is what produced the ~2,078 distance_metadata "
-                     "quarantines."}]
-write(_amf_tier, "acquisition_metadata_file", _amf)
+# `acquisition_metadata_file` WAS MINTED HERE and is RETIRED by #73 review item 61
+# (2026-09-25, jess; not signed). It was the one class carrying document bytes outside
+# the two data bodies (T6): v1 `daqmetadatareader_epochdata_ingested`'s `data.bin`, which
+# NDI's metadatareader.ingest_epochfiles writes as a compressed (.nbf.tgz) copy of the
+# epoch's parsed stimulus parameters, one struct per stimulus. Those bytes are now an
+# `opaque_body` owned by the stimulator's term_manipulation for that epoch (#66 inc. 3
+# mints one per epoch x stimulator), kept as the lossless source beside the typed
+# stimulus decomposition. The reader stays reachable through the rig
+# (`acquisition_system.acquisition_metadata_reader_id`).
 
 # ---- #74: MINT `method_parameters` -- settings with an identity ------------
 # SIGNED 2026-08-09. The class is the existing inline
@@ -1252,11 +1252,14 @@ write(_amf_tier, "acquisition_metadata_file", _amf)
 # struct there), so it is a cross-repo lockstep and rides with the migrator.
 _PARAMETER_SUBS = [
     subfield("variable", "ontology_term",
-             "WHAT knob this is. BOUND, and UNIQUE within the list. Modelled on "
+             "WHAT knob this is. To be BOUND (not yet declared -- binding "
+             "worksheet, 2026-09-25), and UNIQUE within the list. Modelled on "
              "the `axis` entry: identity lives in a bound variable, so "
              "domain-specific knobs are DATA rather than schema, and no class or "
              "field has to be minted per program. Its dimension comes from the "
-             "registry -- there is NO unit field and NO data_type field.",
+             "registry -- there is NO unit field and NO data_type field. A knob "
+             "with no ontology term is a LABEL ({name}, no node; item 33), so every "
+             "setting fits this list and nothing needs an untyped bag.",
              non_empty=True),
     subfield("value", "structure",
              "Numeric knobs. The canonical value plus what the source wrote.",
@@ -1292,16 +1295,20 @@ write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
     field("method_parameters", "structure",
           "The settings themselves. SAME FIELD NAME as the inline field on "
           "`subject_interaction`, deliberately: one list means one thing in both "
-          "mount points, exactly as `axes` mounts on two classes under one name. "
+          "mount points, exactly as `keys` mounts on several classes under one name. "
           "`parameters` was REJECTED -- that name was vacated when the statement's "
           "field became `conditions`, and a document already carries three "
-          "variable-keyed lists (conditions, axes, method_parameters) that must "
+          "variable-keyed lists (conditions, keys, method_parameters) that must "
           "not be confusable.",
-          non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS),
-    field("other", "structure",
-          "The undeclared long tail -- read_time, overlap, graphical_mode, PCA "
-          "feature counts. Kept whole rather than dropped; a knob nobody will "
-          "query does not earn a bound variable.", non_empty=False)],
+          non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS)],
+    # `other` (an undeclared structure for "the long tail") is DELETED by #73 review
+    # item 62 (2026-09-25, jess; not signed). Its premise -- a knob needs a BOUND
+    # variable to be a parameter[] entry -- fell with item 33's labels: a knob with
+    # no ontology term is an entry whose `variable` is a label ({name}, no node).
+    # What else it held has homes: the filter group -> filter_id -> frequency_filter
+    # (the signed plan); the epoch scope string -> the epoch_id edge; the run
+    # environment -> the calculation's interpreter_id / operating_system_id (item
+    # 53); a leftover app block -> software_id. Anything else is refused, counted.
     deps=[dep("software_id", "software",
               "Which program these settings configure.", non_empty=False),
           dep("subject_id", "subject",
@@ -1315,7 +1322,7 @@ write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
               "records origin, not precedence, and the variant carries a COMPLETE "
               "copy of every setting rather than a diff. Reuses the word the "
               "schema already spends on this relation (`derived_from_#` on "
-              "calculations and observations); `parent_id` was rejected because it "
+              "calculations); `parent_id` was rejected because it "
               "implies the child inherits, and it does not.",
               non_empty=False)]))
 
@@ -1360,7 +1367,7 @@ write("stable", "epoch", doc("epoch", ["entity"], fields=[
           non_empty=True)],
     deps=[dep("session_id", "session",
               "The session this recording belongs to.", non_empty=True),
-          dep("time_reference_#", "relative_reference",
+          dep("time_reference_#", "relative_time_reference",
               "The epoch's own extent. One entry per (clock, extent) pair -- the "
               "real per-clock extents live in "
               "`daqreader_epochdata_ingested.epochtable`, one pair per entry, which "
@@ -1544,11 +1551,13 @@ write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields
               non_empty=False)]))
 
 # `acquisition_system` is the recording rig. `⊂ entity`, NOT `⊂ base`, so
-# `epoch.instrument_id -> entity` reaches it; it sits beside `software` and
+# an `entity`-typed edge can reach it (epoch.instrument_id did until #73 item 55
+# dropped it); it sits beside `software` and
 # `session`. It is NOT `⊂ subject` -- T1's bare subject is what statements are
 # ABOUT, and a rig is what does the recording.
 #
-# base.name is PRESERVED and load-bearing: it is THE JOIN KEY. `daqsystem.base.name`
+# The rig's NAME is load-bearing: it is THE JOIN KEY. (Carried on `base.name` until
+# #73 item 54; since then on `acquisition_system.name`.) `daqsystem.base.name`
 # is matched by strcmpi in `+ndi/+daq/system.m:229` (probe -> device attribution),
 # named in every `syncrule.parameters.daqsystem1_name`, and queried by exact_string
 # in `+ndi/+time/syncgraph.m:404-408`. A depends_on sweep saw none of that.
@@ -1760,7 +1769,8 @@ write("stable", "strain", doc("strain", ["entity"], fields=[
           "The strain's name as the source gives it (e.g. 'Escherichia coli "
           "OP50', 'ArcCreERT2 x eYFP').", non_empty=True),
     field("species", "ontology_term",
-          "The species this strain belongs to. Bound to NCBITaxon. REQUIRED by "
+          "The species this strain belongs to. INTENDED binding: NCBITaxon -- "
+          "NOT YET DECLARED on this field (binding worksheet, 2026-09-25). REQUIRED by "
           "openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic "
           "specimen.species slot -- species and strain stay SIBLING assertions "
           "on a subject (record Parts 4 and 5).", non_empty=True),
@@ -1775,7 +1785,8 @@ write("stable", "strain", doc("strain", ["entity"], fields=[
     field("phenotype", "char", "Observable phenotype, where the source states one.",
           non_empty=False),
     field("breeding_type", "ontology_term",
-          "openMINDS BreedingType, where stated.", non_empty=False),
+          "openMINDS BreedingType, where stated. INTENDED binding, NOT YET "
+          "DECLARED on this field (binding worksheet, 2026-09-25).", non_empty=False),
     field("disease_model", "ontology_term", "Disease or disease model this strain "
           "models. No writer populates it yet; the slot exists so it has "
           "somewhere to land instead of being dropped.",
@@ -2217,8 +2228,9 @@ for d in DIMS + ["generic_scalar"]:
     _src = DIM_V_ZETA_SOURCE.get(d)
     for f in obj.get("fields", []):
         if f["name"] == "value" and "sample_time" in f.get("documentation", ""):
-            f["documentation"] = f["documentation"].split(" Per-sample")[0] + \
-                " Per-sample timing is the statement's sample_time cadence (D1)."
+            f["documentation"] = f["documentation"].split(" Per-sample")[0] + (
+                " Per-sample timing is a time key: in the statement's `keys` when inline, "
+                "on each body's `keys` when stored in a body (#73 item 21).")
         if _src and f.get("type") == _src:
             f["type"] = d
     if d in DIM_RETYPED_DOC:
@@ -2296,7 +2308,10 @@ _demo = doc("demo", ["base"], fields=[
           "The demonstration value the example calculator reads "
           "(ndi.calc.example.simple queries demoNDI.value by exact_number). Typed from "
           "the WRITER: the did_v1 template declares char, the writer sets numbers."),
-    field("is_mock", "boolean",
+    # NAMED `mock`, NOT `is_mock` (T13, team 2026-09-24: booleans carry no `is_`
+    # prefix). The migrator follow-up is recorded on PR #76 -- DID-matlab
+    # jDemoFold.m still writes `is_mock` until it is renamed in lockstep.
+    field("mock", "boolean",
           "TRUE when this document is self-test/demonstration data rather than a record "
           "of an experiment. Carried from did_v1 `mock.ismock`, which demoNDIMock held "
           "as a superclass. The ONLY marker separating self-test artefacts from real "
@@ -2309,7 +2324,7 @@ _demo["file"] = [{
                      "demoNDIMock. V_eta had dropped it -- silent file loss."}]
 write("stable", "demo", _demo)
 
-# did_v1 demoNDI -> demo, and demoNDIMock -> demo with is_mock TRUE (the migrator sets
+# did_v1 demoNDI -> demo, and demoNDIMock -> demo with mock TRUE (the migrator sets
 # the flag; there is no second class to route to).
 for _gone in ("demo_ndi", "demo_ndi_mock", "mock"):
     _t, _p = path_of(_gone)
@@ -2318,7 +2333,7 @@ for _gone in ("demo_ndi", "demo_ndi_mock", "mock"):
 
 
 # ---------- 8a. register the `time` CURIE prefix (OWL-Time) ----------
-# REPAIR. Increment 1 below binds `relative_reference.value.relation` to OWL-Time
+# REPAIR. Increment 1 below binds `relative_time_reference.value.relation` to OWL-Time
 # CURIEs (time:intervalBefore, ...), but `time` was NOT one of the 11 registered
 # prefixes, so those CURIEs expanded to nothing -- a binding that LOOKS governed and
 # is not, which is worse than a plain enum. Registering it is the fix, and OWL-Time is
@@ -2331,7 +2346,7 @@ _curie["prefixes"]["time"] = {
     "approximate": False,
     "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' "
                      "-> 'http://www.w3.org/2006/time#intervalDuring'. Used by "
-                     "relative_reference.value.relation for Allen's thirteen interval "
+                     "relative_time_reference.value.relation for Allen's thirteen interval "
                      "relations. A W3C Recommendation, so terms are stable and nothing "
                      "needs minting.",
 }
@@ -2441,7 +2456,7 @@ _OWL_TIME_BINDING = {
 #             minutes in duration", which start+end cannot express because a fuzzy anchor
 #             makes both offsets fuzzy and the exactness of their DIFFERENCE is
 #             unrecoverable. Informationally equivalent (end = start + duration).
-#             absolute_reference takes the same change for the same reason.
+#             absolute_time_reference takes the same change for the same reason.
 #   CHANGE 2  every VALUE-LEVEL `approximate` is DELETED (`value.approximate` on both
 #             children). Approximateness lives ONLY where there is a quantity to qualify
 #             -- the start/duration cells already carry their own `approximate`, and when
@@ -2469,7 +2484,7 @@ _OWL_TIME_BINDING = {
 #   emitters stand would quarantine 127,719 documents on a 0-quarantine gate -- the
 #   epochfiles_ingested regression, at 50x the size.
 #
-# The emitters cannot simply be moved either: `relative_reference.relative_to` is
+# The emitters cannot simply be moved either: `relative_time_reference.relative_to` is
 # REQUIRED, and a pass-1 migrator CANNOT fill it. It has `base.session_id`, while the
 # edge needs the session DOCUMENT's `base.id`, which is a FRESH uid
 # (NDI-matlab +ndi/document.m:57-58 `document_properties.base.id = ndiido.id()`;
@@ -2546,17 +2561,17 @@ _RELATIVE_REFERENCE_SUBS = [
              "expressible."),
 ]
 
-write("stable", "absolute_reference",
-      doc("absolute_reference", ["time_reference"], version="2.0.0", fields=[
+write("stable", "absolute_time_reference",
+      doc("absolute_time_reference", ["time_reference"], version="2.0.0", fields=[
           field("value", "structure",
                 "A wall-clock instant or interval. Carries NO dependency: it is "
                 "interpretable on its own, which is what distinguishes it from "
-                "relative_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
+                "relative_time_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
                 "separate facts with separate precisions.",
                 non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
 
-write("stable", "relative_reference",
-      doc("relative_reference", ["time_reference"], version="2.0.0",
+write("stable", "relative_time_reference",
+      doc("relative_time_reference", ["time_reference"], version="2.0.0",
           deps=[dep("relative_to", "base",
                     "What the time is measured against -- an epoch, a session, an "
                     "interaction, another reference. REQUIRED (team call): a relative "
@@ -2586,14 +2601,22 @@ write("stable", "relative_reference",
 # It must NOT fold into a boolean -- that has no magnitude and the five seconds would be
 # lost. It de-encodes to DATA: the bare clock plus `clock_tolerance {seconds: 5}`.
 #
-# ON THE ROOT, not on relative_reference. The team caught this: a UTC time good to +/-5 s
-# can land on EITHER class -- as a wall-clock instant it is an absolute_reference, as
-# offsets measured in UTC seconds from a referent it is a relative_reference with
+# ON THE ROOT, not on relative_time_reference. The team caught this: a UTC time good to +/-5 s
+# can land on EITHER class -- as a wall-clock instant it is an absolute_time_reference, as
+# offsets measured in UTC seconds from a referent it is a relative_time_reference with
 # `clock: utc`. Putting the tolerance on the relative class only would silently drop it
 # for every absolute one.
 _tr = load(os.path.join(VETA, "stable", "time_reference.json"))
 _tr["document_class"]["class_version"] = "4.0.0"
 _tr["fields"] = [f for f in _tr["fields"] if f["name"] != "clock_tolerance"]
+# #65 INCREMENT 3b (2026-09-25, jess: "do 4 first", i.e. the schema side before the
+# emitters): `is_approximate` is REMOVED, not only deprecated. The emitter work --
+# resolveSessionAnchors writing relative_time_reference, pass-1 migrators emitting it
+# directly, a corpus re-run -- is on the PR #76 DID-matlab checklist. Until it lands,
+# every document still carrying `time_reference.is_approximate` fails strict-fields.
+# The documentation block below is now unreachable and is kept as the record of why
+# the field went.
+_tr["fields"] = [f for f in _tr["fields"] if f["name"] != "is_approximate"]
 for _f in _tr["fields"]:
     if _f["name"] == "is_approximate":
         # RETIRING, NOT KEPT. It survives increment 2 only because removing a declared
@@ -2618,8 +2641,8 @@ _tr["fields"].append(field(
     "(+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance "
     "{seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, "
     "not invention. On the ROOT because a tolerance-bearing UTC time can be an "
-    "absolute_reference (a wall-clock instant) or a relative_reference (offsets on the "
-    "UTC clock); for absolute_reference the timeline is UTC by construction.",
+    "absolute_time_reference (a wall-clock instant) or a relative_time_reference (offsets on the "
+    "UTC clock); for absolute_time_reference the timeline is UTC by construction.",
     non_empty=False))
 write("stable", "time_reference", _tr)
 
@@ -2637,29 +2660,94 @@ for name in ["injection", "bath", "stimulus_bath", "pharmacological_manipulation
         os.remove(p)
 
 # composite value mixins (structure-typed cells; J §7 named composites)
-CHEM_SUBS = [subfield("substance", "ontology_term", "The chemical/biological agent "
-                      "(CHEBI/NCBITaxon/…).", non_empty=True),
-             subfield("amount", "concentration", "Optional amount/concentration.")]
+# #73 review item 7 (walkthrough 2026-09-25, jess; not signed): three levels, each
+# with its own "how much", and every one of them a DOCUMENT, never an inline copy --
+# so a bought chemical or a made recipe is stored once, reused and searchable.
+#   chemical    -- what you BUY: a substance, possibly as a stock (1 M KCl); its
+#                  `concentration` is the bottle's own strength.
+#   formulation -- what you MAKE: ordered `ingredient_id` edges (chemicals and/or other
+#                  formulations -- a stock you made is a formulation), and one
+#                  `value.ingredients[k]` entry per edge saying how much of it was
+#                  ADDED, or its final concentration here. Whole-mixture facts (pH,
+#                  osmolarity) are the formulation's.
+#   dose        -- what you GIVE: `formulation_id` + how much of it was delivered.
+# `route` is gone (it is the verb: subject_interaction.method; nothing wrote it, and no
+# NDI template has it -- it came from DID-schema's own V_alpha `treatment_drug`). The
+# old `chemical.value.amount` was typed `concentration` beside a moles type called
+# `amount`; the field is `concentration` now and the type is `substance_amount`.
+_HOW_MUCH = [subfield("mass", "mass", "Mass, optional."),
+             subfield("volume", "volume", "Volume, optional."),
+             subfield("substance_amount", "substance_amount", "Moles, optional."),
+             subfield("count", "count",
+                      "A count of entities (e.g. viral genomes), optional.")]
 write("stable", "chemical",
-      doc("chemical", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A single agent: a substance term + optional amount.",
-          non_empty=True, blank={}, sub_fields=CHEM_SUBS)]))
+      doc("chemical", ["base"], abstract=True, deps=[
+          dep("product_id", "product",
+              "Optional: the bought product/lot this chemical came from. Part of what "
+              "makes two chemical documents distinct.", non_empty=False)],
+          fields=[field(
+              "value", "structure", "What you buy: a substance, possibly as a stock.",
+              non_empty=True, blank={}, sub_fields=[
+                  subfield("substance", "ontology_term",
+                           "The PURE substance (ChEBI; NCBITaxon for a virus). The "
+                           "bottle's dilution is `concentration`, so 'hydrochloric acid' "
+                           "+ 1 M would count the water twice.", non_empty=True),
+                  subfield("concentration", "concentration",
+                           "Optional: the bottle's own strength (1 M, 30 %).")])]))
+_ingredient_id = dep(
+    "ingredient_id", "chemical,formulation",
+    "What went in, in the order of `value.ingredients` (entry k describes edge k; the "
+    "order carries no other meaning). A stock you made is a formulation.",
+    non_empty=False, multiple=True)
+_ingredient_id["ordered"] = True
+_ingredient_id["min_count"] = 1
 write("stable", "formulation",
-      doc("formulation", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A formulation: one or more chemicals.",
-          non_empty=True, blank={}, sub_fields=[
-              subfield("chemicals", "structure", "The agents in this formulation.",
-                       non_empty=True, scalar=False, sub_fields=CHEM_SUBS)])]))
+      doc("formulation", ["base"], abstract=True, deps=[
+          _ingredient_id,
+          dep("product_id", "product",
+              "Optional: the bought product/lot, for a mixture bought ready-made (PBS "
+              "tablets, saline).", non_empty=False)],
+          fields=[field(
+              "value", "structure", "What you make: its ingredients and whole-mixture "
+              "properties.", non_empty=True, blank={}, sub_fields=[
+                  subfield("ingredients", "structure",
+                           "Exactly one entry per `ingredient_id` edge, same order "
+                           "(0-based). Store what the source gave -- an added amount, a "
+                           "final concentration, or both only if both were given.",
+                           non_empty=True, scalar=False, sub_fields=[
+                               dict(x) for x in _HOW_MUCH] + [
+                               subfield("concentration", "concentration",
+                                        "Optional: this ingredient's final concentration "
+                                        "in the formulation.")]),
+                  subfield("ph", "ph", "Optional: the finished mixture's pH."),
+                  subfield("osmolarity", "concentration",
+                           "Optional: the finished mixture's osmolarity (the `osmolar` "
+                           "slot).")])]))
 write("stable", "dose",
-      doc("dose", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A dose: a formulation delivered at a volume/route.",
-          non_empty=True, blank={}, sub_fields=[
-              subfield("formulation", "structure", "The substances delivered.",
-                       sub_fields=[subfield("chemicals", "structure", "Agents.",
-                                            scalar=False, sub_fields=CHEM_SUBS)]),
-              subfield("volume", "volume", "Delivered volume (optional)."),
-              subfield("route", "ontology_term",
-                       "Route of administration (optional; else on method).")])]))
+      doc("dose", ["base"], abstract=True, deps=[
+          dep("formulation_id", "formulation", "What was given. A '1x' / '10x' "
+              "strength is a formulation of its own, made from the stock.")],
+          fields=[field(
+              "value", "structure", "How much of the formulation was given. Empty when "
+              "the source gives no amount (a bath).", non_empty=False, blank={},
+              sub_fields=[dict(x) for x in _HOW_MUCH] + [
+                  subfield("amount_per_body_mass", "structure",
+                           "Optional: how much per gram of the subject's body mass "
+                           "(mg/kg -> grams_per_gram 1e-6). Canonical slots name their "
+                           "full unit; fill what the source unit converts to.",
+                           sub_fields=[
+                               subfield("grams_per_gram", "double",
+                                        "Grams given per gram of body mass."),
+                               subfield("liters_per_gram", "double",
+                                        "Liters given per gram of body mass."),
+                               subfield("moles_per_gram", "double",
+                                        "Moles given per gram of body mass."),
+                               subfield("source_unit", "char",
+                                        "The unit exactly as given (e.g. 'mg/kg')."),
+                               subfield("source_value", "double",
+                                        "The number as given, in `source_unit`."),
+                               subfield("approximate", "boolean",
+                                        "True when the value is approximate.")])])]))
 
 # data-type-named manipulation leaves
 write("stable", "dose_manipulation",
@@ -2674,87 +2762,50 @@ write("stable", "formulation_manipulation",
 # body-backed `visual_grating_manipulation` on the animal (the second pass resolves
 # the animal; the time-varying stimulus rides in a sampled_body via storage_mode:body,
 # the fixed parameters inline). NDI/vhlab source param names noted in ().
+# REBUILT WITH TYPED CELLS (#73 review item 44, jess 2026-09-25). Every number is a
+# named quantity cell -- canonical + source_value + source_unit + approximate (T14) --
+# instead of a bare double whose unit lived only in prose. The degrees the lab's
+# NewStim software records are now also the canonical unit (angle is degrees).
+# `source_geometry` (team 2026-08-17: "we definitely shouldn't be dropping fields")
+# FOLDS INTO THE CELLS: a Hartley stimulus's pixel-domain value is exactly a cell's
+# source (spatial_frequency.source_value = sqrt(kx^2+ky^2)/M, source_unit
+# 'cycles/pixel'), with the canonical left unset until the rig calibration is known.
+# Only the calibration itself, `pixels_per_degree`, stays a field.
 GRATING_SUBS = [
-    subfield("angle", "double", "Orientation/direction of the grating, degrees "
-             "(NDI 'angle')."),
-    subfield("spatial_frequency", "double", "Spatial frequency, cycles/degree "
-             "(NDI 'sFrequency')."),
-    subfield("temporal_frequency", "double", "Temporal (drift) frequency, Hz "
-             "(NDI 'tFrequency')."),
-    subfield("contrast", "double", "Michelson contrast, 0-1 (NDI 'contrast')."),
-    subfield("size", "double", "Stimulus size / aperture, degrees of visual angle "
-             "(NDI 'size')."),
+    subfield("angle", "angle", "Orientation/direction of the grating (NDI 'angle').", blank={}),
+    subfield("spatial_frequency", "spatial_frequency",
+             "Spatial frequency (NDI 'sFrequency'). For a Hartley basis function the "
+             "source is sqrt(kx^2+ky^2)/M in 'cycles/pixel' and the canonical is unset "
+             "until `pixels_per_degree` is known.", blank={}),
+    subfield("temporal_frequency", "frequency",
+             "Temporal (drift) frequency (NDI 'tFrequency').", blank={}),
+    subfield("contrast", "score",
+             "Contrast, with `scale` naming the definition (e.g. Michelson contrast, "
+             "scale_min 0, scale_max 1) (NDI 'contrast').", blank={}),
+    subfield("size", "angle", "Stimulus size / aperture, in visual angle (NDI 'size').", blank={}),
     subfield("position", "structure",
-             "Screen position of the stimulus centre, degrees.", sub_fields=[
-                 subfield("x", "double", "Horizontal position, degrees."),
-                 subfield("y", "double", "Vertical position, degrees.")]),
-    subfield("duration", "double", "Presentation duration, seconds."),
-    subfield("is_blank", "boolean",
+             "Screen position of the stimulus centre, in visual angle.", sub_fields=[
+                 subfield("x", "angle", "Horizontal position.", blank={}),
+                 subfield("y", "angle", "Vertical position.", blank={})]),
+    subfield("duration", "time", "Presentation duration.", blank={}),
+    # `blank`, not `is_blank` (T13, team 2026-09-24: no `is_` prefix on booleans).
+    # NDI's second-pass assemblers still write `is_blank` -- lockstep follow-up, PR #76.
+    subfield("blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
-    # PHASE ADDED, team, 2026-08-17: "Add phase."
-    #
-    # It is what distinguishes half the Hartley basis. `hartleyrange.m` returns
-    # each (kx,ky) pair TWICE, once with s=-1 and once with s=+1
-    # (`s = [-ones(numel(I),1); ones(numel(I),1)]`), and the Hartley function
-    # cas = cos + sin is a 45-degree-offset cosine, so the sign is a 180-degree
-    # phase flip. Measured on 20211116: 1680 distinct (kx,ky) pairs x 2 signs =
-    # 3360 distinct stimuli, and 41*41-1 -- the DC term, excluded by `F_ > 0` --
-    # accounts for the 1680 exactly.
-    #
-    # WITHOUT THIS FIELD THE SIGN HAS NOWHERE TO GO and 3360 distinct gratings
-    # fold into 1680 indistinguishable pairs: a silent halving of the stimulus
-    # set that no counter we have would see, because each emitted document
-    # would be individually valid.
-    subfield("phase", "double", "Spatial phase of the grating, degrees. For a "
-             "Hartley basis function the sign s=-1 is +180 relative to s=+1 "
-             "(cas = cos + sin, a 45-degree-offset cosine)."),
-    # THE PIXEL-DOMAIN SOURCE VALUES. Team 2026-08-17: "we definitely shouldn't
-    # be dropping fields."
-    #
-    # `spatial_frequency`, `size` and `position` above are all declared in
-    # DEGREES OF VISUAL ANGLE, and for a Hartley stimulus none of the three can
-    # be computed. `hartleyrange.m` derives cycles/degree as
-    #     F_ = sqrt(kx^2+ky^2)/M * pixels_per_cm * distance * tan(1 deg)
-    # and `pixels_per_cm` comes from `NewStimGlobals` -- rig calibration. It is
-    # not in the document and not anywhere else: a sweep of all 1,220 documents
-    # in 20211116 across 229 distinct field names found no screen, monitor or
-    # pixel calibration of any kind.
-    #
-    # The PIXEL-domain quantities ARE exactly computable. Writing them into the
-    # degree-domain fields would store one quantity under another's name, which
-    # is the silent unit error this repository already paid for once with
-    # Hz-vs-spikes-per-bin. Leaving them out drops them. So they are carried
-    # here beside the canonical fields, in the T14 shape every other quantity in
-    # V_eta uses (`duration.value` = {seconds, source_unit, source_value,
-    # approximate}; `angle.value` = {radians, ...}).
-    #
-    # One multiplication recovers the canonical values the day the calibration
-    # is known. Until then nothing is lost and nothing is misstated.
-    subfield("source_geometry", "structure",
-             "As-recorded stimulus geometry, in the units the source used, for "
-             "when the degree-domain fields above cannot be computed. Populated "
-             "when `pixels_per_degree` is unknown; the canonical fields are then "
-             "left unset rather than filled with a differently-united number.",
-             sub_fields=[
-                 subfield("spatial_frequency", "double",
-                          "Spatial frequency as recorded, in `unit`. For a "
-                          "Hartley index this is sqrt(kx^2+ky^2)/M."),
-                 subfield("size", "double",
-                          "Aperture extent as recorded, in `unit`."),
-                 subfield("position", "structure",
-                          "Stimulus centre as recorded, in `unit`.", sub_fields=[
-                              subfield("x", "double", "Horizontal, in `unit`."),
-                              subfield("y", "double", "Vertical, in `unit`.")]),
-                 subfield("unit", "char",
-                          "The unit these values are in: 'cycles/pixel' for "
-                          "spatial_frequency and 'pixel' for size and position "
-                          "when the source is a screen geometry."),
-                 subfield("pixels_per_degree", "double",
-                          "The missing conversion factor, when it becomes known. "
-                          "Left unset by migration: it is rig calibration "
-                          "(NewStimGlobals `pixels_per_cm` x distance x "
-                          "tan(1 deg)) and no did_v1 document records it."),
-             ]),
+    # PHASE ADDED, team, 2026-08-17: "Add phase." It distinguishes half the Hartley
+    # basis: `hartleyrange.m` returns each (kx,ky) twice, s=-1 and s=+1, and the sign
+    # is a 180-degree phase flip (cas = cos + sin). Measured on 20211116: 1680
+    # distinct (kx,ky) pairs x 2 signs = 3360 distinct stimuli. Without it they fold
+    # into 1680 indistinguishable pairs.
+    subfield("phase", "angle", "Spatial phase of the grating. For a Hartley basis "
+             "function the sign s=-1 is +180 degrees relative to s=+1 "
+             "(cas = cos + sin, a 45-degree-offset cosine).", blank={}),
+    subfield("pixels_per_degree", "double",
+             "Rig calibration converting the screen-geometry sources (pixels, "
+             "cycles/pixel) into visual angle: NewStimGlobals `pixels_per_cm` x "
+             "distance x tan(1 deg). Left unset by migration -- no did_v1 document "
+             "records it (a sweep of all 1,220 documents in 20211116 across 229 "
+             "field names found none)."),
 ]
 # ABSTRACT REMOVED, team, 2026-08-17: "Making visual_grating abstract false."
 # Same flag, same reason, same day as `timed_sequence`. The signed stimulus
@@ -2809,7 +2860,7 @@ _TUNING_CURVE_IV_SUBS = [
     subfield("values", "matrix",
              "The samples along this independent variable.", scalar=False),
     subfield("unit", "ontology_term",
-             "Canonical unit of `values` (radians for angles per SI convention; "
+             "Canonical unit of `values` (degrees for angles, per angle.value.degrees; "
              "absent for a categorical variable)."),
 ]
 _TUNING_CURVE_CONTROL_SUBS = [
@@ -2871,34 +2922,115 @@ write("stable", "tuning_curve",
                         "`stimulus_tuningcurve` and per-family result classes "
                         "(orientation_direction_tuning, contrast_tuning, ...) "
                         "carried this SHAPE; the shape is collapsed to ONE "
-                        "composite and the per-family class names survive as "
-                        "thin marker subclasses (Lepsky et al. 2026 Fig. 4; "
-                        "class names appear verbatim in 3+ published papers). "
+                        "composite. The tuning family (orientation/direction, "
+                        "contrast, spatial/temporal frequency, speed) is "
+                        "carried by `independent_variables[].variable`, not by "
+                        "a subclass (#73 dropped the marker subclasses). "
                         "Calc-produced metadata (ANOVA p-values, fits) lives "
                         "on `tuning_curve_calculation`, not here.",
                         non_empty=True, blank={},
                         sub_fields=_TUNING_CURVE_SUBS)]))
 
-# ---- five thin marker composites (⊂ tuning_curve; NO new fields) -----------------
-# Issue #67 category ③. Each preserves a v1 class name that appears verbatim in
-# published papers (Reikersdorfer 2021, Griswold & Gazelle 2025, Casanova 2025).
-# The marker adds NO fields -- the shape is entirely inherited from tuning_curve;
-# it exists to (a) preserve the v1 class name as the pipeline hook (Fig. 5Bii)
-# and (b) let a concrete calc pair `tuning_curve_calculation` with the specific
-# tuning family for Fig 4's class-named property blocks. write() overwrites the
-# copytree'd V_zeta shape (large thick classes carrying all fields inline).
-for _marker in ("orientation_direction_tuning", "contrast_tuning",
-                "spatial_frequency_tuning", "temporal_frequency_tuning",
-                "speed_tuning"):
-    write("stable", _marker,
-          doc(_marker, ["tuning_curve"], abstract=True))
+# ---- #73 (2026-09-23): NO marker composites -----------------------------------
+# #67 wrote five thin markers here (orientation_direction_tuning, contrast_tuning,
+# spatial_frequency_tuning, temporal_frequency_tuning, speed_tuning), each
+# ⊂ tuning_curve with no fields, reusing the v1 RESULT class names. #73 drops
+# them: they held nothing, and the fact each one encoded -- which independent
+# variable the curve is over -- is already a field,
+# `tuning_curve.value.independent_variables[].variable` (T11: "role in
+# `variable`, not in the class name"), with nothing tying the two together
+# (T14). The one-calculator-one-document-type contract (T10 / Lepsky §3.2) is
+# met by the calculation LEAVES below, not by the composites. The copytree'd
+# V_zeta result classes at those five names are v1 source tombstones whose
+# documents the migrators fold onto the leaves; they go in _DELETE_PHASE8.
 
-# ---- tuning_curve_calculation: abstract leaf carrying calc-produced metadata ----
-# Issue #67 category ④. ⊂ subject_calculation ONLY (not paired with a composite
-# at this level -- the concrete children pair it with a specific marker). Carries
-# the fields that are calc-produced (ANOVA p-values were computed BY the fit
-# calcs, paper §2.1; model_fit[] entries are calculator outputs) and are
-# therefore the calc leaf's responsibility, not the raw curve's.
+# ---- tuning_curve_calculation: CONCRETE, ⊂ [subject_calculation, tuning_curve] --
+# #73: made concrete and paired with the composite ITSELF, so it is the generic
+# tuning-curve calculator's own output type (it replaces `tuningcurve_calc`) and
+# has the same <result>_calculation shape as contrast_sensitivity_calculation and
+# receptive_field_calculation. The five family calculations below refine it.
+# A family calculation IS-A tuning_curve_calculation, so an `isa` query on this
+# class returns all six; a consumer that wants only the generic calculator's
+# output matches the exact class_name. The one-calculator-one-document-type
+# contract is about the EMITTED class_name, and all six stay distinct.
+#
+# model_fit[] entries (#73): {model, coefficients, goodness, metrics,
+# sampled_fit}. `metrics` holds values READ OFF a fit (a DoG fit's preferred
+# spatial frequency; a double Gaussian's half-width) -- they belong to the fit
+# they came from, and v1 kept them per fit (fit_dog.l50 vs fit_movshon.l50). It
+# is ONE fixed set of optional typed fields covering every fit family, so every
+# value stays queryable (V_eta_tuning_model_plan.md: no {name,value} bag).
+# KNOWN LOOSENESS: nothing stops a fit filling a metric that does not apply to
+# its `model`; binding the admissible metrics to the `model` term (as term.value
+# is keyed_by variable) waits on the model terms being in a bound vocabulary.
+#
+# NAMES (#73, T13): the v1 contractions pref / l50 / h50 / interpolated_c50 are
+# four spellings of three points on the curve and become preferred_value /
+# half_maximum_below / half_maximum_above; hwhh becomes
+# half_width_at_half_maximum; hotelling2test (a p-value) becomes hotelling_t2_p.
+def _tuning_double(name, text):
+    return subfield(name, "double", text, blank=0)
+
+_TUNING_CURVE_POINTS = [
+    _tuning_double("preferred_value",
+        "The independent-variable value at which the peak response occurs "
+        "(v1 `pref`). Same unit as the curve's independent variable."),
+    _tuning_double("half_maximum_below",
+        "The independent-variable value BELOW the peak where the response falls "
+        "to half the maximum (v1 `l50`; on a contrast curve, which only rises, "
+        "this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists."),
+    _tuning_double("half_maximum_above",
+        "The independent-variable value ABOVE the peak where the response falls "
+        "to half the maximum (v1 `h50`). +Inf if no such point exists."),
+    _tuning_double("bandwidth",
+        "Bandwidth between half_maximum_below and half_maximum_above, in "
+        "OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either "
+        "bound is infinite."),
+]
+_TUNING_PASS_INDICES = [
+    _tuning_double("low_pass_index",
+        "Response at the lowest tested value divided by the response at the "
+        "peak (responses rectified to be non-negative)."),
+    _tuning_double("high_pass_index",
+        "Response at the highest tested value divided by the response at the "
+        "peak (responses rectified to be non-negative)."),
+]
+_TUNING_FIT_METRICS_SUBS = _TUNING_CURVE_POINTS + [
+    _tuning_double("half_width_at_half_maximum",
+        "Angular distance from the preferred direction at which the fit "
+        "response is half the maximum (v1 `hwhh`). Same unit as the curve's "
+        "direction variable."),
+    _tuning_double("orientation_preference",
+        "Orientation evoking the maximum response under the fit (v1 "
+        "`orientation_angle_preference`)."),
+    _tuning_double("direction_preference",
+        "Direction evoking the maximum response under the fit (v1 "
+        "`direction_angle_preference`)."),
+    _tuning_double("orientation_preferred_orthogonal_ratio",
+        "Fit response at the preferred orientation over the response at the "
+        "orthogonal orientation (90 degrees away)."),
+    _tuning_double("orientation_preferred_orthogonal_ratio_rectified",
+        "orientation_preferred_orthogonal_ratio with each response rectified at 0."),
+    _tuning_double("direction_preferred_null_ratio",
+        "Fit response at the preferred direction over the response at the null "
+        "direction (180 degrees away)."),
+    _tuning_double("direction_preferred_null_ratio_rectified",
+        "direction_preferred_null_ratio with each response rectified at 0."),
+    _tuning_double("speed_tuning_index",
+        "Index relating preferred speed to spatial frequency under the fit "
+        "(Priebe et al.; v1 `priebe_fit_speed_tuning_index`)."),
+    _tuning_double("spatial_frequency_preference",
+        "Spatial frequency, averaged across temporal frequencies, of the optimal "
+        "response under the fit (v1 `priebe_fit_spatial_frequency_preference`)."),
+    _tuning_double("temporal_frequency_preference",
+        "Temporal frequency, averaged across spatial frequencies, of the optimal "
+        "response under the fit (v1 `priebe_fit_temporal_frequency_preference`)."),
+    _tuning_double("partial_r2",
+        "Partial r-squared of this fit against the nested comparison fit."),
+    _tuning_double("nested_f_test_p",
+        "p-value of the nested-model F test against the comparison fit (v1 "
+        "`priebe_fit_nested_f_test_p_value`)."),
+]
 _TUNING_MODEL_FIT_SUBS = [
     subfield("model", "ontology_term",
              "The fitted model as a controlled term (T8): double_gaussian | "
@@ -2907,7 +3039,34 @@ _TUNING_MODEL_FIT_SUBS = [
     subfield("coefficients", "structure",
              "The fit coefficients (named, per the `model`).", non_empty=False),
     subfield("goodness", "structure",
-             "Fit-quality scalars (r-squared, residual, ...).", non_empty=False),
+             "How well the fit matches the measured responses.", non_empty=False,
+             sub_fields=[
+                 _tuning_double("r2",
+                     "Coefficient of determination between the responses and "
+                     "the fit (v1 `r2` / `r_squared`)."),
+                 _tuning_double("sse",
+                     "Sum of squared errors of the fit."),
+             ]),
+    subfield("metrics", "structure",
+             "Values READ OFF this fit (not the raw data -- those are the "
+             "family's own summary block). One fixed set of optional typed "
+             "fields across every fit family; a fit fills only the ones that "
+             "apply to its `model`.", non_empty=False,
+             sub_fields=_TUNING_FIT_METRICS_SUBS),
+    subfield("sampled_fit", "structure",
+             "OPTIONAL: the fit evaluated on a grid, as v1 stored it "
+             "(fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe "
+             "grids). Kept rather than recomputed from model + coefficients, "
+             "because recomputation reproduces it only if the model definition "
+             "is exact.", non_empty=False,
+             sub_fields=[
+                 subfield("independent_values", "matrix",
+                          "The grid, one entry per independent variable in "
+                          "independent_variables[] order.", scalar=False),
+                 subfield("response", "matrix",
+                          "Fit response at each grid point, sized by the grid.",
+                          scalar=False),
+             ]),
 ]
 _TUNING_CALC_SIGNIFICANCE_SUBS = [
     subfield("visual_response_anova_p", "double",
@@ -2918,7 +3077,8 @@ _TUNING_CALC_SIGNIFICANCE_SUBS = [
              "different stimuli (tuning vs. flat).", blank=0),
 ]
 write("stable", "tuning_curve_calculation",
-      doc("tuning_curve_calculation", ["subject_calculation"], abstract=True,
+      doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
+          version="2.0.0",
           fields=[
               field("significance", "structure",
                     "Statistical significance of the tuning (ANOVA p-values). "
@@ -2927,34 +3087,74 @@ write("stable", "tuning_curve_calculation",
                     non_empty=False, sub_fields=_TUNING_CALC_SIGNIFICANCE_SUBS),
               field("model_fit", "structure",
                     "ARRAY of fitted models, each {model, coefficients, "
-                    "goodness}; a curve may carry several co-existing fits "
-                    "(freq tunings carry 5). Data-in-array (R2 preserved), "
-                    "not typed field declarations per family.",
+                    "goodness, metrics, sampled_fit}; a curve may carry several "
+                    "co-existing fits (freq tunings carry 5).",
                     scalar=False, non_empty=False,
                     sub_fields=_TUNING_MODEL_FIT_SUBS),
           ]))
 
-# ---- six concrete calc leaves (⊂ [tuning_curve_calculation, <marker>]) ----------
-# Issue #67 category ④. Multi-inheritance per Lepsky et al. Fig. 4: each concrete
-# calc emits one document type (paper §3.2) inheriting provenance +
-# significance + fits from `tuning_curve_calculation` AND the raw curve shape +
-# self-describing metadata from the marker composite. The emitted document has
-# one class-named property block per class in the chain -- e.g.
-# `oridirtuning_calc:` distinct from `orientation_direction_tuning:` (Fig. 4).
-# Per-family typed scalars (vector for oridir, fitless for freq/contrast, ...)
-# would ride here as leaf-specific fields; kept empty in this build (the R2/R3
-# reversal is the primary edit; family-specific scalar declarations follow with
-# the DID-matlab migrator retargets).
-for _leaf, _marker in [
-    ("oridirtuning_calc",              "orientation_direction_tuning"),
-    ("contrasttuning_calc",            "contrast_tuning"),
-    ("spatial_frequency_tuning_calc",  "spatial_frequency_tuning"),
-    ("temporal_frequency_tuning_calc", "temporal_frequency_tuning"),
-    ("speedtuning_calc",               "speed_tuning"),
-    ("tuningcurve_calc",               "tuning_curve"),
+# ---- five family calculations (⊂ tuning_curve_calculation) ---------------------
+# #73: renamed from the #67 `*_calc` leaves to the <result>_calculation form (T13),
+# consistent with contrast_sensitivity_calculation and receptive_field_calculation.
+# Each carries the family's OWN typed summary block -- values read off the RAW
+# curve, as opposed to model_fit[].metrics, which are read off a fit. These are
+# what v1 carried as `vector` (oridir) and `fitless` (contrast / SF / TF); the
+# signed naming pass called them `circular_statistics` / `interpolated_values`.
+# Declared per family (not once on the parent) so the class says which block to
+# expect; the SF/TF declarations share one constant so they cannot drift.
+#   old #67 leaf                    -> #73 name
+#   oridirtuning_calc               -> orientation_direction_tuning_calculation
+#   contrasttuning_calc             -> contrast_tuning_calculation
+#   spatial_frequency_tuning_calc   -> spatial_frequency_tuning_calculation
+#   temporal_frequency_tuning_calc  -> temporal_frequency_tuning_calculation
+#   speedtuning_calc                -> speed_tuning_calculation
+#   tuningcurve_calc                -> tuning_curve_calculation (above, concrete)
+_TUNING_CIRCULAR_STATISTICS_SUBS = [
+    _tuning_double("circular_variance",
+        "Circular variance in orientation space; related to selectivity and "
+        "tuning width."),
+    _tuning_double("direction_circular_variance",
+        "Circular variance in direction space."),
+    _tuning_double("hotelling_t2_p",
+        "p-value of Hotelling's T-squared test of whether the orientation "
+        "vectors differ from [0,0] (v1 `hotelling2test`)."),
+    _tuning_double("direction_hotelling_t2_p",
+        "p-value of Hotelling's T-squared test on the direction vectors (v1 "
+        "`direction_hotelling2test`)."),
+    _tuning_double("direction_dot_product_p",
+        "p-value of the direction dot-product test, which uses both orientation "
+        "and direction vectors to assess direction selectivity (Mazurek et al.; "
+        "v1 `dot_direction_significance`)."),
+    _tuning_double("orientation_preference",
+        "Orientation with the highest response in orientation vector space. "
+        "Same unit as the curve's direction variable."),
+    _tuning_double("direction_preference",
+        "Direction with the highest response in direction vector space. Same "
+        "unit as the curve's direction variable."),
+]
+_TUNING_INTERPOLATED_FREQUENCY_SUBS = _TUNING_CURVE_POINTS + _TUNING_PASS_INDICES
+_TUNING_INTERPOLATED_CONTRAST_SUBS = [
+    s for s in _TUNING_CURVE_POINTS if s["name"] == "half_maximum_below"]
+_INTERPOLATED_DOC = ("Summary points read off the RAW (unfitted) curve by "
+                     "interpolation (v1 `fitless`).")
+for _leaf, _fields in [
+    ("orientation_direction_tuning_calculation", [
+        field("circular_statistics", "structure",
+              "Vector-space summary of the RAW (unfitted) direction curve (v1 "
+              "`vector`).", non_empty=False,
+              sub_fields=_TUNING_CIRCULAR_STATISTICS_SUBS)]),
+    ("contrast_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_CONTRAST_SUBS)]),
+    ("spatial_frequency_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_FREQUENCY_SUBS)]),
+    ("temporal_frequency_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_FREQUENCY_SUBS)]),
+    ("speed_tuning_calculation", []),
 ]:
-    write("stable", _leaf,
-          doc(_leaf, ["tuning_curve_calculation", _marker]))
+    write("stable", _leaf, doc(_leaf, ["tuning_curve_calculation"], fields=_fields))
 
 # Retire the draft/ versions -- promoted to stable/ above.
 for _draft_name in ("tuning_curve", "tuning_curve_calculation"):
@@ -3032,7 +3232,7 @@ if os.path.exists(_hcc):
 #           at 34 migrator sites -- and the backlog is counted by #70's ratchet.
 #   gate 2  `clock_alignment.relation` needs a term. "Temporally aligned with" is a
 #           MAPPING predicate, not an OWL-Time interval relation, so it cannot reuse
-#           relative_reference's binding. Staged the same way.
+#           relative_time_reference's binding. Staged the same way.
 #   gate 3  "EXACTLY 2" was prose until #63 landed. #63 HAS landed, so
 #           `acquisition_channels_#` gets a real min_count/max_count of 2 below --
 #           this gate is now MET.
@@ -3092,7 +3292,7 @@ write("draft", "polynomial",
                        "did2 query layer has no length predicate, so `degree > 1` "
                        "-- which alignments are non-linear, the interesting question "
                        "about a clock mapping -- is expressible ONLY if degree is "
-                       "stored. Same test that kept `axis.n` and dropped "
+                       "stored. Same test that kept the key entry's `n` and dropped "
                        "`ngrid.data_size`: derivable AT QUERY TIME, not derivable in "
                        "code. CHECKED against coefficients, so it is an index rather "
                        "than a second source of truth.", blank=0),
@@ -3101,11 +3301,11 @@ write("draft", "polynomial",
 write("draft", "clock_alignment",
       doc("clock_alignment", ["relation", "polynomial"], maturity="draft",
           deps=[
-              dep("from_reference", "relative_reference",
+              dep("from_reference", "relative_time_reference",
                   "The timeline this alignment maps FROM. The rule is symmetric but "
                   "its OUTPUT is directed, which is why these are named endpoints and "
                   "not a `_#` family.", non_empty=True),
-              dep("to_reference", "relative_reference",
+              dep("to_reference", "relative_time_reference",
                   "The timeline this alignment maps TO.", non_empty=True),
               dep("clock_alignment_configuration_id", "clock_alignment_configuration",
                   "The rule that produced this alignment.", non_empty=True),
@@ -3116,7 +3316,7 @@ write("draft", "clock_alignment",
               field("relation", "ontology_term",
                     "\"Temporally aligned with\". STAGED with an empty node (#67/#70): "
                     "this is a MAPPING predicate, not an OWL-Time interval relation, so "
-                    "it cannot reuse relative_reference's binding and needs an NDIC term."),
+                    "it cannot reuse relative_time_reference's binding and needs an NDIC term."),
               field("cost", "double",
                     "The path-finding edge weight. On the leaf rather than inside "
                     "`value` because it is a property of the ALIGNMENT, not of the "
@@ -3131,14 +3331,16 @@ write("draft", "clock_alignment_configuration",
                   "`ndi_syncrule_class`, folded to a software entity (R1).",
                   non_empty=False),
               dep("acquisition_channels_#", "acquisition_channels",
-                  "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: "
-                  "the rule is symmetric, so neither endpoint is 'first'.",
+                  "The channel groups this rule relates: 0 or 2 (sync configuration "
+                  "amendment 1, 2026-08-18: a file-based rule names none), UNORDERED "
+                  "because the rule is symmetric. The schema's min 0 / max 2 cannot "
+                  "exclude exactly 1; that check belongs to a validator.",
                   non_empty=False, multiple=True),
           ],
           fields=[
               field("clock", "ontology_term",
                     "The clock this rule aligns, from did_clocktype -- the SAME FOUR "
-                    "terms as relative_reference.value.clock, which is what gate 1 of "
+                    "terms as relative_time_reference.value.clock, which is what gate 1 of "
                     "this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no "
                     "NDIC identifier can be assigned from any repository in scope. "
                     "<- v1 `epochclocktype`.",
@@ -3219,15 +3421,22 @@ write("draft", "acquisition_channels",
 # passes through carrying that id.
 write("draft", "timed_sequence",
       doc("timed_sequence", ["data_type"], maturity="draft",
-          deps=[dep("presented_id", "data_type",
+          # `presented_id_#`, NOT `presented_id` (team, 2026-09-24: every repeated edge
+          # is a numbered `_#` family AND carries `multiple`, so the validator -- which
+          # recognises families by the suffix, did2 cache.m requiredDependencies --
+          # sees it as one). Members are numbered FROM 0 (T14, team 2026-09-24);
+          # NDI writes presented_id_1..N today (stimulusPresentationToTimedSequence.m),
+          # so its emitter renumbers -- a PR #76 follow-up.
+          deps=[dep("presented_id_#", "data_type",
                     "References to the DISTINCT presented stimulus data_type docs "
                     "(deduped); the playlist indexes these.", non_empty=False, multiple=True)],
           fields=[field("value", "structure",
                         "An ordered, timed list of references to presented data_type docs.",
                         non_empty=True, blank={}, sub_fields=[
               subfield("presentation_order", "matrix",
-                       "Playlist: an index array into the `presented_id` references, one "
-                       "entry per trial (distinct-refs + index-array encoding).", scalar=False),
+                       "Playlist: one entry per trial, each a 0-based index naming a "
+                       "`presented_id_#` edge directly (value k -> `presented_id_k`); "
+                       "distinct-refs + index-array encoding.", scalar=False),
           ])]))
 write("draft", "timed_sequence_manipulation",
       doc("timed_sequence_manipulation", ["subject_manipulation", "timed_sequence"],
@@ -3249,13 +3458,15 @@ write("draft", "control_designation",
                   "The presentation whose stimuli these controls annotate.", non_empty=False),
               # `derived_from_#`, NOT `derived_from_1`. Found 2026-08-08 in the stimulus
               # sign-off review: this was the ONLY class in the set declaring a CONCRETE
-              # numbered edge instance where the FAMILY belongs. `subject_calculation` and
-              # `subject_observation` both declare `derived_from_#`; a schema declares the
+              # numbered edge instance where the FAMILY belongs. `subject_calculation`
+              # declares `derived_from_#` (and, until #73, `subject_observation` did too);
+              # a schema declares the
               # template name and a DOCUMENT names the instances. Hardcoding `_1` also caps
               # the provenance at one antecedent, which T10 does not.
               dep("derived_from_#", "subject_interaction",
                   "Provenance: the analysis/interaction(s) this designation was derived "
-                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False),
+                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False,
+                  multiple=True),
           ],
           fields=[
               field("control_stimulus", "matrix",
@@ -3333,7 +3544,10 @@ _CS_SUBS = [
                           "Bonferroni-corrected response-varies p per spatial frequency.",
                           scalar=False),
              ]),
-    subfield("is_modulated_response", "boolean",
+    # `modulated_response`, not `is_modulated_response` (T13, team 2026-09-24: no
+    # `is_` prefix on booleans). DID-matlab jContrastSensitivityValue.m still writes
+    # the old name -- lockstep follow-up, PR #76.
+    subfield("modulated_response", "boolean",
              "True when the response is modulated (F1) rather than mean (F0)."),
     subfield("response_type", "char", "Which response measure the profile was built on."),
 ]
@@ -3411,31 +3625,52 @@ write("stable", "receptive_field",
                         "over two spatial axes and a time lag, with the "
                         "estimation method and one entry per stored plane. The "
                         "volume itself lives in `sampled_body` documents; the "
-                        "axes (including real lag coordinates) are declared "
-                        "there, on `axes[]`.",
+                        "keys (including real lag coordinates) are declared "
+                        "there, on `keys` (renamed from `axes`, #73 item 14).",
                         non_empty=True, blank={}, sub_fields=_RF_SUBS)]))
 write("stable", "receptive_field_calculation",
       doc("receptive_field_calculation",
           ["subject_calculation", "receptive_field"]))
 
-# ---- #67: three-level composite chain preserved from v1 (RF map family) ----
-# TEAM-SIGN-OFF 2026-09-21, issue #67 category ③: `reverse_correlation` composite
-# ⊂ `receptive_field`, and `hartley_reverse_correlation` thin marker ⊂
-# `reverse_correlation`. Overwrites the V_zeta copytree'd shapes
-# (⊂ [base, ngrid] / ⊂ [base, reverse_correlation]) with the receptive-field-
-# family composite chain. hartley naturally fits under reverse_correlation
-# (Hartley subspace is a reverse-correlation METHOD; T11 says the method
-# rides in `value.method`, not the class name), so the marker is empty.
-# `hartley_calc` still ⊂ [base, hartley_reverse_correlation, calculator] and
-# inherits the new composite chain through hartley_reverse_correlation;
-# retargeting it under `receptive_field_calculation` (Fig. 4 pattern) is
-# deferred to the DID-matlab migrator retarget pass.
-write("stable", "reverse_correlation",
-      doc("reverse_correlation", ["receptive_field", "ngrid"], abstract=True,
-          version="2.0.0"))
-write("stable", "hartley_reverse_correlation",
-      doc("hartley_reverse_correlation", ["reverse_correlation"], abstract=True,
-          version="2.0.0"))
+# ---- the v1 receptive-field chain stays v1 (#73 review, jess, 2026-09-25) ----
+# #67 (2026-09-21) overwrote the V_zeta copytree'd `reverse_correlation`
+# (⊂ [base, ngrid], fields method/dimension_labels) and `hartley_reverse_correlation`
+# (⊂ [base, reverse_correlation], five v1 fields) with EMPTY composites under
+# `receptive_field`, to preserve v1's three-level chain for the calculator paper
+# (Lepsky et al. 2026). Two problems followed: a v1 `hartley_calc` document carries
+# `reverse_correlation` / `hartley_reverse_correlation` BLOCKS with fields, which the
+# empty classes rejected (undeclaredField), and it inherited a required
+# `receptive_field.value` it never has -- so no unmigrated v1 document validated.
+# Steve's actual requirement (confirmed via jess 2026-09-25) is ONE DOCUMENT CLASS
+# PER CALCULATOR, not the v1 names; the Hartley calculator's document is
+# `receptive_field_calculation`, emitted only by migrators_j.hartley_calc. So these
+# two writes are REMOVED and the classes stay what they were before 9/21: retired
+# v1 tombstones carrying their v1 fields, so the blocks validate. The method lives
+# in `receptive_field.value.method`, never in a class name (RF fold sign-off,
+# 2026-08-17).
+
+# #73 (2026-09-23): the `calculator` mixin is out of every V_eta chain, so the two
+# copytree'd V_zeta classes that still named it lose that parent. Both are
+# `retire` and neither declares anything of its own, so nothing else changes:
+#   hartley_calc  -- the v1 source tombstone; its documents fold to
+#                    receptive_field_calculation (migrators_j.hartley_calc).
+#   tuning_fit    -- abstract, no fields, no V_eta subclass; its only NDI hit is
+#                    the MATLAB class ndi.calc.tuning_fit, not a document template.
+#                    Re-parented rather than deleted: a deletion is a disposition,
+#                    and this change is not making one for it.
+for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation"]),
+                       ("tuning_fit", ["base"])):
+    _t, _p = path_of(_name)
+    if not _p:
+        raise SystemExit(f"#73: {_name} is not in the built set -- the re-parent "
+                         "has nothing to act on. Fix the build, do not drop this.")
+    _d = load(_p)
+    _before = [s["class_name"] for s in _d["document_class"]["superclasses"]]
+    if "calculator" not in _before:
+        raise SystemExit(f"#73: {_name} no longer names `calculator` ({_before}) -- "
+                         "this re-parent is stale; remove it.")
+    _d["document_class"]["superclasses"] = [{"class_name": s} for s in _supers]
+    write(_t, _name, _d)
 
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
@@ -5329,7 +5564,10 @@ _tombstone(
 # The team chose fork A1 for the go-forward model on 2026-08-10 (the
 # concatenation becomes a typed observation whose `derived_from_#` edges point at
 # the N per-epoch observations; NO `epoch` entity is minted for the synthetic
-# `whole_session_<ref>` id). That build is GATED on the raw-recording model being
+# `whole_session_<ref>` id). #73 (2026-09-23) REVISES ITS DIRECTION: under the
+# observation / calculation rule a statement derived from other statements in the
+# dataset is a CALCULATION, so the concatenation becomes a `<modality>_calculation`
+# carrying those `derived_from_#` edges; everything else about A1 stands. That build is GATED on the raw-recording model being
 # signed. THIS IS NOT THAT BUILD -- it is the passthrough repair that keeps the
 # documents alive in the meantime, required under every fork.
 #
@@ -5370,7 +5608,7 @@ write("stable", "oneepoch",
                     " every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix;"
                     " the base element_epoch migrator collapses that pair into"
                     " these records before validation ever sees the document."
-                    " Under fork A1 these become relative_reference documents.",
+                    " Under fork A1 these become relative_time_reference documents.",
                     scalar=False,
                     sub_fields=[
                         field("name", "char", "The clock identifier."),
@@ -5981,19 +6219,16 @@ _tombstone(
 #   INPUT to that union either way -- but the sort behaviour itself is
 #   unverified here.
 #
-# HAZARD 3 -- VALIDITY INHERITS, AND THAT IS NOT DECIDED HERE.
-# `loadvalidinterval` falls back to `underlying_element` when a derived element
-# has no intervals of its own (markgarbage.m:146-155). That is a QUERY-TIME rule
-# in NDI, and whether V_eta re-derives it through `derived_from` or materialises
-# it onto the derived subject is an OPEN SUB-QUESTION for the team. NOTHING here
-# forecloses either answer:
-#   * `subject_id` is the element the v1 document named and nothing else, so a
-#     re-derivation still has the exact v1 graph to walk;
-#   * `subject_observation.derived_from_#` already exists (optional, min_count
-#     0), so a materialising decision has its edge with no schema change.
-# What a later decision WOULD have to change is written out in
-# did2.convert.resolveValidIntervals's header, next to the counter that
-# measures how often the fallback could fire.
+# HAZARD 3 -- VALIDITY INHERITS, AND IT IS RE-DERIVED (team, 2026-08-11,
+# V_eta_OPEN_WORK.md "valid_interval inheritance is RE-DERIVED, not materialised";
+# re-affirmed 2026-09-23 in #73). `loadvalidinterval` falls back to
+# `underlying_element` when a derived element has no intervals of its own
+# (markgarbage.m:146-155), a QUERY-TIME rule, and V_eta keeps it one: the
+# statement is stored once, on the element the v1 document named (`subject_id`),
+# and a consumer walks the element lineage (the directed_relation `derived_from`
+# that migrators_j.element emits for `underlying_element_id`) to find it. No copy
+# is ever written, which is why `subject_observation` no longer needs a
+# `derived_from_#` edge for one (#73).
 write("draft", "logical",
       doc("logical", ["data_type"], abstract=True, maturity="draft",
           fields=[field(
@@ -6006,6 +6241,14 @@ write("draft", "logical",
               " no unit, no source unit and cannot be approximate, so there is"
               " no provenance triple to wrap it in (`term.value` is typed"
               " `ontology_term` directly for the same reason)."
+              " [SUPERSEDED IN PART 2026-08-18 by logical_observation"
+              " amendment 1: `valid_interval` now migrates to"
+              " `time_observation`, NOT here, so every `valid_interval`-specific"
+              " sentence below describes a withdrawn fold. `logical` has no"
+              " current user; retire-or-hold is an open team call"
+              " (V_eta_logical_observation_plan.md). Whether the reading rules"
+              " below carry over to the time_observation shape is not decided"
+              " here.]"
               " FOR THE `valid_interval` FOLD, EACH CELL IS ONE INTERVAL, NOT"
               " ONE SAMPLE. A per-sample validity mask needs the sample grid,"
               " and no migrator reads file bytes to learn it (confirmed via"
@@ -6170,8 +6413,10 @@ BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)
 data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
                 deps=[STATEMENT_REQ], fields=[
     field("format", "char",
-          "Container / MIME format of the carried bytes (e.g. 'application/pdf', "
-          "'image/tiff', 'tiff'). A descriptor only.",
+          "Container format of the carried bytes as an IANA media type (e.g. "
+          "'application/pdf', 'image/tiff'; `application/x-...` for lab formats "
+          "with no registration). NOT a file extension (data_body plan sec.2). "
+          "A descriptor only.",
           non_empty=False),
     # NEW. The unbuilt half of the 2.D "encoding becomes a field" decision that
     # `migrators_j/image.m` has been waiting on: v1 `image.compression` carries
@@ -6196,8 +6441,7 @@ data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
           "`compression`, not before. A natural dedup / integrity key, checkable "
           "without decoding. did_v1 source: `generic_file.checksum`, the "
           "32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored "
-          "file; the algorithm is not declared by this field and is not "
-          "recoverable from it.",
+          "file. The algorithm is declared beside it, in `hash_algorithm`.",
           non_empty=False),
     field("description", "char", "Human description of the payload.",
           non_empty=False),
@@ -6325,9 +6569,10 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
 
-# EMPTIED BY THE HOIST, deliberately, and the plan says so in as many words:
-# "nothing of its own -- its content is 'these bytes are not an array', which the
-# class name states." All four fields it used to declare are on `data_body` now,
+# EMPTIED BY THE HOIST, deliberately. The plan's "its content is 'these bytes are
+# not an array'" is SUPERSEDED by lightsheet L3 (2026-09-25, not signed): an opaque
+# body's bytes are laid out by their own `format`, and it may carry the inherited
+# `keys` describing the array that format presents -- it declares no layout. All four fields it used to declare are on `data_body` now,
 # and the `statement` edge with them. `data_body` has EXACTLY two members; that
 # is not reopened here.
 opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[], fields=[])
@@ -6411,40 +6656,16 @@ _img["fields"] = [
 ]
 write("stable", "image", _img)
 
-# `ontology_table_row_id` -- the metadata row that gives this image its data
-# context. Added 2026-08-11 at the team's direction, after image_stack.m was found
-# to DROP the did_v1 `document_id` edge on its fold arm for want of anywhere to put
-# it: image_observation and its seven ancestors declare six edges between them
-# (subject_id, time_reference_#, instrument_id, software_id, method_parameters_id,
-# derived_from_#) and not one means "the metadata row this image belongs to".
-# `derived_from_#` is the near miss and is wrong twice -- typed to
-# `subject_statement` (the row migrates to an `ontology_table_row`) and it asserts
-# COMPUTATION, which this is not.
-#
-# The name is NOT invented: stable/ontology_image.json already declares exactly
-# this edge, with this target class, for the identical relationship.
-#
-# OPTIONAL, and that is load-bearing. There are EIGHT ndi.document('imageStack')
-# sites on NDI origin/main and they form THREE populations, not two:
-#   haley behaviour  (doImport.m 421/461/477/496)  subject_id AND document_id
-#   haley E. coli    (doImport.m 789/811/827)      document_id only -> guard arm
-#   babu             (import.m:474)                subject_id only, NO document_id
-# The babu site reaches the fold arm with no edge to carry, so a REQUIRED edge
-# here would quarantine it -- the invented-empty-edge pattern, with the
-# RequiredDependencies gate now armed and the corpus at 0 over 627,526 documents.
-#
-# Declaring the slot does not by itself carry anything: migrators_j/image_stack.m
-# still drops the edge, and `testImageStackFoldDropsDocumentIdForWantOfASlot` pins
-# that. The carry is the follow-up, and it must be conditional on the edge being
-# present in the source.
+# `ontology_table_row_id` WAS declared here (added 2026-08-11 at the team's
+# direction so an imageStack's `document_id` row had a slot) and is REMOVED
+# 2026-09-25 (jess, #73 audit): the row class `ontology_table_row` retires and
+# decomposes into typed statements about the SAME subject the image shows (#53),
+# so the link runs through `subject_id`; NDI's second pass
+# (imagedEntitySubjects.m) reads the v1 SOURCE edge to find that subject and needs
+# no V_eta slot. DID-matlab `migrators_j/ontology_image.m` stops writing it
+# (PR #76 checklist). The signed image model says image_observation has "no fields
+# of its own" (V_eta_image_model_plan.md:159); it is back to that shape.
 _img_obs = doc("image_observation", ["subject_observation", "image"], maturity="draft")
-_img_obs["depends_on"] = list(_img_obs.get("depends_on") or []) + [
-    dep("ontology_table_row_id", "ontology_table_row", non_empty=False,
-        doc=("The metadata table row giving this image its data context (e.g. the "
-             "behaviour plate row carrying its OD600 / CFU / lawn-volume "
-             "covariates). NOT a subject, and NOT provenance: it is the row the "
-             "did_v1 `document_id` edge named. Optional -- the babu writer emits "
-             "an imageStack with a subject and no such row."))]
 write("draft", "image_observation", _img_obs)
 # image_manipulation: an image/video SHOWN to the subject as a visual stimulus (raster
 # sibling of visual_grating_manipulation, which is a parametric stimulus). image model
@@ -6465,9 +6686,9 @@ CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
 NUMERIC_SEED = [
     ("intensity", "dimensionless (a.u.) — dF/F, fluorescence, ratios, amplitudes"),
     ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
-    ("angle", "rad"), ("angular_velocity", "rad/s"), ("force", "N"),
+    ("angle", "degrees"), ("angular_velocity", "degrees/s"), ("force", "N"),
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
-    ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
+    ("conductance", "S"), ("capacitance", "F"), ("substance_amount", "mol"),
     ("ph", "pH (log scale)"),
     # gain: a logarithmic ratio in dB. Added for the frequency_filter model -- passband
     # ripple is an allowed gain VARIATION and stopband attenuation is a gain REDUCTION,
@@ -6481,7 +6702,7 @@ for name, unit in NUMERIC_SEED:
           doc(name, ["base"], abstract=True, fields=[field(
               "value", name,
               f"A {unit} value cell (canonical + lossless source). Series-as-cardinality: "
-              "an array of the cell; per-sample timing is the statement's sample_time.", non_empty=True, scalar=False, blank=[], default=[CELL])]))
+              "an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise).", non_empty=True, scalar=False, blank=[], default=[CELL])]))
     write("stable", name + "_observation",
           doc(name + "_observation", ["subject_observation", name]))
     write("stable", name + "_assertion",
@@ -6489,6 +6710,17 @@ for name, unit in NUMERIC_SEED:
 # intensity is also imposable (e.g. a stimulus a.u. level)
 write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
+# spatial_frequency (#73 review item 45, jess 2026-09-25): cycles per degree of
+# visual angle, the fineness of a pattern. NOT `frequency` (per unit time, hertz):
+# a different dimension. Composite only, in draft -- no leaves until a statement
+# needs one (T12); its first use is `visual_grating.value.spatial_frequency` and the
+# unit of a spatial-frequency tuning key.
+write("draft", "spatial_frequency",
+      doc("spatial_frequency", ["base"], abstract=True, maturity="draft", fields=[field(
+          "value", "spatial_frequency",
+          "A spatial frequency value cell, cycles per degree of visual angle "
+          "(canonical + lossless source). Series-as-cardinality: an array of the cell.",
+          non_empty=True, scalar=False, blank=[], default=[CELL])]))
 
 
 # ---------- 11c. frequency_filter ----------
@@ -6597,6 +6829,8 @@ for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
 # invents a month, a day and a time.
 if "date" not in type_enum:
     type_enum.append("date")
+if "spatial_frequency" not in type_enum:     # #73 review item 45
+    type_enum.append("spatial_frequency")
 
 # ---- `base.datestamp` -> `base.creation_timestamp` -------------------------
 # THE FIELD IS INHERITED FROM V_zeta AND NOTHING HERE TOUCHED IT, which is why
@@ -6622,12 +6856,12 @@ if "date" not in type_enum:
 # ensureClassBlocks and before validation -- the only point every body passes
 # through, passthroughs included. Migrators keep reading and writing did_v1
 # spelling internally and not one of them changed.
-# ---- the epoch handle gains the extent, by COPYING relative_reference.value --
+# ---- the epoch handle gains the extent, by COPYING relative_time_reference.value --
 # TEAM GRANT 2026-08-13: "you can change any of the transitional schema... as
 # long as they aren't in V_eta's final schema." `epoch_bounded_reference` is a
 # pass-1 HANDLE -- it is consumed by ndi.migrate.internal.epochAnchorFold and is
 # NOT in the persist set (V_eta_final_class_set.md's tier 5 is exactly
-# `absolute_reference`, `relative_reference`), so a slot added here never reaches
+# `absolute_time_reference`, `relative_time_reference`), so a slot added here never reaches
 # the schema we keep.
 #
 # WHY IT IS NEEDED. pyraview is epoch-scoped by declaration and carries the
@@ -6638,13 +6872,13 @@ if "date" not in type_enum:
 # own `time_reference_#`.
 #
 # COPIED, NOT RE-DECLARED, and that is the point: the fold's job becomes a
-# straight copy of `value` into the `relative_reference` it emits, with no
+# straight copy of `value` into the `relative_time_reference` it emits, with no
 # translation step to get wrong, and the two shapes CANNOT DRIFT -- change
-# relative_reference.value and this follows on the next build.
-_rr_tier, _rr_path = path_of("relative_reference")
+# relative_time_reference.value and this follows on the next build.
+_rr_tier, _rr_path = path_of("relative_time_reference")
 _rr_value = [f for f in load(_rr_path)["fields"] if f["name"] == "value"]
 if len(_rr_value) != 1:
-    raise SystemExit("build_v_eta: relative_reference must declare exactly one "
+    raise SystemExit("build_v_eta: relative_time_reference must declare exactly one "
                      "`value` field; found %d" % len(_rr_value))
 _ebr_tier, _ebr_path = path_of("epoch_bounded_reference")
 _ebr = load(_ebr_path)
@@ -6652,7 +6886,7 @@ if not any(f["name"] == "value" for f in _ebr["fields"]):
     _v = json.loads(json.dumps(_rr_value[0]))      # deep copy
 
     def _strip_governance(node):
-        # THE COPY CARRIES SHAPE, NOT GOVERNANCE. relative_reference.value's
+        # THE COPY CARRIES SHAPE, NOT GOVERNANCE. relative_time_reference.value's
         # `relation` and `clock` are BOUND (OWL-Time, and the four clock terms),
         # and those bindings belong to the class we KEEP. Copying them onto a
         # transitional handle would grow the bound-field count -- which
@@ -6679,7 +6913,7 @@ if not any(f["name"] == "value" for f in _ebr["fields"]):
     _strip_governance(_v)
     _v["mustBeNonEmpty"] = False                   # a handle may carry no extent
     _v["documentation"] = (
-        "The epoch's extent and clock, shaped EXACTLY as relative_reference."
+        "The epoch's extent and clock, shaped EXACTLY as relative_time_reference."
         "value so the fold is a copy rather than a translation. OPTIONAL here "
         "and required there: a handle may name an epoch without knowing its "
         "bounds, which is the `no times => no reference` rule applied to the "
@@ -6782,17 +7016,19 @@ _dep_props = meta["$defs"]["dependency_object"]["properties"]
 _dep_props["min_count"] = {
     "type": "integer",
     "minimum": 0,
-    "description": "For a numbered family (`name_#`): the minimum number of "
-                   "instances a valid document must carry. `mustBeNonEmpty` "
-                   "cannot express this -- a missing instance is not a blank "
-                   "one -- so a family that must be present says min_count: 1. "
-                   "Omit on a non-numbered dependency.",
+    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` "
+                   "family): the minimum number of entries a valid document must "
+                   "carry. `mustBeNonEmpty` cannot express this -- a missing entry "
+                   "is not a blank one -- so a repeated edge that must be present "
+                   "says min_count: 1. Omit on a single edge, where "
+                   "`mustBeNonEmpty` already says it (the build enforces this).",
 }
 _dep_props["max_count"] = {
     "type": "integer",
     "minimum": 1,
-    "description": "For a numbered family (`name_#`): the maximum number of "
-                   "instances a valid document may carry. Omit for unbounded.",
+    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` "
+                   "family): the maximum number of entries a valid document may "
+                   "carry. Omit for unbounded, and on a single edge.",
 }
 # ---- #52: what makes two members of one family DIFFERENT -------------------
 # #63 said HOW MANY members a family may carry. It could not say what makes two
@@ -6821,7 +7057,7 @@ _dep_props["referent_unique_by"] = {
                    "evaluated ON THE REFERENCED DOCUMENT. No two members of "
                    "the family may refer to documents that agree on that path "
                    "-- the path is what distinguishes one member from another, "
-                   "and without it a bare `_1`/`_2` index carries no meaning. "
+                   "and without it a bare `_0`/`_1` index carries no meaning. "
                    "Resolving it requires the referenced documents, so this is "
                    "a BATCH property: it is measured report-only by "
                    "did2.validate.silentLoss and cannot be checked by a "
@@ -6879,7 +7115,6 @@ _EDGE_COUNTS = {
     ("syncgraph", "syncrule_id_#"): (0, None),
     # provenance: real when present, absent for a directly-measured value
     ("subject_calculation", "derived_from_#"): (0, None),
-    ("subject_observation", "derived_from_#"): (0, None),
     ("control_designation", "derived_from_#"): (0, None),
     # a relation may state times or not
     ("directed_relation", "time_reference_#"): (0, None),
@@ -6925,6 +7160,12 @@ _EDGE_COUNTS = {
     # class, which is the invented-empty-edge pattern this project already paid
     # for six times.
     ("ensemble", "neuron_id_#"): (0, None),
+    # 2026-09-24: the two edges renamed into `_#` families. A timed sequence's
+    # distinct stimuli: NDI's assembler refuses a presentation with no stimuli, but
+    # min 0 keeps this from becoming a new required edge on a draft class. An
+    # undirected relation is a PAIR: exactly two.
+    ("timed_sequence", "presented_id_#"): (0, None),
+    ("undirected_relation", "entities_#"): (2, 2),
 }
 for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
     _t, _p = path_of(_cls)
@@ -6969,8 +7210,8 @@ _UNIQ_DOC = (
     " #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family "
     "every member describes THE SAME instant or extent, and `value.clock` on "
     "the REFERENCED document must be unique across the family -- that clock is "
-    "what makes two members different, and the `_1`/`_2` index means nothing on "
-    "its own. Split-anchored intervals are NOT what a second member is for: "
+    "what makes two members different; entries repeating one name (T15) are "
+    "otherwise indistinguishable. Split-anchored intervals are NOT what a second member is for: "
     "they have no instance (every markvalidinterval call site passes one "
     "reference for both ends), so there are no `start_anchor`/`end_anchor` "
     "edges. Measured report-only, in batch, by did2.validate.silentLoss "
@@ -7745,9 +7986,9 @@ BINDING_EXAMPLES = [
      "class": "mass_observation",
      "notes": "dimensional leaf: mass_observation already fixes the value type, so "
               "no admissible-set spec is needed"},
-    {"variable": {"node": "", "name": "holding potential"},
-     "method": {"node": "", "name": "voltage clamp"},
-     "class": "voltage_manipulation",
+    {"variable": {"node": "", "name": "bath temperature"},
+     "method": {"node": "", "name": "perfusion heating"},
+     "class": "temperature_manipulation",
      "notes": "method + variable: on an interaction the binding is keyed by both "
               "the method and the variable"},
 ]
@@ -7858,6 +8099,13 @@ for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
     s = s.replace("scalar_observation", "subject_observation")
     s = s.replace("scalar_manipulation", "subject_manipulation")
     s = s.replace("categorical_observation", "term_observation")
+    # T13 boolean naming (team, 2026-09-24): V_eta drops the `is_` prefix, so the
+    # V_zeta row "`is_modulated_response` | same" is no longer the same name.
+    s = s.replace("| `is_modulated_response` | same |",
+                  "| `is_modulated_response` | `modulated_response` |")
+    s = s.replace("- **`is_modulated_response` promoted to boolean.**",
+                  "- **`is_modulated_response` promoted to boolean, and renamed "
+                  "`modulated_response`** (T13: no `is_` prefix on booleans).")
     s = s.replace("V_zeta", "V_eta").replace("Brainstorm I", "Brainstorm J")
     s = s.replace("Brainstorm-I", "Brainstorm-J")
     Path(p).write_text(s)
@@ -7882,7 +8130,7 @@ BANNERS = {
     "treatment_drug.md": "> **V_eta retarget.** → `dose_manipulation` (substance = `dose`/"
     "`formulation` composite; drug identity on the chemical term); route → `method`; site → "
     "Path S. Not `injection`.",
-    "virus_injection.md": "> **V_eta retarget.** → `dose_manipulation`/`formulation_manipulation` "
+    "virus_injection.md": "> **V_eta retarget.** → `dose_manipulation` "
     "(virus on the chemical term; titer/dilution in the composite); site → Path S. Not "
     "`injection (kind:virus)`.",
     "treatment_transfer.md": "> **V_eta retarget (D4).** → a `term_manipulation` for the "
@@ -7946,7 +8194,7 @@ handling: [`_files.md`](_files.md).
 | `ontology_table_row` | per column -> a `subject_assertion` (timeless) or `subject_observation` (timed) leaf + anchor; anatomy -> Path S (1->N) | drafted | [ontology_table_row.md](ontology_table_row.md) |
 | `subject_group` | bare `subject` (v3.0.0; no `is_group`) | drafted | [subject_group.md](subject_group.md) |
 | `treatment_drug` | `dose_manipulation` (drug on the chemical term) + anchor | drafted | [treatment_drug.md](treatment_drug.md) |
-| `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
+| `virus_injection` | `dose_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
 | `treatment_transfer` | `term_manipulation` + a provenance `directed_relation` (D4) | drafted | [treatment_transfer.md](treatment_transfer.md) |
 
 ## Semi-mechanical (D5 -> `term_observation`)
@@ -8086,10 +8334,17 @@ if _efi_path:
     _efi["document_class"]["class_name"] = "ingestion_manifest"
     _efi["document_class"]["class_version"] = "2.0.0"
     _efi["depends_on"] = [
-        dep("filenavigator_id", "filenavigator",
-            "The file navigator that produced this manifest. REQUIRED, and "
-            "RESTORED: this is the edge NDI actually writes, which V_eta had "
-            "dropped in favour of an invented `epochid`.", non_empty=True),
+        # RENAMED 2026-09-25 (#73 review item 40, jess: option A). Restored
+        # 2026-08-08 under NDI's name `filenavigator_id -> filenavigator`, a v1
+        # class the signed file-navigation decision (2026-08-06) turns into
+        # `epoch_file_pattern` with base.id PRESERVED -- so a v1 document's
+        # filenavigator id resolves here unchanged (must_refer is existence-only).
+        # Same edge name as `acquisition_system.epoch_file_pattern_id`.
+        dep("epoch_file_pattern_id", "epoch_file_pattern",
+            "The epoch file pattern whose match produced this manifest (v1 "
+            "`filenavigator_id`, id preserved). REQUIRED: it is the one edge NDI "
+            "writes, restored after V_eta had dropped it for an invented "
+            "`epochid`.", non_empty=True),
         dep("epoch_id", "epoch",
             "The epoch these files were ingested for. Replaces the invented "
             "`epochid` edge, which was empty on all 6,921 documents.",
@@ -8097,26 +8352,21 @@ if _efi_path:
     ]
     _efi["fields"] = [f for f in _efi.get("fields", [])
                       if f["name"] not in ("epoch_id", "epochprobemap")]
-    # LOSSLESS ROUND-TRIP (2026-08-21, team-directed): keep the serialized
-    # epochprobemap as OPAQUE read-back provenance. The signed #66 model
-    # decomposes it into observations, but that decomposition only fires for
-    # RECORDING modalities -- stimulator/display/imaging rows (1,225 of 1,399 on
-    # Soph) emit no observation, so their per-epoch presence would be LOST with
-    # nowhere to land. Carried VERBATIM so ndi.vintage can reconstruct the exact
-    # v1 epochprobemap for every epoch and every probe type; retired only once
-    # the stimulus/image models decompose the remaining rows (verify-before-
-    # delete). NOT queryable: the observations are the queryable expression;
-    # this string is the object-reconstruction record.
-    _efi["fields"].append(field(
-        "epochprobemap", "char",
-        "The epoch's original serialized epochprobemap (name<TAB>reference<TAB>"
-        "type<TAB>devicestring<TAB>subjectstring, one row per probe), carried "
-        "VERBATIM for lossless read-back. The recording rows also decompose into "
-        "<modality>_observation documents (the queryable V_eta expression); this "
-        "opaque string preserves the FULL map -- including the stimulator/imaging "
-        "rows that do not decompose -- so ndi.vintage rebuilds the exact v1 "
-        "epochprobemap object. Retired when every row has a decomposed home.",
-        non_empty=False, scalar=True, queryable=False))
+    # `epochprobemap` DROPPED 2026-09-25 (#73 review item 39, jess: option B,
+    # "drop epochprobemap now"). It was kept 2026-08-21 as OPAQUE read-back
+    # provenance: a serialized v1 table (name<TAB>reference<TAB>type<TAB>...)
+    # carried verbatim because stimulator/imaging rows had no decomposed home.
+    # That is not V_eta (T6/T14: structure is declared, never a serialized
+    # string), and the reason has shrunk to one row type:
+    #   recording rows   -> <modality>_observation documents (#66)
+    #   stimulator rows  -> term_manipulation (#66 increment 3, 2026-08-22)
+    #   imaging rows     -> NO HOME until the image model (#24); in no corpus held
+    # So the migrator must REFUSE an imaging row (a visible refusal, never a silent
+    # drop) instead of hiding it in a string -- a DID-matlab item on PR #76. The
+    # stated read-back use was never built: 0 files under NDI-matlab src/ndi
+    # mention `ingestion_manifest` (V_eta branch, 2026-09-25).
+    # The v1 `epochfiles_ingested` TOMBSTONE below keeps its epochprobemap -- that
+    # is the v1 writer's shape, and unmigrated documents must still validate.
     write(_efi_tier, "ingestion_manifest", _efi)
 
     # THE SOURCE TOMBSTONE STAYS UNTIL A MIGRATOR CONSUMES IT.
@@ -8339,10 +8589,11 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_grating"]
+    "visual_grating", "spatial_frequency"]
 for name in DATA_TYPES:
-    p = os.path.join(VETA, "stable", name + ".json")
-    if not os.path.exists(p):
+    # path_of, not a stable/ literal: spatial_frequency (item 45) is in draft/.
+    _dt_tier, p = path_of(name)
+    if not p:
         continue
     d = load(p)
     d["document_class"]["superclasses"] = [{"class_name": "data_type"}]
@@ -8382,6 +8633,997 @@ for name in ["voltage", "current", "force", "concentration"]:
           doc(name + "_manipulation", ["subject_manipulation", name]))
 
 
+# ---------- 12.6. #73 REVIEW BUILD (team, 2026-09-24/25) ---------------------------
+# Everything decided in the #73 review that has a schema half, applied in ONE place
+# so the before/after is legible. The decision record, with the reasoning and the
+# rejected options, is V_eta_spatial_transcriptomics_plan.md (items cited as "item
+# N" below). Emitters (DID-matlab, NDI) follow on the PR #76 checklists; until they
+# land, documents written with the old names do not validate here.
+
+
+def _patch(name, fn):
+    """Load `name` from whichever tier holds it, apply `fn(doc)`, write it back."""
+    _t, _p = path_of(name)
+    if not _p:
+        raise SystemExit(f"#73 build: class {name!r} not found")
+    _d = load(_p)
+    fn(_d)
+    write(_t, name, _d)
+
+
+def _drop_field(d, fname):
+    d["fields"] = [f for f in d.get("fields", []) if f["name"] != fname]
+
+
+# --- item 19: every data_type composite is CONCRETE ------------------------------
+# T6's `storage_mode: reference` needs a standalone value document to point at; with
+# 40 of 42 composites abstract, `reference` was impossible for 40 data types. A
+# standalone data_type document is CONTENT, NOT A CLAIM: it says nothing until a
+# statement references it, and the statement carries the subject and the stance.
+# `data_type` and `data` themselves stay abstract (they are genera, not types).
+def _chain_names(name, _seen=None):
+    _seen = set() if _seen is None else _seen
+    _t, _p = path_of(name)
+    if not _p or name in _seen:
+        return _seen
+    _seen.add(name)
+    for _s in load(_p)["document_class"].get("superclasses", []):
+        _chain_names(_s["class_name"], _seen)
+    return _seen
+
+
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        _n = _d["document_class"]["class_name"]
+        if _n in ("data_type", "data"):
+            continue
+        _sup = [s["class_name"] for s in _d["document_class"].get("superclasses", [])]
+        # a COMPOSITE: data_type in its chain, and not a statement leaf
+        _anc = _chain_names(_n) - {_n}
+        if "data_type" in _anc and "subject_statement" not in _anc \
+                and _d["document_class"].get("abstract"):
+            del _d["document_class"]["abstract"]
+            write(_tier, _n, _d)
+
+
+# --- items 14/15/32/33/36: the KEY entry replaces the axis entry -----------------
+# `axes` -> `keys` at all four mounts. A key is what you look a value up by; the
+# value itself is typed by the data type (item 15: no `values[]` column list --
+# "a body holds exactly one kind of value; anything else that looks like a column
+# is a key"). Added to the entry: `labels_from` (item 12), `cyclic` (item 11),
+# `chunk` (item 17). `labels` entries may be terms OR labels (item 33: an entry
+# with no `node` is a label -- meaningful only locally). `values` keeps its name
+# (item 32). Beside every `keys` list: `complete` (item 14).
+def _key_entry_extras():
+    return [
+        subfield("labels_from", "integer",
+                 "Take this key's positions from the ROWS of another document, in "
+                 "its order, instead of an inline `labels` list: the 0-based "
+                 "POSITION of a `key_labels_id` entry on this document (T15: that "
+                 "edge repeats one name and is `ordered`, so entry k is the k-th "
+                 "`key_labels_id`). -1 (the blank) = not used. XOR with "
+                 "`labels`/`values`. `n` must equal the referenced document's row "
+                 "count, and that document must carry an explicit 0-based index "
+                 "column.", blank=-1),
+        subfield("cyclic", "boolean",
+                 "True: after the last position comes the first (a closed outline's "
+                 "vertices). Absent = false.", blank=False),
+        subfield("chunk", "integer",
+                 "Positions per chunk along this key when the bytes are split across "
+                 "several files (a tiled image). Chunk k is numbered row-major over "
+                 "the chunk grid, from 0, and lives in file-series member "
+                 "`body_data_k`; a missing member is an empty chunk. Absent = this "
+                 "key is not split.", scalar=True),
+    ]
+
+
+def _rekey(fields, where):
+    out, found = [], False
+    for f in fields:
+        if f["name"] == "axes":
+            found = True
+            f = dict(f)
+            f["name"] = "keys"
+            f["documentation"] = (
+                "What a value is looked up by, in array order: keys[k] IS array "
+                "dimension k. Time is an ordinary key. " + where)
+            subs = f.get("fields") or f.get("sub_fields") or []
+            for s in subs:
+                if s["name"] == "labels":
+                    s["documentation"] = (
+                        "Categorical positions. Each entry is a TERM ({node, name}) or "
+                        "a LABEL ({name} with no node: meaningful only locally, e.g. "
+                        "a cluster number). XOR with `values` and `labels_from`.")
+                if s["name"] == "regular":
+                    s["documentation"] = (
+                        "True: positions are generated from origin + spacing. False: "
+                        "they are stored, in `values`, `labels` or `labels_from`.")
+            subs.extend(_key_entry_extras())
+            out.append(f)
+            out.append(field(
+                "complete", "boolean",
+                "True: every combination of key positions has a value (a dense "
+                "grid). False: only the listed rows exist (ragged or sparse; a "
+                "missing row is absence, e.g. an unlabelled cell).",
+                non_empty=False, blank=True, default=True))
+        else:
+            out.append(f)
+    if not found:
+        raise SystemExit(f"#73 build: no `axes` to rename on {where}")
+    return out
+
+
+AXIS_LABELS = dep("axis_labels_#", "base",
+                  "The documents whose rows name a key's positions, referenced from "
+                  "that key's `labels_from` by edge name (item 12). Resolved and "
+                  "orphan-checked like any other edge.", non_empty=False,
+                  multiple=True)
+AXIS_LABELS["min_count"] = 0
+
+
+def _ss(d):
+    d["fields"] = _rekey(d["fields"], "Populated when the value is INLINE or behind "
+                         "a REFERENCE; with storage_mode `body` the keys live on each "
+                         "body, which has its own extent.")
+    d["depends_on"].append(dict(AXIS_LABELS))
+    for f in d["fields"]:
+        if f["name"] == "datum_type":
+            f["documentation"] = (
+                "How this statement's VALUES are encoded -- the ONE place the value "
+                "type lives (a body never repeats it). REQUIRED in practice whenever "
+                "the value has a byte representation: storage_mode `body` or "
+                "`reference`, AND an inline numeric payload such as an image's "
+                "pixels. Absent only for a value with no numeric payload (a term).")
+    d["depends_on"].append(dep(
+        "value_id", "data_type",
+        "storage_mode `reference`: the standalone data_type document that holds "
+        "this statement's value (item 30). ONE role-named edge for every data type, "
+        "so `storage_mode: reference` <=> `value_id` present.", non_empty=False))
+
+
+_patch("subject_statement", _ss)
+
+
+def _sb(d):
+    d["fields"] = _rekey(d["fields"], "The keys of THIS body's array; each body has "
+                         "its own extent (one body per array).")
+    d["depends_on"].append(dict(AXIS_LABELS))
+
+
+_patch("sampled_body", _sb)
+_patch("acquisition_epoch", lambda d: d.__setitem__(
+    "fields", _rekey(d["fields"], "Empty for a bare scalar.")))
+
+
+# --- item 16: image.value = { keys, complete, pixels } --------------------------
+def _img16(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            subs = [s for s in f["fields"]
+                    if s["name"] not in ("dtype", "color_model", "channels")]
+            f["fields"] = _rekey(subs, "Populated when the pixels are inline; when "
+                                 "they live in a data_body the keys live with the "
+                                 "body. Channels are a key whose `labels` name them "
+                                 "(terms), which also says the colour model: no "
+                                 "channel key = grayscale, red/green/blue = rgb.")
+            f["documentation"] = (
+                "The raster cell: the pixels plus their keys. The pixel TYPE is "
+                "`subject_statement.datum_type` (one home; item 16).")
+
+
+_patch("image", _img16)
+
+
+# --- items 17/20/24/25/31: data_body ---------------------------------------------
+def _db(d):
+    for x in d["depends_on"]:
+        if x["name"] == "statement":
+            x["name"] = "owner"
+            x["must_refer_to_document_class"] = "subject_statement,data_type"
+            x["documentation"] = (
+                "The document this body holds the value of: a statement, or a "
+                "standalone data_type document (a shared image, waveform or term "
+                "list; item 20). A later body appends without rewriting the owner.")
+    d["fields"] += [
+        field("hash_algorithm", "char",
+              "The algorithm `content_hash` was computed with (e.g. 'MD5'). Without "
+              "it a hash cannot be checked (item 25).", non_empty=False),
+        field("size_bytes", "integer",
+              "Size of the stored bytes. A cheap first identity check (item 25).",
+              non_empty=False),
+        field("file_created", "timestamp",
+              "When the payload file was created, if the source recorded it. Named "
+              "file_* so it is never confused with the document's own timestamp.",
+              non_empty=False),
+        field("file_modified", "timestamp",
+              "When the payload file was last modified, if the source recorded it.",
+              non_empty=False),
+        field("redundant", "boolean",
+              "True = this body adds NO information beyond another body of the same "
+              "owner (e.g. a coarser zoom level of an image pyramid): an exact, "
+              "deterministic rebuild exists, so it is safe to delete. Nothing may "
+              "cite a redundant document as a provenance input (item 31; T6).",
+              non_empty=False, blank=False, default=False),
+    ]
+    d["file"] = [{"name": "body_data", "series": True,
+                  "documentation": "The byte payload, always a DID FILE SERIES "
+                  "(item 17): member `body_data_k` holds chunk k, numbered from 0; "
+                  "an unchunked body is one member, `body_data_0`. A file held "
+                  "OUTSIDE the database is a member recorded by location and not "
+                  "ingested (item 25)."}]
+
+
+_patch("data_body", _db)
+for _b in ("sampled_body", "opaque_body"):
+    _patch(_b, lambda d: d.__setitem__("file", []))   # inherited from data_body
+
+# the meta-schema: a file record may declare itself a series
+_meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_meta["$defs"]["file_record"]["properties"]["series"] = {
+    "type": "boolean",
+    "description": "True: this name is a DID file series -- a manifest plus members "
+                   "NAME_0, NAME_1, ... (numbered from 0, T14); missing members are "
+                   "expected."}
+_dprops = _meta["$defs"]["dependency_object"]["properties"]
+_dprops["name"]["description"] = (
+    "Name of the dependency: a noun ending `_id` (T15). A V_eta edge that may repeat "
+    "REPEATS THIS ONE NAME, one entry per referenced document, and is never numbered. "
+    "A '#' in the name occurs ONLY on did_v1 tombstones and marks a v1 numbered "
+    "family: 'syncrule_id_#' matches the v1 runtime names 'syncrule_id_1', "
+    "'syncrule_id_2', ..., read as written. When '#' appears, 'multiple' must be true.")
+_dprops["multiple"]["description"] = (
+    "If true, the document may carry this dependency more than once. On a V_eta class "
+    "the entries all carry the SAME name (T15) and `ordered` says whether their "
+    "position is data; on a did_v1 tombstone the name carries a '#' placeholder and "
+    "the entries are numbered as v1 wrote them. Omit or false for exactly-one.")
+_dprops["ordered"] = {
+    "type": "boolean",
+    "description": "For a repeated V_eta edge (`multiple`): true if the entries' "
+                   "POSITION is data (0-based, T14) -- a playlist, a key's label "
+                   "source, a rule list whose ties break by order; false if they are "
+                   "a set whose order must not be read. Required on every repeated "
+                   "V_eta edge (T15); omit otherwise."}
+for _k in ("min_count", "max_count"):
+    _dprops[_k]["description"] = _dprops[_k]["description"].replace(
+        "For a numbered family (`name_#`)", "For a repeated dependency (`multiple`)")
+_dprops["referent_unique_by"]["description"] = (
+    _dprops["referent_unique_by"]["description"]
+    .replace("For a numbered family (`name_#`)", "For a repeated dependency (`multiple`)")
+    .replace("a bare `_0`/`_1` index carries no meaning",
+             "two entries of one name are otherwise indistinguishable")
+    .replace("(`derived_from_#`: N inputs,", "(`input_id`: N inputs,"))
+with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
+    json.dump(_meta, f, indent=4)
+    f.write("\n")
+
+# --- item 31: `redundant` on calculations ---------------------------------------
+_patch("subject_calculation", lambda d: d["fields"].append(field(
+    "redundant", "boolean",
+    "True = this calculation adds NO information beyond its inputs: an exact, "
+    "deterministic, choice-free rebuild exists (per-gene totals summed from the "
+    "counts), so it is safe to delete. Most calculations are NOT redundant -- a "
+    "clustering, a label transfer or a fit depends on method, version and "
+    "randomness. Nothing may cite a redundant document as a provenance input "
+    "(item 31; T6).", non_empty=False, blank=False, default=False)))
+
+
+# --- items 22/24/27/30: relations -------------------------------------------------
+_REL_METHOD = None
+
+
+def _dr(d):
+    global _REL_METHOD
+    for f in d["fields"]:
+        if f["name"] == "method":
+            _REL_METHOD = f
+    _drop_field(d, "method")
+    for x in d["depends_on"]:
+        if x["name"] in ("child", "parent"):
+            x["must_refer_to_document_class"] = "entity,subject_statement,data_type"
+    for x in d["depends_on"]:
+        if x["name"] == "child":
+            x["documentation"] = (
+                "The finer/subordinate/derived side: an entity, a statement (a label "
+                "calculation derived_from an external atlas, item 27) or a standalone "
+                "data document (a gene list derived_from its annotation, item 22).")
+        if x["name"] == "parent":
+            x["documentation"] = (
+                "The whole/group/source/target side: an entity, a statement or a "
+                "standalone data document (the target gene list of a mapping, "
+                "item 24).")
+
+
+_patch("directed_relation", _dr)
+_REL_METHOD["documentation"] = (
+    "Optional: the procedure that produced the relation -- the `how` "
+    "(surgical_dissection, biological_reproduction, an orthology-inference tool). "
+    "Declared on `relation` so undirected relations have it too (item 24). A timed "
+    "`derived_from` with a `method` and a `time_reference` IS the creation event.")
+
+
+def _rel(d):
+    d["fields"].append(_REL_METHOD)
+    d["depends_on"].append(dep(
+        "value_id", "data_type",
+        "Optional: the standalone data_type document holding this relation's data "
+        "(a gene mapping's pair table, item 24). The same role-named edge a "
+        "statement uses to point at a shared value (item 30).", non_empty=False))
+
+
+_patch("relation", _rel)
+
+
+# timed_sequence_manipulation: `timed_sequence_id` -> the inherited `value_id`
+def _tsm(d):
+    d["depends_on"] = [x for x in d["depends_on"] if x["name"] != "timed_sequence_id"]
+
+
+_patch("timed_sequence_manipulation", _tsm)
+
+
+# --- item 33: `label`, a term without a node -------------------------------------
+write("draft", "label", doc("label", ["data_type"], maturity="draft", fields=[
+    field("value", "structure",
+          "A value meaningful only LOCALLY -- a source identifier, a cluster number, a "
+          "condition name. A TERM has a namespace and an id; a label has neither, only "
+          "a name. Boundary test: shared or compared across datasets -> a term (mint "
+          "one if none exists); confined to one source or run -> a label (item 33).",
+          non_empty=False, blank={}, sub_fields=[
+              subfield("name", "char",
+                       "The label. A string even when it looks numeric (leading "
+                       "zeros; identifiers wider than 2^53).", non_empty=True)])]))
+write("draft", "label_calculation",
+      doc("label_calculation", ["subject_calculation", "label"], maturity="draft"))
+
+# --- items 4-9: `position` + `coordinate_system` --------------------------------
+write("draft", "coordinate_system", doc(
+    "coordinate_system", ["base"], maturity="draft",
+    deps=[dep("relative_to", "base",
+              "The document the origin is ON: an image, a probe, a subject (bregma), "
+              "an atlas. REQUIRED -- a coordinate system always says whose space it "
+              "is (item 9).")],
+    fields=[
+        field("origin", "ontology_term",
+              "WHICH point on `relative_to` is zero (image upper-left corner, probe "
+              "tip, bregma). The same concept as a key's `origin`; a term here because "
+              "a root coordinate system is not measured within another one.",
+              non_empty=True),
+        field("dimensions", "structure",
+              "One entry per coordinate, in coordinate order. Cartesian only. "
+              "Transforms between coordinate systems are NOT part of one.",
+              non_empty=True, scalar=False, blank=[], sub_fields=[
+                  subfield("axis", "ontology_term",
+                           "The line this coordinate runs along (image horizontal "
+                           "axis, anterior-posterior axis, shank axis) -- an AXIS "
+                           "term, not a coordinate-value term.", non_empty=True),
+                  subfield("positive_direction", "ontology_term",
+                           "Which end of `axis` is positive; must say WHOSE "
+                           "direction ('image right', 'posterior').",
+                           non_empty=True),
+                  subfield("spacing", "length",
+                           "One unit step along this coordinate. ABSENT = unknown "
+                           "(uncalibrated); positions are then in steps only.",
+                           blank={}),
+              ])]))
+write("draft", "position", doc(
+    "position", ["data_type"], maturity="draft",
+    deps=[dep("coordinate_system_id", "coordinate_system",
+              "The coordinate system the coordinates are in. REQUIRED: a position "
+              "with no coordinate system is only numbers (item 9).")],
+    fields=[field(
+        "value", "structure",
+        "Where something is: coordinates[k] along the coordinate system's "
+        "dimensions[k], in that dimension's spacing units (metres = coordinate x "
+        "spacing). Many positions (centroids, outline vertices) are a key over the "
+        "things positioned.", non_empty=False, blank={}, sub_fields=[
+            subfield("coordinates", "matrix",
+                     "One number per coordinate-system dimension.", scalar=False,
+                     blank=[])])]))
+write("draft", "position_observation",
+      doc("position_observation", ["subject_observation", "position"],
+          maturity="draft"))
+write("draft", "position_calculation",
+      doc("position_calculation", ["subject_calculation", "position"],
+          maturity="draft"))
+
+# --- the calculation leaves the review needs (T3: direction x data type) ---------
+# NOT `logical_calculation`: the two uses it was drafted for (cluster membership,
+# the cell list) both became `label_calculation` (items 27/33).
+# `voltage` added 2026-09-25 (#73 review item 48): neuron_extracellular's mean
+# waveform is computed from the spike sort, so it is a calculation (T2 rule).
+for _dt in ("count", "area", "score", "term", "voltage"):
+    _t, _p = path_of(_dt)
+    write("draft", f"{_dt}_calculation",
+          doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))
+
+# --- item 37: harmonic_component_calculation RESTORED ----------------------------
+# Signed 2026-08-08 (V_eta_stimulus_response_model_plan.md, TEAM-SIGN-OFF [stimulus
+# response]); deleted 2026-09-21 by issue #67 decision 10 on the premise that
+# `_calculation` means "a calculator produced it". #73's rule C (T2) decides by
+# PROVENANCE: a stimulus response is computed from the spike train and the stimulus
+# presentation, both in the dataset, so it is a calculation.
+write("draft", "harmonic_component_calculation",
+      doc("harmonic_component_calculation",
+          ["subject_calculation", "harmonic_component"], maturity="draft"))
+
+
+# --- item 51: `image` and `image_observation` RETIRE (jess, 2026-09-25) ----------
+# After item 16 the V_eta `image` data_type held only { pixels, keys, complete }: the
+# generic keyed array T3 forbids inventing (`array` was killed for it) under a name
+# that states the FORM, not what the pixels measure (T13). It fails T12 (no quantity,
+# no structure of its own). A raster now goes by what its pixels measure, keyed
+# [y, x, (channel)]: brightness/fluorescence -> intensity_observation, a mask or label
+# map -> label_calculation, a term map -> term_observation, depth -> length_observation,
+# unknown raw values -> a bare sampled_body (T3). A picture shown as a stimulus is a
+# standalone document of that data type, an item of a timed_sequence_manipulation.
+#
+# `image` IS ALSO A did_v1 CLASS (NDI database_documents/data/image.json), whose name
+# V_eta had reused -- the collision migrators_j/image.m exists to refuse around. The
+# name goes back to the v1 class: a retired tombstone restated from the template, so
+# an unmigrated v1 image validates. Fields, deps and file are NDI's own spelling
+# (depends_on names and file names pass through universalRenames verbatim).
+_ip = path_of("image")[1]
+os.remove(_ip)
+write("deprecated", "image", {
+    "document_class": {
+        "class_name": "image", "class_version": "2.0.0",
+        "superclasses": [{"class_name": "base"},
+                         {"class_name": "image_stack_parameters"}],
+        "maturity_level": "deprecated"},
+    "depends_on": [
+        dep("subject_id", "subject", "The subject depicted.", non_empty=False),
+        dep("imageCollection_id", "image_collection",
+            "The collection this image belongs to. NDI's own spelling: a depends_on "
+            "name passes through migration verbatim.", non_empty=False)],
+    "file": [{"name": "imageFile",
+              "documentation": "The image file. NDI's own file_list entry, verbatim."}],
+    "fields": [
+        field("label", "char", "Prose definition of the image type."),
+        field("format", "char", "The file format."),
+        field("compression", "char", "The file's compression, if any.")],
+})
+
+
+# --- item 54: names live on the classes that have one (jess, 2026-09-25) ----------
+# A name is a property of SOME things, not of every document: an observation, a body,
+# a relation has none, and a `base.name` on everything filled up with `migrated_*`
+# placeholders. So `base` stops carrying a name for V_eta documents, and each class
+# that has one declares it, spelled `name` wherever it is the single "what this is
+# called" (T13: one word per concept). Structure is kept only where the domain has it:
+# `short_name` (dataset, organization), the parts of a person's name, software's
+# `version`. `local_identifier` is a KEY, not a name, and stays only where the code
+# keys on it -- subject, session, epoch (required there); it comes off the eight
+# entities nothing writes it on (software's `name@version` is a derived merge key).
+#
+# `base.name` STAYS DECLARED, as a did_v1-ONLY slot (option 1): about 30 v1 classes
+# still pass through as themselves, each document carrying a v1 `base` block with a
+# name, and the validator rejects undeclared fields. V_eta emitters never write it;
+# it is deleted outright when the last passthrough class is converted (the Bar-2 end
+# state already requires "no v1 tombstones passed through").
+def _base54(d):
+    for f in d["fields"]:
+        if f["name"] == "name":
+            f["mustBeNonEmpty"] = False
+            f["documentation"] = (
+                "did_v1 ONLY (#73 item 54). Carried by v1 documents that pass through "
+                "under a retired tombstone; V_eta documents never write it -- a V_eta "
+                "class that has a name declares its own `name` field. Deleted when the "
+                "last passthrough class is converted.")
+
+
+_patch("base", _base54)
+
+
+def _drop_local_id(d):
+    d["fields"] = [f for f in d["fields"] if f["name"] != "local_identifier"]
+
+
+def _rename_to_name(old, doc_text):
+    def fn(d):
+        for f in d["fields"]:
+            if f["name"] == old:
+                f["name"] = "name"
+                f["documentation"] = doc_text
+    return fn
+
+
+for _c in ("person", "organization", "publication", "funding", "web_resource",
+           "dataset", "software", "strain"):
+    _patch(_c, _drop_local_id)
+_patch("organization", _rename_to_name(
+    "full_name", "The organization's name (openMINDS Organization.fullName; was "
+    "`full_name`, #73 item 54). ROR via global_identifier."))
+_patch("dataset", _rename_to_name(
+    "full_name", "The dataset's name (openMINDS DatasetVersion.fullName; was "
+    "`full_name`, #73 item 54)."))
+_patch("publication", _rename_to_name(
+    "title", "The publication's title (was `title`, #73 item 54: `name` is V_eta's "
+    "one word for what a thing is called)."))
+_patch("funding", _rename_to_name(
+    "title", "The award/grant title (openMINDS Funding.awardTitle; was `title`, #73 "
+    "item 54)."))
+_patch("web_resource", _rename_to_name(
+    "label", "The resource's name (was `label`, #73 item 54)."))
+
+
+def _acq54(d):
+    d["fields"] = [field(
+        "name", "char",
+        "The rig's name (v1 `daqsystem.base.name`, #73 item 54). NDI finds an "
+        "acquisition system by this name (session.m daqsystem_load; a syncrule's "
+        "daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
+        non_empty=False)] + d.get("fields", [])
+
+
+_patch("acquisition_system", _acq54)
+
+
+# --- item 55: `epoch.instrument_id` is dropped (jess, 2026-09-25) --------------------
+# An epoch is not reliably one rig: current NDI mints a unique epoch id per file
+# navigator (+file/navigator.m:253-279), but older data names epochs after their
+# directory ("t00003"), shared by every rig recording it, and epochMint makes ONE
+# epoch per (session, epoch name). The rig is recorded where it is always right -- on
+# each recording statement (see 6b) -- and nothing ever wrote this edge. Reverses
+# that part of the epoch sign-off (2026-08-08, amended 2026-08-10).
+_patch("epoch", lambda d: d.__setitem__(
+    "depends_on", [e for e in d["depends_on"] if e["name"] != "instrument_id"]))
+
+
+# --- item 56: channel wiring is ONE shape, an `acquisition_channels` document -------
+# (jess, 2026-09-25, 6b option B). The same fact -- a rig plus channel groups -- was
+# stored inline on every recording statement (subject_interaction.channels +
+# acquisition_system_id, from resolveEpochProbemap) AND as an `acquisition_channels`
+# document for sync (clock_alignment_configuration.acquisition_channels_id). A
+# statement now points at a shared `acquisition_channels` document by the same edge
+# name; one document per distinct (rig, channels), so an unchanged wiring is stored
+# once, not once per epoch. The rig is reached through it:
+# statement -> acquisition_channels -> acquisition_system (item 55 dropped the epoch's).
+def _si56(d):
+    d["fields"] = [f for f in d["fields"] if f["name"] != "channels"]
+    d["depends_on"] = [e for e in d["depends_on"] if e["name"] != "acquisition_system_id"]
+    d["depends_on"].append(dep(
+        "acquisition_channels_id", "acquisition_channels",
+        "The rig and channels this interaction was recorded on or delivered through "
+        "-- v1's `devicestring` ('intan1:ai1-4,9'), as a shared `acquisition_channels` "
+        "document (#73 item 56). OPTIONAL: present on interactions decomposed from an "
+        "ingested epoch's probemap (recording observations, stimulator manipulations).",
+        non_empty=False))
+
+
+_patch("subject_interaction", _si56)
+
+
+def _ac56(d):
+    for e in d["depends_on"]:
+        if e["name"] == "acquisition_system_id":
+            e["documentation"] = (
+                "The rig this channel group is read on -- the device half of v1's "
+                "`devicestring` or a syncrule's device name. DECIDED REQUIRED (#73 item "
+                "56), kept OPTIONAL until the minting pass lands, because nothing fills "
+                "it today and #37 would quarantine every syncrule-fold document: "
+                "a batch pass resolves the device name by (session, name); when no "
+                "`acquisition_system` has that name it MINTS one whose `name` is the "
+                "device name, so the edge always resolves and the rig's name lives in "
+                "one place. (Until item 54 an unresolved name rode on `base.name`.)")
+
+
+_patch("acquisition_channels", _ac56)
+
+
+# --- item 57: small audit decisions (jess, 2026-09-25) ---------------------------
+# (a) `area` stays in square_meters: it follows `length` (meters), as velocity and
+#     acceleration do; `volume` in liters is the deliberate practical exception.
+def _area57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            f["documentation"] = (
+                (f.get("documentation") or "") + " Canonical unit square_meters, "
+                "following `length` (meters) as area = length^2 (#73 item 57); "
+                "`volume` in liters is the deliberate practical exception.")
+
+
+_patch("area", _area57)
+
+
+# (b) `receptive_field.value` drops `storage_mode` and `method`: how the value is
+#     stored and how it was estimated belong to the statement (its own
+#     `storage_mode`, and `subject_interaction.method` on receptive_field_calculation).
+def _rf57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            f["fields"] = [x for x in f["fields"]
+                           if x["name"] not in ("storage_mode", "method")]
+
+
+_patch("receptive_field", _rf57)
+
+
+# (c) `tuning_curve.value.response_units` (free text) -> `response_unit`, an
+#     ontology_term like every other unit; unbound until the unit vocabulary is
+#     chosen (#73 item 24).
+def _tc57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            for i, x in enumerate(f["fields"]):
+                if x["name"] == "response_units":
+                    f["fields"][i] = subfield(
+                        "response_unit", "ontology_term",
+                        "Unit of the response values (e.g. spikes per second, dF/F), "
+                        "a term like every other unit (was free-text "
+                        "`response_units`, #73 item 57). Unbound until the unit "
+                        "vocabulary is chosen (#73 item 24).", non_empty=False)
+
+
+_patch("tuning_curve", _tc57)
+
+
+# (d) the `session_id` edges on `epoch` and `clock_alignment_policy` go: every
+#     document already names its session in `base.session_id`, and session
+#     documents are 1:1 with the distinct base.session_id values (#51, measured in
+#     all six corpora), so the edge restated a fact. Reverses that part of the epoch
+#     sign-off.
+for _c in ("epoch", "clock_alignment_policy"):
+    _patch(_c, lambda d: d.__setitem__(
+        "depends_on", [e for e in d["depends_on"] if e["name"] != "session_id"]))
+
+
+# --- item 21 (signed data_body 2026-08-14, sec.2 + build step 5): `sample_time`
+# RETIRES. Time is an ordinary key: `regular -> regular`, `t0 -> origin`,
+# `dt -> spacing`, `n -> n`, `offsets -> values`, in the statement's `keys` when the
+# value is inline and in each body's `keys` otherwise. `sampled_body.sample_time`
+# already went with the keys build; this removes the last site.
+_patch("subject_interaction", lambda d: d.__setitem__(
+    "fields", [f for f in d["fields"] if f["name"] != "sample_time"]))
+
+
+# --- item 22 (signed [spike processing parameters] 2026-08-09): the INLINE
+# `subject_interaction.method_parameters` takes the SAME name and shape as the
+# `method_parameters` document's settings -- a `parameter[]` entry (bound `variable`,
+# numeric `value` cell, categorical `term`, free `text`). It was an empty free-form
+# structure. Copied from the document's own declaration, not restated, so the two
+# mount points cannot drift. A statement carries this field OR a
+# `method_parameters_id` edge, never both (the signed routing rule; not expressible
+# in the per-document schema, so it is stated here and on the field).
+_mp_doc = load(path_of("method_parameters")[1])
+_mp_shape = next(f for f in _mp_doc["fields"] if f["name"] == "method_parameters")
+
+
+def _si22(d):
+    for i, f in enumerate(d["fields"]):
+        if f["name"] == "method_parameters":
+            nf = json.loads(json.dumps(_mp_shape))   # a deep copy
+            nf["mustBeNonEmpty"] = False
+            nf["documentation"] = (
+                "The settings of the algorithm that produced this value, inline: the "
+                "SAME `parameter[]` shape as the `method_parameters` document (signed "
+                "2026-08-09, built #73 item 22). Used when the settings have no name and "
+                "id of their own in the source; otherwise the statement points at a "
+                "`method_parameters` document by `method_parameters_id`. Never both.")
+            d["fields"][i] = nf
+
+
+_patch("subject_interaction", _si22)
+
+
+# --- item 23 (signed data_body AMENDMENT 2, 2026-08-14): `conditions` reaches format
+# parity with the key entry. The four descriptors -- variable, unit, source_unit,
+# approximate -- sit at the TOP of each condition (as on a key), `count` flattens to
+# an integer list, and `quantity` holds {value, source_value} pairs. Measured before
+# signing: per-element unit/approximate were identical across every array any writer
+# produced, so moving them up loses nothing. Merging conditions into keys stays
+# REJECTED: a key INDEXES a value, a condition QUALIFIES it.
+def _ss23(d):
+    for i, f in enumerate(d["fields"]):
+        if f["name"] != "conditions":
+            continue
+        var = next(x for x in f["fields"] if x["name"] == "variable")
+        term = next(x for x in f["fields"] if x["name"] == "term")
+        f["fields"] = [
+            var,
+            subfield("unit", "ontology_term",
+                     "Canonical unit of the condition's numeric value(s), for the whole "
+                     "condition (as on a key). Absent for a categorical condition.",
+                     non_empty=False),
+            subfield("source_unit", "char",
+                     "The unit as the source gave it. Omitted when already canonical.",
+                     non_empty=False),
+            subfield("approximate", "boolean",
+                     "Applies to the whole condition.", non_empty=False, blank=False),
+            term,
+            subfield("count", "structure", "Integer value(s).", non_empty=False,
+                     sub_fields=[subfield("value", "integer",
+                                          "The count(s). Length 1: a condition is "
+                                          "held fixed for the statement.",
+                                          scalar=False, blank=[])]),
+            subfield("quantity", "structure",
+                     "Dimensioned numeric value(s), in `unit`.", non_empty=False,
+                     sub_fields=[subfield(
+                         "value", "structure",
+                         "Length 1: a condition is held fixed for the statement.",
+                         scalar=False, blank=[], sub_fields=[
+                             subfield("value", "double", "Canonical value, in `unit`.",
+                                      non_empty=False),
+                             subfield("source_value", "double",
+                                      "The number as the source gave it, in "
+                                      "`source_unit`.", non_empty=False)])]),
+        ]
+        f["documentation"] = (
+            f["documentation"].split(" Each names its `variable`")[0]
+            + " Each entry names its `variable`, states the unit once for the whole "
+              "condition (`unit` / `source_unit` / `approximate`, as on a key), and "
+              "carries exactly one value form: `term`, `count` or `quantity` (data_body "
+              "AMENDMENT 2, built #73 item 23). A condition is held fixed for the whole "
+              "statement: cardinality exactly 1.")
+
+
+_patch("subject_statement", _ss23)
+
+
+# --- #73 review item 7: `product` (walkthrough 2026-09-25, jess; not signed) -------
+# A bought item: a catalog entry from a vendor plus which one you got. Chemicals and
+# ready-made formulations point at it now (`product_id`); instruments (+ a serial
+# number), plasmids and `strain.stock_number {vendor, code}` are its expected later
+# users, one edge each. Named `product`, not `reagent`, so those need no rename.
+# Only `lot_number` is declared: a serial number waits for its first user.
+write("draft", "product", doc("product", ["entity"], maturity="draft", deps=[
+    dep("vendor_id", "organization", "Optional: who sells it (Sigma, Addgene, Tocris).",
+        non_empty=False)], fields=[
+    field("name", "char", "Optional: the product as sold.", non_empty=False),
+    field("catalog_number", "char", "Optional: the vendor's catalog number.",
+          non_empty=False),
+    field("lot_number", "char", "Optional: the lot/batch you received.",
+          non_empty=False)]))
+
+
+# --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
+# Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
+# The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
+#   sampled_body -- raw bytes V_eta lays out: keys + byte_order / datum_order /
+#                   fill_value, and `chunk` inside its keys.
+#   opaque_body  -- bytes laid out by their own `format` (TIFF, OME-Zarr, a zip):
+#                   keys OPTIONAL (the array as the format presents it), no layout.
+# So `keys` + `complete` + the key-labels edge move UP to data_body (L3), and
+# `conditions` joins them there (L1): a body may carry a one-value fact true of all
+# ITS values -- a reduced pyramid level's `summary statistic: maximum`, a lossy or
+# preview copy -- when that fact differs between bodies of one owner. The body ->
+# owner edge is kept, so the "a variable appears once across a statement and one of
+# its bodies" rule is a BATCH check (DID-matlab), like the time-reference family rule.
+# `fill_value` (L2) says what a missing member of a DENSE body holds.
+def _pull(d, names):
+    got = {f["name"]: f for f in d["fields"] if f["name"] in names}
+    if set(got) != set(names):
+        raise SystemExit(f"lightsheet L3: sampled_body lacks {sorted(set(names) - set(got))}")
+    d["fields"] = [f for f in d["fields"] if f["name"] not in names]
+    return got
+
+
+_sb_d = load(path_of("sampled_body")[1])
+_moved = _pull(_sb_d, ("keys", "complete"))
+_lbl_edges = [x for x in _sb_d["depends_on"] if x["name"] == "axis_labels_#"]
+if len(_lbl_edges) != 1:
+    raise SystemExit("lightsheet L3: sampled_body must declare exactly one axis_labels_#")
+_sb_d["depends_on"] = [x for x in _sb_d["depends_on"] if x["name"] != "axis_labels_#"]
+_moved["keys"]["documentation"] = (
+    "What a value is looked up by, in array order: keys[k] IS array dimension k of "
+    "THIS body's array (each body has its own extent). EXACTLY the stored array's "
+    "dimensions: a length-1 dimension the array has is a key, and there is never a "
+    "key for a dimension the array does not have (a one-value fact true of every "
+    "value is a CONDITION). Required on a sampled_body; OPTIONAL on an opaque_body, "
+    "where it describes the array as the body's `format` presents it. `chunk` is "
+    "used ONLY on a sampled_body's keys: an opaque body's format decides its own "
+    "chunking.")
+for _s in _moved["keys"]["fields"]:
+    if _s["name"] == "chunk":
+        _s["documentation"] = (
+            "sampled_body ONLY. Positions per chunk along this key when the bytes are "
+            "split across several files (a tiled image). Chunk k is numbered row-major "
+            "over the chunk grid, from 0, and lives in file-series member "
+            "`body_data_k`. Every chunk is stored at the FULL chunk shape: positions "
+            "at or past `n` in an edge chunk are padding, not values. A missing member "
+            "of a dense body (`complete` true) holds `fill_value` everywhere, and is "
+            "not allowed when no `fill_value` is declared; a missing member of a "
+            "sparse body (`complete` false) is no rows. Absent = this key is not split.")
+_sb_d["fields"].append(field(
+    "fill_value", "double",
+    "What every position of a MISSING chunk holds, for a dense body (`complete` "
+    "true) whose file series omits members. In `datum_type` encoding, like the "
+    "stored bytes (not canonical units); NaN allowed for a float datum. Empty = none "
+    "declared, and then every chunk must be stored. Meaningless for a sparse body.",
+    non_empty=False, scalar=False, blank=[]))
+write(path_of("sampled_body")[0], "sampled_body", _sb_d)
+
+_ss_d = load(path_of("subject_statement")[1])
+_cond = next(f for f in _ss_d["fields"] if f["name"] == "conditions")
+_cond["documentation"] = (
+    "D10 qualifiers: one-value facts true of EVERY value of the statement that are not "
+    "dimensions of the stored array (keys are exactly those dimensions) -- the "
+    "experimental conditions it was taken under, and any other whole-value fact. "
+    "A list of typed {variable, value} entries. Each entry names its `variable`, "
+    "states the unit once for the whole condition (`unit` / `source_unit` / "
+    "`approximate`, as on a key), and carries exactly one value form: `term`, `count` "
+    "or `quantity` (data_body AMENDMENT 2, built #73 item 23). Cardinality exactly 1. "
+    "A fact true of only ONE body goes in that body's `conditions`; a variable "
+    "appears at most once across a statement's keys and conditions and any one of "
+    "its bodies' (a batch check).")
+write(path_of("subject_statement")[0], "subject_statement", _ss_d)
+
+_db_d = load(path_of("data_body")[1])
+_bcond = json.loads(json.dumps(_cond))
+_bcond["documentation"] = (
+    "One-value facts true of every value in THIS body but not of every body of its "
+    "owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or "
+    "preview copy). The same entry shape as `subject_statement.conditions`. A fact "
+    "true of every body belongs on the owner instead; a variable appears at most once "
+    "across the owner's keys and conditions and this body's (a batch check: the "
+    "owner does not list its bodies).")
+for _s in _bcond["fields"]:
+    if _s["name"] in ("count", "quantity"):
+        for _v in _s["fields"]:
+            _v["documentation"] = _v["documentation"].replace(
+                "held fixed for the statement", "held fixed for the body")
+_db_d["fields"] += [_moved["keys"], _moved["complete"], _bcond]
+_db_d["depends_on"] += _lbl_edges
+write(path_of("data_body")[0], "data_body", _db_d)
+
+
+
+# --- #73 review item 9 (walkthrough 2026-09-25, jess; not signed) -----------------
+# A value's descriptors live WITH THE VALUE. `keys`, `complete`, `datum_type`,
+# `source_datum_type` and the `key_labels_id` edge move from subject_statement to
+# data_type, so a standalone shared value (a stimulus sequence, a template waveform)
+# states its own encoding once, and statements that point at it through `value_id`
+# restate nothing. Every statement leaf is a direction x a data type (T3), so
+# statements keep them by inheritance. `variable`, `conditions` and `value_id` stay:
+# they are about the claim. `storage_mode` is DELETED: `reference` is `value_id`
+# present, and the one fact nothing else carries -- "my value is in bodies" -- is
+# the boolean `data_body` (a body points up at its owner, so the owner could not
+# otherwise say bodies should exist, and a missing body would be silent).
+_ss9 = load(path_of("subject_statement")[1])
+_mv = {f["name"]: f for f in _ss9["fields"]
+       if f["name"] in ("keys", "complete", "datum_type", "source_datum_type")}
+if len(_mv) != 4:
+    raise SystemExit(f"item 9: subject_statement lacks {sorted({'keys', 'complete', 'datum_type', 'source_datum_type'} - set(_mv))}")
+_ss9["fields"] = [f for f in _ss9["fields"]
+                  if f["name"] not in _mv and f["name"] != "storage_mode"]
+_kl9 = [e for e in _ss9["depends_on"] if e["name"] == "axis_labels_#"]
+_ss9["depends_on"] = [e for e in _ss9["depends_on"] if e["name"] != "axis_labels_#"]
+for e in _ss9["depends_on"]:
+    if e["name"] == "value_id":
+        e["documentation"] = (
+            "The standalone data_type document that holds this statement's value, "
+            "shared by every statement that points at it (item 30). When present, "
+            "this statement's own value and value descriptors are empty: the shared "
+            "document states them.")
+write(path_of("subject_statement")[0], "subject_statement", _ss9)
+_mv["keys"]["documentation"] = (
+    "What this value is looked up by, in array order: keys[k] IS array dimension k. "
+    "Time is an ordinary key. Describes the INLINE value; with `data_body` true each "
+    "body carries the keys of its own array.")
+_mv["datum_type"]["documentation"] = (
+    "How this value is encoded -- the ONE place the value type lives (a body never "
+    "repeats it). REQUIRED in practice whenever the value has a byte representation "
+    "(`data_body` true, or an inline numeric payload); absent for a term or an inline "
+    "composite with no numeric payload.")
+_dt9 = load(path_of("data_type")[1])
+_dt9["fields"] = list(_dt9.get("fields") or []) + [
+    _mv["keys"], _mv["complete"], _mv["datum_type"], _mv["source_datum_type"],
+    field("data_body", "boolean",
+          "True: this value's bytes are in data_body documents that point here through "
+          "`owner_id`. False (the default): the value is inline in `value`, or absent. "
+          "A document marked true with no body pointing at it has lost its data -- the "
+          "batch check (item 58).", non_empty=False, blank=False, default=False)]
+_dt9["depends_on"] = list(_dt9.get("depends_on") or []) + _kl9
+write(path_of("data_type")[0], "data_type", _dt9)
+
+
+# ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
+# V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
+# its one name instead of numbering members (`_#` templates are gone for V_eta
+# classes); repetition is declared by `multiple`, order by `ordered`. Applied as a
+# post-pass so every class written above is renamed in one place, against the
+# table in T15's appendix. did_v1 tombstones keep their v1 `_#` names -- they
+# describe documents as written -- and `control_designation` is left alone while
+# its shape is under review. NOT STORABLE YET for repeated edges: DID-matlab's
+# depends_on is keyed (doc_id, name) and must gain a position (PR #76 checklist).
+_T15 = {
+    "data_body": {"owner": ("owner_id", None),
+                  "axis_labels_#": ("key_labels_id", True)},
+    "directed_relation": {"parent": ("parent_id", None), "child": ("child_id", None),
+                          "time_reference_#": ("time_reference_id", False)},
+    "relative_time_reference": {"relative_to": ("referent_id", None)},
+    "coordinate_system": {"relative_to": ("referent_id", None)},
+    "clock_alignment": {"from_reference": ("input_id", None),
+                        "to_reference": ("output_id", None)},
+    "method_parameters": {"derived_from_id": ("parent_id", None)},
+    "subject_calculation": {"derived_from_#": ("input_id", False)},
+    "subject_interaction": {"time_reference_#": ("time_reference_id", False)},
+    "epoch": {"time_reference_#": ("time_reference_id", False)},
+    "undirected_relation": {"entities_#": ("entity_id", False)},
+    "timed_sequence": {"presented_id_#": ("item_id", True)},
+    "data_type": {"axis_labels_#": ("key_labels_id", True)},
+    "strain": {"background_strain_#": ("background_strain_id", False)},
+    "clock_alignment_configuration": {
+        "acquisition_channels_#": ("acquisition_channels_id", False)},
+    "acquisition_system": {
+        "acquisition_metadata_reader_#": ("acquisition_metadata_reader_id", False)},
+    "clock_alignment_policy": {
+        "clock_alignment_configuration_#": ("clock_alignment_configuration_id", True)},
+    "interaction_purpose": {"interaction_id_#": ("interaction_id", False)},
+}
+# Documentation tokens rewritten with the edges, so prose never names an edge that
+# no longer exists. Longest first, so `derived_from_#` is not half-matched.
+_T15_TOKENS = {old: new for m in _T15.values() for old, (new, _o) in m.items()
+               if old.endswith("_#")}
+_T15_SKIP_DOCS = {"control_designation"}
+_T15_V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
+
+
+def _t15_docs(obj):
+    if isinstance(obj, dict):
+        for k, v in list(obj.items()):
+            if k == "documentation" and isinstance(v, str):
+                for old in sorted(_T15_TOKENS, key=len, reverse=True):
+                    v = v.replace(old, _T15_TOKENS[old])
+                obj[k] = v
+            else:
+                _t15_docs(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            _t15_docs(v)
+
+
+_t15_renamed = 0
+for _cls, _map in _T15.items():
+    _t, _p = path_of(_cls)
+    if not _p:
+        raise SystemExit(f"T15: `{_cls}` is not in the built set -- the table and "
+                         "the build disagree. Fix the table, do not drop the row.")
+    _d = load(_p)
+    _seen = set()
+    for _dep in _d.get("depends_on", []):
+        if _dep["name"] in _map:
+            _new, _ordered = _map[_dep["name"]]
+            _seen.add(_dep["name"])
+            _dep["name"] = _new
+            if _dep.get("multiple"):
+                _dep["ordered"] = bool(_ordered)
+            _t15_renamed += 1
+    _missing = set(_map) - _seen
+    if _missing:
+        raise SystemExit(f"T15: `{_cls}` declares none of {sorted(_missing)} -- the "
+                         "edge was renamed or removed elsewhere; update the table.")
+    write(_t, _cls, _d)
+
+_t15_scanned = 0
+_t15_left = []
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        _cn = _d.get("document_class", {}).get("class_name")
+        if not _cn:
+            continue
+        _t15_scanned += 1
+        if _cn not in _T15_SKIP_DOCS:
+            _before = json.dumps(_d, sort_keys=True)
+            _t15_docs(_d)
+            if json.dumps(_d, sort_keys=True) != _before:
+                write(_tier, _cn, _d)
+        for _dep in _d.get("depends_on", []):
+            if (_dep["name"].endswith("_#") and _dep["name"] not in _T15_V1_FAMILIES
+                    and _cn not in _T15_SKIP_DOCS):
+                _t15_left.append(f"{_cn}.{_dep['name']}")
+print(f"T15 edge names: DENOMINATOR {_t15_scanned} class file(s) scanned; "
+      f"{_t15_renamed} edge(s) renamed across {len(_T15)} class(es); "
+      f"{len(_t15_left)} V_eta `_#` name(s) left")
+if _t15_left:
+    raise SystemExit(f"T15: V_eta edges still numbered: {_t15_left}")
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
@@ -8394,8 +9636,8 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
                 "1_Ingestion): bare-identity subjects, subject_relation documents, "
                 "restored subject_statement/subject_assertion, subject_observation/"
                 "subject_manipulation, Path S locus, data-type leaves (no scalar_ "
-                "prefix, no scalar/dataseries split, term_observation), storage_mode "
-                "+ data_body, and a hard-validated binding registry. Supersedes "
+                "prefix, no scalar/dataseries split, term_observation), the data_body flag "
+                "+ data_body documents, and a hard-validated binding registry. Supersedes "
                 "V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, "
                 "data_body, binding meta-schema) is an in-progress follow-up.")
 
@@ -8411,26 +9653,45 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 #
 # Canonical names for the 9 single-canonical types + concentration are ATTESTED in migrator
 # code (canonicalComposite('celsius'|'hertz'|'seconds'|'liters'|'kilograms'|'meters'|'volts'|
-# 'amperes'|'mmhg'), 'molar'), so those are RECORDED, not invented. The J §7 pre-seeded
+# 'amperes'|'mmhg'), 'molar'), so those are RECORDED, not invented.
+# MASS IS THE EXCEPTION as of 2026-09-23 (#73, jess): canonical mass is GRAMS, not
+# kilograms -- consistent with the practical (not SI-base) units the table already uses
+# (liters, celsius, mmhg) and with concentration's `grams_per_liter`. The "attestation"
+# for `kilograms` was the V_iota package (+migrators_i/ontology_table_row.m
+# canonicalComposite), which is not on the V_eta path; on that path nothing writes the
+# slot (migrators_j/private/jMeasurementFold.m leaves it ABSENT when no unit is known,
+# and NDI-matlab's V_eta branch has 0 mentions), so the rename strands no document.
+# Separately recorded: that V_iota helper copies the raw number into the canonical slot
+# WITHOUT unit conversion, so any source unit other than the canonical one is mis-stored. The J §7 pre-seeded
 # numerics have no attested canonical (nothing populates them yet), so their canonical key is
 # named here from the documented SI unit, following the same spelled-out-plural convention.
 _DIM_CANON = {
     # --- attested in migrator code (do NOT rename without a coupled migrator change) ---
-    "time": ["seconds"], "volume": ["liters"], "mass": ["kilograms"],
+    "time": ["seconds"], "volume": ["liters"], "mass": ["grams"],
     "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
     "frequency": ["hertz"], "temperature": ["celsius"], "pressure": ["mmhg"],
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
     # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
     # whichever the source unit is computable into.
+    # `osmolar` (osmoles per liter) added by #73 item 7 for formulation.osmolarity.
     "concentration": ["molar", "grams_per_liter", "mass_fraction", "volume_fraction",
-                      "particles_per_liter"],
+                      "particles_per_liter", "osmolar"],
     # --- J §7 pre-seeded set: canonical named from the documented SI unit ---
     "velocity": ["meters_per_second"], "acceleration": ["meters_per_second_squared"],
-    "area": ["square_meters"], "angle": ["radians"],
-    "angular_velocity": ["radians_per_second"], "force": ["newtons"],
+    # angle is DEGREES (#73 review item 44, jess 2026-09-25): practical SI, as for
+    # grams/liters/celsius/mmHg. Radians was "read off the built tree, not chosen"
+    # (data_body plan sec.2) on a strict-SI premise the schema no longer holds.
+    "area": ["square_meters"], "angle": ["degrees"],
+    # angular_velocity follows angle into degrees (#73 review item 47, 2026-09-25).
+    "angular_velocity": ["degrees_per_second"], "force": ["newtons"],
     "energy": ["joules"], "power": ["watts"], "charge": ["coulombs"],
     "resistance": ["ohms"], "conductance": ["siemens"], "capacitance": ["farads"],
-    "amount": ["moles"],
+    # SI "amount of substance"; renamed from `amount` (#73 item 7, 2026-09-25) --
+    # `amount` read as "how much" in general, which is how dose.amount misused it.
+    "substance_amount": ["moles"],
+    # spatial_frequency (#73 review item 45, 2026-09-25): cycles per degree of visual
+    # angle -- a different DIMENSION from `frequency` (per unit time, hertz).
+    "spatial_frequency": ["cycles_per_degree"],
     # dimensionless: nothing to canonicalise, but the cell keeps the family shape so the
     # set stays uniform (source_unit carries the a.u. label / pH scale note).
     "intensity": ["arbitrary_units"], "ph": ["ph"],
@@ -8458,6 +9719,15 @@ _DIM_SPECIAL = {
                  "The scoring rubric (e.g. Murine Body Condition Score)."),
         subfield("scale_min", "double", "Lower bound of the scale."),
         subfield("scale_max", "double", "Upper bound of the scale."),
+        # #73 review item 46 (2026-09-25): the source pair every other quantity cell
+        # carries, so a score converted onto its scale keeps what was recorded
+        # (contrast 50 % -> value 0.5, source_value 50, source_unit "%"). Blank when
+        # the source already used the scale.
+        subfield("source_unit", "char",
+                 "The unit or scale exactly as the source gave it, when it differs "
+                 "from `scale` (e.g. '%'). Blank when the source used the scale."),
+        subfield("source_value", "double",
+                 "The number as the source gave it, in `source_unit`."),
         subfield("approximate", "boolean", "True when the score is approximate."),
     ],
     "ontology_term": [
@@ -8613,7 +9883,22 @@ _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
 # §3.2 / Fig. 4). `subject_calculation` multi-inherits from it, so retiring the
 # parent while the child persists would recreate the "persist class with retiring
 # super" bug test_data_body_carrier_dispositions guards against.
-_RET_HOLDOVER = {"measurement"}
+# RE-ADDED 2026-09-23 (#73): the paragraph above no longer holds. `calculator` is
+# out of every V_eta chain -- subject_calculation declares the two provenance edges
+# itself -- so no persisting class has it as a super, and what remains is a v1
+# source tombstone restating the NDI template (⊂ [base, app]). It retires.
+_RET_HOLDOVER = {"measurement", "calculator"}
+# #73 item 18 (team, 2026-09-24): NONE of the eight spatial-transcriptomics
+# classes is carried forward. They were copied from NDI-main field for field
+# (12.5 above) and now stand as v1 tombstones, replaced by the review's design:
+# count_observation over [y, x, gene] in a coordinate_system, the cell list as a
+# label_calculation, per-cell position/area/count/term/label calculations, the
+# gene list as a standalone `term`, the mapping as a directed_relation + a
+# standalone `score`, fileReference as an unheld body. See
+# V_eta_spatial_transcriptomics_plan.md.
+_RET_SPATIAL = {"spatial_gene_expression_pyramid", "spatial_gene_expression_tiles",
+                "spatial_gene_expression_cells", "cell_type_labels", "gene_list",
+                "gene_list_mapping", "file_reference", "gene_expression"}
 _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
@@ -8665,44 +9950,79 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #     second-pass `image_observation` (#47) -- its only edge is `ontologyTableRow_id` and a
 #     table row is not a subject. Consumer B = `hartley_calc` (NDIcalc-vis-matlab, #48),
 #     whose repo is out of session scope. NEITHER is folded, so `ngrid` may not be deleted.
+#     [STALE 2026-09-25: consumer B IS folded -- migrators_j/hartley_calc.m, signed
+#      2026-08-17. Consumer A is not. And the V_eta classes declaring `ngrid` are now
+#      ontology_image + hartley_calc: the #73 review moved it off reverse_correlation.
+#      See the "ngrid" entry below.]
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
-_DECIDED_PENDING = {
+# v1 SOURCE tombstones that RETIRE but must be decided before the structural persist
+# rules in _disposition can see them. Added 2026-09-25 (#73 review, jess).
+#   hartley_calc -- a v1 source (its documents fold to receptive_field_calculation via
+#                   migrators_j.hartley_calc) whose tombstone sits under
+#                   hartley_reverse_correlation -> reverse_correlation ->
+#                   receptive_field -> data_type. #73 item 19 widened the structural
+#                   rule to "any data_type ancestor persists", which silently flipped
+#                   it retire -> persist in 217d305. A tombstone kept so passthrough
+#                   documents validate is not a target class.
+#   ngrid        -- was _DECIDED_PENDING (in_progress). Both readings of its disputed
+#                   record (deleted vs folded into sampled_body) end with no V_eta
+#                   class, so the disposition is retire either way; the dispute is
+#                   HOW it goes, and stays open for the team.
+_RET_V1_BEFORE_STRUCTURE = {
+    "image":
+        "did_v1 class (NDI data/image.json), restored as a tombstone when the V_eta "
+        "`image` data_type retired (#73 item 51). A raster goes by what its pixels "
+        "measure (intensity_observation, label_calculation, term_observation, ...)",
+    "hartley_calc":
+        "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, "
+        "signed 2026-08-17). Tombstone kept so unmigrated documents validate",
+    # The two v1 chain classes under hartley_calc: v1 tombstones again (#73 review,
+    # 2026-09-25), carrying the blocks a v1 hartley_calc document has.
+    "reverse_correlation":
+        "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. "
+        "Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta "
+        "home of its content is receptive_field_calculation",
+    "hartley_reverse_correlation":
+        "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. "
+        "Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta "
+        "home of its content is receptive_field_calculation",
     "ngrid":
-        "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), "
+        "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), "
         "not on the RF map alone: ontology_image (#47, second pass -- its only edge "
         "is ontologyTableRow_id and a table row is not a subject) and hartley_calc "
         "via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). "
-        "The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; "
-        "`coordinates` rides through undeleted until axes[].values exists (#45)",
+        "The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. "
+        "UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed "
+        "2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, "
+        "data_type -> datum_type, coordinates -> keys[].values) -- and consumer B "
+        "IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block "
+        "into receptive_field_calculation + sampled_body. What still holds ngrid: "
+        "(1) ontology_image, whose vintage-B documents pass through carrying it "
+        "until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation "
+        "tombstone (its v1 parent), so unmigrated hartley_calc documents validate; "
+        "(3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds "
+        "into sampled_body) -- a team call",
+}
+
+_DECIDED_PENDING = {
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
-    # (absolute_reference, relative_reference); these eight stay until the migrators
+    # (absolute_time_reference, relative_time_reference); these eight stay until the migrators
     # move, because 24 files emit session_relative_reference, 5 emit
     # epoch_bounded_reference and 1 emits session_bounded_reference. Deleting them
     # before the emitters move would red the corpus gate.
-    "time_reference":
-        "#65 increment 2 DONE (the SIGNED walkthrough shape: end -> duration, "
-        "value-level `approximate` deleted, `clock_tolerance` on the root). Stays "
-        "as the abstract root; `is_approximate` is DEPRECATED and leaves in "
-        "increment 3, gated on did2.convert.resolveSessionAnchors reporting "
-        "refused_total 0 and zero surviving session_*_reference documents",
-    "session_relative_reference":
-        "#65 -> relative_reference (relative_to -> session; relation only, no metric). "
-        "107,308 documents -- the largest emitter",
-    "session_bounded_reference":
-        "#65 -> relative_reference (relative_to -> session; start/end populated). "
-        "20,411 documents",
+    # [2026-09-25, increment 3b: the root and the three minted leaves LEFT this dict --
+    #  the leaves are deleted (_DELETE_NO_V1_PROVENANCE) and the root drops
+    #  `is_approximate`, schema-first by team decision. The four entries below name
+    #  classes 3a already deleted, so they never fire.]
     "epoch_relative_reference":
-        "#65 -> relative_reference (relative_to -> epoch). ZERO documents; no migrator "
+        "#65 -> relative_time_reference (relative_to -> epoch). ZERO documents; no migrator "
         "has ever emitted one",
-    "epoch_bounded_reference":
-        "#65 -> relative_reference (relative_to -> epoch; start/end populated). ZERO "
-        "documents, but 5 migrator files name it",
     "event_relative_reference":
-        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+        "#65 -> relative_time_reference (relative_to -> the event document). ZERO documents",
     "event_bounded_reference":
-        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+        "#65 -> relative_time_reference (relative_to -> the event document). ZERO documents",
     "utc_reference":
-        "#65 -> absolute_reference. ZERO documents. The class was named for the "
+        "#65 -> absolute_time_reference. ZERO documents. The class was named for the "
         "canonical frame; the target is named for the KIND, the same reason the class "
         "is `voltage` and not `volt`",
     # R5 targets were named in an earlier naming pass, but the ⑦ walkthrough RE-OPENED
@@ -8758,7 +10078,11 @@ _DECIDED_PENDING = {
 #  3. `relation` is governed inconsistently (T8 "hard-validated, not advisory"):
 #     session_relative_reference.relation carries a proper enum; its sibling
 #     session_bounded_reference.relation is a bare `char` with NO constraints.
-for _t in ("time_reference", "utc_reference", "session_bounded_reference",
+# [2026-09-25, #65 increment 3b: `time_reference` is OUT of this loop. All three
+#  concerns are resolved by the collapse -- the root declares no depends_on at all, and
+#  every leaf whose suffix or `relation` governance was inconsistent is deleted. The
+#  names left here are deleted classes, so the loop no longer fires for anything.]
+for _t in ("utc_reference", "session_bounded_reference",
            "session_relative_reference", "epoch_bounded_reference",
            "epoch_relative_reference", "event_bounded_reference",
            "event_relative_reference"):
@@ -8853,6 +10177,8 @@ def _disposition(name, doc=None):
     # An EXPLICIT decided-pending marker wins over every heuristic below (including the
     # structural persist rules): we have already voted to fold/rename/reshape these, so a
     # bare `persist` from the structure would misreport a settled decision as done.
+    if name in _RET_V1_BEFORE_STRUCTURE:
+        return ("retire", _RET_V1_BEFORE_STRUCTURE[name])
     if name in _DECIDED_PENDING:
         return ("in_progress", _DECIDED_PENDING[name])
     # V_eta TARGET classes are built EXPLICITLY (write()/doc()), not carried as v1
@@ -8877,7 +10203,10 @@ def _disposition(name, doc=None):
             _ancestors |= _transitive_supers(_s)
         if "subject_calculation" in _ancestors:
             return ("persist", None)
-        if _dc.get("abstract") and "data_type" in _ancestors:
+        # ANY data_type composite, abstract or not: since #73 item 19 every
+        # composite is concrete (a standalone value document is content), so
+        # abstractness no longer marks the target tier.
+        if "data_type" in _ancestors and "subject_statement" not in _ancestors:
             return ("persist", None)
     if name in _KEEP_INFRA:
         return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)
@@ -8885,6 +10214,8 @@ def _disposition(name, doc=None):
         return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
+    if name in _RET_SPATIAL:
+        return ("retire", "#73: replaced by the spatial-transcriptomics design")
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
     if name in _RET_CARRIERS:
@@ -8981,6 +10312,21 @@ _DELETE_PHASE8 = {
     # → target `speedtuning_calc`) still delete: their docs migrate to the
     # differently-named target, so the v1 tombstone must go.
     "contrast_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
+    # #73 (2026-09-23): the #67 paragraph above is SUPERSEDED for the four
+    # colliding names. The calculation leaves were renamed to the
+    # <result>_calculation form (tuningcurve_calc -> the now-concrete
+    # tuning_curve_calculation), so NO V_eta target reuses a v1 calc name any
+    # more, and all four v1 calc tombstones delete on the same ground as the two
+    # above: a completed migrator (migrators_j.<name>) folds every document 1->1,
+    # id-preserved, onto a differently-named leaf.
+    "oridirtuning_calc", "tuningcurve_calc",
+    "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
+    # ...and the five v1 RESULT classes #67 had overwritten with thin markers.
+    # #73 drops the markers; what is left at those names is the copytree'd V_zeta
+    # source tombstone, and a completed migrator (migrators_j.<name>) folds each
+    # onto its family calculation.
+    "orientation_direction_tuning", "contrast_tuning",
+    "spatial_frequency_tuning", "temporal_frequency_tuning", "speed_tuning",
 }
 # A SEPARATE SET, DELIBERATELY. _DELETE_PHASE8 above means "a did_v1 SOURCE whose
 # documents are provably consumed by a completed migrator" -- its whole contract is
@@ -9033,13 +10379,13 @@ _DELETE_PHASE8 = {
 #
 # THE SIGNED DECISION: `V_eta_time_reference_model_plan.md`,
 # TEAM-SIGN-OFF [time_reference] jess@walthamdatascience.com / 2026-08-08 --
-# 8 classes collapse to `absolute_reference` + `relative_reference`. The 8 are
+# 8 classes collapse to `absolute_time_reference` + `relative_time_reference`. The 8 are
 # the abstract root plus its seven concrete children; the root STAYS.
 #
 # THE OTHER THREE CHILDREN ARE NOT TOUCHED, AND THE REASON IS EVIDENCE, NOT
 # CAUTION. `session_relative_reference` (22 mint sites), `session_bounded_
 # reference` (1) and `epoch_bounded_reference` (1) are minted TODAY -- a
-# deliberate pass-1 handle, because a migrator cannot emit `relative_reference`
+# deliberate pass-1 handle, because a migrator cannot emit `relative_time_reference`
 # without the session DOCUMENT's id. Deleting a class its emitters still mint
 # is the `epochfiles_ingested` regression: 2,484 corpus-B quarantines.
 #
@@ -9082,7 +10428,7 @@ _DELETE_PHASE8 = {
 #                     resolveSessionAnchors.m:43 says the `epoch_*`/`event_*`/
 #                     `utc_reference` classes are NOT touched there). A comment
 #                     is not an emitter. The same sweep returns 411 lines for
-#                     `relative_reference` and 188 for `session_relative_
+#                     `relative_time_reference` and 188 for `session_relative_
 #                     reference`, which is what makes these zeros readable.
 #   V_eta schemas     0 superclass references and 0 `must_refer_to_document_
 #                     class` references, over 243 class-declaring schema files.
@@ -9109,7 +10455,7 @@ _DELETE_PHASE8 = {
 #   2. `directed_relation`'s `time_reference_#` field documentation names
 #      `event_relative_reference` in PROSE (see the `write()` call above). It
 #      is documentation, not a structural reference, so it does not block the
-#      deletion; under the collapse the right word is `relative_reference`.
+#      deletion; under the collapse the right word is `relative_time_reference`.
 # Both are left for the team: fixing 1 means hand-editing under `schemas/`
 # (operating rule 1) and fixing 2 is a change to another class's schema.
 #
@@ -9119,6 +10465,23 @@ _DELETE_PHASE8 = {
 # no-op rather than an error. It is dead for these two classes; it is not
 # removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
+    # #73 REVIEW ITEM 51 (jess, 2026-09-25): the V_eta image leaf goes with the
+    # V_eta `image` data_type (see item 51 above the T15 section). Provenance V_eta,
+    # never did_v1. Its four writers (migrators_j/image_stack.m, ontology_image.m,
+    # resolveEpochProbemap.m, jRecordingModality.m) move to the quantity the pixels
+    # measure -- PR #76 DID-matlab checklist; acknowledged in coverage.py until then.
+    "image_observation",
+    # #65 INCREMENT 3b, 2026-09-25 (jess: "do 4 first, then add 1-3 to the
+    # checklist"). The last three legacy reference leaves. Provenance V_epsilon /
+    # V_eta (V_eta_class_provenance.md), never did_v1: 0 of the 113 coverage-ledger
+    # rows is one. UNLIKE the 3a four, emitters DO still mint these as a pass-1
+    # handle (DID-matlab jSessionAnchor and inline copies; resolveSessionAnchors
+    # folds them). Deleting the schema FIRST is the team's call, taken knowingly:
+    # until the PR #76 DID-matlab items land (fold writes relative_time_reference;
+    # pass-1 emits it directly; corpus re-run), any anchor the fold refuses or
+    # never reaches QUARANTINES instead of passing through.
+    "session_relative_reference", "session_bounded_reference",
+    "epoch_bounded_reference",
     "dataseries_channel_map",
     # TEAM DECISION 2026-08-14: delete `zarr`, per signed sec.10 "zarr is
     # DELETED, not migrated". Provenance V_gamma -- a DID-side invention that
@@ -9189,6 +10552,46 @@ _DELETE_NO_V1_PROVENANCE = {
     "utc_reference",
 }
 
+# #73 REVIEW ITEM 50 (jess, 2026-09-25): LEAVES EXIST ONLY WHEN NEEDED. Every
+# data_type stays; an `_observation` / `_manipulation` / `_assertion` /
+# `_calculation` leaf is made by combining a direction with a data_type ONCE
+# something needs it -- a migrator or second pass writes it, or a decision names it
+# as a target. These 51 had no need, measured over 1,232 .m files (DID-matlab +
+# NDI-matlab src, V_eta branches, comments stripped, plus jQuantityLeaf's
+# runtime-built names) and V_eta_migration_targets.json. Three were written only
+# by dead or superseded code (angle_observation: jDecomposeScalars, no caller;
+# visual_grating_manipulation: the old NDI assembler local.m no longer calls;
+# count_assertion: replaced by item 48). image_manipulation: an image shown to the
+# animal is an item of a timed_sequence_manipulation (stimulus model, signed
+# 2026-08-08). Re-adding one is a one-line write() once a need appears.
+_DELETE_UNUSED_LEAVES = {
+    "acceleration_assertion", "substance_amount_assertion", "angle_assertion",
+    "angular_velocity_assertion", "area_assertion", "capacitance_assertion",
+    "charge_assertion", "concentration_assertion", "conductance_assertion",
+    "count_assertion", "current_assertion", "energy_assertion", "force_assertion",
+    "frequency_assertion", "gain_assertion", "intensity_assertion",
+    "length_assertion", "mass_assertion", "ph_assertion", "power_assertion",
+    "pressure_assertion", "resistance_assertion", "score_assertion",
+    "temperature_assertion", "time_assertion", "velocity_assertion",
+    "voltage_assertion", "volume_assertion",
+    "concentration_manipulation", "current_manipulation", "force_manipulation",
+    "formulation_manipulation", "frequency_manipulation", "image_manipulation",
+    "intensity_manipulation", "pressure_manipulation", "visual_grating_manipulation",
+    "voltage_manipulation",
+    "substance_amount_observation", "angle_observation", "angular_velocity_observation",
+    "area_observation", "capacitance_observation", "charge_observation",
+    "conductance_observation", "energy_observation", "force_observation",
+    "gain_observation", "ph_observation", "power_observation",
+    "resistance_observation",
+    # #73 ITEM 52 (jess, 2026-09-25): valid_interval, its only user, moved to
+    # time_observation (TEAM-SIGN-OFF [logical_observation amendment 1],
+    # 2026-08-18), which left the leaf's retire-or-hold question open. Retired
+    # under the item-50 rule: its only writer is resolveValidIntervals.m's
+    # DORMANT path. `logical` itself stays.
+    "logical_observation",
+}
+assert len(_DELETE_UNUSED_LEAVES) == 52, len(_DELETE_UNUSED_LEAVES)
+_deleted_unused = []
 _deleted = []
 _deleted_invented = []
 # A SHRINKING DENOMINATOR. This loop decides which schemas are REMOVED from the
@@ -9214,6 +10617,9 @@ for tier in TIERS:
         elif cn in _DELETE_NO_V1_PROVENANCE:
             os.remove(p)
             _deleted_invented.append(cn)
+        elif cn in _DELETE_UNUSED_LEAVES:
+            os.remove(p)
+            _deleted_unused.append(cn)
 print(f'V_eta delete pass: DENOMINATOR {_delete_scan["candidates"]} schema file(s) '
       f'inspected, {_delete_scan["unreadable"]} UNREADABLE; '
       f'{len(_deleted)} phase-8 + {len(_deleted_invented)} no-v1-provenance removed')
@@ -9226,6 +10632,30 @@ if _deleted:
 if _deleted_invented:
     print(f"V_eta delete (no v1 provenance): removed {len(_deleted_invented)}: "
           + ", ".join(sorted(_deleted_invented)))
+print(f"V_eta delete (unused leaves, #73 item 50): removed {len(_deleted_unused)} "
+      f"of {len(_DELETE_UNUSED_LEAVES)} listed")
+if set(_deleted_unused) != _DELETE_UNUSED_LEAVES:
+    raise SystemExit("unused-leaf delete: listed but not found in the build: "
+                     + ", ".join(sorted(_DELETE_UNUSED_LEAVES - set(_deleted_unused))))
+
+
+# `min_count` / `max_count` are CARDINALITY for a REPEATED edge. On a single edge
+# they only restate `mustBeNonEmpty` -- two statements of one fact that can drift
+# (the validator reads them only for repeated edges, DID-matlab cache.m). So they
+# appear only beside `multiple` (#73, 2026-09-25).
+_card_bad = []
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        for _e in _d.get("depends_on", []):
+            if ("min_count" in _e or "max_count" in _e) and not _e.get("multiple") \
+                    and not _e["name"].endswith("_#"):
+                _card_bad.append(f'{_d["document_class"]["class_name"]}.{_e["name"]}')
+if _card_bad:
+    raise SystemExit("min_count/max_count on a single (non-multiple) edge: "
+                     + ", ".join(_card_bad))
 
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
@@ -9294,6 +10724,28 @@ idx["schemas"] = schemas
 with open(os.path.join(VETA, "index.json"), "w") as f:
     json.dump(idx, f, indent=4)
     f.write("\n")
+
+# ---- edge families are numbered FROM 0 (team, 2026-09-24, T14) ---------------
+# The example documents are copied in from V_zeta, which numbered family members
+# from 1 (`time_reference_1`). V_eta numbers every family it mints from 0, so a
+# 0-based index names its edge directly (`presentation_order` value k ->
+# `presented_id_k`). Renumber the copied examples' family members down by one;
+# the schemas themselves declare `name_#` templates and need no change.
+# Rewritten as TEXT, one exact `"name": "<edge>"` at a time, so the copied file
+# keeps its hand layout and the diff shows only the renumbering.
+# SUPERSEDED BY T15 (2026-09-25): a repeated edge is no longer numbered at all, so
+# a copied example's numbered member takes the family's single T15 name
+# (`time_reference_1` -> `time_reference_id`). The table is _T15_TOKENS above.
+_T15_STEMS = {k[:-2]: v for k, v in _T15_TOKENS.items()}
+for _ex in sorted(glob.glob(os.path.join(VETA, "examples", "*.json"))):
+    _text = Path(_ex).read_text()
+    _new = _text
+    for _x in load(_ex).get("depends_on") or []:
+        _m = _re.match(r"^(.+)_(\d+)$", _x.get("name", ""))
+        if _m and _m.group(1) in _T15_STEMS:
+            _new = _new.replace(f'"{_x["name"]}"', f'"{_T15_STEMS[_m.group(1)]}"', 1)
+    if _new != _text:
+        Path(_ex).write_text(_new)
 
 print(f"V_eta built: {len(schemas)} schemas across {TIERS}")
 if _TRANSITIVE_SUPER_UNREADABLE:

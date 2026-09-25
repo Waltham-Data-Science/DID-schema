@@ -29,9 +29,9 @@
             "must_refer_to_document_class": "epoch"
         },
         {
-            "name": "derived_from_id",
+            "name": "parent_id",
             "mustBeNonEmpty": false,
-            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`derived_from_#` on calculations and observations); `parent_id` was rejected because it implies the child inherits, and it does not.",
+            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`input_id` on calculations); `parent_id` was rejected because it implies the child inherits, and it does not.",
             "must_refer_to_document_class": "method_parameters"
         }
     ],
@@ -60,7 +60,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `subject_interaction`, deliberately: one list means one thing in both mount points, exactly as `axes` mounts on two classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, axes, method_parameters) that must not be confusable.",
+            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `subject_interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable.",
             "constraints": {},
             "fields": [
                 {
@@ -79,7 +79,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHAT knob this is. BOUND, and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field.",
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag.",
                     "constraints": {},
                     "fields": [
                         {
@@ -225,20 +225,6 @@
                     "constraints": {}
                 }
             ]
-        },
-        {
-            "name": "other",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The undeclared long tail -- read_time, overlap, graphical_mode, PCA feature counts. Kept whole rather than dropped; a knob nobody will query does not earn a bound variable.",
-            "constraints": {},
-            "fields": []
         }
     ]
 }

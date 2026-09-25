@@ -144,18 +144,40 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # did_v1 field naming when the MEASUREMENT was taken, which is a different fact
 # from when the DOCUMENT was created, and the two only ever looked like one
 # because they shared a word. Lowered rather than left, so the ground stays won.
-BASELINE = 8
+# 8 -> 14 on 2026-09-25, RAISED DELIBERATELY WITH THE EVIDENCE, as the failure
+# message asks: #73 item 54 makes `base.name` a did_v1-ONLY slot (kept declared only so
+# v1 documents that pass through stay valid; V_eta emitters never write it) and gives
+# each V_eta class that has a name its own `name`. The six new rows -- and the three
+# NOT-DERIVABLE rows already counted (method_parameters, software, strain) -- are that
+# pair: two SLOTS, but for a V_eta document only one is ever filled. They are bucketed
+# V1-ONLY-SLOT through OVERRIDES below, so each is named, not waved through. The
+# count falls by nine the day `base.name` is deleted with the last passthrough class.
+# 14 -> 15 (#73 item 59, 2026-09-25): the new `product` entity declares its own `name`
+# beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
+BASELINE = 15
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
+V1_ONLY_SLOT = "V1-ONLY-SLOT"
 NOT_DERIVABLE = "NOT-DERIVABLE"
 
 # Explicit, named exceptions for NOT-DERIVABLE rows only -- see the docstring.
 # Keyed (declaring class, field name) -> (bucket, the evidence, in one line).
-# EMPTY TODAY, deliberately: the three NOT-DERIVABLE rows are the three the open
-# item calls genuinely open, and writing a bucket for them here would be
-# recording a decision rather than an exception.
-OVERRIDES = {}
+# Was EMPTY until 2026-09-25, when #73 item 54 DECIDED the three rows it called
+# open (method_parameters, software, strain `name`): a class's own `name` is the
+# name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
+OVERRIDES = {
+    ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("product", "name"): (V1_ONLY_SLOT, "#73 item 54 (applied to `product`, item 59): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("dataset", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("funding", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("method_parameters", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("organization", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("publication", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("software", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("strain", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("web_resource", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+}
 
 
 def _norm(s):
@@ -349,7 +371,10 @@ def main(argv=None):
               "both. OPEN: which block is authoritative?")),
             (NOT_DERIVABLE,
              ("the ground truth could not answer. NOT a finding that V_eta "
-              "invented these"))):
+              "invented these")),
+            (V1_ONLY_SLOT,
+             ("a V_eta class's `name` beside the did_v1-only `base.name` "
+              "slot (#73 item 54). Two slots, one filled per document"))):
         sel = [r for r in classified if r["bucket"] == bucket]
         print(f"\n  {bucket} -- {blurb} ({counts.get(bucket, 0)}):")
         for r in sel:

@@ -572,7 +572,7 @@ def batch_pass_entries(v1_class, veta_class):
 # A RENAME IS A FOURTH SPELLING, and it is the only one of its kind that is
 # safe to join on. Added 2026-08-17 for `epochMint`, which reads
 # `acquisition_epoch` bodies -- the migrated form of did_v1 `element_epoch` --
-# and mints a `relative_reference` per clock. It declared that consumption
+# and mints a `relative_time_reference` per clock. It declared that consumption
 # truthfully and the ledger still could not credit it, because `element_epoch`
 # carries `veta_class = None`, so none of the three spellings above is the name
 # the batch actually holds at that point in the chain.
@@ -757,7 +757,45 @@ def helper_entries(v1_class, veta_class):
 #     path would emit a `bath` V_eta lacks (the corpus is unaffected -- it uses the
 #     coarse resolveDeferredBaths -> dose_manipulation). FIX: make the V_eta stimulus
 #     _bath assembly emit dose_manipulation (TaskList: stimulusBathToBath V_eta path).
-KNOWN_NON_VETA = {"bath", "pharmacological_manipulation"}
+# RENAME IN FLIGHT, added 2026-09-24 (#73, option A, jess): `absolute_reference` and
+# `relative_reference` became `absolute_time_reference` / `relative_time_reference`
+# (the leaves had dropped the "time" their root and edge carry). DID-matlab still
+# emits the OLD names (jAbsoluteReference.m; epochAnchorFold.m, jClockAlignmentBodies.m,
+# jEpochClockReferences.m, pyraview.m on claude/v-eta-migration-plan-35jj1z and V2), so
+# they are ACKNOWLEDGED here, not allowed silently. REMOVE BOTH ENTRIES when the
+# DID-matlab rename lands -- until then a migrated document of either class does not
+# validate against this schema, which is why PR #76 must not merge ahead of it.
+KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
+                  "absolute_reference", "relative_reference",
+                  # #65 increment 3b, 2026-09-25: deleted SCHEMA-FIRST by team
+                  # decision. The emitters still mint them as a pass-1 handle;
+                  # moving them is the PR #76 DID-matlab checklist. Remove these
+                  # three the moment no migrator names them.
+                  "session_relative_reference", "session_bounded_reference",
+                  "epoch_bounded_reference",
+                  # #73 item 50, 2026-09-25: deleted as an unused leaf. Its only
+                  # writer is NDI's superseded stimulusPresentationToManipulation,
+                  # which local.m no longer calls (only its own unit tests run it).
+                  # Remove when the NDI checklist retires that assembler.
+                  "visual_grating_manipulation",
+                  # #73 item 51, 2026-09-25: the V_eta `image` data_type and its
+                  # leaf retire; a raster goes by what its pixels measure. Four
+                  # writers still emit image_observation (image_stack.m,
+                  # ontology_image.m, resolveEpochProbemap.m, jRecordingModality.m);
+                  # remove when the PR #76 DID-matlab item lands.
+                  "image_observation",
+                  # #73 item 52: named only on resolveValidIntervals.m's dormant
+                  # path. Remove when that emission is rewritten to the signed
+                  # time_observation shape (PR #76 DID-matlab checklist).
+                  "logical_observation",
+                  # #73 item 53: split into interpreter_id + operating_system_id
+                  # -> `software`. jRuntimeEnvironment.m still mints it; remove
+                  # when the PR #76 DID-matlab change lands.
+                  "runtime_environment",
+                  # #73 item 61: its bytes become an opaque_body of the stimulator's
+                  # term_manipulation. migrators_j/daqmetadatareader_epochdata_ingested.m
+                  # still mints it; remove when the PR #76 DID-matlab change lands.
+                  "acquisition_metadata_file"}
 
 
 def guardrail(veta, emitted):
@@ -926,8 +964,9 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         ["ingestion_manifest"], "V_eta_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`",
         "epochfiles_ingested becomes `ingestion_manifest`",
-        ("Becomes `ingestion_manifest`, with `filenavigator_id` restored and "
-        "the invented required `epochid` edge replaced by `epoch_id`.")),
+        ("Becomes `ingestion_manifest`, with the navigator edge restored "
+        "(as `epoch_file_pattern_id` since 2026-09-25) and the invented "
+        "required `epochid` edge replaced by `epoch_id`.")),
 
     # The sign-off names both classes and says the presentation is DECOMPOSED
     # around its preserved id rather than dissolved. Which of the two carries
@@ -1024,81 +1063,18 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "fold is gated on the data_body tier (#45, blocked on #32), since "
         "`axes[]`, `datum_type` and `regular` do not exist yet.")),
 
-    # ---- SIGNED PASSTHROUGHS: spatial-transcriptomics family (Corrected Option C).
-    # Each of the 8 v1 classes has itself as its decided target (V_eta target =
-    # v1 class name in snake_case; NDI's camelCase v1_class resolves via
-    # coverage.py's normal snake mapping). The signed line at
-    # `V_eta_go_forward_class_audit.md:796` names all eight; the fragments below
-    # are what each class quotes from that line so the citation-audit gate can
-    # verify each row against the document. The pyramid's fragment records its
-    # reshape shape (⊂ [geneExpression, subject_observation]); the others quote
-    # the "PERSIST as ⊂ base" or "STAYS ⊂ base" phrasing that names them.
-    "spatialGeneExpressionPyramid": (
-        ["spatial_gene_expression_pyramid"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionPyramid` becomes ⊂ [geneExpression, subject_observation]",
-        ("picking up variable/method_parameters/sample_time/time_reference_# from "
-         "the subject_observation direction; the existing subject_id required-ness "
-         "moves from the class's own declaration to the inherited slot"),
-        ("RESHAPE + PERSIST as `spatial_gene_expression_pyramid`. ⊂ [base, "
-         "gene_expression, subject_observation]; picks up variable / "
-         "method_parameters / sample_time / time_reference_# from the "
-         "subject_observation direction; the `subject_id` required-ness moves "
-         "onto the inherited subject_statement slot (no local declaration). "
-         "Migrator is #122's scope; corpus proof deferred to #124 (no corpus "
-         "carries this class).")),
-    "geneExpression": (
-        ["gene_expression"], "V_eta_go_forward_class_audit.md",
-        "`geneExpression` STAYS a ⊂ base shape mixin",
-        "assay/count_type/count_units",
-        ("PERSIST as `gene_expression` -- a ⊂ base SHAPE MIXIN "
-         "(assay/count_type/count_units). Semantically a shape, not an "
-         "observation; the observation-ness lives on the concrete pyramid class "
-         "that binds it to a subject.")),
-    "spatialGeneExpressionCells": (
-        ["spatial_gene_expression_cells"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionCells` (data-of-record for pyramid observation",
-        "subject_id required",
-        ("PERSIST as `spatial_gene_expression_cells`, ⊂ base. Data-of-record "
-         "for the pyramid observation. Cell segmentation attached to the pyramid; "
-         "id preserved on migration.")),
-    "spatialGeneExpressionTiles": (
-        ["spatial_gene_expression_tiles"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionTiles` (same, subject_id optional",
-        "subject_id optional because the pyramid dep carries it",
-        ("PERSIST as `spatial_gene_expression_tiles`, ⊂ base. The tile-level "
-         "payload; subject_id optional because the pyramid dep carries it "
-         "transitively. Strongest 2.D data_body candidate later (#125).")),
-    "cellTypeLabels": (
-        ["cell_type_labels"], "V_eta_go_forward_class_audit.md",
-        "`cellTypeLabels` (labeling attached to a cells doc",
-        "is_unsupervised flag load-bearing",
-        ("PERSIST as `cell_type_labels`, ⊂ base. Labeling attached to a cells "
-         "document, not directly to a subject; `is_unsupervised` is load-bearing "
-         "(a cluster index is not a cell type).")),
-    "geneListMapping": (
-        ["gene_list_mapping"], "V_eta_go_forward_class_audit.md",
-        "`geneListMapping` (between-entity relation with structure",
-        "alias vs ortholog matters, not a bare directed_relation",
-        ("PERSIST as `gene_list_mapping`, ⊂ base. Between-entity relation with "
-         "structure (coverage counters, symmetric flag, method, mapping type). "
-         "The alias-vs-ortholog distinction is load-bearing, so this stays a "
-         "typed class rather than a bare directed_relation.")),
-    "fileReference": (
-        ["file_reference"], "V_eta_go_forward_class_audit.md",
-        "`fileReference` (DELIBERATELY NOT folded to generic_file",
-        "generic_file holds bytes, fileReference records identity of an external file",
-        ("PERSIST as `file_reference`, ⊂ base. DELIBERATELY NOT folded to "
-         "generic_file; the two coexist by design per the class's own .md doc "
-         "(generic_file holds bytes, file_reference records identity of an "
-         "external file). T8 bindings for checksumAlgorithm and formatOntology "
-         "deferred to #126.")),
-    "geneList": (
-        ["gene_list"], "V_eta_go_forward_class_audit.md",
-        "`geneList` STAYS ⊂ base reference table",
-        "`geneList` STAYS ⊂ base reference table",
-        ("PERSIST as `gene_list`, ⊂ base. Outside #70's original six but "
-         "confirmed in the same signature. Reference table of gene identifiers "
-         "the pyramid + mappings key on.")),
+    # ---- spatial-transcriptomics family: the eight SIGNED PASSTHROUGHS that stood
+    # here (Corrected Option C, V_eta_go_forward_class_audit.md:796, signed
+    # 2026-09-22 -- each v1 class decided to persist as its own snake_cased copy)
+    # are REMOVED, 2026-09-25. The #73 review (jess) replaced that decision:
+    # "none of these carry forward into V_eta; they all need to be migrated"
+    # (V_eta_spatial_transcriptomics_plan.md item 18). The new decided targets are
+    # CURATED in V_eta_migration_targets.json -- one fact, one place -- and this
+    # table only transcribes SIGNED lines, so it cannot carry them until the team
+    # adds the review's TEAM-SIGN-OFF line (Operating Rule 4). Until then those
+    # rows read "decided, unsigned", which is the truth. `geneExpression`
+    # DISSOLVES (assay -> method, count_units -> variable, count_type -> the
+    # statement's class; item 26) and has no target to record.
 }
 
 

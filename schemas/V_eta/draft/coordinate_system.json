@@ -1,0 +1,246 @@
+{
+    "document_class": {
+        "class_name": "coordinate_system",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "referent_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document the origin is ON: an image, a probe, a subject (bregma), an atlas. REQUIRED -- a coordinate system always says whose space it is (item 9).",
+            "must_refer_to_document_class": "base"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "origin",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "WHICH point on `relative_to` is zero (image upper-left corner, probe tip, bregma). The same concept as a key's `origin`; a term here because a root coordinate system is not measured within another one.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "dimensions",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One entry per coordinate, in coordinate order. Cartesian only. Transforms between coordinate systems are NOT part of one.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "axis",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The line this coordinate runs along (image horizontal axis, anterior-posterior axis, shank axis) -- an AXIS term, not a coordinate-value term.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "positive_direction",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Which end of `axis` is positive; must say WHOSE direction ('image right', 'posterior').",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "spacing",
+                    "type": "length",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "One unit step along this coordinate. ABSENT = unknown (uncalibrated); positions are then in steps only.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "meters",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical length value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

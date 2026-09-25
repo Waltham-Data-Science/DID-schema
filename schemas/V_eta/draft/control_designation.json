@@ -21,6 +21,7 @@
             "mustBeNonEmpty": false,
             "documentation": "Provenance: the analysis/interaction(s) this designation was derived from (T10). Cardinality is unexpressed until #63.",
             "must_refer_to_document_class": "subject_interaction",
+            "multiple": true,
             "min_count": 0
         }
     ],

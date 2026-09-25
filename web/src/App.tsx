@@ -254,7 +254,7 @@ export default function App() {
               setEditing(false);
             }}
             aria-pressed={panel?.kind === "tenets"}
-            title="Brainstorm J's 14 tenets and the classes each one shaped"
+            title="Brainstorm J's 15 tenets and the classes each one shaped"
           >
             ✦ Tenets
           </button>
@@ -265,7 +265,7 @@ export default function App() {
               setEditing(false);
             }}
             aria-pressed={panel?.kind === "veta"}
-            title="The go-forward V_eta class set by category, plus tenets T1-T14 -- read from schemas/ at build time"
+            title="The go-forward V_eta class set by category, plus tenets T1-T15 -- read from schemas/ at build time"
           >
             ◈ V_eta shape
           </button>

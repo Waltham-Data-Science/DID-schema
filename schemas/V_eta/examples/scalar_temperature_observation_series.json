@@ -9,7 +9,7 @@
     },
     "depends_on": [
         { "name": "subject_id",       "value": "aabb1122ccdd3344_aabb1122ccdd3344" },
-        { "name": "time_reference_1", "value": "aabb1122ccdd3344_1100220033004400" }
+        { "name": "time_reference_id", "value": "aabb1122ccdd3344_1100220033004400" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",

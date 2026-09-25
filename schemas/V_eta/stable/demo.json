@@ -31,7 +31,7 @@
             "constraints": {}
         },
         {
-            "name": "is_mock",
+            "name": "mock",
             "type": "boolean",
             "blank_value": false,
             "default_value": false,

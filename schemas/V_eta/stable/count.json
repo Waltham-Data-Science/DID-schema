@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -32,7 +31,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed count value (shape-library mixin); value.unit names what is counted. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is the statement's sample_time cadence (D1).",
+            "documentation": "A typed count value (shape-library mixin); value.unit names what is counted. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
             "constraints": {},
             "fields": [
                 {

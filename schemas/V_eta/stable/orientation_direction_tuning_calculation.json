@@ -1,0 +1,122 @@
+{
+    "document_class": {
+        "class_name": "orientation_direction_tuning_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "tuning_curve_calculation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "circular_statistics",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector-space summary of the RAW (unfitted) direction curve (v1 `vector`).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "circular_variance",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Circular variance in orientation space; related to selectivity and tuning width.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_circular_variance",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Circular variance in direction space.",
+                    "constraints": {}
+                },
+                {
+                    "name": "hotelling_t2_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of Hotelling's T-squared test of whether the orientation vectors differ from [0,0] (v1 `hotelling2test`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_hotelling_t2_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of Hotelling's T-squared test on the direction vectors (v1 `direction_hotelling2test`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_dot_product_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the direction dot-product test, which uses both orientation and direction vectors to assess direction selectivity (Mazurek et al.; v1 `dot_direction_significance`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "orientation_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Orientation with the highest response in orientation vector space. Same unit as the curve's direction variable.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Direction with the highest response in direction vector space. Same unit as the curve's direction variable.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

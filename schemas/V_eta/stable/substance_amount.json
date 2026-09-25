@@ -1,0 +1,89 @@
+{
+    "document_class": {
+        "class_name": "substance_amount",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "substance_amount",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "approximate": false,
+                    "source_unit": "",
+                    "source_value": 0.0
+                }
+            ],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A mol value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "moles",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical substance_amount value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

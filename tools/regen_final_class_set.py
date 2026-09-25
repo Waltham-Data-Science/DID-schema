@@ -60,6 +60,12 @@ def main():
         elif ch & {"subject_observation", "subject_manipulation", "subject_assertion",
                    "subject_calculation"}:
             cats["leaf"].append(name)
+        elif "relation" in ch:
+            # A relation LEAF that happens to inherit a data type (clock_alignment
+            # is [relation, polynomial]) is a statement between documents, not a
+            # value type: it sits with its sync-infra siblings, not in (3).
+            # Added 2026-09-25 after the #73 audit found it listed as a composite.
+            cats["infra"].append(name)
         elif "data_type" in ch:
             cats["composite"].append(name)
         elif "entity" in ch:

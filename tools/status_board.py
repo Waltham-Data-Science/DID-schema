@@ -138,6 +138,18 @@ DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 BUILT_AHEAD_OF_DECISION = "BUILT AHEAD OF THE DECISION"
 
 FAMILIES = [
+    # ADDED 2026-09-23 (#73), and the board is again what demanded it. Dropping the
+    # `calculator` MIXIN from subject_calculation's chain left the name as a v1
+    # source tombstone restating NDI's database_documents/calculator.json
+    # (⊂ [base, app], no fields) -- `retire`, no migrator -- so it became an open
+    # class that no family claimed, and this generator refused to go green. The
+    # family points at the amendment in the subject_calculation plan, and it reads
+    # "awaiting review" until that document carries its signature.
+    ("calculator mixin dropped (#73)", ["calculator"],
+     "V_eta_subject_calculation_plan.md",
+     ("`calculator` leaves every V_eta chain; subject_calculation declares the "
+      "required software_id + interpreter_id + operating_system_id itself; the name survives "
+      "only as a retiring v1 tombstone for passthrough"), "team"),
     # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
     # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
     # -- no V_eta schema AND no migrator, so a dataset carrying them lost them.
@@ -200,7 +212,7 @@ FAMILIES = [
     # decided both models in session and both are BUILT and running in all six
     # corpora: `generic_file` -> term_observation + opaque_body
     # (`foldGenericFiles.m`), `valid_interval` -> boolean logical_observation +
-    # relative_reference (`resolveValidIntervals.m`; the classes were named
+    # relative_time_reference (`resolveValidIntervals.m`; the classes were named
     # `validity`/`validity_observation` until the 2026-08-12 rename),
     # `imageCollection` ->
     # tombstone (`V_eta/stable/image_collection.json`). `batch_consumers()` --
@@ -296,13 +308,14 @@ FAMILIES = [
     # the pass is DORMANT BY THE DECISION, not undecided.
     ("logical_observation", ["valid_interval"],
      "V_eta_logical_observation_plan.md",
-     ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND "
-      "SIGNED 2026-08-12: the target is ONE logical_observation per source "
-      "document carrying an ARRAY of booleans on a time axis, and it WAITS "
-      "for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals "
-      "already contains is explicitly rejected as an interim, so that pass is "
-      "DORMANT (census only, emits nothing) and the documents live on the v1 "
-      "tombstone. Classes renamed validity -> logical"),
+     ("SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: "
+      "the target is ONE time_observation per source document, an N x 2 "
+      "array of `time` cells keyed [interval, endpoint (start/end)], anchored "
+      "to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed "
+      "but is still DORMANT (census only, emits nothing), and its preserved "
+      "code is the rejected 1->N shape, so re-arming is a rewrite. The "
+      "documents live on the v1 tombstone. logical_observation retired "
+      "(#73 item 52); `logical` stays"),
      "team"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
@@ -339,19 +352,15 @@ FAMILIES = [
     ("epochclocktimes", ["epochclocktimes"],
      "V_eta_time_reference_family_plan.md",
      ("epochclocktimes == acquisition_epoch.clocks[], so its content becomes "
-      "relative_reference documents; the class does not return. EQUIVALENCE "
+      "relative_time_reference documents; the class does not return. EQUIVALENCE "
       "ONLY -- Fork A (where the epoch anchor lives) is open and gates the build"),
      "team"),
 
-    ("time_reference", [
-        "time_reference", "session_bounded_reference", "session_relative_reference",
-        "epoch_bounded_reference"],
-     "V_eta_time_reference_model_plan.md",
-     ("8 classes collapse to absolute_reference + relative_reference "
-     "(4 of the 8 executed 2026-08-11: epoch_relative_reference, "
-     "event_bounded_reference, event_relative_reference, utc_reference deleted "
-     "-- no template, no emitter, no reference; the other 4 await their emitters)"),
-     "team"),
+    # ("time_reference", ...) CLOSED 2026-09-25, #65 increment 3b. The last three
+    # leaves (session_bounded/session_relative/epoch_bounded_reference) were deleted
+    # and `is_approximate` removed from the root, schema-first by jess's decision
+    # ("do 4 first, then add 1-3 to the checklist"); the root now persists. The
+    # emitter work is on the PR #76 DID-matlab checklist, not an open schema family.
 
     # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
     # control_stimulus_ids, points at timed_sequence, and the stimulus plan already
@@ -497,7 +506,8 @@ FAMILIES = [
         "daqreader_image_epochdata_ingested"],
      "V_eta_ingested_payload_findings.md",
      ("reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
-     "metadata one -> `acquisition_metadata_file`; image one folds into the image model"),
+     "metadata one -> an `opaque_body` of the stimulator's term_manipulation (#73 item 61; "
+     "`acquisition_metadata_file` retired); image one folds into the image model"),
      "team"),
 
     # `dataseries_channel_map` -- FAMILY CLOSED 2026-08-09. Decided 2026-08-05
@@ -542,19 +552,19 @@ FAMILIES = [
     # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
     # the team corrected that -- they read the options and did not adopt one.
     # What IS established is negative and evidence-backed: the old "folds into
-    # relative_reference" claim FAILS (two referents / two frames / an affine
+    # relative_time_reference" claim FAILS (two referents / two frames / an affine
     # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
     # DECIDED with the team 2026-08-06 ("Record the whole cluster"); SIGNED 2026-08-08.
     # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
     # comes from a new `polynomial` data_type -- NOT {slope,intercept}, because
     # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
-    # would be LOSSY. Endpoints are relative_reference DOCUMENTS (each carrying epoch +
+    # would be LOSSY. Endpoints are relative_time_reference DOCUMENTS (each carrying epoch +
     # clock), not clocktype terms. syncgraph_id restored; the invented required
     # `epochid` (5,316 docs, 100% empty) removed.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_clock_alignment_cluster_plan.md",
      ("-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
-     "relative_reference docs; syncgraph_id restored, invented epochid removed"),
+     "relative_time_reference docs; syncgraph_id restored, invented epochid removed"),
      "team"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
@@ -683,7 +693,7 @@ FAMILIES = [
     ("subject measurement", ["subjectmeasurement"],
      "V_eta_go_forward_class_audit.md",
      ("route through the `measurement` fold -- no new class; `datestamp` is a TIME "
-     "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)"),
+     "ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06)"),
      "team"),
 
     # SIGNED 2026-08-10; the FAMILY ROW is 2026-08-13, and the row is the only
@@ -796,30 +806,26 @@ FAMILIES = [
     # is_mock flag, and `demo` is BUILT and persists, so no open class remains for a
     # family to track. See V_eta_go_forward_class_audit.md section 3.
 
-    # SIGNED 2026-09-22 (Corrected Option C, DID-schema#70). The pyramid reshape
-    # to ⊂ [gene_expression, subject_observation] is #119; the other seven persist
-    # as ⊂ base. `geneExpression` and `geneList` arrived outside #70's six but are
-    # confirmed in the same signature. V1 class names are NDI's own camelCase
-    # (as `imageCollection` above), matching the ledger's `v1_class` column; the
-    # V_eta targets are snake_cased (gene_expression, gene_list, ...).
+    # The Corrected Option C decision (signed 2026-09-22, DID-schema#70) that
+    # stood here -- each class persisting as its own verbatim copy -- is
+    # SUPERSEDED by the #73 review (jess, 2026-09-24/25): none of the eight is
+    # carried forward, all are migrated into the review's design, and the copies
+    # are retired. The family now cites the review's record, which carries no
+    # TEAM-SIGN-OFF line yet (the team adds it), so the board shows it awaiting
+    # review. V1 class names are NDI's camelCase, matching the ledger.
     ("spatial_transcriptomics_family", [
         "spatialGeneExpressionPyramid", "spatialGeneExpressionCells",
         "spatialGeneExpressionTiles", "cellTypeLabels", "geneListMapping",
         "fileReference", "geneList", "geneExpression"],
-     "V_eta_go_forward_class_audit.md",
-     ("Corrected Option C. spatialGeneExpressionPyramid becomes "
-      "⊂ [gene_expression, subject_observation] (was ⊂ [base, geneExpression]), "
-      "picking up variable/method_parameters/sample_time/time_reference_# from "
-      "the subject_observation direction; the class's own subject_id "
-      "required-ness moves onto the inherited subject_statement slot. The "
-      "other seven persist ⊂ base: cell_type_labels, gene_expression, "
-      "gene_list, gene_list_mapping, spatial_gene_expression_cells, "
-      "spatial_gene_expression_tiles, file_reference. file_reference is "
-      "DELIBERATELY NOT folded to generic_file -- the two coexist by design. "
-      "Follow-ons deferred: `variable` binding (#120, signed and wired), "
-      "axes[]/format/compression when 2.D lands (#125), T8 bindings (#126). "
-      "Full reasoning at DID-schema#70. Migrators + fixtures are Session 2's "
-      "scope (#122, #123); no corpus proof today (#124)."),
+     "V_eta_spatial_transcriptomics_plan.md",
+     ("#73 review: nothing carried forward. Counts -> a count_observation over "
+      "[y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 "
+      "redundant); tiles -> file-series chunks; the cell list -> a "
+      "label_calculation, per-cell facts -> calculations over the cell key; "
+      "cell types -> term_calculation, clusters -> label_calculation; the gene "
+      "list -> a standalone term; the mapping -> a directed_relation + a "
+      "standalone score; fileReference -> an unheld body; geneExpression "
+      "dissolves into method + variable."),
      "team"),
 ]
 
@@ -916,7 +922,7 @@ def scan_signoff_lines(text):
         # narrowing is 2026-08-13.
         #
         # v1 rejected any line containing "<" or ">", so a sign-off saying
-        # "datestamp -> absolute_reference" was silently ignored.
+        # "datestamp -> absolute_time_reference" was silently ignored.
         # v2 rejected any PAIRED <...>, which is what this comment used to
         # describe -- and it was still too broad, because prose legitimately
         # names a class-name PATTERN in angle brackets. It threw away a real,
@@ -1817,7 +1823,7 @@ def assignment_split(code):
 #                class (fitcurve.m:139 `classBlock('session_relative_reference',
 #                {'time_reference'})`, then `anchor.session_relative_reference =
 #                struct(...)`). The open work on that class is its COLLAPSE into
-#                `relative_reference`; a migrator still writing the old class is
+#                `relative_time_reference`; a migrator still writing the old class is
 #                evidence the collapse has NOT landed, and counting it as
 #                "built" inverted the meaning of the number.
 #
@@ -2367,7 +2373,7 @@ def census_evidence(classes, roots):
 RETIRED_BY_ITS_OWN_DECISION = {
     # V_eta_time_reference_model_plan.md:468 --
     #   "TEAM-SIGN-OFF [time_reference]: ... 8 classes collapse to
-    #    absolute_reference + relative_reference ..."
+    #    absolute_time_reference + relative_time_reference ..."
     # Three of the eight are minted today -- session_relative_reference,
     # session_bounded_reference and epoch_bounded_reference -- and every site is
     # work the collapse has still to undo.
@@ -2382,10 +2388,10 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # repositories, are listed in `schemas/V_eta_STATUS.md` under each class --
     # generated, and therefore correct or loudly broken.
     # FOUR ENTRIES REMOVED 2026-08-11 (#65 increment 3a):
-    # `epoch_relative_reference` -> relative_reference,
-    # `event_bounded_reference` -> relative_reference,
-    # `event_relative_reference` -> relative_reference and
-    # `utc_reference` -> absolute_reference are gone from this dict because the
+    # `epoch_relative_reference` -> relative_time_reference,
+    # `event_bounded_reference` -> relative_time_reference,
+    # `event_relative_reference` -> relative_time_reference and
+    # `utc_reference` -> absolute_time_reference are gone from this dict because the
     # CLASSES are gone from the built set. A discount only means anything for a
     # class that still has a board row to discount; keeping the keys made them
     # "discounted but claimed by no decision family", which
@@ -2393,10 +2399,9 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # correctly, since the sign-off a discount is transcribed from has to be
     # locatable through a family. The collapse they name is EXECUTED for those
     # four, not pending.
-    "time_reference": "relative_reference",
-    "session_bounded_reference": "relative_reference",
-    "session_relative_reference": "relative_reference",
-    "epoch_bounded_reference": "relative_reference",
+    # THE LAST FOUR REMOVED 2026-09-25 (#65 increment 3b), for the same reason:
+    # session_bounded/session_relative/epoch_bounded_reference are deleted, and
+    # `time_reference` is no longer a retiring class -- it persists as the root.
     # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
     # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
     # entity; `epoch_id` is a dependency name, not a class, so the replacement

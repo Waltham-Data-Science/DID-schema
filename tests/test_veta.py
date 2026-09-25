@@ -17,6 +17,7 @@ import glob
 import io
 import json
 import os
+import re
 
 import jsonschema
 import pytest
@@ -53,34 +54,33 @@ def _load(path):
 META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 
 
-def test_channels_field_identical_on_subject_observation_and_acquisition_channels():
-    """#66 increment 2 reuses acquisition_channels' `channels` shape (built with
-    the same field/subfield helpers because the draft class is minted later in
-    build_v_eta and cannot be read at that point). Increment 3 (2026-08-21)
-    HOISTED it from subject_observation to subject_interaction so a stimulator
-    manipulation carries the same wiring; read it there. Pin the two definitions
-    identical -- barring documentation, which is context-specific -- so they
-    cannot drift into two channel encodings."""
-    so = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
+def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
+    """#73 item 56 (2026-09-25, 6b option B) REPLACES a test that pinned TWO copies
+    of the `channels` shape identical -- inline on subject_interaction and on
+    `acquisition_channels`. Two copies kept in step by a test are still two places
+    for one fact; now there is one. A statement points at a shared
+    `acquisition_channels` document by `acquisition_channels_id`, the edge name
+    `clock_alignment_configuration` already uses."""
+    si = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
     ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
-
-    def channels(d):
-        return next(f for f in d["fields"] if f["name"] == "channels")
-
-    def strip_docs(x):
-        if isinstance(x, dict):
-            x.pop("documentation", None)
-            for v in x.values():
-                strip_docs(v)
-        elif isinstance(x, list):
-            for v in x:
-                strip_docs(v)
-        return x
-
-    a = strip_docs(channels(so))
-    b = strip_docs(channels(ac))
-    assert a == b, ("subject_observation.channels and acquisition_channels."
-                    "channels diverged (ignoring documentation)")
+    assert "channels" not in {f["name"] for f in si["fields"]}
+    si_edges = {e["name"]: e for e in si["depends_on"]}
+    assert "acquisition_system_id" not in si_edges
+    assert si_edges["acquisition_channels_id"]["must_refer_to_document_class"] == \
+        "acquisition_channels"
+    assert si_edges["acquisition_channels_id"]["mustBeNonEmpty"] is False
+    assert "channels" in {f["name"] for f in ac["fields"]}
+    ac_edges = {e["name"]: e for e in ac["depends_on"]}
+    # DECIDED required (item 56); stays optional until the DID-matlab minting pass
+    # lands -- test_veta_acquisition_system_edge_typing pins that.
+    assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
+    rig = _load(os.path.join(VETA, "stable", "acquisition_system.json"))
+    assert all(not e["mustBeNonEmpty"] for e in rig["depends_on"]), (
+        "a minimal rig (a name, nothing else) must validate")
+    cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
+        if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
+        else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))
+    assert "acquisition_channels_id" in {e["name"] for e in cac["depends_on"]}
 INDEX = _load(os.path.join(VETA, "index.json"))
 
 
@@ -199,10 +199,15 @@ def test_spine_composes_onto_every_interaction():
             continue
         ft, deps = _flat_field_types(name), _flat_dep_names(name)
         assert "subject_id" in deps, f"{name} missing subject_id"
-        assert "time_reference_#" in deps, f"{name} missing time_reference"
+        assert "time_reference_id" in deps, f"{name} missing time_reference"
         assert ft.get("variable") == "ontology_term", f"{name} missing variable"
         assert ft.get("method") == "ontology_term", f"{name} missing method"
-        assert ft.get("sample_time") == "structure", f"{name} missing sample_time"
+        # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
+        assert "sample_time" not in ft, f"{name} still carries sample_time"
+        # #73 item 60: `keys` lives on data_type (with the value), so only leaves --
+        # a direction x a data type (T3) -- carry it; the abstract directions do not.
+        if "data_type" in _chain(name):
+            assert ft.get("keys") == "structure", f"{name} missing keys"
 
 
 def test_path_t_removed_and_element_id_retired():
@@ -220,22 +225,28 @@ def test_instrument_id_is_optional_device_edge():
 
 
 def test_derived_from_is_statement_typed_provenance():
-    # A computed observation records its inputs via derived_from_#, typed to a
-    # subject_statement leaf (NEVER an entity) -- the provenance inverse of
-    # directed_relation's entity->entity child/parent.
-    deps = {d["name"]: d for d in RECORDS["subject_observation"][1]["depends_on"]}
-    assert "derived_from_#" in deps
-    df = deps["derived_from_#"]
+    # #73 (2026-09-23) THE OBSERVATION / CALCULATION RULE: a statement whose
+    # inputs are other statements in the dataset is a CALCULATION and records them
+    # via input_id, typed to a subject_statement leaf (NEVER an entity) --
+    # the provenance inverse of directed_relation's entity->entity child/parent.
+    # INVERTED, not updated: this asserted the edge on subject_observation (the
+    # "computed observation"), which the rule abolishes.
+    deps = {d["name"]: d for d in RECORDS["subject_calculation"][1]["depends_on"]}
+    assert "input_id" in deps
+    df = deps["input_id"]
     assert df["must_refer_to_document_class"] == "subject_statement"
     assert df["must_refer_to_document_class"] != "entity"
     assert df["mustBeNonEmpty"] is False
-    # inherited by the value leaves (a computed observation is a leaf)...
-    assert "derived_from_#" in _flat_dep_names("angle_observation")
-    assert "derived_from_#" in _flat_dep_names("score_observation")
-    # ...but NOT on manipulations or assertions: computation is an observation mode
-    # (a manipulation is imposed, an assertion is declared -- neither is derived).
-    assert "derived_from_#" not in _flat_dep_names("subject_manipulation")
-    assert "derived_from_#" not in _flat_dep_names("term_assertion")
+    # inherited by the calculation leaves...
+    assert "input_id" in _flat_dep_names("tuning_curve_calculation")
+    assert "input_id" in _flat_dep_names("receptive_field_calculation")
+    # ...and on NO other direction: an observation comes from outside the
+    # dataset, a manipulation is imposed, an assertion is declared.
+    assert "input_id" not in _flat_dep_names("subject_observation")
+    assert "input_id" not in _flat_dep_names("voltage_observation")
+    assert "input_id" not in _flat_dep_names("score_observation")
+    assert "input_id" not in _flat_dep_names("subject_manipulation")
+    assert "input_id" not in _flat_dep_names("term_assertion")
 
 
 def test_direction_classes_renamed():
@@ -276,23 +287,22 @@ def test_subject_assertion_is_genus_with_typed_leaves():
     # The `numeric_assertion` genus is gone: it held no fields and existed only to carry
     # a `mustBeScalar` flag, which cost an `isa <data_type>` query the assertions.
     assert "numeric_assertion" not in RECORDS
-    for leaf, composite in (("mass_assertion", "mass"), ("voltage_assertion", "voltage"),
-                            ("term_assertion", "term"), ("date_assertion", "date")):
+    for leaf, composite in (("term_assertion", "term"), ("date_assertion", "date")):
         chain = [s["class_name"]
                  for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
         assert chain == ["subject_assertion", composite], f"{leaf} chain {chain}"
         assert not RECORDS[leaf][1].get("fields"), f"{leaf} should own no fields"
     # the value is inherited from the composite, so `isa <data_type>` spans directions
-    assert _flat_field_types("mass_assertion").get("value") == "mass"
-    assert "mass" in _chain("mass_assertion") and "mass" in _chain("mass_observation")
+    assert _flat_field_types("voltage_observation").get("value") == "voltage"
+    assert "voltage" in _chain("voltage_observation") and "voltage" in _chain("voltage_calculation")
 
 
 def test_relation_branch():
     # subject_relation was renamed to `relation` and generalized to entity<->entity.
     assert "subject_relation" not in RECORDS
     assert RECORDS["relation"][1]["document_class"].get("abstract") is True
-    for cls, endpoints in (("directed_relation", {"child", "parent"}),
-                           ("undirected_relation", {"entities"})):
+    for cls, endpoints in (("directed_relation", {"child_id", "parent_id"}),
+                           ("undirected_relation", {"entity_id"})):
         assert "relation" in _chain(cls)
         assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
         assert _flat_field_types(cls).get("relation") == "ontology_term"
@@ -303,9 +313,14 @@ def test_entity_genus():
     for e in ("subject", "person", "organization", "publication", "funding",
               "dataset", "web_resource", "session"):
         assert "entity" in _chain(e), f"{e} should descend from entity"
-    # directed_relation endpoints are entities now, not just subjects
+    # directed_relation endpoints are entities now, not just subjects -- and since
+    # #73 (items 22/24/27) also statements and standalone data documents (a label
+    # calculation derived_from an external atlas; a gene list derived_from its
+    # annotation; the target list of a gene mapping).
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    assert dr["child"]["must_refer_to_document_class"] == "entity"
+    for end in ("child_id", "parent_id"):
+        assert dr[end]["must_refer_to_document_class"].split(",") == [
+            "entity", "subject_statement", "data_type"], dr[end]
     # dataset documentation/homepage links are relations -> web_resource, not fields
     dataset_fields = {f["name"] for f in RECORDS["dataset"][1]["fields"]}
     assert "documentation" not in dataset_fields
@@ -344,12 +359,21 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
         f = _local_id(e)
         assert f is not None, f"{e} should carry a required local_identifier"
         assert f["mustBeNonEmpty"] is True, f"{e}.local_identifier must be required"
-    # every other entity carries it, optional
+    # #73 item 54 (2026-09-25): a local_identifier is a KEY, kept only where the
+    # code keys on it (subject, session, epoch). It comes off the entities nothing
+    # writes it on; software's `name@version` was a derived merge key.
     for e in ("dataset", "person", "organization", "publication", "funding",
-              "web_resource"):
-        f = _local_id(e)
-        assert f is not None, f"{e} should carry an optional local_identifier"
-        assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"
+              "web_resource", "software", "strain"):
+        assert _local_id(e) is None, f"{e} should carry no local_identifier (#73 item 54)"
+    # ...and each class with a name declares `name`; base.name is did_v1-only.
+    for e in ("dataset", "organization", "publication", "funding", "web_resource",
+              "software", "strain", "acquisition_system", "method_parameters"):
+        names = [f["name"] for f in RECORDS[e][1]["fields"]]
+        assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
+        assert not {"full_name", "title", "label"} & set(names), names
+    base_name = next(f for f in RECORDS["base"][1]["fields"] if f["name"] == "name")
+    assert base_name["mustBeNonEmpty"] is False
+    assert "did_v1 ONLY" in base_name["documentation"]
 
 
 def test_demo_family_collapsed_to_one_class():
@@ -368,7 +392,8 @@ def test_demo_family_collapsed_to_one_class():
         (`mode` was cardinality, not a class axis). A mock voltage_observation
         would still be a voltage observation.
 
-    So three classes collapse to one: `demo` with an `is_mock` boolean. `mock`
+    So three classes collapse to one: `demo` with a `mock` boolean (named `is_mock`
+    until 2026-09-24, when T13 dropped the `is_` prefix from booleans). `mock`
     and `demo_ndi_mock` cease to exist, and `demo` drops the framework's own name
     out of a class name in the framework's own schema (T13).
 
@@ -382,12 +407,12 @@ def test_demo_family_collapsed_to_one_class():
         assert gone not in RECORDS, f"{gone} should have collapsed into `demo`"
 
     fields = {f["name"]: f for f in RECORDS["demo"][1]["fields"]}
-    assert set(fields) == {"value", "is_mock"}, set(fields)
+    assert set(fields) == {"value", "mock"}, set(fields)
     # Typed from the WRITER, not the template: the did_v1 template says char, but
     # ndi.calc.example.simple sets 5/10 and queries with exact_number.
     assert fields["value"]["type"] == "double"
-    assert fields["is_mock"]["type"] == "boolean"
-    assert fields["is_mock"]["default_value"] is False
+    assert fields["mock"]["type"] == "boolean"
+    assert fields["mock"]["default_value"] is False
     # The required file was dropped by V_eta -- silent file loss. It is back.
     assert [f["name"] for f in RECORDS["demo"][1].get("file", [])] == ["filename1.ext"]
 
@@ -400,10 +425,11 @@ def test_value_set_class_dropped():
 
 
 def test_timing_cadence_moved_off_time_reference():
-    """time_reference.sampling removed; the cadence lives in sample_time (D1)."""
+    """time_reference.sampling removed. The cadence first moved to sample_time (D1);
+    since #73 item 21 (the signed data_body sec.2) it is an ordinary time key."""
     tr_fields = {f["name"] for f in RECORDS["time_reference"][1]["fields"]}
     assert "sampling" not in tr_fields
-    assert _flat_field_types("subject_interaction").get("sample_time") == "structure"
+    assert "sample_time" not in _flat_field_types("subject_interaction")
 
 
 # ---- increment 2: leaf-tier depth ----
@@ -414,8 +440,7 @@ def test_manipulation_tier_is_strict_j():
                  "generic_manipulation", "generic_scalar", "generic_scalar_observation",
                  "generic_scalar_manipulation", "biological_transfer"):
         assert gone not in RECORDS, f"{gone} must be retired in strict J"
-    for leaf in ("dose_manipulation", "formulation_manipulation", "term_manipulation",
-                 "temperature_manipulation"):
+    for leaf in ("dose_manipulation", "term_manipulation", "temperature_manipulation"):
         assert leaf in RECORDS and "subject_manipulation" in _chain(leaf)
     # composites are structure-typed value mixins
     for comp in ("dose", "formulation", "chemical"):
@@ -427,11 +452,14 @@ def test_manipulation_tier_is_strict_j():
 
 
 def test_storage_mode_on_statement():
-    ft = _flat_field_types("subject_statement")
-    assert ft.get("storage_mode") == "char"
-    sm = next(f for f in RECORDS["subject_statement"][1]["fields"]
-              if f["name"] == "storage_mode")
-    assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
+    """INVERTED by #73 item 60 (2026-09-25): `storage_mode` is deleted. `reference` is
+    `value_id` present, and "my value is in bodies" is the boolean `data_body` on
+    data_type, with the value it describes."""
+    assert "storage_mode" not in _flat_field_types("subject_statement")
+    db = next(f for f in RECORDS["data_type"][1]["fields"] if f["name"] == "data_body")
+    assert db["type"] == "boolean" and db["mustBeNonEmpty"] is False
+    assert db["blank_value"] is False
+    assert "value_id" in {e["name"] for e in RECORDS["subject_statement"][1]["depends_on"]}
 
 
 def test_conditions_on_statement():
@@ -458,29 +486,23 @@ def test_conditions_on_statement():
 
 
 def test_session_bounded_reference():
-    """A bounded [start, end] window relative to the session/assay (D10 multi-party
-    binding) — no parent interaction/epoch required."""
-    assert "session_bounded_reference" in RECORDS
-    assert "time_reference" in _chain("session_bounded_reference")
-    ft = _flat_field_types("session_bounded_reference")
-    # `time`, not `duration` -- TEAM-SIGN-OFF [time dtype], 2026-08-17. These two
-    # fields are half the evidence the signature rests on: `start` and `end` are
-    # OFFSETS, not extents, and typing them `duration` is what made the old name
-    # a role claim the data did not support.
-    assert ft.get("start") == "time" and ft.get("end") == "time"
-    # no required deps (session rides on base.session_id)
-    deps = RECORDS["session_bounded_reference"][1]["depends_on"]
-    assert all(not d.get("mustBeNonEmpty") for d in deps)
+    """INVERTED 2026-09-25 (#65 increment 3b, jess: schema first). This checked the
+    class's shape; the class is now DELETED, and its bounded window lives on
+    `relative_time_reference` (relative_to -> the session, start + duration)."""
+    for gone in ("session_bounded_reference", "session_relative_reference",
+                 "epoch_bounded_reference"):
+        assert gone not in RECORDS, f"{gone} came back; increment 3b deleted it"
+    assert "time_reference" in _chain("relative_time_reference")
 
 
 def test_directed_relation_optional_time_reference():
     """An event-relation (e.g. encountered) can carry when — an optional
     time_reference dep so the relation is the timestamped record (D10)."""
     deps = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    assert "time_reference_#" in deps
-    assert deps["time_reference_#"]["mustBeNonEmpty"] is False
+    assert "time_reference_id" in deps
+    assert deps["time_reference_id"]["mustBeNonEmpty"] is False
     # child/parent stay required
-    assert deps["child"]["mustBeNonEmpty"] is True
+    assert deps["child_id"]["mustBeNonEmpty"] is True
 
 
 def test_assertion_is_timeless():
@@ -497,11 +519,11 @@ def test_assertion_is_timeless():
             continue
         seen += 1
         deps = _flat_dep_names(name)
-        assert "time_reference_#" not in deps, \
+        assert "time_reference_id" not in deps, \
             f"{name} is an assertion — it must not declare time_reference"
     assert seen > 1, f"only {seen} assertion class(es) examined"
     # the parent declares no time either; only the interaction branch requires it
-    assert "time_reference_#" not in _flat_dep_names("subject_statement")
+    assert "time_reference_id" not in _flat_dep_names("subject_statement")
     assert _flat_dep_names("subject_interaction")  # (interaction side checked above)
 
 
@@ -518,10 +540,14 @@ def test_data_body_classes():
     # it (jSorterOutput, foldGenericFiles, and NDI's
     # stimulusPresentationToManipulation), so opaque_body's documented
     # "free-standing attachment" case had zero emitters.
+    # RENAMED `owner` by #73 (item 24) and WIDENED to standalone data documents
+    # (item 20): a shared image, waveform or term list needs a body too. Still ONE
+    # edge on the parent, still REQUIRED.
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
-                     if d["name"] == "statement")
+                     if d["name"] == "owner_id")
+    assert statement["must_refer_to_document_class"] == "subject_statement,data_type"
     assert statement["mustBeNonEmpty"] is True, (
-        "the hoisted `statement` edge must be REQUIRED -- optional would drop a "
+        "the hoisted `owner` edge must be REQUIRED -- optional would drop a "
         "guarantee sampled_body already enforced under the armed #37 gate")
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
@@ -530,8 +556,8 @@ def test_data_body_classes():
         # field (#69) and redeclaring is SILENT, so a re-declaration here would
         # be invisible drift rather than an error.
         own = {d["name"] for d in RECORDS[body][1].get("depends_on", [])}
-        assert "statement" not in own, (
-            f"{body} re-declares `statement`; it is inherited from data_body now")
+        assert "owner_id" not in own, (
+            f"{body} re-declares `owner`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     # `datum` IS GONE (signed sec.5): its `dtype` became
     # `subject_statement.datum_type`, and `unit` / `shape` / `kind` were dropped
@@ -549,7 +575,7 @@ def test_data_body_classes():
     assert sft.get("sample_time") is None, (
         "sampled_body declares `sample_time` again; it retired into `axes`, "
         "which is the single home for a body's index dimensions")
-    assert sft.get("axes") is not None, (
+    assert sft.get("keys") is not None, (
         "sampled_body must declare `axes` -- it is where the retired "
         "sample_time's content went")
     # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
@@ -563,8 +589,12 @@ def test_data_body_classes():
     # acquisition_epoch. The ONE opt-in addition is `axes` for multi-dim derived
     # data with no epoch -- optional (array-of-records), so it never burdens the
     # common scalar/time-series case.
-    sampled_axes = next(f for f in RECORDS["sampled_body"][1]["fields"]
-                        if f["name"] == "axes")
+    # LIGHTSHEET L3 (2026-09-25): `keys` moved UP to data_body -- the two bodies
+    # split by who lays out the bytes, and an opaque body may describe its array
+    # too. sampled_body still HAS it, through the chain.
+    assert "keys" not in {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
+    sampled_axes = next(f for f in RECORDS["data_body"][1]["fields"]
+                        if f["name"] == "keys")
     assert sampled_axes["mustBeNonEmpty"] is False
     assert sampled_axes["mustBeScalar"] is False
     # opaque_body carries a small descriptor (generic_file is INTENDED to fold onto
@@ -653,8 +683,14 @@ def test_the_two_stranding_classes_have_a_tombstone():
         "opaque_body declares fields of its own again -- after the hoist its "
         "content is exactly 'these bytes are not an array'")
     db_fields = {f["name"] for f in RECORDS["data_body"][1]["fields"]}
+    # #73 (items 25/31) added the file identity facts an UNHELD body needs
+    # (hash_algorithm, size_bytes, file_created/_modified) and `redundant`.
+    # Lightsheet L1/L3 (2026-09-25) moved `keys` + `complete` up from sampled_body
+    # and added `conditions` (a one-value fact true of one body's values).
     assert {"format", "compression", "filename", "content_hash",
-            "description"} == db_fields, db_fields
+            "description", "hash_algorithm", "size_bytes", "file_created",
+            "file_modified", "redundant", "keys", "complete",
+            "conditions"} == db_fields, db_fields
     # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
     # moot: it said that if `compression` ever appeared, content_hash must state
     # WHICH byte stream it covers (plan open question 3). It appeared, so the
@@ -735,7 +771,9 @@ def test_image_collection_is_a_tombstone_not_a_dissolution():
         "image_collection is a did_v1 SOURCE class with an NDI template and no "
         "migrator; deleting its schema is the stranding case")
     assert "image" in RECORDS
-    assert "image" in _chain("image_observation")
+    # #73 item 51: `image` is the did_v1 tombstone again, beside image_collection.
+    assert "image_collection" in {e["must_refer_to_document_class"]
+                                  for e in RECORDS["image"][1]["depends_on"]}
 
 
 def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
@@ -873,10 +911,26 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert _dep("epochfiles_ingested", "filenavigator_id") is not None, \
         "the source tombstone must carry the edge NDI actually writes"
     assert "ingestion_manifest" in RECORDS
-    assert _dep("ingestion_manifest", "filenavigator_id")["mustBeNonEmpty"] is True
+    # #73 review item 40 (2026-09-25): the restored navigator edge carries the
+    # V_eta name, pointing at `epoch_file_pattern` (the navigator's signed
+    # successor, id preserved). The v1 tombstone keeps `filenavigator_id`.
+    _efp = _dep("ingestion_manifest", "epoch_file_pattern_id")
+    assert _efp["mustBeNonEmpty"] is True
+    assert _efp["must_refer_to_document_class"] == "epoch_file_pattern"
+    assert not any(d["name"] == "filenavigator_id"
+                   for d in RECORDS["ingestion_manifest"][1]["depends_on"])
     assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"
     assert not any(d["name"] == "epochid"
                    for d in RECORDS["ingestion_manifest"][1]["depends_on"])
+    # #73 review item 39 (2026-09-25): no serialized epochprobemap on the V_eta
+    # class -- its rows decompose (recording -> observations, stimulator ->
+    # term_manipulation) or are refused (imaging, until #24). The v1 TOMBSTONE
+    # keeps the field: that is the writer's shape.
+    im_fields = [f["name"] for f in RECORDS["ingestion_manifest"][1]["fields"]]
+    assert "epochprobemap" not in im_fields, im_fields
+    assert "files" in im_fields, im_fields
+    efi_fields = [f["name"] for f in RECORDS["epochfiles_ingested"][1]["fields"]]
+    assert "epochprobemap" in efi_fields, efi_fields
     # `directory` USED to be asserted here as carrying a self-referential
     # `parent_directory_id` typed to itself. The team DELETED the class on
     # 2026-08-11 (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
@@ -1083,10 +1137,18 @@ def test_software_crosswalks_to_openminds_softwareversion():
     assert props["versionIdentifier"]["ndi_target"] == "version"
     # the per-run environment is NOT on the entity: openMINDS operatingSystem /
     # programmingLanguage describe the software, ours describe the run, so they are
-    # explicitly projections onto subject_interaction.execution_environment (R1).
-    for prop in ("operatingSystem", "programmingLanguage"):
+    # explicitly projections onto the calculation's own edges (R1; #73 item 53 made
+    # the run's os and interpreter `software` documents via role edges).
+    for prop, edge in (("operatingSystem", "operating_system_id"),
+                       ("programmingLanguage", "interpreter_id")):
         assert props[prop]["target_kind"] == "projection"
-        assert "execution_environment" in props[prop]["notes"]
+        assert edge in props[prop]["notes"]
+    edges = {e["name"]: e for e in RECORDS["subject_calculation"][1]["depends_on"]}
+    for edge in ("interpreter_id", "operating_system_id"):
+        assert edges[edge]["must_refer_to_document_class"] == "software"
+        assert edges[edge]["mustBeNonEmpty"] is True
+    assert "runtime_environment_id" not in edges
+    assert "execution_environment" not in RECORDS and "runtime_environment" not in RECORDS
 
 
 def test_ndi_class_handles_marked_needs_ndi():
@@ -1233,10 +1295,10 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     # no domain fields leaked onto the class
     assert not ({"threshold", "refractory_period", "waveform_window"} & names)
     deps = {x["name"]: x for x in d["depends_on"]}
-    assert set(deps) == {"software_id", "subject_id", "epoch_id", "derived_from_id"}
+    assert set(deps) == {"software_id", "subject_id", "epoch_id", "parent_id"}
     # the self-edge is lineage, and points at its own class
-    assert deps["derived_from_id"]["must_refer_to_document_class"] == "method_parameters"
-    assert deps["derived_from_id"]["mustBeNonEmpty"] is False
+    assert deps["parent_id"]["must_refer_to_document_class"] == "method_parameters"
+    assert deps["parent_id"]["mustBeNonEmpty"] is False
 
 
 def test_settings_edge_is_on_the_interaction_branch_only():
@@ -1277,7 +1339,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
         f = next(x for x in d["fields"] if x["name"] == required)
         assert f["mustBeNonEmpty"] is True, f"{required} must be required"
     assert ft.get("species") == "ontology_term"
-    bg = next(x for x in d["depends_on"] if x["name"] == "background_strain_#")
+    bg = next(x for x in d["depends_on"] if x["name"] == "background_strain_id")
     assert bg["must_refer_to_document_class"] == "strain", "the pedigree is recursive"
     assert bg["min_count"] == 0 and bg["max_count"] == 2
 
@@ -1308,12 +1370,14 @@ def test_numbered_edge_families_declare_cardinality():
     that reason. Three families were nonetheless declared required and verified by
     nothing. The count is the checkable fact, so it is the one that gets declared;
     leaving the old flag set would keep two flags disagreeing about one thing."""
+    # T15 (2026-09-25): a family is any REPEATED edge (`multiple`) -- a V_eta
+    # edge repeats one name, a did_v1 tombstone still carries `_#`.
     fams = []
     for name, (_tier, d) in RECORDS.items():
         for dep in d.get("depends_on", []):
-            if dep["name"].endswith("_#"):
+            if dep.get("multiple"):
                 fams.append((name, dep))
-    assert fams, "no numbered edge families found -- the sweep is broken"
+    assert fams, "no repeated edges found -- the sweep is broken"
     for cls, dep in fams:
         assert "min_count" in dep, f"{cls}.{dep['name']} declares no min_count"
         assert dep["mustBeNonEmpty"] is False, (
@@ -1323,8 +1387,8 @@ def test_numbered_edge_families_declare_cardinality():
             assert dep["max_count"] >= max(dep["min_count"], 1)
     # the spine and the purpose edge are the two that must be PRESENT
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
-    assert ("subject_interaction", "time_reference_#") in required
-    assert ("interaction_purpose", "interaction_id_#") in required
+    assert ("subject_interaction", "time_reference_id") in required
+    assert ("interaction_purpose", "interaction_id") in required
     # NDI's own schema says syncrule_id_# may be empty -- V_eta had tightened it
     sg = next(d for c, d in fams if c == "syncgraph" and d["name"] == "syncrule_id_#")
     assert sg["min_count"] == 0
@@ -1340,11 +1404,10 @@ def test_data_body_carrier_dispositions():
                                  for s in r[1]["document_class"].get("superclasses", [])}}
     assert bodies == {"sampled_body", "opaque_body"}
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
-    # image is KEPT (image_observation's geometry mixin) but its final ⑥/⑦
-    # disposition is not settled, so it is in_progress -- crucially NOT retire (that
-    # was the bug: retiring the mixin of a persisting leaf).
-    assert disp["image"] != "retire", "image is a kept geometry mixin, not retiring"
-    assert disp["image_observation"] == "persist"
+    # #73 item 51 (2026-09-25): the V_eta `image` data_type and its leaf RETIRE. The
+    # name is the did_v1 tombstone again (retire), and image_observation is gone.
+    assert disp["image"] == "retire"
+    assert "image_observation" not in disp
     # `zarr` HAS NO DISPOSITION ANY MORE because it has no class: it was deleted
     # outright (signed sec.10) rather than retired, and it left _RET_CARRIERS in
     # the same change -- a disposition for a name nothing declares would make the
@@ -1379,20 +1442,19 @@ def test_no_revived_classes_in_migrators():
     assert not new, f"migrators emit classes absent from the V_eta schema: {new}"
 
 
-def test_visual_grating_manipulation_leaf():
-    """A presented visual stimulus is a body-backable subject_manipulation leaf whose
-    data type is a structured multi-parameter `visual_grating` composite (a grating
-    is orientation + spatial/temporal freq + contrast at once, so not a single-quantity
-    leaf). stimulus_presentation folds to this on the animal in the second pass."""
+def test_visual_grating_composite():
+    """A grating is a structured multi-parameter `visual_grating` composite (orientation
+    + spatial/temporal freq + contrast at once, so not a single-quantity leaf). It is
+    presented as an ITEM of a timed_sequence_manipulation; its own manipulation leaf was
+    deleted with the other unused leaves (#73 item 50)."""
     comp = RECORDS["visual_grating"][1]
     assert "data_type" in _chain("visual_grating")
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
-            "size", "position", "duration", "is_blank"} <= subs
-    leaf = RECORDS["visual_grating_manipulation"][1]
-    supers = {s["class_name"] for s in leaf["document_class"]["superclasses"]}
-    assert supers == {"subject_manipulation", "visual_grating"}
+            "size", "position", "duration", "blank"} <= subs
+    assert "visual_grating_manipulation" not in RECORDS
+    assert "timed_sequence_manipulation" in RECORDS
 
 
 def test_openminds_import_is_absent():
@@ -1524,7 +1586,7 @@ def test_relation_bindings_present():
 # ------------------------------------------------- value-cell convention conformance
 # Every `data_type` composite exposes its payload at ONE predictable slot, `value`.
 # That is what makes T3's `direction x data_type` factoring mechanical: `mass.value`
-# means the same under mass_observation and mass_assertion. The rule was unwritten for
+# means the same under voltage_observation and voltage_calculation. The rule was unwritten for
 # most of the project's life and two classes silently drifted off it, so it is a test
 # now rather than a convention.
 # Empty: every data_type composite conforms. (contrast_sensitivity was the last
@@ -1617,7 +1679,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # `test_all_axes_declarations_are_the_one_entry` asserts every `axes`
     # declaration in the tree is the one signed entry. Without that this would be
     # a hole, since any field called `axes` would then skip the triple check.
-    hoisted_field_names = {"axes"}
+    # `axes` was renamed `keys` by #73 (item 14). `conditions` joined once
+    # AMENDMENT 2 was built (#73 item 23), with the same hoisted descriptors.
+    hoisted_field_names = {"keys", "conditions"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         for f in d.get("fields", []):
@@ -2307,7 +2371,7 @@ DID_CLOCKTYPE_TERMS = ["utc", "dev_local_time", "dev_global_time", "exp_global_t
 # model -- so both are listed and the test compares them to each other, not each
 # to a separate expectation.
 _CLOCKTYPE_FIELDS = [
-    ("relative_reference", ("value", "clock")),
+    ("relative_time_reference", ("value", "clock")),
     ("clock_alignment_configuration", ("clock",)),
 ]
 
@@ -2443,38 +2507,13 @@ def test_clocktype_nodes_are_staged_empty_not_invented():
 
 
 def test_retiring_epoch_clock_fields_untouched_by_67():
-    """#67 does NOT touch the eight retiring reference classes.
-
-    Increment 1 of the time-reference collapse is ADDITIVE ONLY: the v1-era
-    classes stay until the migrators move, and 24 files still emit
-    session_relative_reference. Their `epoch_clock` keeps NDI's full nine and
-    stays a char, because that is what the emitters write today. Narrowing it
-    here would quarantine live documents -- the epochfiles_ingested regression.
-
-    NARROWED 2026-08-11 (#65 increment 3a), and narrowed rather than deleted.
-    It named BOTH epoch reference classes and required `checked == 2`.
-    `epoch_relative_reference` is now deleted -- it has no emitter, no NDI
-    template and no referencing schema -- while `epoch_bounded_reference` is
-    still minted (ndi_second_pass/stimulusBathToBath.m:166) and still needs
-    exactly this guard. The `if cls not in RECORDS: continue` escape is GONE
-    with it: a skip that silently satisfies the loop is how this assertion
-    would go vacuous the day the surviving class disappears too.
-    """
-    assert "epoch_relative_reference" not in RECORDS, (
-        "epoch_relative_reference came back; increment 3a deleted it")
-    checked = 0
-    for cls in ("epoch_bounded_reference",):
-        _tier, d = RECORDS[cls]        # KeyError, deliberately, not a skip
-        fld = _field_at(d, ("epoch_clock",))
-        assert fld["type"] == "char", cls
-        b = fld["constraints"]["binding"]
-        assert set(b["values"]) == NDI_CLOCKTYPES, (
-            f"{cls}.epoch_clock no longer carries NDI's nine: {sorted(b['values'])}")
-        checked += 1
-    assert checked == 1, (
-        f"expected the one still-minted epoch reference class; found {checked}. "
-        "If a later increment deletes it, delete this test with it -- do not "
-        "let the count fall to zero and keep passing.")
+    """RETIRED 2026-09-25 (#65 increment 3b). This guarded the still-minted
+    `epoch_bounded_reference.epoch_clock` (NDI's nine clock types, char) against
+    being narrowed while emitters wrote it. The class is now deleted schema-first
+    by team decision, so there is nothing left to guard; what remains checkable is
+    that no epoch reference class survives."""
+    for cls in ("epoch_relative_reference", "epoch_bounded_reference"):
+        assert cls not in RECORDS, f"{cls} came back; the #65 collapse deleted it"
 
 
 def test_no_list_valued_field_is_typed_char():
@@ -2594,11 +2633,12 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         return
     # Today: the gate is CLOSED, and this records who is holding it shut, so a
     # reader does not have to take the prose's word for the count.
+    # 2026-09-25 (#73 review item 43): back to the v1 shape -- the v1
+    # `reverse_correlation` tombstone declares ngrid, and hartley_calc reaches it
+    # through hartley_reverse_correlation. Both consumers are v1 tombstones.
     assert consumers == ["ontology_image", "reverse_correlation"], (
         f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
-        "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
-        "chain is hartley_calc -> hartley_reverse_correlation -> "
-        "reverse_correlation -> ngrid.")
+        "-- `hartley_calc` reaches ngrid through the v1 reverse_correlation tombstone.")
 
 
 def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
@@ -2632,8 +2672,10 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     testNgridSampledBodyFold still pins the refusal.
     """
     assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
-    _tier, body = RECORDS["sampled_body"]
-    axes = [f for f in body["fields"] if f["name"] == "axes"]
+    # Lightsheet L3: sampled_body inherits `keys` from data_body.
+    assert "data_body" in _chain("sampled_body")
+    _tier, body = RECORDS["data_body"]
+    axes = [f for f in body["fields"] if f["name"] == "keys"]
     assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
     sub = [s["name"] for s in axes[0].get("fields", [])]
     # DENOMINATOR FIRST, kept from the original: without it an empty sub-field
@@ -2689,7 +2731,7 @@ def test_all_axes_declarations_are_the_one_entry():
 
     def walk(fields, cls):
         for f in fields or []:
-            if f["name"] == "axes":
+            if f["name"] == "keys":
                 found[cls] = [s["name"] for s in f.get("fields", [])]
             walk(f.get("fields"), cls)
 
@@ -2705,10 +2747,12 @@ def test_all_axes_declarations_are_the_one_entry():
         "fold is done.")
 
     folded = {c: s for c, s in found.items() if c != "zarr"}
-    assert "sampled_body" in folded, (
-        "sampled_body declares no `axes` -- it is the reference mount for the "
+    # Lightsheet L3 (2026-09-25): the body mount is data_body now (inherited by
+    # both bodies), so it is the reference.
+    assert "data_body" in folded, (
+        "data_body declares no `keys` -- it is the reference mount for the "
         "signed entry, so its absence means the walker, not the schema, is wrong")
-    expected = folded["sampled_body"]
+    expected = folded["data_body"]
     for cls, sub in sorted(folded.items()):
         assert sub == expected, (
             f"`{cls}.axes[]` declares {sub!r}, but sampled_body declares "
@@ -2731,7 +2775,8 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """The schema half of the #47 fold, checked against what the migrator emits.
 
     `migrators_j/ontology_image.m` mints an `image_observation` + a
-    `sampled_body` on its subject-bearing arm. Both halves are LOCKSTEP: the
+    `sampled_body` on its subject-bearing arm today; since #73 item 51 the pixels are
+    an `intensity_observation` and the image's ontology nodes a `term_observation`. Both halves are LOCKSTEP: the
     migrator alone would quarantine every folded document, and this side alone
     would be an unused declaration. The migrator's own tests run under MATLAB
     only; this is the half that runs everywhere.
@@ -2740,15 +2785,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """
     assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
 
-    # the statement the team named
-    assert "image_observation" in RECORDS
-    _t, obs = RECORDS["image_observation"]
+    # the statement the team named (#73 item 51: intensity_observation, not image_observation)
+    assert "image_observation" not in RECORDS
+    _t, obs = RECORDS["intensity_observation"]
     assert not obs["document_class"].get("abstract"), (
-        "image_observation is the minted class; an abstract one cannot be "
+        "intensity_observation is the minted class; an abstract one cannot be "
         "instantiated (cache.m raises did2:validation:abstractInstantiation)")
     supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
-    assert supers == ["subject_observation", "image"], (
-        f"the migrator emits exactly these direct superclasses; got {supers!r}")
+    assert supers == ["subject_observation", "intensity"], supers
 
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]
@@ -2760,8 +2804,9 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     edges = {e["name"]: e
              for c in _chain("sampled_body")
              for e in RECORDS[c][1].get("depends_on", [])}
-    assert edges["statement"]["mustBeNonEmpty"] is True, (
-        "the fold binds the body to the image_observation through `statement`; "
+    assert edges["owner_id"]["mustBeNonEmpty"] is True, (
+        "the fold binds the body to its statement through `owner` "
+        "(named `statement` until #73); "
         "an optional edge here would let a body be minted belonging to nobody")
 
     # WAS: "`datum.kind` must admit 'array' -- an ngrid is an N-D grid by
@@ -2772,14 +2817,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # a word. The property this guarded is now checked where it lives.
     assert not [f for f in sb["fields"] if f["name"] == "datum"], (
         "sampled_body declares `datum` again")
-    axes = next(f for f in sb["fields"] if f["name"] == "axes")
+    axes = next(f for f in RECORDS["data_body"][1]["fields"] if f["name"] == "keys")  # L3: inherited
     assert axes["mustBeScalar"] is False, (
         "sampled_body.axes must be a LIST -- an ngrid is an N-D grid, and the "
         "axis count is what replaced datum.kind's scalar/array distinction")
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
-    axes = next(f for f in sb["fields"] if f["name"] == "axes")
+    axes = next(f for f in RECORDS["data_body"][1]["fields"] if f["name"] == "keys")  # L3: inherited
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
     # UPDATED 2026-08-14: was `["name"]`. The signed axis entry drops `name` --
     # its own examples ('contrast', 'orientation') ARE variables, and a
@@ -2792,14 +2837,15 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "`name` and leaves the rest defaulted, so a new requirement quarantines "
         "every folded body")
 
-    # storage_mode 'body' is what says the pixels are in the sampled_body
-    _t, stmt = RECORDS["subject_statement"]
-    mode = next(f for f in stmt["fields"] if f["name"] == "storage_mode")
-    assert "body" in mode["constraints"]["enum"]
+    # `data_body` true is what says the pixels are in the sampled_body (#73 item 60:
+    # it replaced storage_mode 'body', and lives on data_type with the value)
+    _t, dt = RECORDS["data_type"]
+    assert "data_body" in {f["name"] for f in dt["fields"]}
 
 
 def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley():
-    """WHY `reverse_correlation` KEEPS its `ngrid` superclass, recorded as a
+    """WHY `reverse_correlation` KEPT its `ngrid` superclass until 2026-09-25, and
+    where the block lives now (the `hartley_calc` tombstone), recorded as a
     check rather than as prose.
 
     A discrepancy worth reconciling, and both halves of it are true:
@@ -2850,13 +2896,33 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
              for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
     assert "hartley_reverse_correlation" in chain, (
         f"hartley_calc no longer reaches ngrid through the RF chain: {chain!r}")
+    # 2026-09-25 (#73 review item 43, supersedes item 38): the RF chain is v1 again.
+    # A passed-through v1 hartley_calc document carries `reverse_correlation`,
+    # `hartley_reverse_correlation` and `ngrid` blocks with FIELDS; every one must be
+    # declared on its chain, and nothing may require a V_eta block (the
+    # `receptive_field.value` the 9/21 chain demanded) it never has.
     rc_supers = [s["class_name"]
                  for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
-    assert "ngrid" in rc_supers, (
-        "`reverse_correlation` was re-pointed off `ngrid` while `hartley_calc` "
-        "still inherits from it and still passes through carrying an ngrid "
-        "block. That is `undeclaredField` on every hartley_calc document. The "
-        "release is the RF fold (#48), not a superclass edit.")
+    assert rc_supers == ["base", "ngrid"], rc_supers
+    V1_BLOCKS = {
+        "reverse_correlation": {"method", "dimension_labels"},
+        "hartley_reverse_correlation": {"stimulus_properties", "reconstruction_properties",
+                                        "spiketimes", "frame_times", "hartley_numbers"},
+    }
+    for cls, want in V1_BLOCKS.items():
+        have = {f["name"] for f in RECORDS[cls][1]["fields"]}
+        assert want <= have, f"{cls} lost v1 fields: {sorted(want - have)}"
+    seen, todo = set(), ["hartley_calc"]
+    while todo:
+        c = todo.pop()
+        if c in seen or c not in RECORDS:
+            continue
+        seen.add(c)
+        todo += [s["class_name"] for s in RECORDS[c][1]["document_class"]["superclasses"]]
+    assert "ngrid" in seen, f"hartley_calc cannot reach ngrid: {sorted(seen)}"
+    assert "receptive_field" not in seen, (
+        "the v1 hartley_calc tombstone inherits the V_eta receptive_field composite "
+        "again -- its required `value` block is one no v1 document carries")
 
 
 def test_image_stack_pair_survives_for_the_subject_less_passthrough():
@@ -2999,8 +3065,8 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     assert "interaction_purpose" in RECORDS, (
         "the signed destination for these 635 documents no longer exists")
     ip = {d["name"]: d for d in RECORDS["interaction_purpose"][1]["depends_on"]}
-    assert ip["interaction_id_#"]["min_count"] >= 1, (
-        "interaction_id_# is REQUIRED, so a pass that cannot resolve an "
+    assert ip["interaction_id"]["min_count"] >= 1, (
+        "interaction_id is REQUIRED, so a pass that cannot resolve an "
         "interaction must pass through rather than emit a blank edge")
     purpose = next(f for f in RECORDS["interaction_purpose"][1]["fields"]
                    if f["name"] == "purpose")
@@ -3115,9 +3181,11 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
         for name, (_tier, rec) in RECORDS.items()
         if any(d["name"] == "epoch_id" for d in rec.get("depends_on", []))
     }
-    assert len(holders) >= 4, (
-        "expected at least the four known holders (acquisition_metadata_file, "
-        f"ingestion_manifest, method_parameters, directed_relation); got {sorted(holders)!r}")
+    # 4 -> 3 (#73 item 61, 2026-09-25): acquisition_metadata_file retired; its
+    # bytes are an opaque_body of the stimulator's term_manipulation.
+    assert len(holders) >= 3, (
+        "expected at least the three known holders (ingestion_manifest, "
+        f"method_parameters, directed_relation); got {sorted(holders)!r}")
     for name, d in sorted(holders.items()):
         assert d["must_refer_to_document_class"] == "epoch", (
             "{}.epoch_id must point at the minted `epoch` entity, not {!r}".format(name, d["must_refer_to_document_class"]))
@@ -3248,7 +3316,7 @@ def test_ensemble_pass_one_mints_no_membership_edge():
     are NOT duplicated here.
     """
     names = {d["name"] for d in RECORDS["ensemble"][1]["depends_on"]}
-    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#",
+    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#", "input_id",
                       "child", "parent"):
         assert forbidden not in names, (
             f"`{forbidden}` on the ensemble tombstone: membership is a relation DOCUMENT, "
@@ -3309,12 +3377,18 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     silently loses its time anchor and starts asserting over all time, so the
     chain is asserted here rather than assumed.
     """
-    assert "logical" in RECORDS and "logical_observation" in RECORDS
+    assert "logical" in RECORDS
+    # #73 item 52 (2026-09-25): the leaf is deleted. valid_interval, its only user,
+    # moved to time_observation (amendment 1, 2026-08-18); `logical` stays, like
+    # every data_type.
+    assert "logical_observation" not in RECORDS
     assert "validity" not in RECORDS and "validity_observation" not in RECORDS, (
         "the replaced classes are still built; a name that means the same thing "
         "twice is how a migrator ends up emitting the dead one")
     _tier, comp = RECORDS["logical"]
-    assert comp["document_class"]["abstract"] is True
+    # CONCRETE since #73 item 19: every data_type composite is instantiable (a
+    # standalone value document is content, not a claim).
+    assert not comp["document_class"].get("abstract")
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
 
     # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a
@@ -3340,22 +3414,6 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     # is a validator primitive, so `logical` must stay out of the meta enum.
     assert "logical" not in META["$defs"]["field_definition"]["properties"]["type"]["enum"]
 
-    _, leaf = RECORDS["logical_observation"]
-    assert [s["class_name"] for s in leaf["document_class"]["superclasses"]] == [
-        "subject_observation", "logical"]
-    assert leaf["fields"] == [], (
-        "logical_observation declares fields. It has NONE, like "
-        "length_observation and count_observation -- everything it needs is "
-        "inherited, and `sequence` went with HAZARD 2")
-    chain, seen = [], "subject_observation"
-    while seen and seen in RECORDS:
-        chain.append(seen)
-        sup = RECORDS[seen][1]["document_class"]["superclasses"]
-        seen = sup[0]["class_name"] if sup else None
-    assert "subject_interaction" in chain and "subject_statement" in chain, (
-        "logical_observation must reach subject_interaction (for "
-        "time_reference_#) and subject_statement (for subject_id + variable); "
-        f"chain was {chain!r}")
 
 
 def test_absence_of_a_logical_statement_must_keep_meaning_valid():
@@ -3395,7 +3453,7 @@ def test_absence_of_a_logical_statement_must_keep_meaning_valid():
     children = [n for n, (_t, d) in RECORDS.items()
                 if any(s["class_name"] == "logical"
                        for s in d["document_class"]["superclasses"])]
-    assert children == ["logical_observation"], (
+    assert children == [], (
         f"logical gained subclasses ({children!r}); each one is a new way for "
         "the boolean to become required somewhere")
 
@@ -3512,11 +3570,10 @@ def test_logical_does_not_carry_a_v1_array_position():
     the test all asserted one unchecked reading of a call site. So the
     replacement pins the DELETION rather than removing the test.
     """
-    fields = RECORDS["logical_observation"][1]["fields"]
-    assert fields == [], (
-        f"logical_observation declares {[f['name'] for f in fields]!r}. It has "
-        "no fields: `sequence` was deleted with HAZARD 2, and nothing else "
-        "belongs on the leaf")
+    # The leaf that carried `sequence` is itself gone (#73 item 52); the value
+    # type declares only `value`, so `sequence` cannot come back through it.
+    assert "logical_observation" not in RECORDS
+    assert [f["name"] for f in RECORDS["logical"][1]["fields"]] == ["value"]
     # `sequence` itself is NOT retired as a concept -- directed_relation's is a
     # real order over a real sequence. Pinned so this deletion is not read as a
     # licence to delete that one.
@@ -3527,34 +3584,231 @@ def test_logical_does_not_carry_a_v1_array_position():
         "sequence and was never part of HAZARD 2")
 
 
-def test_logical_forecloses_neither_answer_on_the_inheritance_question():
-    """HAZARD 3, WHICH IS NOT DECIDED AND IS NOT CLAIMED HERE.
+def test_logical_inheritance_is_re_derived_not_materialised():
+    """HAZARD 3 IS DECIDED: RE-DERIVE (team, 2026-08-11; re-affirmed in #73).
 
     `loadvalidinterval` falls back to `underlying_element` when a derived
     element has no intervals of its own (markgarbage.m:146-155) -- a QUERY-TIME
-    rule in NDI. Whether V_eta re-derives that through the `derived_from` chain
-    or materialises copies onto derived subjects is an OPEN SUB-QUESTION for the
-    team.
-
-    This test asserts only that both answers remain buildable: the edge a
-    materialising decision would need already exists and is OPTIONAL (so pass 1
-    is not obliged to fill it, and does not), and the statement points at the
-    element the v1 document named, so a re-deriving decision still has the exact
-    v1 graph to walk. It does NOT assert which answer is right.
+    rule in NDI, and V_eta keeps it one. The statement is stored once, on the
+    element the v1 document named, and a consumer walks the element lineage to
+    find it. RENAMED from ..._forecloses_neither_answer_..., which kept the
+    materialising answer buildable through `subject_observation.derived_from_#`;
+    that edge left the observation chain in #73 (an observation derived from
+    other statements is a calculation), and no copy is ever written, so nothing
+    needs it.
     """
     inherited = RECORDS["subject_observation"][1]["depends_on"]
-    df = [d for d in inherited if d["name"] == "derived_from_#"]
-    assert len(df) == 1, (
-        "subject_observation lost derived_from_# -- the edge a materialising "
-        "answer to the inheritance question would ride on")
-    assert df[0]["mustBeNonEmpty"] is False and (df[0].get("min_count") or 0) == 0, (
-        "derived_from_# became required; pass 1 mints no such edge for a "
-        "logical statement, so requiring it would quarantine every one of them "
-        "and would ALSO pre-empt a team decision by making the materialising "
-        "answer the only legal one")
-    # The referent is the element-subject, unqualified: subject_statement's own
-    # edge, typed `subject`, which is what element.m's id-preserving promotion
-    # lands on.
+    assert not [d for d in inherited if d["name"] == "input_id"], (
+        "subject_observation carries input_id again -- under the #73 rule "
+        "an observation has no inputs in the dataset, and a materialised copy "
+        "of a validity statement is ruled out by the re-derive decision")
+    # What the re-derive walk DOES need: the statement points at the element
+    # the v1 document named -- subject_statement's own edge, typed `subject`,
+    # which is what element.m's id-preserving promotion lands on.
     sid = [d for d in RECORDS["subject_statement"][1]["depends_on"]
            if d["name"] == "subject_id"]
     assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "subject"
+
+
+def test_repeated_edges_are_numbered_families():
+    """INVERTED BY T15 (2026-09-25). This asserted every repeated edge is a `_#`
+    family and vice versa (team, 2026-09-24: "make all match"). T15 replaced
+    numbering: a V_eta edge that repeats REPEATS ITS ONE NAME, declares
+    `multiple`, and declares `ordered`. `_#` survives only on did_v1 tombstones,
+    which describe documents as written -- and there the old pairing (`_#` <=>
+    `multiple`) still holds. `control_designation` is exempt while its shape is
+    under review (it keeps `derived_from_#`)."""
+    V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
+    PARKED = {("control_designation", "derived_from_#")}
+    bad, veta_multi = [], 0
+    for name, (_, schema) in RECORDS.items():
+        for d in schema.get("depends_on", []):
+            n, multi = d["name"], bool(d.get("multiple"))
+            if n.endswith("_#"):
+                if (name, n) in PARKED:
+                    continue
+                if n not in V1_FAMILIES:
+                    bad.append((name, n, "a V_eta edge is still numbered"))
+                elif not multi:
+                    bad.append((name, n, "v1 family without multiple"))
+            elif multi:
+                veta_multi += 1
+                if "ordered" not in d:
+                    bad.append((name, n, "repeated V_eta edge declares no `ordered`"))
+                if not n.endswith("_id"):
+                    bad.append((name, n, "edge is not a noun ending _id"))
+    assert veta_multi >= 10, f"only {veta_multi} repeated V_eta edges seen"
+    assert not bad, bad
+
+
+def test_t15_ordered_flags_match_the_table():
+    """T15's appendix: exactly three repeated edges are ORDERED -- the playlist,
+    a key's label source, and a sync policy's rule list (NDI breaks ties by rule
+    order). Everything else repeated is a set."""
+    ordered = sorted((c, d["name"]) for c, (_, s) in RECORDS.items()
+                     for d in s.get("depends_on", [])
+                     if d.get("multiple") and d.get("ordered"))
+    assert ordered == [
+        ("clock_alignment_policy", "clock_alignment_configuration_id"),
+        ("data_body", "key_labels_id"),
+        ("data_type", "key_labels_id"),
+        ("formulation", "ingredient_id"),
+        ("timed_sequence", "item_id"),
+    ], ordered
+
+
+def test_v1_tombstones_under_a_composite_chain_still_retire():
+    """REGRESSION (217d305 -> fixed 2026-09-25). #73 item 19 widened _disposition's
+    structural rule to "any data_type ancestor persists", and the v1 `hartley_calc`
+    tombstone -- which sits under hartley_reverse_correlation -> reverse_correlation
+    -> receptive_field -> data_type so passthrough documents validate -- flipped
+    retire -> persist with no one deciding it. `ngrid` moved from in_progress to
+    retire in the same fix: both readings of its disputed record end with no V_eta
+    class."""
+    idx = _load(os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json"))
+    found = {}
+
+    def walk(x):
+        if isinstance(x, dict):
+            if "class_name" in x and "disposition" in x:
+                found[x["class_name"]] = x["disposition"]
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+    walk(idx)
+    assert len(found) > 200, f"only {len(found)} dispositions read from index.json"
+    for name in ("hartley_calc", "ngrid"):
+        assert found.get(name) == "retire", f"{name} is {found.get(name)!r}, not retire"
+
+
+def test_leaves_exist_only_when_needed():
+    """#73 item 50 (team, 2026-09-25): every data_type stays; a direction leaf exists
+    only once a writer or a decided target needs it. The 52 leaves nothing needed are
+    gone, their data types are not, and the rule is written into T3."""
+    with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as fh:
+        build = fh.read()
+    body = build.split("_DELETE_UNUSED_LEAVES = {", 1)[1].split("}", 1)[0]
+    gone = set(re.findall(r'"([a-z_]+)"', body))
+    assert len(gone) == 52   # 51 in item 50, + logical_observation in item 52
+    for leaf in gone:
+        assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
+        composite = leaf.rsplit("_", 1)[0]
+        assert composite in RECORDS, f"data_type {composite} must stay"
+    for kept in ("position_observation", "temperature_manipulation",
+                 "voltage_observation", "term_assertion", "date_assertion"):
+        assert kept in RECORDS
+    with open(os.path.join(REPO_ROOT, "schemas", "V_eta_tenets.md")) as fh:
+        tenets = fh.read()
+    assert "A leaf is made when it is needed, not in advance" in tenets
+
+
+def test_inline_method_parameters_has_the_document_shape():
+    """Signed [spike processing parameters] 2026-08-09, built #73 item 22: the inline
+    `subject_interaction.method_parameters` keeps the SAME name and shape as the
+    `method_parameters` document's settings, a `parameter[]` entry. Pinned equal
+    (documentation and required-ness aside) so the two mount points cannot drift."""
+    def shape(cls):
+        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == "method_parameters")
+        def strip(x):
+            if isinstance(x, dict):
+                return {k: strip(v) for k, v in x.items()
+                        if k not in ("documentation", "mustBeNonEmpty")}
+            if isinstance(x, list):
+                return [strip(v) for v in x]
+            return x
+        return strip(f)
+    inline, document = shape("subject_interaction"), shape("method_parameters")
+    assert inline == document
+    assert [s["name"] for s in inline["fields"]] == ["variable", "value", "term", "text"]
+    assert inline["mustBeScalar"] is False
+
+
+def test_conditions_have_amendment_2_shape():
+    """data_body AMENDMENT 2 (signed 2026-08-14), built #73 item 23: the four
+    descriptors sit at the top of each condition, `count` flattens, and `quantity`
+    holds {value, source_value}. No per-element unit or approximate remains."""
+    f = next(x for x in RECORDS["subject_statement"][1]["fields"]
+             if x["name"] == "conditions")
+    names = [x["name"] for x in f["fields"]]
+    assert names[:4] == ["variable", "unit", "source_unit", "approximate"]
+    sub = {x["name"]: x for x in f["fields"]}
+    assert [x["name"] for x in sub["count"]["fields"]] == ["value"]
+    assert sub["count"]["fields"][0]["type"] == "integer"
+    q = sub["quantity"]["fields"][0]
+    assert [x["name"] for x in q["fields"]] == ["value", "source_value"]
+
+
+def test_bodies_split_by_who_lays_out_the_bytes():
+    """Lightsheet walkthrough L1-L3 (2026-09-25, review/73/OPEN_ITEMS.md; not
+    signed). `keys`, `complete` and `conditions` live on data_body, so an opaque
+    body may describe its array and any body may carry a one-value fact of its own;
+    only sampled_body declares a byte layout, and it gains `fill_value`."""
+    db = {f["name"]: f for f in RECORDS["data_body"][1]["fields"]}
+    sb = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
+    ob = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
+    assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
+    assert sb == {"byte_order", "datum_order", "fill_value"}, sb
+    assert ob == set(), ob
+    # the key-labels edge follows `keys` up, so an opaque body's keys can use it
+    assert "key_labels_id" in {e["name"] for e in RECORDS["data_body"][1]["depends_on"]}
+    assert "key_labels_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
+    # a body's conditions have the statement's entry shape (Amendment 2)
+    ss = next(f for f in RECORDS["subject_statement"][1]["fields"]
+              if f["name"] == "conditions")
+    assert ([s["name"] for s in db["conditions"]["fields"]]
+            == [s["name"] for s in ss["fields"]])
+    # the rules live in the docs, since a per-document validator cannot see them
+    chunk = next(s for s in db["keys"]["fields"] if s["name"] == "chunk")
+    assert "sampled_body ONLY" in chunk["documentation"]
+    assert "padding" in chunk["documentation"] and "fill_value" in chunk["documentation"]
+    assert "EXACTLY the stored array's dimensions" in db["keys"]["documentation"]
+    fv = next(f for f in RECORDS["sampled_body"][1]["fields"] if f["name"] == "fill_value")
+    assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == []
+
+
+def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
+    """#73 item 59 (2026-09-25; not signed): chemical = what you buy, formulation =
+    what you make (ingredients by edge), dose = what you give (formulation by edge),
+    product = a bought item. No inline copies; `route` gone; moles type renamed."""
+    def subs(c):
+        return {f["name"]: f for f in RECORDS[c][1]["fields"][0]["fields"]}
+    def edges(c):
+        return {e["name"]: e for e in RECORDS[c][1]["depends_on"]}
+    assert set(subs("chemical")) == {"substance", "concentration"}
+    assert subs("chemical")["substance"]["mustBeNonEmpty"] is True
+    assert edges("chemical")["product_id"]["must_refer_to_document_class"] == "product"
+    f = subs("formulation")
+    assert set(f) == {"ingredients", "ph", "osmolarity"}
+    assert {s["name"] for s in f["ingredients"]["fields"]} == {
+        "mass", "volume", "substance_amount", "count", "concentration"}
+    ing = edges("formulation")["ingredient_id"]
+    assert ing["must_refer_to_document_class"] == "chemical,formulation"
+    assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 1
+    d = subs("dose")
+    assert set(d) == {"mass", "volume", "substance_amount", "count", "amount_per_body_mass"}
+    assert "route" not in d and "formulation" not in d
+    assert {s["name"] for s in d["amount_per_body_mass"]["fields"]} >= {
+        "grams_per_gram", "liters_per_gram", "moles_per_gram"}
+    assert edges("dose")["formulation_id"]["mustBeNonEmpty"] is True
+    assert "amount" not in RECORDS and "substance_amount" in RECORDS
+    assert "osmolar" in {s["name"] for s in RECORDS["concentration"][1]["fields"][0]["fields"]}
+    p = RECORDS["product"][1]
+    assert [s["class_name"] for s in p["document_class"]["superclasses"]] == ["entity"]
+    assert {x["name"] for x in p["fields"]} == {"name", "catalog_number", "lot_number"}
+    assert edges("product")["vendor_id"]["must_refer_to_document_class"] == "organization"
+
+
+def test_value_descriptors_live_with_the_value():
+    """#73 item 60 (2026-09-25; not signed): keys / complete / datum_type /
+    source_datum_type / key_labels_id / the `data_body` flag live on data_type; the
+    statement keeps only the claim, and references a shared value through value_id."""
+    dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
+    assert dt == {"keys", "complete", "datum_type", "source_datum_type", "data_body"}
+    assert "key_labels_id" in {e["name"] for e in RECORDS["data_type"][1]["depends_on"]}
+    ss = RECORDS["subject_statement"][1]
+    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions"}
+    assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}
+    for name in RECORDS:
+        assert "storage_mode" not in _flat_field_types(name), name

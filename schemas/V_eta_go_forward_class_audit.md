@@ -819,3 +819,4 @@ formatOntology/origin_corner; a bound `variable` term for the pyramid
 observation (needs to exist in NDIC or the registry before the reshape validates
 end-to-end). Full reasoning in #70.
 
+RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`V_eta_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.

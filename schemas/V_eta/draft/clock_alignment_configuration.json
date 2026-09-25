@@ -17,13 +17,14 @@
             "must_refer_to_document_class": "software"
         },
         {
-            "name": "acquisition_channels_#",
+            "name": "acquisition_channels_id",
             "mustBeNonEmpty": false,
-            "documentation": "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: the rule is symmetric, so neither endpoint is 'first'.",
+            "documentation": "The channel groups this rule relates: 0 or 2 (sync configuration amendment 1, 2026-08-18: a file-based rule names none), UNORDERED because the rule is symmetric. The schema's min 0 / max 2 cannot exclude exactly 1; that check belongs to a validator.",
             "must_refer_to_document_class": "acquisition_channels",
             "multiple": true,
             "min_count": 0,
-            "max_count": 2
+            "max_count": 2,
+            "ordered": false
         }
     ],
     "file": [],
@@ -44,7 +45,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The clock this rule aligns, from did_clocktype -- the SAME FOUR terms as relative_reference.value.clock, which is what gate 1 of this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no NDIC identifier can be assigned from any repository in scope. <- v1 `epochclocktype`.",
+            "documentation": "The clock this rule aligns, from did_clocktype -- the SAME FOUR terms as relative_time_reference.value.clock, which is what gate 1 of this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no NDIC identifier can be assigned from any repository in scope. <- v1 `epochclocktype`.",
             "constraints": {
                 "binding": {
                     "root": "did_clocktype",

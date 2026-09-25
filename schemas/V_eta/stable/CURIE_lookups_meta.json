@@ -87,7 +87,7 @@
       "uri_base": "http://www.w3.org/2006/time#",
       "uri_style": "fragment",
       "approximate": false,
-      "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' -> 'http://www.w3.org/2006/time#intervalDuring'. Used by relative_reference.value.relation for Allen's thirteen interval relations. A W3C Recommendation, so terms are stable and nothing needs minting."
+      "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' -> 'http://www.w3.org/2006/time#intervalDuring'. Used by relative_time_reference.value.relation for Allen's thirteen interval relations. A W3C Recommendation, so terms are stable and nothing needs minting."
     }
   },
   "uri_styles": {

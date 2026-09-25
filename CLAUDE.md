@@ -2779,3 +2779,30 @@ RE-DERIVED 2026-09-23 (#70 spatial-transcriptomics family landed + sibling drift
 
 
 RE-DERIVED 2026-09-23 (didmatlab_m_files, sibling drift; `check_prose_counts` was the only red step with the siblings on their V_eta branch): **291 .m file(s) under DID-matlab src/** (`cd DID-matlab && find src -name '*.m' | wc -l` = 291 at `47cf8ba` on `claude/v-eta-migration-plan-35jj1z`; was 280 on 2026-09-23 earlier). Only the denominator moved; nothing in this repository changed. Re-derive with `check_prose_counts`, do not quote.
+
+
+RE-DERIVED 2026-09-23 (#73 calculator restructure: `calculator` mixin dropped, 5 tuning markers dropped, 6 `*_calc` leaves -> 5 `*_tuning_calculation` + concrete `tuning_curve_calculation`; `check_prose_counts` re-derives all nouns): **256 distinct V_eta class names** (was 262; -5 markers, -6 `*_calc` leaves, +5 renamed leaves); **262 json file(s) under `schemas/V_eta/`** (was 268; same -6); tombstones classes compared: 74 (was 76; `orientation_direction_tuning` and `tuningcurve_calc` left for "no tombstone" 17 -> 19 when they joined `_DELETE_PHASE8`, and LOSSY fell 11 -> 9 because the V_eta classes that had taken those two did_v1 names never declared their real fields); **20 deleted** in `_DELETE_PHASE8` (was 11; +4 v1 calc tombstones `oridirtuning_calc`, `tuningcurve_calc`, `spatial_frequency_tuning_calc`, `temporal_frequency_tuning_calc`, +5 v1 result tombstones `orientation_direction_tuning`, `contrast_tuning`, `spatial_frequency_tuning`, `temporal_frequency_tuning`, `speed_tuning`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (the #73 review build; `check_prose_counts` re-derives all nouns): the build added label, label_calculation, coordinate_system, position, position_observation, position_calculation, count/area/score/term_calculation and restored harmonic_component_calculation. Live figures: **267 distinct V_eta class names** (was 256); **273 json file(s) under `schemas/V_eta/`** (was 262); **44 direct subclasses** of `data_type` (was 42; +`label`, +`position`) -- and since #73 item 19 NONE of them is abstract. Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`V_eta_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-09-25 (#65 increment 3b: `session_relative_reference`, `session_bounded_reference` and `epoch_bounded_reference` deleted schema-first, `is_approximate` removed from `time_reference`; `check_prose_counts` re-derives all nouns): **264 distinct V_eta class names** (was 267); **270 json file(s) under `schemas/V_eta/`** (was 273); **12 fields carry a binding** (was 13 -- `epoch_bounded_reference.epoch_clock` left with its class). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 45: the new `spatial_frequency` composite; `check_prose_counts` re-derives all nouns): **265 distinct V_eta class names** (was 264); **271 json file(s) under `schemas/V_eta/`** (was 270); **45 direct subclasses** of `data_type` (was 44). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 48: the new `voltage_calculation` leaf; `check_prose_counts` re-derives all nouns): **266 distinct V_eta class names** (was 265); **272 json file(s) under `schemas/V_eta/`** (was 271). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 50: 51 unused statement leaves deleted; `check_prose_counts` re-derives all nouns): **215 distinct V_eta class names** (was 266); **221 json file(s) under `schemas/V_eta/`** (was 272). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 51: the V_eta `image` data_type and `image_observation` retired, `image` restated as the did_v1 tombstone; `check_prose_counts` re-derives all nouns): **214 distinct V_eta class names** (was 215); **220 json file(s) under `schemas/V_eta/`** (was 221); **44 direct subclasses** of `data_type` (was 45). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 52: `logical_observation` retired; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 214); **219 json file(s) under `schemas/V_eta/`** (was 220). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 53: the run-environment entity split into two `software` edges and deleted; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `0a2cdeccb`: 102 NDI templates on origin/main; 1,181 .m files (was 1,180; `git ls-tree -r origin/main | grep -c '\.m$'` = 1181). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-09-25 (#73 review item 59: `product` minted, `amount` renamed `substance_amount`; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 212); **219 json file(s) under `schemas/V_eta/`** (was 218); **44 direct subclasses** of `data_type` (unchanged: `substance_amount` replaces `amount`, and `product` is an entity). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 61: `acquisition_metadata_file` retired; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.

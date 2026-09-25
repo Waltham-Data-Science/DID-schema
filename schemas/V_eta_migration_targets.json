@@ -1,5 +1,5 @@
 {
-  "_comment": "did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; decided_targets = a signed decision no migrator implements yet; confirmed_targets = the team read what the migrator ALREADY emits and accepted it as the end state (the opposite of decided_targets -- never merge them); how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals). Consumed by tools/coverage.py to fill the ledger's target column. == targets IS GENERATED, THE REST IS AUTHORED. Re-run `python3 tools/refresh_migration_targets.py` after any migrator change; `--check` fails when it is stale. It follows the call graph from each class's entry point in +migrators_j (falling back to +migrators, which is where V_eta lands when +migrators_j has no file) through private/ helpers and local subfunctions, resolving class names passed as parameters at their call sites, and reuses tools/status_board.py's statement-level extractor so a `superclasses` entry is never read as a document class. It rewrites a row only when every reachable emission resolved; where one did not (element, measurement, ontology_table_row, subjectmeasurement -- all pick their leaf class at runtime) the row can only GAIN, never lose. A migrator that mints nothing keeps a target naming ITSELF and loses any target naming another class. == ON session_relative_reference, WHICH IS A CONTRADICTION BETWEEN TWO COMMITTED RECORDS AND IS NOT RESOLVED HERE. 36 rows name `session_relative_reference`, because private/jSessionAnchor.m:19 mints it and every observation migrator calls that helper. The signed time model (V_eta_time_reference_model_plan.md) COLLAPSES it, with seven siblings, into `relative_reference`. Both are true of different moments, and both halves are already in the code: private/jEpochClockReferences.m:141 and private/jClockAlignmentBodies.m:174 mint `relative_reference` today, which is why 4 rows name the new class while 36 name the old one. So a `session_relative_reference` target is a statement about what pass 1 EMITS TODAY, never a decision that the class survives; the decision is the sign-off in the plan document, and tools/status_board.py's RETIRED_BY_ITS_OWN_DECISION carries the same reading. Rewriting the 36 rows to a class their migrators do not emit would make this file describe an intention rather than the code.",
+  "_comment": "did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; decided_targets = a signed decision no migrator implements yet; confirmed_targets = the team read what the migrator ALREADY emits and accepted it as the end state (the opposite of decided_targets -- never merge them); how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals). Consumed by tools/coverage.py to fill the ledger's target column. == targets IS GENERATED, THE REST IS AUTHORED. Re-run `python3 tools/refresh_migration_targets.py` after any migrator change; `--check` fails when it is stale. It follows the call graph from each class's entry point in +migrators_j (falling back to +migrators, which is where V_eta lands when +migrators_j has no file) through private/ helpers and local subfunctions, resolving class names passed as parameters at their call sites, and reuses tools/status_board.py's statement-level extractor so a `superclasses` entry is never read as a document class. It rewrites a row only when every reachable emission resolved; where one did not (element, measurement, ontology_table_row, subjectmeasurement -- all pick their leaf class at runtime) the row can only GAIN, never lose. A migrator that mints nothing keeps a target naming ITSELF and loses any target naming another class. == ON session_relative_reference, WHICH IS A CONTRADICTION BETWEEN TWO COMMITTED RECORDS AND IS NOT RESOLVED HERE. 36 rows name `session_relative_reference`, because private/jSessionAnchor.m:19 mints it and every observation migrator calls that helper. The signed time model (V_eta_time_reference_model_plan.md) COLLAPSES it, with seven siblings, into `relative_time_reference`. Both are true of different moments, and both halves are already in the code: private/jEpochClockReferences.m:141 and private/jClockAlignmentBodies.m:174 mint `relative_time_reference` today, which is why 4 rows name the new class while 36 name the old one. So a `session_relative_reference` target is a statement about what pass 1 EMITS TODAY, never a decision that the class survives; the decision is the sign-off in the plan document, and tools/status_board.py's RETIRED_BY_ITS_OWN_DECISION carries the same reading. Rewriting the 36 rows to a class their migrators do not emit would make this file describe an intention rather than the code.",
   "classes": {
     "app": {
       "targets": [],
@@ -43,12 +43,18 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (items 27, 33): a supervised call is a term_calculation (variable 'cell type', values bound to ontology terms); an unsupervised clustering is a label_calculation (variable 'cluster assignment'); the reference atlas is a dataset entity linked by a derived_from directed_relation.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "term_calculation",
+        "label_calculation",
+        "directed_relation",
+        "dataset"
+      ]
     },
     "contrast_sensitivity_calc": {
       "targets": [
@@ -80,11 +86,16 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "contrast_tuning_calculation"
+      ]
     },
     "contrast_tuning_calc": {
       "targets": [
@@ -98,11 +109,16 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "contrast_tuning_calculation"
+      ]
     },
     "control_stimulus_ids": {
       "targets": [
@@ -143,9 +159,9 @@
       "carried": [],
       "second_pass": [],
       "how": "Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge.",
-      "flags": "BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines.",
+      "flags": "BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines. -- #73 review item 61 (2026-09-25, not yet built in the migrator): `acquisition_metadata_file` RETIRES. `data.bin` (a .nbf.tgz of the epoch's parsed stimulus parameters, written by NDI metadatareader.ingest_epochfiles; the reader CONSUMES TSV-like files and STORES this archive) becomes an `opaque_body` owned by the stimulator's term_manipulation for that epoch, format the NDI compressed-metadata archive.",
       "decided_targets": [
-        "acquisition_metadata_file"
+        "opaque_body"
       ],
       "target_completeness": {
         "state": "full",
@@ -175,10 +191,10 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "RETIRES by decomposition. Its whole payload is a clock name and an interval (`epochtable {epochclock, t0_t1}`, no bytes), which is the epoch's extent under a named clock -- so it becomes `relative_reference` documents rather than a class of its own.",
-      "flags": "BUILT (migrators_j/daqreader_epochdata_ingested.m): 1 -> 1 + N. The source document is PRESERVED and N `relative_reference` documents are added, one per (clock, interval) pair in `epochtable`, each anchored `relative_to` the epoch document. NOTE THE CLASS: this is the COLLAPSED time class of the signed time model, not `session_relative_reference` -- see the file-level `_comment`.",
+      "how": "RETIRES by decomposition. Its whole payload is a clock name and an interval (`epochtable {epochclock, t0_t1}`, no bytes), which is the epoch's extent under a named clock -- so it becomes `relative_time_reference` documents rather than a class of its own.",
+      "flags": "BUILT (migrators_j/daqreader_epochdata_ingested.m): 1 -> 1 + N. The source document is PRESERVED and N `relative_time_reference` documents are added, one per (clock, interval) pair in `epochtable`, each anchored `relative_to` the epoch document. NOTE THE CLASS: this is the COLLAPSED time class of the signed time model, not `session_relative_reference` -- see the file-level `_comment`.",
       "decided_targets": [
-        "relative_reference"
+        "relative_time_reference"
       ],
       "target_completeness": {
         "state": "full",
@@ -192,10 +208,10 @@
       "carried": [],
       "second_pass": [],
       "how": "RETIRES by decomposition into three things that already exist: the frames and their descriptors become an `image_observation` over a `sampled_body`, and `frametimes` + `clocktype` become time references. No new class.",
-      "flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved.",
+      "flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_time_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved. -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: camera frames are an intensity_observation.",
       "decided_targets": [
-        "image_observation",
-        "relative_reference",
+        "intensity_observation",
+        "relative_time_reference",
         "sampled_body"
       ],
       "target_completeness": {
@@ -295,7 +311,7 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` FALSE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `mock` FALSE (field named `is_mock` until 2026-09-24; the migrator rename is a PR #76 follow-up). The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
       "flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query.",
       "target_completeness": {
         "state": "full",
@@ -308,7 +324,7 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` TRUE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `mock` TRUE (field named `is_mock` until 2026-09-24; the migrator rename is a PR #76 follow-up). The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
       "flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query.",
       "target_completeness": {
         "state": "full",
@@ -386,16 +402,17 @@
           "term_assertion",
           "directed_relation",
           "sampled_body",
-          "session_relative_reference",
+          "relative_time_reference",
           "voltage_observation",
           "current_observation",
-          "image_observation",
+          "intensity_observation",
           "acceleration_observation",
           "temperature_observation"
         ],
         "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
         "signoff": "V_eta_recording_observation_plan.md [raw recording observation]",
-        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently.",
+        "amended": "2026-09-25 (jess, #65 increment 3b, schema first): the time-anchor entries were session_relative_reference/epoch_bounded_reference, which are now DELETED; they are replaced by the signed collapse target relative_time_reference. The migrator does NOT emit it yet (PR #76 DID-matlab checklist), so rung 3 reads `no` until it does. The rest of the set is the 2026-08-13 confirmation, unchanged. AMENDED AGAIN 2026-09-25 (#73 item 51): image_observation -> intensity_observation (an imaging element records brightness); the migrator still writes image_observation until the PR #76 item lands."
       }
     },
     "element_epoch": {
@@ -440,9 +457,9 @@
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
       },
       "decided_targets": [
-        "relative_reference"
+        "relative_time_reference"
       ],
-      "decision_note": "SIGNED 2026-08-13 -- see V_eta_OPEN_WORK.md row #113, which carries the TEAM-SIGN-OFF line and the full analysis. epochMint OWNS the epoch extent: it mints the `relative_reference` carrying the extent and clock frame, hung off the epoch's `time_reference_#`, and pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT. This entry exists because the SIGNATURE was in OPEN_WORK and the TARGET MAP was not, so the ledger still read `no target and no dissolution recorded` and the row was twice reported as an undecided gap by a reader who checked the map rather than the open list."
+      "decision_note": "SIGNED 2026-08-13 -- see V_eta_OPEN_WORK.md row #113, which carries the TEAM-SIGN-OFF line and the full analysis. epochMint OWNS the epoch extent: it mints the `relative_time_reference` carrying the extent and clock frame, hung off the epoch's `time_reference_#`, and pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT. This entry exists because the SIGNATURE was in OPEN_WORK and the TARGET MAP was not, so the ledger still read `no target and no dissolution recorded` and the row was twice reported as an undecided gap by a reader who checked the map rather than the open list."
     },
     "epochfiles_ingested": {
       "targets": [
@@ -452,7 +469,7 @@
       "second_pass": [
         "epoch"
       ],
-      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. `filenavigator_id` is restored (NDI writes it) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
+      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. the navigator edge NDI writes is restored (`filenavigator_id`, renamed `epoch_file_pattern_id` 2026-09-25) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
       "flags": "DECIDED AND SIGNED; THE MIGRATOR DELIBERATELY DOES NOT FOLD. A migrator EXISTS (migrators_j/epochfiles_ingested.m) and is a guarded passthrough returning {preBody} at :147; its header states the two measured blockers -- `ingestion_manifest.epoch_id` is REQUIRED and no `epoch` document exists in pass 1 (minting them is a corpus-wide grouping only the NDI second pass can do), and emitting the class with that edge left '' would be the invented-empty-edge pattern again. So the schema half of #60 has landed and the rename has not.",
       "target_completeness": {
         "state": "carry_forward",
@@ -472,12 +489,15 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (item 25): an external file NOT held in the database is an unheld body (a file-series member recorded by location, not ingested) of the statement whose value it stores, carrying filename, content_hash + hash_algorithm, size_bytes and file dates.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "opaque_body"
+      ]
     },
     "filenavigator": {
       "targets": [
@@ -542,8 +562,8 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "DISSOLVES (#73 review item 26): assay -> the observation's `method`; count_units -> the `variable` (UMI count vs read count); count_type raw -> nothing (it is what a count_observation is), normalized -> a separate score_calculation derived_from the raw counts. No class, no fields -- so no target. A superclass mixin: no document is ever an instance of it on its own.",
+      "flags": "The 2026-09-22 decision (persist as a shape mixin) is SUPERSEDED by the #73 review; the review's sign-off line is the team's to add.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -555,12 +575,18 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (items 21-23): a STANDALONE `term` document (content, not a claim) whose body holds the index/node/name table; derived_from the genome annotation `dataset`, itself derived_from the assembly `dataset`.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "term",
+        "sampled_body",
+        "directed_relation",
+        "dataset"
+      ]
     },
     "gene_list_mapping": {
       "targets": [
@@ -568,12 +594,17 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (item 24): a directed_relation list A -> list B (relation 'orthologous gene mapping' | 'gene alias mapping', method = tool + version) with `value_id` to a standalone `score` (or `logical`) document whose keys are [gene of A, gene of B].",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "directed_relation",
+        "score",
+        "sampled_body"
+      ]
     },
     "hartley_calc": {
       "targets": [
@@ -603,11 +634,17 @@
       ],
       "second_pass": [],
       "how": "delegates ENTIRELY to migrators_j.image_stack(preBody) -- same emitted set: a body-backed image_observation + sampled_body + anchor",
-      "flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type's required `value` and quarantined. Consuming the v1 class removes the collision by construction",
+      "flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type's required `value` and quarantined. Consuming the v1 class removes the collision by construction -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: a brightness/fluorescence image -> intensity_observation, a mask or label map -> label_calculation, chosen from the document's `label`. The name `image` is the v1 tombstone again, so an unmigrated v1 image now validates and the migrator's name-collision refusal is no longer needed.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "intensity_observation",
+        "label_calculation",
+        "sampled_body",
+        "relative_time_reference"
+      ]
     },
     "imageStack_parameters": {
       "targets": [],
@@ -627,11 +664,17 @@
       ],
       "second_pass": [],
       "how": "file-backed pixel blob -> a body-backed image_observation (geometry inline, storage_mode body) + sampled_body (frames) + anchor",
-      "flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass",
+      "flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: JH's microscopy images -> intensity_observation, its masks / closest-patch maps -> label_calculation.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "intensity_observation",
+        "label_calculation",
+        "sampled_body",
+        "relative_time_reference"
+      ]
     },
     "jrclust_clusters": {
       "targets": [
@@ -645,11 +688,14 @@
       ],
       "second_pass": [],
       "how": "per-spike cluster assignments -> a body-backed count_observation (integer label series) + sampled_body + anchor",
-      "flags": "",
+      "flags": "#73 (2026-09-23): spike-sorter output is a CALCULATION (its input recording is in the dataset), so it takes `derived_from` to the recording. Its target is a `label_calculation` (revised 2026-09-24 from `count_calculation`: a cluster assignment names a group local to one sorting run, so it is a `label`, not a count -- 'spike 17 is in cluster 4' is not four of anything), variable 'spike cluster assignment', keys [spike]. `label_calculation` is BUILT (2026-09-25, the #73 review build) and is now the row's decided target. The migrator still emits `count_observation`.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "label_calculation"
+      ]
     },
     "kiasort_clusters": {
       "targets": [
@@ -663,11 +709,14 @@
       ],
       "second_pass": [],
       "how": "1 -> 3 via migrators_j.private.jSorterOutput, identical to kilosort_clusters with sorterName 'kiasort' and dirField 'kiasort_directory'",
-      "flags": "see kilosort_clusters: external directory -> opaque_body, MD5 kept as a body note rather than re-expressed as data",
+      "flags": "see kilosort_clusters: external directory -> opaque_body, MD5 kept as a body note rather than re-expressed as data #73 (2026-09-23): spike-sorter output is a CALCULATION (its input recording is in the dataset), so it takes `derived_from` to the recording. Its target is a `label_calculation` (revised 2026-09-24 from `count_calculation`: a cluster assignment names a group local to one sorting run, so it is a `label`, not a count -- 'spike 17 is in cluster 4' is not four of anything), variable 'spike cluster assignment', keys [spike]. `label_calculation` is BUILT (2026-09-25, the #73 review build) and is now the row's decided target. The migrator still emits `count_observation`.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "label_calculation"
+      ]
     },
     "kilosort_clusters": {
       "targets": [
@@ -681,18 +730,21 @@
       ],
       "second_pass": [],
       "how": "1 -> 3 via migrators_j.private.jSorterOutput: an id-preserved count_observation on the recording subject (variable 'spike cluster assignment', method = the sorter) + an opaque_body for the EXTERNAL output directory + anchor",
-      "flags": "opaque_body, not sampled_body: the doc holds a session-relative directory + a curated-output MD5, not attached bytes, and the sorter output is not read at migration time. Sibling jrclust_clusters DOES attach bytes and so emits a sampled_body",
+      "flags": "opaque_body, not sampled_body: the doc holds a session-relative directory + a curated-output MD5, not attached bytes, and the sorter output is not read at migration time. Sibling jrclust_clusters DOES attach bytes and so emits a sampled_body #73 (2026-09-23): spike-sorter output is a CALCULATION (its input recording is in the dataset), so it takes `derived_from` to the recording. Its target is a `label_calculation` (revised 2026-09-24 from `count_calculation`: a cluster assignment names a group local to one sorting run, so it is a `label`, not a count -- 'spike 17 is in cluster 4' is not four of anything), variable 'spike cluster assignment', keys [spike]. `label_calculation` is BUILT (2026-09-25, the #73 review build) and is now the row's decided target. The migrator still emits `count_observation`.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "label_calculation"
+      ]
     },
     "measurement": {
       "targets": [
         "mass_observation",
         "temperature_observation",
         "length_observation",
-        "duration_observation",
+        "time_observation",
         "term_observation",
         "session_relative_reference"
       ],
@@ -747,18 +799,27 @@
       ],
       "second_pass": [],
       "how": "sorted unit -> a DERIVED subject (grain B, fresh id) + a derived_from directed_relation (unit <- recording subject) + a score_observation of sort quality + anchor",
-      "flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred",
+      "flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred -- DECIDED 2026-09-25 (#73 review item 48, not yet built in the migrator): every statement about the unit is a CALCULATION (computed from the spike sort, T2 rule) with input_id -> the sorting output: cluster_index and quality_label -> label_calculation, quality_number -> score_calculation, mean_waveform -> voltage_calculation (keys [sample, channel]; the channel/sample counts become the keys' sizes). The unit subject and its derived_from relation are unchanged.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "subject",
+        "directed_relation",
+        "label_calculation",
+        "score_calculation",
+        "voltage_calculation",
+        "relative_time_reference",
+        "software"
+      ]
     },
     "ngrid": {
       "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, data_type, data_dim, coordinates); no class change, emits no new document",
-      "flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, reverse_correlation -> hartley_calc); coordinates ride through pending the axis entry",
+      "flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, and the v1 reverse_correlation tombstone that v1 hartley_calc documents validate through); the axis entry exists (keys[].values)",
       "target_completeness": {
         "state": "partial",
         "unresolved_sites": [
@@ -797,11 +858,17 @@
         "ontology_image"
       ],
       "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
-      "flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes",
+      "flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "intensity_observation",
+        "term_observation",
+        "sampled_body",
+        "relative_time_reference"
+      ]
     },
     "ontology_label": {
       "targets": [
@@ -826,7 +893,7 @@
         "frequency_observation",
         "acceleration_observation",
         "velocity_observation",
-        "duration_observation",
+        "time_observation",
         "volume_observation",
         "temperature_observation",
         "pressure_observation",
@@ -936,11 +1003,16 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "orientation_direction_tuning_calculation"
+      ]
     },
     "orientation_direction_tuning": {
       "targets": [
@@ -954,11 +1026,16 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "orientation_direction_tuning_calculation"
+      ]
     },
     "position_metadata": {
       "targets": [
@@ -987,11 +1064,16 @@
       ],
       "second_pass": [],
       "how": "ONE length_observation PER POPULATED SPATIAL AXIS about the probe-subject (probe_id) + an optional probe_model term_assertion + anchor. The real NDI class is three already-named parallel per-site arrays (site_locations_leftright/_frontback/_depth) with a shared `unit`, not an N-by-D matrix, so each axis keeps its own name instead of being concatenated into one anonymous array",
-      "flags": "guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model",
+      "flags": "guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model -- DECIDED 2026-09-25 (#73 review item 4, recorded under item 50, not yet built in the migrator): probe sites are ONE position_observation (a position in the probe's coordinate_system), not one length_observation per axis.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "position_observation",
+        "term_assertion",
+        "relative_time_reference"
+      ]
     },
     "probe_location": {
       "targets": [
@@ -1032,7 +1114,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 268 json file(s) under schemas/V_eta declare it (was 260; #64 added 8 spatial-transcriptomics files), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 218 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
@@ -1041,13 +1123,13 @@
         "targets": [
           "voltage_observation",
           "sampled_body",
-          "session_relative_reference",
-          "frequency_filter",
-          "epoch_bounded_reference"
+          "relative_time_reference",
+          "frequency_filter"
         ],
         "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
         "signoff": "V_eta_recording_observation_plan.md [pyraview pyramid]",
-        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently.",
+        "amended": "2026-09-25 (jess, #65 increment 3b, schema first): the time-anchor entries were session_relative_reference/epoch_bounded_reference, which are now DELETED; they are replaced by the signed collapse target relative_time_reference. The migrator does NOT emit it yet (PR #76 DID-matlab checklist), so rung 3 reads `no` until it does. The rest of the set is the 2026-08-13 confirmation, unchanged."
       }
     },
     "session": {
@@ -1142,11 +1224,16 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "spatial_frequency_tuning_calculation"
+      ]
     },
     "spatial_frequency_tuning_calc": {
       "targets": [
@@ -1160,11 +1247,16 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "spatial_frequency_tuning_calculation"
+      ]
     },
     "spatial_gene_expression_cells": {
       "targets": [
@@ -1172,12 +1264,19 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (items 2, 11, 28, 33): the cell list is a label_calculation (variable 'SAW source cell identifier', one label per cell); centroids and boundaries are position_calculations; area / capture spots / UMI count / detected genes are per-cell calculations over the cell key (labels_from the cell list).",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "label_calculation",
+        "position_calculation",
+        "area_calculation",
+        "count_calculation",
+        "sampled_body"
+      ]
     },
     "spatial_gene_expression_pyramid": {
       "targets": [
@@ -1186,12 +1285,19 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (V_eta_spatial_transcriptomics_plan.md items 1, 4-9, 17, 29): the bin-1 counts are a count_observation of the tissue section over keys [y, x, gene (labels_from the gene list)] in a coordinate_system; every zoom level is a sampled_body of that observation (bins 2-32 `redundant`); per-gene totals a redundant count_calculation; chip -> an instrument subject; pipeline -> a software entity. The v1 copy is retired (item 18).",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "count_observation",
+        "sampled_body",
+        "coordinate_system",
+        "count_calculation",
+        "software"
+      ]
     },
     "spatial_gene_expression_tiles": {
       "targets": [
@@ -1199,12 +1305,15 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "flags": "spatial-transcriptomics family (DID-schema #64 / TEAM-SIGN-OFF spatial_transcriptomics_family, 2026-09-22); DID-matlab migrators from PR #151 / commit 932d653.",
+      "how": "#73 review (items 14-17): each tiles document is ONE level body -- a file series whose member body_data_k holds chunk k (0-based); the 20 layout fields dissolve into keys (+ chunk) and data_body.format.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "sampled_body"
+      ]
     },
     "speed_tuning": {
       "targets": [
@@ -1218,11 +1327,16 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "speed_tuning_calculation"
+      ]
     },
     "speed_tuning_calc": {
       "targets": [
@@ -1236,11 +1350,16 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "speed_tuning_calculation"
+      ]
     },
     "spike_clusters": {
       "targets": [
@@ -1320,7 +1439,7 @@
       "carried": [],
       "second_pass": [
         "dose_manipulation",
-        "session_relative_reference"
+        "relative_time_reference"
       ],
       "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local) into a dose_manipulation once the stimulator element's subject + epoch anchor resolve",
       "flags": "pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)",
@@ -1360,10 +1479,12 @@
         "subject"
       ],
       "second_pass": [
-        "visual_grating_manipulation",
+        "timed_sequence_manipulation",
+        "timed_sequence",
+        "visual_grating",
         "sampled_body"
       ],
-      "how": "DEFERRED to the NDI second pass, which assembles ONE body-backed visual_grating_manipulation on the animal (resolved via stimulus_response -> element -> subject) + a sampled_body of one record per trial. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
+      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToTimedSequence, called from local.m since 2026-08-17): the presentation becomes a timed_sequence_manipulation around its preserved id, referencing standalone visual_grating documents, with a sampled_body; a standalone timed_sequence carries the multi-subject case. The earlier flattening pass to visual_grating_manipulation is no longer called. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
       "flags": "returns [] (leaves presentation as-is) when no animal responded",
       "target_completeness": {
         "state": "carry_forward",
@@ -1383,9 +1504,11 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "TODAY'S EMISSION: folds to `harmonic_component_calculation` per the 2026-08-08 sign-off. TARGET SUPERSEDED 2026-09-21 by issue #67 (Steve Van Hooser) which DELETED `harmonic_component_calculation` from the built set. `decided_targets` is now empty pending a new signed target -- a team modelling question, not a bug in the migrator (which still emits the old name; the DID-matlab retarget rides with issue #67's follow-on).",
+      "how": "RESTORED TARGET (#73 review, jess 2026-09-25; V_eta_spatial_transcriptomics_plan.md item 37): `harmonic_component_calculation`, id PRESERVED, per the 2026-08-08 sign-off's mapping. Issue #67 decision 10 had deleted the class on the premise that `_calculation` means a calculator produced it; #73's rule C decides by provenance, and a stimulus response is computed from the spike train + stimulus presentation, both in the dataset. The migrator is a guarded passthrough today (PR #68) and re-attaches the fold from git history -- a DID-matlab follow-up.",
       "flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped. TARGET SUPERSEDED per issue #67 -- pending new signed target.",
-      "decided_targets": [],
+      "decided_targets": [
+        "harmonic_component_calculation"
+      ],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -1426,11 +1549,16 @@
       ],
       "second_pass": [],
       "how": "raw ndi.app.stimulus.tuning_response curve -> tuning_curve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "tuning_curve_calculation"
+      ]
     },
     "subject": {
       "targets": [
@@ -1469,14 +1597,15 @@
     },
     "subjectmeasurement": {
       "targets": [
-        "absolute_reference",
+        "absolute_time_reference",
         "session_relative_reference",
-        "term_observation"
+        "term_observation",
+        "absolute_reference"
       ],
       "carried": [],
       "second_pass": [],
-      "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_reference`) rather than a field.",
-      "flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed subject_observation leaf, `term_observation` for the untyped case, and an `absolute_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
+      "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_time_reference`) rather than a field.",
+      "flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed subject_observation leaf, `term_observation` for the untyped case, and an `absolute_time_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
       "target_completeness": {
         "state": "partial",
         "unresolved_sites": [
@@ -1526,13 +1655,13 @@
     "syncrule_mapping": {
       "targets": [
         "clock_alignment",
-        "relative_reference",
-        "syncrule_mapping"
+        "syncrule_mapping",
+        "relative_reference"
       ],
       "carried": [],
       "second_pass": [],
-      "how": "Becomes `clock_alignment` (a relation carrying a `polynomial`), `base.id` preserved. Its two endpoints become `from_reference` / `to_reference` pointing at `relative_reference` documents, and `degree` is kept and CHECKED.",
-      "flags": "BUILT, TWO BRANCHES, AND TODAY EVERY REAL DOCUMENT TAKES THE SECOND (migrators_j/syncrule_mapping.m). Branch 1 is 1 -> 3: `clock_alignment` plus two `relative_reference` endpoints, when both epochnodes can be anchored to an `epoch` DOCUMENT. THAT GATE IS CLOSED: it reads `epoch_id_1`/`epoch_id_2` depends_on entries and no did_v1 document carries them, because NO MIGRATOR MINTS AN `epoch` (re-checked 2026-08-10: 2 hits for \"class_name', 'epoch'\" across DID-matlab src, BOTH inside comments, and `epoch` is absent from the 45 target names tools/refresh_migration_targets.py derives). Branch 2 is the #58 passthrough repair, repair, re-emitting `syncrule_mapping` with `syncgraph_id` restored and the invented required `epochid` -- empty on all 5,316 documents -- removed. NOTE: coverage.py lists `syncrule_mapping` in `_MIG_HELPERS`, so the ledger counts this class as having NO migrator; it has one.",
+      "how": "Becomes `clock_alignment` (a relation carrying a `polynomial`), `base.id` preserved. Its two endpoints become `from_reference` / `to_reference` pointing at `relative_time_reference` documents, and `degree` is kept and CHECKED.",
+      "flags": "BUILT, TWO BRANCHES, AND TODAY EVERY REAL DOCUMENT TAKES THE SECOND (migrators_j/syncrule_mapping.m). Branch 1 is 1 -> 3: `clock_alignment` plus two `relative_time_reference` endpoints, when both epochnodes can be anchored to an `epoch` DOCUMENT. THAT GATE IS CLOSED: it reads `epoch_id_1`/`epoch_id_2` depends_on entries and no did_v1 document carries them, because NO MIGRATOR MINTS AN `epoch` (re-checked 2026-08-10: 2 hits for \"class_name', 'epoch'\" across DID-matlab src, BOTH inside comments, and `epoch` is absent from the 45 target names tools/refresh_migration_targets.py derives). Branch 2 is the #58 passthrough repair, repair, re-emitting `syncrule_mapping` with `syncgraph_id` restored and the invented required `epochid` -- empty on all 5,316 documents -- removed. NOTE: coverage.py lists `syncrule_mapping` in `_MIG_HELPERS`, so the ledger counts this class as having NO migrator; it has one.",
       "decided_targets": [
         "clock_alignment"
       ],
@@ -1553,11 +1682,16 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "temporal_frequency_tuning_calculation"
+      ]
     },
     "temporal_frequency_tuning_calc": {
       "targets": [
@@ -1571,11 +1705,16 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "temporal_frequency_tuning_calculation"
+      ]
     },
     "treatment": {
       "targets": [
@@ -1594,11 +1733,20 @@
         "directed_relation"
       ],
       "how": "dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor",
-      "flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part",
+      "flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "temperature_manipulation",
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_manipulation",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "treatment_drug": {
       "targets": [
@@ -1615,11 +1763,18 @@
         "directed_relation"
       ],
       "how": "drug administration -> a dose_manipulation (chemicals from mixture_table) + an optional site term_observation + anchor",
-      "flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject",
+      "flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "treatment_transfer": {
       "targets": [
@@ -1650,11 +1805,16 @@
       ],
       "second_pass": [],
       "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "relative_time_reference",
+        "software",
+        "tuning_curve_calculation"
+      ]
     },
     "valid_interval": {
       "targets": [],
@@ -1663,10 +1823,10 @@
       ],
       "second_pass": [
         "time_observation",
-        "relative_reference"
+        "relative_time_reference"
       ],
-      "how": "NO PASS-1 MIGRATOR, deliberately: the document passes through under its own tombstone (the identity migrator), which is what stops it stranding. THE SECOND PASS IS RE-ARMED AS OF 2026-08-18 and the SHAPE CHANGED -- TEAM-SIGN-OFF [logical_observation amendment 1] (V_eta_logical_observation_plan.md): the leaf is `time_observation`, NOT `logical_observation`, and THE INTERVAL TIMES ARE THE VALUE. One statement per source document carrying an N x 2 array of `time` cells -- `axes[1]` a bare regular interval index, `axes[2]` an endpoint axis whose `labels` name `start` and `end`, so the pairing is DECLARED rather than positional (T14). WHY THE BOOLEAN ARRAY WAS WITHDRAWN: the v1 class declares four fields (timeref_structt0, t0, timeref_structt1, t1) and NOT ONE IS A BOOLEAN, so a boolean array would have been INVENTED on every migrated document, and for a list of VALID intervals every element of it is true by construction. The dormancy that preceded this waited on `axes[]` (#45), which landed 2026-08-14; the wait condition was met four days before anyone noticed. Each statement is anchored by a `relative_reference` (start = t0, duration = t1 - t0, clock de-encoded from clocktypestring). A batch pass and not a migrator for the same structural reason as resolveSessionAnchors: `relative_reference.relative_to` is REQUIRED and names the `epoch` DOCUMENT, whose id exists only after did2.convert.epochMint has minted it corpus-wide, and a single-document migrator holds an epoch STRING it cannot map to a document id.",
-      "flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical` + `logical_observation` are left minted in draft/ with NO CONSUMER ANYWHERE (valid_interval was their only one); retire-or-hold is a separate call and is NOT decided. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
+      "how": "NO PASS-1 MIGRATOR, deliberately: the document passes through under its own tombstone (the identity migrator), which is what stops it stranding. CORRECTED 2026-09-25 (#73 item 52): an earlier version of this note said the second pass was RE-ARMED as of 2026-08-18. It was NOT: the signed amendment of that date says 'IS NOT RE-ARMED YET', and resolveValidIntervals.m at 775353d (2026-08-13, the head of both DID-matlab V_eta branches) is still 'DORMANT BY DECISION -- census only; emits nothing', its preserved code being the rejected 1->N shape. THE SIGNED TARGET (TEAM-SIGN-OFF [logical_observation amendment 1], V_eta_logical_observation_plan.md, 2026-08-18): the leaf is `time_observation`, NOT `logical_observation` (retired, #73 item 52), and THE INTERVAL TIMES ARE THE VALUE. One statement per source document carrying an N x 2 array of `time` cells keyed [interval (a bare regular index), endpoint (labels `start`, `end`)], so the pairing is DECLARED rather than positional (T14). WHY THE BOOLEAN ARRAY WAS WITHDRAWN: the v1 class declares four fields (timeref_structt0, t0, timeref_structt1, t1) and NOT ONE IS A BOOLEAN, so a boolean array would have been INVENTED on every migrated document, and for a list of VALID intervals every element of it is true by construction. Each statement is anchored by a `relative_time_reference` via `time_reference_id` (start = t0, duration = t1 - t0, clock de-encoded from clocktypestring), whose `referent_id` names the minted `epoch` DOCUMENT. A batch pass and not a migrator for the same structural reason as resolveSessionAnchors: that document's id exists only after did2.convert.epochMint has minted it corpus-wide, and a single-document migrator holds an epoch STRING it cannot map to a document id.",
+      "flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical_observation` was left with NO CONSUMER (valid_interval was its only one) and is RETIRED, #73 item 52 (2026-09-25); `logical` stays, like every data_type. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
       "decided_targets": [
         "time_observation"
       ]
@@ -1686,11 +1846,18 @@
         "directed_relation"
       ],
       "how": "viral injection -> a dose_manipulation (virus as spine variable, dilution/titer as amount) + an optional site term_observation + anchor",
-      "flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject",
+      "flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "vmneuralresponseresiduals": {
       "targets": [

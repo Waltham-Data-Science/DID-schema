@@ -9,7 +9,7 @@ schema could declare a blank the validator would reject -- a document built
 from the schema failing its own schema.
 
 Two fields did. `subjectmeasurement.datestamp` and
-`absolute_reference.value.start.utc` are `timestamp`-typed and carried
+`absolute_time_reference.value.start.utc` are `timestamp`-typed and carried
 `blank_value: 0.0`, while validateTypeShape accepts `timestamp` only as
 char/scalar-string. `base.datestamp` was right (`''`) purely by accident of
 provenance: it is copied verbatim from the V_zeta snapshot and never passes
@@ -175,14 +175,18 @@ def _structure_blank_is_rebuilt(ftype, blank):
 # Each entry is (class_name, dotted field path, declared type).
 # ---------------------------------------------------------------------------
 KNOWN_DIVERGENT = {
-    ("absolute_reference", "value.duration", "time"),
-    ("chemical", "value.amount", "concentration"),
+    ("absolute_time_reference", "value.duration", "time"),
+    ("chemical", "value.concentration", "concentration"),   # #73 item 59: was value.amount
     ("concentration", "value", "concentration"),
     ("current", "value", "current"),
-    ("dose", "value.formulation.chemicals.amount", "concentration"),
+    ("dose", "value.mass", "mass"),   # #73 item 59: the inline formulation became an edge
     ("dose", "value.volume", "volume"),
     ("time", "value", "time"),
-    ("formulation", "value.chemicals.amount", "concentration"),
+    # #73 item 59: chemicals[] -> ingredients[] (how much added / final concentration)
+    ("formulation", "value.ingredients.concentration", "concentration"),
+    ("formulation", "value.ingredients.mass", "mass"),
+    ("formulation", "value.ingredients.volume", "volume"),
+    ("formulation", "value.osmolarity", "concentration"),
     ("frequency", "value", "frequency"),
     ("frequency_filter", "passband.high", "frequency"),
     ("frequency_filter", "passband.low", "frequency"),
@@ -193,14 +197,18 @@ KNOWN_DIVERGENT = {
     ("pyraview", "decimation_levels", "matrix"),
     ("pyraview", "decimation_sampling_rates", "matrix"),
     ("pyraview", "decimation_start_times", "matrix"),
-    ("relative_reference", "value.duration", "time"),
-    ("relative_reference", "value.start", "time"),
+    ("relative_time_reference", "value.duration", "time"),
+    ("relative_time_reference", "value.start", "time"),
     # ("sampled_body", "sample_time.dt"/".t0") REMOVED 2026-08-15: the body-side
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
     # name fields that no longer exist. Deleted in the same commit that retired
     # them, which is what this file's own failure message asks for.
-    ("subject_interaction", "sample_time.dt", "time"),
+    # ("subject_interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
+    # statement-side `sample_time` retired too (#73 item 21), repairing the row.
     ("subject_statement", "conditions.term.value", "ontology_term"),
+    # Lightsheet L1 (2026-09-25): data_body.conditions is a copy of the statement's
+    # entry, so it inherits the same pre-existing blank shape.
+    ("data_body", "conditions.term.value", "ontology_term"),
     ("time_reference", "clock_tolerance", "time"),
     ("voltage", "value", "voltage"),
     ("volume", "value", "volume"),

@@ -1,5 +1,10 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
+> **AMENDED 2026-09-25 (#73 review item 53, `V_eta_spatial_transcriptomics_plan.md`):**
+> `runtime_environment` below is DELETED: a calculation carries `interpreter_id` and
+> `operating_system_id` -> `software` (both required) in place of `runtime_environment_id`,
+> and the inline `subject_interaction.execution_environment` block is dropped.
+
 > **SUPERSEDED for the tuning leaves — see `V_eta_tuning_model_plan.md` (R2/R3).** The
 > `subject_calculation` DIRECTION + calculator-motif fold (the core of this doc) is CURRENT.
 > But the per-tuning enumeration below (§3/§4, and the `stimulus_tuningcurve_calculation`
@@ -276,3 +281,82 @@ Full spec: Waltham-Data-Science/DID-schema#67.
 
 
 
+
+
+## Amendment — #73 (2026-09-23): the `calculator` mixin is dropped
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-23.
+It revises items (1) and (2) of the 2026-09-21 signature above; items (3)–(5)
+stand. Source: Waltham-Data-Science/DID-schema#73.
+
+- **`subject_calculation` ⊂ [`subject_interaction`] only.** It declares the two
+  provenance edges itself: `software_id → software` (REQUIRED, `min_count` 1;
+  it tightens the optional `software_id` every `subject_interaction` carries)
+  and `runtime_environment_id → runtime_environment` (REQUIRED, `min_count` 1),
+  both unchanged from what `calculator` declared.
+- **Why.** Across the built set, `calculator` had exactly one persisting child
+  (`subject_calculation`). Its only unique content was those two edges (nine
+  classes declare `software_id`; only `calculator` declared
+  `runtime_environment_id`). Its name described the producer, not the document
+  (T13: the software is the calculator; the honest stance word `_calculation`
+  is already on the child). It also made `subject_calculation` declare
+  `software_id` twice through two parents, optional and required, with nothing
+  saying which applied.
+- **Why not `software` as the parent.** `software` ⊂ `entity` is the program
+  itself. A result that inherited from it would claim to *be* a program, which
+  is the `app`-mixin conflation the 2026-08-06 `software` decision removed.
+  Provenance stays an edge.
+- **What remains named `calculator`.** NDI ships
+  `database_documents/calculator.json` (⊂ [`base`, `app`], no fields, no deps;
+  `V_eta_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
+  `retire` source tombstone restating that template, in no V_eta chain, so a v1
+  document carrying it can still pass through. Nothing in the tree establishes
+  that none exists.
+- **Knock-on:** `hartley_calc` (retire) becomes ⊂ [`base`,
+  `hartley_reverse_correlation`] and `tuning_fit` (retire, abstract, no fields,
+  no subclass) becomes ⊂ [`base`]. Neither declared anything of its own.
+- **Cross-repo:** any migrator that writes `calculator` into a document's
+  superclass list, or emits a `calculator:` block, must stop. That is the
+  DID-matlab half of #73.
+
+### Amendment — #73 (2026-09-23): what makes a statement a calculation
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-23. It restates
+the §0 line *"Everything a calculator emits is a calculation"* as a rule that does not
+depend on knowing which software counts as a "calculator":
+
+- **A statement whose inputs are other statements in the dataset is a
+  `subject_calculation`** and records them in `derived_from_#`. **A statement produced from
+  data held outside the dataset is a `subject_observation`** and has no `derived_from`.
+- **Why provenance and not "was software involved":** almost every measurement is
+  processed. Stereo-seq bin counts are computed by the SAW pipeline from sequencing reads,
+  and nobody would call them a calculation. Whether the inputs are in the dataset can be
+  read off the document itself (T14).
+- **Schema consequence:** `derived_from_#` is declared on `subject_calculation` only. It
+  was removed from `subject_observation`, where it existed for a "computed observation".
+  Measured before removal: the one emitter of such an observation
+  (`migrators_j.private.jComputedScalar`) has no caller, because its only caller
+  (`jDecomposeScalars`) is itself called by nothing, so no document loses an edge.
+- **Two recorded designs settled with it:** `oneepoch`'s concatenation (fork A1) becomes a
+  calculation (see `V_eta_epoch_plan.md`); `valid_interval` inheritance stays RE-DERIVED
+  (team, 2026-08-11), so no materialised copy needs an observation-side `derived_from`.
+- **Spike-sorter output is a calculation too** (decided later in the same session). The
+  sorter's input, the voltage recording, is stored in the dataset. So `kilosort_clusters`
+  and `kiasort_clusters` (both via `jSorterOutput.m`) and `jrclust_clusters`, which all
+  emit `count_observation` with no `derived_from` today, become a `count_calculation`
+  with `derived_from` to that recording. For `jrclust_clusters` this revises the
+  2026-08-17 confirm-sheet signature in `V_eta_go_forward_class_audit.md`, which accepted
+  its emitted `count_observation` as the end state. NOT BUILT: `count_calculation` does
+  not exist yet, and the retarget is DID-matlab work. The target is NOT in
+  `decided_targets` (a decided target must name a built class); it is carried in the
+  three rows' `flags` in `V_eta_migration_targets.json` until `count_calculation` exists.
+  `spike_interface_sorting_outputs` is untouched: it still passes through, undecided.
+- **Amended 2026-09-24: the sorter target is `label_calculation`, not `count_calculation`.**
+  A cluster assignment ("spike 17 is in cluster 4") names a group that means nothing
+  outside one sorting run; it is not four of anything. The #73 review added a `label` data
+  type for exactly this (a term without a `node`: a value whose meaning is local to one
+  source or run), so the three rows' `flags` now name `label_calculation` (variable "spike
+  cluster assignment", keys [spike], `derived_from` the recording). Still NOT BUILT:
+  neither `label` nor `label_calculation` exists yet. `spike_clusters` itself passes through
+  to the NDI second pass today (`+migrators_j/spike_clusters.m`); when that pass is built,
+  it targets the same shape.

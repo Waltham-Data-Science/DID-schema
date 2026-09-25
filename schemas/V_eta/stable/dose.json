@@ -7,10 +7,16 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "formulation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "What was given. A '1x' / '10x' strength is a formulation of its own, made from the stock.",
+            "must_refer_to_document_class": "formulation"
+        }
+    ],
     "file": [],
     "fields": [
         {
@@ -23,202 +29,73 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A dose: a formulation delivered at a volume/route.",
+            "documentation": "How much of the formulation was given. Empty when the source gives no amount (a bath).",
             "constraints": {},
             "fields": [
                 {
-                    "name": "formulation",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "name": "mass",
+                    "type": "mass",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The substances delivered.",
+                    "documentation": "Mass, optional.",
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "chemicals",
-                            "type": "structure",
-                            "blank_value": [],
-                            "default_value": [],
+                            "name": "grams",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
+                            "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Agents.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "substance",
-                                    "type": "ontology_term",
-                                    "blank_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "default_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "mustBeNonEmpty": true,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The chemical/biological agent (CHEBI/NCBITaxon/\u2026).",
-                                    "constraints": {},
-                                    "fields": [
-                                        {
-                                            "name": "node",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "name",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The human-readable label.",
-                                            "constraints": {}
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "amount",
-                                    "type": "concentration",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Optional amount/concentration.",
-                                    "constraints": {},
-                                    "fields": [
-                                        {
-                                            "name": "molar",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "grams_per_liter",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "mass_fraction",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "volume_fraction",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "particles_per_liter",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "source_unit",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The unit exactly as given by the source (lossless provenance).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "source_value",
-                                            "type": "double",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The number as given by the source, in `source_unit`.",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "approximate",
-                                            "type": "boolean",
-                                            "blank_value": 0.0,
-                                            "default_value": 0.0,
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "True when the value is approximate.",
-                                            "constraints": {}
-                                        }
-                                    ]
-                                }
-                            ]
+                            "documentation": "Canonical mass value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
                         }
                     ]
                 },
@@ -232,7 +109,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Delivered volume (optional).",
+                    "documentation": "Volume, optional.",
                     "constraints": {},
                     "fields": [
                         {
@@ -290,39 +167,33 @@
                     ]
                 },
                 {
-                    "name": "route",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
+                    "name": "substance_amount",
+                    "type": "substance_amount",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Route of administration (optional; else on method).",
+                    "documentation": "Moles, optional.",
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
+                            "name": "moles",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "documentation": "Canonical substance_amount value -- the normalised, cross-document comparable number.",
                             "constraints": {}
                         },
                         {
-                            "name": "name",
+                            "name": "source_unit",
                             "type": "char",
                             "blank_value": "",
                             "default_value": "",
@@ -331,7 +202,214 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The human-readable label.",
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "count",
+                    "type": "count",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A count of entities (e.g. viral genomes), optional.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "integer",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The discrete count.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "What is counted (cells / individuals / spikes / events) -- semantic, NOT dimensional: counts do not normalise across units.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the count is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "amount_per_body_mass",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Optional: how much per gram of the subject's body mass (mg/kg -> grams_per_gram 1e-6). Canonical slots name their full unit; fill what the source unit converts to.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "grams_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Grams given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "liters_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Liters given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "moles_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Moles given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given (e.g. 'mg/kg').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
                             "constraints": {}
                         }
                     ]

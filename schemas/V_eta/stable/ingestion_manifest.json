@@ -11,10 +11,10 @@
     },
     "depends_on": [
         {
-            "name": "filenavigator_id",
+            "name": "epoch_file_pattern_id",
             "mustBeNonEmpty": true,
-            "documentation": "The file navigator that produced this manifest. REQUIRED, and RESTORED: this is the edge NDI actually writes, which V_eta had dropped in favour of an invented `epochid`.",
-            "must_refer_to_document_class": "filenavigator"
+            "documentation": "The epoch file pattern whose match produced this manifest (v1 `filenavigator_id`, id preserved). REQUIRED: it is the one edge NDI writes, restored after V_eta had dropped it for an invented `epochid`.",
+            "must_refer_to_document_class": "epoch_file_pattern"
         },
         {
             "name": "epoch_id",
@@ -36,19 +36,6 @@
             "queryable": false,
             "ontology": null,
             "documentation": "List of file references ingested for this epoch. Entries are either NDI-scheme URIs (e.g., 'epochid://t00001') or absolute filesystem paths to the source files. Length varies per epoch (3-6 entries seen in the discovery corpora).",
-            "constraints": {}
-        },
-        {
-            "name": "epochprobemap",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The epoch's original serialized epochprobemap (name<TAB>reference<TAB>type<TAB>devicestring<TAB>subjectstring, one row per probe), carried VERBATIM for lossless read-back. The recording rows also decompose into <modality>_observation documents (the queryable V_eta expression); this opaque string preserves the FULL map -- including the stimulator/imaging rows that do not decompose -- so ndi.vintage rebuilds the exact v1 epochprobemap object. Retired when every row has a decomposed home.",
             "constraints": {}
         }
     ]

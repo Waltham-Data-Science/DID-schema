@@ -80,12 +80,15 @@ def _field(schema, name):
 
 # ---------------------------------------------------------------- the targets
 
-def test_harmonic_component_is_an_abstract_data_type_composite():
-    """The composite half of the signed pair. ABSTRACT: a bare harmonic is never
-    a document, only the direction leaf is."""
+def test_harmonic_component_is_a_concrete_data_type_composite():
+    """The composite half of the signed pair. It WAS abstract ("a bare harmonic
+    is never a document, only the direction leaf is"); #73 item 19 (team,
+    2026-09-24) made every data_type composite concrete, because T6's
+    `storage_mode: reference` needs a standalone value document to point at. A
+    standalone composite is CONTENT, not a claim."""
     tier, d = BUILT["harmonic_component"]
     assert tier == "draft"
-    assert d["document_class"].get("abstract") is True
+    assert not d["document_class"].get("abstract")
     assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
     # T14: ONE `value` slot, structure, not a bag of loose top-level fields.
     assert [f["name"] for f in d["fields"]] == ["value"]
@@ -125,20 +128,22 @@ def test_the_four_coefficient_subfields_are_matrices_and_harmonic_is_scalar():
     assert subs["harmonic"]["mustBeScalar"] is True
 
 
-def test_harmonic_component_calculation_is_deleted():
-    """#67 (TEAM-SIGN-OFF 2026-09-21) DELETED `harmonic_component_calculation`
-    from `schemas/V_eta/draft/`. The composite `harmonic_component` stays as
-    ③ infrastructure for #61's stimulus-response fold; a future concrete calc
-    under `tuning_curve_calculation` or a dedicated `stimulus_response_calculation`
-    family names its own leaf. Inverted from the earlier "is the
-    subject_calculation leaf" test, kept because the deletion is a decision
-    someone tidying the tree would be tempted to un-do -- the tripwire fails
-    the moment the class comes back."""
-    assert "harmonic_component_calculation" not in BUILT, (
-        "`harmonic_component_calculation` was restored to the built set. Per "
-        "issue #67 §Concrete edits, the class is DELETED -- v1 has no source "
-        "that emits it as its own leaf. A restoration would need its own "
-        "sign-off; do not re-add it silently.")
+def test_harmonic_component_calculation_is_restored():
+    """RESTORED by the #73 review (jess, 2026-09-25; decision record
+    V_eta_spatial_transcriptomics_plan.md item 37). History: signed 2026-08-08
+    (TEAM-SIGN-OFF [stimulus response]), deleted 2026-09-21 by issue #67 decision
+    10, whose premise -- `_calculation` means "a calculator produced it" (#67
+    decision 13) -- #73's rule C replaced: calculation is decided by PROVENANCE,
+    and a stimulus response is computed from the spike train and the stimulus
+    presentation, both in the dataset.
+
+    This test USED TO be the tripwire against exactly this restoration ("do not
+    re-add it silently"). It is not silent: it is inverted here, beside its
+    reason, so the two decisions cannot be confused. The restoration's own
+    TEAM-SIGN-OFF line is the team's to add (Operating Rule 4)."""
+    _tier, d = BUILT["harmonic_component_calculation"]
+    supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
+    assert supers == ["subject_calculation", "harmonic_component"], supers
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
@@ -150,13 +155,13 @@ def test_the_leaf_inherits_every_edge_the_fold_writes():
     declared = set()
     for cls in chain:
         declared |= _dep_names(BUILT[cls][1])
-    assert {"subject_id", "time_reference_#", "instrument_id",
-            "method_parameters_id", "derived_from_#"} <= declared
-    # derived_from_# is a FAMILY, so the fold may name derived_from_1 AND _2.
+    assert {"subject_id", "time_reference_id", "instrument_id",
+            "method_parameters_id", "input_id"} <= declared
+    # input_id REPEATS (T15), so the fold may write two input_id entries.
     # #63 has not put a maximum on it; assert there is none, so a future cap
     # cannot land silently under a fold that emits two.
     dfrom = next(d for d in BUILT["subject_calculation"][1]["depends_on"]
-                 if d["name"] == "derived_from_#")
+                 if d["name"] == "input_id")
     assert "max_count" not in dfrom or dfrom["max_count"] is None
 
 
@@ -424,7 +429,47 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # ontology-free document edges), so this walk counts every schema and
     # every count check catches only real additions -- exactly what a canary
     # test asks of its denominator.
-    assert walked == 262, f'schema count moved; re-derive the inert set ({walked})'
+    # SEVENTH MOVEMENT, re-derived not bumped: 262 -> 256 for #73 (2026-09-23).
+    # -5 marker composites (orientation_direction_tuning, contrast_tuning,
+    # spatial_frequency_tuning, temporal_frequency_tuning, speed_tuning), -6 #67
+    # calc leaves (oridirtuning_calc, contrasttuning_calc,
+    # spatial_frequency_tuning_calc, temporal_frequency_tuning_calc,
+    # speedtuning_calc, tuningcurve_calc), +5 renamed family calculations
+    # (*_tuning_calculation). The pinned INERT list is UNTOUCHED, and that is
+    # the substantive check: the new typed blocks (circular_statistics,
+    # interpolated_values, model_fit[].goodness/metrics/sampled_fit) are
+    # double/matrix fields with NO min/max constraint at any depth, and the
+    # `calculator` tombstone and subject_calculation's two moved edges declare
+    # no field at all.
+    # EIGHTH MOVEMENT, re-derived not bumped: 256 -> 267 for the #73 review build
+    # (2026-09-25). +11: label, label_calculation, coordinate_system, position,
+    # position_observation, position_calculation, count/area/score/term
+    # _calculation, harmonic_component_calculation (restored, item 37). None
+    # declares a numeric min/max at any depth, so the pinned INERT list below is
+    # untouched -- which the next assertion checks rather than assumes.
+    # NINTH MOVEMENT, re-derived not bumped: 267 -> 264 on 2026-09-25, #65
+    # increment 3b deleted session_relative_reference, session_bounded_reference
+    # and epoch_bounded_reference. None of the three is in the INERT list, so the
+    # list below is untouched.
+    # TENTH MOVEMENT, re-derived not bumped: 264 -> 265 on 2026-09-25, the new
+    # `spatial_frequency` composite (#73 review item 45). Its cell declares no
+    # numeric min/max, so the INERT list below is untouched.
+    # ELEVENTH MOVEMENT, re-derived not bumped: 265 -> 266 on 2026-09-25, the new
+    # `voltage_calculation` leaf (#73 review item 48). A leaf declares no fields,
+    # so the INERT list below is untouched.
+    # TWELFTH MOVEMENT, re-derived not bumped: 266 -> 215 on 2026-09-25, #73
+    # review item 50 deleted 51 unused statement leaves. A leaf declares no
+    # fields, so none of them can be in the INERT list; the list is untouched
+    # and the next assertion still checks it.
+    # THIRTEENTH MOVEMENT, re-derived not bumped: 215 -> 214 on 2026-09-25, #73
+    # item 51: image_observation deleted, and `image` restated as the did_v1
+    # tombstone (same count). Neither is in the INERT list.
+    # FOURTEENTH MOVEMENT, re-derived not bumped: 214 -> 213 on 2026-09-25, #73
+    # item 52 deleted logical_observation (a leaf, no fields, not INERT).
+    # FIFTEENTH MOVEMENT, re-derived not bumped: 213 -> 212 on 2026-09-25, #73
+    # item 53 deleted the run-environment entity (runtime_environment, briefly
+    # execution_environment). Its four char fields carry no min/max.
+    assert walked == 212, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
@@ -471,19 +516,23 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     neither field. Landing the SLOT does not land the MOVE, which is the same
     distinction the ngrid inversion had to make.
     """
-    _tier, d = BUILT["subject_statement"]
+    # #73 item 60 (2026-09-25): the value descriptors moved WITH THE VALUE to
+    # data_type, which every statement leaf inherits (T3); the statement keeps the claim.
+    assert {f["name"] for f in BUILT["subject_statement"][1]["fields"]} == {
+        "variable", "conditions"}
+    _tier, d = BUILT["data_type"]
     names = {f["name"] for f in d["fields"]}
-    assert "axes" in names, (
-        "`subject_statement.axes` is the inline/reference arm of the signed mount "
+    assert "keys" in names, (
+        "`subject_statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"variable", "conditions", "storage_mode", "axes",
-                     "datum_type", "source_datum_type"}
+    assert names == {"keys", "complete", "datum_type", "source_datum_type",
+                     "data_body"}
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.
-    axes = next(f for f in d["fields"] if f["name"] == "axes")
+    axes = next(f for f in d["fields"] if f["name"] == "keys")
     sub = [s["name"] for s in axes.get("fields", [])]
     assert "variable" in sub and "n" in sub, (
         f"`subject_statement.axes[]` declares {sub!r}, which is not the signed "
@@ -491,7 +540,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
 
 
 def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
-    """Revision 2 anchors `element_epochid` as a `relative_reference` whose
+    """Revision 2 anchors `element_epochid` as a `relative_time_reference` whose
     `relative_to` points at an `epoch` document. `relative_to` is mustBeNonEmpty,
     so emitting one in pass 1 would write an empty required edge -- a husk that
     +did2/+validate/references.m:90 skips and no gate catches.
@@ -508,9 +557,14 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     migrator constructs an `epoch`.
 
     WHEN THE EPOCH MINT LANDS THIS TEST MUST BE INVERTED, not patched."""
-    _tier, d = BUILT["relative_reference"]
-    rel = next(x for x in d["depends_on"] if x["name"] == "relative_to")
+    _tier, d = BUILT["relative_time_reference"]
+    rel = next(x for x in d["depends_on"] if x["name"] == "referent_id")
     assert rel["mustBeNonEmpty"] is True
+    # #73 item 57 (2026-09-25): the epoch's `session_id` EDGE is dropped. Its
+    # session is `base.session_id`, required on every document, and session
+    # documents are 1:1 with those values (#51) -- the edge restated it.
     epoch = BUILT["epoch"][1]
-    sess = next(x for x in epoch["depends_on"] if x["name"] == "session_id")
-    assert sess["mustBeNonEmpty"] is True
+    assert "session_id" not in {x["name"] for x in epoch["depends_on"]}
+    base = BUILT["base"][1]
+    sid = next(f for f in base["fields"] if f["name"] == "session_id")
+    assert sid["mustBeNonEmpty"] is True

@@ -1,0 +1,51 @@
+{
+    "document_class": {
+        "class_name": "position",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "coordinate_system_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The coordinate system the coordinates are in. REQUIRED: a position with no coordinate system is only numbers (item 9).",
+            "must_refer_to_document_class": "coordinate_system"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Where something is: coordinates[k] along the coordinate system's dimensions[k], in that dimension's spacing units (metres = coordinate x spacing). Many positions (centroids, outline vertices) are a key over the things positioned.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "coordinates",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "One number per coordinate-system dimension.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

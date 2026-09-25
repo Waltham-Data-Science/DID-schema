@@ -10,7 +10,62 @@
         "maturity_level": "stable",
         "abstract": true
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "value_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the standalone data_type document holding this relation's data (a gene mapping's pair table, item 24). The same role-named edge a statement uses to point at a shared value (item 30).",
+            "must_refer_to_document_class": "data_type"
+        }
+    ],
     "file": [],
-    "fields": []
+    "fields": [
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the procedure that produced the relation -- the `how` (surgical_dissection, biological_reproduction, an orthology-inference tool). Declared on `relation` so undirected relations have it too (item 24). A timed `derived_from` with a `method` and a `time_reference` IS the creation event.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
 }

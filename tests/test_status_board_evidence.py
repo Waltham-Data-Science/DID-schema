@@ -278,11 +278,14 @@ def test_a_mint_of_a_class_the_decision_retires_is_not_progress():
     """The inversion this scan already recorded once, arriving through a new door.
 
     `session_relative_reference`'s whole open question is its COLLAPSE into
-    `relative_reference` (signed, V_eta_time_reference_model_plan.md:468). Three
+    `relative_time_reference` (signed, V_eta_time_reference_model_plan.md:468). Three
     migrators still mint the old class. That is the work outstanding, not
     evidence of it being done -- so a mint must not move it to (b).
     """
-    cls = "session_relative_reference"
+    # Was `session_relative_reference`, deleted 2026-09-25 (#65 increment 3b)
+    # and so no longer a board row to discount. The RULE is unchanged; it is
+    # exercised on the one remaining discounted class.
+    cls = "epochid"
     assert cls in sb.RETIRED_BY_ITS_OWN_DECISION
     mig = {cls: {"migrator_file": None, "n_consuming_refs": 0,
                  "consuming_refs": [], "n_emitted_class_refs": 3,
@@ -748,7 +751,7 @@ def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
 def test_session_relative_reference_mints_are_counted_in_full():
     """THE ROW THAT PROVED THIS UNDERCOUNT, held against the real repo.
 
-    Its signed decision is that the class COLLAPSES into `relative_reference`,
+    Its signed decision is that the class COLLAPSES into `relative_time_reference`,
     so every mint is work still to undo and the count IS the size of the job.
     The board said 3. Nine migrator files mint it, and this test names the six
     the `'class_name'`-comma regex could not see, so a regression cannot show up
