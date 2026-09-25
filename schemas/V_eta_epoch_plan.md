@@ -1,5 +1,9 @@
 # V_eta — the acquisition epoch family
 
+> **AMENDED 2026-09-25 (#73 review item 55, `V_eta_spatial_transcriptomics_plan.md`):**
+> `epoch.instrument_id` is DROPPED -- an epoch name can be shared by several rigs in
+> older data, and the rig is recorded on each recording statement instead.
+
 **DECIDED with the team 2026-08-05; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF
 [epoch]` line is at the bottom of this document. Build still deferred.**
 

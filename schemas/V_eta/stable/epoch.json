@@ -25,12 +25,6 @@
             "min_count": 0,
             "referent_unique_by": "value.clock",
             "ordered": false
-        },
-        {
-            "name": "instrument_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The acquisition device this epoch was recorded from. OPTIONAL, and typed to `entity` rather than `subject`: an epoch's instrument may be an `acquisition_system`, which is not a subject. Added because a daqsystem does not own a period of time -- the missing fact was the recording device, not a misnamed one.",
-            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

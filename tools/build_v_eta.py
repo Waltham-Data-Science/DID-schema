@@ -1553,11 +1553,13 @@ write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields
               non_empty=False)]))
 
 # `acquisition_system` is the recording rig. `⊂ entity`, NOT `⊂ base`, so
-# `epoch.instrument_id -> entity` reaches it; it sits beside `software` and
+# an `entity`-typed edge can reach it (epoch.instrument_id did until #73 item 55
+# dropped it); it sits beside `software` and
 # `session`. It is NOT `⊂ subject` -- T1's bare subject is what statements are
 # ABOUT, and a rig is what does the recording.
 #
-# base.name is PRESERVED and load-bearing: it is THE JOIN KEY. `daqsystem.base.name`
+# The rig's NAME is load-bearing: it is THE JOIN KEY. (Carried on `base.name` until
+# #73 item 54; since then on `acquisition_system.name`.) `daqsystem.base.name`
 # is matched by strcmpi in `+ndi/+daq/system.m:229` (probe -> device attribution),
 # named in every `syncrule.parameters.daqsystem1_name`, and queried by exact_string
 # in `+ndi/+time/syncgraph.m:404-408`. A depends_on sweep saw none of that.
@@ -9092,6 +9094,17 @@ def _acq54(d):
 
 
 _patch("acquisition_system", _acq54)
+
+
+# --- item 55: `epoch.instrument_id` is dropped (jess, 2026-09-25) --------------------
+# An epoch is not reliably one rig: current NDI mints a unique epoch id per file
+# navigator (+file/navigator.m:253-279), but older data names epochs after their
+# directory ("t00003"), shared by every rig recording it, and epochMint makes ONE
+# epoch per (session, epoch name). The rig is recorded where it is always right -- on
+# each recording statement (see 6b) -- and nothing ever wrote this edge. Reverses
+# that part of the epoch sign-off (2026-08-08, amended 2026-08-10).
+_patch("epoch", lambda d: d.__setitem__(
+    "depends_on", [e for e in d["depends_on"] if e["name"] != "instrument_id"]))
 
 
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------

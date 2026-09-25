@@ -297,6 +297,13 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     only beside `multiple` (or a did_v1 `name_#` family). On a single edge they restated
     `mustBeNonEmpty`; they are removed from the three item-53 edges and the build fails if
     one returns.
+55. **`epoch.instrument_id` is dropped** (2026-09-25). Current NDI mints a unique epoch id
+    per file navigator (`+file/navigator.m:253-279`), but older data names epochs after
+    their directory (`t00003`), shared by every rig recording it, and `epochMint` makes
+    one `epoch` per (session, epoch name), so an epoch can have more than one rig. The
+    rig stays where it is always correct, on each recording statement, and nothing ever
+    wrote this edge. This reverses that part of the epoch sign-off (2026-08-08, amended
+    2026-08-10).
 
 ## F. What is built (schema side), and what is not
 
