@@ -28,11 +28,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A rad/s value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
+            "documentation": "A degrees/s value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "radians_per_second",
+                    "name": "degrees_per_second",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,

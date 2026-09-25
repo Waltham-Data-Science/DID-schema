@@ -6641,7 +6641,7 @@ CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
 NUMERIC_SEED = [
     ("intensity", "dimensionless (a.u.) — dF/F, fluorescence, ratios, amplitudes"),
     ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
-    ("angle", "degrees"), ("angular_velocity", "rad/s"), ("force", "N"),
+    ("angle", "degrees"), ("angular_velocity", "degrees/s"), ("force", "N"),
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
     ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
     ("ph", "pH (log scale)"),
@@ -9163,7 +9163,8 @@ _DIM_CANON = {
     # grams/liters/celsius/mmHg. Radians was "read off the built tree, not chosen"
     # (data_body plan sec.2) on a strict-SI premise the schema no longer holds.
     "area": ["square_meters"], "angle": ["degrees"],
-    "angular_velocity": ["radians_per_second"], "force": ["newtons"],
+    # angular_velocity follows angle into degrees (#73 review item 47, 2026-09-25).
+    "angular_velocity": ["degrees_per_second"], "force": ["newtons"],
     "energy": ["joules"], "power": ["watts"], "charge": ["coulombs"],
     "resistance": ["ohms"], "conductance": ["siemens"], "capacitance": ["farads"],
     "amount": ["moles"],

@@ -210,6 +210,8 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
 46. **`score` gains `source_value` + `source_unit`**, like every other quantity cell
     (contrast recorded as 50 % -> value 0.5, source_value 50, source_unit "%"). A separate
     `ratio` type was rejected: `score`'s named scale also records WHICH contrast definition.
+47. **`angular_velocity`'s canonical unit is degrees per second** (2026-09-25), following
+    `angle` (item 44).
 
 ## F. What is built (schema side), and what is not
 

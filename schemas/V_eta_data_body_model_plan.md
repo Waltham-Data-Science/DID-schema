@@ -932,8 +932,8 @@ separate corrections keeping those two apart.
 > holds: V_eta's canonical units are PRACTICAL SI (grams, liters, celsius, mmHg), and the
 > practical unit for angles in neuroscience -- orientation and direction, phase, degrees of
 > visual angle, stereotaxic angles -- is the degree. `angle.value.degrees` is the canonical
-> slot; radians are a conversion at analysis time. `angular_velocity` was not part of this
-> decision and still reads radians per second.
+> slot; radians are a conversion at analysis time. `angular_velocity` follows it: degrees per
+> second (item 47, same day).
 
 Read off the built tree, not chosen:
 
