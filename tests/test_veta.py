@@ -1666,8 +1666,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # `test_all_axes_declarations_are_the_one_entry` asserts every `axes`
     # declaration in the tree is the one signed entry. Without that this would be
     # a hole, since any field called `axes` would then skip the triple check.
-    # `axes` was renamed `keys` by #73 (item 14).
-    hoisted_field_names = {"keys"}
+    # `axes` was renamed `keys` by #73 (item 14). `conditions` joined once
+    # AMENDMENT 2 was built (#73 item 23), with the same hoisted descriptors.
+    hoisted_field_names = {"keys", "conditions"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         for f in d.get("fields", []):
@@ -3702,3 +3703,18 @@ def test_inline_method_parameters_has_the_document_shape():
     assert inline == document
     assert [s["name"] for s in inline["fields"]] == ["variable", "value", "term", "text"]
     assert inline["mustBeScalar"] is False
+
+
+def test_conditions_have_amendment_2_shape():
+    """data_body AMENDMENT 2 (signed 2026-08-14), built #73 item 23: the four
+    descriptors sit at the top of each condition, `count` flattens, and `quantity`
+    holds {value, source_value}. No per-element unit or approximate remains."""
+    f = next(x for x in RECORDS["subject_statement"][1]["fields"]
+             if x["name"] == "conditions")
+    names = [x["name"] for x in f["fields"]]
+    assert names[:4] == ["variable", "unit", "source_unit", "approximate"]
+    sub = {x["name"]: x for x in f["fields"]}
+    assert [x["name"] for x in sub["count"]["fields"]] == ["value"]
+    assert sub["count"]["fields"][0]["type"] == "integer"
+    q = sub["quantity"]["fields"][0]
+    assert [x["name"] for x in q["fields"]] == ["value", "source_value"]

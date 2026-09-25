@@ -9244,6 +9244,60 @@ def _si22(d):
 _patch("subject_interaction", _si22)
 
 
+# --- item 23 (signed data_body AMENDMENT 2, 2026-08-14): `conditions` reaches format
+# parity with the key entry. The four descriptors -- variable, unit, source_unit,
+# approximate -- sit at the TOP of each condition (as on a key), `count` flattens to
+# an integer list, and `quantity` holds {value, source_value} pairs. Measured before
+# signing: per-element unit/approximate were identical across every array any writer
+# produced, so moving them up loses nothing. Merging conditions into keys stays
+# REJECTED: a key INDEXES a value, a condition QUALIFIES it.
+def _ss23(d):
+    for i, f in enumerate(d["fields"]):
+        if f["name"] != "conditions":
+            continue
+        var = next(x for x in f["fields"] if x["name"] == "variable")
+        term = next(x for x in f["fields"] if x["name"] == "term")
+        f["fields"] = [
+            var,
+            subfield("unit", "ontology_term",
+                     "Canonical unit of the condition's numeric value(s), for the whole "
+                     "condition (as on a key). Absent for a categorical condition.",
+                     non_empty=False),
+            subfield("source_unit", "char",
+                     "The unit as the source gave it. Omitted when already canonical.",
+                     non_empty=False),
+            subfield("approximate", "boolean",
+                     "Applies to the whole condition.", non_empty=False, blank=False),
+            term,
+            subfield("count", "structure", "Integer value(s).", non_empty=False,
+                     sub_fields=[subfield("value", "integer",
+                                          "The count(s). Length 1: a condition is "
+                                          "held fixed for the statement.",
+                                          scalar=False, blank=[])]),
+            subfield("quantity", "structure",
+                     "Dimensioned numeric value(s), in `unit`.", non_empty=False,
+                     sub_fields=[subfield(
+                         "value", "structure",
+                         "Length 1: a condition is held fixed for the statement.",
+                         scalar=False, blank=[], sub_fields=[
+                             subfield("value", "double", "Canonical value, in `unit`.",
+                                      non_empty=False),
+                             subfield("source_value", "double",
+                                      "The number as the source gave it, in "
+                                      "`source_unit`.", non_empty=False)])]),
+        ]
+        f["documentation"] = (
+            f["documentation"].split(" Each names its `variable`")[0]
+            + " Each entry names its `variable`, states the unit once for the whole "
+              "condition (`unit` / `source_unit` / `approximate`, as on a key), and "
+              "carries exactly one value form: `term`, `count` or `quantity` (data_body "
+              "AMENDMENT 2, built #73 item 23). A condition is held fixed for the whole "
+              "statement: cardinality exactly 1.")
+
+
+_patch("subject_statement", _ss23)
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta

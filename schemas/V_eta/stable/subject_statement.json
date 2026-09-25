@@ -97,7 +97,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). A condition is HELD FIXED for the whole statement: cardinality exactly 1 (data_body plan, signed 2026-08-14). Anything that varies per reading -- a tuning curve's direction, time -- is a KEY on `keys`, not a condition. Distinct from `subject_interaction.method_parameters` (the algorithm's config -- how it was computed). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf). Typed by data type via the D9 registry keyed on `variable`. NOTE: the signed Amendment 2 restructure (descriptors up, `count` flattened) is NOT BUILT yet; this shape is the pre-amendment one.",
+            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each entry names its `variable`, states the unit once for the whole condition (`unit` / `source_unit` / `approximate`, as on a key), and carries exactly one value form: `term`, `count` or `quantity` (data_body AMENDMENT 2, built #73 item 23). A condition is held fixed for the whole statement: cardinality exactly 1.",
             "constraints": {},
             "fields": [
                 {
@@ -146,6 +146,79 @@
                             "constraints": {}
                         }
                     ]
+                },
+                {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical unit of the condition's numeric value(s), for the whole condition (as on a key). Absent for a categorical condition.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit as the source gave it. Omitted when already canonical.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Applies to the whole condition.",
+                    "constraints": {}
                 },
                 {
                     "name": "term",
@@ -213,12 +286,12 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Integer count value(s).",
+                    "documentation": "Integer value(s).",
                     "constraints": {},
                     "fields": [
                         {
                             "name": "value",
-                            "type": "structure",
+                            "type": "integer",
                             "blank_value": [],
                             "default_value": [],
                             "mustBeNonEmpty": false,
@@ -226,83 +299,8 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "value",
-                                    "type": "integer",
-                                    "blank_value": 0,
-                                    "default_value": 0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The count.",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "unit",
-                                    "type": "ontology_term",
-                                    "blank_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "default_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Optional unit.",
-                                    "constraints": {},
-                                    "fields": [
-                                        {
-                                            "name": "node",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "name",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The human-readable label.",
-                                            "constraints": {}
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "approximate",
-                                    "type": "boolean",
-                                    "blank_value": false,
-                                    "default_value": false,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Approximate flag.",
-                                    "constraints": {}
-                                }
-                            ]
+                            "documentation": "The count(s). Length 1: a condition is held fixed for the statement.",
+                            "constraints": {}
                         }
                     ]
                 },
@@ -316,7 +314,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Dimensioned numeric value(s); the dimension is carried by `variable` + the D9 registry.",
+                    "documentation": "Dimensioned numeric value(s), in `unit`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -329,20 +327,20 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
+                            "documentation": "Length 1: a condition is held fixed for the statement.",
                             "constraints": {},
                             "fields": [
                                 {
-                                    "name": "source_unit",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "name": "value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "As-recorded unit.",
+                                    "documentation": "Canonical value, in `unit`.",
                                     "constraints": {}
                                 },
                                 {
@@ -355,20 +353,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "As-recorded value.",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "approximate",
-                                    "type": "boolean",
-                                    "blank_value": false,
-                                    "default_value": false,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Approximate flag.",
+                                    "documentation": "The number as the source gave it, in `source_unit`.",
                                     "constraints": {}
                                 }
                             ]

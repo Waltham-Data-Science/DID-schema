@@ -25,6 +25,9 @@
 > retired from both schema sites (`sampled_body` earlier, `subject_interaction` now), and
 > the composites' documentation points at the time key instead. Emitters still write it
 > (NDI + DID-matlab sites listed in step 4) -- PR #76 checklist.
+>
+> **AND AMENDMENT 2 is BUILT (#73 item 23):** `conditions` has the four descriptors at the top
+> of each entry, `count` flattened, `quantity` as {value, source_value}.
 
 Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
 started at "where do coordinates go" and ended at the whole `data_body` tier, because every
