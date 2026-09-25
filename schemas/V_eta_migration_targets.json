@@ -860,12 +860,13 @@
         "ontology_image"
       ],
       "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
-      "flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: each pixel names an ontology node, so the raster is a term_observation keyed [y, x] (the image_observation it also writes today goes).",
+      "flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
       },
       "decided_targets": [
+        "intensity_observation",
         "term_observation",
         "sampled_body",
         "relative_time_reference"

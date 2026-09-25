@@ -2738,8 +2738,8 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """The schema half of the #47 fold, checked against what the migrator emits.
 
     `migrators_j/ontology_image.m` mints an `image_observation` + a
-    `sampled_body` on its subject-bearing arm today; since #73 item 51 the decided
-    statement is a `term_observation` (each pixel names an ontology node). Both halves are LOCKSTEP: the
+    `sampled_body` on its subject-bearing arm today; since #73 item 51 the pixels are
+    an `intensity_observation` and the image's ontology nodes a `term_observation`. Both halves are LOCKSTEP: the
     migrator alone would quarantine every folded document, and this side alone
     would be an unused declaration. The migrator's own tests run under MATLAB
     only; this is the half that runs everywhere.
@@ -2748,14 +2748,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """
     assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
 
-    # the statement the team named (#73 item 51: term_observation, not image_observation)
+    # the statement the team named (#73 item 51: intensity_observation, not image_observation)
     assert "image_observation" not in RECORDS
-    _t, obs = RECORDS["term_observation"]
+    _t, obs = RECORDS["intensity_observation"]
     assert not obs["document_class"].get("abstract"), (
-        "term_observation is the minted class; an abstract one cannot be "
+        "intensity_observation is the minted class; an abstract one cannot be "
         "instantiated (cache.m raises did2:validation:abstractInstantiation)")
     supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
-    assert supers == ["subject_observation", "term"], supers
+    assert supers == ["subject_observation", "intensity"], supers
 
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]

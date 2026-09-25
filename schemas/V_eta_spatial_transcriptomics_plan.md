@@ -252,7 +252,9 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     class** (NDI `data/image.json`), restated as a retired tombstone, which also removes
     the name collision `migrators_j/image.m` refuses around. Decided targets are recorded
     for v1 `image`, `imageStack`, `ontologyImage`, `daqreader_image_epochdata_ingested`
-    and `element`'s imaging arm.
+    and `element`'s imaging arm. `ontologyImage` -> `intensity_observation` (its pixels are an
+    ordinary numeric image; its ontology nodes describe the whole image and stay a
+    `term_observation`, per NDI `imageDocMaker.m`).
 
 ## F. What is built (schema side), and what is not
 

@@ -6928,6 +6928,7 @@
         "sampled_body"
       ],
       "decided_targets": [
+        "intensity_observation",
         "term_observation",
         "sampled_body",
         "relative_time_reference"
@@ -6941,8 +6942,9 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 3,
+        "schema_targets_named": 4,
         "schema_targets_built": [
+          "intensity_observation",
           "relative_time_reference",
           "sampled_body",
           "term_observation"
@@ -6967,7 +6969,7 @@
         "ontology_image"
       ],
       "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
-      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: each pixel names an ontology node, so the raster is a term_observation keyed [y, x] (the image_observation it also writes today goes).",
+      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -6994,13 +6996,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term_observation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`term_observation`, `session_relative_reference`, `image_observation`, `sampled_body`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `intensity_observation`, `term_observation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`term_observation`, `session_relative_reference`, `image_observation`, `sampled_body`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
