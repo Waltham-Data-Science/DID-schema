@@ -293,6 +293,10 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     something needs one. **`base.name` stays declared only for v1 documents that pass
     through** (about 30 classes; the validator rejects undeclared fields); V_eta emitters
     never write it, and it is deleted when the last passthrough class is converted.
+    **Cardinality belongs to repeated edges** (same day): `min_count` / `max_count` appear
+    only beside `multiple` (or a did_v1 `name_#` family). On a single edge they restated
+    `mustBeNonEmpty`; they are removed from the three item-53 edges and the build fails if
+    one returns.
 
 ## F. What is built (schema side), and what is not
 

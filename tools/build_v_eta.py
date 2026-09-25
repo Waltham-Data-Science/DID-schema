@@ -852,7 +852,6 @@ _SUBJECT_CALCULATION_SOFTWARE_ID = dep(
     "subject_interaction carries; the target class is unchanged. Moved here "
     "from the dropped `calculator` mixin (#73). Distinct from `instrument_id` "
     "(a measuring device) and from `derived_from` (the input data).")
-_SUBJECT_CALCULATION_SOFTWARE_ID["min_count"] = 1
 # #73 ITEM 53, FINAL FORM (jess, 2026-09-25): the run environment is SPLIT into the
 # two pieces of software it named. The interpreter (MATLAB R2023b) and the operating
 # system (macOS 14.5) are each a name + version, which is exactly `software`; a
@@ -860,21 +859,20 @@ _SUBJECT_CALCULATION_SOFTWARE_ID["min_count"] = 1
 # loose strings, modelling software twice (T12). Each is its own ROLE edge (T15)
 # beside the calculator's `software_id`. They sit on the calculation -- this run --
 # so R1's "the os this run used, not the os the software supports" still holds.
-# Required, as #67 required the environment.
+# Required, as #67 required the environment. `mustBeNonEmpty` says so; `min_count`
+# is for REPEATED edges only (the build enforces that, after the T15 pass).
 _SUBJECT_CALCULATION_INTERPRETER_ID = dep(
     "interpreter_id", "software",
     "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python "
     "3.11), as a `software` entity (name + version). REQUIRED on every "
     "calculation (#73 item 53; replaces the environment entity's interpreter / "
     "interpreter_version). The run's, not the calculator's supported interpreters.")
-_SUBJECT_CALCULATION_INTERPRETER_ID["min_count"] = 1
 _SUBJECT_CALCULATION_OS_ID = dep(
     "operating_system_id", "software",
     "The operating system the producing run executed on (e.g. macOS 14.5), as a "
     "`software` entity (name + version). REQUIRED on every calculation (#73 item "
     "53; replaces the environment entity's os / os_version). The run's OS, not the "
     "OS the software supports (openMINDS SoftwareVersion.operatingSystem).")
-_SUBJECT_CALCULATION_OS_ID["min_count"] = 1
 write("stable", "calculator",
       doc("calculator", ["base", "app"], version="3.0.0"))
 # (the `execution_environment` entity is gone: #73 item 53 split it into two
@@ -6951,17 +6949,19 @@ _dep_props = meta["$defs"]["dependency_object"]["properties"]
 _dep_props["min_count"] = {
     "type": "integer",
     "minimum": 0,
-    "description": "For a numbered family (`name_#`): the minimum number of "
-                   "instances a valid document must carry. `mustBeNonEmpty` "
-                   "cannot express this -- a missing instance is not a blank "
-                   "one -- so a family that must be present says min_count: 1. "
-                   "Omit on a non-numbered dependency.",
+    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` "
+                   "family): the minimum number of entries a valid document must "
+                   "carry. `mustBeNonEmpty` cannot express this -- a missing entry "
+                   "is not a blank one -- so a repeated edge that must be present "
+                   "says min_count: 1. Omit on a single edge, where "
+                   "`mustBeNonEmpty` already says it (the build enforces this).",
 }
 _dep_props["max_count"] = {
     "type": "integer",
     "minimum": 1,
-    "description": "For a numbered family (`name_#`): the maximum number of "
-                   "instances a valid document may carry. Omit for unbounded.",
+    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` "
+                   "family): the maximum number of entries a valid document may "
+                   "carry. Omit for unbounded, and on a single edge.",
 }
 # ---- #52: what makes two members of one family DIFFERENT -------------------
 # #63 said HOW MANY members a family may carry. It could not say what makes two
@@ -10209,6 +10209,25 @@ print(f"V_eta delete (unused leaves, #73 item 50): removed {len(_deleted_unused)
 if set(_deleted_unused) != _DELETE_UNUSED_LEAVES:
     raise SystemExit("unused-leaf delete: listed but not found in the build: "
                      + ", ".join(sorted(_DELETE_UNUSED_LEAVES - set(_deleted_unused))))
+
+
+# `min_count` / `max_count` are CARDINALITY for a REPEATED edge. On a single edge
+# they only restate `mustBeNonEmpty` -- two statements of one fact that can drift
+# (the validator reads them only for repeated edges, DID-matlab cache.m). So they
+# appear only beside `multiple` (#73, 2026-09-25).
+_card_bad = []
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        for _e in _d.get("depends_on", []):
+            if ("min_count" in _e or "max_count" in _e) and not _e.get("multiple") \
+                    and not _e["name"].endswith("_#"):
+                _card_bad.append(f'{_d["document_class"]["class_name"]}.{_e["name"]}')
+if _card_bad:
+    raise SystemExit("min_count/max_count on a single (non-multiple) edge: "
+                     + ", ".join(_card_bad))
 
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------

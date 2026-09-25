@@ -24,22 +24,19 @@
             "name": "software_id",
             "mustBeNonEmpty": true,
             "documentation": "The software that produced this document, as a `software` entity (name + version + citation id). REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2): a calculation without a named producer cannot be re-run. Redeclares -- and TIGHTENS to required -- the optional `software_id` every subject_interaction carries; the target class is unchanged. Moved here from the dropped `calculator` mixin (#73). Distinct from `instrument_id` (a measuring device) and from `derived_from` (the input data).",
-            "must_refer_to_document_class": "software",
-            "min_count": 1
+            "must_refer_to_document_class": "software"
         },
         {
             "name": "interpreter_id",
             "mustBeNonEmpty": true,
             "documentation": "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters.",
-            "must_refer_to_document_class": "software",
-            "min_count": 1
+            "must_refer_to_document_class": "software"
         },
         {
             "name": "operating_system_id",
             "mustBeNonEmpty": true,
             "documentation": "The operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem).",
-            "must_refer_to_document_class": "software",
-            "min_count": 1
+            "must_refer_to_document_class": "software"
         }
     ],
     "file": [],

@@ -133,12 +133,12 @@
                 "min_count": {
                     "type": "integer",
                     "minimum": 0,
-                    "description": "For a repeated dependency (`multiple`): the minimum number of instances a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing instance is not a blank one -- so a family that must be present says min_count: 1. Omit on a non-numbered dependency."
+                    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` family): the minimum number of entries a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing entry is not a blank one -- so a repeated edge that must be present says min_count: 1. Omit on a single edge, where `mustBeNonEmpty` already says it (the build enforces this)."
                 },
                 "max_count": {
                     "type": "integer",
                     "minimum": 1,
-                    "description": "For a repeated dependency (`multiple`): the maximum number of instances a valid document may carry. Omit for unbounded."
+                    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` family): the maximum number of entries a valid document may carry. Omit for unbounded, and on a single edge."
                 },
                 "referent_unique_by": {
                     "type": "string",
