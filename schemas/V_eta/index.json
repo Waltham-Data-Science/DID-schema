@@ -11,7 +11,7 @@
         "did_v1",
         "V_zeta"
     ],
-    "notes": "Source of truth for class_name uniqueness and tier placement. V_eta implements Brainstorm J (ndi-next-steps Summer 2026/1_Ingestion): bare-identity subjects, subject_relation documents, restored subject_statement/subject_assertion, subject_observation/subject_manipulation, Path S locus, data-type leaves (no scalar_ prefix, no scalar/dataseries split, term_observation), storage_mode + data_body, and a hard-validated binding registry. Supersedes V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, data_body, binding meta-schema) is an in-progress follow-up.",
+    "notes": "Source of truth for class_name uniqueness and tier placement. V_eta implements Brainstorm J (ndi-next-steps Summer 2026/1_Ingestion): bare-identity subjects, subject_relation documents, restored subject_statement/subject_assertion, subject_observation/subject_manipulation, Path S locus, data-type leaves (no scalar_ prefix, no scalar/dataseries split, term_observation), the data_body flag + data_body documents, and a hard-validated binding registry. Supersedes V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, data_body, binding meta-schema) is an in-progress follow-up.",
     "schemas": [
         {
             "class_name": "CURIE_lookups_meta",

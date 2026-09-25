@@ -14,7 +14,7 @@
         {
             "name": "value_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the standalone data_type document holding this relation's data (a gene mapping's pair table, item 24). The same role-named edge a statement uses for storage_mode `reference` (item 30).",
+            "documentation": "Optional: the standalone data_type document holding this relation's data (a gene mapping's pair table, item 24). The same role-named edge a statement uses to point at a shared value (item 30).",
             "must_refer_to_document_class": "data_type"
         }
     ],

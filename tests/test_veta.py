@@ -204,7 +204,10 @@ def test_spine_composes_onto_every_interaction():
         assert ft.get("method") == "ontology_term", f"{name} missing method"
         # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
         assert "sample_time" not in ft, f"{name} still carries sample_time"
-        assert ft.get("keys") == "structure", f"{name} missing keys"
+        # #73 item 60: `keys` lives on data_type (with the value), so only leaves --
+        # a direction x a data type (T3) -- carry it; the abstract directions do not.
+        if "data_type" in _chain(name):
+            assert ft.get("keys") == "structure", f"{name} missing keys"
 
 
 def test_path_t_removed_and_element_id_retired():
@@ -449,11 +452,14 @@ def test_manipulation_tier_is_strict_j():
 
 
 def test_storage_mode_on_statement():
-    ft = _flat_field_types("subject_statement")
-    assert ft.get("storage_mode") == "char"
-    sm = next(f for f in RECORDS["subject_statement"][1]["fields"]
-              if f["name"] == "storage_mode")
-    assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
+    """INVERTED by #73 item 60 (2026-09-25): `storage_mode` is deleted. `reference` is
+    `value_id` present, and "my value is in bodies" is the boolean `data_body` on
+    data_type, with the value it describes."""
+    assert "storage_mode" not in _flat_field_types("subject_statement")
+    db = next(f for f in RECORDS["data_type"][1]["fields"] if f["name"] == "data_body")
+    assert db["type"] == "boolean" and db["mustBeNonEmpty"] is False
+    assert db["blank_value"] is False
+    assert "value_id" in {e["name"] for e in RECORDS["subject_statement"][1]["depends_on"]}
 
 
 def test_conditions_on_statement():
@@ -2831,10 +2837,10 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "`name` and leaves the rest defaulted, so a new requirement quarantines "
         "every folded body")
 
-    # storage_mode 'body' is what says the pixels are in the sampled_body
-    _t, stmt = RECORDS["subject_statement"]
-    mode = next(f for f in stmt["fields"] if f["name"] == "storage_mode")
-    assert "body" in mode["constraints"]["enum"]
+    # `data_body` true is what says the pixels are in the sampled_body (#73 item 60:
+    # it replaced storage_mode 'body', and lives on data_type with the value)
+    _t, dt = RECORDS["data_type"]
+    assert "data_body" in {f["name"] for f in dt["fields"]}
 
 
 def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley():
@@ -3643,8 +3649,8 @@ def test_t15_ordered_flags_match_the_table():
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
         ("data_body", "key_labels_id"),
+        ("data_type", "key_labels_id"),
         ("formulation", "ingredient_id"),
-        ("subject_statement", "key_labels_id"),
         ("timed_sequence", "item_id"),
     ], ordered
 
@@ -3790,3 +3796,17 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     assert [s["class_name"] for s in p["document_class"]["superclasses"]] == ["entity"]
     assert {x["name"] for x in p["fields"]} == {"name", "catalog_number", "lot_number"}
     assert edges("product")["vendor_id"]["must_refer_to_document_class"] == "organization"
+
+
+def test_value_descriptors_live_with_the_value():
+    """#73 item 60 (2026-09-25; not signed): keys / complete / datum_type /
+    source_datum_type / key_labels_id / the `data_body` flag live on data_type; the
+    statement keeps only the claim, and references a shared value through value_id."""
+    dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
+    assert dt == {"keys", "complete", "datum_type", "source_datum_type", "data_body"}
+    assert "key_labels_id" in {e["name"] for e in RECORDS["data_type"][1]["depends_on"]}
+    ss = RECORDS["subject_statement"][1]
+    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions"}
+    assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}
+    for name in RECORDS:
+        assert "storage_mode" not in _flat_field_types(name), name

@@ -516,15 +516,19 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     neither field. Landing the SLOT does not land the MOVE, which is the same
     distinction the ngrid inversion had to make.
     """
-    _tier, d = BUILT["subject_statement"]
+    # #73 item 60 (2026-09-25): the value descriptors moved WITH THE VALUE to
+    # data_type, which every statement leaf inherits (T3); the statement keeps the claim.
+    assert {f["name"] for f in BUILT["subject_statement"][1]["fields"]} == {
+        "variable", "conditions"}
+    _tier, d = BUILT["data_type"]
     names = {f["name"] for f in d["fields"]}
     assert "keys" in names, (
         "`subject_statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"variable", "conditions", "storage_mode", "keys",
-                     "complete", "datum_type", "source_datum_type"}
+    assert names == {"keys", "complete", "datum_type", "source_datum_type",
+                     "data_body"}
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.

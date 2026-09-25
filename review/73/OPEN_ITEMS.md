@@ -70,6 +70,8 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
 9. **Standalone data-type documents** have nowhere for `datum_type`, `storage_mode` or
    `key_labels_id`; `image.keys.labels_from` cannot work on a standalone image; where a
    referenced value's `keys` live.
+   **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** item 60 -- value
+   descriptors move to `data_type`; `storage_mode` -> the boolean `data_body`.
 10. **`acquisition_metadata_file`:** bytes outside the two data bodies, `_file` in the name
     (T6/T11), and its doc (TSV) vs the ledger (`.nbf.tgz`) disagree.
 11. **`method_parameters.other`** is an untyped bag.

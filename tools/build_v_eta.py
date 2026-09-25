@@ -8952,7 +8952,7 @@ def _rel(d):
         "value_id", "data_type",
         "Optional: the standalone data_type document holding this relation's data "
         "(a gene mapping's pair table, item 24). The same role-named edge a "
-        "statement uses for storage_mode `reference` (item 30).", non_empty=False))
+        "statement uses to point at a shared value (item 30).", non_empty=False))
 
 
 _patch("relation", _rel)
@@ -9472,6 +9472,55 @@ write(path_of("data_body")[0], "data_body", _db_d)
 
 
 
+# --- #73 review item 9 (walkthrough 2026-09-25, jess; not signed) -----------------
+# A value's descriptors live WITH THE VALUE. `keys`, `complete`, `datum_type`,
+# `source_datum_type` and the `key_labels_id` edge move from subject_statement to
+# data_type, so a standalone shared value (a stimulus sequence, a template waveform)
+# states its own encoding once, and statements that point at it through `value_id`
+# restate nothing. Every statement leaf is a direction x a data type (T3), so
+# statements keep them by inheritance. `variable`, `conditions` and `value_id` stay:
+# they are about the claim. `storage_mode` is DELETED: `reference` is `value_id`
+# present, and the one fact nothing else carries -- "my value is in bodies" -- is
+# the boolean `data_body` (a body points up at its owner, so the owner could not
+# otherwise say bodies should exist, and a missing body would be silent).
+_ss9 = load(path_of("subject_statement")[1])
+_mv = {f["name"]: f for f in _ss9["fields"]
+       if f["name"] in ("keys", "complete", "datum_type", "source_datum_type")}
+if len(_mv) != 4:
+    raise SystemExit(f"item 9: subject_statement lacks {sorted({'keys', 'complete', 'datum_type', 'source_datum_type'} - set(_mv))}")
+_ss9["fields"] = [f for f in _ss9["fields"]
+                  if f["name"] not in _mv and f["name"] != "storage_mode"]
+_kl9 = [e for e in _ss9["depends_on"] if e["name"] == "axis_labels_#"]
+_ss9["depends_on"] = [e for e in _ss9["depends_on"] if e["name"] != "axis_labels_#"]
+for e in _ss9["depends_on"]:
+    if e["name"] == "value_id":
+        e["documentation"] = (
+            "The standalone data_type document that holds this statement's value, "
+            "shared by every statement that points at it (item 30). When present, "
+            "this statement's own value and value descriptors are empty: the shared "
+            "document states them.")
+write(path_of("subject_statement")[0], "subject_statement", _ss9)
+_mv["keys"]["documentation"] = (
+    "What this value is looked up by, in array order: keys[k] IS array dimension k. "
+    "Time is an ordinary key. Describes the INLINE value; with `data_body` true each "
+    "body carries the keys of its own array.")
+_mv["datum_type"]["documentation"] = (
+    "How this value is encoded -- the ONE place the value type lives (a body never "
+    "repeats it). REQUIRED in practice whenever the value has a byte representation "
+    "(`data_body` true, or an inline numeric payload); absent for a term or an inline "
+    "composite with no numeric payload.")
+_dt9 = load(path_of("data_type")[1])
+_dt9["fields"] = list(_dt9.get("fields") or []) + [
+    _mv["keys"], _mv["complete"], _mv["datum_type"], _mv["source_datum_type"],
+    field("data_body", "boolean",
+          "True: this value's bytes are in data_body documents that point here through "
+          "`owner_id`. False (the default): the value is inline in `value`, or absent. "
+          "A document marked true with no body pointing at it has lost its data -- the "
+          "batch check (item 58).", non_empty=False, blank=False, default=False)]
+_dt9["depends_on"] = list(_dt9.get("depends_on") or []) + _kl9
+write(path_of("data_type")[0], "data_type", _dt9)
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta
@@ -9496,7 +9545,7 @@ _T15 = {
     "epoch": {"time_reference_#": ("time_reference_id", False)},
     "undirected_relation": {"entities_#": ("entity_id", False)},
     "timed_sequence": {"presented_id_#": ("item_id", True)},
-    "subject_statement": {"axis_labels_#": ("key_labels_id", True)},
+    "data_type": {"axis_labels_#": ("key_labels_id", True)},
     "strain": {"background_strain_#": ("background_strain_id", False)},
     "clock_alignment_configuration": {
         "acquisition_channels_#": ("acquisition_channels_id", False)},
@@ -9589,8 +9638,8 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
                 "1_Ingestion): bare-identity subjects, subject_relation documents, "
                 "restored subject_statement/subject_assertion, subject_observation/"
                 "subject_manipulation, Path S locus, data-type leaves (no scalar_ "
-                "prefix, no scalar/dataseries split, term_observation), storage_mode "
-                "+ data_body, and a hard-validated binding registry. Supersedes "
+                "prefix, no scalar/dataseries split, term_observation), the data_body flag "
+                "+ data_body documents, and a hard-validated binding registry. Supersedes "
                 "V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, "
                 "data_body, binding meta-schema) is an in-progress follow-up.")
 

@@ -96,7 +96,11 @@ interaction's subject is the part); a structure merely **located** stays a
 is normally an *address* (a value), not a subject. (SPEC §4)
 
 ### T6 — Storage is orthogonal to meaning; there are exactly two data bodies.
-`storage_mode ∈ {inline, reference, body}`. `data_body` has **exactly two** members:
+A value is inline (in `value`), shared (the statement's `value_id` points at a standalone
+data-type document), or in bodies (the boolean `data_body` is true and data_body documents
+point up at it; `storage_mode` was deleted by #73 item 9). The value's descriptors —
+`keys`, `complete`, `datum_type` — live on `data_type`, WITH THE VALUE, so a shared value
+states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
 `chunk`, `fill_value` — with `datum_type` on the statement; `summary` dropped, #68;
 partial-read, value-searchable) and `opaque_body` (bytes laid out by their own `format`:
@@ -154,8 +158,8 @@ and project on read:
   4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
      a new data_type). No silent caches.
 
-**A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). `storage_mode:
-reference` means "my value lives in another document", so every `data_type` composite is
+**A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). A statement's
+`value_id` means "my value lives in another document", so every `data_type` composite is
 concrete: a shared command waveform, a stimulus, an image or a gene list is written once as a
 standalone document, and each statement that uses it points at it by its `value_id` edge. The
 standalone document says nothing about anything until a statement references it; the statement
@@ -217,12 +221,12 @@ its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 - The name encodes **only the data type and the stance**. It must **never** encode:
   cardinality (`scalar_`, `_series`), storage/format (`_data`, `_file`, `_zarr`), a
   device/method subtype (`_ndr`, `_mfdaq`, `_image`), or an instrument. Those are a
-  `value` length, a `storage_mode`, a field, a `method`, or an edge — never a class name.
+  `value` length, a `data_body` flag, a field, a `method`, or an edge — never a class name.
 - **One canonical spelling per concept.** Every `{node, name}` value is the single `term`
   type (+ a binding), never a bespoke class per vocabulary entry (no `species`,
   `categorical_observation`, …). One direction-suffix set, used consistently.
 - A name that reads like a sentence fragment about *how it was made or stored* is a smell:
-  the how is `method`/`app`/`storage_mode`, the where is an edge.
+  the how is `method`/`app`/the `data_body` flag, the where is an edge.
 
 ### T12 — When a new `data_type` is warranted (the parsimony test).
 A new composite is the **last resort**, warranted only when the value has a **new
@@ -240,7 +244,7 @@ is any of:
    test: shared or compared across datasets → a term; confined to one source or run →
    a label. So a cluster can never pass as a cell type: one is a label, the other a term.
 3. **Same quantity, different cardinality / storage / format** → same composite; use a
-   length-N `value` + `storage_mode`. *(a temperature series is `temperature`.)*
+   length-N `value` (or its bodies). *(a temperature series is `temperature`.)*
 4. **A role or relationship** → a typed **edge** (`directed_relation`, `*_id`), not a
    data_type. *(donor, target region, parent group.)*
 
@@ -477,7 +481,7 @@ zero point.
 *shrink and stay principled*: a new measurement is a new composite (T12) or a new
 `variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a
 proposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary
-entry, it is not a class — it is a field, an edge, a `storage_mode`, or a binding.
+entry, it is not a class — it is a field, an edge, the `data_body` flag, or a binding.
 
 **Litmus for any proposed class:** *Which of the four axes is genuinely new — the subject,
 the statement direction, the data-type structure, or the relation?* If the answer is

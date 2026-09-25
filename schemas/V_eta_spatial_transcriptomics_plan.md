@@ -378,6 +378,20 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
       but its dose now needs `chemical` / `formulation` documents, so its emitters fall
       behind until the PR #76 checklist lands.
 
+60. **A value's descriptors live with the value; `storage_mode` is deleted** (2026-09-25,
+    audit item 9). `keys`, `complete`, `datum_type`, `source_datum_type` and the
+    `key_labels_id` edge move from `subject_statement` to `data_type`, so a standalone
+    shared value states its own encoding once and statements pointing at it through
+    `value_id` restate nothing (every statement leaf inherits them from its data type,
+    T3). `subject_statement` keeps only the claim: `variable`, `conditions`, `subject_id`,
+    `value_id`. A standalone document has no owner; statements reference it. `storage_mode`
+    is replaced by the boolean **`data_body`** on `data_type`: `reference` was already
+    `value_id` present, and the one fact nothing else carries is "my value is in bodies"
+    (bodies point up at their owner, so without it a missing body is silent and an empty
+    value is ambiguous with "no value", e.g. a bath dose with no amount). Rules:
+    `value_id` present ⇒ the statement's own value and descriptors are empty;
+    `data_body` true ⇒ at least one body owns the document (batch check).
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,
