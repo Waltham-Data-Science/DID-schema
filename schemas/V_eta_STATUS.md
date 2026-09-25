@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 215 |
-| settled (persist) | 132 |
+| target classes | 214 |
+| settled (persist) | 131 |
 | settled (retire) | 62 |
 | **still open (`in_progress`)** | **21** |
 | **`retire` with no migrator YET** | **3** |
@@ -290,7 +290,7 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
-| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + execution_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
+| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
 | **spatial_transcriptomics_family** | 8 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
 - **calculator mixin dropped (#73)**: `calculator`
@@ -324,7 +324,7 @@ Until that line exists the family shows here regardless of what
 
 **DENOMINATOR: 25 signed families. 17 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
 
-Across the 17 checked: 32 distinct target class(es), 32 present in the built set, 0 not.
+Across the 17 checked: 31 distinct target class(es), 31 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
@@ -361,7 +361,7 @@ is why migrator work before the target closes is rework.
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
-| **confirm sheet 2026-08-17** | 5 | 6 of 6 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
+| **confirm sheet 2026-08-17** | 5 | 5 of 5 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
 | **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |

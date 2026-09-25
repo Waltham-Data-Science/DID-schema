@@ -788,9 +788,9 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # path. Remove when that emission is rewritten to the signed
                   # time_observation shape (PR #76 DID-matlab checklist).
                   "logical_observation",
-                  # #73 item 53: renamed `execution_environment` (R1's word).
-                  # jRuntimeEnvironment.m still mints the old name; remove when
-                  # the PR #76 DID-matlab rename lands.
+                  # #73 item 53: split into interpreter_id + operating_system_id
+                  # -> `software`. jRuntimeEnvironment.m still mints it; remove
+                  # when the PR #76 DID-matlab change lands.
                   "runtime_environment"}
 
 

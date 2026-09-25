@@ -1113,10 +1113,18 @@ def test_software_crosswalks_to_openminds_softwareversion():
     assert props["versionIdentifier"]["ndi_target"] == "version"
     # the per-run environment is NOT on the entity: openMINDS operatingSystem /
     # programmingLanguage describe the software, ours describe the run, so they are
-    # explicitly projections onto subject_interaction.execution_environment (R1).
-    for prop in ("operatingSystem", "programmingLanguage"):
+    # explicitly projections onto the calculation's own edges (R1; #73 item 53 made
+    # the run's os and interpreter `software` documents via role edges).
+    for prop, edge in (("operatingSystem", "operating_system_id"),
+                       ("programmingLanguage", "interpreter_id")):
         assert props[prop]["target_kind"] == "projection"
-        assert "execution_environment" in props[prop]["notes"]
+        assert edge in props[prop]["notes"]
+    edges = {e["name"]: e for e in RECORDS["subject_calculation"][1]["depends_on"]}
+    for edge in ("interpreter_id", "operating_system_id"):
+        assert edges[edge]["must_refer_to_document_class"] == "software"
+        assert edges[edge]["mustBeNonEmpty"] is True
+    assert "runtime_environment_id" not in edges
+    assert "execution_environment" not in RECORDS and "runtime_environment" not in RECORDS
 
 
 def test_ndi_class_handles_marked_needs_ndi():

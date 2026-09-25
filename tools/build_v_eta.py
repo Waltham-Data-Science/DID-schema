@@ -704,8 +704,8 @@ SOFTWARE_ID = dep("software_id", "software",
 # jess, 2026-09-25). R1 put the per-run os/interpreter on the interaction; #67 then
 # made it a REQUIRED entity on every calculation, and jCalculation.m wrote the same
 # value both ways. Under the provenance rule every software-produced statement is a
-# calculation, so the inline block could only repeat the entity. The entity keeps
-# R1's name: `execution_environment` (was `runtime_environment`, #67).
+# calculation, so the inline block could only repeat the entity -- which is itself
+# now split into `interpreter_id` + `operating_system_id` -> `software` (item 53).
 
 # NO `epoch_id` HERE, DELIBERATELY -- team decision, jess, 2026-08-10:
 #   "Use the reference chain, don't add the direct edge"
@@ -853,46 +853,32 @@ _SUBJECT_CALCULATION_SOFTWARE_ID = dep(
     "from the dropped `calculator` mixin (#73). Distinct from `instrument_id` "
     "(a measuring device) and from `derived_from` (the input data).")
 _SUBJECT_CALCULATION_SOFTWARE_ID["min_count"] = 1
-_SUBJECT_CALCULATION_RUNTIME_ID = dep(
-    "execution_environment_id", "execution_environment",
-    "The environment (os / os_version / interpreter / interpreter_version) the "
-    "producing run executed in, as an `execution_environment` entity (named "
-    "`runtime_environment` until #73 item 53). REQUIRED on every "
-    "calculation (issue #67 §②, Shape 2 -- no `software_run` join). Moved here "
-    "from the dropped `calculator` mixin (#73). Distinct from the software's "
-    "SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the "
-    "`software` entity's own identity.")
-_SUBJECT_CALCULATION_RUNTIME_ID["min_count"] = 1
+# #73 ITEM 53, FINAL FORM (jess, 2026-09-25): the run environment is SPLIT into the
+# two pieces of software it named. The interpreter (MATLAB R2023b) and the operating
+# system (macOS 14.5) are each a name + version, which is exactly `software`; a
+# separate `execution_environment` / `runtime_environment` entity stored them as
+# loose strings, modelling software twice (T12). Each is its own ROLE edge (T15)
+# beside the calculator's `software_id`. They sit on the calculation -- this run --
+# so R1's "the os this run used, not the os the software supports" still holds.
+# Required, as #67 required the environment.
+_SUBJECT_CALCULATION_INTERPRETER_ID = dep(
+    "interpreter_id", "software",
+    "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python "
+    "3.11), as a `software` entity (name + version). REQUIRED on every "
+    "calculation (#73 item 53; replaces the environment entity's interpreter / "
+    "interpreter_version). The run's, not the calculator's supported interpreters.")
+_SUBJECT_CALCULATION_INTERPRETER_ID["min_count"] = 1
+_SUBJECT_CALCULATION_OS_ID = dep(
+    "operating_system_id", "software",
+    "The operating system the producing run executed on (e.g. macOS 14.5), as a "
+    "`software` entity (name + version). REQUIRED on every calculation (#73 item "
+    "53; replaces the environment entity's os / os_version). The run's OS, not the "
+    "OS the software supports (openMINDS SoftwareVersion.operatingSystem).")
+_SUBJECT_CALCULATION_OS_ID["min_count"] = 1
 write("stable", "calculator",
       doc("calculator", ["base", "app"], version="3.0.0"))
-# `execution_environment` (was `runtime_environment`, renamed #73 item 53 to R1's
-# signed word): an entity (issue #67 §②, Shape 2 -- no `software_run` join). ONE
-# document per DISTINCT environment, SHARED by every run that executed in it -- not
-# one per run; each calculation references it via `execution_environment_id`. Field set matches
-# the v1 `app`'s per-run subfields (os / os_version / interpreter /
-# interpreter_version) so migration is a straight lift into a citable entity.
-write("stable", "execution_environment",
-      doc("execution_environment", ["entity"],
-          fields=[
-              field("os", "char",
-                    "Operating system the producing run executed on "
-                    "(e.g., 'Linux', 'macOS', 'Windows').",
-                    ontology={"node": "schema:operatingSystem",
-                              "name": "operatingSystem"}),
-              field("os_version", "char",
-                    "Operating-system version.",
-                    ontology={"node": "schema:softwareVersion",
-                              "name": "softwareVersion"}),
-              field("interpreter", "char",
-                    "Language/interpreter the run used (e.g., 'MATLAB', "
-                    "'python3').",
-                    ontology={"node": "schema:runtimePlatform",
-                              "name": "runtimePlatform"}),
-              field("interpreter_version", "char",
-                    "Interpreter version.",
-                    ontology={"node": "schema:softwareVersion",
-                              "name": "softwareVersion"}),
-          ]))
+# (the `execution_environment` entity is gone: #73 item 53 split it into two
+# `software` edges on subject_calculation, above.)
 
 # subject_calculation: the COMPUTED statement direction (Lepsky et al., the
 # calculator-motif paper). A calculator produces ONE output document type; in V_eta
@@ -921,7 +907,8 @@ write("stable", "subject_calculation",
       doc("subject_calculation", ["subject_interaction"],
           abstract=True, deps=[DERIVED_FROM,
                                _SUBJECT_CALCULATION_SOFTWARE_ID,
-                               _SUBJECT_CALCULATION_RUNTIME_ID]))
+                               _SUBJECT_CALCULATION_INTERPRETER_ID,
+                               _SUBJECT_CALCULATION_OS_ID]))
 
 
 # ---------- 4. subject_assertion genus + leaves ----------

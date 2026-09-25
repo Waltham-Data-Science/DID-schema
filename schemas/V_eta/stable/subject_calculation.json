@@ -28,10 +28,17 @@
             "min_count": 1
         },
         {
-            "name": "execution_environment_id",
+            "name": "interpreter_id",
             "mustBeNonEmpty": true,
-            "documentation": "The environment (os / os_version / interpreter / interpreter_version) the producing run executed in, as an `execution_environment` entity (named `runtime_environment` until #73 item 53). REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2 -- no `software_run` join). Moved here from the dropped `calculator` mixin (#73). Distinct from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the `software` entity's own identity.",
-            "must_refer_to_document_class": "execution_environment",
+            "documentation": "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters.",
+            "must_refer_to_document_class": "software",
+            "min_count": 1
+        },
+        {
+            "name": "operating_system_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem).",
+            "must_refer_to_document_class": "software",
             "min_count": 1
         }
     ],

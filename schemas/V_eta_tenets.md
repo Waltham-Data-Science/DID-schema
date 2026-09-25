@@ -414,11 +414,12 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
 you tell what it points at from the name plus its class alone?
 
 **The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones
-excluded). 17 names are unchanged: `subject_id`, `software_id`, `session_id`, `epoch_id`,
-`strain_id`, `execution_environment_id`, `acquisition_system_id`, `method_parameters_id`,
+excluded). 16 names are unchanged: `subject_id`, `software_id`, `session_id`, `epoch_id`,
+`strain_id`, `acquisition_system_id`, `method_parameters_id`,
 `coordinate_system_id`, `epoch_file_pattern_id`, `acquisition_metadata_reader_id`,
 `clock_alignment_configuration_id`, `clock_alignment_policy_id`, `instrument_id`, `value_id`,
-`reader_id`, `filter_id`.
+`reader_id`, `filter_id`. (#73 item 53, later, removed `runtime_environment_id` and added
+`interpreter_id` and `operating_system_id` → `software`.)
 
 | class | today | T15 | repeats | ordered |
 |---|---|---|:-:|:-:|

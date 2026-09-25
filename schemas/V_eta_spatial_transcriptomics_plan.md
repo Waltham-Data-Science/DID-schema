@@ -263,14 +263,20 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     RE-ARMED on 2026-08-18. It was not (the signed amendment says "IS NOT RE-ARMED YET", and
     the pass is still dormant at DID-matlab `775353d`); the note is corrected, and the
     rewrite to the signed shape is on the PR #76 DID-matlab checklist.
-53. **One home for the run environment, under R1's name** (2026-09-25). The inline
+53. **The run environment is two pieces of software** (2026-09-25). The inline
     `subject_interaction.execution_environment` block is dropped: under the provenance rule
-    every software-produced statement is a calculation, and every calculation already
-    carries the environment as a required entity (#67), which `jCalculation.m` filled from
-    the same value. The entity is renamed `runtime_environment` -> **`execution_environment`**
-    (the word the signed R1 decision uses) and its edge `runtime_environment_id` ->
-    **`execution_environment_id`**. One document per distinct environment, shared by every
-    run in it. This amends R1's placement only; `software` + `software_id` are unchanged.
+    every software-produced statement is a calculation, and every calculation already carried
+    the environment as a required entity (#67), which `jCalculation.m` filled from the same
+    value. That entity (`runtime_environment`, briefly renamed `execution_environment`) is
+    then **deleted and split**: the interpreter (MATLAB R2023b) and the operating system
+    (macOS 14.5) are each a name + version, which is `software`, so a calculation carries
+    `interpreter_id` and `operating_system_id` -> `software`, both required, beside the
+    calculator's own `software_id` (T12: one class for software; T15: the edge name gives the
+    role). They sit on the calculation, so R1's "the OS this run used, not the OS the software
+    supports" holds. `software` gains no ontology node: its inherited `global_identifier`
+    already carries an RRID, DOI, SWHID or Wikidata id. Before the DID-matlab change lands, a
+    corpus run must confirm every v1 `app` fills os and interpreter (a required edge
+    quarantines a calculation that left them empty).
 
 ## F. What is built (schema side), and what is not
 

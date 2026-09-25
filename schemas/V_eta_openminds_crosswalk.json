@@ -257,11 +257,11 @@
         },
         "operatingSystem": {
           "target_kind": "projection",
-          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured one layer out, on the `execution_environment` entity a calculation references by `execution_environment_id` (R1; entity form since #67, named per #73 item 53) -- a property of the run, not of the software."
+          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured on the calculation instead: its `operating_system_id` edge names the os as a `software` document (#73 item 53) -- a property of the run, not of the software."
         },
         "programmingLanguage": {
           "target_kind": "projection",
-          "notes": "likewise per-run: execution_environment.interpreter, on the entity a calculation references (R1, #73 item 53)."
+          "notes": "likewise per-run: the calculation's `interpreter_id` edge names the interpreter as a `software` document (#73 item 53)."
         }
       }
     }
