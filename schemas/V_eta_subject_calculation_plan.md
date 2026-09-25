@@ -1,5 +1,10 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
+> **AMENDED 2026-09-25 (#73 review item 53, `V_eta_spatial_transcriptomics_plan.md`):**
+> `runtime_environment` / `runtime_environment_id` below are renamed `execution_environment`
+> / `execution_environment_id` (R1's word), and the inline
+> `subject_interaction.execution_environment` block is dropped: the entity is the one home.
+
 > **SUPERSEDED for the tuning leaves — see `V_eta_tuning_model_plan.md` (R2/R3).** The
 > `subject_calculation` DIRECTION + calculator-motif fold (the core of this doc) is CURRENT.
 > But the per-tuning enumeration below (§3/§4, and the `stimulus_tuningcurve_calculation`

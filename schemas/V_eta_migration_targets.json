@@ -94,7 +94,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "contrast_tuning_calculation"
       ]
     },
@@ -118,7 +118,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "contrast_tuning_calculation"
       ]
     },
@@ -1013,7 +1013,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "orientation_direction_tuning_calculation"
       ]
     },
@@ -1037,7 +1037,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "orientation_direction_tuning_calculation"
       ]
     },
@@ -1236,7 +1236,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "spatial_frequency_tuning_calculation"
       ]
     },
@@ -1260,7 +1260,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "spatial_frequency_tuning_calculation"
       ]
     },
@@ -1341,7 +1341,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "speed_tuning_calculation"
       ]
     },
@@ -1365,7 +1365,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "speed_tuning_calculation"
       ]
     },
@@ -1565,7 +1565,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "tuning_curve_calculation"
       ]
     },
@@ -1699,7 +1699,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "temporal_frequency_tuning_calculation"
       ]
     },
@@ -1723,7 +1723,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "temporal_frequency_tuning_calculation"
       ]
     },
@@ -1808,7 +1808,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "tuning_curve_calculation"
       ]
     },

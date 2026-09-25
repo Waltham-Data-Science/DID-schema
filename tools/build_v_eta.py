@@ -700,21 +700,12 @@ SOFTWARE_ID = dep("software_id", "software",
                   "from derived_from (the input data). Empty for hand/DAQ measurements; "
                   "populated on calculations, optional on computed observations. "
                   "Supersedes the v1 `app` block.", non_empty=False)
-EXEC_ENV = field(
-    "execution_environment", "structure",
-    "Optional per-run provenance of a software-produced value: the actual OS + "
-    "interpreter the producing run used. This is provenance of THIS execution, distinct "
-    "from the software's identity (the `software` entity) and from the SUPPORTED os "
-    "(openMINDS SoftwareVersion.operatingSystem). Empty for hand/DAQ measurements.",
-    non_empty=False, scalar=True, blank={}, default={},
-    sub_fields=[
-        subfield("os", "char", "Operating system the run executed on.", non_empty=False),
-        subfield("os_version", "char", "Operating-system version.", non_empty=False),
-        subfield("interpreter", "char",
-                 "Language/interpreter the run used (e.g. MATLAB, Python).",
-                 non_empty=False),
-        subfield("interpreter_version", "char", "Interpreter version.", non_empty=False),
-    ])
+# THE INLINE `execution_environment` BLOCK THAT STOOD HERE IS DROPPED (#73 item 53,
+# jess, 2026-09-25). R1 put the per-run os/interpreter on the interaction; #67 then
+# made it a REQUIRED entity on every calculation, and jCalculation.m wrote the same
+# value both ways. Under the provenance rule every software-produced statement is a
+# calculation, so the inline block could only repeat the entity. The entity keeps
+# R1's name: `execution_environment` (was `runtime_environment`, #67).
 
 # NO `epoch_id` HERE, DELIBERATELY -- team decision, jess, 2026-08-10:
 #   "Use the reference chain, don't add the direct edge"
@@ -784,7 +775,7 @@ CHANNELS = field(
     ])
 si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.1.0",
          deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID, ACQ_SYSTEM_ID],
-         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV, CHANNELS])
+         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, CHANNELS])
 write("stable", "subject_interaction", si)
 
 # derived_from: computation provenance, statement -> statement. The provenance
@@ -863,9 +854,10 @@ _SUBJECT_CALCULATION_SOFTWARE_ID = dep(
     "(a measuring device) and from `derived_from` (the input data).")
 _SUBJECT_CALCULATION_SOFTWARE_ID["min_count"] = 1
 _SUBJECT_CALCULATION_RUNTIME_ID = dep(
-    "runtime_environment_id", "runtime_environment",
-    "The per-run environment (os / os_version / interpreter / interpreter_version) "
-    "the producing run used, as a `runtime_environment` entity. REQUIRED on every "
+    "execution_environment_id", "execution_environment",
+    "The environment (os / os_version / interpreter / interpreter_version) the "
+    "producing run executed in, as an `execution_environment` entity (named "
+    "`runtime_environment` until #73 item 53). REQUIRED on every "
     "calculation (issue #67 §②, Shape 2 -- no `software_run` join). Moved here "
     "from the dropped `calculator` mixin (#73). Distinct from the software's "
     "SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the "
@@ -873,13 +865,14 @@ _SUBJECT_CALCULATION_RUNTIME_ID = dep(
 _SUBJECT_CALCULATION_RUNTIME_ID["min_count"] = 1
 write("stable", "calculator",
       doc("calculator", ["base", "app"], version="3.0.0"))
-# `runtime_environment`: NEW entity (issue #67 §②, Shape 2 -- no `software_run`
-# join). One `runtime_environment` doc per distinct execution environment; each
-# calculator output references it via `runtime_environment_id`. Field set matches
+# `execution_environment` (was `runtime_environment`, renamed #73 item 53 to R1's
+# signed word): an entity (issue #67 §②, Shape 2 -- no `software_run` join). ONE
+# document per DISTINCT environment, SHARED by every run that executed in it -- not
+# one per run; each calculation references it via `execution_environment_id`. Field set matches
 # the v1 `app`'s per-run subfields (os / os_version / interpreter /
 # interpreter_version) so migration is a straight lift into a citable entity.
-write("stable", "runtime_environment",
-      doc("runtime_environment", ["entity"],
+write("stable", "execution_environment",
+      doc("execution_environment", ["entity"],
           fields=[
               field("os", "char",
                     "Operating system the producing run executed on "

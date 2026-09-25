@@ -29,7 +29,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_subject_calculation_plan.md",
-      "decision": "`calculator` leaves every V_eta chain; subject_calculation declares the required software_id + runtime_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough",
+      "decision": "`calculator` leaves every V_eta chain; subject_calculation declares the required software_id + execution_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough",
       "status": "team",
       "signed": false,
       "signoff": null,

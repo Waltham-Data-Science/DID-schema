@@ -717,7 +717,7 @@
             "calculator + subject_calculation restructure": [
               {
                 "document": "V_eta_subject_calculation_plan.md",
-                "line": 265
+                "line": 270
               }
             ],
             "confirm sheet 2026-08-17": [
@@ -1025,7 +1025,7 @@
             "calculator + subject_calculation restructure": [
               {
                 "document": "V_eta_subject_calculation_plan.md",
-                "line": 265
+                "line": 270
               }
             ],
             "confirm sheet 2026-08-22": [
@@ -2033,7 +2033,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "contrast_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -2048,8 +2048,8 @@
         "schema_targets_named": 4,
         "schema_targets_built": [
           "contrast_tuning_calculation",
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software"
         ],
         "schema_targets_missing": [],
@@ -2103,7 +2103,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2138,7 +2138,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "contrast_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -2153,8 +2153,8 @@
         "schema_targets_named": 4,
         "schema_targets_built": [
           "contrast_tuning_calculation",
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software"
         ],
         "schema_targets_missing": [],
@@ -2208,7 +2208,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7649,7 +7649,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "orientation_direction_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -7663,9 +7663,9 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "orientation_direction_tuning_calculation",
           "relative_time_reference",
-          "runtime_environment",
           "software"
         ],
         "schema_targets_missing": [],
@@ -7737,7 +7737,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7772,7 +7772,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "orientation_direction_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -7786,9 +7786,9 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "orientation_direction_tuning_calculation",
           "relative_time_reference",
-          "runtime_environment",
           "software"
         ],
         "schema_targets_missing": [],
@@ -7842,7 +7842,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9228,7 +9228,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "spatial_frequency_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -9242,8 +9242,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "spatial_frequency_tuning_calculation"
         ],
@@ -9298,7 +9298,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9333,7 +9333,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "spatial_frequency_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -9347,8 +9347,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "spatial_frequency_tuning_calculation"
         ],
@@ -9403,7 +9403,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9438,7 +9438,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "speed_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -9452,8 +9452,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "speed_tuning_calculation"
         ],
@@ -9508,7 +9508,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9543,7 +9543,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "speed_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -9557,8 +9557,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "speed_tuning_calculation"
         ],
@@ -9613,7 +9613,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10956,7 +10956,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "tuning_curve_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -10970,8 +10970,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "tuning_curve_calculation"
         ],
@@ -11026,7 +11026,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11724,7 +11724,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "temporal_frequency_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -11738,8 +11738,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "temporal_frequency_tuning_calculation"
         ],
@@ -11794,7 +11794,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11829,7 +11829,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "temporal_frequency_tuning_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -11843,8 +11843,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "temporal_frequency_tuning_calculation"
         ],
@@ -11899,7 +11899,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12244,7 +12244,7 @@
       "decided_targets": [
         "relative_time_reference",
         "software",
-        "runtime_environment",
+        "execution_environment",
         "tuning_curve_calculation"
       ],
       "decided_targets_source": "curated_targets_file",
@@ -12258,8 +12258,8 @@
       "build_state": {
         "schema_targets_named": 4,
         "schema_targets_built": [
+          "execution_environment",
           "relative_time_reference",
-          "runtime_environment",
           "software",
           "tuning_curve_calculation"
         ],
@@ -12332,7 +12332,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `runtime_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `execution_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,

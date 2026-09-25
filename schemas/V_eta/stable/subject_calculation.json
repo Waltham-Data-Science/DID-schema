@@ -28,10 +28,10 @@
             "min_count": 1
         },
         {
-            "name": "runtime_environment_id",
+            "name": "execution_environment_id",
             "mustBeNonEmpty": true,
-            "documentation": "The per-run environment (os / os_version / interpreter / interpreter_version) the producing run used, as a `runtime_environment` entity. REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2 -- no `software_run` join). Moved here from the dropped `calculator` mixin (#73). Distinct from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the `software` entity's own identity.",
-            "must_refer_to_document_class": "runtime_environment",
+            "documentation": "The environment (os / os_version / interpreter / interpreter_version) the producing run executed in, as an `execution_environment` entity (named `runtime_environment` until #73 item 53). REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2 -- no `software_run` join). Moved here from the dropped `calculator` mixin (#73). Distinct from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the `software` entity's own identity.",
+            "must_refer_to_document_class": "execution_environment",
             "min_count": 1
         }
     ],

@@ -819,6 +819,17 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
+            "class_name": "execution_environment",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/execution_environment.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "file_reference",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1682,17 +1693,6 @@
             "path": "schemas/V_eta/stable/reverse_correlation.json",
             "disposition": "retire",
             "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
-        },
-        {
-            "class_name": "runtime_environment",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "entity"
-            ],
-            "path": "schemas/V_eta/stable/runtime_environment.json",
-            "disposition": "persist"
         },
         {
             "class_name": "sampled_body",

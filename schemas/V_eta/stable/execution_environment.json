@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "runtime_environment",
+        "class_name": "execution_environment",
         "class_version": "1.0.0",
         "superclasses": [
             {

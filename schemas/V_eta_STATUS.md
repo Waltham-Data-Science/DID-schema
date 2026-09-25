@@ -290,7 +290,7 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
-| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + runtime_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
+| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + execution_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
 | **spatial_transcriptomics_family** | 8 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
 - **calculator mixin dropped (#73)**: `calculator`

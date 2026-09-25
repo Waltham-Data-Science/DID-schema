@@ -17,7 +17,7 @@
 `base`, `data`, `data_body`, `data_type`, `directed_relation`, `entity`, `relation`, `subject_assertion`, `subject_calculation`, `subject_interaction`, `subject_manipulation`, `subject_observation`, `subject_statement`, `undirected_relation`
 
 ## ② Entities (13)
-`acquisition_system`, `dataset`, `epoch`, `funding`, `organization`, `person`, `publication`, `runtime_environment`, `session`, `software`, `strain`, `subject`, `web_resource`
+`acquisition_system`, `dataset`, `epoch`, `execution_environment`, `funding`, `organization`, `person`, `publication`, `session`, `software`, `strain`, `subject`, `web_resource`
 
 ## ③ Quantity & substance composites (data_type) (44)
 `acceleration`, `amount`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `intensity`, `label`, `length`, `logical`, `mass`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `score`, `spatial_frequency`, `temperature`, `term`, `time`, `timed_sequence`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`

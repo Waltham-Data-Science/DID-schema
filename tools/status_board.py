@@ -148,7 +148,7 @@ FAMILIES = [
     ("calculator mixin dropped (#73)", ["calculator"],
      "V_eta_subject_calculation_plan.md",
      ("`calculator` leaves every V_eta chain; subject_calculation declares the "
-      "required software_id + runtime_environment_id itself; the name survives "
+      "required software_id + execution_environment_id itself; the name survives "
       "only as a retiring v1 tombstone for passthrough"), "team"),
     # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
     # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
