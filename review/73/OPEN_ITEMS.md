@@ -163,6 +163,16 @@ Decisions needed before the schema and migrator can be written:
 - **L4. `blosc-zstd` with shuffle** is the first instance of the per-chunk codec the data_body
   plan sec.7 said had none, and named as the trigger for promoting `compression` to a list.
   Blosc's own chunk header is believed to record shuffle and element size (not checked here).
+  **Walked 2026-09-25 (jess agreed; not built, no sign-off line):** no schema change.
+  `compression: "blosc"`; `codec: "raw"` means no `compression`; `codec_params` (`clevel`,
+  `blocksize`: write-time settings) is dropped. Checked here with python-blosc 1.11.4 on
+  200,000 bytes of uint16 compressed as the writer does (typesize 2, zstd, clevel 5, shuffle):
+  header bytes `[2, 1, 145, 2]` -- flags bit 0 (shuffle) = 1, compressor code 4 (zstd),
+  typesize 2 -- and `blosc.decompress` with NO parameters round-trips. So the first real
+  per-chunk codec is self-describing and one `compression` value holds; the data_body plan
+  sec.7 gets a note saying so. NOT checked: the MATLAB `blosc.encodeChunk` NDI actually calls
+  (the writer targets `numcodecs.Blosc`, the same format) -- the DID-matlab migrator test must
+  decompress a real NDI chunk with no parameters before this is relied on.
 
 Follow-ups once #979 merges (no new modelling): 2 tombstones + decided targets here (NDI
 templates 102 -> 104 moves `coverage.py`, `check_tombstones`, `check_prose_counts`); 2 DID-matlab
