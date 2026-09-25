@@ -9107,6 +9107,44 @@ _patch("epoch", lambda d: d.__setitem__(
     "depends_on", [e for e in d["depends_on"] if e["name"] != "instrument_id"]))
 
 
+# --- item 56: channel wiring is ONE shape, an `acquisition_channels` document -------
+# (jess, 2026-09-25, 6b option B). The same fact -- a rig plus channel groups -- was
+# stored inline on every recording statement (subject_interaction.channels +
+# acquisition_system_id, from resolveEpochProbemap) AND as an `acquisition_channels`
+# document for sync (clock_alignment_configuration.acquisition_channels_id). A
+# statement now points at a shared `acquisition_channels` document by the same edge
+# name; one document per distinct (rig, channels), so an unchanged wiring is stored
+# once, not once per epoch. The rig is reached through it:
+# statement -> acquisition_channels -> acquisition_system (item 55 dropped the epoch's).
+def _si56(d):
+    d["fields"] = [f for f in d["fields"] if f["name"] != "channels"]
+    d["depends_on"] = [e for e in d["depends_on"] if e["name"] != "acquisition_system_id"]
+    d["depends_on"].append(dep(
+        "acquisition_channels_id", "acquisition_channels",
+        "The rig and channels this interaction was recorded on or delivered through "
+        "-- v1's `devicestring` ('intan1:ai1-4,9'), as a shared `acquisition_channels` "
+        "document (#73 item 56). OPTIONAL: present on interactions decomposed from an "
+        "ingested epoch's probemap (recording observations, stimulator manipulations).",
+        non_empty=False))
+
+
+_patch("subject_interaction", _si56)
+
+
+def _ac56(d):
+    for e in d["depends_on"]:
+        if e["name"] == "acquisition_system_id":
+            e["documentation"] = (
+                "The rig this channel group is read on -- the device half of v1's "
+                "`devicestring` or a syncrule's device name. OPTIONAL. Until #73 item 54 "
+                "an unresolved device NAME rode on `base.name`, which V_eta documents no "
+                "longer write; where that name goes when no `acquisition_system` "
+                "resolves is OPEN (#73 item 56).")
+
+
+_patch("acquisition_channels", _ac56)
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta

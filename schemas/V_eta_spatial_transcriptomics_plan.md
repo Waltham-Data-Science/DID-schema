@@ -304,6 +304,15 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     rig stays where it is always correct, on each recording statement, and nothing ever
     wrote this edge. This reverses that part of the epoch sign-off (2026-08-08, amended
     2026-08-10).
+56. **Channel wiring is one shape: an `acquisition_channels` document** (2026-09-25, 6b
+    option B). A rig plus its channel groups was stored inline on every recording statement
+    (`subject_interaction.channels` + `acquisition_system_id`) and, for sync, as an
+    `acquisition_channels` document. A statement now points at a shared `acquisition_channels`
+    document through `acquisition_channels_id` (the edge name `clock_alignment_configuration`
+    already uses); the inline field and edge go. One document per distinct (rig, channels),
+    so a wiring that does not change is stored once, not once per epoch. **Open:** when a
+    device name resolves to no `acquisition_system`, the sync writer has kept the name on
+    `base.name`, which item 54 retires for V_eta documents.
 
 ## F. What is built (schema side), and what is not
 

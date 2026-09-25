@@ -54,34 +54,26 @@ def _load(path):
 META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 
 
-def test_channels_field_identical_on_subject_observation_and_acquisition_channels():
-    """#66 increment 2 reuses acquisition_channels' `channels` shape (built with
-    the same field/subfield helpers because the draft class is minted later in
-    build_v_eta and cannot be read at that point). Increment 3 (2026-08-21)
-    HOISTED it from subject_observation to subject_interaction so a stimulator
-    manipulation carries the same wiring; read it there. Pin the two definitions
-    identical -- barring documentation, which is context-specific -- so they
-    cannot drift into two channel encodings."""
-    so = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
+def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
+    """#73 item 56 (2026-09-25, 6b option B) REPLACES a test that pinned TWO copies
+    of the `channels` shape identical -- inline on subject_interaction and on
+    `acquisition_channels`. Two copies kept in step by a test are still two places
+    for one fact; now there is one. A statement points at a shared
+    `acquisition_channels` document by `acquisition_channels_id`, the edge name
+    `clock_alignment_configuration` already uses."""
+    si = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
     ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
-
-    def channels(d):
-        return next(f for f in d["fields"] if f["name"] == "channels")
-
-    def strip_docs(x):
-        if isinstance(x, dict):
-            x.pop("documentation", None)
-            for v in x.values():
-                strip_docs(v)
-        elif isinstance(x, list):
-            for v in x:
-                strip_docs(v)
-        return x
-
-    a = strip_docs(channels(so))
-    b = strip_docs(channels(ac))
-    assert a == b, ("subject_observation.channels and acquisition_channels."
-                    "channels diverged (ignoring documentation)")
+    assert "channels" not in {f["name"] for f in si["fields"]}
+    si_edges = {e["name"]: e for e in si["depends_on"]}
+    assert "acquisition_system_id" not in si_edges
+    assert si_edges["acquisition_channels_id"]["must_refer_to_document_class"] == \
+        "acquisition_channels"
+    assert si_edges["acquisition_channels_id"]["mustBeNonEmpty"] is False
+    assert "channels" in {f["name"] for f in ac["fields"]}
+    cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
+        if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
+        else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))
+    assert "acquisition_channels_id" in {e["name"] for e in cac["depends_on"]}
 INDEX = _load(os.path.join(VETA, "index.json"))
 
 
