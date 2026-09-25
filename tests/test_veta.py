@@ -2614,11 +2614,13 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         return
     # Today: the gate is CLOSED, and this records who is holding it shut, so a
     # reader does not have to take the prose's word for the count.
-    assert consumers == ["ontology_image", "reverse_correlation"], (
+    # CHANGED 2026-09-25 (#73 review, jess): `ngrid` moved off the V_eta composite
+    # `reverse_correlation` onto the v1 `hartley_calc` tombstone, which declares
+    # it directly. Both consumers are now v1 tombstones.
+    assert consumers == ["hartley_calc", "ontology_image"], (
         f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
-        "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
-        "chain is hartley_calc -> hartley_reverse_correlation -> "
-        "reverse_correlation -> ngrid.")
+        "-- `hartley_calc` declares ngrid directly since 2026-09-25; "
+        "`reverse_correlation` no longer does.")
 
 
 def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
@@ -2820,7 +2822,8 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
 
 
 def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley():
-    """WHY `reverse_correlation` KEEPS its `ngrid` superclass, recorded as a
+    """WHY `reverse_correlation` KEPT its `ngrid` superclass until 2026-09-25, and
+    where the block lives now (the `hartley_calc` tombstone), recorded as a
     check rather than as prose.
 
     A discrepancy worth reconciling, and both halves of it are true:
@@ -2871,13 +2874,20 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
              for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
     assert "hartley_reverse_correlation" in chain, (
         f"hartley_calc no longer reaches ngrid through the RF chain: {chain!r}")
+    # CHANGED 2026-09-25 (#73 review, jess): `reverse_correlation` WAS re-pointed
+    # off `ngrid`, and the consequence this docstring warns about is closed by
+    # giving the `hartley_calc` tombstone the ngrid parent DIRECTLY. The invariant
+    # is unchanged: a passed-through hartley_calc document must find its ngrid
+    # block declared somewhere on its chain.
     rc_supers = [s["class_name"]
                  for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
-    assert "ngrid" in rc_supers, (
-        "`reverse_correlation` was re-pointed off `ngrid` while `hartley_calc` "
-        "still inherits from it and still passes through carrying an ngrid "
-        "block. That is `undeclaredField` on every hartley_calc document. The "
-        "release is the RF fold (#48), not a superclass edit.")
+    assert "ngrid" not in rc_supers, (
+        "`reverse_correlation` declares `ngrid` again; the #73 review moved it "
+        "onto the hartley_calc tombstone (T6: storage is not a composite's parent).")
+    assert "ngrid" in chain, (
+        "`hartley_calc` no longer declares `ngrid` while its v1 documents still "
+        "pass through carrying an ngrid block. That is `undeclaredField` on every "
+        "one of them.")
 
 
 def test_image_stack_pair_survives_for_the_subject_less_passthrough():

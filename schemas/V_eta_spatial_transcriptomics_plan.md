@@ -151,6 +151,14 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     dataset. Restoring it also closes a Bar-2 regression inferred from the ledger (not
     re-measured) for the corpora carrying `stimulus_response_scalar`.
 
+38. **`ngrid` is dropped from `reverse_correlation`** (2026-09-25; revises the #67 chain,
+    which kept it from the v1 parent list without a stated reason). On a V_eta composite it
+    is a v1 storage block (T6) duplicating what `receptive_field` says about its bodies and
+    keys. The v1 `hartley_calc` tombstone now declares `ngrid` directly, so unmigrated
+    `hartley_calc` documents still validate. This answers `V_eta_OPEN_WORK.md` row #87's
+    objection ("re-pointing would strand hartley_calc"): the block moves to the tombstone
+    rather than vanishing.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

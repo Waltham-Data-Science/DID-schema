@@ -8,6 +8,9 @@
             },
             {
                 "class_name": "hartley_reverse_correlation"
+            },
+            {
+                "class_name": "ngrid"
             }
         ],
         "maturity_level": "stable"

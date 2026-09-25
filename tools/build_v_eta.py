@@ -3626,9 +3626,15 @@ write("stable", "receptive_field_calculation",
 # inherits the new composite chain through hartley_reverse_correlation;
 # retargeting it under `receptive_field_calculation` (Fig. 4 pattern) is
 # deferred to the DID-matlab migrator retarget pass.
+# #73 review (2026-09-25, jess): `ngrid` DROPPED from `reverse_correlation`. The #67
+# rewrite kept it from the v1 parent list without a stated reason; on a V_eta
+# composite it is a v1 storage block (T6: storage lives on bodies/keys) duplicating
+# what `receptive_field` already says. Its one job -- letting unmigrated v1
+# `hartley_calc` documents validate with their ngrid block -- moves onto the
+# `hartley_calc` tombstone itself (the re-parent below), where the v1 shape lives.
 write("stable", "reverse_correlation",
-      doc("reverse_correlation", ["receptive_field", "ngrid"], abstract=True,
-          version="2.0.0"))
+      doc("reverse_correlation", ["receptive_field"], abstract=True,
+          version="3.0.0"))
 write("stable", "hartley_reverse_correlation",
       doc("hartley_reverse_correlation", ["reverse_correlation"], abstract=True,
           version="2.0.0"))
@@ -3642,7 +3648,7 @@ write("stable", "hartley_reverse_correlation",
 #                    the MATLAB class ndi.calc.tuning_fit, not a document template.
 #                    Re-parented rather than deleted: a deletion is a disposition,
 #                    and this change is not making one for it.
-for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation"]),
+for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation", "ngrid"]),
                        ("tuning_fit", ["base"])):
     _t, _p = path_of(_name)
     if not _p:
@@ -9314,7 +9320,9 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #     table row is not a subject. Consumer B = `hartley_calc` (NDIcalc-vis-matlab, #48),
 #     whose repo is out of session scope. NEITHER is folded, so `ngrid` may not be deleted.
 #     [STALE 2026-09-25: consumer B IS folded -- migrators_j/hartley_calc.m, signed
-#      2026-08-17. Consumer A is not. See the "ngrid" entry below.]
+#      2026-08-17. Consumer A is not. And the V_eta classes declaring `ngrid` are now
+#      ontology_image + hartley_calc: the #73 review moved it off reverse_correlation.
+#      See the "ngrid" entry below.]
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
 _DECIDED_PENDING = {
     "ngrid":
@@ -9330,8 +9338,9 @@ _DECIDED_PENDING = {
         "into receptive_field_calculation + sampled_body. What still holds ngrid: "
         "(1) ontology_image, whose vintage-B documents pass through carrying it "
         "until the NDI second pass (#47) homes them; (2) the v1 hartley_calc "
-        "tombstone, which reaches it via hartley_reverse_correlation -> "
-        "reverse_correlation, so unmigrated hartley_calc documents validate; "
+        "tombstone, which declares it DIRECTLY (since 2026-09-25, when the #73 "
+        "review dropped it from reverse_correlation), so unmigrated hartley_calc "
+        "documents validate; "
         "(3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds "
         "into sampled_body) -- a team call",
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
