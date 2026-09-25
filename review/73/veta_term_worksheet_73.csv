@@ -1,0 +1,72 @@
+row,group,slot (where the term is used),proposed name,proposed definition,decision item,candidate ontology to check,existing CURIE (fill in),action: reuse / mint,notes
+1,coordinate system,coordinate_system.dimensions[].axis,image horizontal axis,"The left-right axis of a 2-D image, along its pixel rows.",9,NCIT; EDAM; mint,,,"NOT NCIT X-coordinate (C44477): that names a coordinate VALUE, not the axis"
+2,coordinate system,coordinate_system.dimensions[].axis,image vertical axis,"The top-bottom axis of a 2-D image, along its pixel columns.",9,NCIT; mint,,,NOT NCIT Y-coordinate (C44478)
+3,coordinate system,coordinate_system.dimensions[].axis,image depth axis,The axis perpendicular to the image plane in a z-stack.,9,mint,,,
+4,coordinate system,coordinate_system.dimensions[].axis,anterior-posterior axis,The anatomical axis from anterior to posterior.,"6, 9",UBERON (axis terms),,,"designed-for, not built (stereotaxic frames)"
+5,coordinate system,coordinate_system.dimensions[].axis,medial-lateral axis,The anatomical axis from the midline to the side.,"6, 9",UBERON,,,
+6,coordinate system,coordinate_system.dimensions[].axis,dorsal-ventral axis,The anatomical axis from dorsal to ventral.,"6, 9",UBERON,,,
+7,coordinate system,coordinate_system.dimensions[].axis,probe shank axis,"The long axis of an electrode shank, from tip to base.","6, 9",mint,,,device frames (probe_geometry)
+8,coordinate system,coordinate_system.dimensions[].positive_direction,image right,Toward the right edge of the image as displayed.,9,mint,,,"must say WHOSE right (image, not anatomical)"
+9,coordinate system,coordinate_system.dimensions[].positive_direction,image down,Toward the bottom edge of the image as displayed.,9,mint,,,Stereo-seq origin_corner upper-left => y increases downward
+10,coordinate system,coordinate_system.dimensions[].positive_direction,image left,Toward the left edge of the image as displayed.,9,mint,,,
+11,coordinate system,coordinate_system.dimensions[].positive_direction,image up,Toward the top edge of the image as displayed.,9,mint,,,
+12,coordinate system,coordinate_system.dimensions[].positive_direction,anterior / posterior / dorsal / ventral / medial / lateral,Anatomical directions (one term each).,"6, 9",UBERON / BSPO (spatial position terms),,,6 terms
+13,coordinate system,coordinate_system.dimensions[].positive_direction,toward probe tip / toward probe base,Directions along a shank.,9,mint,,,2 terms
+14,coordinate system,coordinate_system.origin,image upper-left corner,The upper-left corner of an image's pixel grid.,9,mint,,,Stereo-seq origin_corner
+15,coordinate system,coordinate_system.origin,probe tip,The tip of an electrode shank.,9,mint,,,
+16,coordinate system,coordinate_system.origin,bregma,The skull landmark where the coronal and sagittal sutures meet.,"6, 9",UBERON,,,"designed-for, not built"
+17,keys (the key's variable),keys[].variable,x,Position along the coordinate system's first image dimension.,"12, 14, 15, 24, 28",mint (or reuse the axis term),,,
+18,keys (the key's variable),keys[].variable,y,Position along the coordinate system's second image dimension.,"12, 14, 15, 24, 28",mint,,,
+19,keys (the key's variable),keys[].variable,z,Position along the image depth axis.,"12, 14, 15, 24, 28",mint,,,
+20,keys (the key's variable),keys[].variable,time,Time.,"12, 14, 15, 24, 28",NCIT / PATO / OBI,,,
+21,keys (the key's variable),keys[].variable,channel,The index of a recording or imaging channel.,"12, 14, 15, 24, 28",mint,,,
+22,keys (the key's variable),keys[].variable,gene,The position of a gene within a gene list (labels_from the term list).,"12, 14, 15, 24, 28",SO / mint,,,
+23,keys (the key's variable),keys[].variable,cell,The position of a cell within a cell list (labels_from the cell-list statement).,"12, 14, 15, 24, 28",mint,,,"the INDEX, not a cell type"
+24,keys (the key's variable),keys[].variable,vertex,The position of a point along a boundary outline (cyclic).,"12, 14, 15, 24, 28",mint,,,
+25,keys (the key's variable),keys[].variable,index,A plain 0-based position in an ordered list.,"12, 14, 15, 24, 28",mint,,,gene/term lists
+26,keys (the key's variable),keys[].variable,statistic,Which summary of a bin a value is.,"12, 14, 15, 24, 28",STATO,,,"pyraview: labels minimum, maximum"
+27,keys (the key's variable),keys[].variable,mouse gene / opossum gene,A gene position in the named species' gene list (mapping keys).,"12, 14, 15, 24, 28",mint,,,or one generic 'gene' key per side
+28,statement variables,subject_statement.variable,UMI count,Number of unique molecular identifiers (distinct captured transcripts) counted.,26,OBI / EFO,,,
+29,statement variables,subject_statement.variable,read count,Number of sequencing reads assigned.,26,OBI / EFO,,,
+30,statement variables,subject_statement.variable,normalized expression,A gene expression level after normalization (dimensionless).,26,EFO / mint,,,score_calculation
+31,statement variables,subject_statement.variable,SAW source cell identifier,The identifier SAW gave a cell in its source file.,"28, 33",mint,,,label_calculation; value is a label
+32,statement variables,subject_statement.variable,cell centroid,The centre point of a segmented cell.,28,mint,,,position_calculation
+33,statement variables,subject_statement.variable,cell boundary,The outline of a segmented cell.,"11, 28",mint,,,"position_calculation over [cell, vertex]"
+34,statement variables,subject_statement.variable,cell area,The area of a segmented cell.,28,PATO (area) / mint,,,area_calculation
+35,statement variables,subject_statement.variable,capture spots in cell,Number of capture spots (DNBs) inside a cell's boundary.,28,mint,,,count_calculation
+36,statement variables,subject_statement.variable,detected gene count,Number of distinct genes with at least one count in a cell.,28,mint,,,count_calculation
+37,statement variables,subject_statement.variable,cell type,The type of a cell.,27,CL-bound variable; check NDIC,,,term_calculation; values bound to CL
+38,statement variables,subject_statement.variable,cell subclass,A cell type at the subclass level of a taxonomy.,27,mint,,,only where the terms don't imply the level
+39,statement variables,subject_statement.variable,cluster assignment,The cluster an unsupervised method put a cell in.,"27, 33",mint,,,label_calculation; value is a label
+40,statement variables,subject_statement.variable,transcript count,Count of transcripts (if distinct from UMI count).,1,mint,,,may collapse into UMI count
+41,statement variables,subject_statement.variable,fluorescence,Emitted fluorescence intensity.,16,NCIT / FBbi / mint,,,image example
+42,statement variables,subject_statement.variable,genes,The genes in a gene list.,21,mint,,,the standalone term list's key/variable
+43,statement variables,subject_statement.variable,kind,"What kind of thing a subject is (kind-defining variable, T1).",22,existing NDIC term?,,,check before minting
+44,methods,subject_interaction.method / relation.method,Stereo-seq,Spatial transcriptomics by DNA nanoball capture (STOmics).,26,EFO / OBI,,,
+45,methods,subject_interaction.method / relation.method,Visium,Spatial transcriptomics by barcoded spot array (10x Genomics).,26,EFO / OBI,,,
+46,methods,subject_interaction.method / relation.method,10x Chromium 3-prime,"Droplet single-cell RNA sequencing, 3-prime.",26,EFO,,,
+47,methods,subject_interaction.method / relation.method,SAW CellBin nucleus segmentation,"Nucleus segmentation from a stain image, dilated outward.",28,mint,,,
+48,methods,subject_interaction.method / relation.method,Leiden clustering,Community-detection clustering (Leiden algorithm).,27,STATO / EDAM / mint,,,
+49,methods,subject_interaction.method / relation.method,nearest-neighbour atlas transfer,Assigning each cell the type of its nearest reference-atlas cells.,27,mint,,,
+50,methods,subject_interaction.method / relation.method,log1p CP10k normalization,"log(1 + counts per 10,000).",26,EDAM / mint,,,
+51,methods,subject_interaction.method / relation.method,Ensembl Compara orthology,Orthology inference by Ensembl Compara.,24,EDAM / mint,,,
+52,relation terms,directed_relation.relation,derived from,The child was derived from the parent.,"22, 27",RO,,,exists in RO; confirm the id
+53,relation terms,directed_relation.relation,orthologous gene mapping,The child gene list maps to the parent gene list by orthology (pairs are inferred).,24,"RO / SO homology terms, else mint",,,
+54,relation terms,directed_relation.relation,gene alias mapping,The child gene list maps to the parent gene list by renaming (same genes).,24,mint,,,
+55,relation terms,directed_relation.relation,stored at,A dataset is stored at a web resource.,22,already in the V_eta relation vocabulary (D-F),,,"no action, listed for completeness"
+56,scales and formats,score.value.scale,orthology confidence,A confidence score for an inferred orthology pair.,24,mint,,,
+57,scales and formats,score.value.scale,"log1p counts per 10,000",Expression normalized as log(1 + counts per 10k).,26,mint,,,
+58,scales and formats,data_body.format,Stereo-seq GEF,The SAW gene expression file (HDF5-based).,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+59,scales and formats,data_body.format,TSV,Tab-separated values with one header row.,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+60,scales and formats,data_body.format,TIFF,Tagged Image File Format.,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+61,scales and formats,data_body.format,dense-C,A dense array in C (row-major) order.,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+62,scales and formats,data_body.format,grouped-by-first-key/1,"NDI contours.bin layout: counts, offsets, then grouped values.","14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+63,scales and formats,data_body.format,ndi-sgep-tile/1,NDI tile.bin layout for sparse gene-expression tiles.,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+64,scales and formats,data_body.format,h5ad,AnnData HDF5 file.,"14, 17, 25",EDAM (formats) / mint for NDI layouts,,,
+65,scales and formats,data_body.compression,lzw,LZW compression.,14,EDAM / mint,,,
+66,channel labels,keys[].labels (channel),GCaMP6s,The GCaMP6s fluorescent indicator/protein.,16,FPbase / FBbi / mint,,,
+67,channel labels,keys[].labels (channel),tdTomato,The tdTomato fluorescent indicator/protein.,16,FPbase / FBbi / mint,,,
+68,channel labels,keys[].labels (channel),red,The red colour channel of an RGB image.,16,mint,,,
+69,channel labels,keys[].labels (channel),green,The green colour channel of an RGB image.,16,mint,,,
+70,channel labels,keys[].labels (channel),blue,The blue colour channel of an RGB image.,16,mint,,,
+71,channel labels,keys[].labels (statistic),minimum / maximum,Bin minimum / bin maximum.,15,STATO,,,2 terms
