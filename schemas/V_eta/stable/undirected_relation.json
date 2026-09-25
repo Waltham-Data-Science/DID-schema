@@ -11,13 +11,14 @@
     },
     "depends_on": [
         {
-            "name": "entities_#",
+            "name": "entity_id",
             "mustBeNonEmpty": false,
             "documentation": "The unordered pair of entities (exactly two); order is meaningless.",
             "must_refer_to_document_class": "entity",
             "multiple": true,
             "min_count": 2,
-            "max_count": 2
+            "max_count": 2,
+            "ordered": false
         }
     ],
     "file": [],

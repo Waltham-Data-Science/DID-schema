@@ -23,12 +23,13 @@
             "must_refer_to_document_class": "software"
         },
         {
-            "name": "clock_alignment_configuration_#",
+            "name": "clock_alignment_configuration_id",
             "mustBeNonEmpty": false,
             "documentation": "The rules this policy applies. OPTIONAL -- a policy with no rules yet is legitimate, which is what NDI's own \"mustbenotempty\": 0 on syncrule_id says.",
             "must_refer_to_document_class": "clock_alignment_configuration",
             "multiple": true,
-            "min_count": 0
+            "min_count": 0,
+            "ordered": true
         }
     ],
     "file": [],

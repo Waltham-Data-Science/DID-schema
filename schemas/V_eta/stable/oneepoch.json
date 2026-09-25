@@ -91,7 +91,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The epoch ids that were concatenated, comma-joined, exactly as did_v1 stores them. THE ONLY FIELD THE CLASS DECLARES ITSELF, and the whole reason it is distinct from element_epoch. Under fork A1 these resolve to `derived_from_#` edges on the concatenated observation.",
+            "documentation": "The epoch ids that were concatenated, comma-joined, exactly as did_v1 stores them. THE ONLY FIELD THE CLASS DECLARES ITSELF, and the whole reason it is distinct from element_epoch. Under fork A1 these resolve to `input_id` edges on the concatenated observation.",
             "constraints": {}
         }
     ]

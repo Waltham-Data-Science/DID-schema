@@ -111,7 +111,7 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_0', 'syncrule_id_1', etc. V_eta numbers family members from 0 (T14); did_v1 documents numbered them from 1 and are read as written. When '#' appears, 'multiple' must be true."
+                    "description": "Name of the dependency: a noun ending `_id` (T15). A V_eta edge that may repeat REPEATS THIS ONE NAME, one entry per referenced document, and is never numbered. A '#' in the name occurs ONLY on did_v1 tombstones and marks a v1 numbered family: 'syncrule_id_#' matches the v1 runtime names 'syncrule_id_1', 'syncrule_id_2', ..., read as written. When '#' appears, 'multiple' must be true."
                 },
                 "mustBeNonEmpty": {
                     "type": "boolean",
@@ -119,7 +119,7 @@
                 },
                 "multiple": {
                     "type": "boolean",
-                    "description": "If true, the document may carry zero or more instances of this dependency at runtime, distinguished by substituting a positive integer for the '#' placeholder in 'name' (e.g., a 'name' of 'syncrule_id_#' yields runtime keys 'syncrule_id_1', 'syncrule_id_2', etc.). The '#' placeholder is required in 'name' whenever 'multiple' is true. Omit or set to false for exactly-one dependencies, in which case 'name' must not contain '#'."
+                    "description": "If true, the document may carry this dependency more than once. On a V_eta class the entries all carry the SAME name (T15) and `ordered` says whether their position is data; on a did_v1 tombstone the name carries a '#' placeholder and the entries are numbered as v1 wrote them. Omit or false for exactly-one."
                 },
                 "documentation": {
                     "type": "string",
@@ -133,20 +133,24 @@
                 "min_count": {
                     "type": "integer",
                     "minimum": 0,
-                    "description": "For a numbered family (`name_#`): the minimum number of instances a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing instance is not a blank one -- so a family that must be present says min_count: 1. Omit on a non-numbered dependency."
+                    "description": "For a repeated dependency (`multiple`): the minimum number of instances a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing instance is not a blank one -- so a family that must be present says min_count: 1. Omit on a non-numbered dependency."
                 },
                 "max_count": {
                     "type": "integer",
                     "minimum": 1,
-                    "description": "For a numbered family (`name_#`): the maximum number of instances a valid document may carry. Omit for unbounded."
+                    "description": "For a repeated dependency (`multiple`): the maximum number of instances a valid document may carry. Omit for unbounded."
                 },
                 "referent_unique_by": {
                     "type": "string",
-                    "description": "For a numbered family (`name_#`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it a bare `_0`/`_1` index carries no meaning. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`derived_from_#`: N inputs, no ordering and no uniqueness rule has been decided)."
+                    "description": "For a repeated dependency (`multiple`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it two entries of one name are otherwise indistinguishable. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`input_id`: N inputs, no ordering and no uniqueness rule has been decided)."
                 },
                 "ndi_mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "NDI's OWN `mustbenotempty` verdict for the corresponding did_v1 edge, copied verbatim from the class's NDI schema document (schemas/V_eta_ndi_ground_truth.json). REPORT ONLY: nothing validates, quarantines or gates on it -- `mustBeNonEmpty` alone does that, and this key never changes it. It exists so did2.validate.silentLoss can census the edges NDI declares REQUIRED that V_eta declares OPTIONAL, which are otherwise outside every counter: the census reads `mustBeNonEmpty`, so an edge V_eta relaxed is not merely counted as zero, it is not looked at. ABSENT means NDI stated nothing (no did_v1 source, a JSON Schema-form schema document, or no matching edge name) and must not be read as `false`."
+                },
+                "ordered": {
+                    "type": "boolean",
+                    "description": "For a repeated V_eta edge (`multiple`): true if the entries' POSITION is data (0-based, T14) -- a playlist, a key's label source, a rule list whose ties break by order; false if they are a set whose order must not be read. Required on every repeated V_eta edge (T15); omit otherwise."
                 }
             }
         },

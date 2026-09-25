@@ -12,7 +12,7 @@
     },
     "depends_on": [
         {
-            "name": "owner",
+            "name": "owner_id",
             "mustBeNonEmpty": true,
             "documentation": "The document this body holds the value of: a statement, or a standalone data_type document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner.",
             "must_refer_to_document_class": "subject_statement,data_type"

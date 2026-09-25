@@ -19,7 +19,7 @@
         {
             "name": "reader_id",
             "mustBeNonEmpty": false,
-            "documentation": "The reader this system acquires through. REPOINTED from `software` to `acquisition_reader`: the parenthesis here used to read \"it is the only one of the four with no parameters of its own\", and that was the error -- `reader_string` is a parameter of its own, and pointing straight at `software` left it homeless (both PRED `daqreader_ndr` documents carry one). The edge now has the same shape as `acquisition_metadata_reader_#`: a reader class that owns its configuration and points on at the `software` that implements it.",
+            "documentation": "The reader this system acquires through. REPOINTED from `software` to `acquisition_reader`: the parenthesis here used to read \"it is the only one of the four with no parameters of its own\", and that was the error -- `reader_string` is a parameter of its own, and pointing straight at `software` left it homeless (both PRED `daqreader_ndr` documents carry one). The edge now has the same shape as `acquisition_metadata_reader_id`: a reader class that owns its configuration and points on at the `software` that implements it.",
             "must_refer_to_document_class": "acquisition_reader"
         },
         {
@@ -29,12 +29,13 @@
             "must_refer_to_document_class": "epoch_file_pattern"
         },
         {
-            "name": "acquisition_metadata_reader_#",
+            "name": "acquisition_metadata_reader_id",
             "mustBeNonEmpty": false,
             "documentation": "The companion-spreadsheet reader(s), if any.",
             "must_refer_to_document_class": "acquisition_metadata_reader",
             "multiple": true,
-            "min_count": 0
+            "min_count": 0,
+            "ordered": false
         }
     ],
     "file": [],

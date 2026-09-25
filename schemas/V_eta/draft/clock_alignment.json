@@ -14,13 +14,13 @@
     },
     "depends_on": [
         {
-            "name": "from_reference",
+            "name": "input_id",
             "mustBeNonEmpty": true,
             "documentation": "The timeline this alignment maps FROM. The rule is symmetric but its OUTPUT is directed, which is why these are named endpoints and not a `_#` family.",
             "must_refer_to_document_class": "relative_time_reference"
         },
         {
-            "name": "to_reference",
+            "name": "output_id",
             "mustBeNonEmpty": true,
             "documentation": "The timeline this alignment maps TO.",
             "must_refer_to_document_class": "relative_time_reference"

@@ -7197,8 +7197,8 @@ _UNIQ_DOC = (
     " #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family "
     "every member describes THE SAME instant or extent, and `value.clock` on "
     "the REFERENCED document must be unique across the family -- that clock is "
-    "what makes two members different, and the `_0`/`_1` index means nothing on "
-    "its own. Split-anchored intervals are NOT what a second member is for: "
+    "what makes two members different; entries repeating one name (T15) are "
+    "otherwise indistinguishable. Split-anchored intervals are NOT what a second member is for: "
     "they have no instance (every markvalidinterval call site passes one "
     "reference for both ends), so there are no `start_anchor`/`end_anchor` "
     "edges. Measured report-only, in batch, by did2.validate.silentLoss "
@@ -8685,13 +8685,15 @@ for _tier in TIERS:
 # (item 32). Beside every `keys` list: `complete` (item 14).
 def _key_entry_extras():
     return [
-        subfield("labels_from", "char",
+        subfield("labels_from", "integer",
                  "Take this key's positions from the ROWS of another document, in "
-                 "its order, instead of an inline `labels` list: the NAME of an "
-                 "`axis_labels_#` edge on this document (e.g. 'axis_labels_0'). "
-                 "XOR with `labels`/`values`. `n` must equal the referenced "
-                 "document's row count, and that document must carry an explicit "
-                 "0-based index column."),
+                 "its order, instead of an inline `labels` list: the 0-based "
+                 "POSITION of a `key_labels_id` entry on this document (T15: that "
+                 "edge repeats one name and is `ordered`, so entry k is the k-th "
+                 "`key_labels_id`). -1 (the blank) = not used. XOR with "
+                 "`labels`/`values`. `n` must equal the referenced document's row "
+                 "count, and that document must carry an explicit 0-based index "
+                 "column.", blank=-1),
         subfield("cyclic", "boolean",
                  "True: after the last position comes the first (a closed outline's "
                  "vertices). Absent = false.", blank=False),
@@ -8851,13 +8853,34 @@ _meta["$defs"]["file_record"]["properties"]["series"] = {
     "description": "True: this name is a DID file series -- a manifest plus members "
                    "NAME_0, NAME_1, ... (numbered from 0, T14); missing members are "
                    "expected."}
-_dn = _meta["$defs"]["dependency_object"]["properties"]["name"]
-_dn["description"] = (
-    "Role name of the dependency. The '#' character is a numeric placeholder: a "
-    "name such as 'syncrule_id_#' matches any runtime name of the form "
-    "'syncrule_id_0', 'syncrule_id_1', etc. V_eta numbers family members from 0 "
-    "(T14); did_v1 documents numbered them from 1 and are read as written. When '#' "
-    "appears, 'multiple' must be true.")
+_dprops = _meta["$defs"]["dependency_object"]["properties"]
+_dprops["name"]["description"] = (
+    "Name of the dependency: a noun ending `_id` (T15). A V_eta edge that may repeat "
+    "REPEATS THIS ONE NAME, one entry per referenced document, and is never numbered. "
+    "A '#' in the name occurs ONLY on did_v1 tombstones and marks a v1 numbered "
+    "family: 'syncrule_id_#' matches the v1 runtime names 'syncrule_id_1', "
+    "'syncrule_id_2', ..., read as written. When '#' appears, 'multiple' must be true.")
+_dprops["multiple"]["description"] = (
+    "If true, the document may carry this dependency more than once. On a V_eta class "
+    "the entries all carry the SAME name (T15) and `ordered` says whether their "
+    "position is data; on a did_v1 tombstone the name carries a '#' placeholder and "
+    "the entries are numbered as v1 wrote them. Omit or false for exactly-one.")
+_dprops["ordered"] = {
+    "type": "boolean",
+    "description": "For a repeated V_eta edge (`multiple`): true if the entries' "
+                   "POSITION is data (0-based, T14) -- a playlist, a key's label "
+                   "source, a rule list whose ties break by order; false if they are "
+                   "a set whose order must not be read. Required on every repeated "
+                   "V_eta edge (T15); omit otherwise."}
+for _k in ("min_count", "max_count"):
+    _dprops[_k]["description"] = _dprops[_k]["description"].replace(
+        "For a numbered family (`name_#`)", "For a repeated dependency (`multiple`)")
+_dprops["referent_unique_by"]["description"] = (
+    _dprops["referent_unique_by"]["description"]
+    .replace("For a numbered family (`name_#`)", "For a repeated dependency (`multiple`)")
+    .replace("a bare `_0`/`_1` index carries no meaning",
+             "two entries of one name are otherwise indistinguishable")
+    .replace("(`derived_from_#`: N inputs,", "(`input_id`: N inputs,"))
 with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
     json.dump(_meta, f, indent=4)
     f.write("\n")
@@ -9009,6 +9032,111 @@ for _dt in ("count", "area", "score", "term"):
 write("draft", "harmonic_component_calculation",
       doc("harmonic_component_calculation",
           ["subject_calculation", "harmonic_component"], maturity="draft"))
+
+
+# ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
+# V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
+# its one name instead of numbering members (`_#` templates are gone for V_eta
+# classes); repetition is declared by `multiple`, order by `ordered`. Applied as a
+# post-pass so every class written above is renamed in one place, against the
+# table in T15's appendix. did_v1 tombstones keep their v1 `_#` names -- they
+# describe documents as written -- and `control_designation` is left alone while
+# its shape is under review. NOT STORABLE YET for repeated edges: DID-matlab's
+# depends_on is keyed (doc_id, name) and must gain a position (PR #76 checklist).
+_T15 = {
+    "data_body": {"owner": ("owner_id", None)},
+    "directed_relation": {"parent": ("parent_id", None), "child": ("child_id", None),
+                          "time_reference_#": ("time_reference_id", False)},
+    "relative_time_reference": {"relative_to": ("referent_id", None)},
+    "coordinate_system": {"relative_to": ("referent_id", None)},
+    "clock_alignment": {"from_reference": ("input_id", None),
+                        "to_reference": ("output_id", None)},
+    "method_parameters": {"derived_from_id": ("parent_id", None)},
+    "subject_calculation": {"derived_from_#": ("input_id", False)},
+    "subject_interaction": {"time_reference_#": ("time_reference_id", False)},
+    "epoch": {"time_reference_#": ("time_reference_id", False)},
+    "undirected_relation": {"entities_#": ("entity_id", False)},
+    "timed_sequence": {"presented_id_#": ("item_id", True)},
+    "subject_statement": {"axis_labels_#": ("key_labels_id", True)},
+    "sampled_body": {"axis_labels_#": ("key_labels_id", True)},
+    "strain": {"background_strain_#": ("background_strain_id", False)},
+    "clock_alignment_configuration": {
+        "acquisition_channels_#": ("acquisition_channels_id", False)},
+    "acquisition_system": {
+        "acquisition_metadata_reader_#": ("acquisition_metadata_reader_id", False)},
+    "clock_alignment_policy": {
+        "clock_alignment_configuration_#": ("clock_alignment_configuration_id", True)},
+    "interaction_purpose": {"interaction_id_#": ("interaction_id", False)},
+}
+# Documentation tokens rewritten with the edges, so prose never names an edge that
+# no longer exists. Longest first, so `derived_from_#` is not half-matched.
+_T15_TOKENS = {old: new for m in _T15.values() for old, (new, _o) in m.items()
+               if old.endswith("_#")}
+_T15_SKIP_DOCS = {"control_designation"}
+_T15_V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
+
+
+def _t15_docs(obj):
+    if isinstance(obj, dict):
+        for k, v in list(obj.items()):
+            if k == "documentation" and isinstance(v, str):
+                for old in sorted(_T15_TOKENS, key=len, reverse=True):
+                    v = v.replace(old, _T15_TOKENS[old])
+                obj[k] = v
+            else:
+                _t15_docs(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            _t15_docs(v)
+
+
+_t15_renamed = 0
+for _cls, _map in _T15.items():
+    _t, _p = path_of(_cls)
+    if not _p:
+        raise SystemExit(f"T15: `{_cls}` is not in the built set -- the table and "
+                         "the build disagree. Fix the table, do not drop the row.")
+    _d = load(_p)
+    _seen = set()
+    for _dep in _d.get("depends_on", []):
+        if _dep["name"] in _map:
+            _new, _ordered = _map[_dep["name"]]
+            _seen.add(_dep["name"])
+            _dep["name"] = _new
+            if _dep.get("multiple"):
+                _dep["ordered"] = bool(_ordered)
+            _t15_renamed += 1
+    _missing = set(_map) - _seen
+    if _missing:
+        raise SystemExit(f"T15: `{_cls}` declares none of {sorted(_missing)} -- the "
+                         "edge was renamed or removed elsewhere; update the table.")
+    write(_t, _cls, _d)
+
+_t15_scanned = 0
+_t15_left = []
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        _cn = _d.get("document_class", {}).get("class_name")
+        if not _cn:
+            continue
+        _t15_scanned += 1
+        if _cn not in _T15_SKIP_DOCS:
+            _before = json.dumps(_d, sort_keys=True)
+            _t15_docs(_d)
+            if json.dumps(_d, sort_keys=True) != _before:
+                write(_tier, _cn, _d)
+        for _dep in _d.get("depends_on", []):
+            if (_dep["name"].endswith("_#") and _dep["name"] not in _T15_V1_FAMILIES
+                    and _cn not in _T15_SKIP_DOCS):
+                _t15_left.append(f"{_cn}.{_dep['name']}")
+print(f"T15 edge names: DENOMINATOR {_t15_scanned} class file(s) scanned; "
+      f"{_t15_renamed} edge(s) renamed across {len(_T15)} class(es); "
+      f"{len(_t15_left)} V_eta `_#` name(s) left")
+if _t15_left:
+    raise SystemExit(f"T15: V_eta edges still numbered: {_t15_left}")
 
 
 # ---------- 9. regenerate index.json ----------
@@ -10016,14 +10144,17 @@ with open(os.path.join(VETA, "index.json"), "w") as f:
 # the schemas themselves declare `name_#` templates and need no change.
 # Rewritten as TEXT, one exact `"name": "<edge>"` at a time, so the copied file
 # keeps its hand layout and the diff shows only the renumbering.
+# SUPERSEDED BY T15 (2026-09-25): a repeated edge is no longer numbered at all, so
+# a copied example's numbered member takes the family's single T15 name
+# (`time_reference_1` -> `time_reference_id`). The table is _T15_TOKENS above.
+_T15_STEMS = {k[:-2]: v for k, v in _T15_TOKENS.items()}
 for _ex in sorted(glob.glob(os.path.join(VETA, "examples", "*.json"))):
     _text = Path(_ex).read_text()
     _new = _text
     for _x in load(_ex).get("depends_on") or []:
         _m = _re.match(r"^(.+)_(\d+)$", _x.get("name", ""))
-        if _m and int(_m.group(2)) >= 1:
-            _new = _new.replace(f'"{_x["name"]}"',
-                                f'"{_m.group(1)}_{int(_m.group(2)) - 1}"', 1)
+        if _m and _m.group(1) in _T15_STEMS:
+            _new = _new.replace(f'"{_x["name"]}"', f'"{_T15_STEMS[_m.group(1)]}"', 1)
     if _new != _text:
         Path(_ex).write_text(_new)
 

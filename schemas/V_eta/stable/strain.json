@@ -11,13 +11,14 @@
     },
     "depends_on": [
         {
-            "name": "background_strain_#",
+            "name": "background_strain_id",
             "mustBeNonEmpty": false,
             "documentation": "The strain(s) this one was derived from -- a RECURSIVE self-edge forming a DAG, so a cross names both parents and a shared background is stored ONCE rather than duplicated into every descendant. A root strain has none.",
             "must_refer_to_document_class": "strain",
             "multiple": true,
             "min_count": 0,
-            "max_count": 2
+            "max_count": 2,
+            "ordered": false
         }
     ],
     "file": [],

@@ -29,9 +29,9 @@
             "must_refer_to_document_class": "epoch"
         },
         {
-            "name": "derived_from_id",
+            "name": "parent_id",
             "mustBeNonEmpty": false,
-            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`derived_from_#` on calculations); `parent_id` was rejected because it implies the child inherits, and it does not.",
+            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`input_id` on calculations); `parent_id` was rejected because it implies the child inherits, and it does not.",
             "must_refer_to_document_class": "method_parameters"
         }
     ],

@@ -179,7 +179,9 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `V_eta_tenets.md`; the names decided in review include `referent_id` (for `relative_to`),
     `parent_id` (method_parameters lineage), `input_id`/`output_id` (calculations, clock
     alignment), `item_id` (timed_sequence), `key_labels_id`, `entity_id`
-    (undirected_relation). NOT BUILT: it needs the DID-matlab storage and API change first.
+    (undirected_relation). BUILT schema-side 2026-09-25 (build section 12.7, 21 edges across
+    18 classes); repeated names cannot be stored until DID-matlab's depends_on gains a
+    position.
     `control_designation`'s shape is parked for its own discussion.
 42. **`image_observation` drops `ontology_table_row_id`** (2026-09-25, audit follow-up). The row
     class retires and decomposes into statements about the same subject the image shows (#53),

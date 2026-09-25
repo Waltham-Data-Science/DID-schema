@@ -357,7 +357,9 @@ alone? If it needs prose, an example, or our source, the structure is not declar
 
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
 *(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the
-`_#` template. Nothing below is built yet: see "What it costs" for the cross-repo work.)*
+`_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every
+V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matlab's work in
+"What it costs" lands.)*
 
 - **Every edge name is a noun ending `_id`.** No verbs, no prepositions, no bare role words:
   `owner` → `owner_id`, `relative_to` → `referent_id`, `derived_from_#` → `input_id`.

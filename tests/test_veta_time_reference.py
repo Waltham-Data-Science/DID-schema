@@ -310,7 +310,7 @@ def test_relative_to_is_required_and_says_it_cannot_be_filled_in_pass_one():
     sentence before they write an empty required edge into 127,719 documents.
     """
     _t, d = BUILT["relative_time_reference"]
-    rel = next(x for x in d["depends_on"] if x["name"] == "relative_to")
+    rel = next(x for x in d["depends_on"] if x["name"] == "referent_id")
     assert rel["mustBeNonEmpty"] is True
     assert rel["must_refer_to_document_class"] == "base"
     assert "resolveSessionAnchors" in rel["documentation"]

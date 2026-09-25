@@ -49,9 +49,10 @@ VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 # is renamed -- an absence turning into a reassuring silence, which is the shape
 # of every epistemic error recorded in CLAUDE.md.
 GOVERNED = {
-    ("subject_interaction", "time_reference_#"),
-    ("directed_relation", "time_reference_#"),
-    ("epoch", "time_reference_#"),
+    # Renamed by T15 (2026-09-25): the family repeats one name, `time_reference_id`.
+    ("subject_interaction", "time_reference_id"),
+    ("directed_relation", "time_reference_id"),
+    ("epoch", "time_reference_id"),
 }
 UNIQUE_BY = "value.clock"
 
@@ -76,7 +77,9 @@ def _families():
     for e in _index():
         d = _load(e)
         for dep in d.get("depends_on") or []:
-            if "#" in dep.get("name", ""):
+            # T15 (2026-09-25): a family is a REPEATED edge -- `multiple` --
+            # whether V_eta (one repeated name) or a did_v1 tombstone (`_#`).
+            if dep.get("multiple") or "#" in dep.get("name", ""):
                 out[(e["class_name"], dep["name"])] = dep
     return out
 

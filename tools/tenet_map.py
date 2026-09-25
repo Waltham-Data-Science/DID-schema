@@ -322,6 +322,20 @@ TENET_MAP = [
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "
         "T14 governs the value's own shape."),
+    Row("T15",
+        "v1 numbered repeated edges into the name (`syncrule_id_1`, "
+        "`syncrule_id_2`, ...), so the spelling depended on the count. V_eta "
+        "repeats ONE noun-with-`_id` name and declares `ordered`: the sync policy "
+        "carries N `clock_alignment_configuration_id` entries whose order is data "
+        "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
+        "whose order is not.",
+        ["syncgraph"],
+        ["clock_alignment_policy", "subject_calculation", "timed_sequence",
+         "relative_time_reference"],
+        "V_eta_tenets.md",
+        "a repeated edge repeats that one name",
+        "Built schema-side 2026-09-25; DID-matlab's depends_on must gain a "
+        "position before a repeated name can be stored."),
 ]
 
 

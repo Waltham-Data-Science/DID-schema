@@ -11,7 +11,7 @@
     },
     "depends_on": [
         {
-            "name": "relative_to",
+            "name": "referent_id",
             "mustBeNonEmpty": true,
             "documentation": "What the time is measured against -- an epoch, a session, an interaction, another reference. REQUIRED (team call): a relative time with no referent is not interpretable. NOT fillable in pass 1: a migrator holds `base.session_id`, and the edge needs the session DOCUMENT's `base.id`, which is a different, freshly minted uid (NDI-matlab +ndi/document.m:57-58). did2.convert.resolveSessionAnchors is the batch pass that resolves it.",
             "must_refer_to_document_class": "base"

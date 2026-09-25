@@ -155,13 +155,13 @@ def test_the_leaf_inherits_every_edge_the_fold_writes():
     declared = set()
     for cls in chain:
         declared |= _dep_names(BUILT[cls][1])
-    assert {"subject_id", "time_reference_#", "instrument_id",
-            "method_parameters_id", "derived_from_#"} <= declared
-    # derived_from_# is a FAMILY, so the fold may name derived_from_1 AND _2.
+    assert {"subject_id", "time_reference_id", "instrument_id",
+            "method_parameters_id", "input_id"} <= declared
+    # input_id REPEATS (T15), so the fold may write two input_id entries.
     # #63 has not put a maximum on it; assert there is none, so a future cap
     # cannot land silently under a fold that emits two.
     dfrom = next(d for d in BUILT["subject_calculation"][1]["depends_on"]
-                 if d["name"] == "derived_from_#")
+                 if d["name"] == "input_id")
     assert "max_count" not in dfrom or dfrom["max_count"] is None
 
 
@@ -536,7 +536,7 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
 
     WHEN THE EPOCH MINT LANDS THIS TEST MUST BE INVERTED, not patched."""
     _tier, d = BUILT["relative_time_reference"]
-    rel = next(x for x in d["depends_on"] if x["name"] == "relative_to")
+    rel = next(x for x in d["depends_on"] if x["name"] == "referent_id")
     assert rel["mustBeNonEmpty"] is True
     epoch = BUILT["epoch"][1]
     sess = next(x for x in epoch["depends_on"] if x["name"] == "session_id")

@@ -11,12 +11,13 @@
     },
     "depends_on": [
         {
-            "name": "presented_id_#",
+            "name": "item_id",
             "mustBeNonEmpty": false,
             "documentation": "References to the DISTINCT presented stimulus data_type docs (deduped); the playlist indexes these.",
             "must_refer_to_document_class": "data_type",
             "multiple": true,
-            "min_count": 0
+            "min_count": 0,
+            "ordered": true
         }
     ],
     "file": [],
@@ -44,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Playlist: one entry per trial, each a 0-based index naming a `presented_id_#` edge directly (value k -> `presented_id_k`); distinct-refs + index-array encoding.",
+                    "documentation": "Playlist: one entry per trial, each a 0-based index naming a `item_id` edge directly (value k -> `presented_id_k`); distinct-refs + index-array encoding.",
                     "constraints": {}
                 }
             ]

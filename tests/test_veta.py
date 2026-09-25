@@ -199,7 +199,7 @@ def test_spine_composes_onto_every_interaction():
             continue
         ft, deps = _flat_field_types(name), _flat_dep_names(name)
         assert "subject_id" in deps, f"{name} missing subject_id"
-        assert "time_reference_#" in deps, f"{name} missing time_reference"
+        assert "time_reference_id" in deps, f"{name} missing time_reference"
         assert ft.get("variable") == "ontology_term", f"{name} missing variable"
         assert ft.get("method") == "ontology_term", f"{name} missing method"
         assert ft.get("sample_time") == "structure", f"{name} missing sample_time"
@@ -222,26 +222,26 @@ def test_instrument_id_is_optional_device_edge():
 def test_derived_from_is_statement_typed_provenance():
     # #73 (2026-09-23) THE OBSERVATION / CALCULATION RULE: a statement whose
     # inputs are other statements in the dataset is a CALCULATION and records them
-    # via derived_from_#, typed to a subject_statement leaf (NEVER an entity) --
+    # via input_id, typed to a subject_statement leaf (NEVER an entity) --
     # the provenance inverse of directed_relation's entity->entity child/parent.
     # INVERTED, not updated: this asserted the edge on subject_observation (the
     # "computed observation"), which the rule abolishes.
     deps = {d["name"]: d for d in RECORDS["subject_calculation"][1]["depends_on"]}
-    assert "derived_from_#" in deps
-    df = deps["derived_from_#"]
+    assert "input_id" in deps
+    df = deps["input_id"]
     assert df["must_refer_to_document_class"] == "subject_statement"
     assert df["must_refer_to_document_class"] != "entity"
     assert df["mustBeNonEmpty"] is False
     # inherited by the calculation leaves...
-    assert "derived_from_#" in _flat_dep_names("tuning_curve_calculation")
-    assert "derived_from_#" in _flat_dep_names("receptive_field_calculation")
+    assert "input_id" in _flat_dep_names("tuning_curve_calculation")
+    assert "input_id" in _flat_dep_names("receptive_field_calculation")
     # ...and on NO other direction: an observation comes from outside the
     # dataset, a manipulation is imposed, an assertion is declared.
-    assert "derived_from_#" not in _flat_dep_names("subject_observation")
-    assert "derived_from_#" not in _flat_dep_names("angle_observation")
-    assert "derived_from_#" not in _flat_dep_names("score_observation")
-    assert "derived_from_#" not in _flat_dep_names("subject_manipulation")
-    assert "derived_from_#" not in _flat_dep_names("term_assertion")
+    assert "input_id" not in _flat_dep_names("subject_observation")
+    assert "input_id" not in _flat_dep_names("angle_observation")
+    assert "input_id" not in _flat_dep_names("score_observation")
+    assert "input_id" not in _flat_dep_names("subject_manipulation")
+    assert "input_id" not in _flat_dep_names("term_assertion")
 
 
 def test_direction_classes_renamed():
@@ -297,8 +297,8 @@ def test_relation_branch():
     # subject_relation was renamed to `relation` and generalized to entity<->entity.
     assert "subject_relation" not in RECORDS
     assert RECORDS["relation"][1]["document_class"].get("abstract") is True
-    for cls, endpoints in (("directed_relation", {"child", "parent"}),
-                           ("undirected_relation", {"entities_#"})):
+    for cls, endpoints in (("directed_relation", {"child_id", "parent_id"}),
+                           ("undirected_relation", {"entity_id"})):
         assert "relation" in _chain(cls)
         assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
         assert _flat_field_types(cls).get("relation") == "ontology_term"
@@ -314,7 +314,7 @@ def test_entity_genus():
     # calculation derived_from an external atlas; a gene list derived_from its
     # annotation; the target list of a gene mapping).
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    for end in ("child", "parent"):
+    for end in ("child_id", "parent_id"):
         assert dr[end]["must_refer_to_document_class"].split(",") == [
             "entity", "subject_statement", "data_type"], dr[end]
     # dataset documentation/homepage links are relations -> web_resource, not fields
@@ -483,10 +483,10 @@ def test_directed_relation_optional_time_reference():
     """An event-relation (e.g. encountered) can carry when — an optional
     time_reference dep so the relation is the timestamped record (D10)."""
     deps = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    assert "time_reference_#" in deps
-    assert deps["time_reference_#"]["mustBeNonEmpty"] is False
+    assert "time_reference_id" in deps
+    assert deps["time_reference_id"]["mustBeNonEmpty"] is False
     # child/parent stay required
-    assert deps["child"]["mustBeNonEmpty"] is True
+    assert deps["child_id"]["mustBeNonEmpty"] is True
 
 
 def test_assertion_is_timeless():
@@ -503,11 +503,11 @@ def test_assertion_is_timeless():
             continue
         seen += 1
         deps = _flat_dep_names(name)
-        assert "time_reference_#" not in deps, \
+        assert "time_reference_id" not in deps, \
             f"{name} is an assertion — it must not declare time_reference"
     assert seen > 1, f"only {seen} assertion class(es) examined"
     # the parent declares no time either; only the interaction branch requires it
-    assert "time_reference_#" not in _flat_dep_names("subject_statement")
+    assert "time_reference_id" not in _flat_dep_names("subject_statement")
     assert _flat_dep_names("subject_interaction")  # (interaction side checked above)
 
 
@@ -528,7 +528,7 @@ def test_data_body_classes():
     # (item 20): a shared image, waveform or term list needs a body too. Still ONE
     # edge on the parent, still REQUIRED.
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
-                     if d["name"] == "owner")
+                     if d["name"] == "owner_id")
     assert statement["must_refer_to_document_class"] == "subject_statement,data_type"
     assert statement["mustBeNonEmpty"] is True, (
         "the hoisted `owner` edge must be REQUIRED -- optional would drop a "
@@ -540,7 +540,7 @@ def test_data_body_classes():
         # field (#69) and redeclaring is SILENT, so a re-declaration here would
         # be invisible drift rather than an error.
         own = {d["name"] for d in RECORDS[body][1].get("depends_on", [])}
-        assert "owner" not in own, (
+        assert "owner_id" not in own, (
             f"{body} re-declares `owner`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     # `datum` IS GONE (signed sec.5): its `dtype` became
@@ -1262,10 +1262,10 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     # no domain fields leaked onto the class
     assert not ({"threshold", "refractory_period", "waveform_window"} & names)
     deps = {x["name"]: x for x in d["depends_on"]}
-    assert set(deps) == {"software_id", "subject_id", "epoch_id", "derived_from_id"}
+    assert set(deps) == {"software_id", "subject_id", "epoch_id", "parent_id"}
     # the self-edge is lineage, and points at its own class
-    assert deps["derived_from_id"]["must_refer_to_document_class"] == "method_parameters"
-    assert deps["derived_from_id"]["mustBeNonEmpty"] is False
+    assert deps["parent_id"]["must_refer_to_document_class"] == "method_parameters"
+    assert deps["parent_id"]["mustBeNonEmpty"] is False
 
 
 def test_settings_edge_is_on_the_interaction_branch_only():
@@ -1306,7 +1306,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
         f = next(x for x in d["fields"] if x["name"] == required)
         assert f["mustBeNonEmpty"] is True, f"{required} must be required"
     assert ft.get("species") == "ontology_term"
-    bg = next(x for x in d["depends_on"] if x["name"] == "background_strain_#")
+    bg = next(x for x in d["depends_on"] if x["name"] == "background_strain_id")
     assert bg["must_refer_to_document_class"] == "strain", "the pedigree is recursive"
     assert bg["min_count"] == 0 and bg["max_count"] == 2
 
@@ -1337,12 +1337,14 @@ def test_numbered_edge_families_declare_cardinality():
     that reason. Three families were nonetheless declared required and verified by
     nothing. The count is the checkable fact, so it is the one that gets declared;
     leaving the old flag set would keep two flags disagreeing about one thing."""
+    # T15 (2026-09-25): a family is any REPEATED edge (`multiple`) -- a V_eta
+    # edge repeats one name, a did_v1 tombstone still carries `_#`.
     fams = []
     for name, (_tier, d) in RECORDS.items():
         for dep in d.get("depends_on", []):
-            if dep["name"].endswith("_#"):
+            if dep.get("multiple"):
                 fams.append((name, dep))
-    assert fams, "no numbered edge families found -- the sweep is broken"
+    assert fams, "no repeated edges found -- the sweep is broken"
     for cls, dep in fams:
         assert "min_count" in dep, f"{cls}.{dep['name']} declares no min_count"
         assert dep["mustBeNonEmpty"] is False, (
@@ -1352,8 +1354,8 @@ def test_numbered_edge_families_declare_cardinality():
             assert dep["max_count"] >= max(dep["min_count"], 1)
     # the spine and the purpose edge are the two that must be PRESENT
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
-    assert ("subject_interaction", "time_reference_#") in required
-    assert ("interaction_purpose", "interaction_id_#") in required
+    assert ("subject_interaction", "time_reference_id") in required
+    assert ("interaction_purpose", "interaction_id") in required
     # NDI's own schema says syncrule_id_# may be empty -- V_eta had tightened it
     sg = next(d for c, d in fams if c == "syncgraph" and d["name"] == "syncrule_id_#")
     assert sg["min_count"] == 0
@@ -2767,7 +2769,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     edges = {e["name"]: e
              for c in _chain("sampled_body")
              for e in RECORDS[c][1].get("depends_on", [])}
-    assert edges["owner"]["mustBeNonEmpty"] is True, (
+    assert edges["owner_id"]["mustBeNonEmpty"] is True, (
         "the fold binds the body to the image_observation through `owner` "
         "(named `statement` until #73); "
         "an optional edge here would let a body be minted belonging to nobody")
@@ -3015,8 +3017,8 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     assert "interaction_purpose" in RECORDS, (
         "the signed destination for these 635 documents no longer exists")
     ip = {d["name"]: d for d in RECORDS["interaction_purpose"][1]["depends_on"]}
-    assert ip["interaction_id_#"]["min_count"] >= 1, (
-        "interaction_id_# is REQUIRED, so a pass that cannot resolve an "
+    assert ip["interaction_id"]["min_count"] >= 1, (
+        "interaction_id is REQUIRED, so a pass that cannot resolve an "
         "interaction must pass through rather than emit a blank edge")
     purpose = next(f for f in RECORDS["interaction_purpose"][1]["fields"]
                    if f["name"] == "purpose")
@@ -3264,7 +3266,7 @@ def test_ensemble_pass_one_mints_no_membership_edge():
     are NOT duplicated here.
     """
     names = {d["name"] for d in RECORDS["ensemble"][1]["depends_on"]}
-    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#",
+    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#", "input_id",
                       "child", "parent"):
         assert forbidden not in names, (
             f"`{forbidden}` on the ensemble tombstone: membership is a relation DOCUMENT, "
@@ -3559,8 +3561,8 @@ def test_logical_inheritance_is_re_derived_not_materialised():
     needs it.
     """
     inherited = RECORDS["subject_observation"][1]["depends_on"]
-    assert not [d for d in inherited if d["name"] == "derived_from_#"], (
-        "subject_observation carries derived_from_# again -- under the #73 rule "
+    assert not [d for d in inherited if d["name"] == "input_id"], (
+        "subject_observation carries input_id again -- under the #73 rule "
         "an observation has no inputs in the dataset, and a materialised copy "
         "of a validity statement is ruled out by the re-derive decision")
     # What the re-derive walk DOES need: the statement points at the element
@@ -3572,20 +3574,49 @@ def test_logical_inheritance_is_re_derived_not_materialised():
 
 
 def test_repeated_edges_are_numbered_families():
-    """Every repeated edge is a `_#` family AND carries `multiple`, and vice versa
-    (team, 2026-09-24: "make all match"). The validator recognises a family by the
-    `_#` suffix (did2 cache.m requiredDependencies), so a `multiple` edge without
-    it is not seen as a family, and a `_#` edge without `multiple` understates
-    itself. Found three mismatches when this was decided: timed_sequence
-    `presented_id`, undirected_relation `entities`, and `derived_from_#` on
-    subject_calculation / control_designation."""
-    bad = []
+    """INVERTED BY T15 (2026-09-25). This asserted every repeated edge is a `_#`
+    family and vice versa (team, 2026-09-24: "make all match"). T15 replaced
+    numbering: a V_eta edge that repeats REPEATS ITS ONE NAME, declares
+    `multiple`, and declares `ordered`. `_#` survives only on did_v1 tombstones,
+    which describe documents as written -- and there the old pairing (`_#` <=>
+    `multiple`) still holds. `control_designation` is exempt while its shape is
+    under review (it keeps `derived_from_#`)."""
+    V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
+    PARKED = {("control_designation", "derived_from_#")}
+    bad, veta_multi = [], 0
     for name, (_, schema) in RECORDS.items():
         for d in schema.get("depends_on", []):
-            numbered = d["name"].endswith("_#")
-            if numbered != bool(d.get("multiple")):
-                bad.append((name, d["name"], bool(d.get("multiple"))))
+            n, multi = d["name"], bool(d.get("multiple"))
+            if n.endswith("_#"):
+                if (name, n) in PARKED:
+                    continue
+                if n not in V1_FAMILIES:
+                    bad.append((name, n, "a V_eta edge is still numbered"))
+                elif not multi:
+                    bad.append((name, n, "v1 family without multiple"))
+            elif multi:
+                veta_multi += 1
+                if "ordered" not in d:
+                    bad.append((name, n, "repeated V_eta edge declares no `ordered`"))
+                if not n.endswith("_id"):
+                    bad.append((name, n, "edge is not a noun ending _id"))
+    assert veta_multi >= 10, f"only {veta_multi} repeated V_eta edges seen"
     assert not bad, bad
+
+
+def test_t15_ordered_flags_match_the_table():
+    """T15's appendix: exactly three repeated edges are ORDERED -- the playlist,
+    a key's label source, and a sync policy's rule list (NDI breaks ties by rule
+    order). Everything else repeated is a set."""
+    ordered = sorted((c, d["name"]) for c, (_, s) in RECORDS.items()
+                     for d in s.get("depends_on", [])
+                     if d.get("multiple") and d.get("ordered"))
+    assert ordered == [
+        ("clock_alignment_policy", "clock_alignment_configuration_id"),
+        ("sampled_body", "key_labels_id"),
+        ("subject_statement", "key_labels_id"),
+        ("timed_sequence", "item_id"),
+    ], ordered
 
 
 def test_v1_tombstones_under_a_composite_chain_still_retire():

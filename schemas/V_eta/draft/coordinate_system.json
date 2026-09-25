@@ -11,7 +11,7 @@
     },
     "depends_on": [
         {
-            "name": "relative_to",
+            "name": "referent_id",
             "mustBeNonEmpty": true,
             "documentation": "The document the origin is ON: an image, a probe, a subject (bregma), an atlas. REQUIRED -- a coordinate system always says whose space it is (item 9).",
             "must_refer_to_document_class": "base"

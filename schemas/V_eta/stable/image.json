@@ -369,15 +369,15 @@
                         },
                         {
                             "name": "labels_from",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
+                            "type": "integer",
+                            "blank_value": -1,
+                            "default_value": -1,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the NAME of an `axis_labels_#` edge on this document (e.g. 'axis_labels_0'). XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
+                            "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the 0-based POSITION of a `key_labels_id` entry on this document (T15: that edge repeats one name and is `ordered`, so entry k is the k-th `key_labels_id`). -1 (the blank) = not used. XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
                             "constraints": {}
                         },
                         {

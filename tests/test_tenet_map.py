@@ -181,9 +181,8 @@ def test_the_real_table_leaves_no_tenet_unmapped_today():
     table shrinks."""
     payload = _asset()
     unmapped = payload["denominator"]["tenets_with_no_substantiated_row"]
-    # T15 (edge naming, 2026-09-25) is DECIDED BUT NOT BUILT: no class has been
-    # renamed under it yet, so there is no change for a row to substantiate. It
-    # leaves this list the day the rename build lands and a row cites it.
-    assert unmapped == ["T15"], (
+    # T15 (edge naming) was unmapped for one commit, between being written
+    # (42d3aad) and being built; its row landed with the rename build.
+    assert unmapped == [], (
         f"{len(unmapped)} tenet(s) have no substantiated row: {unmapped}. "
         "That is reportable, not fatal -- update this test with the reason.")
