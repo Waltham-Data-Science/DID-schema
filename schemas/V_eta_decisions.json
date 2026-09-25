@@ -4,7 +4,7 @@
   "summary": {
     "families": 28,
     "classes_claimed": 64,
-    "open_classes": 26,
+    "open_classes": 25,
     "by_state": {
       "signed_awaiting_build": 26,
       "awaiting_signature": 2,
@@ -173,7 +173,7 @@
       "members": [
         {
           "class_name": "hartley_calc",
-          "disposition": "persist"
+          "disposition": "retire"
         }
       ],
       "open_members": [],
@@ -223,16 +223,14 @@
       "members": [
         {
           "class_name": "ngrid",
-          "disposition": "in_progress"
+          "disposition": "retire"
         },
         {
           "class_name": "imageStack_parameters",
           "disposition": "(absent)"
         }
       ],
-      "open_members": [
-        "ngrid"
-      ],
+      "open_members": [],
       "plan": "V_eta_image_model_plan.md",
       "decision": "ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable",
       "status": "team",
@@ -757,7 +755,7 @@
         "packages_missing": [],
         "files_read": 191,
         "lines_read": 45743,
-        "classes_queried": 26,
+        "classes_queried": 25,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
@@ -921,7 +919,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 26
+        "classes_queried": 25
       },
       "batch_consumers": {
         "files_scanned": 13,
@@ -940,7 +938,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 24,
+      "b_built_awaiting_corpus_proof": 23,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2514,98 +2512,6 @@
             "named_refs": [],
             "n_comment_mentions": 0,
             "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ngrid",
-        "family": "image / ngrid",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "8 consuming reference(s) (8 per-document migrator)"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 8,
-        "consuming_refs": [
-          "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
-          "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
-          "DID-matlab:migrators_j/hartley_calc.m:268 (guard)",
-          "DID-matlab:migrators_j/hartley_calc.m:431 (field_read)",
-          "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
-          "DID-matlab:migrators_j/ontology_image.m:387 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
-        ],
-        "n_named_refs": 0,
-        "named_refs": [],
-        "n_comment_mentions": 88,
-        "comment_mentions": [
-          "DID-matlab:convert/v1_to_v2.m:792 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:798 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:803 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:20 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 8,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
-              "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
-              "DID-matlab:migrators_j/hartley_calc.m:268 (guard)",
-              "DID-matlab:migrators_j/hartley_calc.m:431 (field_read)",
-              "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
-              "DID-matlab:migrators_j/ontology_image.m:387 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 85,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:20 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:21 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:32 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:38 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 3,
-            "comment_mentions": [
-              "DID-matlab:convert/v1_to_v2.m:792 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:798 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:803 (comment_mention)"
-            ]
           }
         },
         "decided_targets": [],

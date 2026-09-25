@@ -3601,3 +3601,29 @@ def test_repeated_edges_are_numbered_families():
             if numbered != bool(d.get("multiple")):
                 bad.append((name, d["name"], bool(d.get("multiple"))))
     assert not bad, bad
+
+
+def test_v1_tombstones_under_a_composite_chain_still_retire():
+    """REGRESSION (217d305 -> fixed 2026-09-25). #73 item 19 widened _disposition's
+    structural rule to "any data_type ancestor persists", and the v1 `hartley_calc`
+    tombstone -- which sits under hartley_reverse_correlation -> reverse_correlation
+    -> receptive_field -> data_type so passthrough documents validate -- flipped
+    retire -> persist with no one deciding it. `ngrid` moved from in_progress to
+    retire in the same fix: both readings of its disputed record end with no V_eta
+    class."""
+    idx = _load(os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json"))
+    found = {}
+
+    def walk(x):
+        if isinstance(x, dict):
+            if "class_name" in x and "disposition" in x:
+                found[x["class_name"]] = x["disposition"]
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+    walk(idx)
+    assert len(found) > 200, f"only {len(found)} dispositions read from index.json"
+    for name in ("hartley_calc", "ngrid"):
+        assert found.get(name) == "retire", f"{name} is {found.get(name)!r}, not retire"

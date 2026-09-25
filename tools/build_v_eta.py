@@ -9324,9 +9324,25 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #      ontology_image + hartley_calc: the #73 review moved it off reverse_correlation.
 #      See the "ngrid" entry below.]
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
-_DECIDED_PENDING = {
+# v1 SOURCE tombstones that RETIRE but must be decided before the structural persist
+# rules in _disposition can see them. Added 2026-09-25 (#73 review, jess).
+#   hartley_calc -- a v1 source (its documents fold to receptive_field_calculation via
+#                   migrators_j.hartley_calc) whose tombstone sits under
+#                   hartley_reverse_correlation -> reverse_correlation ->
+#                   receptive_field -> data_type. #73 item 19 widened the structural
+#                   rule to "any data_type ancestor persists", which silently flipped
+#                   it retire -> persist in 217d305. A tombstone kept so passthrough
+#                   documents validate is not a target class.
+#   ngrid        -- was _DECIDED_PENDING (in_progress). Both readings of its disputed
+#                   record (deleted vs folded into sampled_body) end with no V_eta
+#                   class, so the disposition is retire either way; the dispute is
+#                   HOW it goes, and stays open for the team.
+_RET_V1_BEFORE_STRUCTURE = {
+    "hartley_calc":
+        "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, "
+        "signed 2026-08-17). Tombstone kept so unmigrated documents validate",
     "ngrid":
-        "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), "
+        "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), "
         "not on the RF map alone: ontology_image (#47, second pass -- its only edge "
         "is ontologyTableRow_id and a table row is not a subject) and hartley_calc "
         "via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). "
@@ -9343,6 +9359,9 @@ _DECIDED_PENDING = {
         "documents validate; "
         "(3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds "
         "into sampled_body) -- a team call",
+}
+
+_DECIDED_PENDING = {
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
     # (absolute_time_reference, relative_time_reference); these eight stay until the migrators
     # move, because 24 files emit session_relative_reference, 5 emit
@@ -9522,6 +9541,8 @@ def _disposition(name, doc=None):
     # An EXPLICIT decided-pending marker wins over every heuristic below (including the
     # structural persist rules): we have already voted to fold/rename/reshape these, so a
     # bare `persist` from the structure would misreport a settled decision as done.
+    if name in _RET_V1_BEFORE_STRUCTURE:
+        return ("retire", _RET_V1_BEFORE_STRUCTURE[name])
     if name in _DECIDED_PENDING:
         return ("in_progress", _DECIDED_PENDING[name])
     # V_eta TARGET classes are built EXPLICITLY (write()/doc()), not carried as v1
