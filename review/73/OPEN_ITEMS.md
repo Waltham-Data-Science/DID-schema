@@ -8,6 +8,16 @@
 > cardinality only on repeated edges. TABLED: 1 (`control_designation`; findings below),
 > 2 (`fitcurve` / `model_fit`). NEXT: 7 onward. Item 56's required edge is kept optional in the
 > schema until the DID-matlab rig-minting pass lands. PR #76's checklist covers items 1–56.
+> **Later the same session:** DONE 8 (area stays m², item 57), 13 (session_id edges dropped,
+> item 57), 16 (`response_unit` term, item 57), 18 (`receptive_field.value` storage_mode/method
+> dropped, item 57), 20 (ngrid stays until the last passthrough, item 57); BUILT the signed
+> 21 (`sample_time` retired), 22 (inline `method_parameters` = `parameter[]`), 23 (`conditions`
+> Amendment 2). TABLED 17 (`harmonic_component` control shape) and 19 (`clock_alignment`
+> inheritance). **25 IS NOT SIGNED** -- it was filed here as signed-unbuilt, but the governance
+> audit reads `contrast_sensitivity` DECIDED-UNSIGNED and the tuning sign-off is scoped to
+> tuning. Its small T14 fix (`model_fit.goodness` declares no fields) and the placement question
+> (fits/significance on the composite vs the leaf, as tuning does) need a team call.
+> Still open for decision: 7, 9, 10, 11, 12, 14, 15, 24 (blocked on the unit vocabulary).
 
 Working list, saved so it survives the session. **It records questions, not decisions**:
 decided items are in `schemas/V_eta_spatial_transcriptomics_plan.md` (items 1–49), and
