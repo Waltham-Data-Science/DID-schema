@@ -766,7 +766,13 @@ def helper_entries(v1_class, veta_class):
 # DID-matlab rename lands -- until then a migrated document of either class does not
 # validate against this schema, which is why PR #76 must not merge ahead of it.
 KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
-                  "absolute_reference", "relative_reference"}
+                  "absolute_reference", "relative_reference",
+                  # #65 increment 3b, 2026-09-25: deleted SCHEMA-FIRST by team
+                  # decision. The emitters still mint them as a pass-1 handle;
+                  # moving them is the PR #76 DID-matlab checklist. Remove these
+                  # three the moment no migrator names them.
+                  "session_relative_reference", "session_bounded_reference",
+                  "epoch_bounded_reference"}
 
 
 def guardrail(veta, emitted):

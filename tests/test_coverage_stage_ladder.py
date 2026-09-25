@@ -1255,7 +1255,16 @@ class ConfirmedTargetsCase(unittest.TestCase):
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
-        for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
+        # element and pyraview LEFT this list 2026-09-25: #65 increment 3b deleted
+        # the time-anchor classes they emit, schema-first (jess), and their
+        # confirmed sets now name relative_time_reference, which the migrators do
+        # not emit yet. They sit at stage 2 with rung 3 `no` until the PR #76
+        # DID-matlab emitter change lands -- pinned below.
+        for cls in ("element", "pyraview"):
+            st = rows[cls]["stage"]
+            self.assertEqual(st["reached"], 2, f"{cls}: {st}")
+            self.assertEqual(st["blocked_by"], 3, f"{cls}: {st}")
+        for cls in ("daqreader_ndr", "session", "subject"):
             st = rows[cls]["stage"]
             self.assertEqual(
                 st["reached"], 3,
@@ -1302,4 +1311,11 @@ class ConfirmedTargetsCase(unittest.TestCase):
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]
         self.assertIn("voltage_observation", el["decided_targets"])
-        self.assertEqual(el["stage"]["reached"], 3)
+        # Was `reached == 3`. Since 2026-09-25 element stops at rung 3 on the
+        # time anchor (relative_time_reference, not yet emitted), so what this test
+        # protects -- the unread observation counting as emitted -- is checked on
+        # the rung-3 detail instead: the ONLY missing target is the anchor.
+        self.assertEqual(el["stage"]["reached"], 2)
+        rung3 = next(r for r in el["stage"]["ladder"] if r["stage"] == 3)
+        self.assertEqual(rung3["state"], "no")
+        self.assertIn("relative_time_reference", rung3["why"])

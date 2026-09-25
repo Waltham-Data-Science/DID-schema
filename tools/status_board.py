@@ -355,15 +355,11 @@ FAMILIES = [
       "ONLY -- Fork A (where the epoch anchor lives) is open and gates the build"),
      "team"),
 
-    ("time_reference", [
-        "time_reference", "session_bounded_reference", "session_relative_reference",
-        "epoch_bounded_reference"],
-     "V_eta_time_reference_model_plan.md",
-     ("8 classes collapse to absolute_time_reference + relative_time_reference "
-     "(4 of the 8 executed 2026-08-11: epoch_relative_reference, "
-     "event_bounded_reference, event_relative_reference, utc_reference deleted "
-     "-- no template, no emitter, no reference; the other 4 await their emitters)"),
-     "team"),
+    # ("time_reference", ...) CLOSED 2026-09-25, #65 increment 3b. The last three
+    # leaves (session_bounded/session_relative/epoch_bounded_reference) were deleted
+    # and `is_approximate` removed from the root, schema-first by jess's decision
+    # ("do 4 first, then add 1-3 to the checklist"); the root now persists. The
+    # emitter work is on the PR #76 DID-matlab checklist, not an open schema family.
 
     # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
     # control_stimulus_ids, points at timed_sequence, and the stimulus plan already
@@ -2401,10 +2397,9 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # correctly, since the sign-off a discount is transcribed from has to be
     # locatable through a family. The collapse they name is EXECUTED for those
     # four, not pending.
-    "time_reference": "relative_time_reference",
-    "session_bounded_reference": "relative_time_reference",
-    "session_relative_reference": "relative_time_reference",
-    "epoch_bounded_reference": "relative_time_reference",
+    # THE LAST FOUR REMOVED 2026-09-25 (#65 increment 3b), for the same reason:
+    # session_bounded/session_relative/epoch_bounded_reference are deleted, and
+    # `time_reference` is no longer a retiring class -- it persists as the root.
     # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
     # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
     # entity; `epoch_id` is a dependency name, not a class, so the replacement

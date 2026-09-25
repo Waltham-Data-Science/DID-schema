@@ -2627,6 +2627,14 @@ write("stable", "relative_time_reference",
 _tr = load(os.path.join(VETA, "stable", "time_reference.json"))
 _tr["document_class"]["class_version"] = "4.0.0"
 _tr["fields"] = [f for f in _tr["fields"] if f["name"] != "clock_tolerance"]
+# #65 INCREMENT 3b (2026-09-25, jess: "do 4 first", i.e. the schema side before the
+# emitters): `is_approximate` is REMOVED, not only deprecated. The emitter work --
+# resolveSessionAnchors writing relative_time_reference, pass-1 migrators emitting it
+# directly, a corpus re-run -- is on the PR #76 DID-matlab checklist. Until it lands,
+# every document still carrying `time_reference.is_approximate` fails strict-fields.
+# The documentation block below is now unreachable and is kept as the record of why
+# the field went.
+_tr["fields"] = [f for f in _tr["fields"] if f["name"] != "is_approximate"]
 for _f in _tr["fields"]:
     if _f["name"] == "is_approximate":
         # RETIRING, NOT KEPT. It survives increment 2 only because removing a declared
@@ -9367,24 +9375,13 @@ _DECIDED_PENDING = {
     # move, because 24 files emit session_relative_reference, 5 emit
     # epoch_bounded_reference and 1 emits session_bounded_reference. Deleting them
     # before the emitters move would red the corpus gate.
-    "time_reference":
-        "#65 increment 2 DONE (the SIGNED walkthrough shape: end -> duration, "
-        "value-level `approximate` deleted, `clock_tolerance` on the root). Stays "
-        "as the abstract root; `is_approximate` is DEPRECATED and leaves in "
-        "increment 3, gated on did2.convert.resolveSessionAnchors reporting "
-        "refused_total 0 and zero surviving session_*_reference documents",
-    "session_relative_reference":
-        "#65 -> relative_time_reference (relative_to -> session; relation only, no metric). "
-        "107,308 documents -- the largest emitter",
-    "session_bounded_reference":
-        "#65 -> relative_time_reference (relative_to -> session; start/end populated). "
-        "20,411 documents",
+    # [2026-09-25, increment 3b: the root and the three minted leaves LEFT this dict --
+    #  the leaves are deleted (_DELETE_NO_V1_PROVENANCE) and the root drops
+    #  `is_approximate`, schema-first by team decision. The four entries below name
+    #  classes 3a already deleted, so they never fire.]
     "epoch_relative_reference":
         "#65 -> relative_time_reference (relative_to -> epoch). ZERO documents; no migrator "
         "has ever emitted one",
-    "epoch_bounded_reference":
-        "#65 -> relative_time_reference (relative_to -> epoch; start/end populated). ZERO "
-        "documents, but 5 migrator files name it",
     "event_relative_reference":
         "#65 -> relative_time_reference (relative_to -> the event document). ZERO documents",
     "event_bounded_reference":
@@ -9446,7 +9443,11 @@ _DECIDED_PENDING = {
 #  3. `relation` is governed inconsistently (T8 "hard-validated, not advisory"):
 #     session_relative_reference.relation carries a proper enum; its sibling
 #     session_bounded_reference.relation is a bare `char` with NO constraints.
-for _t in ("time_reference", "utc_reference", "session_bounded_reference",
+# [2026-09-25, #65 increment 3b: `time_reference` is OUT of this loop. All three
+#  concerns are resolved by the collapse -- the root declares no depends_on at all, and
+#  every leaf whose suffix or `relation` governance was inconsistent is deleted. The
+#  names left here are deleted classes, so the loop no longer fires for anything.]
+for _t in ("utc_reference", "session_bounded_reference",
            "session_relative_reference", "epoch_bounded_reference",
            "epoch_relative_reference", "event_bounded_reference",
            "event_relative_reference"):
@@ -9829,6 +9830,17 @@ _DELETE_PHASE8 = {
 # no-op rather than an error. It is dead for these two classes; it is not
 # removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
+    # #65 INCREMENT 3b, 2026-09-25 (jess: "do 4 first, then add 1-3 to the
+    # checklist"). The last three legacy reference leaves. Provenance V_epsilon /
+    # V_eta (V_eta_class_provenance.md), never did_v1: 0 of the 113 coverage-ledger
+    # rows is one. UNLIKE the 3a four, emitters DO still mint these as a pass-1
+    # handle (DID-matlab jSessionAnchor and inline copies; resolveSessionAnchors
+    # folds them). Deleting the schema FIRST is the team's call, taken knowingly:
+    # until the PR #76 DID-matlab items land (fold writes relative_time_reference;
+    # pass-1 emits it directly; corpus re-run), any anchor the fold refuses or
+    # never reaches QUARANTINES instead of passing through.
+    "session_relative_reference", "session_bounded_reference",
+    "epoch_bounded_reference",
     "dataseries_channel_map",
     # TEAM DECISION 2026-08-14: delete `zarr`, per signed sec.10 "zarr is
     # DELETED, not migrated". Provenance V_gamma -- a DID-side invention that

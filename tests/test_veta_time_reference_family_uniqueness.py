@@ -212,16 +212,14 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
     # could turn a legal family into an illegal one. The handle is transitional
     # (not in the persist set -- tier 5 is absolute_time_reference +
     # relative_time_reference), so this list shrinks back to one when it is deleted.
-    assert with_clock == ["epoch_bounded_reference", "relative_time_reference"], (
-        f"the set of classes the rule can compare has changed: {with_clock}. If the "
-        "collapse (#65 increment 3) has landed, this test's premise is the "
-        "thing that moved -- update it deliberately.")
-    # And the two that hold the documents today still have no clock. Stated as
-    # an assertion so the day it stops being true is a visible event.
-    for legacy in ("session_relative_reference", "session_bounded_reference"):
-        assert legacy in entries, f"{legacy} vanished -- see the epochfiles_ingested " \
-            "regression before deleting a class whose documents exist"
-        assert not has_clock(legacy), (
-            f"{legacy} now declares value.clock; the uniqueness rule became "
-            "measurable on the 127,719 live anchors and the census must be "
-            "re-read before anyone quotes a zero")
+    # 2 -> 1 on 2026-09-25, #65 increment 3b: the collapse LANDED on the schema
+    # side (schema-first, by team decision), exactly as the message below
+    # anticipated. `epoch_bounded_reference` is deleted, so the handle's copy of
+    # `value.clock` went with it, and the two session leaves that held the
+    # documents are deleted too.
+    assert with_clock == ["relative_time_reference"], (
+        f"the set of classes the rule can compare has changed: {with_clock}. "
+        "Update it deliberately.")
+    for legacy in ("session_relative_reference", "session_bounded_reference",
+                   "epoch_bounded_reference"):
+        assert legacy not in entries, f"{legacy} came back; increment 3b deleted it"

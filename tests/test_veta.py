@@ -470,19 +470,13 @@ def test_conditions_on_statement():
 
 
 def test_session_bounded_reference():
-    """A bounded [start, end] window relative to the session/assay (D10 multi-party
-    binding) — no parent interaction/epoch required."""
-    assert "session_bounded_reference" in RECORDS
-    assert "time_reference" in _chain("session_bounded_reference")
-    ft = _flat_field_types("session_bounded_reference")
-    # `time`, not `duration` -- TEAM-SIGN-OFF [time dtype], 2026-08-17. These two
-    # fields are half the evidence the signature rests on: `start` and `end` are
-    # OFFSETS, not extents, and typing them `duration` is what made the old name
-    # a role claim the data did not support.
-    assert ft.get("start") == "time" and ft.get("end") == "time"
-    # no required deps (session rides on base.session_id)
-    deps = RECORDS["session_bounded_reference"][1]["depends_on"]
-    assert all(not d.get("mustBeNonEmpty") for d in deps)
+    """INVERTED 2026-09-25 (#65 increment 3b, jess: schema first). This checked the
+    class's shape; the class is now DELETED, and its bounded window lives on
+    `relative_time_reference` (relative_to -> the session, start + duration)."""
+    for gone in ("session_bounded_reference", "session_relative_reference",
+                 "epoch_bounded_reference"):
+        assert gone not in RECORDS, f"{gone} came back; increment 3b deleted it"
+    assert "time_reference" in _chain("relative_time_reference")
 
 
 def test_directed_relation_optional_time_reference():
@@ -2463,38 +2457,13 @@ def test_clocktype_nodes_are_staged_empty_not_invented():
 
 
 def test_retiring_epoch_clock_fields_untouched_by_67():
-    """#67 does NOT touch the eight retiring reference classes.
-
-    Increment 1 of the time-reference collapse is ADDITIVE ONLY: the v1-era
-    classes stay until the migrators move, and 24 files still emit
-    session_relative_reference. Their `epoch_clock` keeps NDI's full nine and
-    stays a char, because that is what the emitters write today. Narrowing it
-    here would quarantine live documents -- the epochfiles_ingested regression.
-
-    NARROWED 2026-08-11 (#65 increment 3a), and narrowed rather than deleted.
-    It named BOTH epoch reference classes and required `checked == 2`.
-    `epoch_relative_reference` is now deleted -- it has no emitter, no NDI
-    template and no referencing schema -- while `epoch_bounded_reference` is
-    still minted (ndi_second_pass/stimulusBathToBath.m:166) and still needs
-    exactly this guard. The `if cls not in RECORDS: continue` escape is GONE
-    with it: a skip that silently satisfies the loop is how this assertion
-    would go vacuous the day the surviving class disappears too.
-    """
-    assert "epoch_relative_reference" not in RECORDS, (
-        "epoch_relative_reference came back; increment 3a deleted it")
-    checked = 0
-    for cls in ("epoch_bounded_reference",):
-        _tier, d = RECORDS[cls]        # KeyError, deliberately, not a skip
-        fld = _field_at(d, ("epoch_clock",))
-        assert fld["type"] == "char", cls
-        b = fld["constraints"]["binding"]
-        assert set(b["values"]) == NDI_CLOCKTYPES, (
-            f"{cls}.epoch_clock no longer carries NDI's nine: {sorted(b['values'])}")
-        checked += 1
-    assert checked == 1, (
-        f"expected the one still-minted epoch reference class; found {checked}. "
-        "If a later increment deletes it, delete this test with it -- do not "
-        "let the count fall to zero and keep passing.")
+    """RETIRED 2026-09-25 (#65 increment 3b). This guarded the still-minted
+    `epoch_bounded_reference.epoch_clock` (NDI's nine clock types, char) against
+    being narrowed while emitters wrote it. The class is now deleted schema-first
+    by team decision, so there is nothing left to guard; what remains checkable is
+    that no epoch reference class survives."""
+    for cls in ("epoch_relative_reference", "epoch_bounded_reference"):
+        assert cls not in RECORDS, f"{cls} came back; the #65 collapse deleted it"
 
 
 def test_no_list_valued_field_is_typed_char():

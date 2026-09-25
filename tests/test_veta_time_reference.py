@@ -349,31 +349,23 @@ def test_the_time_curie_prefix_resolves():
 # ------------------------------------------------- what increment 2 does NOT do
 
 def test_the_still_minted_retiring_classes_are_still_present():
-    """NOT DONE, ON PURPOSE, and this test is the record of why.
+    """INVERTED 2026-09-25, #65 increment 3b. This was the record of why the three
+    still-minted classes were NOT deleted: a class with no schema quarantines every
+    surviving document of it. The team chose to delete them SCHEMA-FIRST anyway
+    (jess: "do 4 first, then add 1-3 to the checklist"), knowing that until the PR
+    #76 DID-matlab items land -- resolveSessionAnchors writing
+    relative_time_reference, pass-1 migrators emitting it directly, a corpus re-run
+    -- any anchor the fold refuses or never reaches quarantines instead of passing
+    through. The test now pins the deletion, so the classes cannot drift back
+    without someone reversing that decision.
 
-    A class removed from the built set has no schema to validate against, so
-    every surviving document of it quarantines. That is the epochfiles_ingested
-    regression -- 2,484 quarantines on a 0-quarantine gate -- and here the
-    exposure is 127,719 documents.
-
-    THE GATE FOR DELETING THEM: a corpus run in which
-    `session_anchor_fold.refused_total` is 0 AND no session_*_reference appears
-    in `by_class`. Delete this test WITH the classes.
-
-    NARROWED 2026-08-11, NOT WEAKENED. It named all seven concrete classes and
-    the 127,719-document exposure it cites is entirely the session pair; the
-    four with no emitter contributed nothing to it. They are now deleted, and
-    the ground this test vacated is covered in the OPPOSITE direction by
-    `test_the_collapsed_reference_classes_stay_deleted` below -- so the family
-    is guarded both ways rather than one class fewer.
-
-    DENOMINATOR: 3 classes named, all 3 looked up.
+    DENOMINATOR: 3 classes named, all 3 looked up, against a built set whose size
+    is asserted first.
     """
+    assert len(BUILT) > 200, f"only {len(BUILT)} schemas loaded"
     assert len(RETIRING) == 3
-    missing = [c for c in RETIRING if c not in BUILT]
-    assert missing == [], (
-        "the retiring reference classes were deleted before their documents "
-        f"were folded: {missing!r}")
+    back = [c for c in RETIRING if c in BUILT]
+    assert back == [], f"{back!r} came back; increment 3b deleted them"
 
 
 def test_the_collapsed_reference_classes_stay_deleted():
@@ -442,30 +434,23 @@ def test_the_collapsed_reference_classes_are_deleted_by_the_named_mechanism():
             f"{cls} is in _DELETE_PHASE8, which asserts it is a did_v1 source "
             "consumed by a completed migrator. It is neither: its provenance "
             "is V_epsilon and no migrator has ever emitted one.")
-    # The three still-minted siblings must be in NEITHER set.
+    # The three still-minted siblings: since 2026-09-25 (#65 increment 3b) they
+    # ARE deleted, schema-first by team decision, through the same no-v1-provenance
+    # set (V_epsilon/V_eta provenance, never did_v1) -- and never through phase 8.
     for cls in RETIRING:
-        assert cls not in phase8 and cls not in invented, (
-            f"{cls} is minted by live emitters and may not be queued for deletion "
-            "-- that is the epochfiles_ingested regression")
+        assert cls in invented and cls not in phase8, (
+            f"{cls} must be deleted via _DELETE_NO_V1_PROVENANCE, not phase 8")
 
 
 def test_is_approximate_survives_on_the_root_and_says_it_is_deprecated():
-    """CHANGE 2 deletes this field, and increment 2 does not, for a mechanical
-    reason: the strict-fields check (+did2/+schema/cache.m:695-706) raises
-    `undeclaredField` on any block carrying an undeclared field, and 16
-    jSessionAnchor call sites plus 11 inline copies still write
-    `time_reference.is_approximate`. Removing the declaration first would
-    quarantine every live anchor.
-
-    The documentation must SAY so, because a bare surviving field reads as a
-    decision rather than as a queue.
-    """
+    """INVERTED 2026-09-25, #65 increment 3b. CHANGE 2 of the signed walkthrough
+    deletes `is_approximate`; increment 2 held it back only because live emitters
+    still write it and strict-fields would quarantine them. The team chose to
+    remove it schema-first; the emitter change is on the PR #76 checklist."""
     _t, root = BUILT["time_reference"]
-    fld = _field(root, "is_approximate")
-    assert fld["mustBeNonEmpty"] is False
-    doc = fld["documentation"]
-    assert "DEPRECATED" in doc
-    assert "increment 3" in doc
+    names = [f["name"] for f in root["fields"]]
+    assert "is_approximate" not in names, names
+    assert "clock_tolerance" in names, names
 
 
 def test_the_targets_declare_no_field_the_retiring_classes_would_collide_with():

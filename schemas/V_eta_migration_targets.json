@@ -92,7 +92,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "contrast_tuning_calculation"
@@ -116,7 +116,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "contrast_tuning_calculation"
@@ -404,7 +404,7 @@
           "term_assertion",
           "directed_relation",
           "sampled_body",
-          "session_relative_reference",
+          "relative_time_reference",
           "voltage_observation",
           "current_observation",
           "image_observation",
@@ -413,7 +413,8 @@
         ],
         "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
         "signoff": "V_eta_recording_observation_plan.md [raw recording observation]",
-        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently.",
+        "amended": "2026-09-25 (jess, #65 increment 3b, schema first): the time-anchor entries were session_relative_reference/epoch_bounded_reference, which are now DELETED; they are replaced by the signed collapse target relative_time_reference. The migrator does NOT emit it yet (PR #76 DID-matlab checklist), so rung 3 reads `no` until it does. The rest of the set is the 2026-08-13 confirmation, unchanged."
       }
     },
     "element_epoch": {
@@ -983,7 +984,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "orientation_direction_tuning_calculation"
@@ -1007,7 +1008,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "orientation_direction_tuning_calculation"
@@ -1085,7 +1086,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 273 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 270 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
@@ -1094,13 +1095,13 @@
         "targets": [
           "voltage_observation",
           "sampled_body",
-          "session_relative_reference",
-          "frequency_filter",
-          "epoch_bounded_reference"
+          "relative_time_reference",
+          "frequency_filter"
         ],
         "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
         "signoff": "V_eta_recording_observation_plan.md [pyraview pyramid]",
-        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently.",
+        "amended": "2026-09-25 (jess, #65 increment 3b, schema first): the time-anchor entries were session_relative_reference/epoch_bounded_reference, which are now DELETED; they are replaced by the signed collapse target relative_time_reference. The migrator does NOT emit it yet (PR #76 DID-matlab checklist), so rung 3 reads `no` until it does. The rest of the set is the 2026-08-13 confirmation, unchanged."
       }
     },
     "session": {
@@ -1201,7 +1202,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "spatial_frequency_tuning_calculation"
@@ -1225,7 +1226,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "spatial_frequency_tuning_calculation"
@@ -1306,7 +1307,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "speed_tuning_calculation"
@@ -1330,7 +1331,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "speed_tuning_calculation"
@@ -1414,7 +1415,7 @@
       "carried": [],
       "second_pass": [
         "dose_manipulation",
-        "session_relative_reference"
+        "relative_time_reference"
       ],
       "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local) into a dose_manipulation once the stimulator element's subject + epoch anchor resolve",
       "flags": "pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)",
@@ -1528,7 +1529,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "tuning_curve_calculation"
@@ -1662,7 +1663,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "temporal_frequency_tuning_calculation"
@@ -1686,7 +1687,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "temporal_frequency_tuning_calculation"
@@ -1771,7 +1772,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "session_relative_reference",
+        "relative_time_reference",
         "software",
         "runtime_environment",
         "tuning_curve_calculation"

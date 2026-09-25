@@ -282,7 +282,10 @@ def test_a_mint_of_a_class_the_decision_retires_is_not_progress():
     migrators still mint the old class. That is the work outstanding, not
     evidence of it being done -- so a mint must not move it to (b).
     """
-    cls = "session_relative_reference"
+    # Was `session_relative_reference`, deleted 2026-09-25 (#65 increment 3b)
+    # and so no longer a board row to discount. The RULE is unchanged; it is
+    # exercised on the one remaining discounted class.
+    cls = "epochid"
     assert cls in sb.RETIRED_BY_ITS_OWN_DECISION
     mig = {cls: {"migrator_file": None, "n_consuming_refs": 0,
                  "consuming_refs": [], "n_emitted_class_refs": 3,

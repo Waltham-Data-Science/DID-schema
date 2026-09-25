@@ -589,7 +589,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         via = j["target_only_reached_via"]
         self.assertTrue(via, "the reach must be itemised, not just counted")
         top = max(via.items(), key=lambda kv: kv[1])
-        self.assertIn("session_relative_reference", top[0])
+        # Was `session_relative_reference`; that class was deleted 2026-09-25
+        # (#65 increment 3b), so the reach is re-derived rather than pinned to
+        # a name. What this test protects is below: reach is REPORTED, never
+        # joined.
+        self.assertTrue(top[0])
         for name in j["unmoved_rows_by_cause"][coverage.GAP_TARGET_ONLY]:
             row = next(r for r in self.rows if r["v1_class"] == name)
             self.assertIsNone(row["decided_by_family"],

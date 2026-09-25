@@ -14,19 +14,6 @@
     "file": [],
     "fields": [
         {
-            "name": "is_approximate",
-            "type": "boolean",
-            "blank_value": false,
-            "default_value": false,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "DEPRECATED, retiring with the six session_/epoch_/event_ reference subclasses (#65 increment 3). CHANGE 2 of the signed walkthrough deletes it: approximateness belongs where there is a quantity to qualify (start / duration / clock_tolerance), and the field is empirically vacuous -- eleven writers, every one a hardcoded `true`, expressing 'we do not know exactly when', which having no start and no duration already says. THE ABSENCE IS THE IMPRECISION. Not removed yet ONLY because the strict-fields check would quarantine every live anchor whose emitter still writes it.",
-            "constraints": {}
-        },
-        {
             "name": "clock_tolerance",
             "type": "time",
             "blank_value": 0.0,

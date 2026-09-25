@@ -447,7 +447,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # _calculation, harmonic_component_calculation (restored, item 37). None
     # declares a numeric min/max at any depth, so the pinned INERT list below is
     # untouched -- which the next assertion checks rather than assumes.
-    assert walked == 267, f'schema count moved; re-derive the inert set ({walked})'
+    # NINTH MOVEMENT, re-derived not bumped: 267 -> 264 on 2026-09-25, #65
+    # increment 3b deleted session_relative_reference, session_bounded_reference
+    # and epoch_bounded_reference. None of the three is in the INERT list, so the
+    # list below is untouched.
+    assert walked == 264, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
