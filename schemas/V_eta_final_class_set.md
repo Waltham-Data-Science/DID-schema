@@ -6,11 +6,11 @@
 |---|--:|
 | ① Statement spine & genus | 14 |
 | ② Entities | 13 |
-| ③ Quantity & substance composites (data_type) | 47 |
+| ③ Quantity & substance composites (data_type) | 46 |
 | ④ Data-type leaf tier | 91 |
 | ⑤ time_reference family | 3 |
 | ⑥ data_body family | 2 |
-| ⑦ Acquisition & infra (keep) | 12 |
+| ⑦ Acquisition & infra (keep) | 13 |
 | **Persist total** | **182** |
 
 ## ① Statement spine & genus (14)
@@ -19,8 +19,8 @@
 ## ② Entities (13)
 `acquisition_system`, `dataset`, `epoch`, `funding`, `organization`, `person`, `publication`, `runtime_environment`, `session`, `software`, `strain`, `subject`, `web_resource`
 
-## ③ Quantity & substance composites (data_type) (47)
-`acceleration`, `amount`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `clock_alignment`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `hartley_reverse_correlation`, `image`, `intensity`, `label`, `length`, `logical`, `mass`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `reverse_correlation`, `score`, `temperature`, `term`, `time`, `timed_sequence`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`
+## ③ Quantity & substance composites (data_type) (46)
+`acceleration`, `amount`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `hartley_reverse_correlation`, `image`, `intensity`, `label`, `length`, `logical`, `mass`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `reverse_correlation`, `score`, `temperature`, `term`, `time`, `timed_sequence`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`
 
 ## ④ Data-type leaf tier (91)
 `acceleration_assertion`, `acceleration_observation`, `amount_assertion`, `amount_observation`, `angle_assertion`, `angle_observation`, `angular_velocity_assertion`, `angular_velocity_observation`, `area_assertion`, `area_calculation`, `area_observation`, `capacitance_assertion`, `capacitance_observation`, `charge_assertion`, `charge_observation`, `concentration_assertion`, `concentration_manipulation`, `concentration_observation`, `conductance_assertion`, `conductance_observation`, `contrast_sensitivity_calculation`, `contrast_tuning_calculation`, `count_assertion`, `count_calculation`, `count_observation`, `current_assertion`, `current_manipulation`, `current_observation`, `date_assertion`, `dose_manipulation`, `energy_assertion`, `energy_observation`, `force_assertion`, `force_manipulation`, `force_observation`, `formulation_manipulation`, `frequency_assertion`, `frequency_manipulation`, `frequency_observation`, `gain_assertion`, `gain_observation`, `harmonic_component_calculation`, `image_manipulation`, `image_observation`, `intensity_assertion`, `intensity_manipulation`, `intensity_observation`, `label_calculation`, `length_assertion`, `length_observation`, `logical_observation`, `mass_assertion`, `mass_observation`, `orientation_direction_tuning_calculation`, `ph_assertion`, `ph_observation`, `position_calculation`, `position_observation`, `power_assertion`, `power_observation`, `pressure_assertion`, `pressure_manipulation`, `pressure_observation`, `receptive_field_calculation`, `resistance_assertion`, `resistance_observation`, `score_assertion`, `score_calculation`, `score_observation`, `spatial_frequency_tuning_calculation`, `speed_tuning_calculation`, `temperature_assertion`, `temperature_manipulation`, `temperature_observation`, `temporal_frequency_tuning_calculation`, `term_assertion`, `term_calculation`, `term_manipulation`, `term_observation`, `time_assertion`, `time_observation`, `timed_sequence_manipulation`, `tuning_curve_calculation`, `velocity_assertion`, `velocity_observation`, `visual_grating_manipulation`, `voltage_assertion`, `voltage_manipulation`, `voltage_observation`, `volume_assertion`, `volume_observation`
@@ -31,8 +31,8 @@
 ## ⑥ data_body family (2)
 `opaque_body`, `sampled_body`
 
-## ⑦ Acquisition & infra (keep) (12)
-`acquisition_channels`, `acquisition_metadata_file`, `acquisition_metadata_reader`, `acquisition_reader`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `frequency_filter`, `ingestion_manifest`, `method_parameters`
+## ⑦ Acquisition & infra (keep) (13)
+`acquisition_channels`, `acquisition_metadata_file`, `acquisition_metadata_reader`, `acquisition_reader`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `frequency_filter`, `ingestion_manifest`, `method_parameters`
 
 ---
 

@@ -196,8 +196,9 @@ def axis_subfields():
                        non_empty=True),
               subfield("unit", "ontology_term",
                        "Canonical unit of `origin`/`spacing`/`values`. Angles "
-                       "are RADIANS, per angle.value.radians and the SI "
-                       "convention every other quantity in V_eta follows. "
+                       "are RADIANS, per angle.value.radians. V_eta's canonical "
+                       "units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: "
+                       "grams, liters, celsius, mmHg. "
                        "Absent for a categorical axis, which uses `labels`."),
               subfield("source_unit", "char",
                        "The unit exactly as the source gave it. OMITTED when "
@@ -608,16 +609,15 @@ CONDITIONS = field(
     "conditions", "structure",
     "D10 qualifiers: the experimental conditions a statement was taken under, as a "
     "list of typed {variable, value} entries. Each names its `variable` and carries "
-    "exactly one nested data-type block (term / count / quantity). A condition whose "
-    "value is a per-reading ARRAY is the independent-variable axis (e.g. a tuning "
-    "curve's direction); a length-1 value is a held-fixed covariate -- same kind of "
-    "thing, distinguished only by cardinality. Distinct from "
+    "exactly one nested data-type block (term / count / quantity). A condition is "
+    "HELD FIXED for the whole statement: cardinality exactly 1 (data_body plan, "
+    "signed 2026-08-14). Anything that varies per reading -- a tuning curve's "
+    "direction, time -- is a KEY on `keys`, not a condition. Distinct from "
     "`subject_interaction.method_parameters` (the algorithm's config -- how it was "
     "computed). 'Exactly one populated' is an ingest validator (the closed "
-    "meta-schema has no oneOf); the full per-dimension type set is a provisional "
-    "extension (D10). Value cardinality: length 1 (a constant condition) or the "
-    "measurement's value length (one per reading). Typed by data type via the D9 "
-    "registry keyed on `variable`.",
+    "meta-schema has no oneOf). Typed by data type via the D9 registry keyed on "
+    "`variable`. NOTE: the signed Amendment 2 restructure (descriptors up, `count` "
+    "flattened) is NOT BUILT yet; this shape is the pre-amendment one.",
     non_empty=False, scalar=False, blank=[], default=[], sub_fields=[
         subfield("variable", "ontology_term",
                  "The condition's name (arm direction, OD600, trial type); "
@@ -1057,7 +1057,7 @@ write("stable", "directed_relation",
                     "Optional: when an EVENT relation happened (e.g. `encountered`, or "
                     "a `derived_from` creation event), as one or more time_reference "
                     "anchors — so an event-relation can be the timestamped record you "
-                    "anchor other times against (an `event_relative_reference`). Empty "
+                    "anchor other times against (via a `relative_time_reference`). Empty "
                     "for timeless relations (part_of). (D10 multi-party binding.)",
                     non_empty=False, multiple=True),
                 # ---- #60: the `epoch_id` slot, the second half of a recorded blocker
@@ -1282,7 +1282,8 @@ write(_amf_tier, "acquisition_metadata_file", _amf)
 # struct there), so it is a cross-repo lockstep and rides with the migrator.
 _PARAMETER_SUBS = [
     subfield("variable", "ontology_term",
-             "WHAT knob this is. BOUND, and UNIQUE within the list. Modelled on "
+             "WHAT knob this is. To be BOUND (not yet declared -- binding "
+             "worksheet, 2026-09-25), and UNIQUE within the list. Modelled on "
              "the `axis` entry: identity lives in a bound variable, so "
              "domain-specific knobs are DATA rather than schema, and no class or "
              "field has to be minted per program. Its dimension comes from the "
@@ -1322,10 +1323,10 @@ write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
     field("method_parameters", "structure",
           "The settings themselves. SAME FIELD NAME as the inline field on "
           "`subject_interaction`, deliberately: one list means one thing in both "
-          "mount points, exactly as `axes` mounts on two classes under one name. "
+          "mount points, exactly as `keys` mounts on several classes under one name. "
           "`parameters` was REJECTED -- that name was vacated when the statement's "
           "field became `conditions`, and a document already carries three "
-          "variable-keyed lists (conditions, axes, method_parameters) that must "
+          "variable-keyed lists (conditions, keys, method_parameters) that must "
           "not be confusable.",
           non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS),
     field("other", "structure",
@@ -1790,7 +1791,8 @@ write("stable", "strain", doc("strain", ["entity"], fields=[
           "The strain's name as the source gives it (e.g. 'Escherichia coli "
           "OP50', 'ArcCreERT2 x eYFP').", non_empty=True),
     field("species", "ontology_term",
-          "The species this strain belongs to. Bound to NCBITaxon. REQUIRED by "
+          "The species this strain belongs to. INTENDED binding: NCBITaxon -- "
+          "NOT YET DECLARED on this field (binding worksheet, 2026-09-25). REQUIRED by "
           "openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic "
           "specimen.species slot -- species and strain stay SIBLING assertions "
           "on a subject (record Parts 4 and 5).", non_empty=True),
@@ -1805,7 +1807,8 @@ write("stable", "strain", doc("strain", ["entity"], fields=[
     field("phenotype", "char", "Observable phenotype, where the source states one.",
           non_empty=False),
     field("breeding_type", "ontology_term",
-          "openMINDS BreedingType, where stated.", non_empty=False),
+          "openMINDS BreedingType, where stated. INTENDED binding, NOT YET "
+          "DECLARED on this field (binding worksheet, 2026-09-25).", non_empty=False),
     field("disease_model", "ontology_term", "Disease or disease model this strain "
           "models. No writer populates it yet; the slot exists so it has "
           "somewhere to land instead of being dropped.",
@@ -2852,7 +2855,7 @@ _TUNING_CURVE_IV_SUBS = [
     subfield("values", "matrix",
              "The samples along this independent variable.", scalar=False),
     subfield("unit", "ontology_term",
-             "Canonical unit of `values` (radians for angles per SI convention; "
+             "Canonical unit of `values` (radians for angles, per angle.value.radians; "
              "absent for a categorical variable)."),
 ]
 _TUNING_CURVE_CONTROL_SUBS = [
@@ -3284,7 +3287,7 @@ write("draft", "polynomial",
                        "did2 query layer has no length predicate, so `degree > 1` "
                        "-- which alignments are non-linear, the interesting question "
                        "about a clock mapping -- is expressible ONLY if degree is "
-                       "stored. Same test that kept `axis.n` and dropped "
+                       "stored. Same test that kept the key entry's `n` and dropped "
                        "`ngrid.data_size`: derivable AT QUERY TIME, not derivable in "
                        "code. CHECKED against coefficients, so it is an index rather "
                        "than a second source of truth.", blank=0),
@@ -3323,8 +3326,10 @@ write("draft", "clock_alignment_configuration",
                   "`ndi_syncrule_class`, folded to a software entity (R1).",
                   non_empty=False),
               dep("acquisition_channels_#", "acquisition_channels",
-                  "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: "
-                  "the rule is symmetric, so neither endpoint is 'first'.",
+                  "The channel groups this rule relates: 0 or 2 (sync configuration "
+                  "amendment 1, 2026-08-18: a file-based rule names none), UNORDERED "
+                  "because the rule is symmetric. The schema's min 0 / max 2 cannot "
+                  "exclude exactly 1; that check belongs to a validator.",
                   non_empty=False, multiple=True),
           ],
           fields=[
@@ -3615,8 +3620,8 @@ write("stable", "receptive_field",
                         "over two spatial axes and a time lag, with the "
                         "estimation method and one entry per stored plane. The "
                         "volume itself lives in `sampled_body` documents; the "
-                        "axes (including real lag coordinates) are declared "
-                        "there, on `axes[]`.",
+                        "keys (including real lag coordinates) are declared "
+                        "there, on `keys` (renamed from `axes`, #73 item 14).",
                         non_empty=True, blank={}, sub_fields=_RF_SUBS)]))
 write("stable", "receptive_field_calculation",
       doc("receptive_field_calculation",
@@ -6239,6 +6244,14 @@ write("draft", "logical",
               " no unit, no source unit and cannot be approximate, so there is"
               " no provenance triple to wrap it in (`term.value` is typed"
               " `ontology_term` directly for the same reason)."
+              " [SUPERSEDED IN PART 2026-08-18 by logical_observation"
+              " amendment 1: `valid_interval` now migrates to"
+              " `time_observation`, NOT here, so every `valid_interval`-specific"
+              " sentence below describes a withdrawn fold. `logical` has no"
+              " current user; retire-or-hold is an open team call"
+              " (V_eta_logical_observation_plan.md). Whether the reading rules"
+              " below carry over to the time_observation shape is not decided"
+              " here.]"
               " FOR THE `valid_interval` FOLD, EACH CELL IS ONE INTERVAL, NOT"
               " ONE SAMPLE. A per-sample validity mask needs the sample grid,"
               " and no migrator reads file bytes to learn it (confirmed via"
@@ -6403,8 +6416,10 @@ BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)
 data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
                 deps=[STATEMENT_REQ], fields=[
     field("format", "char",
-          "Container / MIME format of the carried bytes (e.g. 'application/pdf', "
-          "'image/tiff', 'tiff'). A descriptor only.",
+          "Container format of the carried bytes as an IANA media type (e.g. "
+          "'application/pdf', 'image/tiff'; `application/x-...` for lab formats "
+          "with no registration). NOT a file extension (data_body plan sec.2). "
+          "A descriptor only.",
           non_empty=False),
     # NEW. The unbuilt half of the 2.D "encoding becomes a field" decision that
     # `migrators_j/image.m` has been waiting on: v1 `image.compression` carries
@@ -6429,8 +6444,7 @@ data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
           "`compression`, not before. A natural dedup / integrity key, checkable "
           "without decoding. did_v1 source: `generic_file.checksum`, the "
           "32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored "
-          "file; the algorithm is not declared by this field and is not "
-          "recoverable from it.",
+          "file. The algorithm is declared beside it, in `hash_algorithm`.",
           non_empty=False),
     field("description", "char", "Human description of the payload.",
           non_empty=False),
@@ -6644,41 +6658,16 @@ _img["fields"] = [
 ]
 write("stable", "image", _img)
 
-# `ontology_table_row_id` -- the metadata row that gives this image its data
-# context. Added 2026-08-11 at the team's direction, after image_stack.m was found
-# to DROP the did_v1 `document_id` edge on its fold arm for want of anywhere to put
-# it: image_observation and its seven ancestors declared six edges between them
-# (subject_id, time_reference_#, instrument_id, software_id, method_parameters_id,
-# derived_from_#; the last left the observation chain in #73) and not one means
-# "the metadata row this image belongs to".
-# `derived_from_#` is the near miss and is wrong twice -- typed to
-# `subject_statement` (the row migrates to an `ontology_table_row`) and it asserts
-# COMPUTATION, which this is not.
-#
-# The name is NOT invented: stable/ontology_image.json already declares exactly
-# this edge, with this target class, for the identical relationship.
-#
-# OPTIONAL, and that is load-bearing. There are EIGHT ndi.document('imageStack')
-# sites on NDI origin/main and they form THREE populations, not two:
-#   haley behaviour  (doImport.m 421/461/477/496)  subject_id AND document_id
-#   haley E. coli    (doImport.m 789/811/827)      document_id only -> guard arm
-#   babu             (import.m:474)                subject_id only, NO document_id
-# The babu site reaches the fold arm with no edge to carry, so a REQUIRED edge
-# here would quarantine it -- the invented-empty-edge pattern, with the
-# RequiredDependencies gate now armed and the corpus at 0 over 627,526 documents.
-#
-# Declaring the slot does not by itself carry anything: migrators_j/image_stack.m
-# still drops the edge, and `testImageStackFoldDropsDocumentIdForWantOfASlot` pins
-# that. The carry is the follow-up, and it must be conditional on the edge being
-# present in the source.
+# `ontology_table_row_id` WAS declared here (added 2026-08-11 at the team's
+# direction so an imageStack's `document_id` row had a slot) and is REMOVED
+# 2026-09-25 (jess, #73 audit): the row class `ontology_table_row` retires and
+# decomposes into typed statements about the SAME subject the image shows (#53),
+# so the link runs through `subject_id`; NDI's second pass
+# (imagedEntitySubjects.m) reads the v1 SOURCE edge to find that subject and needs
+# no V_eta slot. DID-matlab `migrators_j/ontology_image.m` stops writing it
+# (PR #76 checklist). The signed image model says image_observation has "no fields
+# of its own" (V_eta_image_model_plan.md:159); it is back to that shape.
 _img_obs = doc("image_observation", ["subject_observation", "image"], maturity="draft")
-_img_obs["depends_on"] = list(_img_obs.get("depends_on") or []) + [
-    dep("ontology_table_row_id", "ontology_table_row", non_empty=False,
-        doc=("The metadata table row giving this image its data context (e.g. the "
-             "behaviour plate row carrying its OD600 / CFU / lawn-volume "
-             "covariates). NOT a subject, and NOT provenance: it is the row the "
-             "did_v1 `document_id` edge named. Optional -- the babu writer emits "
-             "an imageStack with a subject and no such row."))]
 write("draft", "image_observation", _img_obs)
 # image_manipulation: an image/video SHOWN to the subject as a visual stimulus (raster
 # sibling of visual_grating_manipulation, which is a parametric stimulus). image model
@@ -7055,7 +7044,7 @@ _dep_props["referent_unique_by"] = {
                    "evaluated ON THE REFERENCED DOCUMENT. No two members of "
                    "the family may refer to documents that agree on that path "
                    "-- the path is what distinguishes one member from another, "
-                   "and without it a bare `_1`/`_2` index carries no meaning. "
+                   "and without it a bare `_0`/`_1` index carries no meaning. "
                    "Resolving it requires the referenced documents, so this is "
                    "a BATCH property: it is measured report-only by "
                    "did2.validate.silentLoss and cannot be checked by a "
@@ -7208,7 +7197,7 @@ _UNIQ_DOC = (
     " #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family "
     "every member describes THE SAME instant or extent, and `value.clock` on "
     "the REFERENCED document must be unique across the family -- that clock is "
-    "what makes two members different, and the `_1`/`_2` index means nothing on "
+    "what makes two members different, and the `_0`/`_1` index means nothing on "
     "its own. Split-anchored intervals are NOT what a second member is for: "
     "they have no instance (every markvalidinterval call site passes one "
     "reference for both ends), so there are no `start_anchor`/`end_anchor` "

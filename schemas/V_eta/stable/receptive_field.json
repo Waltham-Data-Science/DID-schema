@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag, with the estimation method and one entry per stored plane. The volume itself lives in `sampled_body` documents; the axes (including real lag coordinates) are declared there, on `axes[]`.",
+            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag, with the estimation method and one entry per stored plane. The volume itself lives in `sampled_body` documents; the keys (including real lag coordinates) are declared there, on `keys` (renamed from `axes`, #73 item 14).",
             "constraints": {},
             "fields": [
                 {

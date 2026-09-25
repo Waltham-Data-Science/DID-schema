@@ -36,7 +36,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Container / MIME format of the carried bytes (e.g. 'application/pdf', 'image/tiff', 'tiff'). A descriptor only.",
+            "documentation": "Container format of the carried bytes as an IANA media type (e.g. 'application/pdf', 'image/tiff'; `application/x-...` for lab formats with no registration). NOT a file extension (data_body plan sec.2). A descriptor only.",
             "constraints": {}
         },
         {
@@ -75,7 +75,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional hash of the payload bytes AS STORED in `body_data` -- after `compression`, not before. A natural dedup / integrity key, checkable without decoding. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored file; the algorithm is not declared by this field and is not recoverable from it.",
+            "documentation": "Optional hash of the payload bytes AS STORED in `body_data` -- after `compression`, not before. A natural dedup / integrity key, checkable without decoding. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored file. The algorithm is declared beside it, in `hash_algorithm`.",
             "constraints": {}
         },
         {

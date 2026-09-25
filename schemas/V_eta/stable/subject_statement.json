@@ -96,7 +96,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). A condition whose value is a per-reading ARRAY is the independent-variable axis (e.g. a tuning curve's direction); a length-1 value is a held-fixed covariate -- same kind of thing, distinguished only by cardinality. Distinct from `subject_interaction.method_parameters` (the algorithm's config -- how it was computed). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf); the full per-dimension type set is a provisional extension (D10). Value cardinality: length 1 (a constant condition) or the measurement's value length (one per reading). Typed by data type via the D9 registry keyed on `variable`.",
+            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). A condition is HELD FIXED for the whole statement: cardinality exactly 1 (data_body plan, signed 2026-08-14). Anything that varies per reading -- a tuning curve's direction, time -- is a KEY on `keys`, not a condition. Distinct from `subject_interaction.method_parameters` (the algorithm's config -- how it was computed). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf). Typed by data type via the D9 registry keyed on `variable`. NOTE: the signed Amendment 2 restructure (descriptors up, `count` flattened) is NOT BUILT yet; this shape is the pre-amendment one.",
             "constraints": {},
             "fields": [
                 {
@@ -452,7 +452,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are RADIANS, per angle.value.radians and the SI convention every other quantity in V_eta follows. Absent for a categorical axis, which uses `labels`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are RADIANS, per angle.value.radians. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical axis, which uses `labels`.",
                     "constraints": {},
                     "fields": [
                         {

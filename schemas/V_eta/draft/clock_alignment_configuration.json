@@ -19,7 +19,7 @@
         {
             "name": "acquisition_channels_#",
             "mustBeNonEmpty": false,
-            "documentation": "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: the rule is symmetric, so neither endpoint is 'first'.",
+            "documentation": "The channel groups this rule relates: 0 or 2 (sync configuration amendment 1, 2026-08-18: a file-based rule names none), UNORDERED because the rule is symmetric. The schema's min 0 / max 2 cannot exclude exactly 1; that check belongs to a validator.",
             "must_refer_to_document_class": "acquisition_channels",
             "multiple": true,
             "min_count": 0,

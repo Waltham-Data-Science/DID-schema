@@ -40,7 +40,9 @@ query spans all statements. The family branches by *epistemic direction*:
 `subject_assertion` (timeless fact), `subject_observation` (measured from),
 `subject_manipulation` (done to), `subject_calculation` (derived/computed about). An
 assertion has no act/series; an interaction (observation/manipulation/calculation) adds
-`method` (the verb), a per-sample `sample_time` cadence, an optional `instrument_id`, and
+`method` (the verb), its per-reading positions as `keys` (the `sample_time` block retires
+under the signed data_body model, 2026-08-14 — removal not yet built), an optional
+`instrument_id`, and
 requires a `time_reference`. (SPEC §3–§5)
 
 **Observation vs calculation is decided by provenance, not by whether software ran**
@@ -63,10 +65,11 @@ new `variable`; it is **not** a new hand-written class. (SPEC §6)
 **Undimensioned values ride a bare self-describing body (no generic numeric data_type).**
 `direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `image`,
 `tuning_curve`). But when a value is **raw numeric with no dimensioned meaning** (an
-unknown-modality recording; a receptive-field map), do **not** invent a generic `array` /
+unknown-modality recording), do **not** invent a generic `array` /
 `numeric` data_type — that would only duplicate `sampled_body` (T6, which is already
 "self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
-`sampled_body`: its `dtype`/`axes` live on the body, and the `variable` carries the label.
+`sampled_body`: its `keys` live on the body, its `datum_type` on the statement (#73), and
+the `variable` carries the label.
 The dimensioned data_types just *add* units on top. So: type it when you can (a modality → a
 composite); otherwise the self-describing body is the value. *(This is why `array` was killed
 and `ngrid` phases into `sampled_body`.)*
@@ -86,7 +89,8 @@ is normally an *address* (a value), not a subject. (SPEC §4)
 
 ### T6 — Storage is orthogonal to meaning; there are exactly two data bodies.
 `storage_mode ∈ {inline, reference, body}`. `data_body` has **exactly two** members:
-`sampled_body` (self-describing — sample-time axis + typed datum + summary; partial-read,
+`sampled_body` (self-describing — `keys` for every axis including time, with `datum_type`
+on the statement; `summary` dropped, #68; partial-read,
 value-searchable) and `opaque_body` (uninterpreted bytes). Every carrier — timeseries,
 dataseries, zarr, image, generic_file — phases into those; **encoding/format is a field,
 not a class**. Timing splits: the anchor lives in `time_reference`, the per-sample
@@ -183,7 +187,9 @@ its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 ### T11 — Naming grammar: one shape, one canonical name; nothing else in the name.
 - **Leaf** = `<data_type>_<direction>` (snake_case; direction ∈
   `observation`/`manipulation`/`assertion`/`calculation`). **Composite** = the bare
-  `<data_type>`. **time_reference** = `<origin>_<mode>_reference`.
+  `<data_type>`. **time_reference** = `absolute_time_reference` / `relative_time_reference`
+  (the `<origin>_<mode>_reference` family collapsed to these two, #65; the leaves say
+  "time", #73).
 - The name encodes **only the data type and the stance**. It must **never** encode:
   cardinality (`scalar_`, `_series`), storage/format (`_data`, `_file`, `_zarr`), a
   device/method subtype (`_ndr`, `_mfdaq`, `_image`), or an instrument. Those are a
@@ -302,10 +308,12 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 - **One payload slot.** Every `data_type` composite exposes its payload at exactly one
   field: **`value`**. This is what makes T3's `direction × data_type` factoring mechanical
   — `mass.value` means the same thing under `mass_observation` and `mass_assertion`, so one
-  query spans both. Descriptors needed to *interpret* the payload (unit, dtype, axes,
-  colour model) ride **inside** the cell, beside the value — never hoisted alongside it.
-  *(A `voltage` cell carries `source_unit` next to `source_value`; by the same rule an
-  `image` cell carries `dtype`/`axes` next to its pixels.)*
+  query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
+  **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
+  carries `source_unit` next to `source_value`; by the same rule an `image` cell carries
+  its `keys` next to its pixels. Exception, #73 item 15: the value's storage type is
+  `datum_type`, stated ONCE on the statement, and `color_model`/`channels` are read off the
+  channel key.)*
 - **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
   `ontology_term`, …) declares its sub-fields in the schema — the canonical value plus
   lossless source provenance — so the validator, the query-path generator, the viewer and

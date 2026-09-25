@@ -734,7 +734,7 @@
         "mass_observation",
         "temperature_observation",
         "length_observation",
-        "duration_observation",
+        "time_observation",
         "term_observation",
         "session_relative_reference"
       ],
@@ -868,7 +868,7 @@
         "frequency_observation",
         "acceleration_observation",
         "velocity_observation",
-        "duration_observation",
+        "time_observation",
         "volume_observation",
         "temperature_observation",
         "pressure_observation",
@@ -1455,10 +1455,12 @@
         "subject"
       ],
       "second_pass": [
-        "visual_grating_manipulation",
+        "timed_sequence_manipulation",
+        "timed_sequence",
+        "visual_grating",
         "sampled_body"
       ],
-      "how": "DEFERRED to the NDI second pass, which assembles ONE body-backed visual_grating_manipulation on the animal (resolved via stimulus_response -> element -> subject) + a sampled_body of one record per trial. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
+      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToTimedSequence, called from local.m since 2026-08-17): the presentation becomes a timed_sequence_manipulation around its preserved id, referencing standalone visual_grating documents, with a sampled_body; a standalone timed_sequence carries the multi-subject case. The earlier flattening pass to visual_grating_manipulation is no longer called. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
       "flags": "returns [] (leaves presentation as-is) when no animal responded",
       "target_completeness": {
         "state": "carry_forward",

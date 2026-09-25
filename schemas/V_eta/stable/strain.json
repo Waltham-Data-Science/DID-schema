@@ -51,7 +51,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The species this strain belongs to. Bound to NCBITaxon. REQUIRED by openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic specimen.species slot -- species and strain stay SIBLING assertions on a subject (record Parts 4 and 5).",
+            "documentation": "The species this strain belongs to. INTENDED binding: NCBITaxon -- NOT YET DECLARED on this field (binding worksheet, 2026-09-25). REQUIRED by openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic specimen.species slot -- species and strain stay SIBLING assertions on a subject (record Parts 4 and 5).",
             "constraints": {},
             "fields": [
                 {
@@ -171,7 +171,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "openMINDS BreedingType, where stated.",
+            "documentation": "openMINDS BreedingType, where stated. INTENDED binding, NOT YET DECLARED on this field (binding worksheet, 2026-09-25).",
             "constraints": {},
             "fields": [
                 {
