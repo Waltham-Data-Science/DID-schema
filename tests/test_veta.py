@@ -70,6 +70,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
         "acquisition_channels"
     assert si_edges["acquisition_channels_id"]["mustBeNonEmpty"] is False
     assert "channels" in {f["name"] for f in ac["fields"]}
+    ac_edges = {e["name"]: e for e in ac["depends_on"]}
+    # DECIDED required (item 56); stays optional until the DID-matlab minting pass
+    # lands -- test_veta_acquisition_system_edge_typing pins that.
+    assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
+    rig = _load(os.path.join(VETA, "stable", "acquisition_system.json"))
+    assert all(not e["mustBeNonEmpty"] for e in rig["depends_on"]), (
+        "a minimal rig (a name, nothing else) must validate")
     cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))

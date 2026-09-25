@@ -9136,10 +9136,13 @@ def _ac56(d):
         if e["name"] == "acquisition_system_id":
             e["documentation"] = (
                 "The rig this channel group is read on -- the device half of v1's "
-                "`devicestring` or a syncrule's device name. OPTIONAL. Until #73 item 54 "
-                "an unresolved device NAME rode on `base.name`, which V_eta documents no "
-                "longer write; where that name goes when no `acquisition_system` "
-                "resolves is OPEN (#73 item 56).")
+                "`devicestring` or a syncrule's device name. DECIDED REQUIRED (#73 item "
+                "56), kept OPTIONAL until the minting pass lands, because nothing fills "
+                "it today and #37 would quarantine every syncrule-fold document: "
+                "a batch pass resolves the device name by (session, name); when no "
+                "`acquisition_system` has that name it MINTS one whose `name` is the "
+                "device name, so the edge always resolves and the rig's name lives in "
+                "one place. (Until item 54 an unresolved name rode on `base.name`.)")
 
 
 _patch("acquisition_channels", _ac56)

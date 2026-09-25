@@ -1,5 +1,15 @@
 # #73 review — open items after the 2026-09-25 class-set audit
 
+> **STATUS at end of 2026-09-25 session.** DONE (decided + built schema-side, items 50–56 in
+> the decision record): 3 (names/duplicate declarations → item 54, plus `method_parameters`
+> `name`), 4 (leaves only when needed → item 50), 5 (`logical_observation` retired → item 52),
+> 6a (run environment → two `software` edges, item 53), 6b (channels → `acquisition_channels`,
+> item 56), 6c (`epoch.instrument_id` dropped, item 55); also `image` retired (item 51) and
+> cardinality only on repeated edges. TABLED: 1 (`control_designation`; findings below),
+> 2 (`fitcurve` / `model_fit`). NEXT: 7 onward. Item 56's required edge is kept optional in the
+> schema until the DID-matlab rig-minting pass lands. PR #76's checklist covers items 1–54;
+> items 55–56 still need adding to it.
+
 Working list, saved so it survives the session. **It records questions, not decisions**:
 decided items are in `schemas/V_eta_spatial_transcriptomics_plan.md` (items 1–49), and
 nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit_B_*`,

@@ -310,9 +310,15 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `acquisition_channels` document. A statement now points at a shared `acquisition_channels`
     document through `acquisition_channels_id` (the edge name `clock_alignment_configuration`
     already uses); the inline field and edge go. One document per distinct (rig, channels),
-    so a wiring that does not change is stored once, not once per epoch. **Open:** when a
-    device name resolves to no `acquisition_system`, the sync writer has kept the name on
-    `base.name`, which item 54 retires for V_eta documents.
+    so a wiring that does not change is stored once, not once per epoch. **An unresolved
+    rig is created, not dropped:** the sync writer used to keep a device name it could not
+    resolve on `base.name`, which item 54 retires. Now a batch pass resolves every device
+    name by (session, name), and when no `acquisition_system` has that name it mints a
+    minimal one whose `name` is the device name (every other rig edge is optional). So
+    `acquisition_channels.acquisition_system_id` is **decided required**, and a rig's name
+    lives only on `acquisition_system.name`. The schema keeps the edge optional until the
+    DID-matlab minting pass lands: nothing fills it today, and required-edge enforcement
+    (#37, on by default) would quarantine every document the sync fold emits.
 
 ## F. What is built (schema side), and what is not
 
