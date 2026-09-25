@@ -392,6 +392,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `value_id` present ⇒ the statement's own value and descriptors are empty;
     `data_body` true ⇒ at least one body owns the document (batch check).
 
+61. **`acquisition_metadata_file` retires; its bytes become a body** (2026-09-25, audit
+    item 10). v1 `daqmetadatareader_epochdata_ingested`'s `data.bin` is a `.nbf.tgz` of
+    the epoch's parsed stimulus parameters, one struct per stimulus (NDI
+    `+daq/metadatareader.m:127-146`; the reader consumes TSV-like files and stores this
+    archive, so the "TSV vs .nbf.tgz" discrepancy was two stages of one thing). It was
+    the one class carrying bytes outside the two data bodies (T6). The bytes become an
+    `opaque_body` owned by the stimulator's `term_manipulation` for that epoch (#66
+    increment 3 mints one per epoch × stimulator), kept as the lossless source beside the
+    typed stimulus decomposition, which is still lossy for stimuli it cannot type (Dab's
+    163 non-grating presentations). The reader stays reachable through the rig
+    (`acquisition_system.acquisition_metadata_reader_id`).
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

@@ -3181,9 +3181,11 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
         for name, (_tier, rec) in RECORDS.items()
         if any(d["name"] == "epoch_id" for d in rec.get("depends_on", []))
     }
-    assert len(holders) >= 4, (
-        "expected at least the four known holders (acquisition_metadata_file, "
-        f"ingestion_manifest, method_parameters, directed_relation); got {sorted(holders)!r}")
+    # 4 -> 3 (#73 item 61, 2026-09-25): acquisition_metadata_file retired; its
+    # bytes are an opaque_body of the stimulator's term_manipulation.
+    assert len(holders) >= 3, (
+        "expected at least the three known holders (ingestion_manifest, "
+        f"method_parameters, directed_relation); got {sorted(holders)!r}")
     for name, d in sorted(holders.items()):
         assert d["must_refer_to_document_class"] == "epoch", (
             "{}.epoch_id must point at the minted `epoch` entity, not {!r}".format(name, d["must_refer_to_document_class"]))

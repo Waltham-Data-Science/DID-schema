@@ -74,6 +74,8 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
    descriptors move to `data_type`; `storage_mode` -> the boolean `data_body`.
 10. **`acquisition_metadata_file`:** bytes outside the two data bodies, `_file` in the name
     (T6/T11), and its doc (TSV) vs the ledger (`.nbf.tgz`) disagree.
+    **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** item 61 -- the
+    class retires; `data.bin` becomes an `opaque_body` of the stimulator's term_manipulation.
 11. **`method_parameters.other`** is an untyped bag.
 12. **`clock_alignment_configuration` vs `method_parameters`** (open in the clock plan).
 13. **`session_id`** edge and `base.session_id` hold different ids on one document.

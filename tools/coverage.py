@@ -791,7 +791,11 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # #73 item 53: split into interpreter_id + operating_system_id
                   # -> `software`. jRuntimeEnvironment.m still mints it; remove
                   # when the PR #76 DID-matlab change lands.
-                  "runtime_environment"}
+                  "runtime_environment",
+                  # #73 item 61: its bytes become an opaque_body of the stimulator's
+                  # term_manipulation. migrators_j/daqmetadatareader_epochdata_ingested.m
+                  # still mints it; remove when the PR #76 DID-matlab change lands.
+                  "acquisition_metadata_file"}
 
 
 def guardrail(veta, emitted):

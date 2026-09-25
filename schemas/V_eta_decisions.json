@@ -293,7 +293,7 @@
         "daqreader_image_epochdata_ingested"
       ],
       "plan": "V_eta_ingested_payload_findings.md",
-      "decision": "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model",
+      "decision": "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> an `opaque_body` of the stimulator's term_manipulation (#73 item 61; `acquisition_metadata_file` retired); image one folds into the image model",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
@@ -1363,7 +1363,7 @@
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`",
           "2 consuming reference(s) (2 batch post-pass)",
-          "decided target(s) built: `acquisition_metadata_file`"
+          "decided target(s) built: `opaque_body`"
         ],
         "migrator_file": "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m",
         "n_consuming_refs": 2,
@@ -1439,10 +1439,10 @@
           }
         },
         "decided_targets": [
-          "acquisition_metadata_file"
+          "opaque_body"
         ],
         "decided_targets_built": [
-          "acquisition_metadata_file"
+          "opaque_body"
         ],
         "decided_targets_missing": [],
         "survivors": null,

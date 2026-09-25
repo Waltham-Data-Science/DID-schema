@@ -1219,23 +1219,15 @@ write("stable", "acquisition_reader",
                     "meaning and same optionality as on "
                     "`acquisition_metadata_reader`.",
                     non_empty=False)]))
-write("stable", "acquisition_metadata_file",
-      doc("acquisition_metadata_file", ["base"], fields=[],
-          deps=[dep("acquisition_metadata_reader_id", "acquisition_metadata_reader",
-                    "The reader whose output these bytes are.", non_empty=True),
-                dep("epoch_id", "epoch",
-                    "The epoch these bytes were ingested for.", non_empty=True)]))
-_amf_tier, _amf_path = path_of("acquisition_metadata_file")
-_amf = load(_amf_path)
-_amf["file"] = [{"name": "data.bin",
-                 "documentation":
-                     "The reader's ingested bytes for this epoch. The ONLY content "
-                     "this class has -- it declares no fields. Do NOT type the "
-                     "payload: the readers produce TSV in the cases seen, but "
-                     "nothing declares that, and proposing a shape from a template "
-                     "alone is what produced the ~2,078 distance_metadata "
-                     "quarantines."}]
-write(_amf_tier, "acquisition_metadata_file", _amf)
+# `acquisition_metadata_file` WAS MINTED HERE and is RETIRED by #73 review item 61
+# (2026-09-25, jess; not signed). It was the one class carrying document bytes outside
+# the two data bodies (T6): v1 `daqmetadatareader_epochdata_ingested`'s `data.bin`, which
+# NDI's metadatareader.ingest_epochfiles writes as a compressed (.nbf.tgz) copy of the
+# epoch's parsed stimulus parameters, one struct per stimulus. Those bytes are now an
+# `opaque_body` owned by the stimulator's term_manipulation for that epoch (#66 inc. 3
+# mints one per epoch x stimulator), kept as the lossless source beside the typed
+# stimulus decomposition. The reader stays reachable through the rig
+# (`acquisition_system.acquisition_metadata_reader_id`).
 
 # ---- #74: MINT `method_parameters` -- settings with an identity ------------
 # SIGNED 2026-08-09. The class is the existing inline

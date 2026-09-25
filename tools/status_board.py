@@ -506,7 +506,8 @@ FAMILIES = [
         "daqreader_image_epochdata_ingested"],
      "V_eta_ingested_payload_findings.md",
      ("reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
-     "metadata one -> `acquisition_metadata_file`; image one folds into the image model"),
+     "metadata one -> an `opaque_body` of the stimulator's term_manipulation (#73 item 61; "
+     "`acquisition_metadata_file` retired); image one folds into the image model"),
      "team"),
 
     # `dataseries_channel_map` -- FAMILY CLOSED 2026-08-09. Decided 2026-08-05
