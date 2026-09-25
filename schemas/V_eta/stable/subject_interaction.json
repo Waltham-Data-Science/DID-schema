@@ -103,16 +103,178 @@
         {
             "name": "method_parameters",
             "type": "structure",
-            "blank_value": {},
-            "default_value": {},
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional configuration of a COMPUTED value's algorithm -- the calculator input_parameters that produced it (D-C analysis tier). Present only when `method` names an algorithm; free-form (the knob set varies per calculator). Retaining it keeps the computation reproducible from the observation packet (paper Fig. 3E). Lives on the packet-head observation, once per calculation.",
+            "documentation": "The settings of the algorithm that produced this value, inline: the SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both.",
             "constraints": {},
-            "fields": []
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "value",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric knobs. The canonical value plus what the source wrote.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded unit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept whatever the registry later says.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "term",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical knobs (e.g. a threshold method).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "text",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Free-string knobs.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

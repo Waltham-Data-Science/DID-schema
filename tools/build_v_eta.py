@@ -9215,6 +9215,35 @@ _patch("subject_interaction", lambda d: d.__setitem__(
     "fields", [f for f in d["fields"] if f["name"] != "sample_time"]))
 
 
+# --- item 22 (signed [spike processing parameters] 2026-08-09): the INLINE
+# `subject_interaction.method_parameters` takes the SAME name and shape as the
+# `method_parameters` document's settings -- a `parameter[]` entry (bound `variable`,
+# numeric `value` cell, categorical `term`, free `text`). It was an empty free-form
+# structure. Copied from the document's own declaration, not restated, so the two
+# mount points cannot drift. A statement carries this field OR a
+# `method_parameters_id` edge, never both (the signed routing rule; not expressible
+# in the per-document schema, so it is stated here and on the field).
+_mp_doc = load(path_of("method_parameters")[1])
+_mp_shape = next(f for f in _mp_doc["fields"] if f["name"] == "method_parameters")
+
+
+def _si22(d):
+    for i, f in enumerate(d["fields"]):
+        if f["name"] == "method_parameters":
+            nf = json.loads(json.dumps(_mp_shape))   # a deep copy
+            nf["mustBeNonEmpty"] = False
+            nf["documentation"] = (
+                "The settings of the algorithm that produced this value, inline: the "
+                "SAME `parameter[]` shape as the `method_parameters` document (signed "
+                "2026-08-09, built #73 item 22). Used when the settings have no name and "
+                "id of their own in the source; otherwise the statement points at a "
+                "`method_parameters` document by `method_parameters_id`. Never both.")
+            d["fields"][i] = nf
+
+
+_patch("subject_interaction", _si22)
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta

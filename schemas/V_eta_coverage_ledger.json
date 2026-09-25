@@ -791,7 +791,7 @@
               },
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 683
+                "line": 687
               }
             ],
             "epoch extent -- row #113": [
@@ -885,7 +885,7 @@
             "spike processing parameters": [
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 7
+                "line": 11
               }
             ],
             "spike train leaf": [
@@ -8833,7 +8833,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 7,
+        "line": 11,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "sorting_parameters",
@@ -8848,13 +8848,13 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 7,
+          "line": 11,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "sorting_parameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `sorting_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:7. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `sorting_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:11. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9753,7 +9753,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 7,
+        "line": 11,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "spike_extraction_parameters",
@@ -9768,13 +9768,13 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 7,
+          "line": 11,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "spike_extraction_parameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:7. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:11. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9866,7 +9866,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 7,
+        "line": 11,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "spike_extraction_parameters_modification",
@@ -9881,13 +9881,13 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 7,
+          "line": 11,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "spike_extraction_parameters_modification",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters_modification` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:7. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters_modification` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:11. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -12679,7 +12679,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 7,
+        "line": 11,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "vmspikefilteringparameters",
@@ -12694,13 +12694,13 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 7,
+          "line": 11,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "vmspikefilteringparameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `vmspikefilteringparameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:7. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `vmspikefilteringparameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:11. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

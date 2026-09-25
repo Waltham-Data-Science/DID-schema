@@ -3681,3 +3681,24 @@ def test_leaves_exist_only_when_needed():
     with open(os.path.join(REPO_ROOT, "schemas", "V_eta_tenets.md")) as fh:
         tenets = fh.read()
     assert "A leaf is made when it is needed, not in advance" in tenets
+
+
+def test_inline_method_parameters_has_the_document_shape():
+    """Signed [spike processing parameters] 2026-08-09, built #73 item 22: the inline
+    `subject_interaction.method_parameters` keeps the SAME name and shape as the
+    `method_parameters` document's settings, a `parameter[]` entry. Pinned equal
+    (documentation and required-ness aside) so the two mount points cannot drift."""
+    def shape(cls):
+        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == "method_parameters")
+        def strip(x):
+            if isinstance(x, dict):
+                return {k: strip(v) for k, v in x.items()
+                        if k not in ("documentation", "mustBeNonEmpty")}
+            if isinstance(x, list):
+                return [strip(v) for v in x]
+            return x
+        return strip(f)
+    inline, document = shape("subject_interaction"), shape("method_parameters")
+    assert inline == document
+    assert [s["name"] for s in inline["fields"]] == ["variable", "value", "term", "text"]
+    assert inline["mustBeScalar"] is False

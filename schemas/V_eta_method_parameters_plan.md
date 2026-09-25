@@ -1,5 +1,9 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
+> **BUILD STATUS, 2026-09-25 (#73 review item 22):** the INLINE
+> `subject_interaction.method_parameters` now has the signed `parameter[]` shape, copied from
+> the document's own declaration (was an empty free-form structure). Emitters: PR #76 checklist.
+
 **DECIDED with the team, 2026-08-05. RE-DECIDED and SIGNED 2026-08-09. Build deferred
 (#74).** The shape below the "FINAL MODEL" heading supersedes the class described in the
 first half of this document; everything above it stands as rationale.
