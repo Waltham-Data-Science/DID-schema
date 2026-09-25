@@ -9020,6 +9020,80 @@ write("deprecated", "image", {
 })
 
 
+# --- item 54: names live on the classes that have one (jess, 2026-09-25) ----------
+# A name is a property of SOME things, not of every document: an observation, a body,
+# a relation has none, and a `base.name` on everything filled up with `migrated_*`
+# placeholders. So `base` stops carrying a name for V_eta documents, and each class
+# that has one declares it, spelled `name` wherever it is the single "what this is
+# called" (T13: one word per concept). Structure is kept only where the domain has it:
+# `short_name` (dataset, organization), the parts of a person's name, software's
+# `version`. `local_identifier` is a KEY, not a name, and stays only where the code
+# keys on it -- subject, session, epoch (required there); it comes off the eight
+# entities nothing writes it on (software's `name@version` is a derived merge key).
+#
+# `base.name` STAYS DECLARED, as a did_v1-ONLY slot (option 1): about 30 v1 classes
+# still pass through as themselves, each document carrying a v1 `base` block with a
+# name, and the validator rejects undeclared fields. V_eta emitters never write it;
+# it is deleted outright when the last passthrough class is converted (the Bar-2 end
+# state already requires "no v1 tombstones passed through").
+def _base54(d):
+    for f in d["fields"]:
+        if f["name"] == "name":
+            f["mustBeNonEmpty"] = False
+            f["documentation"] = (
+                "did_v1 ONLY (#73 item 54). Carried by v1 documents that pass through "
+                "under a retired tombstone; V_eta documents never write it -- a V_eta "
+                "class that has a name declares its own `name` field. Deleted when the "
+                "last passthrough class is converted.")
+
+
+_patch("base", _base54)
+
+
+def _drop_local_id(d):
+    d["fields"] = [f for f in d["fields"] if f["name"] != "local_identifier"]
+
+
+def _rename_to_name(old, doc_text):
+    def fn(d):
+        for f in d["fields"]:
+            if f["name"] == old:
+                f["name"] = "name"
+                f["documentation"] = doc_text
+    return fn
+
+
+for _c in ("person", "organization", "publication", "funding", "web_resource",
+           "dataset", "software", "strain"):
+    _patch(_c, _drop_local_id)
+_patch("organization", _rename_to_name(
+    "full_name", "The organization's name (openMINDS Organization.fullName; was "
+    "`full_name`, #73 item 54). ROR via global_identifier."))
+_patch("dataset", _rename_to_name(
+    "full_name", "The dataset's name (openMINDS DatasetVersion.fullName; was "
+    "`full_name`, #73 item 54)."))
+_patch("publication", _rename_to_name(
+    "title", "The publication's title (was `title`, #73 item 54: `name` is V_eta's "
+    "one word for what a thing is called)."))
+_patch("funding", _rename_to_name(
+    "title", "The award/grant title (openMINDS Funding.awardTitle; was `title`, #73 "
+    "item 54)."))
+_patch("web_resource", _rename_to_name(
+    "label", "The resource's name (was `label`, #73 item 54)."))
+
+
+def _acq54(d):
+    d["fields"] = [field(
+        "name", "char",
+        "The rig's name (v1 `daqsystem.base.name`, #73 item 54). NDI finds an "
+        "acquisition system by this name (session.m daqsystem_load; a syncrule's "
+        "daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
+        non_empty=False)] + d.get("fields", [])
+
+
+_patch("acquisition_system", _acq54)
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta

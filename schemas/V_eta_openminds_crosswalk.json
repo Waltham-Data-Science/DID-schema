@@ -8,7 +8,7 @@
       "properties": {
         "fullName": {
           "target_kind": "field",
-          "ndi_target": "full_name"
+          "ndi_target": "name"
         },
         "shortName": {
           "target_kind": "field",
@@ -183,7 +183,7 @@
       "properties": {
         "fullName": {
           "target_kind": "field",
-          "ndi_target": "full_name"
+          "ndi_target": "name"
         },
         "shortName": {
           "target_kind": "field",
@@ -211,7 +211,7 @@
       "properties": {
         "awardTitle": {
           "target_kind": "field",
-          "ndi_target": "title"
+          "ndi_target": "name"
         },
         "awardNumber": {
           "target_kind": "global_identifier",

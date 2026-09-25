@@ -277,6 +277,22 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     already carries an RRID, DOI, SWHID or Wikidata id. Before the DID-matlab change lands, a
     corpus run must confirm every v1 `app` fills os and interpreter (a required edge
     quarantines a calculation that left them empty).
+54. **Names live on the classes that have one; `base.name` is did_v1-only** (2026-09-25).
+    A name is a property of some things, not of every document: observations, bodies and
+    relations have none, and V_eta's `base.name` filled up with `migrated_*` placeholders
+    (which several passes also use as hidden type tags). So V_eta documents stop writing
+    `base.name`, and each class with a name declares `name`, V_eta's one word for what a
+    thing is called: `software`, `strain`, `method_parameters` (already), `acquisition_system`
+    (new: NDI finds a rig by its name), `dataset` and `organization` (was `full_name`; each
+    keeps `short_name`), `publication` and `funding` (was `title`), `web_resource` (was
+    `label`); `person` keeps its given/family/alternate names. **`local_identifier` is a key,
+    not a name**: it stays required on `subject`, `session` and `epoch`, where the code keys
+    on it (`epochIndex.m`, `resolveLawnPlateSubjects.m`, `session.m`), and comes off the
+    eight other entities, none of which has a writer for it except `software`, whose
+    `name@version` is a derived merge key. Subject, session and epoch get no `name` until
+    something needs one. **`base.name` stays declared only for v1 documents that pass
+    through** (about 30 classes; the validator rejects undeclared fields); V_eta emitters
+    never write it, and it is deleted when the last passthrough class is converted.
 
 ## F. What is built (schema side), and what is not
 

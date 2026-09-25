@@ -355,12 +355,21 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
         f = _local_id(e)
         assert f is not None, f"{e} should carry a required local_identifier"
         assert f["mustBeNonEmpty"] is True, f"{e}.local_identifier must be required"
-    # every other entity carries it, optional
+    # #73 item 54 (2026-09-25): a local_identifier is a KEY, kept only where the
+    # code keys on it (subject, session, epoch). It comes off the entities nothing
+    # writes it on; software's `name@version` was a derived merge key.
     for e in ("dataset", "person", "organization", "publication", "funding",
-              "web_resource"):
-        f = _local_id(e)
-        assert f is not None, f"{e} should carry an optional local_identifier"
-        assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"
+              "web_resource", "software", "strain"):
+        assert _local_id(e) is None, f"{e} should carry no local_identifier (#73 item 54)"
+    # ...and each class with a name declares `name`; base.name is did_v1-only.
+    for e in ("dataset", "organization", "publication", "funding", "web_resource",
+              "software", "strain", "acquisition_system", "method_parameters"):
+        names = [f["name"] for f in RECORDS[e][1]["fields"]]
+        assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
+        assert not {"full_name", "title", "label"} & set(names), names
+    base_name = next(f for f in RECORDS["base"][1]["fields"] if f["name"] == "name")
+    assert base_name["mustBeNonEmpty"] is False
+    assert "did_v1 ONLY" in base_name["documentation"]
 
 
 def test_demo_family_collapsed_to_one_class():

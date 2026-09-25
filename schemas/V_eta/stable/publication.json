@@ -13,7 +13,7 @@
     "file": [],
     "fields": [
         {
-            "name": "title",
+            "name": "name",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Publication title.",
+            "documentation": "The publication's title (was `title`, #73 item 54: `name` is V_eta's one word for what a thing is called).",
             "constraints": {}
         },
         {
@@ -49,19 +49,6 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Author citation string \u2014 external, NOT decomposed into person entities (cited papers' authors stay coarse).",
-            "constraints": {}
-        },
-        {
-            "name": "local_identifier",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
             "constraints": {}
         }
     ]
