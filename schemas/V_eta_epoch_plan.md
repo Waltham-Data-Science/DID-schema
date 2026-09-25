@@ -3,6 +3,8 @@
 > **AMENDED 2026-09-25 (#73 review item 55, `V_eta_spatial_transcriptomics_plan.md`):**
 > `epoch.instrument_id` is DROPPED -- an epoch name can be shared by several rigs in
 > older data, and the rig is recorded on each recording statement instead.
+> **AND (#73 item 57):** `epoch.session_id` is DROPPED too -- `base.session_id` already names
+> the session, and session documents are 1:1 with its distinct values (#51).
 
 **DECIDED with the team 2026-08-05; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF
 [epoch]` line is at the bottom of this document. Build still deferred.**

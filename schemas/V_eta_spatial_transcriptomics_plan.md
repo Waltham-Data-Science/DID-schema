@@ -319,6 +319,22 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     lives only on `acquisition_system.name`. The schema keeps the edge optional until the
     DID-matlab minting pass lands: nothing fills it today, and required-edge enforcement
     (#37, on by default) would quarantine every document the sync fold emits.
+57. **Small audit decisions** (2026-09-25).
+    - `area` stays in square meters: it follows `length` (meters), as velocity and
+      acceleration do; `volume` in liters is the deliberate practical exception (audit 8).
+    - `receptive_field.value` drops `storage_mode` and `method`: they repeated the
+      statement's own `storage_mode` and `subject_interaction.method` (audit 18).
+    - `ngrid` is neither deleted nor folded now: the restored v1 `hartley_calc` chain and
+      `ontologyImage` still inherit from it, so it goes with the last passthrough (audit 20).
+    - `tuning_curve.value.response_units` (free text) becomes `response_unit`, an
+      `ontology_term` like every other unit, unbound until the unit vocabulary is chosen
+      (audit 16, item 24).
+    - The `session_id` edges on `epoch` and `clock_alignment_policy` are dropped: every
+      document names its session in `base.session_id`, and session documents are 1:1 with
+      the distinct `base.session_id` values (#51, all six corpora). Reverses that part of the
+      epoch sign-off (audit 13).
+    - Tabled: `harmonic_component`'s control shape (audit 17) and `clock_alignment`'s
+      inheritance (audit 19).
 
 ## F. What is built (schema side), and what is not
 

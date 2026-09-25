@@ -779,15 +779,15 @@
             "epoch": [
               {
                 "document": "V_eta_epoch_plan.md",
-                "line": 882
+                "line": 884
               },
               {
                 "document": "V_eta_epoch_plan.md",
-                "line": 1245
+                "line": 1247
               },
               {
                 "document": "V_eta_epoch_plan.md",
-                "line": 1358
+                "line": 1360
               },
               {
                 "document": "V_eta_method_parameters_plan.md",
@@ -4110,7 +4110,7 @@
       "decided_by_family": {
         "family": "epoch",
         "document": "V_eta_epoch_plan.md",
-        "line": 882,
+        "line": 884,
         "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
         "matched_on": "v1_class",
         "matched_name": "element_epoch",
@@ -4125,13 +4125,13 @@
         "signoff": {
           "family": "epoch",
           "document": "V_eta_epoch_plan.md",
-          "line": 882,
+          "line": 884,
           "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
           "matched_on": "v1_class",
           "matched_name": "element_epoch",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `epoch` names this class as `element_epoch` (v1_class), and that family is signed at `V_eta_epoch_plan.md`:882. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `epoch` names this class as `element_epoch` (v1_class), and that family is signed at `V_eta_epoch_plan.md`:884. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4474,7 +4474,7 @@
       "decided_by_family": {
         "family": "epoch",
         "document": "V_eta_epoch_plan.md",
-        "line": 882,
+        "line": 884,
         "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
         "matched_on": "v1_class",
         "matched_name": "epochfiles_ingested",
@@ -4586,7 +4586,7 @@
       "decided_by_family": {
         "family": "epoch",
         "document": "V_eta_epoch_plan.md",
-        "line": 882,
+        "line": 884,
         "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
         "matched_on": "v1_class",
         "matched_name": "epochid",

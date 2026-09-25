@@ -556,6 +556,11 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     _tier, d = BUILT["relative_time_reference"]
     rel = next(x for x in d["depends_on"] if x["name"] == "referent_id")
     assert rel["mustBeNonEmpty"] is True
+    # #73 item 57 (2026-09-25): the epoch's `session_id` EDGE is dropped. Its
+    # session is `base.session_id`, required on every document, and session
+    # documents are 1:1 with those values (#51) -- the edge restated it.
     epoch = BUILT["epoch"][1]
-    sess = next(x for x in epoch["depends_on"] if x["name"] == "session_id")
-    assert sess["mustBeNonEmpty"] is True
+    assert "session_id" not in {x["name"] for x in epoch["depends_on"]}
+    base = BUILT["base"][1]
+    sid = next(f for f in base["fields"] if f["name"] == "session_id")
+    assert sid["mustBeNonEmpty"] is True

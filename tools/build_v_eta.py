@@ -9148,6 +9148,63 @@ def _ac56(d):
 _patch("acquisition_channels", _ac56)
 
 
+# --- item 57: small audit decisions (jess, 2026-09-25) ---------------------------
+# (a) `area` stays in square_meters: it follows `length` (meters), as velocity and
+#     acceleration do; `volume` in liters is the deliberate practical exception.
+def _area57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            f["documentation"] = (
+                (f.get("documentation") or "") + " Canonical unit square_meters, "
+                "following `length` (meters) as area = length^2 (#73 item 57); "
+                "`volume` in liters is the deliberate practical exception.")
+
+
+_patch("area", _area57)
+
+
+# (b) `receptive_field.value` drops `storage_mode` and `method`: how the value is
+#     stored and how it was estimated belong to the statement (its own
+#     `storage_mode`, and `subject_interaction.method` on receptive_field_calculation).
+def _rf57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            f["fields"] = [x for x in f["fields"]
+                           if x["name"] not in ("storage_mode", "method")]
+
+
+_patch("receptive_field", _rf57)
+
+
+# (c) `tuning_curve.value.response_units` (free text) -> `response_unit`, an
+#     ontology_term like every other unit; unbound until the unit vocabulary is
+#     chosen (#73 item 24).
+def _tc57(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            for i, x in enumerate(f["fields"]):
+                if x["name"] == "response_units":
+                    f["fields"][i] = subfield(
+                        "response_unit", "ontology_term",
+                        "Unit of the response values (e.g. spikes per second, dF/F), "
+                        "a term like every other unit (was free-text "
+                        "`response_units`, #73 item 57). Unbound until the unit "
+                        "vocabulary is chosen (#73 item 24).", non_empty=False)
+
+
+_patch("tuning_curve", _tc57)
+
+
+# (d) the `session_id` edges on `epoch` and `clock_alignment_policy` go: every
+#     document already names its session in `base.session_id`, and session
+#     documents are 1:1 with the distinct base.session_id values (#51, measured in
+#     all six corpora), so the edge restated a fact. Reverses that part of the epoch
+#     sign-off.
+for _c in ("epoch", "clock_alignment_policy"):
+    _patch(_c, lambda d: d.__setitem__(
+        "depends_on", [e for e in d["depends_on"] if e["name"] != "session_id"]))
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta
