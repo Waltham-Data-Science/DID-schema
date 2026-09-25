@@ -16,6 +16,20 @@
             "mustBeNonEmpty": true,
             "documentation": "The subject this statement is about (the finest entity the value directly describes; Brainstorm J objective-annotation rule).",
             "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "axis_labels_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The documents whose rows name a key's positions, referenced from that key's `labels_from` by edge name (item 12). Resolved and orphan-checked like any other edge.",
+            "must_refer_to_document_class": "base",
+            "multiple": true,
+            "min_count": 0
+        },
+        {
+            "name": "value_id",
+            "mustBeNonEmpty": false,
+            "documentation": "storage_mode `reference`: the standalone data_type document that holds this statement's value (item 30). ONE role-named edge for every data type, so `storage_mode: reference` <=> `value_id` present.",
+            "must_refer_to_document_class": "data_type"
         }
     ],
     "file": [],
@@ -363,7 +377,7 @@
             ]
         },
         {
-            "name": "axes",
+            "name": "keys",
             "type": "structure",
             "blank_value": [],
             "default_value": [],
@@ -372,7 +386,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Index dimensions of this statement's value, in array order: axes[k] IS array dimension k. Time is an ordinary axis. Populated when the value is INLINE on the statement or lives behind a single external REFERENCE; when storage_mode is `body` the axes live on each data_body instead, because each body has its own extent.",
+            "documentation": "What a value is looked up by, in array order: keys[k] IS array dimension k. Time is an ordinary key. Populated when the value is INLINE or behind a REFERENCE; with storage_mode `body` the keys live on each body, which has its own extent.",
             "constraints": {},
             "fields": [
                 {
@@ -518,7 +532,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: coordinates are generated from origin + spacing. False: they are stored, in `values` or `labels`.",
+                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `labels_from`.",
                     "constraints": {}
                 },
                 {
@@ -660,7 +674,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical coordinates. REQUIRED iff NOT `regular` and categorical. XOR with `values`.",
+                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `labels_from`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -690,8 +704,60 @@
                             "constraints": {}
                         }
                     ]
+                },
+                {
+                    "name": "labels_from",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the NAME of an `axis_labels_#` edge on this document (e.g. 'axis_labels_0'). XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
+                    "constraints": {}
+                },
+                {
+                    "name": "cyclic",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Absent = false.",
+                    "constraints": {}
+                },
+                {
+                    "name": "chunk",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Positions per chunk along this key when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`; a missing member is an empty chunk. Absent = this key is not split.",
+                    "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "complete",
+            "type": "boolean",
+            "blank_value": true,
+            "default_value": true,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True: every combination of key positions has a value (a dense grid). False: only the listed rows exist (ragged or sparse; a missing row is absence, e.g. an unlabelled cell).",
+            "constraints": {}
         },
         {
             "name": "datum_type",
@@ -703,7 +769,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How this statement's VALUES are encoded. REQUIRED in practice whenever the value has a byte representation (storage_mode `body` or `reference`); absent for a value that is a term or an inline composite with no numeric payload.",
+            "documentation": "How this statement's VALUES are encoded -- the ONE place the value type lives (a body never repeats it). REQUIRED in practice whenever the value has a byte representation: storage_mode `body` or `reference`, AND an inline numeric payload such as an image's pixels. Absent only for a value with no numeric payload (a term).",
             "constraints": {
                 "enum": [
                     "uint8",

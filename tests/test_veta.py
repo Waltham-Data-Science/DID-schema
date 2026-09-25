@@ -309,9 +309,14 @@ def test_entity_genus():
     for e in ("subject", "person", "organization", "publication", "funding",
               "dataset", "web_resource", "session"):
         assert "entity" in _chain(e), f"{e} should descend from entity"
-    # directed_relation endpoints are entities now, not just subjects
+    # directed_relation endpoints are entities now, not just subjects -- and since
+    # #73 (items 22/24/27) also statements and standalone data documents (a label
+    # calculation derived_from an external atlas; a gene list derived_from its
+    # annotation; the target list of a gene mapping).
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    assert dr["child"]["must_refer_to_document_class"] == "entity"
+    for end in ("child", "parent"):
+        assert dr[end]["must_refer_to_document_class"].split(",") == [
+            "entity", "subject_statement", "data_type"], dr[end]
     # dataset documentation/homepage links are relations -> web_resource, not fields
     dataset_fields = {f["name"] for f in RECORDS["dataset"][1]["fields"]}
     assert "documentation" not in dataset_fields
@@ -525,10 +530,14 @@ def test_data_body_classes():
     # it (jSorterOutput, foldGenericFiles, and NDI's
     # stimulusPresentationToManipulation), so opaque_body's documented
     # "free-standing attachment" case had zero emitters.
+    # RENAMED `owner` by #73 (item 24) and WIDENED to standalone data documents
+    # (item 20): a shared image, waveform or term list needs a body too. Still ONE
+    # edge on the parent, still REQUIRED.
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
-                     if d["name"] == "statement")
+                     if d["name"] == "owner")
+    assert statement["must_refer_to_document_class"] == "subject_statement,data_type"
     assert statement["mustBeNonEmpty"] is True, (
-        "the hoisted `statement` edge must be REQUIRED -- optional would drop a "
+        "the hoisted `owner` edge must be REQUIRED -- optional would drop a "
         "guarantee sampled_body already enforced under the armed #37 gate")
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
@@ -537,8 +546,8 @@ def test_data_body_classes():
         # field (#69) and redeclaring is SILENT, so a re-declaration here would
         # be invisible drift rather than an error.
         own = {d["name"] for d in RECORDS[body][1].get("depends_on", [])}
-        assert "statement" not in own, (
-            f"{body} re-declares `statement`; it is inherited from data_body now")
+        assert "owner" not in own, (
+            f"{body} re-declares `owner`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     # `datum` IS GONE (signed sec.5): its `dtype` became
     # `subject_statement.datum_type`, and `unit` / `shape` / `kind` were dropped
@@ -556,7 +565,7 @@ def test_data_body_classes():
     assert sft.get("sample_time") is None, (
         "sampled_body declares `sample_time` again; it retired into `axes`, "
         "which is the single home for a body's index dimensions")
-    assert sft.get("axes") is not None, (
+    assert sft.get("keys") is not None, (
         "sampled_body must declare `axes` -- it is where the retired "
         "sample_time's content went")
     # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
@@ -571,7 +580,7 @@ def test_data_body_classes():
     # data with no epoch -- optional (array-of-records), so it never burdens the
     # common scalar/time-series case.
     sampled_axes = next(f for f in RECORDS["sampled_body"][1]["fields"]
-                        if f["name"] == "axes")
+                        if f["name"] == "keys")
     assert sampled_axes["mustBeNonEmpty"] is False
     assert sampled_axes["mustBeScalar"] is False
     # opaque_body carries a small descriptor (generic_file is INTENDED to fold onto
@@ -660,8 +669,11 @@ def test_the_two_stranding_classes_have_a_tombstone():
         "opaque_body declares fields of its own again -- after the hoist its "
         "content is exactly 'these bytes are not an array'")
     db_fields = {f["name"] for f in RECORDS["data_body"][1]["fields"]}
+    # #73 (items 25/31) added the file identity facts an UNHELD body needs
+    # (hash_algorithm, size_bytes, file_created/_modified) and `redundant`.
     assert {"format", "compression", "filename", "content_hash",
-            "description"} == db_fields, db_fields
+            "description", "hash_algorithm", "size_bytes", "file_created",
+            "file_modified", "redundant"} == db_fields, db_fields
     # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
     # moot: it said that if `compression` ever appeared, content_hash must state
     # WHICH byte stream it covers (plan open question 3). It appeared, so the
@@ -1624,7 +1636,8 @@ def test_dimensioned_cells_carry_source_provenance():
     # `test_all_axes_declarations_are_the_one_entry` asserts every `axes`
     # declaration in the tree is the one signed entry. Without that this would be
     # a hole, since any field called `axes` would then skip the triple check.
-    hoisted_field_names = {"axes"}
+    # `axes` was renamed `keys` by #73 (item 14).
+    hoisted_field_names = {"keys"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         for f in d.get("fields", []):
@@ -2640,7 +2653,7 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     """
     assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
     _tier, body = RECORDS["sampled_body"]
-    axes = [f for f in body["fields"] if f["name"] == "axes"]
+    axes = [f for f in body["fields"] if f["name"] == "keys"]
     assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
     sub = [s["name"] for s in axes[0].get("fields", [])]
     # DENOMINATOR FIRST, kept from the original: without it an empty sub-field
@@ -2696,7 +2709,7 @@ def test_all_axes_declarations_are_the_one_entry():
 
     def walk(fields, cls):
         for f in fields or []:
-            if f["name"] == "axes":
+            if f["name"] == "keys":
                 found[cls] = [s["name"] for s in f.get("fields", [])]
             walk(f.get("fields"), cls)
 
@@ -2767,8 +2780,9 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     edges = {e["name"]: e
              for c in _chain("sampled_body")
              for e in RECORDS[c][1].get("depends_on", [])}
-    assert edges["statement"]["mustBeNonEmpty"] is True, (
-        "the fold binds the body to the image_observation through `statement`; "
+    assert edges["owner"]["mustBeNonEmpty"] is True, (
+        "the fold binds the body to the image_observation through `owner` "
+        "(named `statement` until #73); "
         "an optional edge here would let a body be minted belonging to nobody")
 
     # WAS: "`datum.kind` must admit 'array' -- an ngrid is an N-D grid by
@@ -2779,14 +2793,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # a word. The property this guarded is now checked where it lives.
     assert not [f for f in sb["fields"] if f["name"] == "datum"], (
         "sampled_body declares `datum` again")
-    axes = next(f for f in sb["fields"] if f["name"] == "axes")
+    axes = next(f for f in sb["fields"] if f["name"] == "keys")
     assert axes["mustBeScalar"] is False, (
         "sampled_body.axes must be a LIST -- an ngrid is an N-D grid, and the "
         "axis count is what replaced datum.kind's scalar/array distinction")
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
-    axes = next(f for f in sb["fields"] if f["name"] == "axes")
+    axes = next(f for f in sb["fields"] if f["name"] == "keys")
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
     # UPDATED 2026-08-14: was `["name"]`. The signed axis entry drops `name` --
     # its own examples ('contrast', 'orientation') ARE variables, and a
@@ -3321,7 +3335,9 @@ def test_logical_is_a_boolean_valued_statement_leaf():
         "the replaced classes are still built; a name that means the same thing "
         "twice is how a migrator ends up emitting the dead one")
     _tier, comp = RECORDS["logical"]
-    assert comp["document_class"]["abstract"] is True
+    # CONCRETE since #73 item 19: every data_type composite is instantiable (a
+    # standalone value document is content, not a claim).
+    assert not comp["document_class"].get("abstract")
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
 
     # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a

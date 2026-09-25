@@ -35,5 +35,19 @@
         }
     ],
     "file": [],
-    "fields": []
+    "fields": [
+        {
+            "name": "redundant",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True = this calculation adds NO information beyond its inputs: an exact, deterministic, choice-free rebuild exists (per-gene totals summed from the counts), so it is safe to delete. Most calculations are NOT redundant -- a clustering, a label transfer or a fit depends on method, version and randomness. Nothing may cite a redundant document as a provenance input (item 31; T6).",
+            "constraints": {}
+        }
+    ]
 }

@@ -9,14 +9,14 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 258 |
-| settled (persist) | 182 |
-| settled (retire) | 50 |
+| target classes | 269 |
+| settled (persist) | 186 |
+| settled (retire) | 57 |
 | **still open (`in_progress`)** | **26** |
 | **`retire` with no migrator YET** | **3** |
 | open **decision families** | **28** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 27 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 1 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 26 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 2 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
@@ -29,7 +29,7 @@ for each model; this board owns *how much is left and what exactly*.
 
 The class count is not the work count. 26 open classes are 28 decisions, because most open classes move as a family.
 
-**1 of those 28 are not settled**: 1 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 27 are signed off.
+**2 of those 28 are not settled**: 2 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 26 are signed off.
 
 ## What is actually left on the 26 open classes
 
@@ -302,8 +302,10 @@ re-deciding -- it needs recording.
 | family | classes | what was decided | document |
 |---|---|---|---|
 | **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + runtime_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
+| **spatial_transcriptomics_family** | 8 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
 - **calculator mixin dropped (#73)**: `calculator`
+- **spatial_transcriptomics_family**: `cellTypeLabels`, `fileReference`, `geneExpression`, `geneList`, `geneListMapping`, `spatialGeneExpressionCells`, `spatialGeneExpressionPyramid`, `spatialGeneExpressionTiles`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -331,9 +333,9 @@ Until that line exists the family shows here regardless of what
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 27 signed families. 18 named at least one decided target class and were checked against the built tree; 9 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 26 signed families. 17 named at least one decided target class and were checked against the built tree; 9 named none and are UNCHECKED HERE.**
 
-Across the 18 checked: 40 distinct target class(es), 40 present in the built set, 0 not.
+Across the 17 checked: 34 distinct target class(es), 34 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
@@ -372,7 +374,7 @@ is why migrator work before the target closes is rework.
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
-| **confirm sheet 2026-08-17** | 5 | 5 of 5 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
+| **confirm sheet 2026-08-17** | 5 | 6 of 6 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
 | **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
@@ -385,17 +387,16 @@ is why migrator work before the target closes is rework.
 | **frequency_filter** | 1 | 1 of 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 | **spike processing parameters** | 4 | 1 of 1 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | no target recorded | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
-| **stimulus response** | 4 | 1 of 1 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
+| **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | no target recorded | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | 2 | 12 of 12 | a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: subject_id = the specimen, instrument_id = the electrode in the instrument role (T7), variable = the modality from the element type, body = `sampled_body`; the loose `probe observes specimen` relation RETIRES in favour of the instrument_id edge, and ONLY where that edge was actually written. Guard A stands (an unmapped element type still yields a VALUED observation over a self-describing sampled_body with a queryable `modality_unresolved` flag, never a timeseries_observation or `array`). Multi-channel is ONE observation with a channel axis, not N. Specimen granularity is accepted as faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` emits this model's SHAPE while attributing it to the element rather than the specimen and writing no instrument_id | `V_eta_recording_observation_plan.md` |
 | **subject** | 1 | no target recorded | PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id PRESERVED (subject_id is the most-referenced edge in the corpus). The did_v1 template and V_eta declare the same two fields; the superclass moves base -> entity, `local_identifier` becomes REQUIRED, and `datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename rather than this migrator. No fold is owed and none should be built | `V_eta_go_forward_class_audit.md` |
 | **session** | 1 | no target recorded | `reference` -> `local_identifier`, REQUIRED, matching subject and epoch, with the now-duplicate optional slot dropped; type/date/purpose DELETED as V_zeta inventions (NDI's template declares `reference` and nothing else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first migrator, and the two NDI reads by path -- which accept BOTH spellings rather than moving, because a database may be pre- or post-migration. NDI's WRITE stays did_v1 on purpose: it validates against NDI's own template, which still declares `reference` | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
-| **spatial_transcriptomics_family** | 8 | 8 of 8 | Corrected Option C. spatialGeneExpressionPyramid becomes ⊂ [gene_expression, subject_observation] (was ⊂ [base, geneExpression]), picking up variable/method_parameters/sample_time/time_reference_# from the subject_observation direction; the class's own subject_id required-ness moves onto the inherited subject_statement slot. The other seven persist ⊂ base: cell_type_labels, gene_expression, gene_list, gene_list_mapping, spatial_gene_expression_cells, spatial_gene_expression_tiles, file_reference. file_reference is DELIBERATELY NOT folded to generic_file -- the two coexist by design. Follow-ons deferred: `variable` binding (#120, signed and wired), axes[]/format/compression when 2.D lands (#125), T8 bindings (#126). Full reasoning at DID-schema#70. Migrators + fixtures are Session 2's scope (#122, #123); no corpus proof today (#124). | `V_eta_go_forward_class_audit.md` |
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 27 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 26 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 15 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -439,7 +440,6 @@ it.
 | **subject measurement** | `absolute_time_reference` | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | `pyraview` | `V_eta_recording_observation_plan.md` |
 | **misc singletons** | `sampled_body`, `subject_statement` | `V_eta_go_forward_class_audit.md` |
-| **spatial_transcriptomics_family** | `base`, `cell_type_labels`, `file_reference`, `gene_expression`, `gene_list`, `gene_list_mapping`, `generic_file`, `method_parameters`, `spatial_gene_expression_cells`, `spatial_gene_expression_tiles`, `subject_observation`, `subject_statement` | `V_eta_go_forward_class_audit.md` |
 
 **AND: 1 document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`
 line.** An untagged line signs the document, and counts only when
@@ -453,10 +453,10 @@ visible either.
 
 | disposition | count |
 |---|---|
-| retire | 49 |
+| retire | 56 |
 | consumed by migrator (no tombstone) | 28 |
 | in_progress | 19 |
-| persist | 12 |
+| persist | 5 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |

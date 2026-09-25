@@ -80,12 +80,15 @@ def _field(schema, name):
 
 # ---------------------------------------------------------------- the targets
 
-def test_harmonic_component_is_an_abstract_data_type_composite():
-    """The composite half of the signed pair. ABSTRACT: a bare harmonic is never
-    a document, only the direction leaf is."""
+def test_harmonic_component_is_a_concrete_data_type_composite():
+    """The composite half of the signed pair. It WAS abstract ("a bare harmonic
+    is never a document, only the direction leaf is"); #73 item 19 (team,
+    2026-09-24) made every data_type composite concrete, because T6's
+    `storage_mode: reference` needs a standalone value document to point at. A
+    standalone composite is CONTENT, not a claim."""
     tier, d = BUILT["harmonic_component"]
     assert tier == "draft"
-    assert d["document_class"].get("abstract") is True
+    assert not d["document_class"].get("abstract")
     assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
     # T14: ONE `value` slot, structure, not a bag of loose top-level fields.
     assert [f["name"] for f in d["fields"]] == ["value"]
@@ -125,20 +128,22 @@ def test_the_four_coefficient_subfields_are_matrices_and_harmonic_is_scalar():
     assert subs["harmonic"]["mustBeScalar"] is True
 
 
-def test_harmonic_component_calculation_is_deleted():
-    """#67 (TEAM-SIGN-OFF 2026-09-21) DELETED `harmonic_component_calculation`
-    from `schemas/V_eta/draft/`. The composite `harmonic_component` stays as
-    ③ infrastructure for #61's stimulus-response fold; a future concrete calc
-    under `tuning_curve_calculation` or a dedicated `stimulus_response_calculation`
-    family names its own leaf. Inverted from the earlier "is the
-    subject_calculation leaf" test, kept because the deletion is a decision
-    someone tidying the tree would be tempted to un-do -- the tripwire fails
-    the moment the class comes back."""
-    assert "harmonic_component_calculation" not in BUILT, (
-        "`harmonic_component_calculation` was restored to the built set. Per "
-        "issue #67 §Concrete edits, the class is DELETED -- v1 has no source "
-        "that emits it as its own leaf. A restoration would need its own "
-        "sign-off; do not re-add it silently.")
+def test_harmonic_component_calculation_is_restored():
+    """RESTORED by the #73 review (jess, 2026-09-25; decision record
+    V_eta_spatial_transcriptomics_plan.md item 37). History: signed 2026-08-08
+    (TEAM-SIGN-OFF [stimulus response]), deleted 2026-09-21 by issue #67 decision
+    10, whose premise -- `_calculation` means "a calculator produced it" (#67
+    decision 13) -- #73's rule C replaced: calculation is decided by PROVENANCE,
+    and a stimulus response is computed from the spike train and the stimulus
+    presentation, both in the dataset.
+
+    This test USED TO be the tripwire against exactly this restoration ("do not
+    re-add it silently"). It is not silent: it is inverted here, beside its
+    reason, so the two decisions cannot be confused. The restoration's own
+    TEAM-SIGN-OFF line is the team's to add (Operating Rule 4)."""
+    _tier, d = BUILT["harmonic_component_calculation"]
+    supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
+    assert supers == ["subject_calculation", "harmonic_component"], supers
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
@@ -436,7 +441,13 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # double/matrix fields with NO min/max constraint at any depth, and the
     # `calculator` tombstone and subject_calculation's two moved edges declare
     # no field at all.
-    assert walked == 256, f'schema count moved; re-derive the inert set ({walked})'
+    # EIGHTH MOVEMENT, re-derived not bumped: 256 -> 267 for the #73 review build
+    # (2026-09-25). +11: label, label_calculation, coordinate_system, position,
+    # position_observation, position_calculation, count/area/score/term
+    # _calculation, harmonic_component_calculation (restored, item 37). None
+    # declares a numeric min/max at any depth, so the pinned INERT list below is
+    # untouched -- which the next assertion checks rather than assumes.
+    assert walked == 267, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
@@ -485,17 +496,17 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     """
     _tier, d = BUILT["subject_statement"]
     names = {f["name"] for f in d["fields"]}
-    assert "axes" in names, (
-        "`subject_statement.axes` is the inline/reference arm of the signed mount "
+    assert "keys" in names, (
+        "`subject_statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"variable", "conditions", "storage_mode", "axes",
-                     "datum_type", "source_datum_type"}
+    assert names == {"variable", "conditions", "storage_mode", "keys",
+                     "complete", "datum_type", "source_datum_type"}
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.
-    axes = next(f for f in d["fields"] if f["name"] == "axes")
+    axes = next(f for f in d["fields"] if f["name"] == "keys")
     sub = [s["name"] for s in axes.get("fields", [])]
     assert "variable" in sub and "n" in sub, (
         f"`subject_statement.axes[]` declares {sub!r}, which is not the signed "

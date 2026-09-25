@@ -111,7 +111,7 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, 'multiple' must be true."
+                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_0', 'syncrule_id_1', etc. V_eta numbers family members from 0 (T14); did_v1 documents numbered them from 1 and are read as written. When '#' appears, 'multiple' must be true."
                 },
                 "mustBeNonEmpty": {
                     "type": "boolean",
@@ -165,6 +165,10 @@
                 "documentation": {
                     "type": "string",
                     "description": "Description of the file's contents."
+                },
+                "series": {
+                    "type": "boolean",
+                    "description": "True: this name is a DID file series -- a manifest plus members NAME_0, NAME_1, ... (numbered from 0, T14); missing members are expected."
                 }
             }
         },

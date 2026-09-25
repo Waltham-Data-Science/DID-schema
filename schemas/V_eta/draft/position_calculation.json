@@ -1,10 +1,13 @@
 {
     "document_class": {
-        "class_name": "opaque_body",
+        "class_name": "position_calculation",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_body"
+                "class_name": "subject_calculation"
+            },
+            {
+                "class_name": "position"
             }
         ],
         "maturity_level": "draft"

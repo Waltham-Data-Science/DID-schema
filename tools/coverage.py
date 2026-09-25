@@ -1033,81 +1033,18 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "fold is gated on the data_body tier (#45, blocked on #32), since "
         "`axes[]`, `datum_type` and `regular` do not exist yet.")),
 
-    # ---- SIGNED PASSTHROUGHS: spatial-transcriptomics family (Corrected Option C).
-    # Each of the 8 v1 classes has itself as its decided target (V_eta target =
-    # v1 class name in snake_case; NDI's camelCase v1_class resolves via
-    # coverage.py's normal snake mapping). The signed line at
-    # `V_eta_go_forward_class_audit.md:796` names all eight; the fragments below
-    # are what each class quotes from that line so the citation-audit gate can
-    # verify each row against the document. The pyramid's fragment records its
-    # reshape shape (⊂ [geneExpression, subject_observation]); the others quote
-    # the "PERSIST as ⊂ base" or "STAYS ⊂ base" phrasing that names them.
-    "spatialGeneExpressionPyramid": (
-        ["spatial_gene_expression_pyramid"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionPyramid` becomes ⊂ [geneExpression, subject_observation]",
-        ("picking up variable/method_parameters/sample_time/time_reference_# from "
-         "the subject_observation direction; the existing subject_id required-ness "
-         "moves from the class's own declaration to the inherited slot"),
-        ("RESHAPE + PERSIST as `spatial_gene_expression_pyramid`. ⊂ [base, "
-         "gene_expression, subject_observation]; picks up variable / "
-         "method_parameters / sample_time / time_reference_# from the "
-         "subject_observation direction; the `subject_id` required-ness moves "
-         "onto the inherited subject_statement slot (no local declaration). "
-         "Migrator is #122's scope; corpus proof deferred to #124 (no corpus "
-         "carries this class).")),
-    "geneExpression": (
-        ["gene_expression"], "V_eta_go_forward_class_audit.md",
-        "`geneExpression` STAYS a ⊂ base shape mixin",
-        "assay/count_type/count_units",
-        ("PERSIST as `gene_expression` -- a ⊂ base SHAPE MIXIN "
-         "(assay/count_type/count_units). Semantically a shape, not an "
-         "observation; the observation-ness lives on the concrete pyramid class "
-         "that binds it to a subject.")),
-    "spatialGeneExpressionCells": (
-        ["spatial_gene_expression_cells"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionCells` (data-of-record for pyramid observation",
-        "subject_id required",
-        ("PERSIST as `spatial_gene_expression_cells`, ⊂ base. Data-of-record "
-         "for the pyramid observation. Cell segmentation attached to the pyramid; "
-         "id preserved on migration.")),
-    "spatialGeneExpressionTiles": (
-        ["spatial_gene_expression_tiles"], "V_eta_go_forward_class_audit.md",
-        "`spatialGeneExpressionTiles` (same, subject_id optional",
-        "subject_id optional because the pyramid dep carries it",
-        ("PERSIST as `spatial_gene_expression_tiles`, ⊂ base. The tile-level "
-         "payload; subject_id optional because the pyramid dep carries it "
-         "transitively. Strongest 2.D data_body candidate later (#125).")),
-    "cellTypeLabels": (
-        ["cell_type_labels"], "V_eta_go_forward_class_audit.md",
-        "`cellTypeLabels` (labeling attached to a cells doc",
-        "is_unsupervised flag load-bearing",
-        ("PERSIST as `cell_type_labels`, ⊂ base. Labeling attached to a cells "
-         "document, not directly to a subject; `is_unsupervised` is load-bearing "
-         "(a cluster index is not a cell type).")),
-    "geneListMapping": (
-        ["gene_list_mapping"], "V_eta_go_forward_class_audit.md",
-        "`geneListMapping` (between-entity relation with structure",
-        "alias vs ortholog matters, not a bare directed_relation",
-        ("PERSIST as `gene_list_mapping`, ⊂ base. Between-entity relation with "
-         "structure (coverage counters, symmetric flag, method, mapping type). "
-         "The alias-vs-ortholog distinction is load-bearing, so this stays a "
-         "typed class rather than a bare directed_relation.")),
-    "fileReference": (
-        ["file_reference"], "V_eta_go_forward_class_audit.md",
-        "`fileReference` (DELIBERATELY NOT folded to generic_file",
-        "generic_file holds bytes, fileReference records identity of an external file",
-        ("PERSIST as `file_reference`, ⊂ base. DELIBERATELY NOT folded to "
-         "generic_file; the two coexist by design per the class's own .md doc "
-         "(generic_file holds bytes, file_reference records identity of an "
-         "external file). T8 bindings for checksumAlgorithm and formatOntology "
-         "deferred to #126.")),
-    "geneList": (
-        ["gene_list"], "V_eta_go_forward_class_audit.md",
-        "`geneList` STAYS ⊂ base reference table",
-        "`geneList` STAYS ⊂ base reference table",
-        ("PERSIST as `gene_list`, ⊂ base. Outside #70's original six but "
-         "confirmed in the same signature. Reference table of gene identifiers "
-         "the pyramid + mappings key on.")),
+    # ---- spatial-transcriptomics family: the eight SIGNED PASSTHROUGHS that stood
+    # here (Corrected Option C, V_eta_go_forward_class_audit.md:796, signed
+    # 2026-09-22 -- each v1 class decided to persist as its own snake_cased copy)
+    # are REMOVED, 2026-09-25. The #73 review (jess) replaced that decision:
+    # "none of these carry forward into V_eta; they all need to be migrated"
+    # (V_eta_spatial_transcriptomics_plan.md item 18). The new decided targets are
+    # CURATED in V_eta_migration_targets.json -- one fact, one place -- and this
+    # table only transcribes SIGNED lines, so it cannot carry them until the team
+    # adds the review's TEAM-SIGN-OFF line (Operating Rule 4). Until then those
+    # rows read "decided, unsigned", which is the truth. `geneExpression`
+    # DISSOLVES (assay -> method, count_units -> variable, count_type -> the
+    # statement's class; item 26) and has no target to record.
 }
 
 

@@ -8614,6 +8614,398 @@ for name in ["voltage", "current", "force", "concentration"]:
           doc(name + "_manipulation", ["subject_manipulation", name]))
 
 
+# ---------- 12.6. #73 REVIEW BUILD (team, 2026-09-24/25) ---------------------------
+# Everything decided in the #73 review that has a schema half, applied in ONE place
+# so the before/after is legible. The decision record, with the reasoning and the
+# rejected options, is V_eta_spatial_transcriptomics_plan.md (items cited as "item
+# N" below). Emitters (DID-matlab, NDI) follow on the PR #76 checklists; until they
+# land, documents written with the old names do not validate here.
+
+
+def _patch(name, fn):
+    """Load `name` from whichever tier holds it, apply `fn(doc)`, write it back."""
+    _t, _p = path_of(name)
+    if not _p:
+        raise SystemExit(f"#73 build: class {name!r} not found")
+    _d = load(_p)
+    fn(_d)
+    write(_t, name, _d)
+
+
+def _drop_field(d, fname):
+    d["fields"] = [f for f in d.get("fields", []) if f["name"] != fname]
+
+
+# --- item 19: every data_type composite is CONCRETE ------------------------------
+# T6's `storage_mode: reference` needs a standalone value document to point at; with
+# 40 of 42 composites abstract, `reference` was impossible for 40 data types. A
+# standalone data_type document is CONTENT, NOT A CLAIM: it says nothing until a
+# statement references it, and the statement carries the subject and the stance.
+# `data_type` and `data` themselves stay abstract (they are genera, not types).
+def _chain_names(name, _seen=None):
+    _seen = set() if _seen is None else _seen
+    _t, _p = path_of(name)
+    if not _p or name in _seen:
+        return _seen
+    _seen.add(name)
+    for _s in load(_p)["document_class"].get("superclasses", []):
+        _chain_names(_s["class_name"], _seen)
+    return _seen
+
+
+for _tier in TIERS:
+    for _p in sorted(glob.glob(os.path.join(VETA, _tier, "*.json"))):
+        if os.path.basename(_p) in META_FILES:
+            continue
+        _d = load(_p)
+        _n = _d["document_class"]["class_name"]
+        if _n in ("data_type", "data"):
+            continue
+        _sup = [s["class_name"] for s in _d["document_class"].get("superclasses", [])]
+        # a COMPOSITE: data_type in its chain, and not a statement leaf
+        _anc = _chain_names(_n) - {_n}
+        if "data_type" in _anc and "subject_statement" not in _anc \
+                and _d["document_class"].get("abstract"):
+            del _d["document_class"]["abstract"]
+            write(_tier, _n, _d)
+
+
+# --- items 14/15/32/33/36: the KEY entry replaces the axis entry -----------------
+# `axes` -> `keys` at all four mounts. A key is what you look a value up by; the
+# value itself is typed by the data type (item 15: no `values[]` column list --
+# "a body holds exactly one kind of value; anything else that looks like a column
+# is a key"). Added to the entry: `labels_from` (item 12), `cyclic` (item 11),
+# `chunk` (item 17). `labels` entries may be terms OR labels (item 33: an entry
+# with no `node` is a label -- meaningful only locally). `values` keeps its name
+# (item 32). Beside every `keys` list: `complete` (item 14).
+def _key_entry_extras():
+    return [
+        subfield("labels_from", "char",
+                 "Take this key's positions from the ROWS of another document, in "
+                 "its order, instead of an inline `labels` list: the NAME of an "
+                 "`axis_labels_#` edge on this document (e.g. 'axis_labels_0'). "
+                 "XOR with `labels`/`values`. `n` must equal the referenced "
+                 "document's row count, and that document must carry an explicit "
+                 "0-based index column."),
+        subfield("cyclic", "boolean",
+                 "True: after the last position comes the first (a closed outline's "
+                 "vertices). Absent = false.", blank=False),
+        subfield("chunk", "integer",
+                 "Positions per chunk along this key when the bytes are split across "
+                 "several files (a tiled image). Chunk k is numbered row-major over "
+                 "the chunk grid, from 0, and lives in file-series member "
+                 "`body_data_k`; a missing member is an empty chunk. Absent = this "
+                 "key is not split.", scalar=True),
+    ]
+
+
+def _rekey(fields, where):
+    out, found = [], False
+    for f in fields:
+        if f["name"] == "axes":
+            found = True
+            f = dict(f)
+            f["name"] = "keys"
+            f["documentation"] = (
+                "What a value is looked up by, in array order: keys[k] IS array "
+                "dimension k. Time is an ordinary key. " + where)
+            subs = f.get("fields") or f.get("sub_fields") or []
+            for s in subs:
+                if s["name"] == "labels":
+                    s["documentation"] = (
+                        "Categorical positions. Each entry is a TERM ({node, name}) or "
+                        "a LABEL ({name} with no node: meaningful only locally, e.g. "
+                        "a cluster number). XOR with `values` and `labels_from`.")
+                if s["name"] == "regular":
+                    s["documentation"] = (
+                        "True: positions are generated from origin + spacing. False: "
+                        "they are stored, in `values`, `labels` or `labels_from`.")
+            subs.extend(_key_entry_extras())
+            out.append(f)
+            out.append(field(
+                "complete", "boolean",
+                "True: every combination of key positions has a value (a dense "
+                "grid). False: only the listed rows exist (ragged or sparse; a "
+                "missing row is absence, e.g. an unlabelled cell).",
+                non_empty=False, blank=True, default=True))
+        else:
+            out.append(f)
+    if not found:
+        raise SystemExit(f"#73 build: no `axes` to rename on {where}")
+    return out
+
+
+AXIS_LABELS = dep("axis_labels_#", "base",
+                  "The documents whose rows name a key's positions, referenced from "
+                  "that key's `labels_from` by edge name (item 12). Resolved and "
+                  "orphan-checked like any other edge.", non_empty=False,
+                  multiple=True)
+AXIS_LABELS["min_count"] = 0
+
+
+def _ss(d):
+    d["fields"] = _rekey(d["fields"], "Populated when the value is INLINE or behind "
+                         "a REFERENCE; with storage_mode `body` the keys live on each "
+                         "body, which has its own extent.")
+    d["depends_on"].append(dict(AXIS_LABELS))
+    for f in d["fields"]:
+        if f["name"] == "datum_type":
+            f["documentation"] = (
+                "How this statement's VALUES are encoded -- the ONE place the value "
+                "type lives (a body never repeats it). REQUIRED in practice whenever "
+                "the value has a byte representation: storage_mode `body` or "
+                "`reference`, AND an inline numeric payload such as an image's "
+                "pixels. Absent only for a value with no numeric payload (a term).")
+    d["depends_on"].append(dep(
+        "value_id", "data_type",
+        "storage_mode `reference`: the standalone data_type document that holds "
+        "this statement's value (item 30). ONE role-named edge for every data type, "
+        "so `storage_mode: reference` <=> `value_id` present.", non_empty=False))
+
+
+_patch("subject_statement", _ss)
+
+
+def _sb(d):
+    d["fields"] = _rekey(d["fields"], "The keys of THIS body's array; each body has "
+                         "its own extent (one body per array).")
+    d["depends_on"].append(dict(AXIS_LABELS))
+
+
+_patch("sampled_body", _sb)
+_patch("acquisition_epoch", lambda d: d.__setitem__(
+    "fields", _rekey(d["fields"], "Empty for a bare scalar.")))
+
+
+# --- item 16: image.value = { keys, complete, pixels } --------------------------
+def _img16(d):
+    for f in d["fields"]:
+        if f["name"] == "value":
+            subs = [s for s in f["fields"]
+                    if s["name"] not in ("dtype", "color_model", "channels")]
+            f["fields"] = _rekey(subs, "Populated when the pixels are inline; when "
+                                 "they live in a data_body the keys live with the "
+                                 "body. Channels are a key whose `labels` name them "
+                                 "(terms), which also says the colour model: no "
+                                 "channel key = grayscale, red/green/blue = rgb.")
+            f["documentation"] = (
+                "The raster cell: the pixels plus their keys. The pixel TYPE is "
+                "`subject_statement.datum_type` (one home; item 16).")
+
+
+_patch("image", _img16)
+
+
+# --- items 17/20/24/25/31: data_body ---------------------------------------------
+def _db(d):
+    for x in d["depends_on"]:
+        if x["name"] == "statement":
+            x["name"] = "owner"
+            x["must_refer_to_document_class"] = "subject_statement,data_type"
+            x["documentation"] = (
+                "The document this body holds the value of: a statement, or a "
+                "standalone data_type document (a shared image, waveform or term "
+                "list; item 20). A later body appends without rewriting the owner.")
+    d["fields"] += [
+        field("hash_algorithm", "char",
+              "The algorithm `content_hash` was computed with (e.g. 'MD5'). Without "
+              "it a hash cannot be checked (item 25).", non_empty=False),
+        field("size_bytes", "integer",
+              "Size of the stored bytes. A cheap first identity check (item 25).",
+              non_empty=False),
+        field("file_created", "timestamp",
+              "When the payload file was created, if the source recorded it. Named "
+              "file_* so it is never confused with the document's own timestamp.",
+              non_empty=False),
+        field("file_modified", "timestamp",
+              "When the payload file was last modified, if the source recorded it.",
+              non_empty=False),
+        field("redundant", "boolean",
+              "True = this body adds NO information beyond another body of the same "
+              "owner (e.g. a coarser zoom level of an image pyramid): an exact, "
+              "deterministic rebuild exists, so it is safe to delete. Nothing may "
+              "cite a redundant document as a provenance input (item 31; T6).",
+              non_empty=False, blank=False, default=False),
+    ]
+    d["file"] = [{"name": "body_data", "series": True,
+                  "documentation": "The byte payload, always a DID FILE SERIES "
+                  "(item 17): member `body_data_k` holds chunk k, numbered from 0; "
+                  "an unchunked body is one member, `body_data_0`. A file held "
+                  "OUTSIDE the database is a member recorded by location and not "
+                  "ingested (item 25)."}]
+
+
+_patch("data_body", _db)
+for _b in ("sampled_body", "opaque_body"):
+    _patch(_b, lambda d: d.__setitem__("file", []))   # inherited from data_body
+
+# the meta-schema: a file record may declare itself a series
+_meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_meta["$defs"]["file_record"]["properties"]["series"] = {
+    "type": "boolean",
+    "description": "True: this name is a DID file series -- a manifest plus members "
+                   "NAME_0, NAME_1, ... (numbered from 0, T14); missing members are "
+                   "expected."}
+_dn = _meta["$defs"]["dependency_object"]["properties"]["name"]
+_dn["description"] = (
+    "Role name of the dependency. The '#' character is a numeric placeholder: a "
+    "name such as 'syncrule_id_#' matches any runtime name of the form "
+    "'syncrule_id_0', 'syncrule_id_1', etc. V_eta numbers family members from 0 "
+    "(T14); did_v1 documents numbered them from 1 and are read as written. When '#' "
+    "appears, 'multiple' must be true.")
+with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
+    json.dump(_meta, f, indent=4)
+    f.write("\n")
+
+# --- item 31: `redundant` on calculations ---------------------------------------
+_patch("subject_calculation", lambda d: d["fields"].append(field(
+    "redundant", "boolean",
+    "True = this calculation adds NO information beyond its inputs: an exact, "
+    "deterministic, choice-free rebuild exists (per-gene totals summed from the "
+    "counts), so it is safe to delete. Most calculations are NOT redundant -- a "
+    "clustering, a label transfer or a fit depends on method, version and "
+    "randomness. Nothing may cite a redundant document as a provenance input "
+    "(item 31; T6).", non_empty=False, blank=False, default=False)))
+
+
+# --- items 22/24/27/30: relations -------------------------------------------------
+_REL_METHOD = None
+
+
+def _dr(d):
+    global _REL_METHOD
+    for f in d["fields"]:
+        if f["name"] == "method":
+            _REL_METHOD = f
+    _drop_field(d, "method")
+    for x in d["depends_on"]:
+        if x["name"] in ("child", "parent"):
+            x["must_refer_to_document_class"] = "entity,subject_statement,data_type"
+    for x in d["depends_on"]:
+        if x["name"] == "child":
+            x["documentation"] = (
+                "The finer/subordinate/derived side: an entity, a statement (a label "
+                "calculation derived_from an external atlas, item 27) or a standalone "
+                "data document (a gene list derived_from its annotation, item 22).")
+        if x["name"] == "parent":
+            x["documentation"] = (
+                "The whole/group/source/target side: an entity, a statement or a "
+                "standalone data document (the target gene list of a mapping, "
+                "item 24).")
+
+
+_patch("directed_relation", _dr)
+_REL_METHOD["documentation"] = (
+    "Optional: the procedure that produced the relation -- the `how` "
+    "(surgical_dissection, biological_reproduction, an orthology-inference tool). "
+    "Declared on `relation` so undirected relations have it too (item 24). A timed "
+    "`derived_from` with a `method` and a `time_reference` IS the creation event.")
+
+
+def _rel(d):
+    d["fields"].append(_REL_METHOD)
+    d["depends_on"].append(dep(
+        "value_id", "data_type",
+        "Optional: the standalone data_type document holding this relation's data "
+        "(a gene mapping's pair table, item 24). The same role-named edge a "
+        "statement uses for storage_mode `reference` (item 30).", non_empty=False))
+
+
+_patch("relation", _rel)
+
+
+# timed_sequence_manipulation: `timed_sequence_id` -> the inherited `value_id`
+def _tsm(d):
+    d["depends_on"] = [x for x in d["depends_on"] if x["name"] != "timed_sequence_id"]
+
+
+_patch("timed_sequence_manipulation", _tsm)
+
+
+# --- item 33: `label`, a term without a node -------------------------------------
+write("draft", "label", doc("label", ["data_type"], maturity="draft", fields=[
+    field("value", "structure",
+          "A value meaningful only LOCALLY -- a source identifier, a cluster number, a "
+          "condition name. A TERM has a namespace and an id; a label has neither, only "
+          "a name. Boundary test: shared or compared across datasets -> a term (mint "
+          "one if none exists); confined to one source or run -> a label (item 33).",
+          non_empty=False, blank={}, sub_fields=[
+              subfield("name", "char",
+                       "The label. A string even when it looks numeric (leading "
+                       "zeros; identifiers wider than 2^53).", non_empty=True)])]))
+write("draft", "label_calculation",
+      doc("label_calculation", ["subject_calculation", "label"], maturity="draft"))
+
+# --- items 4-9: `position` + `coordinate_system` --------------------------------
+write("draft", "coordinate_system", doc(
+    "coordinate_system", ["base"], maturity="draft",
+    deps=[dep("relative_to", "base",
+              "The document the origin is ON: an image, a probe, a subject (bregma), "
+              "an atlas. REQUIRED -- a coordinate system always says whose space it "
+              "is (item 9).")],
+    fields=[
+        field("origin", "ontology_term",
+              "WHICH point on `relative_to` is zero (image upper-left corner, probe "
+              "tip, bregma). The same concept as a key's `origin`; a term here because "
+              "a root coordinate system is not measured within another one.",
+              non_empty=True),
+        field("dimensions", "structure",
+              "One entry per coordinate, in coordinate order. Cartesian only. "
+              "Transforms between coordinate systems are NOT part of one.",
+              non_empty=True, scalar=False, blank=[], sub_fields=[
+                  subfield("axis", "ontology_term",
+                           "The line this coordinate runs along (image horizontal "
+                           "axis, anterior-posterior axis, shank axis) -- an AXIS "
+                           "term, not a coordinate-value term.", non_empty=True),
+                  subfield("positive_direction", "ontology_term",
+                           "Which end of `axis` is positive; must say WHOSE "
+                           "direction ('image right', 'posterior').",
+                           non_empty=True),
+                  subfield("spacing", "length",
+                           "One unit step along this coordinate. ABSENT = unknown "
+                           "(uncalibrated); positions are then in steps only.",
+                           blank={}),
+              ])]))
+write("draft", "position", doc(
+    "position", ["data_type"], maturity="draft",
+    deps=[dep("coordinate_system_id", "coordinate_system",
+              "The coordinate system the coordinates are in. REQUIRED: a position "
+              "with no coordinate system is only numbers (item 9).")],
+    fields=[field(
+        "value", "structure",
+        "Where something is: coordinates[k] along the coordinate system's "
+        "dimensions[k], in that dimension's spacing units (metres = coordinate x "
+        "spacing). Many positions (centroids, outline vertices) are a key over the "
+        "things positioned.", non_empty=False, blank={}, sub_fields=[
+            subfield("coordinates", "matrix",
+                     "One number per coordinate-system dimension.", scalar=False,
+                     blank=[])])]))
+write("draft", "position_observation",
+      doc("position_observation", ["subject_observation", "position"],
+          maturity="draft"))
+write("draft", "position_calculation",
+      doc("position_calculation", ["subject_calculation", "position"],
+          maturity="draft"))
+
+# --- the calculation leaves the review needs (T3: direction x data type) ---------
+# NOT `logical_calculation`: the two uses it was drafted for (cluster membership,
+# the cell list) both became `label_calculation` (items 27/33).
+for _dt in ("count", "area", "score", "term"):
+    _t, _p = path_of(_dt)
+    write("draft", f"{_dt}_calculation",
+          doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))
+
+# --- item 37: harmonic_component_calculation RESTORED ----------------------------
+# Signed 2026-08-08 (V_eta_stimulus_response_model_plan.md, TEAM-SIGN-OFF [stimulus
+# response]); deleted 2026-09-21 by issue #67 decision 10 on the premise that
+# `_calculation` means "a calculator produced it". #73's rule C (T2) decides by
+# PROVENANCE: a stimulus response is computed from the spike train and the stimulus
+# presentation, both in the dataset, so it is a calculation.
+write("draft", "harmonic_component_calculation",
+      doc("harmonic_component_calculation",
+          ["subject_calculation", "harmonic_component"], maturity="draft"))
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
@@ -8859,6 +9251,17 @@ _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
 # itself -- so no persisting class has it as a super, and what remains is a v1
 # source tombstone restating the NDI template (⊂ [base, app]). It retires.
 _RET_HOLDOVER = {"measurement", "calculator"}
+# #73 item 18 (team, 2026-09-24): NONE of the eight spatial-transcriptomics
+# classes is carried forward. They were copied from NDI-main field for field
+# (12.5 above) and now stand as v1 tombstones, replaced by the review's design:
+# count_observation over [y, x, gene] in a coordinate_system, the cell list as a
+# label_calculation, per-cell position/area/count/term/label calculations, the
+# gene list as a standalone `term`, the mapping as a directed_relation + a
+# standalone `score`, fileReference as an unheld body. See
+# V_eta_spatial_transcriptomics_plan.md.
+_RET_SPATIAL = {"spatial_gene_expression_pyramid", "spatial_gene_expression_tiles",
+                "spatial_gene_expression_cells", "cell_type_labels", "gene_list",
+                "gene_list_mapping", "file_reference", "gene_expression"}
 _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
@@ -9122,7 +9525,10 @@ def _disposition(name, doc=None):
             _ancestors |= _transitive_supers(_s)
         if "subject_calculation" in _ancestors:
             return ("persist", None)
-        if _dc.get("abstract") and "data_type" in _ancestors:
+        # ANY data_type composite, abstract or not: since #73 item 19 every
+        # composite is concrete (a standalone value document is content), so
+        # abstractness no longer marks the target tier.
+        if "data_type" in _ancestors and "subject_statement" not in _ancestors:
             return ("persist", None)
     if name in _KEEP_INFRA:
         return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)
@@ -9130,6 +9536,8 @@ def _disposition(name, doc=None):
         return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
+    if name in _RET_SPATIAL:
+        return ("retire", "#73: replaced by the spatial-transcriptomics design")
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
     if name in _RET_CARRIERS:

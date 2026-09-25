@@ -12,16 +12,17 @@
     },
     "depends_on": [
         {
-            "name": "statement",
+            "name": "owner",
             "mustBeNonEmpty": true,
-            "documentation": "The one statement this body belongs to (reverse pointer); a stream appends more bodies without rewriting the anchor.",
-            "must_refer_to_document_class": "subject_statement"
+            "documentation": "The document this body holds the value of: a statement, or a standalone data_type document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner.",
+            "must_refer_to_document_class": "subject_statement,data_type"
         }
     ],
     "file": [
         {
             "name": "body_data",
-            "documentation": "The byte payload (>=1 file)."
+            "series": true,
+            "documentation": "The byte payload, always a DID FILE SERIES (item 17): member `body_data_k` holds chunk k, numbered from 0; an unchunked body is one member, `body_data_0`. A file held OUTSIDE the database is a member recorded by location and not ingested (item 25)."
         }
     ],
     "fields": [
@@ -88,6 +89,71 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Human description of the payload.",
+            "constraints": {}
+        },
+        {
+            "name": "hash_algorithm",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The algorithm `content_hash` was computed with (e.g. 'MD5'). Without it a hash cannot be checked (item 25).",
+            "constraints": {}
+        },
+        {
+            "name": "size_bytes",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Size of the stored bytes. A cheap first identity check (item 25).",
+            "constraints": {}
+        },
+        {
+            "name": "file_created",
+            "type": "timestamp",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the payload file was created, if the source recorded it. Named file_* so it is never confused with the document's own timestamp.",
+            "constraints": {}
+        },
+        {
+            "name": "file_modified",
+            "type": "timestamp",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the payload file was last modified, if the source recorded it.",
+            "constraints": {}
+        },
+        {
+            "name": "redundant",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True = this body adds NO information beyond another body of the same owner (e.g. a coarser zoom level of an image pyramid): an exact, deterministic rebuild exists, so it is safe to delete. Nothing may cite a redundant document as a provenance input (item 31; T6).",
             "constraints": {}
         }
     ]

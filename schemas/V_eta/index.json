@@ -308,6 +308,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "area_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "area"
+            ],
+            "path": "schemas/V_eta/draft/area_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "area_observation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -411,7 +423,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/cell_type_labels.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "charge",
@@ -635,6 +648,17 @@
             "disposition_note": "consumed \u2192 control_designation (renamed target)"
         },
         {
+            "class_name": "coordinate_system",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/coordinate_system.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "count",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -655,6 +679,18 @@
                 "count"
             ],
             "path": "schemas/V_eta/stable/count_assertion.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "count_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "count"
+            ],
+            "path": "schemas/V_eta/draft/count_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1068,7 +1104,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/file_reference.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "filenavigator",
@@ -1289,7 +1326,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/gene_expression.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "gene_list",
@@ -1300,7 +1338,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/gene_list.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "gene_list_mapping",
@@ -1311,7 +1350,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/gene_list_mapping.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "generic_file",
@@ -1337,6 +1377,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "harmonic_component_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "harmonic_component"
+            ],
+            "path": "schemas/V_eta/draft/harmonic_component_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "hartley_calc",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -1346,8 +1398,7 @@
                 "hartley_reverse_correlation"
             ],
             "path": "schemas/V_eta/stable/hartley_calc.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "hartley_reverse_correlation",
@@ -1540,6 +1591,29 @@
             "path": "schemas/V_eta/stable/kilosort_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "label",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/label.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "label_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "label"
+            ],
+            "path": "schemas/V_eta/draft/label_calculation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "length",
@@ -1875,6 +1949,29 @@
             "disposition": "persist"
         },
         {
+            "class_name": "position",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/position.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "position_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "position"
+            ],
+            "path": "schemas/V_eta/draft/position_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "position_metadata",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -1885,6 +1982,18 @@
             "path": "schemas/V_eta/stable/position_metadata.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "position_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_observation",
+                "position"
+            ],
+            "path": "schemas/V_eta/draft/position_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "power",
@@ -2167,6 +2276,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "score_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "score"
+            ],
+            "path": "schemas/V_eta/draft/score_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "score_observation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2282,7 +2403,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/spatial_gene_expression_cells.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "spatial_gene_expression_pyramid",
@@ -2295,7 +2417,8 @@
                 "subject_observation"
             ],
             "path": "schemas/V_eta/stable/spatial_gene_expression_pyramid.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "spatial_gene_expression_tiles",
@@ -2306,7 +2429,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/spatial_gene_expression_tiles.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "speed_tuning_calculation",
@@ -2689,6 +2813,18 @@
                 "term"
             ],
             "path": "schemas/V_eta/stable/term_assertion.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "term_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "term"
+            ],
+            "path": "schemas/V_eta/draft/term_calculation.json",
             "disposition": "persist"
         },
         {

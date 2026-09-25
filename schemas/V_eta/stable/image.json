@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -23,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The raster cell: the pixels plus the descriptors needed to interpret them. Self-describing, so the cell can be read without consulting the producer.",
+            "documentation": "The raster cell: the pixels plus their keys. The pixel TYPE is `subject_statement.datum_type` (one home; item 16).",
             "constraints": {},
             "fields": [
                 {
@@ -40,20 +39,7 @@
                     "constraints": {}
                 },
                 {
-                    "name": "dtype",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Pixel data type (uint16 | uint8 | single | \u2026). NOT recoverable from an inline matrix, so always explicit (R6 decision 4).",
-                    "constraints": {}
-                },
-                {
-                    "name": "axes",
+                    "name": "keys",
                     "type": "structure",
                     "blank_value": [],
                     "default_value": [],
@@ -62,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Index dimensions of the raster, in array order (Y,X,C,Z,T) \u2014 the full N-D calibration the old x/y_resolution lost. Populated when the pixels are inline; when they live in a data_body, the axes live with the body.",
+                    "documentation": "What a value is looked up by, in array order: keys[k] IS array dimension k. Time is an ordinary key. Populated when the pixels are inline; when they live in a data_body the keys live with the body. Channels are a key whose `labels` name them (terms), which also says the colour model: no channel key = grayscale, red/green/blue = rgb.",
                     "constraints": {},
                     "fields": [
                         {
@@ -208,7 +194,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "True: coordinates are generated from origin + spacing. False: they are stored, in `values` or `labels`.",
+                            "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `labels_from`.",
                             "constraints": {}
                         },
                         {
@@ -350,7 +336,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Categorical coordinates. REQUIRED iff NOT `regular` and categorical. XOR with `values`.",
+                            "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `labels_from`.",
                             "constraints": {},
                             "fields": [
                                 {
@@ -380,67 +366,59 @@
                                     "constraints": {}
                                 }
                             ]
+                        },
+                        {
+                            "name": "labels_from",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the NAME of an `axis_labels_#` edge on this document (e.g. 'axis_labels_0'). XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "cyclic",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True: after the last position comes the first (a closed outline's vertices). Absent = false.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "chunk",
+                            "type": "integer",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Positions per chunk along this key when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`; a missing member is an empty chunk. Absent = this key is not split.",
+                            "constraints": {}
                         }
                     ]
                 },
                 {
-                    "name": "color_model",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
+                    "name": "complete",
+                    "type": "boolean",
+                    "blank_value": true,
+                    "default_value": true,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "grayscale | rgb | multichannel (T8-bound).",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "channels",
-                    "type": "string",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Per-channel labels (e.g. ['GCaMP','tdTomato']).",
+                    "documentation": "True: every combination of key positions has a value (a dense grid). False: only the listed rows exist (ragged or sparse; a missing row is absence, e.g. an unlabelled cell).",
                     "constraints": {}
                 }
             ]

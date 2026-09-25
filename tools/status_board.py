@@ -808,30 +808,26 @@ FAMILIES = [
     # is_mock flag, and `demo` is BUILT and persists, so no open class remains for a
     # family to track. See V_eta_go_forward_class_audit.md section 3.
 
-    # SIGNED 2026-09-22 (Corrected Option C, DID-schema#70). The pyramid reshape
-    # to ⊂ [gene_expression, subject_observation] is #119; the other seven persist
-    # as ⊂ base. `geneExpression` and `geneList` arrived outside #70's six but are
-    # confirmed in the same signature. V1 class names are NDI's own camelCase
-    # (as `imageCollection` above), matching the ledger's `v1_class` column; the
-    # V_eta targets are snake_cased (gene_expression, gene_list, ...).
+    # The Corrected Option C decision (signed 2026-09-22, DID-schema#70) that
+    # stood here -- each class persisting as its own verbatim copy -- is
+    # SUPERSEDED by the #73 review (jess, 2026-09-24/25): none of the eight is
+    # carried forward, all are migrated into the review's design, and the copies
+    # are retired. The family now cites the review's record, which carries no
+    # TEAM-SIGN-OFF line yet (the team adds it), so the board shows it awaiting
+    # review. V1 class names are NDI's camelCase, matching the ledger.
     ("spatial_transcriptomics_family", [
         "spatialGeneExpressionPyramid", "spatialGeneExpressionCells",
         "spatialGeneExpressionTiles", "cellTypeLabels", "geneListMapping",
         "fileReference", "geneList", "geneExpression"],
-     "V_eta_go_forward_class_audit.md",
-     ("Corrected Option C. spatialGeneExpressionPyramid becomes "
-      "⊂ [gene_expression, subject_observation] (was ⊂ [base, geneExpression]), "
-      "picking up variable/method_parameters/sample_time/time_reference_# from "
-      "the subject_observation direction; the class's own subject_id "
-      "required-ness moves onto the inherited subject_statement slot. The "
-      "other seven persist ⊂ base: cell_type_labels, gene_expression, "
-      "gene_list, gene_list_mapping, spatial_gene_expression_cells, "
-      "spatial_gene_expression_tiles, file_reference. file_reference is "
-      "DELIBERATELY NOT folded to generic_file -- the two coexist by design. "
-      "Follow-ons deferred: `variable` binding (#120, signed and wired), "
-      "axes[]/format/compression when 2.D lands (#125), T8 bindings (#126). "
-      "Full reasoning at DID-schema#70. Migrators + fixtures are Session 2's "
-      "scope (#122, #123); no corpus proof today (#124)."),
+     "V_eta_spatial_transcriptomics_plan.md",
+     ("#73 review: nothing carried forward. Counts -> a count_observation over "
+      "[y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 "
+      "redundant); tiles -> file-series chunks; the cell list -> a "
+      "label_calculation, per-cell facts -> calculations over the cell key; "
+      "cell types -> term_calculation, clusters -> label_calculation; the gene "
+      "list -> a standalone term; the mapping -> a directed_relation + a "
+      "standalone score; fileReference -> an unheld body; geneExpression "
+      "dissolves into method + variable."),
      "team"),
 ]
 

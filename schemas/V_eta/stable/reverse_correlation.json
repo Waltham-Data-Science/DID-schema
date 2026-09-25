@@ -10,8 +10,7 @@
                 "class_name": "ngrid"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],

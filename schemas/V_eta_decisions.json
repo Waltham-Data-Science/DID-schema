@@ -6,8 +6,8 @@
     "classes_claimed": 64,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 27,
-      "awaiting_signature": 1,
+      "signed_awaiting_build": 26,
+      "awaiting_signature": 2,
       "proposed_unreviewed": 0,
       "open": 0
     },
@@ -173,7 +173,7 @@
       "members": [
         {
           "class_name": "hartley_calc",
-          "disposition": "retire"
+          "disposition": "persist"
         }
       ],
       "open_members": [],
@@ -670,13 +670,13 @@
         }
       ],
       "open_members": [],
-      "plan": "V_eta_go_forward_class_audit.md",
-      "decision": "Corrected Option C. spatialGeneExpressionPyramid becomes \u2282 [gene_expression, subject_observation] (was \u2282 [base, geneExpression]), picking up variable/method_parameters/sample_time/time_reference_# from the subject_observation direction; the class's own subject_id required-ness moves onto the inherited subject_statement slot. The other seven persist \u2282 base: cell_type_labels, gene_expression, gene_list, gene_list_mapping, spatial_gene_expression_cells, spatial_gene_expression_tiles, file_reference. file_reference is DELIBERATELY NOT folded to generic_file -- the two coexist by design. Follow-ons deferred: `variable` binding (#120, signed and wired), axes[]/format/compression when 2.D lands (#125), T8 bindings (#126). Full reasoning at DID-schema#70. Migrators + fixtures are Session 2's scope (#122, #123); no corpus proof today (#124).",
+      "plan": "V_eta_spatial_transcriptomics_plan.md",
+      "decision": "#73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable.",
       "status": "team",
-      "signed": true,
-      "signoff": "Steve Van Hooser 2026-09-22 --",
-      "state": "signed_awaiting_build",
-      "state_label": "decided and signed off, awaiting build"
+      "signed": false,
+      "signoff": null,
+      "state": "awaiting_signature",
+      "state_label": "decided in a walkthrough, awaiting a signature"
     }
   ],
   "by_class": {

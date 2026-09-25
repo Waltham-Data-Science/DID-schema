@@ -106,9 +106,16 @@ a *marked, disposable* cache is a permitted performance exception, not a duplica
 **The cache marker (required).** `derived_from` alone is overloaded — T10 uses it for
 *authoritative* analysis outputs (a calculation result IS the science), while a cache is
 *disposable*. A consumer must be able to tell them apart, so a materialized cache carries an
-explicit **`is_cache: true`** marker (distinct from a plain `derived_from` provenance edge).
-`is_cache` ⇒ regenerable, no authority, safe to drop and rebuild; absent ⇒ the `derived_from`
-product is authoritative (a T10 calculation). Never infer cache-ness from `derived_from` presence.
+explicit **`redundant: true`** marker (distinct from a plain `derived_from` provenance edge).
+`redundant` ⇒ adds no information, regenerable exactly, no authority, safe to drop and
+rebuild; absent ⇒ the `derived_from` product is authoritative (a T10 calculation). Never infer
+cache-ness from `derived_from` presence. *(Named `is_cache` until 2026-09-24: "cache" reads as
+transient and possibly stale, and collides with NDI's in-memory `ndi.cache`; `redundant` names
+test 1 below directly, and T13 drops the `is_` prefix. Declared ONLY on `data_body` and
+`subject_calculation` — the only places a cache can exist: an observation's source is outside
+the dataset, and assertions, manipulations and standalone content are not derived. Most
+calculations are NOT redundant — a clustering or a fit depends on method, version and
+randomness. Nothing may cite a redundant document as a provenance input.)*
 
 **The cache-warrant test (parallel to T12's data_type-warrant).** Materializing a cache is the
 *exception*; before minting one, all of the following must hold — else store only the source
@@ -117,10 +124,23 @@ and project on read:
      source, not a cache).
   2. *A real access need* — a concrete query/read pattern is materially cheaper against the
      cache than against the source at the expected scale (e.g. windowed population reads).
-  3. *Marked & regenerable* — it carries `is_cache` + `derived_from`, and a deterministic
+  3. *Marked & regenerable* — it carries `redundant` + `derived_from`, and a deterministic
      rebuild from the source exists.
   4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
      a new data_type). No silent caches.
+
+**A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). `storage_mode:
+reference` means "my value lives in another document", so every `data_type` composite is
+concrete: a shared command waveform, a stimulus, an image or a gene list is written once as a
+standalone document, and each statement that uses it points at it by its `value_id` edge. The
+standalone document says nothing about anything until a statement references it; the statement
+carries the subject and the stance.
+
+**One body per ARRAY; a file series where only the bytes split** (team, 2026-09-24). A new
+`data_body` document where the array changes (each zoom level of a pyramid); a file-series
+member where one array's bytes are cut into chunks (the tiles of one level). Every body's
+`body_data` is a DID file series, so an unchunked body is simply member `body_data_0`. A file
+held outside the database is a member recorded by location and not ingested.
 
 ### T7 — Roles are edges, not subclasses.
 The measuring/manipulating device is a subject (kind asserted), linked by a typed
@@ -183,7 +203,12 @@ is any of:
    (and/or `method`). *(species vs strain are both `term_assertion`; two different
    scores are both `score_observation` with different `variable`.)*
 2. **A controlled term** → `term_*` + a **binding** to a value_set. Never a class per
-   vocabulary entry.
+   vocabulary entry. **A term is anything with a namespace and an id** (`CL:0000617`,
+   `ENSEMBL:ENSMODG00000020019`); when none exists, mint one. **A value meaningful only
+   LOCALLY is a `label`** — a term without a node (`label.value = {name}`): a source
+   cell identifier, a cluster number, a run's condition name (team, 2026-09-24). The
+   test: shared or compared across datasets → a term; confined to one source or run →
+   a label. So a cluster can never pass as a cell type: one is a label, the other a term.
 3. **Same quantity, different cardinality / storage / format** → same composite; use a
    length-N `value` + `storage_mode`. *(a temperature series is `temperature`.)*
 4. **A role or relationship** → a typed **edge** (`directed_relation`, `*_id`), not a
