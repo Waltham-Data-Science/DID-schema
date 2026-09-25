@@ -126,13 +126,14 @@ TENET_MAP = [
         "T2's 'identity rides on `variable`, not the class' is what makes one "
         "query span every statement; a class per semantic breaks it."),
     Row("T3",
-        "One raster type crossed with the statement direction gives the "
-        "measured case and the shown-as-stimulus case, instead of two "
-        "unrelated image classes.",
-        ["imageStack", "image"],
-        ["image", "image_observation", "image_manipulation"],
-        "V_eta_image_model_plan.md",
-        "**Two directions** (T3):",
+        "One temperature type crossed with the statement direction gives the "
+        "measured case and the imposed case; a leaf is made only when something "
+        "needs it (#73 item 50), so the other directions of `temperature` do "
+        "not exist until a use appears.",
+        ["treatment"],
+        ["temperature", "temperature_observation", "temperature_manipulation"],
+        "V_eta_tenets.md",
+        "A leaf class = a direction × a data type",
         "T3 is the factoring move: data_type x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
     Row("T4",
@@ -306,7 +307,7 @@ TENET_MAP = [
         "axes, colour model and channels declared INSIDE the cell beside them "
         "-- because dtype is not recoverable from an inline matrix.",
         ["imageStack"],
-        ["image", "image_observation", "image_manipulation"],
+        ["image", "image_observation"],
         "V_eta_tenet_audit.md",
         "one `value` cell (T14)",
         "One payload slot is what makes T3's factoring mechanical: `mass.value` "

@@ -1,5 +1,9 @@
 # V_eta — the `image` model (DECIDED; build deferred)
 
+> **AMENDED 2026-09-25 (#73 review item 50, `V_eta_spatial_transcriptomics_plan.md`):**
+> `image_manipulation` is deleted. An image shown to the animal is an item of a
+> `timed_sequence_manipulation` (the stimulus model); `image_observation` stays.
+
 *Worked design for how V_eta represents images/rasters, decided in the audit walkthrough
 (R6). **All decisions below are FINAL; the BUILD is deferred** — batched with other
 walkthrough decisions. When building, this doc is the spec. Cross-refs: `V_eta_tenets.md`

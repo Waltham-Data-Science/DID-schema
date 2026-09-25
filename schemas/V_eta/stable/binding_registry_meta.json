@@ -107,13 +107,13 @@
         {
             "variable": {
                 "node": "",
-                "name": "holding potential"
+                "name": "bath temperature"
             },
             "method": {
                 "node": "",
-                "name": "voltage clamp"
+                "name": "perfusion heating"
             },
-            "class": "voltage_manipulation",
+            "class": "temperature_manipulation",
             "notes": "method + variable: on an interaction the binding is keyed by both the method and the variable"
         }
     ],

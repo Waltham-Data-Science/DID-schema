@@ -271,8 +271,8 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 47,
-        "2": 32,
+        "1": 46,
+        "2": 33,
         "3": 21,
         "4": 0
       },
@@ -285,14 +285,14 @@
           "no": 13
         },
         "2": {
-          "not measured": 55,
-          "yes": 55,
+          "not measured": 54,
+          "yes": 56,
           "n/a": 3
         },
         "3": {
-          "not measured": 55,
+          "not measured": 54,
           "yes": 20,
-          "no": 35,
+          "no": 36,
           "n/a": 3
         },
         "4": {
@@ -301,7 +301,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 55,
+        "2": 56,
         "3": 20,
         "4": 0
       },
@@ -315,8 +315,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 48,
-          "2": 35,
+          "1": 47,
+          "2": 36,
           "3": 20,
           "4": 0
         },
@@ -390,7 +390,7 @@
       },
       "no_target_recorded": {
         "denominator": 113,
-        "rows": 58,
+        "rows": 57,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -431,7 +431,6 @@
           "openminds_stimulus",
           "openminds_subject",
           "position_metadata",
-          "probe_geometry",
           "probe_location",
           "session_in_a_dataset",
           "simple_calc",
@@ -819,7 +818,7 @@
             "image / ngrid": [
               {
                 "document": "V_eta_image_model_plan.md",
-                "line": 144
+                "line": 148
               }
             ],
             "logical_observation": [
@@ -1126,6 +1125,7 @@
         "kilosort_clusters",
         "neuron_extracellular",
         "orientation_direction_tuning",
+        "probe_geometry",
         "spatial_frequency_tuning",
         "spatial_frequency_tuning_calc",
         "speed_tuning",
@@ -5924,7 +5924,7 @@
       "decided_by_family": {
         "family": "image / ngrid",
         "document": "V_eta_image_model_plan.md",
-        "line": 144,
+        "line": 148,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
         "matched_on": "v1_class",
         "matched_name": "imageStack_parameters",
@@ -5939,13 +5939,13 @@
         "signoff": {
           "family": "image / ngrid",
           "document": "V_eta_image_model_plan.md",
-          "line": 144,
+          "line": 148,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
           "matched_on": "v1_class",
           "matched_name": "imageStack_parameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `image / ngrid` names this class as `imageStack_parameters` (v1_class), and that family is signed at `V_eta_image_model_plan.md`:144. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `image / ngrid` names this class as `imageStack_parameters` (v1_class), and that family is signed at `V_eta_image_model_plan.md`:148. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -6743,7 +6743,7 @@
       "decided_by_family": {
         "family": "image / ngrid",
         "document": "V_eta_image_model_plan.md",
-        "line": 144,
+        "line": 148,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
         "matched_on": "v1_class",
         "matched_name": "ngrid",
@@ -7936,8 +7936,12 @@
         "term_assertion",
         "session_relative_reference"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "position_observation",
+        "term_assertion",
+        "relative_time_reference"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -7946,8 +7950,12 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 3,
+        "schema_targets_built": [
+          "position_observation",
+          "relative_time_reference",
+          "term_assertion"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -7966,22 +7974,22 @@
       ],
       "second_pass": [],
       "how": "ONE length_observation PER POPULATED SPATIAL AXIS about the probe-subject (probe_id) + an optional probe_model term_assertion + anchor. The real NDI class is three already-named parallel per-site arrays (site_locations_leftright/_frontback/_depth) with a shared `unit`, not an N-by-D matrix, so each axis keeps its own name instead of being concatenated into one anonymous array",
-      "target_flags": "guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model",
+      "target_flags": "guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model -- DECIDED 2026-09-25 (#73 review item 4, recorded under item 50, not yet built in the migrator): probe sites are ONE position_observation (a position in the probe's coordinate_system), not one length_observation per axis.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -7992,14 +8000,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `position_observation`, `term_assertion`, `relative_time_reference` are not all among what the migrator emits today (`length_observation`, `term_assertion`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8009,7 +8017,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8301,7 +8309,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 272 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 221 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",

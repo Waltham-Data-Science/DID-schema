@@ -17,6 +17,7 @@ import glob
 import io
 import json
 import os
+import re
 
 import jsonschema
 import pytest
@@ -238,7 +239,7 @@ def test_derived_from_is_statement_typed_provenance():
     # ...and on NO other direction: an observation comes from outside the
     # dataset, a manipulation is imposed, an assertion is declared.
     assert "input_id" not in _flat_dep_names("subject_observation")
-    assert "input_id" not in _flat_dep_names("angle_observation")
+    assert "input_id" not in _flat_dep_names("voltage_observation")
     assert "input_id" not in _flat_dep_names("score_observation")
     assert "input_id" not in _flat_dep_names("subject_manipulation")
     assert "input_id" not in _flat_dep_names("term_assertion")
@@ -282,15 +283,14 @@ def test_subject_assertion_is_genus_with_typed_leaves():
     # The `numeric_assertion` genus is gone: it held no fields and existed only to carry
     # a `mustBeScalar` flag, which cost an `isa <data_type>` query the assertions.
     assert "numeric_assertion" not in RECORDS
-    for leaf, composite in (("mass_assertion", "mass"), ("voltage_assertion", "voltage"),
-                            ("term_assertion", "term"), ("date_assertion", "date")):
+    for leaf, composite in (("term_assertion", "term"), ("date_assertion", "date")):
         chain = [s["class_name"]
                  for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
         assert chain == ["subject_assertion", composite], f"{leaf} chain {chain}"
         assert not RECORDS[leaf][1].get("fields"), f"{leaf} should own no fields"
     # the value is inherited from the composite, so `isa <data_type>` spans directions
-    assert _flat_field_types("mass_assertion").get("value") == "mass"
-    assert "mass" in _chain("mass_assertion") and "mass" in _chain("mass_observation")
+    assert _flat_field_types("voltage_observation").get("value") == "voltage"
+    assert "voltage" in _chain("voltage_observation") and "voltage" in _chain("voltage_calculation")
 
 
 def test_relation_branch():
@@ -426,8 +426,7 @@ def test_manipulation_tier_is_strict_j():
                  "generic_manipulation", "generic_scalar", "generic_scalar_observation",
                  "generic_scalar_manipulation", "biological_transfer"):
         assert gone not in RECORDS, f"{gone} must be retired in strict J"
-    for leaf in ("dose_manipulation", "formulation_manipulation", "term_manipulation",
-                 "temperature_manipulation"):
+    for leaf in ("dose_manipulation", "term_manipulation", "temperature_manipulation"):
         assert leaf in RECORDS and "subject_manipulation" in _chain(leaf)
     # composites are structure-typed value mixins
     for comp in ("dose", "formulation", "chemical"):
@@ -1410,20 +1409,19 @@ def test_no_revived_classes_in_migrators():
     assert not new, f"migrators emit classes absent from the V_eta schema: {new}"
 
 
-def test_visual_grating_manipulation_leaf():
-    """A presented visual stimulus is a body-backable subject_manipulation leaf whose
-    data type is a structured multi-parameter `visual_grating` composite (a grating
-    is orientation + spatial/temporal freq + contrast at once, so not a single-quantity
-    leaf). stimulus_presentation folds to this on the animal in the second pass."""
+def test_visual_grating_composite():
+    """A grating is a structured multi-parameter `visual_grating` composite (orientation
+    + spatial/temporal freq + contrast at once, so not a single-quantity leaf). It is
+    presented as an ITEM of a timed_sequence_manipulation; its own manipulation leaf was
+    deleted with the other unused leaves (#73 item 50)."""
     comp = RECORDS["visual_grating"][1]
     assert "data_type" in _chain("visual_grating")
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
             "size", "position", "duration", "blank"} <= subs
-    leaf = RECORDS["visual_grating_manipulation"][1]
-    supers = {s["class_name"] for s in leaf["document_class"]["superclasses"]}
-    assert supers == {"subject_manipulation", "visual_grating"}
+    assert "visual_grating_manipulation" not in RECORDS
+    assert "timed_sequence_manipulation" in RECORDS
 
 
 def test_openminds_import_is_absent():
@@ -1555,7 +1553,7 @@ def test_relation_bindings_present():
 # ------------------------------------------------- value-cell convention conformance
 # Every `data_type` composite exposes its payload at ONE predictable slot, `value`.
 # That is what makes T3's `direction x data_type` factoring mechanical: `mass.value`
-# means the same under mass_observation and mass_assertion. The rule was unwritten for
+# means the same under voltage_observation and voltage_calculation. The rule was unwritten for
 # most of the project's life and two classes silently drifted off it, so it is a test
 # now rather than a convention.
 # Empty: every data_type composite conforms. (contrast_sensitivity was the last
@@ -3655,3 +3653,24 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
     assert len(found) > 200, f"only {len(found)} dispositions read from index.json"
     for name in ("hartley_calc", "ngrid"):
         assert found.get(name) == "retire", f"{name} is {found.get(name)!r}, not retire"
+
+
+def test_leaves_exist_only_when_needed():
+    """#73 item 50 (team, 2026-09-25): every data_type stays; a direction leaf exists
+    only once a writer or a decided target needs it. The 51 leaves nothing needed are
+    gone, their data types are not, and the rule is written into T3."""
+    with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as fh:
+        build = fh.read()
+    body = build.split("_DELETE_UNUSED_LEAVES = {", 1)[1].split("}", 1)[0]
+    gone = set(re.findall(r'"([a-z_]+)"', body))
+    assert len(gone) == 51
+    for leaf in gone:
+        assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
+        composite = leaf.rsplit("_", 1)[0]
+        assert composite in RECORDS, f"data_type {composite} must stay"
+    for kept in ("position_observation", "temperature_manipulation",
+                 "voltage_observation", "term_assertion", "date_assertion"):
+        assert kept in RECORDS
+    with open(os.path.join(REPO_ROOT, "schemas", "V_eta_tenets.md")) as fh:
+        tenets = fh.read()
+    assert "A leaf is made when it is needed, not in advance" in tenets

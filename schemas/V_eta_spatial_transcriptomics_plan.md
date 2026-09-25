@@ -224,6 +224,21 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `model_fit` data type (equation, named parameters and variables, constraints,
     goodness, sampled fit) that the tuning family's `model_fit[]` entry would share; that
     design is its own item. `polynomial` stays separate (a conversion rule, not a fit).
+50. **Leaves exist only when needed** (2026-09-25). Every data_type stays. An
+    `_observation` / `_manipulation` / `_assertion` / `_calculation` leaf is made by combining
+    a direction with a data_type once something needs it: a migrator or second pass writes
+    it, or a decision names it as a target. The rule is written into T3. **51 leaves are
+    deleted**, measured over 1,232 `.m` files (DID-matlab + NDI-matlab `src`, V_eta
+    branches, comments stripped, plus `jQuantityLeaf`'s runtime-built names) and
+    `V_eta_migration_targets.json`: 48 had no writer and no decided use; three were written
+    only by dead or superseded code (`angle_observation` by `jDecomposeScalars`, which
+    nothing calls; `visual_grating_manipulation` by the old NDI assembler `local.m` no
+    longer calls; `count_assertion`, replaced by item 48). **`image_manipulation` is
+    among them**, reversing that part of the 2026-08-08 image plan: an image shown to the
+    animal is an item of a `timed_sequence_manipulation` (stimulus model, signed the same
+    day). `position_observation` stays: item 4 decided probe sites are one, and it is now
+    `probe_geometry`'s decided target. The full list is `_DELETE_UNUSED_LEAVES` in
+    `tools/build_v_eta.py`.
 
 ## F. What is built (schema side), and what is not
 

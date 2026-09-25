@@ -57,10 +57,18 @@ statements (`oneepoch`'s concatenation) is a calculation too.
 
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
-`term`, `visual_grating`, …) × directions = one-word leaves (`mass_observation`,
-`dose_manipulation`, `term_assertion`, `visual_grating_manipulation`,
+`term`, `timed_sequence`, …) × directions = one-word leaves (`mass_observation`,
+`dose_manipulation`, `term_assertion`, `timed_sequence_manipulation`,
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
+
+**A leaf is made when it is needed, not in advance** (team, 2026-09-25, #73 item 50).
+Every data_type stays whether or not it has a leaf (a standalone data-type document is
+valid content, T6). An `_observation`, `_manipulation`, `_assertion` or `_calculation`
+leaf exists only once something needs it — a migrator or second pass writes it, or a
+decision names it as a target — and is then made by combining that direction with the
+data_type. No leaf is generated for every direction "just in case": a leaf nothing
+writes reads as a supported case nobody has checked.
 
 **Undimensioned values ride a bare self-describing body (no generic numeric data_type).**
 `direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `image`,
@@ -307,8 +315,8 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 
 - **One payload slot.** Every `data_type` composite exposes its payload at exactly one
   field: **`value`**. This is what makes T3's `direction × data_type` factoring mechanical
-  — `mass.value` means the same thing under `mass_observation` and `mass_assertion`, so one
-  query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
+  — `voltage.value` means the same thing under `voltage_observation` and `voltage_calculation`,
+  so one query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
   carries `source_unit` next to `source_value`; by the same rule an `image` cell carries
   its `keys` next to its pixels. Exception, #73 item 15: the value's storage type is

@@ -457,7 +457,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # ELEVENTH MOVEMENT, re-derived not bumped: 265 -> 266 on 2026-09-25, the new
     # `voltage_calculation` leaf (#73 review item 48). A leaf declares no fields,
     # so the INERT list below is untouched.
-    assert walked == 266, f'schema count moved; re-derive the inert set ({walked})'
+    # TWELFTH MOVEMENT, re-derived not bumped: 266 -> 215 on 2026-09-25, #73
+    # review item 50 deleted 51 unused statement leaves. A leaf declares no
+    # fields, so none of them can be in the INERT list; the list is untouched
+    # and the next assertion still checks it.
+    assert walked == 215, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

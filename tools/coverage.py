@@ -772,7 +772,12 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # moving them is the PR #76 DID-matlab checklist. Remove these
                   # three the moment no migrator names them.
                   "session_relative_reference", "session_bounded_reference",
-                  "epoch_bounded_reference"}
+                  "epoch_bounded_reference",
+                  # #73 item 50, 2026-09-25: deleted as an unused leaf. Its only
+                  # writer is NDI's superseded stimulusPresentationToManipulation,
+                  # which local.m no longer calls (only its own unit tests run it).
+                  # Remove when the NDI checklist retires that assembler.
+                  "visual_grating_manipulation"}
 
 
 def guardrail(veta, emitted):

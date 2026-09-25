@@ -7939,9 +7939,9 @@ BINDING_EXAMPLES = [
      "class": "mass_observation",
      "notes": "dimensional leaf: mass_observation already fixes the value type, so "
               "no admissible-set spec is needed"},
-    {"variable": {"node": "", "name": "holding potential"},
-     "method": {"node": "", "name": "voltage clamp"},
-     "class": "voltage_manipulation",
+    {"variable": {"node": "", "name": "bath temperature"},
+     "method": {"node": "", "name": "perfusion heating"},
+     "class": "temperature_manipulation",
      "notes": "method + variable: on an interaction the binding is keyed by both "
               "the method and the variable"},
 ]
@@ -8083,7 +8083,7 @@ BANNERS = {
     "treatment_drug.md": "> **V_eta retarget.** → `dose_manipulation` (substance = `dose`/"
     "`formulation` composite; drug identity on the chemical term); route → `method`; site → "
     "Path S. Not `injection`.",
-    "virus_injection.md": "> **V_eta retarget.** → `dose_manipulation`/`formulation_manipulation` "
+    "virus_injection.md": "> **V_eta retarget.** → `dose_manipulation` "
     "(virus on the chemical term; titer/dilution in the composite); site → Path S. Not "
     "`injection (kind:virus)`.",
     "treatment_transfer.md": "> **V_eta retarget (D4).** → a `term_manipulation` for the "
@@ -8147,7 +8147,7 @@ handling: [`_files.md`](_files.md).
 | `ontology_table_row` | per column -> a `subject_assertion` (timeless) or `subject_observation` (timed) leaf + anchor; anatomy -> Path S (1->N) | drafted | [ontology_table_row.md](ontology_table_row.md) |
 | `subject_group` | bare `subject` (v3.0.0; no `is_group`) | drafted | [subject_group.md](subject_group.md) |
 | `treatment_drug` | `dose_manipulation` (drug on the chemical term) + anchor | drafted | [treatment_drug.md](treatment_drug.md) |
-| `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
+| `virus_injection` | `dose_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
 | `treatment_transfer` | `term_manipulation` + a provenance `directed_relation` (D4) | drafted | [treatment_transfer.md](treatment_transfer.md) |
 
 ## Semi-mechanical (D5 -> `term_observation`)
@@ -10023,6 +10023,40 @@ _DELETE_NO_V1_PROVENANCE = {
     "utc_reference",
 }
 
+# #73 REVIEW ITEM 50 (jess, 2026-09-25): LEAVES EXIST ONLY WHEN NEEDED. Every
+# data_type stays; an `_observation` / `_manipulation` / `_assertion` /
+# `_calculation` leaf is made by combining a direction with a data_type ONCE
+# something needs it -- a migrator or second pass writes it, or a decision names it
+# as a target. These 51 had no need, measured over 1,232 .m files (DID-matlab +
+# NDI-matlab src, V_eta branches, comments stripped, plus jQuantityLeaf's
+# runtime-built names) and V_eta_migration_targets.json. Three were written only
+# by dead or superseded code (angle_observation: jDecomposeScalars, no caller;
+# visual_grating_manipulation: the old NDI assembler local.m no longer calls;
+# count_assertion: replaced by item 48). image_manipulation: an image shown to the
+# animal is an item of a timed_sequence_manipulation (stimulus model, signed
+# 2026-08-08). Re-adding one is a one-line write() once a need appears.
+_DELETE_UNUSED_LEAVES = {
+    "acceleration_assertion", "amount_assertion", "angle_assertion",
+    "angular_velocity_assertion", "area_assertion", "capacitance_assertion",
+    "charge_assertion", "concentration_assertion", "conductance_assertion",
+    "count_assertion", "current_assertion", "energy_assertion", "force_assertion",
+    "frequency_assertion", "gain_assertion", "intensity_assertion",
+    "length_assertion", "mass_assertion", "ph_assertion", "power_assertion",
+    "pressure_assertion", "resistance_assertion", "score_assertion",
+    "temperature_assertion", "time_assertion", "velocity_assertion",
+    "voltage_assertion", "volume_assertion",
+    "concentration_manipulation", "current_manipulation", "force_manipulation",
+    "formulation_manipulation", "frequency_manipulation", "image_manipulation",
+    "intensity_manipulation", "pressure_manipulation", "visual_grating_manipulation",
+    "voltage_manipulation",
+    "amount_observation", "angle_observation", "angular_velocity_observation",
+    "area_observation", "capacitance_observation", "charge_observation",
+    "conductance_observation", "energy_observation", "force_observation",
+    "gain_observation", "ph_observation", "power_observation",
+    "resistance_observation",
+}
+assert len(_DELETE_UNUSED_LEAVES) == 51, len(_DELETE_UNUSED_LEAVES)
+_deleted_unused = []
 _deleted = []
 _deleted_invented = []
 # A SHRINKING DENOMINATOR. This loop decides which schemas are REMOVED from the
@@ -10048,6 +10082,9 @@ for tier in TIERS:
         elif cn in _DELETE_NO_V1_PROVENANCE:
             os.remove(p)
             _deleted_invented.append(cn)
+        elif cn in _DELETE_UNUSED_LEAVES:
+            os.remove(p)
+            _deleted_unused.append(cn)
 print(f'V_eta delete pass: DENOMINATOR {_delete_scan["candidates"]} schema file(s) '
       f'inspected, {_delete_scan["unreadable"]} UNREADABLE; '
       f'{len(_deleted)} phase-8 + {len(_deleted_invented)} no-v1-provenance removed')
@@ -10060,6 +10097,11 @@ if _deleted:
 if _deleted_invented:
     print(f"V_eta delete (no v1 provenance): removed {len(_deleted_invented)}: "
           + ", ".join(sorted(_deleted_invented)))
+print(f"V_eta delete (unused leaves, #73 item 50): removed {len(_deleted_unused)} "
+      f"of {len(_DELETE_UNUSED_LEAVES)} listed")
+if set(_deleted_unused) != _DELETE_UNUSED_LEAVES:
+    raise SystemExit("unused-leaf delete: listed but not found in the build: "
+                     + ", ".join(sorted(_DELETE_UNUSED_LEAVES - set(_deleted_unused))))
 
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
