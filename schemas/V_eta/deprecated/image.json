@@ -1,0 +1,77 @@
+{
+    "document_class": {
+        "class_name": "image",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "image_stack_parameters"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject depicted.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
+        },
+        {
+            "name": "imageCollection_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The collection this image belongs to. NDI's own spelling: a depends_on name passes through migration verbatim.",
+            "must_refer_to_document_class": "image_collection"
+        }
+    ],
+    "file": [
+        {
+            "name": "imageFile",
+            "documentation": "The image file. NDI's own file_list entry, verbatim."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Prose definition of the image type.",
+            "constraints": {}
+        },
+        {
+            "name": "format",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The file format.",
+            "constraints": {}
+        },
+        {
+            "name": "compression",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The file's compression, if any.",
+            "constraints": {}
+        }
+    ]
+}

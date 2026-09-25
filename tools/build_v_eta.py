@@ -9003,6 +9003,43 @@ write("draft", "harmonic_component_calculation",
           ["subject_calculation", "harmonic_component"], maturity="draft"))
 
 
+# --- item 51: `image` and `image_observation` RETIRE (jess, 2026-09-25) ----------
+# After item 16 the V_eta `image` data_type held only { pixels, keys, complete }: the
+# generic keyed array T3 forbids inventing (`array` was killed for it) under a name
+# that states the FORM, not what the pixels measure (T13). It fails T12 (no quantity,
+# no structure of its own). A raster now goes by what its pixels measure, keyed
+# [y, x, (channel)]: brightness/fluorescence -> intensity_observation, a mask or label
+# map -> label_calculation, a term map -> term_observation, depth -> length_observation,
+# unknown raw values -> a bare sampled_body (T3). A picture shown as a stimulus is a
+# standalone document of that data type, an item of a timed_sequence_manipulation.
+#
+# `image` IS ALSO A did_v1 CLASS (NDI database_documents/data/image.json), whose name
+# V_eta had reused -- the collision migrators_j/image.m exists to refuse around. The
+# name goes back to the v1 class: a retired tombstone restated from the template, so
+# an unmigrated v1 image validates. Fields, deps and file are NDI's own spelling
+# (depends_on names and file names pass through universalRenames verbatim).
+_ip = path_of("image")[1]
+os.remove(_ip)
+write("deprecated", "image", {
+    "document_class": {
+        "class_name": "image", "class_version": "2.0.0",
+        "superclasses": [{"class_name": "base"},
+                         {"class_name": "image_stack_parameters"}],
+        "maturity_level": "deprecated"},
+    "depends_on": [
+        dep("subject_id", "subject", "The subject depicted.", non_empty=False),
+        dep("imageCollection_id", "image_collection",
+            "The collection this image belongs to. NDI's own spelling: a depends_on "
+            "name passes through migration verbatim.", non_empty=False)],
+    "file": [{"name": "imageFile",
+              "documentation": "The image file. NDI's own file_list entry, verbatim."}],
+    "fields": [
+        field("label", "char", "Prose definition of the image type."),
+        field("format", "char", "The file format."),
+        field("compression", "char", "The file's compression, if any.")],
+})
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta
@@ -9450,6 +9487,10 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #                   class, so the disposition is retire either way; the dispute is
 #                   HOW it goes, and stays open for the team.
 _RET_V1_BEFORE_STRUCTURE = {
+    "image":
+        "did_v1 class (NDI data/image.json), restored as a tombstone when the V_eta "
+        "`image` data_type retired (#73 item 51). A raster goes by what its pixels "
+        "measure (intensity_observation, label_calculation, term_observation, ...)",
     "hartley_calc":
         "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, "
         "signed 2026-08-17). Tombstone kept so unmigrated documents validate",
@@ -9942,6 +9983,12 @@ _DELETE_PHASE8 = {
 # no-op rather than an error. It is dead for these two classes; it is not
 # removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
+    # #73 REVIEW ITEM 51 (jess, 2026-09-25): the V_eta image leaf goes with the
+    # V_eta `image` data_type (see item 51 above the T15 section). Provenance V_eta,
+    # never did_v1. Its four writers (migrators_j/image_stack.m, ontology_image.m,
+    # resolveEpochProbemap.m, jRecordingModality.m) move to the quantity the pixels
+    # measure -- PR #76 DID-matlab checklist; acknowledged in coverage.py until then.
+    "image_observation",
     # #65 INCREMENT 3b, 2026-09-25 (jess: "do 4 first, then add 1-3 to the
     # checklist"). The last three legacy reference leaves. Provenance V_epsilon /
     # V_eta (V_eta_class_provenance.md), never did_v1: 0 of the 113 coverage-ledger

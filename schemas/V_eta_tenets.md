@@ -71,7 +71,7 @@ data_type. No leaf is generated for every direction "just in case": a leaf nothi
 writes reads as a supported case nobody has checked.
 
 **Undimensioned values ride a bare self-describing body (no generic numeric data_type).**
-`direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `image`,
+`direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `intensity`,
 `tuning_curve`). But when a value is **raw numeric with no dimensioned meaning** (an
 unknown-modality recording), do **not** invent a generic `array` /
 `numeric` data_type — that would only duplicate `sampled_body` (T6, which is already
@@ -318,10 +318,11 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   — `voltage.value` means the same thing under `voltage_observation` and `voltage_calculation`,
   so one query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
-  carries `source_unit` next to `source_value`; by the same rule an `image` cell carries
+  carries `source_unit` next to `source_value`; by the same rule an inline raster carries
   its `keys` next to its pixels. Exception, #73 item 15: the value's storage type is
-  `datum_type`, stated ONCE on the statement, and `color_model`/`channels` are read off the
-  channel key.)*
+  `datum_type`, stated ONCE on the statement, and colour/channels are read off the channel
+  key. There is no `image` class: a raster is a value of what its pixels measure, #73
+  item 51.)*
 - **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
   `ontology_term`, …) declares its sub-fields in the schema — the canonical value plus
   lossless source provenance — so the validator, the query-path generator, the viewer and

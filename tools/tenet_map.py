@@ -303,13 +303,13 @@ TENET_MAP = [
         "`significance` / `circular_statistics` / `interpolated_values` -- and "
         "they stay typed and queryable, which the bag would have cost."),
     Row("T14",
-        "`image` carries its pixels in exactly one `value` slot, with dtype, "
-        "axes, colour model and channels declared INSIDE the cell beside them "
-        "-- because dtype is not recoverable from an inline matrix.",
+        "A raster needs no image class: it is a value of what its pixels "
+        "measure (brightness -> `intensity`, a mask -> `label`), keyed "
+        "[y, x, channel], in the one `value` slot every data type has.",
         ["imageStack"],
-        ["image", "image_observation"],
-        "V_eta_tenet_audit.md",
-        "one `value` cell (T14)",
+        ["intensity", "intensity_observation", "label_calculation"],
+        "V_eta_spatial_transcriptomics_plan.md",
+        "goes by what its pixels measure",
         "One payload slot is what makes T3's factoring mechanical: `mass.value` "
         "means the same thing under every direction."),
     Row("T14",
@@ -318,7 +318,7 @@ TENET_MAP = [
         "composites emitted no query path at all. Declaring the cell inline is "
         "what made the values indexable.",
         ["stimulus_tuningcurve"],
-        ["tuning_curve", "voltage", "image"],
+        ["tuning_curve", "voltage", "visual_grating"],
         "V_eta_tenet_audit.md",
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "

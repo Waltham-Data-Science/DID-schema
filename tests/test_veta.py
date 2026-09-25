@@ -747,7 +747,9 @@ def test_image_collection_is_a_tombstone_not_a_dissolution():
         "image_collection is a did_v1 SOURCE class with an NDI template and no "
         "migrator; deleting its schema is the stranding case")
     assert "image" in RECORDS
-    assert "image" in _chain("image_observation")
+    # #73 item 51: `image` is the did_v1 tombstone again, beside image_collection.
+    assert "image_collection" in {e["must_refer_to_document_class"]
+                                  for e in RECORDS["image"][1]["depends_on"]}
 
 
 def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
@@ -1370,11 +1372,10 @@ def test_data_body_carrier_dispositions():
                                  for s in r[1]["document_class"].get("superclasses", [])}}
     assert bodies == {"sampled_body", "opaque_body"}
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
-    # image is KEPT (image_observation's geometry mixin) but its final ⑥/⑦
-    # disposition is not settled, so it is in_progress -- crucially NOT retire (that
-    # was the bug: retiring the mixin of a persisting leaf).
-    assert disp["image"] != "retire", "image is a kept geometry mixin, not retiring"
-    assert disp["image_observation"] == "persist"
+    # #73 item 51 (2026-09-25): the V_eta `image` data_type and its leaf RETIRE. The
+    # name is the did_v1 tombstone again (retire), and image_observation is gone.
+    assert disp["image"] == "retire"
+    assert "image_observation" not in disp
     # `zarr` HAS NO DISPOSITION ANY MORE because it has no class: it was deleted
     # outright (signed sec.10) rather than retired, and it left _RET_CARRIERS in
     # the same change -- a disposition for a name nothing declares would make the
@@ -2737,7 +2738,8 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """The schema half of the #47 fold, checked against what the migrator emits.
 
     `migrators_j/ontology_image.m` mints an `image_observation` + a
-    `sampled_body` on its subject-bearing arm. Both halves are LOCKSTEP: the
+    `sampled_body` on its subject-bearing arm today; since #73 item 51 the decided
+    statement is a `term_observation` (each pixel names an ontology node). Both halves are LOCKSTEP: the
     migrator alone would quarantine every folded document, and this side alone
     would be an unused declaration. The migrator's own tests run under MATLAB
     only; this is the half that runs everywhere.
@@ -2746,15 +2748,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     """
     assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
 
-    # the statement the team named
-    assert "image_observation" in RECORDS
-    _t, obs = RECORDS["image_observation"]
+    # the statement the team named (#73 item 51: term_observation, not image_observation)
+    assert "image_observation" not in RECORDS
+    _t, obs = RECORDS["term_observation"]
     assert not obs["document_class"].get("abstract"), (
-        "image_observation is the minted class; an abstract one cannot be "
+        "term_observation is the minted class; an abstract one cannot be "
         "instantiated (cache.m raises did2:validation:abstractInstantiation)")
     supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
-    assert supers == ["subject_observation", "image"], (
-        f"the migrator emits exactly these direct superclasses; got {supers!r}")
+    assert supers == ["subject_observation", "term"], supers
 
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]
@@ -2767,7 +2768,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
              for c in _chain("sampled_body")
              for e in RECORDS[c][1].get("depends_on", [])}
     assert edges["owner_id"]["mustBeNonEmpty"] is True, (
-        "the fold binds the body to the image_observation through `owner` "
+        "the fold binds the body to its statement through `owner` "
         "(named `statement` until #73); "
         "an optional edge here would let a body be minted belonging to nobody")
 

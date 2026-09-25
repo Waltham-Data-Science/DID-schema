@@ -239,6 +239,20 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     day). `position_observation` stays: item 4 decided probe sites are one, and it is now
     `probe_geometry`'s decided target. The full list is `_DELETE_UNUSED_LEAVES` in
     `tools/build_v_eta.py`.
+51. **`image` and `image_observation` retire** (2026-09-25). After item 16 the V_eta `image`
+    data type held only `{ pixels, keys, complete }`: the generic keyed array T3 forbids
+    (`array` was removed for exactly this), under a name that states the form rather than
+    the quantity (T13), and with no quantity or structure of its own (T12). A raster now
+    goes by what its pixels measure, keyed [y, x, (channel)]: brightness or fluorescence
+    -> `intensity_observation`, a mask or label map -> `label_calculation`, a map of
+    ontology terms -> `term_observation`, depth -> `length_observation`, raw values of
+    unknown meaning -> a bare `sampled_body` (T3). A picture shown as a stimulus is a
+    standalone document of that data type, an item of a `timed_sequence_manipulation`.
+    This reverses the 2026-08-08 image plan. **The name `image` goes back to the did_v1
+    class** (NDI `data/image.json`), restated as a retired tombstone, which also removes
+    the name collision `migrators_j/image.m` refuses around. Decided targets are recorded
+    for v1 `image`, `imageStack`, `ontologyImage`, `daqreader_image_epochdata_ingested`
+    and `element`'s imaging arm.
 
 ## F. What is built (schema side), and what is not
 

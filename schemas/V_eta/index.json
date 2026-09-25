@@ -1043,14 +1043,16 @@
         },
         {
             "class_name": "image",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "tier": "deprecated",
+            "class_version": "2.0.0",
+            "maturity_level": "deprecated",
             "superclasses": [
-                "data_type"
+                "base",
+                "image_stack_parameters"
             ],
-            "path": "schemas/V_eta/stable/image.json",
-            "disposition": "persist"
+            "path": "schemas/V_eta/deprecated/image.json",
+            "disposition": "retire",
+            "disposition_note": "did_v1 class (NDI data/image.json), restored as a tombstone when the V_eta `image` data_type retired (#73 item 51). A raster goes by what its pixels measure (intensity_observation, label_calculation, term_observation, ...)"
         },
         {
             "class_name": "image_collection",
@@ -1063,18 +1065,6 @@
             "path": "schemas/V_eta/stable/image_collection.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "image_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "subject_observation",
-                "image"
-            ],
-            "path": "schemas/V_eta/draft/image_observation.json",
-            "disposition": "persist"
         },
         {
             "class_name": "image_stack",

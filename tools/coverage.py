@@ -777,7 +777,13 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # writer is NDI's superseded stimulusPresentationToManipulation,
                   # which local.m no longer calls (only its own unit tests run it).
                   # Remove when the NDI checklist retires that assembler.
-                  "visual_grating_manipulation"}
+                  "visual_grating_manipulation",
+                  # #73 item 51, 2026-09-25: the V_eta `image` data_type and its
+                  # leaf retire; a raster goes by what its pixels measure. Four
+                  # writers still emit image_observation (image_stack.m,
+                  # ontology_image.m, resolveEpochProbemap.m, jRecordingModality.m);
+                  # remove when the PR #76 DID-matlab item lands.
+                  "image_observation"}
 
 
 def guardrail(veta, emitted):

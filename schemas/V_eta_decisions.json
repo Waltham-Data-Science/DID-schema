@@ -1671,7 +1671,7 @@
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m`",
-          "decided target(s) built: `image_observation`, `relative_time_reference`, `sampled_body`"
+          "decided target(s) built: `intensity_observation`, `relative_time_reference`, `sampled_body`"
         ],
         "migrator_file": "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m",
         "n_consuming_refs": 0,
@@ -1731,12 +1731,12 @@
           }
         },
         "decided_targets": [
-          "image_observation",
+          "intensity_observation",
           "relative_time_reference",
           "sampled_body"
         ],
         "decided_targets_built": [
-          "image_observation",
+          "intensity_observation",
           "relative_time_reference",
           "sampled_body"
         ],
