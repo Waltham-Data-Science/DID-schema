@@ -97,7 +97,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each entry names its `variable`, states the unit once for the whole condition (`unit` / `source_unit` / `approximate`, as on a key), and carries exactly one value form: `term`, `count` or `quantity` (data_body AMENDMENT 2, built #73 item 23). A condition is held fixed for the whole statement: cardinality exactly 1.",
+            "documentation": "D10 qualifiers: one-value facts true of EVERY value of the statement that are not dimensions of the stored array (keys are exactly those dimensions) -- the experimental conditions it was taken under, and any other whole-value fact. A list of typed {variable, value} entries. Each entry names its `variable`, states the unit once for the whole condition (`unit` / `source_unit` / `approximate`, as on a key), and carries exactly one value form: `term`, `count` or `quantity` (data_body AMENDMENT 2, built #73 item 23). Cardinality exactly 1. A fact true of only ONE body goes in that body's `conditions`; a variable appears at most once across a statement's keys and conditions and any one of its bodies' (a batch check).",
             "constraints": {},
             "fields": [
                 {

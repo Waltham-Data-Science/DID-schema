@@ -6506,9 +6506,10 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
 
-# EMPTIED BY THE HOIST, deliberately, and the plan says so in as many words:
-# "nothing of its own -- its content is 'these bytes are not an array', which the
-# class name states." All four fields it used to declare are on `data_body` now,
+# EMPTIED BY THE HOIST, deliberately. The plan's "its content is 'these bytes are
+# not an array'" is SUPERSEDED by lightsheet L3 (2026-09-25, not signed): an opaque
+# body's bytes are laid out by their own `format`, and it may carry the inherited
+# `keys` describing the array that format presents -- it declares no layout. All four fields it used to declare are on `data_body` now,
 # and the `statement` edge with them. `data_body` has EXACTLY two members; that
 # is not reopened here.
 opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[], fields=[])
@@ -9298,6 +9299,98 @@ def _ss23(d):
 _patch("subject_statement", _ss23)
 
 
+# --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
+# Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
+# The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
+#   sampled_body -- raw bytes V_eta lays out: keys + byte_order / datum_order /
+#                   fill_value, and `chunk` inside its keys.
+#   opaque_body  -- bytes laid out by their own `format` (TIFF, OME-Zarr, a zip):
+#                   keys OPTIONAL (the array as the format presents it), no layout.
+# So `keys` + `complete` + the key-labels edge move UP to data_body (L3), and
+# `conditions` joins them there (L1): a body may carry a one-value fact true of all
+# ITS values -- a reduced pyramid level's `summary statistic: maximum`, a lossy or
+# preview copy -- when that fact differs between bodies of one owner. The body ->
+# owner edge is kept, so the "a variable appears once across a statement and one of
+# its bodies" rule is a BATCH check (DID-matlab), like the time-reference family rule.
+# `fill_value` (L2) says what a missing member of a DENSE body holds.
+def _pull(d, names):
+    got = {f["name"]: f for f in d["fields"] if f["name"] in names}
+    if set(got) != set(names):
+        raise SystemExit(f"lightsheet L3: sampled_body lacks {sorted(set(names) - set(got))}")
+    d["fields"] = [f for f in d["fields"] if f["name"] not in names]
+    return got
+
+
+_sb_d = load(path_of("sampled_body")[1])
+_moved = _pull(_sb_d, ("keys", "complete"))
+_lbl_edges = [x for x in _sb_d["depends_on"] if x["name"] == "axis_labels_#"]
+if len(_lbl_edges) != 1:
+    raise SystemExit("lightsheet L3: sampled_body must declare exactly one axis_labels_#")
+_sb_d["depends_on"] = [x for x in _sb_d["depends_on"] if x["name"] != "axis_labels_#"]
+_moved["keys"]["documentation"] = (
+    "What a value is looked up by, in array order: keys[k] IS array dimension k of "
+    "THIS body's array (each body has its own extent). EXACTLY the stored array's "
+    "dimensions: a length-1 dimension the array has is a key, and there is never a "
+    "key for a dimension the array does not have (a one-value fact true of every "
+    "value is a CONDITION). Required on a sampled_body; OPTIONAL on an opaque_body, "
+    "where it describes the array as the body's `format` presents it. `chunk` is "
+    "used ONLY on a sampled_body's keys: an opaque body's format decides its own "
+    "chunking.")
+for _s in _moved["keys"]["fields"]:
+    if _s["name"] == "chunk":
+        _s["documentation"] = (
+            "sampled_body ONLY. Positions per chunk along this key when the bytes are "
+            "split across several files (a tiled image). Chunk k is numbered row-major "
+            "over the chunk grid, from 0, and lives in file-series member "
+            "`body_data_k`. Every chunk is stored at the FULL chunk shape: positions "
+            "at or past `n` in an edge chunk are padding, not values. A missing member "
+            "of a dense body (`complete` true) holds `fill_value` everywhere, and is "
+            "not allowed when no `fill_value` is declared; a missing member of a "
+            "sparse body (`complete` false) is no rows. Absent = this key is not split.")
+_sb_d["fields"].append(field(
+    "fill_value", "double",
+    "What every position of a MISSING chunk holds, for a dense body (`complete` "
+    "true) whose file series omits members. In `datum_type` encoding, like the "
+    "stored bytes (not canonical units); NaN allowed for a float datum. Empty = none "
+    "declared, and then every chunk must be stored. Meaningless for a sparse body.",
+    non_empty=False, scalar=False, blank=[]))
+write(path_of("sampled_body")[0], "sampled_body", _sb_d)
+
+_ss_d = load(path_of("subject_statement")[1])
+_cond = next(f for f in _ss_d["fields"] if f["name"] == "conditions")
+_cond["documentation"] = (
+    "D10 qualifiers: one-value facts true of EVERY value of the statement that are not "
+    "dimensions of the stored array (keys are exactly those dimensions) -- the "
+    "experimental conditions it was taken under, and any other whole-value fact. "
+    "A list of typed {variable, value} entries. Each entry names its `variable`, "
+    "states the unit once for the whole condition (`unit` / `source_unit` / "
+    "`approximate`, as on a key), and carries exactly one value form: `term`, `count` "
+    "or `quantity` (data_body AMENDMENT 2, built #73 item 23). Cardinality exactly 1. "
+    "A fact true of only ONE body goes in that body's `conditions`; a variable "
+    "appears at most once across a statement's keys and conditions and any one of "
+    "its bodies' (a batch check).")
+write(path_of("subject_statement")[0], "subject_statement", _ss_d)
+
+_db_d = load(path_of("data_body")[1])
+_bcond = json.loads(json.dumps(_cond))
+_bcond["documentation"] = (
+    "One-value facts true of every value in THIS body but not of every body of its "
+    "owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or "
+    "preview copy). The same entry shape as `subject_statement.conditions`. A fact "
+    "true of every body belongs on the owner instead; a variable appears at most once "
+    "across the owner's keys and conditions and this body's (a batch check: the "
+    "owner does not list its bodies).")
+for _s in _bcond["fields"]:
+    if _s["name"] in ("count", "quantity"):
+        for _v in _s["fields"]:
+            _v["documentation"] = _v["documentation"].replace(
+                "held fixed for the statement", "held fixed for the body")
+_db_d["fields"] += [_moved["keys"], _moved["complete"], _bcond]
+_db_d["depends_on"] += _lbl_edges
+write(path_of("data_body")[0], "data_body", _db_d)
+
+
+
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------
 # V_eta_tenets.md T15: every edge is a noun ending `_id`; a repeated edge REPEATS
 # its one name instead of numbering members (`_#` templates are gone for V_eta
@@ -9308,7 +9401,8 @@ _patch("subject_statement", _ss23)
 # its shape is under review. NOT STORABLE YET for repeated edges: DID-matlab's
 # depends_on is keyed (doc_id, name) and must gain a position (PR #76 checklist).
 _T15 = {
-    "data_body": {"owner": ("owner_id", None)},
+    "data_body": {"owner": ("owner_id", None),
+                  "axis_labels_#": ("key_labels_id", True)},
     "directed_relation": {"parent": ("parent_id", None), "child": ("child_id", None),
                           "time_reference_#": ("time_reference_id", False)},
     "relative_time_reference": {"relative_to": ("referent_id", None)},
@@ -9322,7 +9416,6 @@ _T15 = {
     "undirected_relation": {"entities_#": ("entity_id", False)},
     "timed_sequence": {"presented_id_#": ("item_id", True)},
     "subject_statement": {"axis_labels_#": ("key_labels_id", True)},
-    "sampled_body": {"axis_labels_#": ("key_labels_id", True)},
     "strain": {"background_strain_#": ("background_strain_id", False)},
     "clock_alignment_configuration": {
         "acquisition_channels_#": ("acquisition_channels_id", False)},

@@ -174,6 +174,15 @@ Decisions needed before the schema and migrator can be written:
   (the writer targets `numcodecs.Blosc`, the same format) -- the DID-matlab migrator test must
   decompress a real NDI chunk with no parameters before this is relied on.
 
+**BUILT schema-side 2026-09-25 (L1-L3; L4 needs no schema change):** `data_body` gains
+`keys`, `complete` (moved up from `sampled_body`), `conditions` and the `key_labels_id` edge;
+`sampled_body` gains `fill_value`; the `chunk`, `keys`, `conditions` docs carry the rules;
+tenets T6 / T13 / T15 table updated; data_body plan amendment note added.
+`tests/test_veta.py::test_bodies_split_by_who_lays_out_the_bytes` pins it. The batch checks
+(no variable repeated across a statement and one body; a dense body's missing member needs a
+`fill_value`; `chunk` only on a sampled body's keys; a `storage_mode: body` statement with no
+body) are DID-matlab work, not yet built.
+
 Follow-ups once #979 merges (no new modelling): 2 tombstones + decided targets here (NDI
 templates 102 -> 104 moves `coverage.py`, `check_tombstones`, `check_prose_counts`); 2 DID-matlab
 migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries for the

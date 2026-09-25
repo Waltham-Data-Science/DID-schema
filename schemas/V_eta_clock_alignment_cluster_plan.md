@@ -636,3 +636,5 @@ RE-DERIVED 2026-08-21 (ndi_m_files, sibling drift): NDI `origin/main` advanced t
 RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 1,179 .m files. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).
 
 RE-DERIVED 2026-09-23 (spatial-transcriptomics family landed via #64 + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 1,180 .m files (was 1,179; sibling drift); **93 migrator .m file(s)** in `+migrators_j` (was 85; +8 spatial-transcriptomics migrators from DID-matlab PR #151). Re-derive with `python3 tools/check_prose_counts.py`, do not quote directly.
+
+RE-DERIVED 2026-09-25 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `0a2cdeccb`: 102 NDI templates on origin/main; 1,181 .m files (was 1,180; `git ls-tree -r origin/main | grep -c '\.m$'` = 1181). Only the denominator moved. Re-derive, do not quote.

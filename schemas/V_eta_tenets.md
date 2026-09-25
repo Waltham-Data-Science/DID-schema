@@ -40,8 +40,8 @@ query spans all statements. The family branches by *epistemic direction*:
 `subject_assertion` (timeless fact), `subject_observation` (measured from),
 `subject_manipulation` (done to), `subject_calculation` (derived/computed about). An
 assertion has no act/series; an interaction (observation/manipulation/calculation) adds
-`method` (the verb), its per-reading positions as `keys` (the `sample_time` block retires
-under the signed data_body model, 2026-08-14 — removal not yet built), an optional
+`method` (the verb), its per-reading positions as `keys` (the `sample_time` block retired
+under the signed data_body model, 2026-08-14; built #73 item 21), an optional
 `instrument_id`, and
 requires a `time_reference`. (SPEC §3–§5)
 
@@ -97,12 +97,25 @@ is normally an *address* (a value), not a subject. (SPEC §4)
 
 ### T6 — Storage is orthogonal to meaning; there are exactly two data bodies.
 `storage_mode ∈ {inline, reference, body}`. `data_body` has **exactly two** members:
-`sampled_body` (self-describing — `keys` for every axis including time, with `datum_type`
-on the statement; `summary` dropped, #68; partial-read,
-value-searchable) and `opaque_body` (uninterpreted bytes). Every carrier — timeseries,
+`sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
+`chunk`, `fill_value` — with `datum_type` on the statement; `summary` dropped, #68;
+partial-read, value-searchable) and `opaque_body` (bytes laid out by their own `format`:
+TIFF, OME-Zarr, an archive). The two split by **who lays out the bytes**, not by whether
+there is an array: both may carry `keys` (required on a sampled body; on an opaque body
+they describe the array as its format presents it) and `conditions` (lightsheet
+walkthrough L1/L3, 2026-09-25). Every carrier — timeseries,
 dataseries, zarr, image, generic_file — phases into those; **encoding/format is a field,
 not a class**. Timing splits: the anchor lives in `time_reference`, the per-sample
 cadence rides beside the value. (SPEC §8)
+
+**Keys vs. conditions.** A **key** is a dimension of the *stored* array — exactly those,
+in order, a length-1 dimension included, and never a key for a dimension the array does not
+have. A **condition** is a one-value fact true of every value that is *not* a stored
+dimension (an electrode offset; a reduced pyramid level's `summary statistic: maximum`). A
+condition true of every body sits on the statement; one true of only one body sits on that
+body. A variable appears at most once across a statement's keys and conditions and any one
+of its bodies'. Bodies point at their owner (`owner_id`) and the owner does not list them —
+adding a body never rewrites the statement — so that rule is checked in batch.
 
 **Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is
 **losslessly derivable** from representation *A*, store *A* once at the **finest grain** and
@@ -274,8 +287,9 @@ a footnote**.
   `parameters`, `data`, `info`, `struct`, `table`, `record`, `metadata`, `object`,
   `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,
   `stimulus_response_scalar_parameters` are v1 smells). A field holds a **role** — name the
-  role: v1's generic `parameters` split into **`conditions`** (the experimental conditions
-  on a statement) and **`method_parameters`** (the algorithm config on an interaction);
+  role: v1's generic `parameters` split into **`conditions`** (one-value facts true of
+  every value — the experimental conditions, on a statement or on one body, T6) and
+  **`method_parameters`** (the algorithm config on an interaction);
   a per-stimulus mean is `response_mean`, not `value`.
 - **Abbreviate only when the short form is the *more* recognizable one.** `id`, `url`,
   `daq` earn it — the expansion is rarely spoken and the short form is unambiguous. `app`
@@ -435,7 +449,7 @@ excluded). 16 names are unchanged: `subject_id`, `software_id`, `session_id`, `e
 | `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
 | `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
 | `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |
-| `subject_statement`, `sampled_body` | `axis_labels_#` | `key_labels_id` | yes | **yes** |
+| `subject_statement`, `data_body` | `axis_labels_#` | `key_labels_id` | yes | **yes** |
 | `strain` | `background_strain_#` | `background_strain_id` | yes | no |
 | `clock_alignment_configuration` | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
 | `acquisition_system` | `acquisition_metadata_reader_#` | `acquisition_metadata_reader_id` | yes | no |

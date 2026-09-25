@@ -202,6 +202,9 @@ KNOWN_DIVERGENT = {
     # ("subject_interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
     # statement-side `sample_time` retired too (#73 item 21), repairing the row.
     ("subject_statement", "conditions.term.value", "ontology_term"),
+    # Lightsheet L1 (2026-09-25): data_body.conditions is a copy of the statement's
+    # entry, so it inherits the same pre-existing blank shape.
+    ("data_body", "conditions.term.value", "ontology_term"),
     ("time_reference", "clock_tolerance", "time"),
     ("voltage", "value", "voltage"),
     ("volume", "value", "volume"),

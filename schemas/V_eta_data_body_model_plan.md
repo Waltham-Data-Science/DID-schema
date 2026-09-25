@@ -28,6 +28,20 @@
 >
 > **AND AMENDMENT 2 is BUILT (#73 item 23):** `conditions` has the four descriptors at the top
 > of each entry, `count` flattened, `quantity` as {value, source_value}.
+>
+> **AND THE LIGHTSHEET WALKTHROUGH (2026-09-25, NDI-matlab PR #979; agreed with jess, NOT
+> signed; record in `review/73/OPEN_ITEMS.md` L1–L4) changed the tier, and is BUILT
+> schema-side:** the two bodies split by WHO LAYS OUT THE BYTES — `sampled_body` = raw bytes
+> V_eta lays out (`byte_order`, `datum_order`, `chunk`, new `fill_value`); `opaque_body` =
+> bytes laid out by their own `format`. `keys`, `complete` and the `key_labels_id` edge moved
+> UP to `data_body` (keys required on a sampled body, optional on an opaque one, `chunk` only
+> on a sampled one), and `conditions` was added there too (a one-value fact true of one
+> body's values only). Keys are EXACTLY the stored array's dimensions; any other one-value
+> fact is a condition. Edge chunks are stored at full chunk shape (positions past `n` are
+> padding); a dense body's missing member holds `fill_value`. **Sec.7's open question is
+> answered:** the first real per-chunk codec (Blosc + zstd + shuffle) is self-describing —
+> checked with python-blosc 1.11.4, `decompress` with no parameters round-trips — so one
+> `compression` value holds (the MATLAB encoder NDI calls is not yet checked).
 
 Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
 started at "where do coordinates go" and ended at the whole `data_body` tier, because every
@@ -1132,3 +1146,5 @@ RE-DERIVED 2026-09-25 (#73 review item 51: the V_eta `image` data_type and `imag
 RE-DERIVED 2026-09-25 (#73 review item 52: `logical_observation` retired; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 214); **219 json file(s) under `schemas/V_eta/`** (was 220). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-25 (#73 review item 53: the run-environment entity split into two `software` edges and deleted; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `0a2cdeccb`: 102 NDI templates on origin/main; 1,181 .m files (was 1,180; `git ls-tree -r origin/main | grep -c '\.m$'` = 1181). Only the denominator moved. Re-derive, do not quote.
