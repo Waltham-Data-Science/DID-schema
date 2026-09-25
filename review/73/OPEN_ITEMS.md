@@ -91,6 +91,42 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
 25. Bring `contrast_sensitivity` in line with the #73 tuning shape (`model_fit.goodness`,
     `interpolated_values.c50`, fits/significance placement).
 
+## Lightsheet OME-Zarr (NDI-matlab PR #979, open; added 2026-09-25)
+Two new v1 classes, `lightsheetZarrPyramid` and `lightsheetZarrLevel`, on NDI branch
+`claude/lightsheet-zarr-ndi-viewer-djp5vk` (head `60a79cf0e`); not on NDI `origin/main` yet.
+Writer facts (the writer wins over the docs): ONE pyramid per source volume
+(`fromOMEZarr.m:12-13`; the branch README says one per reduction and is stale); one level per
+unique array, the shared level 0 with `reduction_function 'none'`, reduced levels `'mean'` /
+`'max'` (`makePyramid.m:12-19`, `:293`); chunk bytes as a 1-based `chunk.bin_#` series, written
+only when `materializeChunks` is true, which defaults to FALSE (`:71`); codec `raw` or
+`blosc-zstd` (`:73`), blosc with shuffle 1 (`:746-748`); `fill_value` always 0 (`:302`).
+
+Proposed mapping (item 29 + item 51, no new class): the pyramid becomes an
+`intensity_observation` (`element_id` becomes `instrument_id`, `pipeline_version` a `software`
+entity); axes / voxel size / translation / units become keys [t, c, z, y, x]; `dtype` becomes
+`datum_type` + `byte_order`; each level becomes a `sampled_body` (level 0 the measurement,
+reduced levels `redundant`); `chunks` become each key's `chunk`, `chunk.bin_1..N` becomes
+`body_data_0..N-1`; `source_file_id` becomes an unheld body (item 25).
+
+Decisions needed before the schema and migrator can be written:
+- **L1. Where a reduced level says mean vs max.** Same keys, different values; `sampled_body`
+  has no field for it. Precedent: pyraview's min/max is a `statistic` key (item 15; decided,
+  not yet emitted by DID-matlab `pyraview.m`).
+- **L2. The value of a missing chunk.** Item 17 says a missing member is an "empty chunk" and
+  never says what value it holds; the format declares `fill_value`.
+- **L3. Levels with no bytes (the default).** Each level would be an unheld body recorded by
+  location, and the store's `fileReference` a second unheld copy of level 0.
+- **L4. `blosc-zstd` with shuffle** is the first instance of the per-chunk codec the data_body
+  plan sec.7 said had none, and named as the trigger for promoting `compression` to a list.
+  Blosc's own chunk header is believed to record shuffle and element size (not checked here).
+
+Follow-ups once #979 merges (no new modelling): 2 tombstones + decided targets here (NDI
+templates 102 -> 104 moves `coverage.py`, `check_tombstones`, `check_prose_counts`); 2 DID-matlab
+migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries for the
+`isa`-query and dependency-name readers (`levelTable`, `LightsheetZarrManager`, `makePyramid`,
+`fromOMEZarr`). Note for the NDI PR: the planned `chunk_index` side-field is unnecessary under
+"a missing member is an empty chunk".
+
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
   variable). Ontology registries were unreachable from the review container.
