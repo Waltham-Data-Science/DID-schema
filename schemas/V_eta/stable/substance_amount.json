@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "amount",
+        "class_name": "substance_amount",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "amount",
+            "type": "substance_amount",
             "blank_value": [],
             "default_value": [
                 {
@@ -41,7 +41,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical amount value -- the normalised, cross-document comparable number.",
+                    "documentation": "Canonical substance_amount value -- the normalised, cross-document comparable number.",
                     "constraints": {}
                 },
                 {

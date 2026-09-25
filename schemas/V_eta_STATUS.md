@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 214 |
-| settled (persist) | 131 |
+| target classes | 215 |
+| settled (persist) | 132 |
 | settled (retire) | 62 |
 | **still open (`in_progress`)** | **21** |
 | **`retire` with no migrator YET** | **3** |
@@ -324,7 +324,7 @@ Until that line exists the family shows here regardless of what
 
 **DENOMINATOR: 25 signed families. 17 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
 
-Across the 17 checked: 31 distinct target class(es), 31 present in the built set, 0 not.
+Across the 17 checked: 37 distinct target class(es), 37 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
@@ -361,7 +361,7 @@ is why migrator work before the target closes is rework.
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
-| **confirm sheet 2026-08-17** | 5 | 5 of 5 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
+| **confirm sheet 2026-08-17** | 5 | 11 of 11 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
 | **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |

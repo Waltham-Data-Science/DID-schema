@@ -97,6 +97,19 @@
                     "constraints": {}
                 },
                 {
+                    "name": "osmolar",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                    "constraints": {}
+                },
+                {
                     "name": "source_unit",
                     "type": "char",
                     "blank_value": "",

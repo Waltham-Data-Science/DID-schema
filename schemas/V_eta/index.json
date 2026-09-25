@@ -156,17 +156,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "amount",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "data_type"
-            ],
-            "path": "schemas/V_eta/stable/amount.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "angle",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1578,6 +1567,17 @@
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
+            "class_name": "product",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/draft/product.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "projectvar",
             "tier": "deprecated",
             "class_version": "2.0.0",
@@ -2114,6 +2114,17 @@
             "path": "schemas/V_eta/stable/subjectmeasurement.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
+            "class_name": "substance_amount",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/substance_amount.json",
+            "disposition": "persist"
         },
         {
             "class_name": "syncgraph",

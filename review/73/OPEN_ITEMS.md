@@ -61,12 +61,11 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
 7. **`chemical` / `formulation` / `dose`** declare the substance+amount shape separately and
    already disagree; `chemical.value.amount` is typed `concentration` while an `amount`
    (moles) type exists.
-   **Walked 2026-09-25 (jess; not built, no sign-off line):** DROP `dose.value.route` -- the
-   route is the verb, already `subject_interaction.method`. No writer fills it (blank at
-   `jDoseValue.m:27`, `resolveDeferredBaths.m:478`) and NDI's `treatment_drug` template has no
-   route field; it traces to DID-schema's own V_alpha `treatment_drug`. Still open in item 7:
-   typing the nested shapes, the `amount` -> `concentration` rename, and how a dose says how
-   much was given.
+   **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** see
+   `V_eta_spatial_transcriptomics_plan.md` item 59 -- chemical / formulation / dose are
+   always documents; `formulation.ingredient_id` + `value.ingredients[]`; `dose.formulation_id`
+   + how much given + `amount_per_body_mass`; new `product` entity; `route` dropped;
+   `amount` -> `substance_amount`; `concentration` + `osmolar`.
 8. **`area` in square meters beside `volume` in liters** (practical units).
 9. **Standalone data-type documents** have nowhere for `datum_type`, `storage_mode` or
    `key_labels_id`; `image.keys.labels_from` cannot work on a standalone image; where a

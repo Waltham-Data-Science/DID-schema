@@ -272,7 +272,7 @@
                         "resistance",
                         "conductance",
                         "capacitance",
-                        "amount",
+                        "substance_amount",
                         "ph",
                         "gain",
                         "date",

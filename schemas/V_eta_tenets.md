@@ -197,6 +197,9 @@ typed and the *ontology* carries the semantics. (SPEC §7, D9)
 `dataset`, `person`, `organization`, `funding`, `publication`, `web_resource`, `session`,
 `subject` carry a `global_identifier`, with full openMINDS field parity and a
 machine-readable crosswalk. Aggregation/authorship/funding are `directed_relation`s.
+A bought item is a **`product`** entity (vendor → `organization`, catalog number, lot):
+chemicals and ready-made formulations point at it now, and instruments, plasmids and
+strains are its expected later users (#73 item 59).
 
 ### T10 — The calculator motif: analysis outputs are calculations, migrated id-preserving.
 (Lepsky et al.) A calculator produces **one** output document type — a
@@ -342,6 +345,9 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   lossless source provenance — so the validator, the query-path generator, the viewer and
   the docs all read one source of truth. **A type that is only an enum string is
   undeclared**, and its internals are then known solely to whoever wrote the migrator.
+- **Every canonical slot names its complete unit** (`grams`, `liters`, `molar`,
+  `grams_per_liter`, `grams_per_gram`), never a unit implied by the field it sits in, so a
+  reader can see which slot a source unit converts into (#73 item 59).
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.

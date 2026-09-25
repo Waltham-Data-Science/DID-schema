@@ -2662,29 +2662,94 @@ for name in ["injection", "bath", "stimulus_bath", "pharmacological_manipulation
         os.remove(p)
 
 # composite value mixins (structure-typed cells; J §7 named composites)
-CHEM_SUBS = [subfield("substance", "ontology_term", "The chemical/biological agent "
-                      "(CHEBI/NCBITaxon/…).", non_empty=True),
-             subfield("amount", "concentration", "Optional amount/concentration.")]
+# #73 review item 7 (walkthrough 2026-09-25, jess; not signed): three levels, each
+# with its own "how much", and every one of them a DOCUMENT, never an inline copy --
+# so a bought chemical or a made recipe is stored once, reused and searchable.
+#   chemical    -- what you BUY: a substance, possibly as a stock (1 M KCl); its
+#                  `concentration` is the bottle's own strength.
+#   formulation -- what you MAKE: ordered `ingredient_id` edges (chemicals and/or other
+#                  formulations -- a stock you made is a formulation), and one
+#                  `value.ingredients[k]` entry per edge saying how much of it was
+#                  ADDED, or its final concentration here. Whole-mixture facts (pH,
+#                  osmolarity) are the formulation's.
+#   dose        -- what you GIVE: `formulation_id` + how much of it was delivered.
+# `route` is gone (it is the verb: subject_interaction.method; nothing wrote it, and no
+# NDI template has it -- it came from DID-schema's own V_alpha `treatment_drug`). The
+# old `chemical.value.amount` was typed `concentration` beside a moles type called
+# `amount`; the field is `concentration` now and the type is `substance_amount`.
+_HOW_MUCH = [subfield("mass", "mass", "Mass, optional."),
+             subfield("volume", "volume", "Volume, optional."),
+             subfield("substance_amount", "substance_amount", "Moles, optional."),
+             subfield("count", "count",
+                      "A count of entities (e.g. viral genomes), optional.")]
 write("stable", "chemical",
-      doc("chemical", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A single agent: a substance term + optional amount.",
-          non_empty=True, blank={}, sub_fields=CHEM_SUBS)]))
+      doc("chemical", ["base"], abstract=True, deps=[
+          dep("product_id", "product",
+              "Optional: the bought product/lot this chemical came from. Part of what "
+              "makes two chemical documents distinct.", non_empty=False)],
+          fields=[field(
+              "value", "structure", "What you buy: a substance, possibly as a stock.",
+              non_empty=True, blank={}, sub_fields=[
+                  subfield("substance", "ontology_term",
+                           "The PURE substance (ChEBI; NCBITaxon for a virus). The "
+                           "bottle's dilution is `concentration`, so 'hydrochloric acid' "
+                           "+ 1 M would count the water twice.", non_empty=True),
+                  subfield("concentration", "concentration",
+                           "Optional: the bottle's own strength (1 M, 30 %).")])]))
+_ingredient_id = dep(
+    "ingredient_id", "chemical,formulation",
+    "What went in, in the order of `value.ingredients` (entry k describes edge k; the "
+    "order carries no other meaning). A stock you made is a formulation.",
+    non_empty=False, multiple=True)
+_ingredient_id["ordered"] = True
+_ingredient_id["min_count"] = 1
 write("stable", "formulation",
-      doc("formulation", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A formulation: one or more chemicals.",
-          non_empty=True, blank={}, sub_fields=[
-              subfield("chemicals", "structure", "The agents in this formulation.",
-                       non_empty=True, scalar=False, sub_fields=CHEM_SUBS)])]))
+      doc("formulation", ["base"], abstract=True, deps=[
+          _ingredient_id,
+          dep("product_id", "product",
+              "Optional: the bought product/lot, for a mixture bought ready-made (PBS "
+              "tablets, saline).", non_empty=False)],
+          fields=[field(
+              "value", "structure", "What you make: its ingredients and whole-mixture "
+              "properties.", non_empty=True, blank={}, sub_fields=[
+                  subfield("ingredients", "structure",
+                           "Exactly one entry per `ingredient_id` edge, same order "
+                           "(0-based). Store what the source gave -- an added amount, a "
+                           "final concentration, or both only if both were given.",
+                           non_empty=True, scalar=False, sub_fields=[
+                               dict(x) for x in _HOW_MUCH] + [
+                               subfield("concentration", "concentration",
+                                        "Optional: this ingredient's final concentration "
+                                        "in the formulation.")]),
+                  subfield("ph", "ph", "Optional: the finished mixture's pH."),
+                  subfield("osmolarity", "concentration",
+                           "Optional: the finished mixture's osmolarity (the `osmolar` "
+                           "slot).")])]))
 write("stable", "dose",
-      doc("dose", ["base"], abstract=True, fields=[field(
-          "value", "structure", "A dose: a formulation delivered at a volume/route.",
-          non_empty=True, blank={}, sub_fields=[
-              subfield("formulation", "structure", "The substances delivered.",
-                       sub_fields=[subfield("chemicals", "structure", "Agents.",
-                                            scalar=False, sub_fields=CHEM_SUBS)]),
-              subfield("volume", "volume", "Delivered volume (optional)."),
-              subfield("route", "ontology_term",
-                       "Route of administration (optional; else on method).")])]))
+      doc("dose", ["base"], abstract=True, deps=[
+          dep("formulation_id", "formulation", "What was given. A '1x' / '10x' "
+              "strength is a formulation of its own, made from the stock.")],
+          fields=[field(
+              "value", "structure", "How much of the formulation was given. Empty when "
+              "the source gives no amount (a bath).", non_empty=False, blank={},
+              sub_fields=[dict(x) for x in _HOW_MUCH] + [
+                  subfield("amount_per_body_mass", "structure",
+                           "Optional: how much per gram of the subject's body mass "
+                           "(mg/kg -> grams_per_gram 1e-6). Canonical slots name their "
+                           "full unit; fill what the source unit converts to.",
+                           sub_fields=[
+                               subfield("grams_per_gram", "double",
+                                        "Grams given per gram of body mass."),
+                               subfield("liters_per_gram", "double",
+                                        "Liters given per gram of body mass."),
+                               subfield("moles_per_gram", "double",
+                                        "Moles given per gram of body mass."),
+                               subfield("source_unit", "char",
+                                        "The unit exactly as given (e.g. 'mg/kg')."),
+                               subfield("source_value", "double",
+                                        "The number as given, in `source_unit`."),
+                               subfield("approximate", "boolean",
+                                        "True when the value is approximate.")])])]))
 
 # data-type-named manipulation leaves
 write("stable", "dose_manipulation",
@@ -6625,7 +6690,7 @@ NUMERIC_SEED = [
     ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
     ("angle", "degrees"), ("angular_velocity", "degrees/s"), ("force", "N"),
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
-    ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
+    ("conductance", "S"), ("capacitance", "F"), ("substance_amount", "mol"),
     ("ph", "pH (log scale)"),
     # gain: a logarithmic ratio in dB. Added for the frequency_filter model -- passband
     # ripple is an allowed gain VARIATION and stopband attenuation is a gain REDUCTION,
@@ -9299,6 +9364,22 @@ def _ss23(d):
 _patch("subject_statement", _ss23)
 
 
+# --- #73 review item 7: `product` (walkthrough 2026-09-25, jess; not signed) -------
+# A bought item: a catalog entry from a vendor plus which one you got. Chemicals and
+# ready-made formulations point at it now (`product_id`); instruments (+ a serial
+# number), plasmids and `strain.stock_number {vendor, code}` are its expected later
+# users, one edge each. Named `product`, not `reagent`, so those need no rename.
+# Only `lot_number` is declared: a serial number waits for its first user.
+write("draft", "product", doc("product", ["entity"], maturity="draft", deps=[
+    dep("vendor_id", "organization", "Optional: who sells it (Sigma, Addgene, Tocris).",
+        non_empty=False)], fields=[
+    field("name", "char", "Optional: the product as sold.", non_empty=False),
+    field("catalog_number", "char", "Optional: the vendor's catalog number.",
+          non_empty=False),
+    field("lot_number", "char", "Optional: the lot/batch you received.",
+          non_empty=False)]))
+
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
@@ -9545,8 +9626,9 @@ _DIM_CANON = {
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
     # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
     # whichever the source unit is computable into.
+    # `osmolar` (osmoles per liter) added by #73 item 7 for formulation.osmolarity.
     "concentration": ["molar", "grams_per_liter", "mass_fraction", "volume_fraction",
-                      "particles_per_liter"],
+                      "particles_per_liter", "osmolar"],
     # --- J §7 pre-seeded set: canonical named from the documented SI unit ---
     "velocity": ["meters_per_second"], "acceleration": ["meters_per_second_squared"],
     # angle is DEGREES (#73 review item 44, jess 2026-09-25): practical SI, as for
@@ -9557,7 +9639,9 @@ _DIM_CANON = {
     "angular_velocity": ["degrees_per_second"], "force": ["newtons"],
     "energy": ["joules"], "power": ["watts"], "charge": ["coulombs"],
     "resistance": ["ohms"], "conductance": ["siemens"], "capacitance": ["farads"],
-    "amount": ["moles"],
+    # SI "amount of substance"; renamed from `amount` (#73 item 7, 2026-09-25) --
+    # `amount` read as "how much" in general, which is how dose.amount misused it.
+    "substance_amount": ["moles"],
     # spatial_frequency (#73 review item 45, 2026-09-25): cycles per degree of visual
     # angle -- a different DIMENSION from `frequency` (per unit time, hertz).
     "spatial_frequency": ["cycles_per_degree"],
@@ -10434,7 +10518,7 @@ _DELETE_NO_V1_PROVENANCE = {
 # animal is an item of a timed_sequence_manipulation (stimulus model, signed
 # 2026-08-08). Re-adding one is a one-line write() once a need appears.
 _DELETE_UNUSED_LEAVES = {
-    "acceleration_assertion", "amount_assertion", "angle_assertion",
+    "acceleration_assertion", "substance_amount_assertion", "angle_assertion",
     "angular_velocity_assertion", "area_assertion", "capacitance_assertion",
     "charge_assertion", "concentration_assertion", "conductance_assertion",
     "count_assertion", "current_assertion", "energy_assertion", "force_assertion",
@@ -10447,7 +10531,7 @@ _DELETE_UNUSED_LEAVES = {
     "formulation_manipulation", "frequency_manipulation", "image_manipulation",
     "intensity_manipulation", "pressure_manipulation", "visual_grating_manipulation",
     "voltage_manipulation",
-    "amount_observation", "angle_observation", "angular_velocity_observation",
+    "substance_amount_observation", "angle_observation", "angular_velocity_observation",
     "area_observation", "capacitance_observation", "charge_observation",
     "conductance_observation", "energy_observation", "force_observation",
     "gain_observation", "ph_observation", "power_observation",

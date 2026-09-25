@@ -336,6 +336,48 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     - Tabled: `harmonic_component`'s control shape (audit 17) and `clock_alignment`'s
       inheritance (audit 19).
 
+58. **Bodies split by who lays out the bytes** (2026-09-25, the lightsheet walkthrough
+    L1–L4, prompted by VH-Lab/NDI-matlab#979; record in `review/73/OPEN_ITEMS.md`).
+    `sampled_body` holds raw bytes V_eta lays out (`byte_order`, `datum_order`, `chunk`,
+    new `fill_value`); `opaque_body` holds bytes laid out by their own `format`. `keys`,
+    `complete` and `key_labels_id` move up to `data_body` (keys required on a sampled
+    body, optional on an opaque one), and `conditions` is added there. Keys are exactly
+    the stored array's dimensions; any other one-value fact is a condition, on the
+    statement when true of every body and on one body otherwise. Edge chunks are stored
+    at full shape (positions past `n` are padding); a dense body's missing member holds
+    `fill_value`. Blosc chunks describe themselves, so one `compression` value holds.
+59. **Chemical, formulation, dose and product** (2026-09-25, audit item 7). Three levels,
+    each with its own "how much", each always a document (never inline) so it can be
+    reused and searched:
+    - **`chemical`** — what you buy: `value = {substance (the PURE substance),
+      concentration (the bottle's strength)}`, optional `product_id`.
+    - **`formulation`** — what you make: ordered `ingredient_id` edges → `chemical` or
+      `formulation` (a stock you made is a formulation), `value.ingredients[k]` for
+      edge k = how much was added (`mass` / `volume` / `substance_amount` / `count`) or
+      its final `concentration`, plus the mixture's `ph` and `osmolarity`; optional
+      `product_id` for a bought, ready-made mixture.
+    - **`dose`** — what you give: `formulation_id` + how much of it (`mass` / `volume` /
+      `substance_amount` / `count`), and `amount_per_body_mass` (`grams_per_gram`,
+      `liters_per_gram`, `moles_per_gram`; mg/kg kept as the source).
+    - **`product`** (new entity) — a bought item: `vendor_id` → `organization`, `name`,
+      `catalog_number`, `lot_number`. Named for the general concept: instruments (with a
+      serial number), plasmids and `strain.stock_number` are expected later users.
+    - `dose.route` is dropped (it is `subject_interaction.method`; nothing wrote it and no
+      NDI template has it). The moles type `amount` is renamed `substance_amount`;
+      `concentration` gains an `osmolar` slot. `dose_manipulation.variable` stays the
+      active substance (the formulation does not say which ingredient is the point).
+      Bath temperature stays a condition on the dose statement.
+    - Rules: `ingredients[k]` describes the k-th edge (equal length); store what the
+      source gave, never convert; a "1×/10×" strength is a formulation of its own;
+      deduplicate per session (ingredients compared regardless of order; the product
+      is part of a chemical's identity); every canonical slot names its full unit; an
+      unparseable recipe falls back to the treatment's own substance or is refused
+      with a counted reason. Reuse across sessions is open, with `software`'s identical
+      question (`NDI softwareDedup.m:24-41`).
+    - Consequence: the signed `stimulus_bath → dose_manipulation` target keeps its class
+      but its dose now needs `chemical` / `formulation` documents, so its emitters fall
+      behind until the PR #76 checklist lands.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

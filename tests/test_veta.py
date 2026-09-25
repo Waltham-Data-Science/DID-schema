@@ -3643,6 +3643,7 @@ def test_t15_ordered_flags_match_the_table():
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
         ("data_body", "key_labels_id"),
+        ("formulation", "ingredient_id"),
         ("subject_statement", "key_labels_id"),
         ("timed_sequence", "item_id"),
     ], ordered
@@ -3757,3 +3758,35 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert "EXACTLY the stored array's dimensions" in db["keys"]["documentation"]
     fv = next(f for f in RECORDS["sampled_body"][1]["fields"] if f["name"] == "fill_value")
     assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == []
+
+
+def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
+    """#73 item 59 (2026-09-25; not signed): chemical = what you buy, formulation =
+    what you make (ingredients by edge), dose = what you give (formulation by edge),
+    product = a bought item. No inline copies; `route` gone; moles type renamed."""
+    def subs(c):
+        return {f["name"]: f for f in RECORDS[c][1]["fields"][0]["fields"]}
+    def edges(c):
+        return {e["name"]: e for e in RECORDS[c][1]["depends_on"]}
+    assert set(subs("chemical")) == {"substance", "concentration"}
+    assert subs("chemical")["substance"]["mustBeNonEmpty"] is True
+    assert edges("chemical")["product_id"]["must_refer_to_document_class"] == "product"
+    f = subs("formulation")
+    assert set(f) == {"ingredients", "ph", "osmolarity"}
+    assert {s["name"] for s in f["ingredients"]["fields"]} == {
+        "mass", "volume", "substance_amount", "count", "concentration"}
+    ing = edges("formulation")["ingredient_id"]
+    assert ing["must_refer_to_document_class"] == "chemical,formulation"
+    assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 1
+    d = subs("dose")
+    assert set(d) == {"mass", "volume", "substance_amount", "count", "amount_per_body_mass"}
+    assert "route" not in d and "formulation" not in d
+    assert {s["name"] for s in d["amount_per_body_mass"]["fields"]} >= {
+        "grams_per_gram", "liters_per_gram", "moles_per_gram"}
+    assert edges("dose")["formulation_id"]["mustBeNonEmpty"] is True
+    assert "amount" not in RECORDS and "substance_amount" in RECORDS
+    assert "osmolar" in {s["name"] for s in RECORDS["concentration"][1]["fields"][0]["fields"]}
+    p = RECORDS["product"][1]
+    assert [s["class_name"] for s in p["document_class"]["superclasses"]] == ["entity"]
+    assert {x["name"] for x in p["fields"]} == {"name", "catalog_number", "lot_number"}
+    assert edges("product")["vendor_id"]["must_refer_to_document_class"] == "organization"

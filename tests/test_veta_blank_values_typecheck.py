@@ -176,13 +176,17 @@ def _structure_blank_is_rebuilt(ftype, blank):
 # ---------------------------------------------------------------------------
 KNOWN_DIVERGENT = {
     ("absolute_time_reference", "value.duration", "time"),
-    ("chemical", "value.amount", "concentration"),
+    ("chemical", "value.concentration", "concentration"),   # #73 item 59: was value.amount
     ("concentration", "value", "concentration"),
     ("current", "value", "current"),
-    ("dose", "value.formulation.chemicals.amount", "concentration"),
+    ("dose", "value.mass", "mass"),   # #73 item 59: the inline formulation became an edge
     ("dose", "value.volume", "volume"),
     ("time", "value", "time"),
-    ("formulation", "value.chemicals.amount", "concentration"),
+    # #73 item 59: chemicals[] -> ingredients[] (how much added / final concentration)
+    ("formulation", "value.ingredients.concentration", "concentration"),
+    ("formulation", "value.ingredients.mass", "mass"),
+    ("formulation", "value.ingredients.volume", "volume"),
+    ("formulation", "value.osmolarity", "concentration"),
     ("frequency", "value", "frequency"),
     ("frequency_filter", "passband.high", "frequency"),
     ("frequency_filter", "passband.low", "frequency"),

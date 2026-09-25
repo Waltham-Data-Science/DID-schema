@@ -1114,7 +1114,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 218 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 219 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
@@ -1733,11 +1733,20 @@
         "directed_relation"
       ],
       "how": "dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor",
-      "flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part",
+      "flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "temperature_manipulation",
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_manipulation",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "treatment_drug": {
       "targets": [
@@ -1754,11 +1763,18 @@
         "directed_relation"
       ],
       "how": "drug administration -> a dose_manipulation (chemicals from mixture_table) + an optional site term_observation + anchor",
-      "flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject",
+      "flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "treatment_transfer": {
       "targets": [
@@ -1830,11 +1846,18 @@
         "directed_relation"
       ],
       "how": "viral injection -> a dose_manipulation (virus as spine variable, dilution/titer as amount) + an optional site term_observation + anchor",
-      "flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject",
+      "flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "dose_manipulation",
+        "formulation",
+        "chemical",
+        "term_observation",
+        "relative_time_reference"
+      ]
     },
     "vmneuralresponseresiduals": {
       "targets": [

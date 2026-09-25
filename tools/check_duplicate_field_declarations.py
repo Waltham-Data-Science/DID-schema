@@ -152,7 +152,9 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # pair: two SLOTS, but for a V_eta document only one is ever filled. They are bucketed
 # V1-ONLY-SLOT through OVERRIDES below, so each is named, not waved through. The
 # count falls by nine the day `base.name` is deleted with the last passthrough class.
-BASELINE = 14
+# 14 -> 15 (#73 item 59, 2026-09-25): the new `product` entity declares its own `name`
+# beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
+BASELINE = 15
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -166,6 +168,7 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 # name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
 OVERRIDES = {
     ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("product", "name"): (V1_ONLY_SLOT, "#73 item 54 (applied to `product`, item 59): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("dataset", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("funding", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("method_parameters", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
