@@ -142,6 +142,24 @@ Decisions needed before the schema and migrator can be written:
   field.
 - **L3. Levels with no bytes (the default).** Each level would be an unheld body recorded by
   location, and the store's `fileReference` a second unheld copy of level 0.
+  **Walked 2026-09-25 (jess agreed; not built, no sign-off line):** B″. Evidence: by default
+  no level holds bytes (`makePyramid.m:52-54`), a level's `chunks` is a planned re-tiling, not
+  the store's (`:46-50`), and no level records its NGFF path. So: (a) the two body classes
+  split by WHO LAYS OUT THE BYTES -- `sampled_body` = raw bytes laid out by V_eta (keys
+  required, plus `byte_order` / `datum_order` / `chunk` / `fill_value`); `opaque_body` = bytes
+  laid out by their own `format`, with keys OPTIONAL (the array as the format presents it) and
+  no byte-layout fields; `keys` + `complete` move up to `data_body`, and `chunk` only on a
+  sampled body is a checked rule (this amends L1 rule 1's "`sampled_body` only"); still
+  exactly two body classes. (b) The OME-Zarr store becomes an unheld `opaque_body` (format
+  OME-Zarr) of the statement with keys for the full-resolution array, taken from the pyramid
+  document; `description` names the finest multiscales dataset. (c) Metadata-only level
+  documents fold to nothing, reported as a count, after the migrator confirms no inbound edge.
+  (d) Materialized levels become `sampled_body`s per L1/L2 beside the store body. (e) The
+  store checksum (MD5 of `.zattrs` only, `makeSourceFile.m`) does NOT go into `content_hash`,
+  which promises a hash of the payload. Rejected: one unheld sampled body per level (no
+  location, wrong chunking), empty bodies (hollow documents), a plain keyless opaque body
+  (loses shape and voxel size from the metadata), the store as a sampled body with no layout
+  fields (B′).
 - **L4. `blosc-zstd` with shuffle** is the first instance of the per-chunk codec the data_body
   plan sec.7 said had none, and named as the trigger for promoting `compression` to a list.
   Blosc's own chunk header is believed to record shuffle and element size (not checked here).
