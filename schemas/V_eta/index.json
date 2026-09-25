@@ -1754,7 +1754,7 @@
             ],
             "path": "schemas/V_eta/stable/ngrid.json",
             "disposition": "in_progress",
-            "disposition_note": "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; `coordinates` rides through undeleted until axes[].values exists (#45)"
+            "disposition_note": "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 hartley_calc tombstone, which reaches it via hartley_reverse_correlation -> reverse_correlation, so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
         },
         {
             "class_name": "oneepoch",

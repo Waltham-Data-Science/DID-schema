@@ -9313,6 +9313,8 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #     second-pass `image_observation` (#47) -- its only edge is `ontologyTableRow_id` and a
 #     table row is not a subject. Consumer B = `hartley_calc` (NDIcalc-vis-matlab, #48),
 #     whose repo is out of session scope. NEITHER is folded, so `ngrid` may not be deleted.
+#     [STALE 2026-09-25: consumer B IS folded -- migrators_j/hartley_calc.m, signed
+#      2026-08-17. Consumer A is not. See the "ngrid" entry below.]
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
 _DECIDED_PENDING = {
     "ngrid":
@@ -9320,8 +9322,18 @@ _DECIDED_PENDING = {
         "not on the RF map alone: ontology_image (#47, second pass -- its only edge "
         "is ontologyTableRow_id and a table row is not a subject) and hartley_calc "
         "via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). "
-        "The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; "
-        "`coordinates` rides through undeleted until axes[].values exists (#45)",
+        "The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. "
+        "UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed "
+        "2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, "
+        "data_type -> datum_type, coordinates -> keys[].values) -- and consumer B "
+        "IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block "
+        "into receptive_field_calculation + sampled_body. What still holds ngrid: "
+        "(1) ontology_image, whose vintage-B documents pass through carrying it "
+        "until the NDI second pass (#47) homes them; (2) the v1 hartley_calc "
+        "tombstone, which reaches it via hartley_reverse_correlation -> "
+        "reverse_correlation, so unmigrated hartley_calc documents validate; "
+        "(3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds "
+        "into sampled_body) -- a team call",
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
     # (absolute_time_reference, relative_time_reference); these eight stay until the migrators
     # move, because 24 files emit session_relative_reference, 5 emit
