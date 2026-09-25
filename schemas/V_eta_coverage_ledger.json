@@ -271,8 +271,8 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 48,
-        "2": 31,
+        "1": 47,
+        "2": 32,
         "3": 21,
         "4": 0
       },
@@ -285,14 +285,14 @@
           "no": 13
         },
         "2": {
-          "not measured": 56,
-          "yes": 54,
+          "not measured": 55,
+          "yes": 55,
           "n/a": 3
         },
         "3": {
-          "not measured": 56,
+          "not measured": 55,
           "yes": 20,
-          "no": 34,
+          "no": 35,
           "n/a": 3
         },
         "4": {
@@ -301,7 +301,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 54,
+        "2": 55,
         "3": 20,
         "4": 0
       },
@@ -315,8 +315,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 49,
-          "2": 34,
+          "1": 48,
+          "2": 35,
           "3": 20,
           "4": 0
         },
@@ -390,7 +390,7 @@
       },
       "no_target_recorded": {
         "denominator": 113,
-        "rows": 59,
+        "rows": 58,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -421,7 +421,6 @@
           "measurement",
           "metadata_editor",
           "mock",
-          "neuron_extracellular",
           "ngrid",
           "oneepoch",
           "ontologyImage",
@@ -644,7 +643,7 @@
             ]
           },
           "target_only_reached_via": {
-            "subject (subject)": 3,
+            "subject (subject)": 4,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
             "oridirtuning_calc (confirm sheet 2026-08-17)": 1,
@@ -1125,6 +1124,7 @@
         "contrast_tuning_calc",
         "kiasort_clusters",
         "kilosort_clusters",
+        "neuron_extracellular",
         "orientation_direction_tuning",
         "spatial_frequency_tuning",
         "spatial_frequency_tuning_calc",
@@ -6602,8 +6602,16 @@
         "count_assertion",
         "voltage_observation"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "subject",
+        "directed_relation",
+        "label_calculation",
+        "score_calculation",
+        "voltage_calculation",
+        "relative_time_reference",
+        "software"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -6612,8 +6620,16 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 7,
+        "schema_targets_built": [
+          "directed_relation",
+          "label_calculation",
+          "relative_time_reference",
+          "score_calculation",
+          "software",
+          "subject",
+          "voltage_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -6632,22 +6648,22 @@
       ],
       "second_pass": [],
       "how": "sorted unit -> a DERIVED subject (grain B, fresh id) + a derived_from directed_relation (unit <- recording subject) + a score_observation of sort quality + anchor",
-      "target_flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred",
+      "target_flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred -- DECIDED 2026-09-25 (#73 review item 48, not yet built in the migrator): every statement about the unit is a CALCULATION (computed from the spike sort, T2 rule) with input_id -> the sorting output: cluster_index and quality_label -> label_calculation, quality_number -> score_calculation, mean_waveform -> voltage_calculation (keys [sample, channel]; the channel/sample counts become the keys' sizes). The unit subject and its derived_from relation are unchanged.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -6658,14 +6674,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 7 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `subject`, `directed_relation`, `label_calculation`, `score_calculation`, `voltage_calculation`, `relative_time_reference`, `software` are not all among what the migrator emits today (`subject`, `directed_relation`, `score_observation`, `session_relative_reference`, `software`, `count_assertion`, `voltage_observation`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6675,7 +6691,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8285,7 +8301,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 271 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 272 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",

@@ -789,11 +789,20 @@
       ],
       "second_pass": [],
       "how": "sorted unit -> a DERIVED subject (grain B, fresh id) + a derived_from directed_relation (unit <- recording subject) + a score_observation of sort quality + anchor",
-      "flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred",
+      "flags": "mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred -- DECIDED 2026-09-25 (#73 review item 48, not yet built in the migrator): every statement about the unit is a CALCULATION (computed from the spike sort, T2 rule) with input_id -> the sorting output: cluster_index and quality_label -> label_calculation, quality_number -> score_calculation, mean_waveform -> voltage_calculation (keys [sample, channel]; the channel/sample counts become the keys' sizes). The unit subject and its derived_from relation are unchanged.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "subject",
+        "directed_relation",
+        "label_calculation",
+        "score_calculation",
+        "voltage_calculation",
+        "relative_time_reference",
+        "software"
+      ]
     },
     "ngrid": {
       "targets": [],
@@ -1086,7 +1095,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 271 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 272 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []

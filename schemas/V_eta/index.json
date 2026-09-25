@@ -3092,6 +3092,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "voltage_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "voltage"
+            ],
+            "path": "schemas/V_eta/draft/voltage_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "voltage_manipulation",
             "tier": "stable",
             "class_version": "1.0.0",

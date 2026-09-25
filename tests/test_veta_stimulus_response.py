@@ -454,7 +454,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # TENTH MOVEMENT, re-derived not bumped: 264 -> 265 on 2026-09-25, the new
     # `spatial_frequency` composite (#73 review item 45). Its cell declares no
     # numeric min/max, so the INERT list below is untouched.
-    assert walked == 265, f'schema count moved; re-derive the inert set ({walked})'
+    # ELEVENTH MOVEMENT, re-derived not bumped: 265 -> 266 on 2026-09-25, the new
+    # `voltage_calculation` leaf (#73 review item 48). A leaf declares no fields,
+    # so the INERT list below is untouched.
+    assert walked == 266, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

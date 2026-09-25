@@ -212,6 +212,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `ratio` type was rejected: `score`'s named scale also records WHICH contrast definition.
 47. **`angular_velocity`'s canonical unit is degrees per second** (2026-09-25), following
     `angle` (item 44).
+48. **`neuron_extracellular` migrates to calculations** (2026-09-25). A sorted unit's
+    statements are computed from the spike sort, so under the provenance rule each is a
+    calculation with `input_id` -> the sorting output: `cluster_index` and `quality_label`
+    -> `label_calculation` (a cluster index is a nominal label, not a count; supersedes
+    the migrator's `count_assertion` stopgap), `quality_number` -> `score_calculation`,
+    `mean_waveform` -> `voltage_calculation` (new leaf). The unit subject and its
+    `derived_from` relation are unchanged.
+49. **`fitcurve` is PARKED.** It is a calculation too, but its migrator drops the fit
+    (only the SSE survives as a `score_observation`). The right target is a standalone
+    `model_fit` data type (equation, named parameters and variables, constraints,
+    goodness, sampled fit) that the tuning family's `model_fit[]` entry would share; that
+    design is its own item. `polynomial` stays separate (a conversion rule, not a fit).
 
 ## F. What is built (schema side), and what is not
 

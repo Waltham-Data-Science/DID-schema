@@ -8985,7 +8985,9 @@ write("draft", "position_calculation",
 # --- the calculation leaves the review needs (T3: direction x data type) ---------
 # NOT `logical_calculation`: the two uses it was drafted for (cluster membership,
 # the cell list) both became `label_calculation` (items 27/33).
-for _dt in ("count", "area", "score", "term"):
+# `voltage` added 2026-09-25 (#73 review item 48): neuron_extracellular's mean
+# waveform is computed from the spike sort, so it is a calculation (T2 rule).
+for _dt in ("count", "area", "score", "term", "voltage"):
     _t, _p = path_of(_dt)
     write("draft", f"{_dt}_calculation",
           doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))
