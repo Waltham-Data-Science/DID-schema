@@ -7,8 +7,7 @@
 > item 56), 6c (`epoch.instrument_id` dropped, item 55); also `image` retired (item 51) and
 > cardinality only on repeated edges. TABLED: 1 (`control_designation`; findings below),
 > 2 (`fitcurve` / `model_fit`). NEXT: 7 onward. Item 56's required edge is kept optional in the
-> schema until the DID-matlab rig-minting pass lands. PR #76's checklist covers items 1–54;
-> items 55–56 still need adding to it.
+> schema until the DID-matlab rig-minting pass lands. PR #76's checklist covers items 1–56.
 
 Working list, saved so it survives the session. **It records questions, not decisions**:
 decided items are in `schemas/V_eta_spatial_transcriptomics_plan.md` (items 1–49), and
