@@ -10,6 +10,15 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
    (true/false per item) calculation. Open: is it a statement about the animal's presentation
    or a property of the sequence; what its subject is; `logical` vs a `term` (control / test /
    …). Needs `logical_calculation` restored. Its edges are untouched by T15 until decided.
+   **Tabled 2026-09-25 with findings:** the v1 field is a PER-TRIAL PAIRING (each trial's
+   paired blank trial, 1-based, NaN = none; `tuning_response.m:616-660`), not a list of
+   controls. Since NDI#912 (`tuning_response.m:293-298`) the response calculation reduces it
+   to "which stimulus is the blank" before calling vlt; no other reader uses the pairing.
+   Options discussed and not chosen: (a) standalone class ⊂ base, corrected to the pairing;
+   (b) fold into `harmonic_component_calculation` (`control_trial` per reading + method in
+   method_parameters) -- user unsure; (c) keep only "which stimulus is the control"
+   (`visual_grating.blank` already has it) and treat the pairing as a vlt-rebuilt cache.
+   Unmeasured: whether any corpus has control docs with no response doc.
 2. **`fitcurve` → a standalone `model_fit` data type** (item 49): equation, named parameters,
    independent/dependent variables, constraints, goodness, sampled fit; the tuning
    `model_fit[]` entry would share it. `polynomial` stays separate.
