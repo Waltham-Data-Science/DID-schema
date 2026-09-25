@@ -196,7 +196,7 @@ def axis_subfields():
                        non_empty=True),
               subfield("unit", "ontology_term",
                        "Canonical unit of `origin`/`spacing`/`values`. Angles "
-                       "are RADIANS, per angle.value.radians. V_eta's canonical "
+                       "are DEGREES, per angle.value.degrees. V_eta's canonical "
                        "units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: "
                        "grams, liters, celsius, mmHg. "
                        "Absent for a categorical axis, which uses `labels`."),
@@ -2718,89 +2718,50 @@ write("stable", "formulation_manipulation",
 # body-backed `visual_grating_manipulation` on the animal (the second pass resolves
 # the animal; the time-varying stimulus rides in a sampled_body via storage_mode:body,
 # the fixed parameters inline). NDI/vhlab source param names noted in ().
+# REBUILT WITH TYPED CELLS (#73 review item 44, jess 2026-09-25). Every number is a
+# named quantity cell -- canonical + source_value + source_unit + approximate (T14) --
+# instead of a bare double whose unit lived only in prose. The degrees the lab's
+# NewStim software records are now also the canonical unit (angle is degrees).
+# `source_geometry` (team 2026-08-17: "we definitely shouldn't be dropping fields")
+# FOLDS INTO THE CELLS: a Hartley stimulus's pixel-domain value is exactly a cell's
+# source (spatial_frequency.source_value = sqrt(kx^2+ky^2)/M, source_unit
+# 'cycles/pixel'), with the canonical left unset until the rig calibration is known.
+# Only the calibration itself, `pixels_per_degree`, stays a field.
 GRATING_SUBS = [
-    subfield("angle", "double", "Orientation/direction of the grating, degrees "
-             "(NDI 'angle')."),
-    subfield("spatial_frequency", "double", "Spatial frequency, cycles/degree "
-             "(NDI 'sFrequency')."),
-    subfield("temporal_frequency", "double", "Temporal (drift) frequency, Hz "
-             "(NDI 'tFrequency')."),
-    subfield("contrast", "double", "Michelson contrast, 0-1 (NDI 'contrast')."),
-    subfield("size", "double", "Stimulus size / aperture, degrees of visual angle "
-             "(NDI 'size')."),
+    subfield("angle", "angle", "Orientation/direction of the grating (NDI 'angle').", blank={}),
+    subfield("spatial_frequency", "spatial_frequency",
+             "Spatial frequency (NDI 'sFrequency'). For a Hartley basis function the "
+             "source is sqrt(kx^2+ky^2)/M in 'cycles/pixel' and the canonical is unset "
+             "until `pixels_per_degree` is known.", blank={}),
+    subfield("temporal_frequency", "frequency",
+             "Temporal (drift) frequency (NDI 'tFrequency').", blank={}),
+    subfield("contrast", "score",
+             "Contrast, with `scale` naming the definition (e.g. Michelson contrast, "
+             "scale_min 0, scale_max 1) (NDI 'contrast').", blank={}),
+    subfield("size", "angle", "Stimulus size / aperture, in visual angle (NDI 'size').", blank={}),
     subfield("position", "structure",
-             "Screen position of the stimulus centre, degrees.", sub_fields=[
-                 subfield("x", "double", "Horizontal position, degrees."),
-                 subfield("y", "double", "Vertical position, degrees.")]),
-    subfield("duration", "double", "Presentation duration, seconds."),
+             "Screen position of the stimulus centre, in visual angle.", sub_fields=[
+                 subfield("x", "angle", "Horizontal position.", blank={}),
+                 subfield("y", "angle", "Vertical position.", blank={})]),
+    subfield("duration", "time", "Presentation duration.", blank={}),
     # `blank`, not `is_blank` (T13, team 2026-09-24: no `is_` prefix on booleans).
     # NDI's second-pass assemblers still write `is_blank` -- lockstep follow-up, PR #76.
     subfield("blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
-    # PHASE ADDED, team, 2026-08-17: "Add phase."
-    #
-    # It is what distinguishes half the Hartley basis. `hartleyrange.m` returns
-    # each (kx,ky) pair TWICE, once with s=-1 and once with s=+1
-    # (`s = [-ones(numel(I),1); ones(numel(I),1)]`), and the Hartley function
-    # cas = cos + sin is a 45-degree-offset cosine, so the sign is a 180-degree
-    # phase flip. Measured on 20211116: 1680 distinct (kx,ky) pairs x 2 signs =
-    # 3360 distinct stimuli, and 41*41-1 -- the DC term, excluded by `F_ > 0` --
-    # accounts for the 1680 exactly.
-    #
-    # WITHOUT THIS FIELD THE SIGN HAS NOWHERE TO GO and 3360 distinct gratings
-    # fold into 1680 indistinguishable pairs: a silent halving of the stimulus
-    # set that no counter we have would see, because each emitted document
-    # would be individually valid.
-    subfield("phase", "double", "Spatial phase of the grating, degrees. For a "
-             "Hartley basis function the sign s=-1 is +180 relative to s=+1 "
-             "(cas = cos + sin, a 45-degree-offset cosine)."),
-    # THE PIXEL-DOMAIN SOURCE VALUES. Team 2026-08-17: "we definitely shouldn't
-    # be dropping fields."
-    #
-    # `spatial_frequency`, `size` and `position` above are all declared in
-    # DEGREES OF VISUAL ANGLE, and for a Hartley stimulus none of the three can
-    # be computed. `hartleyrange.m` derives cycles/degree as
-    #     F_ = sqrt(kx^2+ky^2)/M * pixels_per_cm * distance * tan(1 deg)
-    # and `pixels_per_cm` comes from `NewStimGlobals` -- rig calibration. It is
-    # not in the document and not anywhere else: a sweep of all 1,220 documents
-    # in 20211116 across 229 distinct field names found no screen, monitor or
-    # pixel calibration of any kind.
-    #
-    # The PIXEL-domain quantities ARE exactly computable. Writing them into the
-    # degree-domain fields would store one quantity under another's name, which
-    # is the silent unit error this repository already paid for once with
-    # Hz-vs-spikes-per-bin. Leaving them out drops them. So they are carried
-    # here beside the canonical fields, in the T14 shape every other quantity in
-    # V_eta uses (`duration.value` = {seconds, source_unit, source_value,
-    # approximate}; `angle.value` = {radians, ...}).
-    #
-    # One multiplication recovers the canonical values the day the calibration
-    # is known. Until then nothing is lost and nothing is misstated.
-    subfield("source_geometry", "structure",
-             "As-recorded stimulus geometry, in the units the source used, for "
-             "when the degree-domain fields above cannot be computed. Populated "
-             "when `pixels_per_degree` is unknown; the canonical fields are then "
-             "left unset rather than filled with a differently-united number.",
-             sub_fields=[
-                 subfield("spatial_frequency", "double",
-                          "Spatial frequency as recorded, in `unit`. For a "
-                          "Hartley index this is sqrt(kx^2+ky^2)/M."),
-                 subfield("size", "double",
-                          "Aperture extent as recorded, in `unit`."),
-                 subfield("position", "structure",
-                          "Stimulus centre as recorded, in `unit`.", sub_fields=[
-                              subfield("x", "double", "Horizontal, in `unit`."),
-                              subfield("y", "double", "Vertical, in `unit`.")]),
-                 subfield("unit", "char",
-                          "The unit these values are in: 'cycles/pixel' for "
-                          "spatial_frequency and 'pixel' for size and position "
-                          "when the source is a screen geometry."),
-                 subfield("pixels_per_degree", "double",
-                          "The missing conversion factor, when it becomes known. "
-                          "Left unset by migration: it is rig calibration "
-                          "(NewStimGlobals `pixels_per_cm` x distance x "
-                          "tan(1 deg)) and no did_v1 document records it."),
-             ]),
+    # PHASE ADDED, team, 2026-08-17: "Add phase." It distinguishes half the Hartley
+    # basis: `hartleyrange.m` returns each (kx,ky) twice, s=-1 and s=+1, and the sign
+    # is a 180-degree phase flip (cas = cos + sin). Measured on 20211116: 1680
+    # distinct (kx,ky) pairs x 2 signs = 3360 distinct stimuli. Without it they fold
+    # into 1680 indistinguishable pairs.
+    subfield("phase", "angle", "Spatial phase of the grating. For a Hartley basis "
+             "function the sign s=-1 is +180 degrees relative to s=+1 "
+             "(cas = cos + sin, a 45-degree-offset cosine).", blank={}),
+    subfield("pixels_per_degree", "double",
+             "Rig calibration converting the screen-geometry sources (pixels, "
+             "cycles/pixel) into visual angle: NewStimGlobals `pixels_per_cm` x "
+             "distance x tan(1 deg). Left unset by migration -- no did_v1 document "
+             "records it (a sweep of all 1,220 documents in 20211116 across 229 "
+             "field names found none)."),
 ]
 # ABSTRACT REMOVED, team, 2026-08-17: "Making visual_grating abstract false."
 # Same flag, same reason, same day as `timed_sequence`. The signed stimulus
@@ -2855,7 +2816,7 @@ _TUNING_CURVE_IV_SUBS = [
     subfield("values", "matrix",
              "The samples along this independent variable.", scalar=False),
     subfield("unit", "ontology_term",
-             "Canonical unit of `values` (radians for angles, per angle.value.radians; "
+             "Canonical unit of `values` (degrees for angles, per angle.value.degrees; "
              "absent for a categorical variable)."),
 ]
 _TUNING_CURVE_CONTROL_SUBS = [
@@ -6680,7 +6641,7 @@ CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
 NUMERIC_SEED = [
     ("intensity", "dimensionless (a.u.) — dF/F, fluorescence, ratios, amplitudes"),
     ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
-    ("angle", "rad"), ("angular_velocity", "rad/s"), ("force", "N"),
+    ("angle", "degrees"), ("angular_velocity", "rad/s"), ("force", "N"),
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
     ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
     ("ph", "pH (log scale)"),
@@ -6704,6 +6665,17 @@ for name, unit in NUMERIC_SEED:
 # intensity is also imposable (e.g. a stimulus a.u. level)
 write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
+# spatial_frequency (#73 review item 45, jess 2026-09-25): cycles per degree of
+# visual angle, the fineness of a pattern. NOT `frequency` (per unit time, hertz):
+# a different dimension. Composite only, in draft -- no leaves until a statement
+# needs one (T12); its first use is `visual_grating.value.spatial_frequency` and the
+# unit of a spatial-frequency tuning key.
+write("draft", "spatial_frequency",
+      doc("spatial_frequency", ["base"], abstract=True, maturity="draft", fields=[field(
+          "value", "spatial_frequency",
+          "A spatial frequency value cell, cycles per degree of visual angle "
+          "(canonical + lossless source). Series-as-cardinality: an array of the cell.",
+          non_empty=True, scalar=False, blank=[], default=[CELL])]))
 
 
 # ---------- 11c. frequency_filter ----------
@@ -6812,6 +6784,8 @@ for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
 # invents a month, a day and a time.
 if "date" not in type_enum:
     type_enum.append("date")
+if "spatial_frequency" not in type_enum:     # #73 review item 45
+    type_enum.append("spatial_frequency")
 
 # ---- `base.datestamp` -> `base.creation_timestamp` -------------------------
 # THE FIELD IS INHERITED FROM V_zeta AND NOTHING HERE TOUCHED IT, which is why
@@ -8568,10 +8542,11 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_grating"]
+    "visual_grating", "spatial_frequency"]
 for name in DATA_TYPES:
-    p = os.path.join(VETA, "stable", name + ".json")
-    if not os.path.exists(p):
+    # path_of, not a stable/ literal: spatial_frequency (item 45) is in draft/.
+    _dt_tier, p = path_of(name)
+    if not p:
         continue
     d = load(p)
     d["document_class"]["superclasses"] = [{"class_name": "data_type"}]
@@ -9184,11 +9159,17 @@ _DIM_CANON = {
                       "particles_per_liter"],
     # --- J §7 pre-seeded set: canonical named from the documented SI unit ---
     "velocity": ["meters_per_second"], "acceleration": ["meters_per_second_squared"],
-    "area": ["square_meters"], "angle": ["radians"],
+    # angle is DEGREES (#73 review item 44, jess 2026-09-25): practical SI, as for
+    # grams/liters/celsius/mmHg. Radians was "read off the built tree, not chosen"
+    # (data_body plan sec.2) on a strict-SI premise the schema no longer holds.
+    "area": ["square_meters"], "angle": ["degrees"],
     "angular_velocity": ["radians_per_second"], "force": ["newtons"],
     "energy": ["joules"], "power": ["watts"], "charge": ["coulombs"],
     "resistance": ["ohms"], "conductance": ["siemens"], "capacitance": ["farads"],
     "amount": ["moles"],
+    # spatial_frequency (#73 review item 45, 2026-09-25): cycles per degree of visual
+    # angle -- a different DIMENSION from `frequency` (per unit time, hertz).
+    "spatial_frequency": ["cycles_per_degree"],
     # dimensionless: nothing to canonicalise, but the cell keeps the family shape so the
     # set stays uniform (source_unit carries the a.u. label / pH scale note).
     "intensity": ["arbitrary_units"], "ph": ["ph"],
@@ -9216,6 +9197,15 @@ _DIM_SPECIAL = {
                  "The scoring rubric (e.g. Murine Body Condition Score)."),
         subfield("scale_min", "double", "Lower bound of the scale."),
         subfield("scale_max", "double", "Upper bound of the scale."),
+        # #73 review item 46 (2026-09-25): the source pair every other quantity cell
+        # carries, so a score converted onto its scale keeps what was recorded
+        # (contrast 50 % -> value 0.5, source_value 50, source_unit "%"). Blank when
+        # the source already used the scale.
+        subfield("source_unit", "char",
+                 "The unit or scale exactly as the source gave it, when it differs "
+                 "from `scale` (e.g. '%'). Blank when the source used the scale."),
+        subfield("source_value", "double",
+                 "The number as the source gave it, in `source_unit`."),
         subfield("approximate", "boolean", "True when the score is approximate."),
     ],
     "ontology_term": [

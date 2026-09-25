@@ -275,7 +275,8 @@
                         "amount",
                         "ph",
                         "gain",
-                        "date"
+                        "date",
+                        "spatial_frequency"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },

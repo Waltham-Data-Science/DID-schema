@@ -114,7 +114,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical unit of `values` (radians for angles, per angle.value.radians; absent for a categorical variable).",
+                            "documentation": "Canonical unit of `values` (degrees for angles, per angle.value.degrees; absent for a categorical variable).",
                             "constraints": {},
                             "fields": [
                                 {

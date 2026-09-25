@@ -104,7 +104,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are RADIANS, per angle.value.radians. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical axis, which uses `labels`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical axis, which uses `labels`.",
                     "constraints": {},
                     "fields": [
                         {

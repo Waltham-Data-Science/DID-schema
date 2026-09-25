@@ -2351,6 +2351,17 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "spatial_frequency",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/spatial_frequency.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "spatial_frequency_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",

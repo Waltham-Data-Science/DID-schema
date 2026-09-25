@@ -123,6 +123,32 @@
                     "constraints": {}
                 },
                 {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit or scale exactly as the source gave it, when it differs from `scale` (e.g. '%'). Blank when the source used the scale.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as the source gave it, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
                     "name": "approximate",
                     "type": "boolean",
                     "blank_value": 0.0,

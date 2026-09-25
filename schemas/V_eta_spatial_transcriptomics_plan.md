@@ -196,6 +196,20 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     via jess, 2026-09-25 — is one document class per calculator, not the v1 names:
     the Hartley calculator's document is `receptive_field_calculation`, and
     `receptive_field` stands alone.
+44. **`angle`'s canonical unit is DEGREES, everywhere** (2026-09-25). Amends the data_body
+    plan's §2 ("ANGLES ARE RADIANS"), whose premise -- strict SI slot names -- the schema no
+    longer holds; V_eta is practical SI. **`visual_grating` is rebuilt with typed cells:**
+    angle, phase, size and position are `angle` cells; spatial frequency a
+    `spatial_frequency` cell; temporal frequency a `frequency` cell; duration a `time` cell;
+    contrast a `score` cell whose `scale` names the definition. `source_geometry` folds into
+    the cells' source fields; `pixels_per_degree` stays. Every value keeps its canonical
+    plus the original value and unit (T14).
+45. **New type `spatial_frequency`** (canonical cycles per degree of visual angle), draft,
+    composite only. Not `frequency`, which is per unit time (hertz) and keeps its name:
+    unqualified "frequency" means per time across sampling, oscillation and drift rates.
+46. **`score` gains `source_value` + `source_unit`**, like every other quantity cell
+    (contrast recorded as 50 % -> value 0.5, source_value 50, source_unit "%"). A separate
+    `ratio` type was rejected: `score`'s named scale also records WHICH contrast definition.
 
 ## F. What is built (schema side), and what is not
 

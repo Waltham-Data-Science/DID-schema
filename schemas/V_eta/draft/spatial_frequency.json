@@ -1,20 +1,20 @@
 {
     "document_class": {
-        "class_name": "angle",
+        "class_name": "spatial_frequency",
         "class_version": "1.0.0",
         "superclasses": [
             {
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
     "fields": [
         {
             "name": "value",
-            "type": "angle",
+            "type": "spatial_frequency",
             "blank_value": [],
             "default_value": [
                 {
@@ -28,11 +28,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A degrees value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
+            "documentation": "A spatial frequency value cell, cycles per degree of visual angle (canonical + lossless source). Series-as-cardinality: an array of the cell.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "degrees",
+                    "name": "cycles_per_degree",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,
@@ -41,7 +41,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical angle value -- the normalised, cross-document comparable number.",
+                    "documentation": "Canonical spatial_frequency value -- the normalised, cross-document comparable number.",
                     "constraints": {}
                 },
                 {
