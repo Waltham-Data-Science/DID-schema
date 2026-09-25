@@ -28,7 +28,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A F value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
+            "documentation": "A F value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise).",
             "constraints": {},
             "fields": [
                 {

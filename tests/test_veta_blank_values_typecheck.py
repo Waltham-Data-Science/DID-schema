@@ -199,7 +199,8 @@ KNOWN_DIVERGENT = {
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
     # name fields that no longer exist. Deleted in the same commit that retired
     # them, which is what this file's own failure message asks for.
-    ("subject_interaction", "sample_time.dt", "time"),
+    # ("subject_interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
+    # statement-side `sample_time` retired too (#73 item 21), repairing the row.
     ("subject_statement", "conditions.term.value", "ontology_term"),
     ("time_reference", "clock_tolerance", "time"),
     ("voltage", "value", "voltage"),

@@ -202,7 +202,9 @@ def test_spine_composes_onto_every_interaction():
         assert "time_reference_id" in deps, f"{name} missing time_reference"
         assert ft.get("variable") == "ontology_term", f"{name} missing variable"
         assert ft.get("method") == "ontology_term", f"{name} missing method"
-        assert ft.get("sample_time") == "structure", f"{name} missing sample_time"
+        # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
+        assert "sample_time" not in ft, f"{name} still carries sample_time"
+        assert ft.get("keys") == "structure", f"{name} missing keys"
 
 
 def test_path_t_removed_and_element_id_retired():
@@ -420,10 +422,11 @@ def test_value_set_class_dropped():
 
 
 def test_timing_cadence_moved_off_time_reference():
-    """time_reference.sampling removed; the cadence lives in sample_time (D1)."""
+    """time_reference.sampling removed. The cadence first moved to sample_time (D1);
+    since #73 item 21 (the signed data_body sec.2) it is an ordinary time key."""
     tr_fields = {f["name"] for f in RECORDS["time_reference"][1]["fields"]}
     assert "sampling" not in tr_fields
-    assert _flat_field_types("subject_interaction").get("sample_time") == "structure"
+    assert "sample_time" not in _flat_field_types("subject_interaction")
 
 
 # ---- increment 2: leaf-tier depth ----

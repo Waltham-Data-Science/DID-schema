@@ -20,6 +20,11 @@
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
+>
+> **BUILD STATUS, 2026-09-25 (#73 review):** build step 5 is DONE -- `sample_time` is
+> retired from both schema sites (`sampled_body` earlier, `subject_interaction` now), and
+> the composites' documentation points at the time key instead. Emitters still write it
+> (NDI + DID-matlab sites listed in step 4) -- PR #76 checklist.
 
 Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
 started at "where do coordinates go" and ended at the whole `data_body` tier, because every

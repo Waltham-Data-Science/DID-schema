@@ -2230,8 +2230,9 @@ for d in DIMS + ["generic_scalar"]:
     _src = DIM_V_ZETA_SOURCE.get(d)
     for f in obj.get("fields", []):
         if f["name"] == "value" and "sample_time" in f.get("documentation", ""):
-            f["documentation"] = f["documentation"].split(" Per-sample")[0] + \
-                " Per-sample timing is the statement's sample_time cadence (D1)."
+            f["documentation"] = f["documentation"].split(" Per-sample")[0] + (
+                " Per-sample timing is a time key: in the statement's `keys` when inline, "
+                "on each body's `keys` when stored in a body (#73 item 21).")
         if _src and f.get("type") == _src:
             f["type"] = d
     if d in DIM_RETYPED_DOC:
@@ -6637,7 +6638,7 @@ for name, unit in NUMERIC_SEED:
           doc(name, ["base"], abstract=True, fields=[field(
               "value", name,
               f"A {unit} value cell (canonical + lossless source). Series-as-cardinality: "
-              "an array of the cell; per-sample timing is the statement's sample_time.", non_empty=True, scalar=False, blank=[], default=[CELL])]))
+              "an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise).", non_empty=True, scalar=False, blank=[], default=[CELL])]))
     write("stable", name + "_observation",
           doc(name + "_observation", ["subject_observation", name]))
     write("stable", name + "_assertion",
@@ -9203,6 +9204,15 @@ _patch("tuning_curve", _tc57)
 for _c in ("epoch", "clock_alignment_policy"):
     _patch(_c, lambda d: d.__setitem__(
         "depends_on", [e for e in d["depends_on"] if e["name"] != "session_id"]))
+
+
+# --- item 21 (signed data_body 2026-08-14, sec.2 + build step 5): `sample_time`
+# RETIRES. Time is an ordinary key: `regular -> regular`, `t0 -> origin`,
+# `dt -> spacing`, `n -> n`, `offsets -> values`, in the statement's `keys` when the
+# value is inline and in each body's `keys` otherwise. `sampled_body.sample_time`
+# already went with the keys build; this removes the last site.
+_patch("subject_interaction", lambda d: d.__setitem__(
+    "fields", [f for f in d["fields"] if f["name"] != "sample_time"]))
 
 
 # ---------- 12.7. T15: edge names (team, 2026-09-25) ---------------------------

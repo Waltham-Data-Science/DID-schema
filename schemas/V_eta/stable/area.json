@@ -28,7 +28,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A m^2 value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time. Canonical unit square_meters, following `length` (meters) as area = length^2 (#73 item 57); `volume` in liters is the deliberate practical exception.",
+            "documentation": "A m^2 value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise). Canonical unit square_meters, following `length` (meters) as area = length^2 (#73 item 57); `volume` in liters is the deliberate practical exception.",
             "constraints": {},
             "fields": [
                 {
