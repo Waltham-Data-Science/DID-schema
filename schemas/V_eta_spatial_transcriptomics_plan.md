@@ -404,6 +404,16 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     163 non-grating presentations). The reader stays reachable through the rig
     (`acquisition_system.acquisition_metadata_reader_id`).
 
+62. **`method_parameters.other` is deleted** (2026-09-25, audit item 11). It was an
+    undeclared structure for "the long tail" of knobs, on the premise that a knob needs a
+    bound variable to be a `parameter[]` entry. Item 33's labels remove that premise: a
+    knob with no ontology term is an entry whose `variable` is a label (`{name}`, no
+    node). What else it held has homes: the filter group → `filter_id` →
+    `frequency_filter` (the signed method-parameters plan); the epoch scope string → the
+    `epoch_id` edge; the run environment → the calculation's `interpreter_id` /
+    `operating_system_id` (item 53); a leftover `app` block → `software_id`. Anything a
+    migrator cannot place is refused and counted.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

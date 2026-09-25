@@ -77,6 +77,8 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** item 61 -- the
     class retires; `data.bin` becomes an `opaque_body` of the stimulator's term_manipulation.
 11. **`method_parameters.other`** is an untyped bag.
+    **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** item 62 --
+    deleted; tail knobs become label-variable entries, the rest go to their homes.
 12. **`clock_alignment_configuration` vs `method_parameters`** (open in the clock plan).
 13. **`session_id`** edge and `base.session_id` hold different ids on one document.
 14. **Binding value sets** are spelled three ways (bare names, CURIE strings, `{node,name}`).

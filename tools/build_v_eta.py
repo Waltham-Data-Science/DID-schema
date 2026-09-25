@@ -1257,7 +1257,9 @@ _PARAMETER_SUBS = [
              "the `axis` entry: identity lives in a bound variable, so "
              "domain-specific knobs are DATA rather than schema, and no class or "
              "field has to be minted per program. Its dimension comes from the "
-             "registry -- there is NO unit field and NO data_type field.",
+             "registry -- there is NO unit field and NO data_type field. A knob "
+             "with no ontology term is a LABEL ({name}, no node; item 33), so every "
+             "setting fits this list and nothing needs an untyped bag.",
              non_empty=True),
     subfield("value", "structure",
              "Numeric knobs. The canonical value plus what the source wrote.",
@@ -1298,11 +1300,15 @@ write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
           "field became `conditions`, and a document already carries three "
           "variable-keyed lists (conditions, keys, method_parameters) that must "
           "not be confusable.",
-          non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS),
-    field("other", "structure",
-          "The undeclared long tail -- read_time, overlap, graphical_mode, PCA "
-          "feature counts. Kept whole rather than dropped; a knob nobody will "
-          "query does not earn a bound variable.", non_empty=False)],
+          non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS)],
+    # `other` (an undeclared structure for "the long tail") is DELETED by #73 review
+    # item 62 (2026-09-25, jess; not signed). Its premise -- a knob needs a BOUND
+    # variable to be a parameter[] entry -- fell with item 33's labels: a knob with
+    # no ontology term is an entry whose `variable` is a label ({name}, no node).
+    # What else it held has homes: the filter group -> filter_id -> frequency_filter
+    # (the signed plan); the epoch scope string -> the epoch_id edge; the run
+    # environment -> the calculation's interpreter_id / operating_system_id (item
+    # 53); a leftover app block -> software_id. Anything else is refused, counted.
     deps=[dep("software_id", "software",
               "Which program these settings configure.", non_empty=False),
           dep("subject_id", "subject",

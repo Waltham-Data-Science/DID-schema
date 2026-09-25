@@ -1,5 +1,12 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
+> **AMENDMENT, 2026-09-25 (#73 review item 62; agreed with jess, NOT signed):** the
+> document's `other` field (the undeclared long tail) is DELETED. A knob with no
+> ontology term is a `method_parameters[]` entry whose `variable` is a label (`{name}`,
+> no node; #73 item 33); the filter group leaves via `filter_id`, the epoch scope via
+> `epoch_id`, the run environment via the calculation's software edges (item 53), and a
+> leftover app block via `software_id`. `THE CLASS` block below still lists `other`.
+>
 > **BUILD STATUS, 2026-09-25 (#73 review item 22):** the INLINE
 > `subject_interaction.method_parameters` now has the signed `parameter[]` shape, copied from
 > the document's own declaration (was an empty free-form structure). Emitters: PR #76 checklist.

@@ -129,7 +129,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field.",
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag.",
                     "constraints": {},
                     "fields": [
                         {
