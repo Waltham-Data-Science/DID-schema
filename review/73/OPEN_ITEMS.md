@@ -83,7 +83,5 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
   (needs NDIcalc-vis-matlab's writer; not attached in the review container).
 
 ## Cross-repo follow-ups
-The DID-matlab and NDI-matlab checklists live in PR #76's description. Not yet added there:
-`neuron_extracellular.m` emits the item-48 calculations (`label_calculation` for
-`cluster_index`/`quality_label`, `score_calculation`, `voltage_calculation`, each with
-`input_id` → the sorting output).
+The DID-matlab and NDI-matlab checklists live in PR #76's description (updated 2026-09-25
+for items 1–49, including the `neuron_extracellular.m` item-48 calculations).
