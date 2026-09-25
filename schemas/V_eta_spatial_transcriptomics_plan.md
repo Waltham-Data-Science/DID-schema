@@ -158,6 +158,14 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `hartley_calc` documents still validate. This answers `V_eta_OPEN_WORK.md` row #87's
     objection ("re-pointing would strand hartley_calc"): the block moves to the tombstone
     rather than vanishing.
+39. **`ingestion_manifest` drops `epochprobemap`** (2026-09-25, option B; revises the
+    2026-08-21 lossless-round-trip addition). A serialized v1 table in a string is not
+    V_eta (T6/T14). Its rows have homes or are refused: recording rows become
+    `<modality>_observation`s, stimulator rows `term_manipulation`s (#66 increment 3),
+    and imaging rows — no home until the image model (#24), and in no corpus held — are
+    REFUSED by the migrator, visibly, rather than carried in the string. The stated
+    read-back use was never built (no NDI file reads `ingestion_manifest`). The v1
+    `epochfiles_ingested` tombstone keeps the field.
 
 ## F. What is built (schema side), and what is not
 

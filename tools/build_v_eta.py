@@ -8343,26 +8343,21 @@ if _efi_path:
     ]
     _efi["fields"] = [f for f in _efi.get("fields", [])
                       if f["name"] not in ("epoch_id", "epochprobemap")]
-    # LOSSLESS ROUND-TRIP (2026-08-21, team-directed): keep the serialized
-    # epochprobemap as OPAQUE read-back provenance. The signed #66 model
-    # decomposes it into observations, but that decomposition only fires for
-    # RECORDING modalities -- stimulator/display/imaging rows (1,225 of 1,399 on
-    # Soph) emit no observation, so their per-epoch presence would be LOST with
-    # nowhere to land. Carried VERBATIM so ndi.vintage can reconstruct the exact
-    # v1 epochprobemap for every epoch and every probe type; retired only once
-    # the stimulus/image models decompose the remaining rows (verify-before-
-    # delete). NOT queryable: the observations are the queryable expression;
-    # this string is the object-reconstruction record.
-    _efi["fields"].append(field(
-        "epochprobemap", "char",
-        "The epoch's original serialized epochprobemap (name<TAB>reference<TAB>"
-        "type<TAB>devicestring<TAB>subjectstring, one row per probe), carried "
-        "VERBATIM for lossless read-back. The recording rows also decompose into "
-        "<modality>_observation documents (the queryable V_eta expression); this "
-        "opaque string preserves the FULL map -- including the stimulator/imaging "
-        "rows that do not decompose -- so ndi.vintage rebuilds the exact v1 "
-        "epochprobemap object. Retired when every row has a decomposed home.",
-        non_empty=False, scalar=True, queryable=False))
+    # `epochprobemap` DROPPED 2026-09-25 (#73 review item 39, jess: option B,
+    # "drop epochprobemap now"). It was kept 2026-08-21 as OPAQUE read-back
+    # provenance: a serialized v1 table (name<TAB>reference<TAB>type<TAB>...)
+    # carried verbatim because stimulator/imaging rows had no decomposed home.
+    # That is not V_eta (T6/T14: structure is declared, never a serialized
+    # string), and the reason has shrunk to one row type:
+    #   recording rows   -> <modality>_observation documents (#66)
+    #   stimulator rows  -> term_manipulation (#66 increment 3, 2026-08-22)
+    #   imaging rows     -> NO HOME until the image model (#24); in no corpus held
+    # So the migrator must REFUSE an imaging row (a visible refusal, never a silent
+    # drop) instead of hiding it in a string -- a DID-matlab item on PR #76. The
+    # stated read-back use was never built: 0 files under NDI-matlab src/ndi
+    # mention `ingestion_manifest` (V_eta branch, 2026-09-25).
+    # The v1 `epochfiles_ingested` TOMBSTONE below keeps its epochprobemap -- that
+    # is the v1 writer's shape, and unmigrated documents must still validate.
     write(_efi_tier, "ingestion_manifest", _efi)
 
     # THE SOURCE TOMBSTONE STAYS UNTIL A MIGRATOR CONSUMES IT.

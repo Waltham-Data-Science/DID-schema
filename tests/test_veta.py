@@ -890,6 +890,15 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"
     assert not any(d["name"] == "epochid"
                    for d in RECORDS["ingestion_manifest"][1]["depends_on"])
+    # #73 review item 39 (2026-09-25): no serialized epochprobemap on the V_eta
+    # class -- its rows decompose (recording -> observations, stimulator ->
+    # term_manipulation) or are refused (imaging, until #24). The v1 TOMBSTONE
+    # keeps the field: that is the writer's shape.
+    im_fields = [f["name"] for f in RECORDS["ingestion_manifest"][1]["fields"]]
+    assert "epochprobemap" not in im_fields, im_fields
+    assert "files" in im_fields, im_fields
+    efi_fields = [f["name"] for f in RECORDS["epochfiles_ingested"][1]["fields"]]
+    assert "epochprobemap" in efi_fields, efi_fields
     # `directory` USED to be asserted here as carrying a self-referential
     # `parent_directory_id` typed to itself. The team DELETED the class on
     # 2026-08-11 (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
