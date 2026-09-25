@@ -464,7 +464,9 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # THIRTEENTH MOVEMENT, re-derived not bumped: 215 -> 214 on 2026-09-25, #73
     # item 51: image_observation deleted, and `image` restated as the did_v1
     # tombstone (same count). Neither is in the INERT list.
-    assert walked == 214, f'schema count moved; re-derive the inert set ({walked})'
+    # FOURTEENTH MOVEMENT, re-derived not bumped: 214 -> 213 on 2026-09-25, #73
+    # item 52 deleted logical_observation (a leaf, no fields, not INERT).
+    assert walked == 213, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

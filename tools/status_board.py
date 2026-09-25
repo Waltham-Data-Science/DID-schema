@@ -308,13 +308,14 @@ FAMILIES = [
     # the pass is DORMANT BY THE DECISION, not undecided.
     ("logical_observation", ["valid_interval"],
      "V_eta_logical_observation_plan.md",
-     ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND "
-      "SIGNED 2026-08-12: the target is ONE logical_observation per source "
-      "document carrying an ARRAY of booleans on a time axis, and it WAITS "
-      "for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals "
-      "already contains is explicitly rejected as an interim, so that pass is "
-      "DORMANT (census only, emits nothing) and the documents live on the v1 "
-      "tombstone. Classes renamed validity -> logical"),
+     ("SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: "
+      "the target is ONE time_observation per source document, an N x 2 "
+      "array of `time` cells keyed [interval, endpoint (start/end)], anchored "
+      "to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed "
+      "but is still DORMANT (census only, emits nothing), and its preserved "
+      "code is the rejected 1->N shape, so re-arming is a rewrite. The "
+      "documents live on the v1 tombstone. logical_observation retired "
+      "(#73 item 52); `logical` stays"),
      "team"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):

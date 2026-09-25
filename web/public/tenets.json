@@ -24,7 +24,6 @@
   "intensity_observation",
   "label_calculation",
   "logical",
-  "logical_observation",
   "ngrid",
   "opaque_body",
   "openminds_subject",
@@ -61,7 +60,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 40,
+  "classes_in_the_built_set": 39,
   "classes_that_are_v1_sources": 25,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -71,7 +70,7 @@
    "validity_observation",
    "zarr"
   ],
-  "distinct_classes_named": 59,
+  "distinct_classes_named": 58,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
   "plan_documents_cited": [
    "schemas/V_eta_daq_family_decisions.md",
@@ -176,12 +175,10 @@
   },
   {
    "after": [
-    "logical",
-    "logical_observation"
+    "logical"
    ],
    "after_built": [
-    "logical",
-    "logical_observation"
+    "logical"
    ],
    "after_not_built": [],
    "before": [
@@ -192,15 +189,11 @@
    "citation": {
     "anchor": "The semantic belongs in `subject_statement.variable`.",
     "doc": "schemas/V_eta_logical_observation_plan.md",
-    "line": 42,
+    "line": 47,
     "quote": "measurement is *about*. The semantic belongs in `subject_statement.variable`."
    },
    "class_registers": {
     "logical": [
-     "built",
-     "named_in_cited_plan"
-    ],
-    "logical_observation": [
      "built",
      "named_in_cited_plan"
     ],

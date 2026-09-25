@@ -3338,7 +3338,11 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     silently loses its time anchor and starts asserting over all time, so the
     chain is asserted here rather than assumed.
     """
-    assert "logical" in RECORDS and "logical_observation" in RECORDS
+    assert "logical" in RECORDS
+    # #73 item 52 (2026-09-25): the leaf is deleted. valid_interval, its only user,
+    # moved to time_observation (amendment 1, 2026-08-18); `logical` stays, like
+    # every data_type.
+    assert "logical_observation" not in RECORDS
     assert "validity" not in RECORDS and "validity_observation" not in RECORDS, (
         "the replaced classes are still built; a name that means the same thing "
         "twice is how a migrator ends up emitting the dead one")
@@ -3371,22 +3375,6 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     # is a validator primitive, so `logical` must stay out of the meta enum.
     assert "logical" not in META["$defs"]["field_definition"]["properties"]["type"]["enum"]
 
-    _, leaf = RECORDS["logical_observation"]
-    assert [s["class_name"] for s in leaf["document_class"]["superclasses"]] == [
-        "subject_observation", "logical"]
-    assert leaf["fields"] == [], (
-        "logical_observation declares fields. It has NONE, like "
-        "length_observation and count_observation -- everything it needs is "
-        "inherited, and `sequence` went with HAZARD 2")
-    chain, seen = [], "subject_observation"
-    while seen and seen in RECORDS:
-        chain.append(seen)
-        sup = RECORDS[seen][1]["document_class"]["superclasses"]
-        seen = sup[0]["class_name"] if sup else None
-    assert "subject_interaction" in chain and "subject_statement" in chain, (
-        "logical_observation must reach subject_interaction (for "
-        "time_reference_#) and subject_statement (for subject_id + variable); "
-        f"chain was {chain!r}")
 
 
 def test_absence_of_a_logical_statement_must_keep_meaning_valid():
@@ -3426,7 +3414,7 @@ def test_absence_of_a_logical_statement_must_keep_meaning_valid():
     children = [n for n, (_t, d) in RECORDS.items()
                 if any(s["class_name"] == "logical"
                        for s in d["document_class"]["superclasses"])]
-    assert children == ["logical_observation"], (
+    assert children == [], (
         f"logical gained subclasses ({children!r}); each one is a new way for "
         "the boolean to become required somewhere")
 
@@ -3543,11 +3531,10 @@ def test_logical_does_not_carry_a_v1_array_position():
     the test all asserted one unchecked reading of a call site. So the
     replacement pins the DELETION rather than removing the test.
     """
-    fields = RECORDS["logical_observation"][1]["fields"]
-    assert fields == [], (
-        f"logical_observation declares {[f['name'] for f in fields]!r}. It has "
-        "no fields: `sequence` was deleted with HAZARD 2, and nothing else "
-        "belongs on the leaf")
+    # The leaf that carried `sequence` is itself gone (#73 item 52); the value
+    # type declares only `value`, so `sequence` cannot come back through it.
+    assert "logical_observation" not in RECORDS
+    assert [f["name"] for f in RECORDS["logical"][1]["fields"]] == ["value"]
     # `sequence` itself is NOT retired as a concept -- directed_relation's is a
     # real order over a real sequence. Pinned so this deletion is not read as a
     # licence to delete that one.
@@ -3658,13 +3645,13 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
 
 def test_leaves_exist_only_when_needed():
     """#73 item 50 (team, 2026-09-25): every data_type stays; a direction leaf exists
-    only once a writer or a decided target needs it. The 51 leaves nothing needed are
+    only once a writer or a decided target needs it. The 52 leaves nothing needed are
     gone, their data types are not, and the rule is written into T3."""
     with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as fh:
         build = fh.read()
     body = build.split("_DELETE_UNUSED_LEAVES = {", 1)[1].split("}", 1)[0]
     gone = set(re.findall(r'"([a-z_]+)"', body))
-    assert len(gone) == 51
+    assert len(gone) == 52   # 51 in item 50, + logical_observation in item 52
     for leaf in gone:
         assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
         composite = leaf.rsplit("_", 1)[0]

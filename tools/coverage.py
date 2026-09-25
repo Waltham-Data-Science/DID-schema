@@ -783,7 +783,11 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # writers still emit image_observation (image_stack.m,
                   # ontology_image.m, resolveEpochProbemap.m, jRecordingModality.m);
                   # remove when the PR #76 DID-matlab item lands.
-                  "image_observation"}
+                  "image_observation",
+                  # #73 item 52: named only on resolveValidIntervals.m's dormant
+                  # path. Remove when that emission is rewritten to the signed
+                  # time_observation shape (PR #76 DID-matlab checklist).
+                  "logical_observation"}
 
 
 def guardrail(veta, emitted):

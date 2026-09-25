@@ -1,5 +1,10 @@
 # V_eta — `logical` / `logical_observation`, and what `valid_interval` becomes
 
+> **AMENDED 2026-09-25 (#73 review item 52, `V_eta_spatial_transcriptomics_plan.md`):**
+> `logical_observation` is RETIRED -- `valid_interval` (its only user) targets
+> `time_observation` since amendment 1. `logical` stays. The pass is still dormant; its
+> rewrite to the amendment-1 shape is on the PR #76 DID-matlab checklist.
+
 *The plan document for the `valid_interval` family. Written 2026-08-12 to hold decisions the
 team made that day and that had no home: the family carried `plan: None` in
 `tools/status_board.py`, and `status_board.py --check` fails a family citing a document that

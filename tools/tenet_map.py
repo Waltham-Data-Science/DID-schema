@@ -120,7 +120,7 @@ TENET_MAP = [
         "of value. The semantic moved onto `subject_statement.variable`, where "
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
-        ["logical", "logical_observation"],
+        ["logical"],
         "V_eta_logical_observation_plan.md",
         "The semantic belongs in `subject_statement.variable`.",
         "T2's 'identity rides on `variable`, not the class' is what makes one "

@@ -10101,8 +10101,14 @@ _DELETE_UNUSED_LEAVES = {
     "conductance_observation", "energy_observation", "force_observation",
     "gain_observation", "ph_observation", "power_observation",
     "resistance_observation",
+    # #73 ITEM 52 (jess, 2026-09-25): valid_interval, its only user, moved to
+    # time_observation (TEAM-SIGN-OFF [logical_observation amendment 1],
+    # 2026-08-18), which left the leaf's retire-or-hold question open. Retired
+    # under the item-50 rule: its only writer is resolveValidIntervals.m's
+    # DORMANT path. `logical` itself stays.
+    "logical_observation",
 }
-assert len(_DELETE_UNUSED_LEAVES) == 51, len(_DELETE_UNUSED_LEAVES)
+assert len(_DELETE_UNUSED_LEAVES) == 52, len(_DELETE_UNUSED_LEAVES)
 _deleted_unused = []
 _deleted = []
 _deleted_invented = []

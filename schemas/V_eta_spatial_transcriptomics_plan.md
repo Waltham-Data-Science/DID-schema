@@ -255,6 +255,14 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     and `element`'s imaging arm. `ontologyImage` -> `intensity_observation` (its pixels are an
     ordinary numeric image; its ontology nodes describe the whole image and stay a
     `term_observation`, per NDI `imageDocMaker.m`).
+52. **`logical_observation` retires** (2026-09-25). `valid_interval`, its only user, moved to
+    `time_observation` (TEAM-SIGN-OFF [logical_observation amendment 1], 2026-08-18), which
+    left the leaf's retire-or-hold question open. Under item 50's rule it goes: its only
+    writer is `resolveValidIntervals.m`'s dormant path. `logical` stays, like every data type.
+    The same check found `valid_interval`'s migration-targets note claiming the pass was
+    RE-ARMED on 2026-08-18. It was not (the signed amendment says "IS NOT RE-ARMED YET", and
+    the pass is still dormant at DID-matlab `775353d`); the note is corrected, and the
+    rewrite to the signed shape is on the PR #76 DID-matlab checklist.
 
 ## F. What is built (schema side), and what is not
 

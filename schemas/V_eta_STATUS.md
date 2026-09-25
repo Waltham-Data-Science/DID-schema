@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 216 |
-| settled (persist) | 133 |
+| target classes | 215 |
+| settled (persist) | 132 |
 | settled (retire) | 62 |
 | **still open (`in_progress`)** | **21** |
 | **`retire` with no migrator YET** | **3** |
@@ -356,7 +356,7 @@ is why migrator work before the target closes is rework.
 | family | classes | targets built | decision | recorded in |
 |---|---|---|---|---|
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
-| **logical_observation** | 1 | 1 of 1 | BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND SIGNED 2026-08-12: the target is ONE logical_observation per source document carrying an ARRAY of booleans on a time axis, and it WAITS for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals already contains is explicitly rejected as an interim, so that pass is DORMANT (census only, emits nothing) and the documents live on the v1 tombstone. Classes renamed validity -> logical | `V_eta_logical_observation_plan.md` |
+| **logical_observation** | 1 | 1 of 1 | SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: the target is ONE time_observation per source document, an N x 2 array of `time` cells keyed [interval, endpoint (start/end)], anchored to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed but is still DORMANT (census only, emits nothing), and its preserved code is the rejected 1->N shape, so re-arming is a rewrite. The documents live on the v1 tombstone. logical_observation retired (#73 item 52); `logical` stays | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | 1 | 1 of 1 | epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build | `V_eta_time_reference_family_plan.md` |
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
@@ -383,7 +383,7 @@ is why migrator work before the target closes is rework.
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 25 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 13 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 25 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 15 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -418,6 +418,7 @@ it.
 
 | family | unsigned class name(s) in the one-liner | sign-off in |
 |---|---|---|
+| **logical_observation** | `epoch`, `time_observation` | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | `relative_time_reference` | `V_eta_time_reference_family_plan.md` |
 | **image / ngrid** | `data_type`, `image_stack`, `sampled_body`, `subject` | `V_eta_image_model_plan.md` |
 | **sync mapping** | `data_type`, `relative_time_reference` | `V_eta_clock_alignment_cluster_plan.md` |

@@ -1234,18 +1234,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "logical_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "subject_observation",
-                "logical"
-            ],
-            "path": "schemas/V_eta/draft/logical_observation.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "mass",
             "tier": "stable",
             "class_version": "1.0.0",
