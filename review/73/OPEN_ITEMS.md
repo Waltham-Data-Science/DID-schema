@@ -112,6 +112,22 @@ Decisions needed before the schema and migrator can be written:
 - **L1. Where a reduced level says mean vs max.** Same keys, different values; `sampled_body`
   has no field for it. Precedent: pyraview's min/max is a `statistic` key (item 15; decided,
   not yet emitted by DID-matlab `pyraview.m`).
+  **Walked 2026-09-25 (jess agreed; not built, no sign-off line):** option C. `conditions`
+  (the Amendment 2 shape) is added to **`data_body`**, so any body may carry them (a lossy or
+  preview opaque copy differs in content, not only encoding). Rules: (1) keys are exactly the
+  stored array's dimensions (`sampled_body` only), a length-1 stored dimension included and no
+  key for a dimension not stored -- so lightsheet `t` is a key iff the store has it; (2) a
+  condition is a one-value fact true of every value in its scope that is not a stored
+  dimension; (3) on the statement when true of all bodies, on a body when true of that body
+  only; (4) a variable appears at most once across a statement and any one of its bodies --
+  checked in batch, since the body -> statement edge (`owner_id`) is kept and the statement
+  does not list its bodies (a batch census also flags a `storage_mode: body` statement with no
+  body); (5) inline values follow the same rules. The `conditions` doc is broadened beyond
+  "experimental conditions". Lightsheet reduced levels carry `summary statistic: mean|maximum`
+  as a body condition; pyraview's min/max stays a key (a stored dimension, n 2). Rejected: a
+  one-position `statistic` key (A: a key for an unstored dimension), a `sampled_body.statistic`
+  field (B), one observation per reduction, and a statement -> bodies edge (every added body
+  would need a new statement id).
 - **L2. The value of a missing chunk.** Item 17 says a missing member is an "empty chunk" and
   never says what value it holds; the format declares `fill_value`.
 - **L3. Levels with no bytes (the default).** Each level would be an unheld body recorded by
