@@ -186,6 +186,16 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
 42. **`image_observation` drops `ontology_table_row_id`** (2026-09-25, audit follow-up). The row
     class retires and decomposes into statements about the same subject the image shows (#53),
     so the link runs through `subject_id`.
+43. **The v1 receptive-field chain goes back to its pre-2026-09-21 shape; supersedes
+    item 38.** `reverse_correlation` and `hartley_reverse_correlation` are retired v1
+    tombstones again, with their v1 fields (#67 had made them empty composites under
+    `receptive_field`, so no unmigrated v1 `hartley_calc` document could validate:
+    its blocks were undeclared and it lacked a required `receptive_field.value`).
+    `hartley_calc` ⊂ [`base`, `hartley_reverse_correlation`] and reaches `ngrid`
+    through `reverse_correlation`, as in v1. #67's requirement — confirmed with Steve
+    via jess, 2026-09-25 — is one document class per calculator, not the v1 names:
+    the Hartley calculator's document is `receptive_field_calculation`, and
+    `receptive_field` stands alone.
 
 ## F. What is built (schema side), and what is not
 

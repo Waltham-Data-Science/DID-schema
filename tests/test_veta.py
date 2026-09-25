@@ -2601,13 +2601,12 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         return
     # Today: the gate is CLOSED, and this records who is holding it shut, so a
     # reader does not have to take the prose's word for the count.
-    # CHANGED 2026-09-25 (#73 review, jess): `ngrid` moved off the V_eta composite
-    # `reverse_correlation` onto the v1 `hartley_calc` tombstone, which declares
-    # it directly. Both consumers are now v1 tombstones.
-    assert consumers == ["hartley_calc", "ontology_image"], (
+    # 2026-09-25 (#73 review item 43): back to the v1 shape -- the v1
+    # `reverse_correlation` tombstone declares ngrid, and hartley_calc reaches it
+    # through hartley_reverse_correlation. Both consumers are v1 tombstones.
+    assert consumers == ["ontology_image", "reverse_correlation"], (
         f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
-        "-- `hartley_calc` declares ngrid directly since 2026-09-25; "
-        "`reverse_correlation` no longer does.")
+        "-- `hartley_calc` reaches ngrid through the v1 reverse_correlation tombstone.")
 
 
 def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
@@ -2861,20 +2860,33 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
              for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
     assert "hartley_reverse_correlation" in chain, (
         f"hartley_calc no longer reaches ngrid through the RF chain: {chain!r}")
-    # CHANGED 2026-09-25 (#73 review, jess): `reverse_correlation` WAS re-pointed
-    # off `ngrid`, and the consequence this docstring warns about is closed by
-    # giving the `hartley_calc` tombstone the ngrid parent DIRECTLY. The invariant
-    # is unchanged: a passed-through hartley_calc document must find its ngrid
-    # block declared somewhere on its chain.
+    # 2026-09-25 (#73 review item 43, supersedes item 38): the RF chain is v1 again.
+    # A passed-through v1 hartley_calc document carries `reverse_correlation`,
+    # `hartley_reverse_correlation` and `ngrid` blocks with FIELDS; every one must be
+    # declared on its chain, and nothing may require a V_eta block (the
+    # `receptive_field.value` the 9/21 chain demanded) it never has.
     rc_supers = [s["class_name"]
                  for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
-    assert "ngrid" not in rc_supers, (
-        "`reverse_correlation` declares `ngrid` again; the #73 review moved it "
-        "onto the hartley_calc tombstone (T6: storage is not a composite's parent).")
-    assert "ngrid" in chain, (
-        "`hartley_calc` no longer declares `ngrid` while its v1 documents still "
-        "pass through carrying an ngrid block. That is `undeclaredField` on every "
-        "one of them.")
+    assert rc_supers == ["base", "ngrid"], rc_supers
+    V1_BLOCKS = {
+        "reverse_correlation": {"method", "dimension_labels"},
+        "hartley_reverse_correlation": {"stimulus_properties", "reconstruction_properties",
+                                        "spiketimes", "frame_times", "hartley_numbers"},
+    }
+    for cls, want in V1_BLOCKS.items():
+        have = {f["name"] for f in RECORDS[cls][1]["fields"]}
+        assert want <= have, f"{cls} lost v1 fields: {sorted(want - have)}"
+    seen, todo = set(), ["hartley_calc"]
+    while todo:
+        c = todo.pop()
+        if c in seen or c not in RECORDS:
+            continue
+        seen.add(c)
+        todo += [s["class_name"] for s in RECORDS[c][1]["document_class"]["superclasses"]]
+    assert "ngrid" in seen, f"hartley_calc cannot reach ngrid: {sorted(seen)}"
+    assert "receptive_field" not in seen, (
+        "the v1 hartley_calc tombstone inherits the V_eta receptive_field composite "
+        "again -- its required `value` block is one no v1 document carries")
 
 
 def test_image_stack_pair_survives_for_the_subject_less_passthrough():

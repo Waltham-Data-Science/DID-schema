@@ -6723,7 +6723,7 @@
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, data_type, data_dim, coordinates); no class change, emits no new document",
-      "target_flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, and the hartley_calc tombstone, which declares ngrid directly since the #73 review dropped it from reverse_correlation 2026-09-25); the axis entry exists (keys[].values)",
+      "target_flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, and the v1 reverse_correlation tombstone that v1 hartley_calc documents validate through); the axis entry exists (keys[].values)",
       "decided_by_family": {
         "family": "image / ngrid",
         "document": "V_eta_image_model_plan.md",

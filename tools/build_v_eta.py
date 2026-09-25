@@ -3627,30 +3627,22 @@ write("stable", "receptive_field_calculation",
       doc("receptive_field_calculation",
           ["subject_calculation", "receptive_field"]))
 
-# ---- #67: three-level composite chain preserved from v1 (RF map family) ----
-# TEAM-SIGN-OFF 2026-09-21, issue #67 category ③: `reverse_correlation` composite
-# ⊂ `receptive_field`, and `hartley_reverse_correlation` thin marker ⊂
-# `reverse_correlation`. Overwrites the V_zeta copytree'd shapes
-# (⊂ [base, ngrid] / ⊂ [base, reverse_correlation]) with the receptive-field-
-# family composite chain. hartley naturally fits under reverse_correlation
-# (Hartley subspace is a reverse-correlation METHOD; T11 says the method
-# rides in `value.method`, not the class name), so the marker is empty.
-# `hartley_calc` still ⊂ [base, hartley_reverse_correlation, calculator] and
-# inherits the new composite chain through hartley_reverse_correlation;
-# retargeting it under `receptive_field_calculation` (Fig. 4 pattern) is
-# deferred to the DID-matlab migrator retarget pass.
-# #73 review (2026-09-25, jess): `ngrid` DROPPED from `reverse_correlation`. The #67
-# rewrite kept it from the v1 parent list without a stated reason; on a V_eta
-# composite it is a v1 storage block (T6: storage lives on bodies/keys) duplicating
-# what `receptive_field` already says. Its one job -- letting unmigrated v1
-# `hartley_calc` documents validate with their ngrid block -- moves onto the
-# `hartley_calc` tombstone itself (the re-parent below), where the v1 shape lives.
-write("stable", "reverse_correlation",
-      doc("reverse_correlation", ["receptive_field"], abstract=True,
-          version="3.0.0"))
-write("stable", "hartley_reverse_correlation",
-      doc("hartley_reverse_correlation", ["reverse_correlation"], abstract=True,
-          version="2.0.0"))
+# ---- the v1 receptive-field chain stays v1 (#73 review, jess, 2026-09-25) ----
+# #67 (2026-09-21) overwrote the V_zeta copytree'd `reverse_correlation`
+# (⊂ [base, ngrid], fields method/dimension_labels) and `hartley_reverse_correlation`
+# (⊂ [base, reverse_correlation], five v1 fields) with EMPTY composites under
+# `receptive_field`, to preserve v1's three-level chain for the calculator paper
+# (Lepsky et al. 2026). Two problems followed: a v1 `hartley_calc` document carries
+# `reverse_correlation` / `hartley_reverse_correlation` BLOCKS with fields, which the
+# empty classes rejected (undeclaredField), and it inherited a required
+# `receptive_field.value` it never has -- so no unmigrated v1 document validated.
+# Steve's actual requirement (confirmed via jess 2026-09-25) is ONE DOCUMENT CLASS
+# PER CALCULATOR, not the v1 names; the Hartley calculator's document is
+# `receptive_field_calculation`, emitted only by migrators_j.hartley_calc. So these
+# two writes are REMOVED and the classes stay what they were before 9/21: retired
+# v1 tombstones carrying their v1 fields, so the blocks validate. The method lives
+# in `receptive_field.value.method`, never in a class name (RF fold sign-off,
+# 2026-08-17).
 
 # #73 (2026-09-23): the `calculator` mixin is out of every V_eta chain, so the two
 # copytree'd V_zeta classes that still named it lose that parent. Both are
@@ -3661,7 +3653,7 @@ write("stable", "hartley_reverse_correlation",
 #                    the MATLAB class ndi.calc.tuning_fit, not a document template.
 #                    Re-parented rather than deleted: a deletion is a disposition,
 #                    and this change is not making one for it.
-for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation", "ngrid"]),
+for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation"]),
                        ("tuning_fit", ["base"])):
     _t, _p = path_of(_name)
     if not _p:
@@ -9468,6 +9460,16 @@ _RET_V1_BEFORE_STRUCTURE = {
     "hartley_calc":
         "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, "
         "signed 2026-08-17). Tombstone kept so unmigrated documents validate",
+    # The two v1 chain classes under hartley_calc: v1 tombstones again (#73 review,
+    # 2026-09-25), carrying the blocks a v1 hartley_calc document has.
+    "reverse_correlation":
+        "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. "
+        "Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta "
+        "home of its content is receptive_field_calculation",
+    "hartley_reverse_correlation":
+        "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. "
+        "Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta "
+        "home of its content is receptive_field_calculation",
     "ngrid":
         "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), "
         "not on the RF map alone: ontology_image (#47, second pass -- its only edge "
@@ -9480,10 +9482,8 @@ _RET_V1_BEFORE_STRUCTURE = {
         "IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block "
         "into receptive_field_calculation + sampled_body. What still holds ngrid: "
         "(1) ontology_image, whose vintage-B documents pass through carrying it "
-        "until the NDI second pass (#47) homes them; (2) the v1 hartley_calc "
-        "tombstone, which declares it DIRECTLY (since 2026-09-25, when the #73 "
-        "review dropped it from reverse_correlation), so unmigrated hartley_calc "
-        "documents validate; "
+        "until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation "
+        "tombstone (its v1 parent), so unmigrated hartley_calc documents validate; "
         "(3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds "
         "into sampled_body) -- a team call",
 }
