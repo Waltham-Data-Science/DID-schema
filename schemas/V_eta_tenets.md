@@ -327,7 +327,10 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   V_eta has ONE rule rather than a per-field note:
   - **every index is 0-based**: a position along a key, a row of a document named by
     `labels_from`, a chunk number, `timed_sequence.value.presentation_order`;
-  - **every numbered edge family is numbered from 0**: `time_reference_0`,
+  - *[SUPERSEDED FOR EDGES by T15, 2026-09-25: edges are no longer numbered at all. A
+    position into a multi-edge is still 0-based — `presentation_order` value *k* is the
+    *k*-th `item_id` entry — which is the first bullet above, not this one.]*
+    **every numbered edge family is numbered from 0**: `time_reference_0`,
     `derived_from_0`, `presented_id_0`, … — so a 0-based index names its edge directly
     (`presentation_order` value *k* → `presented_id_k`);
   - **every file-series member is numbered from 0**: `body_data_0`, `body_data_1`, ….
@@ -351,6 +354,88 @@ drifted off the one-payload-slot rule for exactly the same reason: nothing check
 **Litmus:** could a consumer that has never read our migrator code — a validator, an
 indexer, a third-party reader — get the value out and know what it means, from the schema
 alone? If it needs prose, an example, or our source, the structure is not declared.
+
+### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
+*(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the
+`_#` template. Nothing below is built yet: see "What it costs" for the cross-repo work.)*
+
+- **Every edge name is a noun ending `_id`.** No verbs, no prepositions, no bare role words:
+  `owner` → `owner_id`, `relative_to` → `referent_id`, `derived_from_#` → `input_id`.
+- **Name it for its target class when the edge just means "which X"** (`subject_id`,
+  `software_id`, `epoch_id`). **Name it for its role when the target is generic or the role is
+  not the target's name** (`instrument_id` → an entity, `value_id` → a data type,
+  `parent_id`/`child_id`).
+- **A name's meaning is fixed by its class, and stays within one sense across classes.**
+  `input_id` is "what goes in" on a calculation (its sources) and on a clock alignment (the
+  timeline fed to the polynomial); `parent_id` is the upper end of a typed relation on
+  `directed_relation` and the protocol a variant came from on `method_parameters`. A reader who
+  needs the exact meaning reads the class — the name never has to carry it alone.
+- **A repeated edge repeats its name; it is never numbered.** A calculation with three inputs
+  carries three `input_id` entries, with one input it carries one, and it is never
+  `input_id_0`. Repetition is declared on the edge (`multiple`, `min_count`, `max_count`), not
+  signalled by the name, so the spelling never depends on how many there are, and "what was
+  derived from X" is one exact name, never a pattern over `name_*`.
+- **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`
+  means position is data (0-based, T14): `timed_sequence.item_id` (the playlist indexes it),
+  `key_labels_id` (a key's `labels_from` names an entry by position), and
+  `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and
+  breaks ties by rule order — `syncgraph.m`, `if c<lowcost`). `ordered: false` means the
+  entries are a set and their order must not be read.
+- **Why not `_k`.** A counter in a name hides a value in an identifier — a relational
+  "repeating group" (`item1`, `item2`, …), which first normal form exists to remove — and it is
+  structure carried by convention, which T14 forbids. Every established model repeats one
+  name instead: a PROV activity has several `used` statements, FHIR elements repeat, a
+  relational link table carries one row per edge plus a position column where order matters.
+  did_v1's `_1`, `_2`, … came from a storage limit (a document's edge names had to be unique),
+  not from a modelling choice.
+- **v1 is untouched.** did_v1 tombstones keep their v1 spelling (`neuron_id_#`,
+  `daqmetadatareader_id_#`, `syncrule_id_#`) because they describe documents as written;
+  migrators read v1 numbering and never emit it.
+
+**What it costs.** DID-matlab's `depends_on` table is keyed `(doc_id, name)`
+(`+did2/+database/sqlitedb.m`), so a name cannot repeat today. It becomes
+`(doc_id, name, position)`; `add_dependency_value_n` stops appending `_<n>` and
+`dependency_value_n` returns every entry of a name in order; every reader that builds
+`name_1`, `name_2`, … by hand asks for the list instead. These are the same call sites the
+0-based renumbering already touches.
+
+**Litmus:** could you write this edge's name without knowing how many there are, and could
+you tell what it points at from the name plus its class alone?
+
+**The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones
+excluded). 17 names are unchanged: `subject_id`, `software_id`, `session_id`, `epoch_id`,
+`strain_id`, `runtime_environment_id`, `acquisition_system_id`, `method_parameters_id`,
+`coordinate_system_id`, `epoch_file_pattern_id`, `acquisition_metadata_reader_id`,
+`clock_alignment_configuration_id`, `clock_alignment_policy_id`, `instrument_id`, `value_id`,
+`reader_id`, `filter_id`.
+
+| class | today | T15 | repeats | ordered |
+|---|---|---|:-:|:-:|
+| `data_body` | `owner` | `owner_id` | | |
+| `directed_relation` | `parent`, `child` | `parent_id`, `child_id` | | |
+| `relative_time_reference` | `relative_to` | `referent_id` | | |
+| `coordinate_system` | `relative_to` | `referent_id` | | |
+| `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |
+| `method_parameters` | `derived_from_id` | `parent_id` | | |
+| `control_designation` | `timed_sequence_id` | `value_id` *(class shape under review)* | | |
+| `subject_calculation` | `derived_from_#` | `input_id` | yes | no |
+| `control_designation` | `derived_from_#` | *(class shape under review)* | yes | no |
+| `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
+| `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
+| `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |
+| `subject_statement`, `sampled_body` | `axis_labels_#` | `key_labels_id` | yes | **yes** |
+| `strain` | `background_strain_#` | `background_strain_id` | yes | no |
+| `clock_alignment_configuration` | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
+| `acquisition_system` | `acquisition_metadata_reader_#` | `acquisition_metadata_reader_id` | yes | no |
+| `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |
+| `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |
+
+`referent_id` is the time plan's and NDI's own word for this edge (`ndi.time.timereference`
+is `(referent, clocktype, epoch, time)`): the document whose timeline — or, for a coordinate
+system, whose space — the values are measured in. The zero point on it is a separate thing
+(`clock` for time, `origin` for space). `anchor_id` was rejected because "anchor" already
+names the time-reference document itself (T6); `origin_id` because `origin` already names the
+zero point.
 
 ---
 

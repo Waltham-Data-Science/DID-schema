@@ -254,7 +254,7 @@ export function parseTenets(md: string): {
       const body = finish(lines);
       return { id, title, body, ...splitLeadIns(body) };
     }),
-    // "## The tenets" only introduces T1-T14 and has no body worth a card.
+    // "## The tenets" only introduces T1-T15 and has no body worth a card.
     sections: sections
       .map(({ title, lines }) => ({ title, body: finish(lines) }))
       .filter((x) => x.body.length > 0),

@@ -36,8 +36,8 @@ def asset():
 
 def test_all_fourteen_tenets_reach_the_panel_whether_or_not_they_have_rows():
     a = asset()
-    assert len(a["tenets"]) == 14, (
-        f"DENOMINATOR: {len(a['tenets'])} tenets in the asset, expected 14")
+    assert len(a["tenets"]) == 15, (
+        f"DENOMINATOR: {len(a['tenets'])} tenets in the asset, expected 15")
     body = code_only(read("Tenets.tsx"))
     # The panel iterates the asset's tenet list, not the rows: iterating rows
     # would drop an unmapped tenet off the page entirely, which is the same

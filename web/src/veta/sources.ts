@@ -25,7 +25,7 @@ export const VETA_FILES = import.meta.glob("../../../schemas/V_eta/**/*.json", {
 // index by tools/regen_final_class_set.py.
 export { default as FINAL_CLASS_SET_MD } from "../../../schemas/V_eta_final_class_set.md?raw";
 
-// Brainstorm J's thesis and tenets T1-T14.
+// Brainstorm J's thesis and tenets T1-T15.
 export { default as TENETS_MD } from "../../../schemas/V_eta_tenets.md?raw";
 
 // The prefix every VETA_FILES key starts with, so a key can be turned back

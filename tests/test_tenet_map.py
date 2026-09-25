@@ -48,15 +48,15 @@ def _asset():
 def test_denominator_is_stated_and_every_tenet_is_accounted_for():
     a = _asset()
     d = a["denominator"]
-    assert d["tenets_declared"] == 14
-    assert len(a["tenets"]) == 14
+    assert d["tenets_declared"] == 15
+    assert len(a["tenets"]) == 15
     assert d["rows"] == len(a["rows"]) > 0
     # Reported, not asserted to be zero: the point is that the count exists and
     # the unmapped tenets are NAMED. A future table with a bare tenet must
     # still pass this -- and must still say which one.
     assert isinstance(d["tenets_with_no_substantiated_row"], list)
     assert (d["tenets_with_at_least_one_row"]
-            + len(d["tenets_with_no_substantiated_row"]) == 14)
+            + len(d["tenets_with_no_substantiated_row"]) == 15)
 
 
 def test_every_citation_resolves_in_the_document_on_disk():
@@ -89,9 +89,9 @@ def test_tenet_statements_are_quoted_from_the_north_star():
         assert f"### {t['id']} — {t['title']}" in doc
         assert t["statement"].strip(), f"{t['id']} carries an empty statement"
         checked += 1
-    assert checked == 14, (
+    assert checked == 15, (
         f"{checked} tenet statement(s) compared against the north star, "
-        "expected 14")
+        "expected 15")
 
 
 def test_plan_only_class_names_are_flagged_rather_than_rendered_plain():
@@ -168,10 +168,10 @@ def test_mutation_a_tenet_with_no_rows_is_reported_not_silently_empty():
     assert only_t1, "the table has no T1 row, so this mutation proves nothing"
     payload = tm.build(table=only_t1)
     unmapped = payload["denominator"]["tenets_with_no_substantiated_row"]
-    assert unmapped == [f"T{i}" for i in range(2, 15)]
+    assert unmapped == [f"T{i}" for i in range(2, 16)]
     assert payload["denominator"]["tenets_with_at_least_one_row"] == 1
-    # Still rendered -- all 14 tenets reach the viewer, 13 of them with no row.
-    assert len(payload["tenets"]) == 14
+    # Still rendered -- all 15 tenets reach the viewer, 14 of them with no row.
+    assert len(payload["tenets"]) == 15
 
 
 def test_the_real_table_leaves_no_tenet_unmapped_today():
@@ -181,6 +181,9 @@ def test_the_real_table_leaves_no_tenet_unmapped_today():
     table shrinks."""
     payload = _asset()
     unmapped = payload["denominator"]["tenets_with_no_substantiated_row"]
-    assert unmapped == [], (
+    # T15 (edge naming, 2026-09-25) is DECIDED BUT NOT BUILT: no class has been
+    # renamed under it yet, so there is no change for a row to substantiate. It
+    # leaves this list the day the rename build lands and a row cites it.
+    assert unmapped == ["T15"], (
         f"{len(unmapped)} tenet(s) have no substantiated row: {unmapped}. "
         "That is reportable, not fatal -- update this test with the reason.")

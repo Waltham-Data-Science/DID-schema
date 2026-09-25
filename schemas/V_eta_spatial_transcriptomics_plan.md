@@ -172,6 +172,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     class `epoch_file_pattern` with its id preserved, so the edge now names and targets
     the V_eta class, matching `acquisition_system.epoch_file_pattern_id`. Still REQUIRED.
     The v1 `epochfiles_ingested` tombstone keeps `filenavigator_id`.
+41. **T15: edges are nouns ending `_id`, and a repeated edge repeats one name** (2026-09-25).
+    No `_#` template and no numbered members: repetition is declared (`multiple`), order is
+    declared (`ordered`), and the storage key gains a position. Chosen over `_k` numbering
+    (option A) and a list-valued edge (option C). The vocabulary table is T15's appendix in
+    `V_eta_tenets.md`; the names decided in review include `referent_id` (for `relative_to`),
+    `parent_id` (method_parameters lineage), `input_id`/`output_id` (calculations, clock
+    alignment), `item_id` (timed_sequence), `key_labels_id`, `entity_id`
+    (undirected_relation). NOT BUILT: it needs the DID-matlab storage and API change first.
+    `control_designation`'s shape is parked for its own discussion.
+42. **`image_observation` drops `ontology_table_row_id`** (2026-09-25, audit follow-up). The row
+    class retires and decomposes into statements about the same subject the image shows (#53),
+    so the link runs through `subject_id`.
 
 ## F. What is built (schema side), and what is not
 
