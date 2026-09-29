@@ -237,10 +237,16 @@ migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries fo
 - `tools/status_board.py` counts a sign-off quoted inside a code block
   (`V_eta_method_parameters_plan.md:683`) and still counts the superseded 2026-09-22 spatial
   sign-off (`V_eta_go_forward_class_audit.md:796`).
+  **FIXED 2026-09-29 (`d78f2fa`):** a quoted sign-off in a code fence is rejected as a
+  quotation, and the spatial sign-off is marked `SIGN-OFF SUPERSEDED` (jess); the census
+  reads 48 accepted lines, families signed unchanged at 25/27.
 
 ## To verify
 - Whether a v1 `hartley_calc` document carries a `hartley_calc` block with fields of its own
   (needs NDIcalc-vis-matlab's writer; not attached in the review container).
+  **CHECKED AND FIXED 2026-09-29 (`d78f2fa`):** yes -- `hartley.m:489-494` writes a
+  `hartley_calc` block {input_parameters {T, X_sample, Y_sample}, depends_on} plus
+  `calculator`/`app`; the tombstone is restated from the writer.
 
 ## Cross-repo follow-ups
 The DID-matlab and NDI-matlab checklists live in PR #76's description (updated 2026-09-25
