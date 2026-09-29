@@ -27,7 +27,7 @@ evidence, cited in their reports):
 | D8 ✅ decided, build batched | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
 | D9 ✅ decided, build batched | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
 | D10 ✅ decided, build batched | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
-| D11 | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
+| D11 ✅ decided, build batched | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
 | D12 | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
 | D13 | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
 
@@ -136,6 +136,21 @@ evidence, cited in their reports):
   (f) `date.value` = `{instant, precision, source_value, approximate}`: `source` ->
   `source_value`, and `approximate` added (precision = granularity, approximate =
   certainty; independent).
+- **D11** (jess, 2026-09-29), all four:
+  (a) `receptive_field.value.planes[]` is dropped; each `sampled_body` states what it holds
+  as one body condition `{variable: "represented quantity", term: response estimate |
+  significance}` (item 58's body `conditions`), so no body order is needed.
+  (b) the onsets become `timed_sequence`'s own time key: `presentation_order` is indexed by
+  trial, its one key is `variable: time`, irregular, values = the onsets (inline or body);
+  per-trial offsets, where the source has them, are a named per-trial field `offset` on the
+  same clock. The manipulation only points at the sequence (item 60 holds). Amends the
+  signed stimulus plan's `:186-193` onset placement; goes on the D7c amendment list.
+  (c) both stay: `timed_sequence.value.control_item` is the only source for "control
+  trial"; `visual_grating.value.blank` is re-documented as a stimulus property ("True when
+  this stimulus presents nothing (NDI `isblank`); whether it serves as the control is
+  `timed_sequence.control_item`"). The migrator keeps deriving `control_item` from
+  `isblank` (item 67).
+  (d) `visual_grating.value.position` -> `center` (keeps its `angle` cells).
 
 ## Mechanical fixes (no decision needed; one batch)
 
