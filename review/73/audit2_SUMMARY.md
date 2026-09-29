@@ -24,7 +24,7 @@ evidence, cited in their reports):
 | D5 ✅ decided, build batched | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
 | D6 ✅ decided, build batched | ~10 conditional rules live only in prose (keys required on a sampled body, `origin`/`spacing` iff regular, `chunk` only on sampled, enumerations in prose, opaque `format` optional, cache warrant, time value / `clock` optional): declare, batch-check, or accept | A8–A11, A24 |
 | D7 ✅ decided, build batched | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
-| D8 | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
+| D8 ✅ decided, build batched | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
 | D9 | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
 | D10 | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
 | D11 | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
@@ -99,6 +99,11 @@ evidence, cited in their reports):
   label_calculation; the 08-22 confirm sheet naming `session_relative_reference`); the 26
   persist classes with no decision record. Each line independently signable; Claude
   writes no signature.
+- **D8** (jess, 2026-09-29): restate the eight spatial tombstones from the v1 templates and
+  writers (v1 chain, camelCase edge names, v1 fields, nothing required v1 does not write),
+  as `hartley_calc` was in d78f2fa; fix `ontology_image`'s optional `ontologyTableRow_id`
+  spelling. The spatial migrators move to the #73 design (PR #76 checklist); no
+  intermediate shape is kept.
 
 ## Mechanical fixes (no decision needed; one batch)
 
