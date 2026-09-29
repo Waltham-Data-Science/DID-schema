@@ -21,7 +21,7 @@ evidence, cited in their reports):
 | D2 ✅ decided, build batched | One fit shape: `contrast_sensitivity` coefficients are an unnamed matrix, tuning's are a structure with no fields, `model_fit` (item 68) is a named list — three shapes, two vocabularies | B19, B20, B21, C3 |
 | D3 ✅ decided, build batched | Tuning/contrast state their dimensions twice (`data.keys` and `independent_variables[]`); statistic columns in parallel; only tuning names its response unit; F0/F1 encoded four ways | B14, B15, B17, B18 |
 | D4 ✅ decided, build batched | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |
-| D5 | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
+| D5 ✅ decided, build batched | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
 | D6 | ~10 conditional rules live only in prose (keys required on a sampled body, `origin`/`spacing` iff regular, `chunk` only on sampled, enumerations in prose, opaque `format` optional, cache warrant, time value / `clock` optional): declare, batch-check, or accept | A8–A11, A24 |
 | D7 | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
 | D8 | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
@@ -61,6 +61,18 @@ evidence, cited in their reports):
   unbound until the unit vocabulary is chosen (item 24). Applies at all three mounts.
   Amends the signed [spike processing parameters] "no `unit` field", as data_body
   Amendment 1 did for keys; the "modelled on the `axis` entry" wording is updated (A18).
+- **D5** (jess, 2026-09-29), all four:
+  (a) `directed_relation.relation` / `undirected_relation.relation` get a binding whose
+  allowed values are generated at build time from the registry rows (one source),
+  strength `preferred`.
+  (b) the registry: drop `observes` (replaced by `instrument_id`); add item 24's
+  "orthologous gene mapping" / "gene alias mapping"; allow `subject_statement` /
+  `data_type` endpoints (items 22, 27); add undirected rows (`paired_with`, `same_as`).
+  (c) the meta-schema declares `root` and `source`, and the binding object becomes
+  `additionalProperties: false`.
+  (d) `acquisition_channels.channels.type` bound now, required, to {ai, ao, di, do}
+  (`daqsystemstring.m:53-56`); `strain.genetic_strain_type`, `strain.disease_model` and
+  `dataset.license` (SPDX) added to the binding worksheet.
 
 ## Mechanical fixes (no decision needed; one batch)
 
