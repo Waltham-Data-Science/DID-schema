@@ -44,6 +44,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
 2. **`fitcurve` → a standalone `model_fit` data type** (item 49): equation, named parameters,
    independent/dependent variables, constraints, goodness, sampled fit; the tuning
    `model_fit[]` entry would share it. `polynomial` stays separate.
+   **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 68 --
+   `model_fit` + `model_fit_calculation`; shares goodness/sampled_fit with tuning;
+   no subject -> refused.
 3. **Duplicate declarations (audit item 5).**
    - `software.name`, `strain.name`, `method_parameters.name` vs `base.name`: one fact in two
      places? (a) block field is the name, `base.name` left alone; (b) drop the block fields,

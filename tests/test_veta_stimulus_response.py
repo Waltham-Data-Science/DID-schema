@@ -472,7 +472,9 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # SIXTEENTH MOVEMENT, re-derived not bumped: 212 -> 211 on 2026-09-29, #73
     # item 67 deleted control_designation (a matrix + a structure, no min/max).
     # item 65's rename and the timed_sequence.control_item addition leave the count.
-    assert walked == 211, f'schema count moved; re-derive the inert set ({walked})'
+    # SEVENTEENTH MOVEMENT, re-derived not bumped: 211 -> 213 on 2026-09-29, #73
+    # item 68 minted model_fit + model_fit_calculation. Its doubles carry no min/max.
+    assert walked == 213, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

@@ -1,0 +1,567 @@
+{
+    "document_class": {
+        "class_name": "model_fit",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A fitted model: which model, its equation and variables, the named coefficients and constraints, how well it fits, and optionally the fit sampled on a grid.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "model",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fitted model: a term for a named model (naka_rushton, von_mises, ...), otherwise a label. <- v1 `fit_name`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "equation",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The formula as written, evaluable against the coefficients' labels (\"y=a+b*x.^c\"). <- v1 `fit_equation`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "independent_variables",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fit's inputs, in `equation` order. <- v1 `fit_independent_variable_names`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The variable, as a term or a label ({name}, no node).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical unit; absent for a categorical variable.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "dependent_variable",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fit's output. <- v1 `fit_dependent_variable_names`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The variable, as a term or a label ({name}, no node).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical unit; absent for a categorical variable.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "coefficients",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The fitted coefficients, one entry each, named. <- v1 `fit_parameters` zipped with `fit_parameter_names`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Which coefficient: a term, or a label naming the symbol in `equation` (\"a\", \"b\", \"c\").",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Its value.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "constraints",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Constraints the fit was held to, one entry each. <- v1 `fit_constraints`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Which coefficient: a term, or a label naming the symbol in `equation` (\"a\", \"b\", \"c\").",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Its value.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "goodness",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "How well the fit matches the measured responses.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Coefficient of determination between the responses and the fit (v1 `r2` / `r_squared`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sse",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Sum of squared errors of the fit.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "sampled_fit",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it (fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe grids). Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "independent_values",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The grid, one entry per independent variable in independent_variables[] order.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "response",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit response at each grid point, sized by the grid.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "input_field",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Field path, in the fitted document, of the independent values (\"mydocumenttype.x\"). <- v1 `fit_data.input_data_field`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "output_field",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Field path, in the fitted document, of the dependent values. <- v1 `fit_data.output_data_field`.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

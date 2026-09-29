@@ -1246,6 +1246,29 @@
             "disposition": "persist"
         },
         {
+            "class_name": "model_fit",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/model_fit.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "model_fit_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_calculation",
+                "model_fit"
+            ],
+            "path": "schemas/V_eta/stable/model_fit_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "neuron_extracellular",
             "tier": "stable",
             "class_version": "1.0.0",

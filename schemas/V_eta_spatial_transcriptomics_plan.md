@@ -487,6 +487,20 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     - **`control_designation` is deleted.** NDI's `+vintage` reader rebuilds the v1
       vector for `tuning_response` from `presentation_order` and `control_item`.
 
+68. **`model_fit`: a fitted model as a value** (2026-09-29, tabled audit item 2; resolves
+    item 49's parking). v1 `fitcurve` (NDI `origin/main` has its template and one reader,
+    `+data/evaluate_fitcurve.m`, and no writer) becomes a **`model_fit_calculation`**:
+    `input_id` → the fitted document (`fit_example_data_id`), subject = that document's
+    subject; a fitted document with no subject is refused with a counted reason and keeps
+    the v1 tombstone. **`model_fit`** (new data type) holds `model` (term, or a label),
+    `equation`, `independent_variables[]` / `dependent_variable` `{variable, unit}`,
+    `coefficients[]` and `constraints[]` `{variable, value}` (names are data, so a list),
+    `goodness` and `sampled_fit` (copied from the tuning fit entry, so the two cannot
+    drift), and `input_field` / `output_field` (the v1 `fit_data` paths). Tuning keeps
+    its named `coefficients` structure; the signed tuning shape is unchanged. Today's
+    `fitcurve` migrator looks for an `element_id` the template never declares, so every
+    document still passes through unchanged until DID-matlab moves.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

@@ -271,8 +271,8 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 39,
-        "2": 42,
+        "1": 38,
+        "2": 43,
         "3": 19,
         "4": 0
       },
@@ -285,14 +285,14 @@
           "no": 13
         },
         "2": {
-          "not measured": 47,
-          "yes": 63,
+          "not measured": 46,
+          "yes": 64,
           "n/a": 3
         },
         "3": {
-          "not measured": 47,
+          "not measured": 46,
           "yes": 18,
-          "no": 45,
+          "no": 46,
           "n/a": 3
         },
         "4": {
@@ -301,7 +301,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 63,
+        "2": 64,
         "3": 18,
         "4": 0
       },
@@ -315,8 +315,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 40,
-          "2": 45,
+          "1": 39,
+          "2": 46,
           "3": 18,
           "4": 0
         },
@@ -390,7 +390,7 @@
       },
       "no_target_recorded": {
         "denominator": 113,
-        "rows": 50,
+        "rows": 49,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -409,7 +409,6 @@
           "electrode_offset_voltage",
           "element_epoch",
           "epochid",
-          "fitcurve",
           "geneExpression",
           "generic_file",
           "hartley_calc",
@@ -1114,6 +1113,7 @@
         "contrast_tuning",
         "contrast_tuning_calc",
         "control_stimulus_ids",
+        "fitcurve",
         "image",
         "imageStack",
         "kiasort_clusters",
@@ -4983,8 +4983,10 @@
         "score_observation",
         "session_relative_reference"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "model_fit_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -4993,8 +4995,10 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "model_fit_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -5013,22 +5017,22 @@
       ],
       "second_pass": [],
       "how": "generic curve fit -> a goodness-of-fit score_observation (fit_function carried as method) + anchor",
-      "target_flags": "fit_parameters vector deferred",
+      "target_flags": "fit_parameters vector deferred. DECIDED 2026-09-29 (#73 review item 68, jess; not signed): target is `model_fit_calculation` (input_id -> the fit_example_data_id document; subject = its subject); fit_name -> model, fit_equation -> equation, fit_parameters + fit_parameter_names zipped -> coefficients[], fit_constraints -> constraints[], fit_sse -> goodness.sse, fit_data paths -> input_field / output_field. A fitted document with no subject is refused (counted) and keeps the v1 tombstone. The migrator today looks for an `element_id` the template never declares, so every document passes through unchanged.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -5039,14 +5043,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5056,7 +5060,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8333,7 +8337,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 217 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 219 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",

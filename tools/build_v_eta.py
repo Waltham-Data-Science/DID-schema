@@ -3658,6 +3658,75 @@ write("stable", "receptive_field_calculation",
       doc("receptive_field_calculation",
           ["subject_calculation", "receptive_field"]))
 
+# ---- model_fit: a fitted model as a value (#73 review item 68, 2026-09-29, jess;
+# not signed). The target for v1 `fitcurve` (item 49 parked it): NDI origin/main
+# carries its template and ONE reader (+data/evaluate_fitcurve.m) and NO writer, so
+# real documents come from lab code. v1 fields -> here: fit_name -> model (a label when
+# no term applies); fit_equation -> equation; fit_parameters + fit_parameter_names
+# (a space-separated string) zipped -> coefficients[]; fit_constraints -> constraints[];
+# fit_sse -> goodness.sse; fit_*_variable_names -> the variables; fit_data's field
+# paths -> input_field / output_field (output_number_examples is sampled_fit's length).
+# SHARED WITH TUNING: `goodness` and `sampled_fit` are copied from the tuning fit entry
+# so the two cannot drift. `coefficients` is NOT shared: tuning's arrive named per model
+# (a structure), a generic fit's names are data, so it is a list -- and the signed
+# tuning shape is left alone.
+_MF_SHARED = {f["name"]: json.loads(json.dumps(f)) for f in _TUNING_MODEL_FIT_SUBS
+              if f["name"] in ("goodness", "sampled_fit")}
+_MF_VAR = [
+    subfield("variable", "ontology_term",
+             "The variable, as a term or a label ({name}, no node).", non_empty=True),
+    subfield("unit", "ontology_term", "Canonical unit; absent for a categorical variable."),
+]
+_MF_NAMED_VALUE = [
+    subfield("variable", "ontology_term",
+             "Which coefficient: a term, or a label naming the symbol in `equation` "
+             "(\"a\", \"b\", \"c\").", non_empty=True),
+    subfield("value", "double", "Its value."),
+]
+_MF_SUBS = [
+    subfield("model", "ontology_term",
+             "The fitted model: a term for a named model (naka_rushton, von_mises, ...), "
+             "otherwise a label. <- v1 `fit_name`."),
+    subfield("equation", "char",
+             "The formula as written, evaluable against the coefficients' labels "
+             "(\"y=a+b*x.^c\"). <- v1 `fit_equation`."),
+    subfield("independent_variables", "structure",
+             "The fit's inputs, in `equation` order. <- v1 "
+             "`fit_independent_variable_names`.", scalar=False, sub_fields=_MF_VAR),
+    subfield("dependent_variable", "structure",
+             "The fit's output. <- v1 `fit_dependent_variable_names`.",
+             sub_fields=json.loads(json.dumps(_MF_VAR))),
+    subfield("coefficients", "structure",
+             "The fitted coefficients, one entry each, named. <- v1 `fit_parameters` "
+             "zipped with `fit_parameter_names`.", scalar=False,
+             sub_fields=_MF_NAMED_VALUE),
+    subfield("constraints", "structure",
+             "Constraints the fit was held to, one entry each. <- v1 "
+             "`fit_constraints`.", scalar=False,
+             sub_fields=json.loads(json.dumps(_MF_NAMED_VALUE))),
+    _MF_SHARED["goodness"],
+    _MF_SHARED["sampled_fit"],
+    subfield("input_field", "char",
+             "Field path, in the fitted document, of the independent values "
+             "(\"mydocumenttype.x\"). <- v1 `fit_data.input_data_field`."),
+    subfield("output_field", "char",
+             "Field path, in the fitted document, of the dependent values. <- v1 "
+             "`fit_data.output_data_field`."),
+]
+write("stable", "model_fit",
+      doc("model_fit", ["data_type"], abstract=True,
+          fields=[field("value", "structure",
+                        "A fitted model: which model, its equation and variables, the "
+                        "named coefficients and constraints, how well it fits, and "
+                        "optionally the fit sampled on a grid.",
+                        non_empty=True, blank={}, sub_fields=_MF_SUBS)]))
+# The calculation is the fit OF a document: input_id -> the fitted document (inherited
+# from subject_calculation), subject = that document's subject. A fitted document with
+# no subject is REFUSED (counted) and keeps its v1 tombstone -- a standalone model_fit
+# could not say what data it fits.
+write("stable", "model_fit_calculation",
+      doc("model_fit_calculation", ["subject_calculation", "model_fit"]))
+
 # ---- the v1 receptive-field chain stays v1 (#73 review, jess, 2026-09-25) ----
 # #67 (2026-09-21) overwrote the V_zeta copytree'd `reverse_correlation`
 # (⊂ [base, ngrid], fields method/dimension_labels) and `hartley_reverse_correlation`

@@ -553,11 +553,14 @@
       ],
       "second_pass": [],
       "how": "generic curve fit -> a goodness-of-fit score_observation (fit_function carried as method) + anchor",
-      "flags": "fit_parameters vector deferred",
+      "flags": "fit_parameters vector deferred. DECIDED 2026-09-29 (#73 review item 68, jess; not signed): target is `model_fit_calculation` (input_id -> the fit_example_data_id document; subject = its subject); fit_name -> model, fit_equation -> equation, fit_parameters + fit_parameter_names zipped -> coefficients[], fit_constraints -> constraints[], fit_sse -> goodness.sse, fit_data paths -> input_field / output_field. A fitted document with no subject is refused (counted) and keeps the v1 tombstone. The migrator today looks for an `element_id` the template never declares, so every document passes through unchanged.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "model_fit_calculation"
+      ]
     },
     "gene_expression": {
       "targets": [
@@ -1117,7 +1120,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 217 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 219 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []

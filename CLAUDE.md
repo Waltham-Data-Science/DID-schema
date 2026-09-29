@@ -2808,3 +2808,5 @@ RE-DERIVED 2026-09-25 (#73 review item 59: `product` minted, `amount` renamed `s
 RE-DERIVED 2026-09-25 (#73 review item 61: `acquisition_metadata_file` retired; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-29 (#73 review item 67: `control_designation` deleted; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 212); **217 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-29 (#73 review item 68: `model_fit` + `model_fit_calculation` minted; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 211); **219 json file(s) under `schemas/V_eta/`** (was 217); **45 direct subclasses** of `data_type` (was 44; +`model_fit`). Re-derive with `check_prose_counts`, do not quote these directly.
