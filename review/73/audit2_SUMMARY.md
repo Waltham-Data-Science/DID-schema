@@ -28,7 +28,7 @@ evidence, cited in their reports):
 | D9 ✅ decided, build batched | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
 | D10 ✅ decided, build batched | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
 | D11 ✅ decided, build batched | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
-| D12 | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
+| D12 ✅ decided, build batched | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
 | D13 | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
 
 ## Decision log (build batched at the end, per jess 2026-09-29)
@@ -151,6 +151,21 @@ evidence, cited in their reports):
   `timed_sequence.control_item`"). The migrator keeps deriving `control_item` from
   `isblank` (item 67).
   (d) `visual_grating.value.position` -> `center` (keeps its `angle` cells).
+- **D12 — B** (jess, 2026-09-29). Measured first: 217 class files walked, 5 redeclared
+  inherited edges (1 tightening: `subject_calculation.software_id`; 2 loosening:
+  `hartley_calc.element_id` / `.stimulus_presentation_id` vs `reverse_correlation`; 2
+  same-strength: `image_stack.document_id`, `daqreader_image_epochdata_ingested.daqreader_id`).
+  DID-matlab `cache.m:373-426` `requiredDependencies` takes the chain UNION, so tightening
+  is enforced and loosening is silently void.
+  Rule: a class-level `require_inherited: [...]` names inherited edges or fields
+  (`software_id`, `data.keys`) that the class makes required. The meta-schema declares it;
+  a build gate checks every name resolves to something inherited and is not already
+  required. `subject_calculation` replaces its `software_id` redeclaration with the list;
+  `sampled_body` lists `data.keys` (D6). DID-matlab adds the names to the required set,
+  report-only first. Redeclaring an inherited edge is forbidden, except same-strength
+  redeclarations on a class restated from a did_v1 template (v1 fidelity); loosening fails
+  the build everywhere, so `hartley_calc` drops its two redeclarations (no behaviour change:
+  they are enforced required today).
 
 ## Mechanical fixes (no decision needed; one batch)
 
