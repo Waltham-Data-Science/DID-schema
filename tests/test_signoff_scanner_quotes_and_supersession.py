@@ -44,3 +44,16 @@ def test_the_two_known_cases_in_the_tree():
     sp = [r for r in gf if r["tag"] == "spatial_transcriptomics_family"]
     assert len(sp) == 1 and sp[0]["accepted"] is False
     assert sp[0]["rejected_because"].startswith("SUPERSEDED")
+
+
+def test_coverage_citation_reader_applies_the_same_two_rules():
+    """coverage._signoff_lines validates decision citations; a quotation or a
+    superseded signature must not be able to validate one."""
+    import coverage as cv
+    gf = [n for n, _ in cv._signoff_lines("V_eta_go_forward_class_audit.md")]
+    with open(os.path.join(REPO, "schemas", "V_eta_go_forward_class_audit.md")) as fh:
+        sup_line = next(i for i, ln in enumerate(fh.read().splitlines(), 1)
+                        if ln.startswith("TEAM-SIGN-OFF [spatial_transcriptomics_family]"))
+    assert sup_line not in gf
+    mp = [n for n, _ in cv._signoff_lines("V_eta_method_parameters_plan.md")]
+    assert mp == [18]

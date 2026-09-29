@@ -1116,8 +1116,26 @@ def _signoff_lines(plan):
         text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.DOTALL)
     all_lines = text.splitlines()
     out = []
+    # The same two non-signatures status_board.scan_signoff_lines rejects
+    # (2026-09-29): a line inside a fenced code block is a QUOTATION, and a
+    # `SIGN-OFF SUPERSEDED [tag]` line retires the next `TEAM-SIGN-OFF [tag]` in the
+    # document. Neither may validate a citation.
+    in_fence = False
+    superseded = set()
     for i, ln in enumerate(all_lines, 1):
-        if not ln.lstrip().startswith("TEAM-SIGN-OFF"):
+        s = ln.lstrip()
+        if s.startswith("```"):
+            in_fence = not in_fence
+            continue
+        m_sup = re.match(r"SIGN-OFF SUPERSEDED\s*\[([^\]]+)\]", s)
+        if m_sup and not in_fence:
+            superseded.add(m_sup.group(1).strip())
+            continue
+        if not s.startswith("TEAM-SIGN-OFF") or in_fence:
+            continue
+        m_tag = re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s)
+        if m_tag and m_tag.group(1).strip() in superseded:
+            superseded.discard(m_tag.group(1).strip())
             continue
         joined = [ln.rstrip()]
         # Walk continuation lines. `all_lines[i:]` gives us the lines after the
