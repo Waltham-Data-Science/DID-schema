@@ -25,7 +25,7 @@ evidence, cited in their reports):
 | D6 ✅ decided, build batched | ~10 conditional rules live only in prose (keys required on a sampled body, `origin`/`spacing` iff regular, `chunk` only on sampled, enumerations in prose, opaque `format` optional, cache warrant, time value / `clock` optional): declare, batch-check, or accept | A8–A11, A24 |
 | D7 ✅ decided, build batched | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
 | D8 ✅ decided, build batched | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
-| D9 | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
+| D9 ✅ decided, build batched | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
 | D10 | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
 | D11 | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
 | D12 | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
@@ -104,6 +104,17 @@ evidence, cited in their reports):
   as `hartley_calc` was in d78f2fa; fix `ontology_image`'s optional `ontologyTableRow_id`
   spelling. The spatial migrators move to the #73 design (PR #76 checklist); no
   intermediate shape is kept.
+- **D9** (jess, 2026-09-29), all five:
+  (a) `subject.local_identifier` and `session.local_identifier` lose the ontology terms
+  copied from `base.id` / `base.session_id` (set `null`); "local identifier" goes on the
+  term worksheet for all three entities.
+  (b) `entity.global_identifier.scheme` bound (preferred) to {ORCID, ROR, DOI, PMID, PMCID,
+  RRID, UDI, URL, AwardNumber, SWHID, Wikidata}; `web_resource` documents its URL as
+  `global_identifier[scheme=URL]`, `funding` its award as `[scheme=AwardNumber]`.
+  (c) `acquisition_system.name` required.
+  (d) `strain` gains optional `product_id` -> `product`; `stock_number` dropped (vendor ->
+  `organization`, code -> `catalog_number`); the openMINDS strain migrator follows.
+  (e) `notes` moves from `subject_manipulation` up to `subject_interaction`, optional.
 
 ## Mechanical fixes (no decision needed; one batch)
 
