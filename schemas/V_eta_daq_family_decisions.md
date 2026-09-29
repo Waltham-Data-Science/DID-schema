@@ -1,5 +1,13 @@
 # V_eta — the daq ingestion family: proposed dispositions
 
+**AMENDMENT (#73 review item 65, 2026-09-29, jess; not signed).** Two signed names below
+are renamed for T13 (`metadata` / `data` name the box, not the content):
+`acquisition_metadata_reader` → **`epoch_parameter_reader`** (edge
+`acquisition_system.epoch_parameter_reader_id`, field `metadata_file_pattern` →
+`file_pattern`), and `epoch_file_pattern.data_file_pattern` → **`file_pattern`** (the
+pattern groups all of an epoch's files, the stimulus `.tsv` included). The decisions
+themselves are unchanged; the signed text is left as signed.
+
 Read from the NDI `origin/main` templates. Seven classes, and they are **three
 different kinds of thing**. Nothing built.
 

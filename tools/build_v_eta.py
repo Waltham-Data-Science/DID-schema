@@ -1174,11 +1174,18 @@ write("stable", "organization", doc("organization", ["entity"], fields=[
 # `acquisition_metadata_reader` is minted with it because the carrier's REQUIRED
 # edge points at it. Additive: it does not touch `daqmetadatareader`, whose fold
 # is #59 and gated on #37.
-write("stable", "acquisition_metadata_reader",
-      doc("acquisition_metadata_reader", ["base"], fields=[
-          field("metadata_file_pattern", "char",
-                "Pattern matching the metadata files this reader consumes "
-                "(e.g. \".*\\\\.tsv\\\\>\").", non_empty=False)],
+# #73 review item 65 (2026-09-29, jess; not signed; AMENDS the signed [daq
+# configuration] name): `acquisition_metadata_reader` -> `epoch_parameter_reader`
+# and `metadata_file_pattern` -> `file_pattern` (T13: `metadata` names the box).
+# What NDI's ndi.daq.metadatareader reads is the epoch's parameters -- every
+# subclass on origin/main reads stimulus parameters, but the base class keeps the
+# job general ("such as stimulus parameter information"), so the name does too.
+write("stable", "epoch_parameter_reader",
+      doc("epoch_parameter_reader", ["base"], fields=[
+          field("file_pattern", "char",
+                "Pattern matching the epoch file this reader parses for the epoch's "
+                "parameters (e.g. \".*\\\\.tsv\\\\>\"). <- v1 "
+                "`tab_separated_file_parameter`.", non_empty=False)],
           deps=[dep("software_id", "software",
                     "The reader program itself, as a `software` entity -- the R1 "
                     "replacement for an NDI class-handle string.",
@@ -1217,7 +1224,7 @@ write("stable", "acquisition_reader",
                     "The reader program itself, as a `software` entity -- the R1 "
                     "replacement for an NDI class-handle string. Same edge, same "
                     "meaning and same optionality as on "
-                    "`acquisition_metadata_reader`.",
+                    "`epoch_parameter_reader`.",
                     non_empty=False)]))
 # `acquisition_metadata_file` WAS MINTED HERE and is RETIRED by #73 review item 61
 # (2026-09-25, jess; not signed). It was the one class carrying document bytes outside
@@ -1227,7 +1234,7 @@ write("stable", "acquisition_reader",
 # `opaque_body` owned by the stimulator's term_manipulation for that epoch (#66 inc. 3
 # mints one per epoch x stimulator), kept as the lossless source beside the typed
 # stimulus decomposition. The reader stays reachable through the rig
-# (`acquisition_system.acquisition_metadata_reader_id`).
+# (`acquisition_system.epoch_parameter_reader_id`).
 
 # ---- #74: MINT `method_parameters` -- settings with an identity ------------
 # SIGNED 2026-08-09. The class is the existing inline
@@ -1532,7 +1539,9 @@ write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields
     # (cache.m:971-1001) was written to accept the cell-of-chars
     # MATLAB's jsondecode produces for a JSON array. Declared `char`,
     # every multi-pattern navigator QUARANTINES on typeMismatch.
-    field("data_file_pattern", "string",
+    # #73 review item 65: `data_file_pattern` -> `file_pattern` (T13; the files it
+    # groups include the stimulus .tsv, so they are the epoch's files, not "data").
+    field("file_pattern", "string",
           "Which files comprise ONE epoch, as declared patterns "
           "({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 "
           "form was a string handed to eval. `#` matches an unknown common stem, "
@@ -1638,7 +1647,7 @@ write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
               "The implementation of the acquisition system itself (v1's "
               "`daqsystem.ndi_daqsystem_class`, e.g. 'ndi.daq.system.mfdaq', "
               "became an edge rather than a string field -- the same fold "
-              "`epoch_file_pattern` and `acquisition_metadata_reader` make of "
+              "`epoch_file_pattern` and `epoch_parameter_reader` make of "
               "their own class names). It is the object-reconstruction key read "
               "at +ndi/+database/+fun/ndi_document2ndi_object.m:38-42 through a "
               "CONSTRUCTED field name, so no literal grep finds the reader. "
@@ -1651,15 +1660,16 @@ write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
               "was the error -- `reader_string` is a parameter of its own, and "
               "pointing straight at `software` left it homeless (both PRED "
               "`daqreader_ndr` documents carry one). The edge now has the same "
-              "shape as `acquisition_metadata_reader_#`: a reader class that owns "
+              "shape as `epoch_parameter_reader_id`: a reader class that owns "
               "its configuration and points on at the `software` that implements "
               "it.",
               non_empty=False),
           dep("epoch_file_pattern_id", "epoch_file_pattern",
               "The rule that decides which files form one epoch on this system.",
               non_empty=False),
-          dep("acquisition_metadata_reader_#", "acquisition_metadata_reader",
-              "The companion-spreadsheet reader(s), if any.",
+          dep("epoch_parameter_reader_#", "epoch_parameter_reader",
+              "The reader(s) of the epoch's parameter files (stimulus parameters, in "
+              "every NDI reader today), if any.",
               non_empty=False, multiple=True)]))
 
 # ---- #32 BINDING GOVERNANCE, increment 1: bind the three pivot fields -------
@@ -7163,7 +7173,7 @@ _EDGE_COUNTS = {
     # reader passes ErrorIfNotFound,0 (system.m:48) so none is legal. Unbounded:
     # nothing in NDI caps it. Note the template declares the edge SINGULAR while
     # the writer uses the _n family form -- writer wins, as always here.
-    ("acquisition_system", "acquisition_metadata_reader_#"): (0, None),
+    ("acquisition_system", "epoch_parameter_reader_#"): (0, None),
     # #57 gate 3, then AMENDED. The original sign-off recorded "EXACTLY 2" for a
     # device-pair rule (commonTriggers/randomPulses name two devices+channels;
     # filefind names two devices). But a `filematch` rule names NO devices -- its
@@ -9581,7 +9591,7 @@ _T15 = {
     "clock_alignment_configuration": {
         "acquisition_channels_#": ("acquisition_channels_id", False)},
     "acquisition_system": {
-        "acquisition_metadata_reader_#": ("acquisition_metadata_reader_id", False)},
+        "epoch_parameter_reader_#": ("epoch_parameter_reader_id", False)},
     "clock_alignment_policy": {
         "clock_alignment_configuration_#": ("clock_alignment_configuration_id", True)},
     "interaction_purpose": {"interaction_id_#": ("interaction_id", False)},
@@ -9655,6 +9665,46 @@ print(f"T15 edge names: DENOMINATOR {_t15_scanned} class file(s) scanned; "
       f"{len(_t15_left)} V_eta `_#` name(s) left")
 if _t15_left:
     raise SystemExit(f"T15: V_eta edges still numbered: {_t15_left}")
+
+
+# ---------- #73 review item 65 (15d): the array shape is declared once, on `data` ---
+# `data_type` (item 60) and `data_body` (item 58) each declared `keys`, `complete` and
+# the `key_labels_id` edge, identically but for documentation, while their shared
+# parent `data` declared nothing and nothing pointed at it. They move up: `data` now
+# means "something with a keyed array shape", which is also why its name is content,
+# not a container word (T13). What differs stays below: `datum_type` / the
+# `data_body` flag on data_type, the byte layout on the bodies, and keys REQUIRED only
+# on sampled_body (by documentation, as before).
+_d15 = load(path_of("data")[1])
+_dt15 = load(path_of("data_type")[1])
+_db15 = load(path_of("data_body")[1])
+_up = {}
+for _c in (_dt15, _db15):
+    _names = {f["name"] for f in _c["fields"]}
+    if not {"keys", "complete"} <= _names or \
+            [e["name"] for e in _c["depends_on"]].count("key_labels_id") != 1:
+        raise SystemExit("15d: data_type / data_body no longer declare the array shape")
+for f in _db15["fields"]:
+    if f["name"] in ("keys", "complete"):
+        _up[f["name"]] = f          # data_body's copy carries the chunk wording
+_up["keys"]["documentation"] = (
+    "What a value is looked up by, in array order: keys[k] IS array dimension k. "
+    "EXACTLY the array's dimensions: a length-1 dimension the array has is a key, and "
+    "there is never a key for a dimension it does not have (a one-value fact true of "
+    "every value is a CONDITION). Time is an ordinary key. On a data_type document it "
+    "describes the INLINE value (with `data_body` true, each body carries the keys of "
+    "its own array); on a data_body it describes THIS body's array. Required on a "
+    "sampled_body; optional on an opaque_body, where it describes the array as its "
+    "`format` presents it. `chunk` is used ONLY on a sampled_body's keys.")
+_kl15 = next(e for e in _db15["depends_on"] if e["name"] == "key_labels_id")
+for _c in (_dt15, _db15):
+    _c["fields"] = [f for f in _c["fields"] if f["name"] not in ("keys", "complete")]
+    _c["depends_on"] = [e for e in _c["depends_on"] if e["name"] != "key_labels_id"]
+_d15["fields"] = list(_d15.get("fields") or []) + [_up["keys"], _up["complete"]]
+_d15["depends_on"] = list(_d15.get("depends_on") or []) + [_kl15]
+write(path_of("data")[0], "data", _d15)
+write(path_of("data_type")[0], "data_type", _dt15)
+write(path_of("data_body")[0], "data_body", _db15)
 
 
 # ---------- 9. regenerate index.json ----------

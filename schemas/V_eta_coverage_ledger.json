@@ -272,8 +272,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 40,
-        "2": 40,
-        "3": 20,
+        "2": 41,
+        "3": 19,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -291,8 +291,8 @@
         },
         "3": {
           "not measured": 48,
-          "yes": 19,
-          "no": 43,
+          "yes": 18,
+          "no": 44,
           "n/a": 3
         },
         "4": {
@@ -302,7 +302,7 @@
       "per_stage_satisfied_independently": {
         "1": 100,
         "2": 62,
-        "3": 19,
+        "3": 18,
         "4": 0
       },
       "capped": {
@@ -316,8 +316,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 41,
-          "2": 43,
-          "3": 19,
+          "2": 44,
+          "3": 18,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -732,15 +732,15 @@
             "daq configuration": [
               {
                 "document": "V_eta_daq_family_decisions.md",
-                "line": 471
+                "line": 479
               },
               {
                 "document": "V_eta_daq_family_decisions.md",
-                "line": 519
+                "line": 527
               },
               {
                 "document": "V_eta_daq_family_decisions.md",
-                "line": 522
+                "line": 530
               }
             ],
             "daq ingested payloads": [
@@ -806,7 +806,7 @@
             "file navigation": [
               {
                 "document": "V_eta_daq_family_decisions.md",
-                "line": 325
+                "line": 333
               }
             ],
             "image / ngrid": [
@@ -2326,7 +2326,7 @@
         "software"
       ],
       "decided_targets": [
-        "acquisition_metadata_reader"
+        "epoch_parameter_reader"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -2339,10 +2339,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "acquisition_metadata_reader"
+          "epoch_parameter_reader"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -2357,11 +2357,11 @@
       "carried": [],
       "second_pass": [],
       "how": "RENAMED to `acquisition_metadata_reader`, keeping its id. The v1 name encodes the daq layer rather than what the document is.",
-      "target_flags": "BUILT (migrators_j/daqmetadatareader.m): emits `acquisition_metadata_reader` (base.id preserved) plus a `software` entity for the implementation class -- 1 -> 2, 1 -> 1, or a guarded passthrough. NOT VERIFIED BY EXECUTION (the migrator's own header says so: there is no MATLAB in the authoring environment). Ground truth is unambiguous here -- template, schema and writer agree, and the schema declares `depends_on: [ ]` EXPLICITLY, which is the measured source of this class's invented `daqsystem_id` edge (empty on 100% of its 59 corpus documents).",
+      "target_flags": "BUILT (migrators_j/daqmetadatareader.m): emits `acquisition_metadata_reader` (base.id preserved) plus a `software` entity for the implementation class -- 1 -> 2, 1 -> 1, or a guarded passthrough. NOT VERIFIED BY EXECUTION (the migrator's own header says so: there is no MATLAB in the authoring environment). Ground truth is unambiguous here -- template, schema and writer agree, and the schema declares `depends_on: [ ]` EXPLICITLY, which is the measured source of this class's invented `daqsystem_id` edge (empty on 100% of its 59 corpus documents). RENAMED 2026-09-29 (#73 review item 65, jess; not signed; amends the signed [daq configuration] name): the decided target is `epoch_parameter_reader` (`metadata_file_pattern` -> `file_pattern`). The migrator still emits `acquisition_metadata_reader` until DID-matlab moves (PR #76 checklist); the name is in coverage.py KNOWN_NON_VETA until then.",
       "decided_by_family": {
         "family": "daq configuration",
         "document": "V_eta_daq_family_decisions.md",
-        "line": 471,
+        "line": 479,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
         "matched_on": "v1_class",
         "matched_name": "daqmetadatareader",
@@ -2376,21 +2376,21 @@
         "signoff": {
           "family": "daq configuration",
           "document": "V_eta_daq_family_decisions.md",
-          "line": 471,
+          "line": 479,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
           "matched_on": "v1_class",
           "matched_name": "daqmetadatareader",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqmetadatareader` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:471. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqmetadatareader` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:479. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -2407,8 +2407,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `epoch_parameter_reader` are not all among what the migrator emits today (`acquisition_metadata_reader`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2418,7 +2418,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -2588,7 +2588,7 @@
       "decided_by_family": {
         "family": "daq configuration",
         "document": "V_eta_daq_family_decisions.md",
-        "line": 471,
+        "line": 479,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
         "matched_on": "v1_class",
         "matched_name": "daqreader",
@@ -2603,13 +2603,13 @@
         "signoff": {
           "family": "daq configuration",
           "document": "V_eta_daq_family_decisions.md",
-          "line": 471,
+          "line": 479,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
           "matched_on": "v1_class",
           "matched_name": "daqreader",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqreader` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:471. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqreader` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:479. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -3025,7 +3025,7 @@
       "decided_by_family": {
         "family": "daq configuration",
         "document": "V_eta_daq_family_decisions.md",
-        "line": 471,
+        "line": 479,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
         "matched_on": "v1_class",
         "matched_name": "daqreader_ndr",
@@ -3040,13 +3040,13 @@
         "signoff": {
           "family": "daq configuration",
           "document": "V_eta_daq_family_decisions.md",
-          "line": 471,
+          "line": 479,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
           "matched_on": "v1_class",
           "matched_name": "daqreader_ndr",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqreader_ndr` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:471. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqreader_ndr` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:479. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -3138,7 +3138,7 @@
       "decided_by_family": {
         "family": "daq configuration",
         "document": "V_eta_daq_family_decisions.md",
-        "line": 471,
+        "line": 479,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
         "matched_on": "v1_class",
         "matched_name": "daqsystem",
@@ -3153,13 +3153,13 @@
         "signoff": {
           "family": "daq configuration",
           "document": "V_eta_daq_family_decisions.md",
-          "line": 471,
+          "line": 479,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
           "matched_on": "v1_class",
           "matched_name": "daqsystem",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqsystem` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:471. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqsystem` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:479. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4785,11 +4785,11 @@
       "carried": [],
       "second_pass": [],
       "how": "Becomes `epoch_file_pattern`, `base.id` preserved. Its two EVAL'd parameter strings become declared pattern lists (`data_file_pattern`, `epoch_map_pattern`) plus `epoch_map_format`, and the implementation class name becomes a `software_id` edge.",
-      "target_flags": "BUILT (migrators_j/filenavigator.m): 1 -> 1 or 1 -> 2 -- `epoch_file_pattern` with base.id preserved, plus a `software` entity for the implementation class, with a guarded-passthrough branch. `directory` is NOT a did_v1 source and is unaffected.",
+      "target_flags": "BUILT (migrators_j/filenavigator.m): 1 -> 1 or 1 -> 2 -- `epoch_file_pattern` with base.id preserved, plus a `software` entity for the implementation class, with a guarded-passthrough branch. `directory` is NOT a did_v1 source and is unaffected. FIELD RENAMED 2026-09-29 (#73 review item 65, jess; not signed): `data_file_pattern` -> `file_pattern` (the pattern groups ALL the epoch's files, the stimulus .tsv included).",
       "decided_by_family": {
         "family": "file navigation",
         "document": "V_eta_daq_family_decisions.md",
-        "line": 325,
+        "line": 333,
         "signoff": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
         "matched_on": "v1_class",
         "matched_name": "filenavigator",
@@ -4804,13 +4804,13 @@
         "signoff": {
           "family": "file navigation",
           "document": "V_eta_daq_family_decisions.md",
-          "line": 325,
+          "line": 333,
           "signoff": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
           "matched_on": "v1_class",
           "matched_name": "filenavigator",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `file navigation` names this class as `filenavigator` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:325. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `file navigation` names this class as `filenavigator` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:333. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

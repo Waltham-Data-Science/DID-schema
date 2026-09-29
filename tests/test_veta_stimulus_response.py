@@ -520,15 +520,17 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     # data_type, which every statement leaf inherits (T3); the statement keeps the claim.
     assert {f["name"] for f in BUILT["subject_statement"][1]["fields"]} == {
         "variable", "conditions"}
-    _tier, d = BUILT["data_type"]
+    # #73 item 65 (2026-09-29): keys/complete moved on up to `data`, data_type's parent.
+    _tier, d = BUILT["data"]
     names = {f["name"] for f in d["fields"]}
     assert "keys" in names, (
         "`subject_statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"keys", "complete", "datum_type", "source_datum_type",
-                     "data_body"}
+    assert names == {"keys", "complete"}
+    assert {f["name"] for f in BUILT["data_type"][1]["fields"]} == {
+        "datum_type", "source_datum_type", "data_body"}
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.

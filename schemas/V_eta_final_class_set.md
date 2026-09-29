@@ -32,7 +32,7 @@
 `opaque_body`, `sampled_body`
 
 ## ⑦ Acquisition & infra (keep) (12)
-`acquisition_channels`, `acquisition_metadata_reader`, `acquisition_reader`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `frequency_filter`, `ingestion_manifest`, `method_parameters`
+`acquisition_channels`, `acquisition_reader`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `frequency_filter`, `ingestion_manifest`, `method_parameters`
 
 ---
 

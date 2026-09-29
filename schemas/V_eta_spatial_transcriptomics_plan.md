@@ -439,6 +439,22 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     exist) matches by `name`. The meta-schema's `values.items` requires `{node, name}`,
     and `check_binding_governance` B4 is held at 0.
 
+65. **Container words in infrastructure names** (2026-09-29, audit item 15; amends the
+    signed [daq configuration] and [file navigation] names).
+    - `acquisition_metadata_reader` → **`epoch_parameter_reader`**, its edge
+      `epoch_parameter_reader_id`, and `metadata_file_pattern` → `file_pattern`. Every
+      NDI reader subclass reads stimulus parameters, and the only production consumer
+      is the stimulator probe (`+probe/+timeseries/stimulator.m:150,171`), but NDI's
+      base class keeps the job general ("such as stimulus parameter information"), so
+      the name says what it reads, the epoch's parameters, without assuming stimuli.
+    - `epoch_file_pattern.data_file_pattern` → **`file_pattern`**: it groups every file
+      of an epoch, the stimulus `.tsv` included, so "data" and "recording" both mislead.
+    - `clock_alignment_configuration` is kept (`configuration` is not a T13 container
+      word, and after item 63 it names what the class holds).
+    - `keys`, `complete` and `key_labels_id` move from `data_type` and `data_body` up to
+      **`data`**, which declared nothing and was pointed at by nothing. It now declares
+      the keyed array shape once, so its name is content (T13 amended).
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

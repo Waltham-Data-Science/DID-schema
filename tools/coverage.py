@@ -795,7 +795,10 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # #73 item 61: its bytes become an opaque_body of the stimulator's
                   # term_manipulation. migrators_j/daqmetadatareader_epochdata_ingested.m
                   # still mints it; remove when the PR #76 DID-matlab change lands.
-                  "acquisition_metadata_file"}
+                  "acquisition_metadata_file",
+                  # #73 review item 65: renamed epoch_parameter_reader; the
+                  # migrator emits the old name until DID-matlab moves.
+                  "acquisition_metadata_reader"}
 
 
 def guardrail(veta, emitted):

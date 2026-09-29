@@ -1279,7 +1279,7 @@
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/daqmetadatareader.m`",
           "3 consuming reference(s) (3 per-document migrator)",
-          "decided target(s) built: `acquisition_metadata_reader`"
+          "decided target(s) built: `epoch_parameter_reader`"
         ],
         "migrator_file": "DID-matlab:migrators_j/daqmetadatareader.m",
         "n_consuming_refs": 3,
@@ -1344,10 +1344,10 @@
           }
         },
         "decided_targets": [
-          "acquisition_metadata_reader"
+          "epoch_parameter_reader"
         ],
         "decided_targets_built": [
-          "acquisition_metadata_reader"
+          "epoch_parameter_reader"
         ],
         "decided_targets_missing": [],
         "survivors": null,

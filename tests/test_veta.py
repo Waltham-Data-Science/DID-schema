@@ -592,8 +592,9 @@ def test_data_body_classes():
     # LIGHTSHEET L3 (2026-09-25): `keys` moved UP to data_body -- the two bodies
     # split by who lays out the bytes, and an opaque body may describe its array
     # too. sampled_body still HAS it, through the chain.
+    # #73 item 65 (2026-09-29): and on up to `data`, shared with data_type.
     assert "keys" not in {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
-    sampled_axes = next(f for f in RECORDS["data_body"][1]["fields"]
+    sampled_axes = next(f for f in RECORDS["data"][1]["fields"]
                         if f["name"] == "keys")
     assert sampled_axes["mustBeNonEmpty"] is False
     assert sampled_axes["mustBeScalar"] is False
@@ -689,8 +690,10 @@ def test_the_two_stranding_classes_have_a_tombstone():
     # and added `conditions` (a one-value fact true of one body's values).
     assert {"format", "compression", "filename", "content_hash",
             "description", "hash_algorithm", "size_bytes", "file_created",
-            "file_modified", "redundant", "keys", "complete",
+            "file_modified", "redundant",
             "conditions"} == db_fields, db_fields
+    # #73 item 65: `keys` + `complete` moved on up to `data` (shared with data_type).
+    assert {"keys", "complete"} <= {f["name"] for f in RECORDS["data"][1]["fields"]}
     # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
     # moot: it said that if `compression` ever appeared, content_hash must state
     # WHICH byte stream it covers (plan open question 3). It appeared, so the
@@ -2672,9 +2675,9 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     testNgridSampledBodyFold still pins the refusal.
     """
     assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
-    # Lightsheet L3: sampled_body inherits `keys` from data_body.
-    assert "data_body" in _chain("sampled_body")
-    _tier, body = RECORDS["data_body"]
+    # Lightsheet L3, then #73 item 65: sampled_body inherits `keys` from `data`.
+    assert "data" in _chain("sampled_body")
+    _tier, body = RECORDS["data"]
     axes = [f for f in body["fields"] if f["name"] == "keys"]
     assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
     sub = [s["name"] for s in axes[0].get("fields", [])]
@@ -2740,7 +2743,9 @@ def test_all_axes_declarations_are_the_one_entry():
 
     # DENOMINATOR FIRST. Without it a walker that silently found nothing would
     # pass by vacuous agreement -- the `silentLoss` defect, inside a test.
-    assert len(found) >= 3, (
+    # #73 item 65 (2026-09-29): data_type's and data_body's mounts merged into ONE
+    # declaration on `data`, so the floor is 2 (data, acquisition_epoch).
+    assert len(found) >= 2, (
         f"only {len(found)} `axes` declaration(s) found across {len(RECORDS)} "
         f"classes ({sorted(found)!r}). The plan counts three that must fold plus "
         "zarr; finding fewer means the walker is not reaching them, not that the "
@@ -2749,10 +2754,10 @@ def test_all_axes_declarations_are_the_one_entry():
     folded = {c: s for c, s in found.items() if c != "zarr"}
     # Lightsheet L3 (2026-09-25): the body mount is data_body now (inherited by
     # both bodies), so it is the reference.
-    assert "data_body" in folded, (
-        "data_body declares no `keys` -- it is the reference mount for the "
+    assert "data" in folded, (
+        "data declares no `keys` -- it is the reference mount for the "
         "signed entry, so its absence means the walker, not the schema, is wrong")
-    expected = folded["data_body"]
+    expected = folded["data"]
     for cls, sub in sorted(folded.items()):
         assert sub == expected, (
             f"`{cls}.axes[]` declares {sub!r}, but sampled_body declares "
@@ -2817,14 +2822,14 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # a word. The property this guarded is now checked where it lives.
     assert not [f for f in sb["fields"] if f["name"] == "datum"], (
         "sampled_body declares `datum` again")
-    axes = next(f for f in RECORDS["data_body"][1]["fields"] if f["name"] == "keys")  # L3: inherited
+    axes = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")  # item 65: inherited
     assert axes["mustBeScalar"] is False, (
         "sampled_body.axes must be a LIST -- an ngrid is an N-D grid, and the "
         "axis count is what replaced datum.kind's scalar/array distinction")
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
-    axes = next(f for f in RECORDS["data_body"][1]["fields"] if f["name"] == "keys")  # L3: inherited
+    axes = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")  # item 65: inherited
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
     # UPDATED 2026-08-14: was `["name"]`. The signed axis entry drops `name` --
     # its own examples ('contrast', 'orientation') ARE variables, and a
@@ -3650,8 +3655,7 @@ def test_t15_ordered_flags_match_the_table():
                      if d.get("multiple") and d.get("ordered"))
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
-        ("data_body", "key_labels_id"),
-        ("data_type", "key_labels_id"),
+        ("data", "key_labels_id"),
         ("formulation", "ingredient_id"),
         ("timed_sequence", "item_id"),
     ], ordered
@@ -3746,13 +3750,14 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     body may describe its array and any body may carry a one-value fact of its own;
     only sampled_body declares a byte layout, and it gains `fill_value`."""
     db = {f["name"]: f for f in RECORDS["data_body"][1]["fields"]}
+    db.update({f["name"]: f for f in RECORDS["data"][1]["fields"]})   # item 65
     sb = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
     ob = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
     assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
     assert sb == {"byte_order", "datum_order", "fill_value"}, sb
     assert ob == set(), ob
     # the key-labels edge follows `keys` up, so an opaque body's keys can use it
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data_body"][1]["depends_on"]}
+    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     assert "key_labels_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
     # a body's conditions have the statement's entry shape (Amendment 2)
     ss = next(f for f in RECORDS["subject_statement"][1]["fields"]
@@ -3763,7 +3768,7 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     chunk = next(s for s in db["keys"]["fields"] if s["name"] == "chunk")
     assert "sampled_body ONLY" in chunk["documentation"]
     assert "padding" in chunk["documentation"] and "fill_value" in chunk["documentation"]
-    assert "EXACTLY the stored array's dimensions" in db["keys"]["documentation"]
+    assert "EXACTLY the array's dimensions" in db["keys"]["documentation"]
     fv = next(f for f in RECORDS["sampled_body"][1]["fields"] if f["name"] == "fill_value")
     assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == []
 
@@ -3805,8 +3810,10 @@ def test_value_descriptors_live_with_the_value():
     source_datum_type / key_labels_id / the `data_body` flag live on data_type; the
     statement keeps only the claim, and references a shared value through value_id."""
     dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
-    assert dt == {"keys", "complete", "datum_type", "source_datum_type", "data_body"}
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data_type"][1]["depends_on"]}
+    assert dt == {"datum_type", "source_datum_type", "data_body"}
+    # #73 item 65: the array shape is declared once, on the shared parent `data`.
+    assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
+    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["subject_statement"][1]
     assert {f["name"] for f in ss["fields"]} == {"variable", "conditions"}
     assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}

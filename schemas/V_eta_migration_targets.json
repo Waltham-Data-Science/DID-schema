@@ -143,9 +143,9 @@
       "carried": [],
       "second_pass": [],
       "how": "RENAMED to `acquisition_metadata_reader`, keeping its id. The v1 name encodes the daq layer rather than what the document is.",
-      "flags": "BUILT (migrators_j/daqmetadatareader.m): emits `acquisition_metadata_reader` (base.id preserved) plus a `software` entity for the implementation class -- 1 -> 2, 1 -> 1, or a guarded passthrough. NOT VERIFIED BY EXECUTION (the migrator's own header says so: there is no MATLAB in the authoring environment). Ground truth is unambiguous here -- template, schema and writer agree, and the schema declares `depends_on: [ ]` EXPLICITLY, which is the measured source of this class's invented `daqsystem_id` edge (empty on 100% of its 59 corpus documents).",
+      "flags": "BUILT (migrators_j/daqmetadatareader.m): emits `acquisition_metadata_reader` (base.id preserved) plus a `software` entity for the implementation class -- 1 -> 2, 1 -> 1, or a guarded passthrough. NOT VERIFIED BY EXECUTION (the migrator's own header says so: there is no MATLAB in the authoring environment). Ground truth is unambiguous here -- template, schema and writer agree, and the schema declares `depends_on: [ ]` EXPLICITLY, which is the measured source of this class's invented `daqsystem_id` edge (empty on 100% of its 59 corpus documents). RENAMED 2026-09-29 (#73 review item 65, jess; not signed; amends the signed [daq configuration] name): the decided target is `epoch_parameter_reader` (`metadata_file_pattern` -> `file_pattern`). The migrator still emits `acquisition_metadata_reader` until DID-matlab moves (PR #76 checklist); the name is in coverage.py KNOWN_NON_VETA until then.",
       "decided_targets": [
-        "acquisition_metadata_reader"
+        "epoch_parameter_reader"
       ],
       "target_completeness": {
         "state": "full",
@@ -507,7 +507,7 @@
       "carried": [],
       "second_pass": [],
       "how": "Becomes `epoch_file_pattern`, `base.id` preserved. Its two EVAL'd parameter strings become declared pattern lists (`data_file_pattern`, `epoch_map_pattern`) plus `epoch_map_format`, and the implementation class name becomes a `software_id` edge.",
-      "flags": "BUILT (migrators_j/filenavigator.m): 1 -> 1 or 1 -> 2 -- `epoch_file_pattern` with base.id preserved, plus a `software` entity for the implementation class, with a guarded-passthrough branch. `directory` is NOT a did_v1 source and is unaffected.",
+      "flags": "BUILT (migrators_j/filenavigator.m): 1 -> 1 or 1 -> 2 -- `epoch_file_pattern` with base.id preserved, plus a `software` entity for the implementation class, with a guarded-passthrough branch. `directory` is NOT a did_v1 source and is unaffected. FIELD RENAMED 2026-09-29 (#73 review item 65, jess; not signed): `data_file_pattern` -> `file_pattern` (the pattern groups ALL the epoch's files, the stimulus .tsv included).",
       "decided_targets": [
         "epoch_file_pattern"
       ],

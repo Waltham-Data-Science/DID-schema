@@ -297,7 +297,10 @@ a footnote**.
 - **Name the content, not the container.** Drop altitude-noise wrapper words —
   `parameters`, `data`, `info`, `struct`, `table`, `record`, `metadata`, `object`,
   `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,
-  `stimulus_response_scalar_parameters` are v1 smells). A field holds a **role** — name the
+  `stimulus_response_scalar_parameters` are v1 smells). **The spine's `data` is not a
+  wrapper** (#73 review item 65): it is the parent that declares a value's keyed array
+  shape (`keys`, `complete`, `key_labels_id`) for both `data_type` and `data_body`, so
+  the word names what those classes hold. A field holds a **role** — name the
   role: v1's generic `parameters` split into **`conditions`** (one-value facts true of
   every value — the experimental conditions, on a statement or on one body, T6) and
   **`method_parameters`** (the algorithm config on an interaction);

@@ -89,6 +89,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     option A: every member is a `{node, name}` term; match by node when it has one,
     else by name.
 15. **Container words** (`metadata`, `data`) in signed infra class names.
+    **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 65 --
+    `epoch_parameter_reader`; `file_pattern` on both pattern fields; keep
+    `clock_alignment_configuration`; keys/complete/key_labels_id move up to `data`.
 16. **`tuning_curve`:** `response_units` is free text; `independent_variables[]` has no
     source fields or labels; mean/stddev/stderr vs item 15's "another column is a key".
 17. **`harmonic_component`** uses flat `control_real`/`control_imaginary` where tuning nests
