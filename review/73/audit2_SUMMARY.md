@@ -23,7 +23,7 @@ evidence, cited in their reports):
 | D4 ✅ decided, build batched | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |
 | D5 ✅ decided, build batched | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
 | D6 ✅ decided, build batched | ~10 conditional rules live only in prose (keys required on a sampled body, `origin`/`spacing` iff regular, `chunk` only on sampled, enumerations in prose, opaque `format` optional, cache warrant, time value / `clock` optional): declare, batch-check, or accept | A8–A11, A24 |
-| D7 | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
+| D7 ✅ decided, build batched | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
 | D8 | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
 | D9 | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
 | D10 | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
@@ -85,6 +85,20 @@ evidence, cited in their reports):
   `start` is present. DID-matlab implements them as named checks, report-only first.
   (3) T6 amended for bodies: a redundant body's source is its owner's non-redundant body
   (no new edge); the reason goes in `data_body.description`.
+- **D7** (jess, 2026-09-29), all three:
+  (a) `vmspikefit` → `model_fit_calculation` (`input_id` → `fit_input_id`, subject from
+  `element_id`); `fit_sse_perpoint` → the shared fit entry's `goodness.sse_per_point`.
+  Recorded as a decided target; the migrator follows (PR #76 checklist).
+  (b) JH lawn-plate measures (radius, circularity, fluorescence): observation vs
+  calculation decided during the JH raw-data mapping. `pyraview` → `redundant`
+  `sampled_body`s owned by the recording's observation (second-pass join), not a second
+  `voltage_observation`.
+  (c) prepare a team sign-off sheet: every unsigned #73 decision; the four amendments to
+  signed lines (`_calculation` reserved for calculators vs T2's provenance rule;
+  `runtime_environment` "stands" vs item 53; `jrclust_clusters` count_observation vs
+  label_calculation; the 08-22 confirm sheet naming `session_relative_reference`); the 26
+  persist classes with no decision record. Each line independently signable; Claude
+  writes no signature.
 
 ## Mechanical fixes (no decision needed; one batch)
 
