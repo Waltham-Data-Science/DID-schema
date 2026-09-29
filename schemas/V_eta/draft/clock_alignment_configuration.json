@@ -102,43 +102,180 @@
             ]
         },
         {
-            "name": "minimum_matching_file_paths",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "name": "method_parameters",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How many full path components must match. <- v1 `number_fullpath_matches`.",
-            "constraints": {}
-        },
-        {
-            "name": "sync_file_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The sync file to read. <- v1 `syncfilename`.",
-            "constraints": {}
-        },
-        {
-            "name": "minimum_embedded_file_overlap",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Minimum overlap required between embedded files. <- v1 `minEmbeddedFileOverlap`.",
-            "constraints": {}
+            "documentation": "HOW the rule runs: the SAME `parameter[]` shape as the `method_parameters` document (bound or label `variable`, numeric `value` cell, categorical `term`, free `text`). v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. WHAT the rule aligns is NOT here: `clock`, the `acquisition_channels_id` edges and `software_id` stay first-class. The v1 device NAMES (`daqsystem1_name`...) and channel strings are the channel edges, not entries.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "value",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric knobs. The canonical value plus what the source wrote.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded unit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept whatever the registry later says.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "term",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical knobs (e.g. a threshold method).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "text",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Free-string knobs.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

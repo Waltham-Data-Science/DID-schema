@@ -3345,14 +3345,26 @@ write("draft", "clock_alignment_configuration",
                     "NDIC identifier can be assigned from any repository in scope. "
                     "<- v1 `epochclocktype`.",
                     constraints=_CLOCK_BINDING),
-              field("minimum_matching_file_paths", "integer",
-                    "How many full path components must match. <- v1 "
-                    "`number_fullpath_matches`.", blank=0),
-              field("sync_file_name", "char",
-                    "The sync file to read. <- v1 `syncfilename`."),
-              field("minimum_embedded_file_overlap", "integer",
-                    "Minimum overlap required between embedded files. <- v1 "
-                    "`minEmbeddedFileOverlap`.", blank=0),
+              # #73 review item 63 (2026-09-29, jess; not signed): the three typed
+              # knobs (`minimum_matching_file_paths`, `sync_file_name`,
+              # `minimum_embedded_file_overlap`) are REPLACED by the inline
+              # `method_parameters` list. Answers the cluster plan's OPEN item 1:
+              # this class looked like `method_parameters` because half of it IS --
+              # HOW the rule runs moves to the list; WHAT it aligns (clock,
+              # channels, software) stays here. `errorOnFailure`, which had no
+              # field, now fits as an entry.
+              field("method_parameters", "structure",
+                    "HOW the rule runs: the SAME `parameter[]` shape as the "
+                    "`method_parameters` document (bound or label `variable`, numeric "
+                    "`value` cell, categorical `term`, free `text`). v1 sources: "
+                    "`number_fullpath_matches`, `syncfilename`, "
+                    "`minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, "
+                    "present only when the source carries it. WHAT the rule aligns is "
+                    "NOT here: `clock`, the `acquisition_channels_#` edges and "
+                    "`software_id` stay first-class. The v1 device NAMES "
+                    "(`daqsystem1_name`...) and channel strings are the channel edges, "
+                    "not entries.",
+                    non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS),
           ]))
 
 write("draft", "clock_alignment_policy",
@@ -7140,7 +7152,8 @@ _EDGE_COUNTS = {
     # share >=N filenames, NDI-matlab +time/+syncrule/filematch.m:97-128). So the
     # EXACTLY-2 cardinality made a legitimate file-based rule structurally
     # impossible to express, forcing it to pass through as a v1 `syncrule`. The
-    # schema already declares its criterion field (`minimum_matching_file_paths`),
+    # schema already declares its criterion field (`minimum_matching_file_paths`;
+    # since #73 item 63 a `method_parameters` entry),
     # so the only thing missing was room for zero channels. Relaxed to {0,2}: a
     # file-based rule carries 0, a device-pair rule still carries 2 (the migrator
     # guard emits both channels or neither, so a 1-channel config cannot be

@@ -11,6 +11,14 @@ reported back to the team as an open proposal, twice in one session. The board n
 believed it: `status_board.py` derives from the sign-off lines themselves and had
 counted this cluster as decided all along (Operating Rule 4 working as intended).
 
+**AMENDMENT (#73 review item 63, 2026-09-29, jess; not signed).** The field table
+below and amendment 1's sign-off name `minimum_matching_file_paths`,
+`sync_file_name` and `minimum_embedded_file_overlap`. Those typed fields are REPLACED by
+an inline `method_parameters[]` list on `clock_alignment_configuration` (one entry per v1
+knob, `errorOnFailure` included). The decision recorded in amendment 1 -- a channel-less
+file-based configuration, cardinality {0, 2} -- is unchanged; only where its criterion is
+stored moved. The signed text is left as signed.
+
 **WHAT IS BUILT AND WHAT IS NOT.** `polynomial`, `clock_alignment`,
 `clock_alignment_configuration`, `clock_alignment_policy` and `acquisition_channels`
 are minted. The MIGRATORS are not written, so `syncrule`, `syncgraph` and
@@ -359,7 +367,12 @@ because their targets are unconfirmed, not because of a lockstep.
 
 ## OPEN
 
-1. **`clock_alignment_configuration` vs `method_parameters`.** They are structurally
+1. **ANSWERED 2026-09-29 (#73 review item 63, jess; not signed) -- see
+   `V_eta_spatial_transcriptomics_plan.md` item 63.** Neither keep-separate nor merge:
+   the class keeps WHAT it aligns (`clock`, `acquisition_channels_#`, `software_id`) and
+   its three typed knobs are replaced by an inline `method_parameters[]` list (HOW it
+   runs; `errorOnFailure` now fits). The original question, kept as asked:
+   **`clock_alignment_configuration` vs `method_parameters`.** They are structurally
    identical: `base.name`, a software identity, typed canonical fields, a remainder.
    Claude leans keep-separate (their canonical fields share nothing), but the naming
    difficulty is the model asking a question and it should be answered deliberately.

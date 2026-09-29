@@ -414,6 +414,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `operating_system_id` (item 53); a leftover `app` block → `software_id`. Anything a
     migrator cannot place is refused and counted.
 
+63. **`clock_alignment_configuration` keeps WHAT, `method_parameters` takes HOW**
+    (2026-09-29, audit item 12; answers `V_eta_clock_alignment_cluster_plan.md` OPEN item
+    1). The two classes looked identical because half of the configuration really is
+    method parameters. The class keeps what the rule aligns: `clock`, the
+    `acquisition_channels_#` edges and `software_id`. Its three typed knobs
+    (`minimum_matching_file_paths`, `sync_file_name`, `minimum_embedded_file_overlap`)
+    are replaced by an inline `method_parameters` list, the same `parameter[]` shape as
+    the document and as `subject_interaction.method_parameters`. v1 `number_fullpath_matches`,
+    `syncfilename`, `minEmbeddedFileOverlap` and `errorOnFailure` (which had no field)
+    become one entry each. Amendment 1's file criterion therefore lands as an entry, not
+    a typed field; its channel cardinality {0, 2} is unchanged.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

@@ -80,6 +80,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** item 62 --
     deleted; tail knobs become label-variable entries, the rest go to their homes.
 12. **`clock_alignment_configuration` vs `method_parameters`** (open in the clock plan).
+    **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 63 --
+    option B: the class keeps `clock`, channels and `software_id`; its knobs move to an
+    inline `method_parameters[]` list (`errorOnFailure` now fits).
 13. **`session_id`** edge and `base.session_id` hold different ids on one document.
 14. **Binding value sets** are spelled three ways (bare names, CURIE strings, `{node,name}`).
 15. **Container words** (`metadata`, `data`) in signed infra class names.
