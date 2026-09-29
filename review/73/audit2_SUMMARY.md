@@ -20,7 +20,7 @@ evidence, cited in their reports):
 | D1 ✅ item 71 | Lists in single-value types: `term`, `label`, `date`, `position`, `polynomial` are scalar-only, yet items 21/28 store a gene list and one label per cell in them; `term`'s binding needs a `variable` a standalone `term` does not have | B10, B11 |
 | D2 ✅ decided, build batched | One fit shape: `contrast_sensitivity` coefficients are an unnamed matrix, tuning's are a structure with no fields, `model_fit` (item 68) is a named list — three shapes, two vocabularies | B19, B20, B21, C3 |
 | D3 ✅ decided, build batched | Tuning/contrast state their dimensions twice (`data.keys` and `independent_variables[]`); statistic columns in parallel; only tuning names its response unit; F0/F1 encoded four ways | B14, B15, B17, B18 |
-| D4 | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |
+| D4 ✅ decided, build batched | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |
 | D5 | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
 | D6 | ~10 conditional rules live only in prose (keys required on a sampled body, `origin`/`spacing` iff regular, `chunk` only on sampled, enumerations in prose, opaque `format` optional, cache warrant, time value / `clock` optional): declare, batch-check, or accept | A8–A11, A24 |
 | D7 | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
@@ -55,6 +55,12 @@ evidence, cited in their reports):
   `response_type` on tuning and contrast becomes a bound term naming the reduction (mean,
   peak, F0, F1, F2); `contrast_sensitivity.modulated_response` is dropped;
   `harmonic_component.harmonic` stays an integer.
+- **D4 — A** (jess, 2026-09-29): `parameter[]` gains a bound `unit` term beside `value`
+  (entry becomes `{variable, unit, value{value, source_value}, source_unit, term, text}`,
+  matching the key and condition entries); the canonical `value` is in `unit`; `unit` is
+  unbound until the unit vocabulary is chosen (item 24). Applies at all three mounts.
+  Amends the signed [spike processing parameters] "no `unit` field", as data_body
+  Amendment 1 did for keys; the "modelled on the `axis` entry" wording is updated (A18).
 
 ## Mechanical fixes (no decision needed; one batch)
 
