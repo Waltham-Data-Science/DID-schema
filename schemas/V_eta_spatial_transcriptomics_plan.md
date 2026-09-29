@@ -455,6 +455,19 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
       **`data`**, which declared nothing and was pointed at by nothing. It now declares
       the keyed array shape once, so its name is content (T13 amended).
 
+66. **`contrast_sensitivity` against the tuning shape** (2026-09-29, audit item 25;
+    decided, not signed -- the tuning sign-off does not cover it).
+    - `model_fit[].goodness` is **dropped**: a structure with no fields (T14), and none of
+      the 21 v1 `contrast_sensitivity_calc` fields is a goodness measure (the migrator
+      wrote `struct()` for every fit).
+    - The fits, `interpolated_values` and `significance` **stay on the composite**, unlike
+      tuning. A tuning curve's value is measured and the fits are the calculator's
+      addition; a contrast-sensitivity profile is itself the fit output, so without them
+      the composite would hold an axis and two flags. The measured curves behind it are
+      the contrast tuning curves, which have their own documents.
+    - `spatial_frequencies` becomes the tuning family's **`independent_variables[]`**
+      entry (variable spatial frequency, unit cycles per degree).
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

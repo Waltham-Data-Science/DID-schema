@@ -3535,8 +3535,9 @@ _CS_FIT_SUBS = [
              "Fitted Naka-Rushton coefficients, as the v1 `parameters_<variant>` vector. "
              "Element naming is a follow-up (needs the NDIcalc-vis parameter order).",
              scalar=False),
-    subfield("goodness", "structure",
-             "Fit-quality scalars (r², residual, …).", non_empty=False),
+    # `goodness` DROPPED, #73 review item 66 (2026-09-29, jess; not signed): it was a
+    # structure with no fields (T14) and none of the 21 v1 fields is a goodness
+    # measure -- jContrastSensitivityValue.m wrote `struct()` for every fit.
     subfield("sensitivity", "matrix",
              "Contrast sensitivity per spatial frequency, from THIS fit.", scalar=False),
     subfield("relative_max_gain", "matrix",
@@ -3546,10 +3547,21 @@ _CS_FIT_SUBS = [
     subfield("saturation_index", "matrix",
              "Saturation index per spatial frequency, from THIS fit.", scalar=False),
 ]
+# #73 review item 66 (2026-09-29, jess; not signed): the axis is stated the way tuning
+# states its own -- the SAME `independent_variables[]` entry (variable = spatial
+# frequency, unit cycles/degree) -- replacing the unitless `spatial_frequencies` matrix.
+# The fits / interpolated values / significance STAY on the composite, unlike tuning
+# (where they sit on the calculation leaf): tuning_curve's value is a MEASURED curve and
+# the fits are the calculator's addition, but a contrast-sensitivity profile IS the fit
+# output -- without them the composite would hold an axis and two flags. The measured
+# curves behind it are the contrast tuning curves, which have documents of their own.
 _CS_SUBS = [
-    subfield("spatial_frequencies", "matrix",
-             "The independent axis: the spatial frequencies the profile is over.",
-             scalar=False),
+    subfield("independent_variables", "structure",
+             "The axis the profile is over, in the same entry shape tuning_curve uses: "
+             "one entry, variable = spatial frequency, `values` the frequencies, `unit` "
+             "cycles per degree of visual angle. <- v1 `spatial_frequencies`.",
+             scalar=False, non_empty=True,
+             sub_fields=json.loads(json.dumps(_TUNING_CURVE_IV_SUBS))),
     subfield("model_fit", "structure",
              "ARRAY of fitted models, one entry per Naka-Rushton variant (RB / RBN / "
              "RBNS), each carrying its coefficients and the metrics derived from it.",

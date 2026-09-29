@@ -110,6 +110,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     worksheet row 1).
 25. Bring `contrast_sensitivity` in line with the #73 tuning shape (`model_fit.goodness`,
     `interpolated_values.c50`, fits/significance placement).
+    **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 66 --
+    `goodness` dropped; fits stay on the composite (the profile IS the fit output);
+    `spatial_frequencies` -> `independent_variables[]`.
 
 ## Lightsheet OME-Zarr (NDI-matlab PR #979, open; added 2026-09-25)
 Two new v1 classes, `lightsheetZarrPyramid` and `lightsheetZarrLevel`, on NDI branch
