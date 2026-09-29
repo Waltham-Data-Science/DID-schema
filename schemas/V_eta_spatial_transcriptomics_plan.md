@@ -468,6 +468,25 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     - `spatial_frequencies` becomes the tuning family's **`independent_variables[]`**
       entry (variable spatial frequency, unit cycles per degree).
 
+67. **Control trials are marked by the design, not by a designation document**
+    (2026-09-29, tabled audit item 1; AMENDS the signed [stimulus] line
+    "`control_stimulus_ids` -> `control_designation`").
+    - v1 `control_stimulus_ids` (writer `tuning_response.m` `control_stimulus`,
+      `:547-660`) holds two facts: which stimulus is the control, chosen from the
+      stimulus's own `isblank` parameter (no caller on NDI `origin/main` passes a
+      non-default `control_stim_method` / `controlid` / `controlid_value`; the writer
+      errors on more than one control stimulus), and a per-trial pairing (each trial's
+      paired blank trial). Its one reader reduces the pairing back to the first fact
+      (NDI#912, `tuning_response.m:293-298`).
+    - The first fact becomes **`timed_sequence.value.control_item`**, the 0-based item
+      position of the control stimulus. Control trials are the `presentation_order`
+      entries equal to it. It is on the shared sequence, so every animal shown that
+      sequence shares its control, as they share its design.
+    - The pairing is **dropped**: rebuildable from the sequence, `control_item` and the
+      method, and read by nothing.
+    - **`control_designation` is deleted.** NDI's `+vintage` reader rebuilds the v1
+      vector for `tuning_response` from `presentation_order` and `control_item`.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

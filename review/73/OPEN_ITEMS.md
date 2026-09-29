@@ -38,6 +38,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
    method_parameters) -- user unsure; (c) keep only "which stimulus is the control"
    (`visual_grating.blank` already has it) and treat the pairing as a vlt-rebuilt cache.
    Unmeasured: whether any corpus has control docs with no response doc.
+   **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line; amends the signed
+   [stimulus] line):** item 67 -- `control_designation` deleted; the control stimulus is
+   `timed_sequence.value.control_item`; the per-trial pairing is dropped.
 2. **`fitcurve` → a standalone `model_fit` data type** (item 49): equation, named parameters,
    independent/dependent variables, constraints, goodness, sampled fit; the tuning
    `model_fit[]` entry would share it. `polynomial` stays separate.

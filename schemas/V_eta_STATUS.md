@@ -9,10 +9,10 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 214 |
+| target classes | 213 |
 | settled (persist) | 131 |
 | settled (retire) | 62 |
-| **still open (`in_progress`)** | **21** |
+| **still open (`in_progress`)** | **20** |
 | **`retire` with no migrator YET** | **3** |
 | open **decision families** | **27** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 25 |
@@ -23,15 +23,15 @@ for each model; this board owns *how much is left and what exactly*.
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
 | (a) decided, nothing built | 2 |
-| (b) built, awaiting corpus proof | 19 |
+| (b) built, awaiting corpus proof | 18 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-The class count is not the work count. 21 open classes are 27 decisions, because most open classes move as a family.
+The class count is not the work count. 20 open classes are 27 decisions, because most open classes move as a family.
 
 **2 of those 27 are not settled**: 2 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 25 are signed off.
 
-## What is actually left on the 21 open classes
+## What is actually left on the 20 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
 open because its name is a literal in `_DECIDED_PENDING` / `_IN_PROGRESS` in
@@ -54,9 +54,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: migrator lines inspected | 45743 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 30674 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 15069 |
-| build: classes queried | 21 |
-| build: open classes MINTED as a document class | 5 |
-| build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 5 |
+| build: classes queried | 20 |
+| build: open classes MINTED as a document class | 4 |
+| build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 4 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 0 |
 | build: of those, discounted (decision retires the class) | 0 |
 | build: `document_class` writes whose class name is a VARIABLE | 11 |
@@ -73,12 +73,12 @@ an `unconverted_count`, so **state (c) cannot be reached by any class in**
 key measured nothing; its silence is not a zero. Point `--census` at a
 directory of corpus reports, or run the DID-matlab corpus gate.
 
-### Where the 21 open classes sit
+### Where the 20 open classes sit
 
 | state | classes |
 |---|---|
 | (a) decided, nothing built | 2 |
-| (b) built, awaiting corpus proof | 19 |
+| (b) built, awaiting corpus proof | 18 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -236,7 +236,6 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `acquisition_epoch` | epoch | (b) | 6 consuming reference(s) (1 per-document migrator, 5 batch post-pass); minted as a document class at 1 site(s) (1 per-document migrator) | 1 (1+0) | 1 (1+0) | - | 46 (29+17) | n/a -- not measured |
 | `app` | software | (b) | 5 consuming reference(s) (2 per-document migrator, 3 batch post-pass); decided target(s) built: `software` | - | 2 (1+1) | 1 (0+1) | 187 (151+36) | n/a -- not measured |
 | `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `subject_statement`, `sampled_body` | - | - | 1 (1+0) | 15 (15+0) | n/a -- not measured |
-| `control_designation` | stimulus | (b) | minted as a document class at 1 site(s) (1 per-document migrator) | 1 (1+0) | 1 (1+0) | - | 8 (8+0) | n/a -- not measured |
 | `daqmetadatareader` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader.m`; 3 consuming reference(s) (3 per-document migrator); decided target(s) built: `epoch_parameter_reader` | - | - | - | 24 (24+0) | n/a -- not measured |
 | `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; 2 consuming reference(s) (2 batch post-pass); decided target(s) built: `opaque_body` | - | - | 2 (0+2) | 18 (10+8) | n/a -- not measured |
 | `daqreader` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqreader.m`; 5 consuming reference(s) (5 per-document migrator); minted as a document class at 1 site(s) (1 per-document migrator); decided target(s) built: `software` | 1 (1+0) | 2 (2+0) | - | 50 (44+6) | n/a -- not measured |
@@ -260,12 +259,11 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `interaction_purpose` (misc singletons) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/openminds_stimulus.m:49 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:50 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:70 (comment_mention)`
 - `projectvar` (misc singletons) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:360 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:378 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:38 (comment_mention)`
 
-#### (b) built, awaiting corpus proof -- 19
+#### (b) built, awaiting corpus proof -- 18
 
 - `acquisition_epoch` (epoch) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:705 (guard)`; consumed at 5 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:2550 (guard)`, `DID-matlab:convert/epochMint.m:2551 (field_read)`, `DID-matlab:convert/epochMint.m:2552 (field_read)`, `DID-matlab:convert/epochMint.m:2555 (field_read)`, `DID-matlab:convert/epochMint.m:803 (guard)`; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:130 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:132 (field_write)`; mentioned in 29 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:665 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:39 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:168 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:100 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:102 (comment_mention)` ...; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:25 (comment_mention)`, `DID-matlab:convert/epochMint.m:2539 (comment_mention)`, `DID-matlab:convert/epochMint.m:2609 (comment_mention)`, `DID-matlab:convert/epochMint.m:27 (comment_mention)`, `DID-matlab:convert/epochMint.m:40 (comment_mention)`, `DID-matlab:convert/epochMint.m:442 (comment_mention)` ...
 - `app` (software) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:641 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:107 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1094 (named)`; mentioned in 151 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:127 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:375 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:376 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:459 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:464 (comment_mention)` ...; mentioned in 36 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:879 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1065 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1068 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1069 (comment_mention)` ...; target(s) BUILT: `software`
 - `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `subject_statement`, `sampled_body`
-- `control_designation` (stimulus) -- MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/control_stimulus_ids.m:111 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/control_stimulus_ids.m:133 (field_write)`; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:576 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:53 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:60 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:72 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:79 (comment_mention)` ...
 - `daqmetadatareader` (daq configuration) -- migrator `DID-matlab:migrators_j/daqmetadatareader.m`; consumed at 3 site(s), per-document migrator: `DID-matlab:migrators_j/daqmetadatareader.m:100 (guard)`, `DID-matlab:migrators_j/daqmetadatareader.m:101 (field_read)`, `DID-matlab:migrators_j/daqmetadatareader.m:102 (field_read)`; mentioned in 24 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:185 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:218 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:585 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:586 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:13 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:2 (comment_mention)` ...; target(s) BUILT: `epoch_parameter_reader`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1049 (guard)`, `DID-matlab:convert/epochMint.m:1791 (field_read)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1080 (named)`, `DID-matlab:convert/epochMint.m:1790 (named)`; mentioned in 10 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:589 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)` ...; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1189 (comment_mention)`, `DID-matlab:convert/epochMint.m:211 (comment_mention)`, `DID-matlab:convert/epochMint.m:212 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)`, `DID-matlab:convert/epochMint.m:28 (comment_mention)`, `DID-matlab:convert/epochMint.m:287 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `daqreader` (daq configuration) -- migrator `DID-matlab:migrators_j/daqreader.m`; consumed at 5 site(s), per-document migrator: `DID-matlab:migrators_j/daqreader.m:109 (guard)`, `DID-matlab:migrators_j/daqreader.m:110 (field_read)`, `DID-matlab:migrators_j/daqreader.m:111 (field_read)`, `DID-matlab:migrators_j/daqreader_ndr.m:32 (guard)`, `DID-matlab:migrators_j/daqreader_ndr.m:90 (field_read)`; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/daqreader_ndr.m:25 (emitted_class)`; a block of this name is WRITTEN at 2 site(s), per-document migrator: `DID-matlab:migrators_j/daqreader_ndr.m:33 (field_write)`, `DID-matlab:migrators_j/daqreader_ndr.m:36 (field_write)`; mentioned in 44 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:174 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:228 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:592 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:593 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:606 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:609 (comment_mention)` ...; mentioned in 6 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1202 (comment_mention)`, `DID-matlab:convert/epochMint.m:1749 (comment_mention)`, `DID-matlab:convert/epochMint.m:1771 (comment_mention)`, `DID-matlab:convert/epochMint.m:1787 (comment_mention)`, `DID-matlab:convert/epochMint.m:1888 (comment_mention)`, `DID-matlab:convert/epochMint.m:298 (comment_mention)`; target(s) BUILT: `software`
@@ -358,7 +356,7 @@ is why migrator work before the target closes is rework.
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
 | **logical_observation** | 1 | 1 of 1 | SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: the target is ONE time_observation per source document, an N x 2 array of `time` cells keyed [interval, endpoint (start/end)], anchored to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed but is still DORMANT (census only, emits nothing), and its preserved code is the rejected 1->N shape, so re-arming is a rewrite. The documents live on the v1 tombstone. logical_observation retired (#73 item 52); `logical` stays | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | 1 | 1 of 1 | epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build | `V_eta_time_reference_family_plan.md` |
-| **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
+| **stimulus** | 1 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
 | **confirm sheet 2026-08-17** | 5 | 11 of 11 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |

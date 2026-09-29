@@ -3,8 +3,8 @@
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
     "families": 27,
-    "classes_claimed": 60,
-    "open_classes": 21,
+    "classes_claimed": 59,
+    "open_classes": 20,
     "by_state": {
       "signed_awaiting_build": 25,
       "awaiting_signature": 2,
@@ -97,18 +97,13 @@
         {
           "class_name": "stimulus_presentation",
           "disposition": "in_progress"
-        },
-        {
-          "class_name": "control_designation",
-          "disposition": "in_progress"
         }
       ],
       "open_members": [
-        "stimulus_presentation",
-        "control_designation"
+        "stimulus_presentation"
       ],
       "plan": "V_eta_stimulus_model_plan.md",
-      "decision": "timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here",
+      "decision": "timed_sequence data_type + timed_sequence_manipulation leaf",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
@@ -650,7 +645,6 @@
     "valid_interval": "logical_observation",
     "epochclocktimes": "epochclocktimes",
     "stimulus_presentation": "stimulus",
-    "control_designation": "stimulus",
     "ensemble": "ensemble",
     "hartley_calc": "receptive field fold",
     "tuningcurve_calc": "confirm sheet 2026-08-17",
@@ -717,8 +711,8 @@
         "packages_missing": [],
         "files_read": 191,
         "lines_read": 45743,
-        "classes_queried": 21,
-        "classes_emitted_as_document_class": 5,
+        "classes_queried": 20,
+        "classes_emitted_as_document_class": 4,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
           "DID-matlab:convert/resolveEpochProbemap.m:646 (entry.class)",
@@ -764,7 +758,7 @@
           "batch_post_pass": 15069
         },
         "classes_emitted_as_document_class_by_group": {
-          "per_document_migrator": 5,
+          "per_document_migrator": 4,
           "batch_post_pass": 0
         },
         "mint_sites_by_idiom_by_group": {
@@ -881,7 +875,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 21
+        "classes_queried": 20
       },
       "batch_consumers": {
         "files_scanned": 13,
@@ -900,7 +894,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 19,
+      "b_built_awaiting_corpus_proof": 18,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -1187,84 +1181,6 @@
           "subject_statement",
           "sampled_body"
         ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "control_designation",
-        "family": "stimulus",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "minted as a document class at 1 site(s) (1 per-document migrator)"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 1,
-        "emitted_class_refs": [
-          "DID-matlab:migrators_j/control_stimulus_ids.m:111 (emitted_class)"
-        ],
-        "emission_counts_as_build": true,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:migrators_j/control_stimulus_ids.m:133 (field_write)"
-        ],
-        "n_named_refs": 0,
-        "named_refs": [],
-        "n_comment_mentions": 8,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:576 (comment_mention)",
-          "DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/control_stimulus_ids.m:53 (comment_mention)",
-          "DID-matlab:migrators_j/control_stimulus_ids.m:60 (comment_mention)",
-          "DID-matlab:migrators_j/control_stimulus_ids.m:72 (comment_mention)",
-          "DID-matlab:migrators_j/control_stimulus_ids.m:79 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 1,
-            "emitted_class_refs": [
-              "DID-matlab:migrators_j/control_stimulus_ids.m:111 (emitted_class)"
-            ],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:migrators_j/control_stimulus_ids.m:133 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 8,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:576 (comment_mention)",
-              "DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/control_stimulus_ids.m:53 (comment_mention)",
-              "DID-matlab:migrators_j/control_stimulus_ids.m:60 (comment_mention)",
-              "DID-matlab:migrators_j/control_stimulus_ids.m:72 (comment_mention)",
-              "DID-matlab:migrators_j/control_stimulus_ids.m:79 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},

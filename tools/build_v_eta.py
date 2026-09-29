@@ -3462,6 +3462,17 @@ write("draft", "timed_sequence",
                        "Playlist: one entry per trial, each a 0-based index naming a "
                        "`presented_id_#` edge directly (value k -> `presented_id_k`); "
                        "distinct-refs + index-array encoding.", scalar=False),
+              # #73 review item 67 (2026-09-29, jess; not signed; AMENDS the signed
+              # [stimulus] line "control_stimulus_ids -> control_designation"): which
+              # condition is the control is a DESIGN fact and lives with the design.
+              # Control trials are the playlist positions equal to it -- no second copy.
+              subfield("control_item", "integer",
+                       "The control condition (the blank): the 0-based position in the "
+                       "item list of the stimulus that is the control. Control trials "
+                       "are the `presentation_order` entries equal to it. Empty = the "
+                       "sequence has no control. <- v1 `control_stimulus_ids`, reduced to "
+                       "its one control stimulus (NDI's writer allows at most one).",
+                       non_empty=False, blank=[]),
           ])]))
 write("draft", "timed_sequence_manipulation",
       doc("timed_sequence_manipulation", ["subject_manipulation", "timed_sequence"],
@@ -3470,37 +3481,15 @@ write("draft", "timed_sequence_manipulation",
                     "For storage_mode:reference (multi-subject) — the shared timed_sequence "
                     "body this manipulation presents.", non_empty=False)]))
 
-# ---------- control_designation: derived control-stimulus annotation (re-audit) ------
-# Was `control_stimulus_ids` (drops the `ids` container word, T13). A DERIVED annotation
-# (the tuning_response app computes it): references the timed_sequence + carries which
-# presented stimuli are the control reference + the derivation method; marked derived
-# (derived_from). NOT baked into the immutable stimulus body. Additive target; the
-# migrator (control_stimulus_ids → control_designation) is the coupled DID-matlab step.
-write("draft", "control_designation",
-      doc("control_designation", ["base"], maturity="draft",
-          deps=[
-              dep("timed_sequence_id", "timed_sequence",
-                  "The presentation whose stimuli these controls annotate.", non_empty=False),
-              # `derived_from_#`, NOT `derived_from_1`. Found 2026-08-08 in the stimulus
-              # sign-off review: this was the ONLY class in the set declaring a CONCRETE
-              # numbered edge instance where the FAMILY belongs. `subject_calculation`
-              # declares `derived_from_#` (and, until #73, `subject_observation` did too);
-              # a schema declares the
-              # template name and a DOCUMENT names the instances. Hardcoding `_1` also caps
-              # the provenance at one antecedent, which T10 does not.
-              dep("derived_from_#", "subject_interaction",
-                  "Provenance: the analysis/interaction(s) this designation was derived "
-                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False,
-                  multiple=True),
-          ],
-          fields=[
-              field("control_stimulus", "matrix",
-                    "Indices/ids (into the timed_sequence) of the presented stimuli that "
-                    "serve as the control reference.", scalar=False),
-              field("method", "structure",
-                    "How the control designation was derived "
-                    "(method / controlid / controlid_value).", non_empty=False),
-          ]))
+# ---------- control_designation: DELETED, #73 review item 67 (2026-09-29, jess) ------
+# Not signed; AMENDS the signed [stimulus] line (V_eta_stimulus_model_plan.md:224)
+# "`control_stimulus_ids` -> `control_designation`". v1 `control_stimulus_ids` held two
+# facts: WHICH condition is the control (a design fact, chosen from the stimulus's own
+# `isblank` parameter -- every NDI caller uses the defaults) and a per-trial PAIRING
+# (which blank trial goes with each trial, an analysis choice nothing reads since
+# NDI#912 reduced it back to "which stimulus is the blank", tuning_response.m:293-298).
+# The first is now `timed_sequence.value.control_item`; the second is DROPPED
+# (rebuildable from the sequence, the control and the method).
 
 # contrast_sensitivity: the ndi.calc.vis.contrast_sensitivity output
 # (contrast_sensitivity_calc) is a FLAT bag of sensitivity/gain/c50/p-value matrices
@@ -7169,7 +7158,6 @@ _EDGE_COUNTS = {
     ("syncgraph", "syncrule_id_#"): (0, None),
     # provenance: real when present, absent for a directly-measured value
     ("subject_calculation", "derived_from_#"): (0, None),
-    ("control_designation", "derived_from_#"): (0, None),
     # a relation may state times or not
     ("directed_relation", "time_reference_#"): (0, None),
     # a daq system may have several metadata readers or none: the writer LOOPS
@@ -9612,7 +9600,7 @@ _T15 = {
 # no longer exists. Longest first, so `derived_from_#` is not half-matched.
 _T15_TOKENS = {old: new for m in _T15.values() for old, (new, _o) in m.items()
                if old.endswith("_#")}
-_T15_SKIP_DOCS = {"control_designation"}
+_T15_SKIP_DOCS = set()   # was {"control_designation"}, deleted by #73 item 67
 _T15_V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
 
 
@@ -10193,7 +10181,7 @@ for _t in ("utc_reference", "session_bounded_reference",
 # renames or a fold. Re-open the rest for the same naming/governance confirmation rather
 # than trusting a KEEP that has already proven incomplete. Several are NDI-owned (the
 # writers emit these class strings), so any rename lands as a cross-repo lockstep.
-for _i in ("acquisition_epoch", "control_designation", "daqmetadatareader", "daqreader",
+for _i in ("acquisition_epoch", "daqmetadatareader", "daqreader",
            "daqsystem", "epochfiles_ingested", "epochid", "filenavigator",
            "filter", "interaction_purpose", "syncgraph", "syncrule", "syncrule_mapping"):
     _DECIDED_PENDING[_i] = ("⑦ infra tier re-opened: the KEEP predated T11/T13 scrutiny "
@@ -10316,7 +10304,7 @@ def _disposition(name, doc=None):
     if name in _RET_CARRIERS:
         return ("retire", "2.D → data_body fold")
     if name in _RET_RENAMED_SOURCES:
-        return ("retire", "consumed → control_designation (renamed target)")
+        return ("retire", "consumed → timed_sequence.control_item (#73 item 67)")
     if name in _RET_TOOBS:
         return ("retire", "→ observations (needs-NDI / D10-11)")
     if name in _IN_PROGRESS:

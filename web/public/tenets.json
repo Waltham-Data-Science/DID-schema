@@ -9,7 +9,6 @@
   "clock_alignment_policy",
   "contrast_tuning",
   "contrasttuning_calc",
-  "control_designation",
   "control_stimulus_ids",
   "daqreader",
   "daqsystem",
@@ -60,7 +59,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 39,
+  "classes_in_the_built_set": 38,
   "classes_that_are_v1_sources": 25,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -70,7 +69,7 @@
    "validity_observation",
    "zarr"
   ],
-  "distinct_classes_named": 58,
+  "distinct_classes_named": 57,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
   "plan_documents_cited": [
    "schemas/V_eta_daq_family_decisions.md",
@@ -818,16 +817,16 @@
   },
   {
    "after": [
-    "control_designation"
+    "timed_sequence"
    ],
    "after_built": [
-    "control_designation"
+    "timed_sequence"
    ],
    "after_not_built": [],
    "before": [
     "control_stimulus_ids"
    ],
-   "change": "`control_stimulus_ids` drops the `ids` container word and becomes `control_designation` -- a name for the content, not for the box the content came in.",
+   "change": "`control_stimulus_ids` drops the `ids` container word and becomes `control_designation` -- a name for the content, not for the box the content came in. (#73 review item 67 then folded it into `timed_sequence.value.control_item`: which condition is the control is a design fact.)",
    "citation": {
     "anchor": "`control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13)",
     "doc": "schemas/V_eta_tenet_audit.md",
@@ -835,12 +834,12 @@
     "quote": "| `control_stimulus_ids` \u2192 **`control_designation`** | \u2705 **Separate DERIVED annotation doc (option c)**, RENAMED `control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13). References the `timed_sequence` + the control stimulus `data_type` doc(s), carries the `method`, marked `derived_from`/`software_id` (T10). NOT baked into the immutable body. | **Investigated:** the `tuning_response` app *derives* it (`tuning_response.m:653\u2013656`) and **always** sets `stimulus_presentation_id` \u2192 presentation-less docs are a non-issue (schema `optional` is just permissiveness; can tighten to required). Since it's derived, keeping it out of the machine body is correct. Drop the `app` straggler (\u2192 `software_id`). |"
    },
    "class_registers": {
-    "control_designation": [
+    "control_stimulus_ids": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
-    "control_stimulus_ids": [
-     "v1_source",
+    "timed_sequence": [
      "built",
      "named_in_cited_plan"
     ]

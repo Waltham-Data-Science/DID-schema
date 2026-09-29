@@ -7,6 +7,14 @@ re-audit walkthrough. **FINAL; build deferred** — batched. Supersedes the earl
 ndi-next-steps `Stimulus_Manipulation_Proposal.md` (prior art, V_delta/Brainstorm-F frame —
 mined, not adopted wholesale). Subject to further re-audit like every decision.*
 
+**AMENDMENT (#73 review item 67, 2026-09-29, jess; not signed).** The signed line
+"`control_stimulus_ids` -> `control_designation`" (sign-off below) is superseded:
+`control_designation` is deleted. Which condition is the control is a design fact, so it
+lives on the sequence as `timed_sequence.value.control_item` (the 0-based item position of
+the control stimulus); control trials are the playlist positions equal to it. v1's
+per-trial pairing is dropped: nothing reads it since NDI#912 reduced it back to "which
+stimulus is the blank" (`tuning_response.m:293-298`). The signed text is left as signed.
+
 ## The model (final)
 
 A stimulus presentation is an **ordered, timed list of referenced stimulus values shown to a

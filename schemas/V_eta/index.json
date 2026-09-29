@@ -386,18 +386,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "control_designation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/draft/control_designation.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
-        },
-        {
             "class_name": "control_stimulus_ids",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -408,7 +396,7 @@
             ],
             "path": "schemas/V_eta/stable/control_stimulus_ids.json",
             "disposition": "retire",
-            "disposition_note": "consumed \u2192 control_designation (renamed target)"
+            "disposition_note": "consumed \u2192 timed_sequence.control_item (#73 item 67)"
         },
         {
             "class_name": "coordinate_system",

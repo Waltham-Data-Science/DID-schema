@@ -798,7 +798,9 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "acquisition_metadata_file",
                   # #73 review item 65: renamed epoch_parameter_reader; the
                   # migrator emits the old name until DID-matlab moves.
-                  "acquisition_metadata_reader"}
+                  "acquisition_metadata_reader",
+                  # #73 review item 67: deleted; folds into timed_sequence.control_item.
+                  "control_designation"}
 
 
 def guardrail(veta, emitted):

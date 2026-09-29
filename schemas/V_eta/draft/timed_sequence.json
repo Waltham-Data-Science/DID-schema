@@ -47,6 +47,19 @@
                     "ontology": null,
                     "documentation": "Playlist: one entry per trial, each a 0-based index naming a `item_id` edge directly (value k -> `presented_id_k`); distinct-refs + index-array encoding.",
                     "constraints": {}
+                },
+                {
+                    "name": "control_item",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The control condition (the blank): the 0-based position in the item list of the stimulus that is the control. Control trials are the `presentation_order` entries equal to it. Empty = the sequence has no control. <- v1 `control_stimulus_ids`, reduced to its one control stimulus (NDI's writer allows at most one).",
+                    "constraints": {}
                 }
             ]
         }

@@ -469,7 +469,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # FIFTEENTH MOVEMENT, re-derived not bumped: 213 -> 212 on 2026-09-25, #73
     # item 53 deleted the run-environment entity (runtime_environment, briefly
     # execution_environment). Its four char fields carry no min/max.
-    assert walked == 212, f'schema count moved; re-derive the inert set ({walked})'
+    # SIXTEENTH MOVEMENT, re-derived not bumped: 212 -> 211 on 2026-09-29, #73
+    # item 67 deleted control_designation (a matrix + a structure, no min/max).
+    # item 65's rename and the timed_sequence.control_item addition leave the count.
+    assert walked == 211, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

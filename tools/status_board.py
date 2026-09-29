@@ -366,9 +366,12 @@ FAMILIES = [
     # control_stimulus_ids, points at timed_sequence, and the stimulus plan already
     # covers it at line 118 ("control_stimulus_ids -> control_designation --
     # RESOLVED"). It was never a "misc singleton".
-    ("stimulus", ["stimulus_presentation", "control_designation"],
+    # #73 item 67 (2026-09-29): control_designation DELETED; its v1 source folds into
+    # timed_sequence.value.control_item. control_stimulus_ids is NOT added here: that
+    # amendment is unsigned, and naming it in this SIGNED family would report it signed.
+    ("stimulus", ["stimulus_presentation"],
      "V_eta_stimulus_model_plan.md",
-     "timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here",
+     "timed_sequence data_type + timed_sequence_manipulation leaf",
      "team"),
 
     ("ensemble", ["ensemble"],

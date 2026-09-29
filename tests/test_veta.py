@@ -3624,7 +3624,7 @@ def test_repeated_edges_are_numbered_families():
     `multiple`) still holds. `control_designation` is exempt while its shape is
     under review (it keeps `derived_from_#`)."""
     V1_FAMILIES = {"neuron_id_#", "daqmetadatareader_id_#", "syncrule_id_#"}
-    PARKED = {("control_designation", "derived_from_#")}
+    PARKED = set()   # control_designation deleted by #73 item 67
     bad, veta_multi = [], 0
     for name, (_, schema) in RECORDS.items():
         for d in schema.get("depends_on", []):

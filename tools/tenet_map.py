@@ -285,9 +285,11 @@ TENET_MAP = [
     Row("T13",
         "`control_stimulus_ids` drops the `ids` container word and becomes "
         "`control_designation` -- a name for the content, not for the box the "
-        "content came in.",
+        "content came in. (#73 review item 67 then folded it into "
+        "`timed_sequence.value.control_item`: which condition is the control is a "
+        "design fact.)",
         ["control_stimulus_ids"],
-        ["control_designation"],
+        ["timed_sequence"],
         "V_eta_tenet_audit.md",
         "`control_stimulus_ids` → **`control_designation`** (drops the `ids` container word, T13)",
         "The same rule kills `parameters`, `data`, `info`, `table`, `record` "
