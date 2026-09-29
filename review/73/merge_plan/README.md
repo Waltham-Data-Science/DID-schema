@@ -1,13 +1,11 @@
 # Landing PR #76 without turning the siblings red (option B)
 
-Drafted 2026-09-29. **Step 1 is DONE, as a BRANCH, not a tag** (jess's call, 2026-09-29):
-the session could not push a tag, so `v_eta-pre73` was created as a branch at `0043cbb`
-through the GitHub API. `ref: v_eta-pre73` resolves the same way. Unlike a tag, a branch
-moves if anyone pushes to it, so NOTHING may be pushed to `v_eta-pre73`; protect it in the
-repository settings, or replace it with a tag of the same commit when someone with push
-rights can (`git tag -a v_eta-pre73 0043cbb`, after deleting the branch -- a tag and a branch
-of one name make `ref:` ambiguous). Step 2's patches are not applied yet; each needs a
-person with push rights on that repository.
+Drafted 2026-09-29. **Step 1 is being REDONE as a tag** (jess, 2026-09-29): a branch
+`v_eta-pre73` was created at `0043cbb` through the GitHub API when the session could not push a
+tag, and jess then chose the tag instead. This session could not delete the branch either
+(same push restriction), so jess deletes it and pushes the tag -- in that order, because a
+branch and a tag of one name make `ref:` ambiguous. Step 2's patches are not applied yet;
+each needs a person with push rights on that repository.
 
 ## Why a merge breaks CI today
 
@@ -36,8 +34,8 @@ V_eta branch (PR #836), not on NDI `main`.
 
 ## Steps
 
-1. **Freeze the pre-#73 schema.** DONE 2026-09-29: branch `v_eta-pre73` at `0043cbb`
-   (= `origin/main` then). Do not push to it.
+1. **Freeze the pre-#73 schema.** Delete the interim branch `v_eta-pre73`, then tag
+   `0043cbb` (= `origin/main` on 2026-09-29) as `v_eta-pre73` and push the tag.
 2. **Pin the siblings to the tag.** Apply the patches from each repo root with
    `patch -p1 < <file>`:
    - `DID-matlab-pin.patch` on DID-matlab `V2` (and any open branch that should stay
