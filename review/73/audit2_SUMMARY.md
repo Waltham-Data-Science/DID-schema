@@ -26,7 +26,7 @@ evidence, cited in their reports):
 | D7 ✅ decided, build batched | Provenance and governance: `vmspikefit` → `score_observation` although its input is in the dataset; two more observation emitters that look computed; the calculation leaves rest on the unsigned provenance rule, which contradicts a signed line the record says "stands"; `jrclust_clusters` signed → `count_observation`, unsigned → `label_calculation`; 26 persist classes with no decision record | C1, C2, C18, C19 |
 | D8 ✅ decided, build batched | Spatial tombstones are not the v1 shape (chain includes `subject_observation`; snake_case required edges) — restate from the v1 templates, as `hartley_calc` was | C14 |
 | D9 ✅ decided, build batched | Entity details: `local_identifier` carries another id's term; where a URL / award number lives; `acquisition_system.name` optional though it is the key; vendor/catalog two ways; notes only on manipulations | A1, A3, A4, A5, A20 |
-| D10 | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
+| D10 ✅ decided, build batched | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
 | D11 | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
 | D12 | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
 | D13 | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
@@ -115,6 +115,27 @@ evidence, cited in their reports):
   (d) `strain` gains optional `product_id` -> `product`; `stock_number` dropped (vendor ->
   `organization`, code -> `catalog_number`); the openMINDS strain migrator follows.
   (e) `notes` moves from `subject_manipulation` up to `subject_interaction`, optional.
+- **D10** (jess, 2026-09-29), revised in discussion:
+  (a) the build generates ONE default per cell type (canonical slot included) and reuses it
+  wherever the type is nested; `boolean` defaults `false`, `integer` `0`, string arrays `[]`
+  (B2, B3, A32).
+  (b)+(c) `count.value` becomes `{count, approximate}`: slot `value` -> `count`, and
+  `count.value.unit` is DROPPED -- what is counted is the statement's `variable` (and
+  `subject_id`); no migrator writes the field (`jSorterOutput.m:87-91` names it in
+  `variable`, leaves the count block empty). `score.value.value` -> `score.value.score`.
+  (d) T14 gains the value-cell rule: "Every value cell is `{<canonical slot>, source_value,
+  source_unit, approximate}`, all but the canonical slot optional. A cell drops
+  `source_value`/`source_unit` only when no conversion to the canonical slot exists (a
+  count). A cell whose value can be stated at a coarser granularity than it is stored adds
+  a declared `precision` (a date)." `intensity` and `ph` keep the full pattern; their docs
+  are rewritten (intensity comparable only within one `variable`; ph the log-scale number,
+  `source_unit` kept for provenance; the garbled intensity class doc fixed). No
+  `uncertainty` field: no source states one per value (the one stated tolerance is
+  `time_reference.clock_tolerance`); add it by amendment when a source carries it.
+  (e) `pressure.value.mmhg` -> `pascals`; migrators convert, `source_unit` keeps "mmHg".
+  (f) `date.value` = `{instant, precision, source_value, approximate}`: `source` ->
+  `source_value`, and `approximate` added (precision = granularity, approximate =
+  certainty; independent).
 
 ## Mechanical fixes (no decision needed; one batch)
 
