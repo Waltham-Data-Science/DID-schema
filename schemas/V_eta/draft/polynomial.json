@@ -18,11 +18,11 @@
             "blank_value": {},
             "default_value": {},
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A polynomial, as its coefficients.",
+            "documentation": "A polynomial, as its coefficients. One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
             "constraints": {},
             "fields": [
                 {

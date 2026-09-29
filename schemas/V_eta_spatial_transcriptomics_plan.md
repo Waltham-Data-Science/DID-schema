@@ -519,6 +519,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     its own, so it would add a document and a hop to ~5,300 alignments), nor dropping
     `relation.value_id` (the gene mapping uses it).
 
+71. **Single-value types hold lists** (2026-09-29, audit 2 D1). `term`, `label`, `date`,
+    `position` and `polynomial` declared `value` `mustBeScalar: true`, and DID-matlab raises
+    `did2:validation:notScalar` on a list (`cache.m:1965`), yet item 21 stores a gene list
+    in a standalone `term`, item 28 one label per cell, and `position`'s own documentation
+    keys many positions. All five are now list-capable like the quantities; `keys` says
+    what each entry is. `datum_type` gains **`utf8`**, so a large list of terms or labels
+    can also live in a body (closing the data_body plan's open item 6 for text only;
+    `char` stays unmapped). A standalone `term` has no `variable`, so its required binding
+    is checked **in batch through the key that references it** (`labels_from` /
+    `key_labels_id`), whose own `variable` names what the list is; on a statement it stays
+    keyed by the statement's `variable`.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

@@ -160,6 +160,11 @@ DATUM_TYPES = [
     "uint8", "uint16", "uint32", "uint64", "int8", "int16", "int32",
      "int64", "float16", "float32", "float64", "complex64",
      "complex128", "bool",
+    # #73 review D1 (2026-09-29, jess; not signed): a TEXT datum, so a keyed list of
+    # terms or labels (item 21's gene list, item 28's one-label-per-cell) can live in
+    # a body. UTF-8 strings, one per position. This settles the plan's open item 6
+    # for text only; `char` stays unmapped.
+    "utf8",
 ]
 
 
@@ -946,13 +951,16 @@ TERM_VALUE = field(
 # ontology-aware validator T8 describes exists -- but it declares the right rule.
 TERM_VALUE = field(
     "value", "ontology_term",
-    "The bound term this statement is about — asserted (species, sex, strain, instrument "
-    "type), observed (developmental stage, health status, behaviour, anatomical site), or "
-    "imposed (a procedure, a regime, a transferred material). The admissible vocabulary is "
-    "a variable-keyed binding (D9), REQUIRED for every direction: a term must resolve "
-    "against the registry whether it is observed, imposed or asserted. An unrepresentable "
-    "concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
-    non_empty=True, scalar=True,
+    "The bound term, or a keyed list of them (`keys` says what each entry is) -- "
+    "asserted (species, sex, strain, instrument type), observed (developmental stage, "
+    "health status, behaviour, anatomical site), or imposed (a procedure, a regime, a "
+    "transferred material). The admissible vocabulary is a variable-keyed binding (D9), "
+    "REQUIRED for every direction. On a statement the key is its `variable`; a STANDALONE "
+    "`term` document (e.g. a gene list) has no `variable`, so its binding is checked in "
+    "batch through the key that references it (`labels_from` / `key_labels_id`), whose "
+    "own `variable` names what the list is (#73 review D1). An unrepresentable concept is "
+    "a reason to extend the vocabulary, not to weaken the binding (T8).",
+    non_empty=True, scalar=False,
     constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
                              "node_kind": "class", "strength": "required",
                              "source": "ontology"}})
@@ -9824,6 +9832,26 @@ _d15["depends_on"] = list(_d15.get("depends_on") or []) + [_kl15]
 write(path_of("data")[0], "data", _d15)
 write(path_of("data_type")[0], "data_type", _dt15)
 write(path_of("data_body")[0], "data_body", _db15)
+
+
+# ---------- #73 review D1 (2026-09-29, jess; not signed): single-value types hold lists
+# `label`, `date`, `position` and `polynomial` declared `value` single-valued
+# (mustBeScalar), and DID-matlab raises did2:validation:notScalar on a list -- yet item
+# 28 stores one label per cell and `position`'s own doc keys many positions. They become
+# list-capable like the quantities (`keys` says what each entry is); a large list of
+# labels can also live in a body now that `datum_type` has `utf8`. (`term` is handled at
+# TERM_VALUE.)
+for _n in ("label", "date", "position", "polynomial"):
+    _t1, _p1 = path_of(_n)
+    _d1 = load(_p1)
+    _v1 = [f for f in _d1["fields"] if f["name"] == "value"]
+    if len(_v1) != 1:
+        raise SystemExit(f"D1: {_n} does not declare exactly one `value`")
+    _v1[0]["mustBeScalar"] = False
+    _v1[0]["documentation"] = (_v1[0].get("documentation", "").rstrip() +
+                               " One entry, or a keyed list of them: `keys` says what "
+                               "each entry is (#73 review D1).")
+    write(_t1, _n, _d1)
 
 
 # ---------- 9. regenerate index.json ----------

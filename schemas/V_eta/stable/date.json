@@ -18,11 +18,11 @@
             "blank_value": {},
             "default_value": {},
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A date value cell (a real date, not a duration).",
+            "documentation": "A date value cell (a real date, not a duration). One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
             "constraints": {},
             "fields": [
                 {

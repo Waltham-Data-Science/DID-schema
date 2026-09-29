@@ -17,7 +17,7 @@ evidence, cited in their reports):
 
 | # | topic | findings |
 |---|---|---|
-| D1 | Lists in single-value types: `term`, `label`, `date`, `position`, `polynomial` are scalar-only, yet items 21/28 store a gene list and one label per cell in them; `term`'s binding needs a `variable` a standalone `term` does not have | B10, B11 |
+| D1 ✅ item 71 | Lists in single-value types: `term`, `label`, `date`, `position`, `polynomial` are scalar-only, yet items 21/28 store a gene list and one label per cell in them; `term`'s binding needs a `variable` a standalone `term` does not have | B10, B11 |
 | D2 | One fit shape: `contrast_sensitivity` coefficients are an unnamed matrix, tuning's are a structure with no fields, `model_fit` (item 68) is a named list — three shapes, two vocabularies | B19, B20, B21, C3 |
 | D3 | Tuning/contrast state their dimensions twice (`data.keys` and `independent_variables[]`); statistic columns in parallel; only tuning names its response unit; F0/F1 encoded four ways | B14, B15, B17, B18 |
 | D4 | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |

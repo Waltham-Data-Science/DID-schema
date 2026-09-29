@@ -39,7 +39,8 @@
                     "float64",
                     "complex64",
                     "complex128",
-                    "bool"
+                    "bool",
+                    "utf8"
                 ]
             }
         },

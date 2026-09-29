@@ -18,11 +18,11 @@
             "blank_value": {},
             "default_value": {},
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A value meaningful only LOCALLY -- a source identifier, a cluster number, a condition name. A TERM has a namespace and an id; a label has neither, only a name. Boundary test: shared or compared across datasets -> a term (mint one if none exists); confined to one source or run -> a label (item 33).",
+            "documentation": "A value meaningful only LOCALLY -- a source identifier, a cluster number, a condition name. A TERM has a namespace and an id; a label has neither, only a name. Boundary test: shared or compared across datasets -> a term (mint one if none exists); confined to one source or run -> a label (item 33). One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
             "constraints": {},
             "fields": [
                 {
