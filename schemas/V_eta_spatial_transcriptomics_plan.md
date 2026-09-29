@@ -426,6 +426,19 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     become one entry each. Amendment 1's file criterion therefore lands as an entry, not
     a typed field; its channel cardinality {0, 2} is unchanged.
 
+64. **Admissible-set members are `{node, name}` terms, one shape** (2026-09-29, audit
+    item 14). `binding.values` was written three ways: bare names
+    (`frequency_filter.algorithm`/`.band`), CURIE strings
+    (`relative_time_reference.value.relation`) and `{node, name}` objects (both
+    `clock` fields). DID-matlab's `bindingMembers` (`cache.m:1605-1630`) reads a bare
+    string as a NAME, so the CURIE list could never match what NDI writes
+    (`{node: 'time:intervalDuring', name: 'intervalDuring'}`, `epochAnchorFold.m:449`):
+    every relation would be refused once BindingConformance is armed. Now every
+    member is a term, the same shape as the bound value. Matching rule: a member with a
+    `node` matches by node; a member whose node is still empty (staged until NDIC ids
+    exist) matches by `name`. The meta-schema's `values.items` requires `{node, name}`,
+    and `check_binding_governance` B4 is held at 0.
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

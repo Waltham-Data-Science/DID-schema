@@ -196,6 +196,10 @@ binding registry maps `variable` (and `method`+`variable`) → a value_set or a 
 ontology-aware validator resolves term values against NCBITaxon/OBI/CL/CHEBI/UBERON/RO.
 `must_refer` is **existence-only** (referential, not type-checked): the graph is loosely
 typed and the *ontology* carries the semantics. (SPEC §7, D9)
+An enumerated set's members are `{node, name}` terms, the same shape as the value they
+check, never bare strings. A member with a `node` matches a value by node; a member
+whose node is still empty (staged, no ontology id yet) matches by `name`. (#73 review
+item 64, 2026-09-29.)
 
 ### T9 — Datasets and provenance are first-class, FAIR entities.
 `dataset`, `person`, `organization`, `funding`, `publication`, `web_resource`, `session`,

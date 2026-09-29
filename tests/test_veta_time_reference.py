@@ -335,7 +335,7 @@ def test_relation_still_binds_all_thirteen_allen_relations():
                   "time:intervalStarts", "time:intervalFinishes",
                   "time:intervalDuring", "time:intervalEquals",
                   "time:intervalOverlaps"):
-        assert curie in binding["values"], curie
+        assert {"node": curie, "name": curie.split(":")[1]} in binding["values"], curie
 
 
 def test_the_time_curie_prefix_resolves():

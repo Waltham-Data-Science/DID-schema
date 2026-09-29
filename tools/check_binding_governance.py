@@ -161,7 +161,9 @@ BASELINE_VALUE_SET_DISAGREEMENTS = 1
 # `{node, name}` NodeRefs. build_v_eta.py states the rule in its own comment
 # -- "values are NodeRefs, not bare strings, because the field is now
 # ontology_term" -- and three declarations do not follow it.
-BASELINE_VALUE_SHAPE_MISMATCHES = 3
+BASELINE_VALUE_SHAPE_MISMATCHES = 0
+# 3 -> 0, #73 review item 64 (2026-09-29): every `values` list is now NodeRefs,
+# and the meta-schema's `values.items` requires {node, name}. MUST STAY 0.
 
 # B5: strength disagreements between field and registry. MUST STAY 0 -- the
 # team's 2026-08-10 call makes the field authoritative and the registry

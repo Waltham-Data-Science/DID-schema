@@ -355,7 +355,24 @@
                                     "type": "string"
                                 },
                                 "values": {
-                                    "type": "array"
+                                    "type": "array",
+                                    "description": "Admissible set, as {node, name} NodeRefs. A member with a node matches a value by node; a member with an empty node matches by name.",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "node",
+                                            "name"
+                                        ],
+                                        "properties": {
+                                            "node": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
                                 },
                                 "vocabulary": {
                                     "type": "string"

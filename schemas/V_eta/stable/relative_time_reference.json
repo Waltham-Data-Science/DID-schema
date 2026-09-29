@@ -54,19 +54,58 @@
                             "root": "owl_time_interval",
                             "expansion": "value_set",
                             "values": [
-                                "time:intervalBefore",
-                                "time:intervalAfter",
-                                "time:intervalMeets",
-                                "time:intervalMetBy",
-                                "time:intervalOverlaps",
-                                "time:intervalOverlappedBy",
-                                "time:intervalStarts",
-                                "time:intervalStartedBy",
-                                "time:intervalDuring",
-                                "time:intervalContains",
-                                "time:intervalFinishes",
-                                "time:intervalFinishedBy",
-                                "time:intervalEquals"
+                                {
+                                    "node": "time:intervalBefore",
+                                    "name": "intervalBefore"
+                                },
+                                {
+                                    "node": "time:intervalAfter",
+                                    "name": "intervalAfter"
+                                },
+                                {
+                                    "node": "time:intervalMeets",
+                                    "name": "intervalMeets"
+                                },
+                                {
+                                    "node": "time:intervalMetBy",
+                                    "name": "intervalMetBy"
+                                },
+                                {
+                                    "node": "time:intervalOverlaps",
+                                    "name": "intervalOverlaps"
+                                },
+                                {
+                                    "node": "time:intervalOverlappedBy",
+                                    "name": "intervalOverlappedBy"
+                                },
+                                {
+                                    "node": "time:intervalStarts",
+                                    "name": "intervalStarts"
+                                },
+                                {
+                                    "node": "time:intervalStartedBy",
+                                    "name": "intervalStartedBy"
+                                },
+                                {
+                                    "node": "time:intervalDuring",
+                                    "name": "intervalDuring"
+                                },
+                                {
+                                    "node": "time:intervalContains",
+                                    "name": "intervalContains"
+                                },
+                                {
+                                    "node": "time:intervalFinishes",
+                                    "name": "intervalFinishes"
+                                },
+                                {
+                                    "node": "time:intervalFinishedBy",
+                                    "name": "intervalFinishedBy"
+                                },
+                                {
+                                    "node": "time:intervalEquals",
+                                    "name": "intervalEquals"
+                                }
                             ],
                             "strength": "required",
                             "source": "value_set"

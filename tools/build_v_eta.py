@@ -2433,15 +2433,18 @@ _CLOCK_BINDING = {
 # The old `relation` was a bare char enum covering 6 of Allen's 13 interval relations,
 # with `concurrent_with` ambiguous between equals and overlaps. It becomes an
 # ontology_term bound to OWL-Time, all thirteen.
+# #73 review item 64 (2026-09-29, jess; not signed): every admissible-set member is a
+# `{node, name}` NodeRef, the shape of the value it checks. These were bare CURIE
+# strings, which DID-matlab's bindingMembers reads as NAMES -- so NDI's own
+# `{node:'time:intervalDuring', name:'intervalDuring'}` (epochAnchorFold.m:449) would
+# have failed the set the moment BindingConformance was armed.
+_OWL_TIME_RELATIONS = ["Before", "After", "Meets", "MetBy", "Overlaps", "OverlappedBy",
+                       "Starts", "StartedBy", "During", "Contains", "Finishes",
+                       "FinishedBy", "Equals"]
 _OWL_TIME_BINDING = {
     "binding": {"root": "owl_time_interval", "expansion": "value_set",
-                "values": ["time:intervalBefore", "time:intervalAfter",
-                           "time:intervalMeets", "time:intervalMetBy",
-                           "time:intervalOverlaps", "time:intervalOverlappedBy",
-                           "time:intervalStarts", "time:intervalStartedBy",
-                           "time:intervalDuring", "time:intervalContains",
-                           "time:intervalFinishes", "time:intervalFinishedBy",
-                           "time:intervalEquals"],
+                "values": [{"node": "time:interval" + r, "name": "interval" + r}
+                           for r in _OWL_TIME_RELATIONS],
                 "strength": "required", "source": "value_set"}}
 
 # ---------- #65 INCREMENT 2: the SIGNED walkthrough shape ----------------------
@@ -6767,9 +6770,11 @@ write("stable", "frequency_filter", doc("frequency_filter", ["base"], fields=[
           "apply.", non_empty=True,
           constraints={"binding": {"root": "did_filter_algorithm",
                                    "expansion": "value_set",
-                                   "values": ["chebyshev_1", "chebyshev_2",
-                                              "butterworth", "elliptic", "bessel",
-                                              "fir"],
+                                   # item 64: NodeRefs; nodes staged empty (no
+                                   # NDIC ids in scope), so they match on name.
+                                   "values": [{"node": "", "name": n} for n in (
+                                       "chebyshev_1", "chebyshev_2", "butterworth",
+                                       "elliptic", "bessel", "fir")],
                                    "strength": "required", "source": "value_set"}}),
     field("band", "ontology_term",
           "Which frequencies survive: high_pass | low_pass | band_pass | band_stop. "
@@ -6777,8 +6782,9 @@ write("stable", "frequency_filter", doc("frequency_filter", ["base"], fields=[
           "others would keep.", non_empty=True,
           constraints={"binding": {"root": "did_filter_band",
                                    "expansion": "value_set",
-                                   "values": ["high_pass", "low_pass", "band_pass",
-                                              "band_stop"],
+                                   "values": [{"node": "", "name": n} for n in (
+                                       "high_pass", "low_pass", "band_pass",
+                                       "band_stop")],
                                    "strength": "required", "source": "value_set"}}),
     field("passband", "structure",
           "The interval that is kept. An absent edge means open: a high_pass has a "
@@ -7002,7 +7008,21 @@ constraints_schema["properties"] = {
                          "enum": ["required", "preferred", "suggested"]},
             "ontology": {"type": "string"},
             "root_node": {"type": "string"},
-            "values": {"type": "array"},
+            # #73 review item 64 (2026-09-29, jess; not signed): ONE member
+            # shape, the `{node, name}` NodeRef the bound value itself has.
+            # MATCHING RULE: a member with a non-empty `node` matches on node;
+            # a member whose node is still empty (staged, no ontology id yet)
+            # matches on `name`. Bare strings are not allowed.
+            "values": {"type": "array",
+                       "description": "Admissible set, as {node, name} NodeRefs. "
+                                      "A member with a node matches a value by "
+                                      "node; a member with an empty node matches "
+                                      "by name.",
+                       "items": {"type": "object",
+                                 "required": ["node", "name"],
+                                 "properties": {"node": {"type": "string"},
+                                                "name": {"type": "string"}},
+                                 "additionalProperties": False}},
             # Controlled-vocabulary (openMINDS) binding: a directly-named term set
             # rather than an ontology subtree or a variable-keyed lookup. See
             # entity_field_bindings in binding_registry_meta.json.

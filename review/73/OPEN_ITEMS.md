@@ -85,6 +85,9 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     inline `method_parameters[]` list (`errorOnFailure` now fits).
 13. **`session_id`** edge and `base.session_id` hold different ids on one document.
 14. **Binding value sets** are spelled three ways (bare names, CURIE strings, `{node,name}`).
+    **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 64 --
+    option A: every member is a `{node, name}` term; match by node when it has one,
+    else by name.
 15. **Container words** (`metadata`, `data`) in signed infra class names.
 16. **`tuning_curve`:** `response_units` is free text; `independent_variables[]` has no
     source fields or labels; mean/stddev/stderr vs item 15's "another column is a key".
