@@ -10,7 +10,7 @@
                 "class_name": "model_fit"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],

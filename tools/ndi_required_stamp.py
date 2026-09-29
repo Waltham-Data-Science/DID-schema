@@ -445,7 +445,10 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
             anc_names |= {e["name"]
                           for e in by_class.get(a, {}).get("depends_on", [])}
         for raw_name, req in sorted(verdicts.items()):
-            name = ndi_snake(raw_name)
+            # A did_v1 TOMBSTONE keeps the v1 edge spelling verbatim (depends_on is
+            # never renamed on the way through; #73 audit 2 D8), so the exact name
+            # is tried before the snake_cased one.
+            name = raw_name if raw_name in own else ndi_snake(raw_name)
             if name not in own:
                 if name in anc_names:
                     # NOT STAMPED, ON PURPOSE. The NDI fact belongs to ONE

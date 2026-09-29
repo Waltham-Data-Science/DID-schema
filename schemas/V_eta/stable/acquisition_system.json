@@ -45,7 +45,7 @@
             "type": "char",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": false,
+            "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,

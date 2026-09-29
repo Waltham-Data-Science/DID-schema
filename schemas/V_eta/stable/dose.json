@@ -36,7 +36,12 @@
                     "name": "mass",
                     "type": "mass",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "grams": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -87,8 +92,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -103,7 +108,12 @@
                     "name": "volume",
                     "type": "volume",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "liters": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -154,8 +164,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -170,7 +180,12 @@
                     "name": "substance_amount",
                     "type": "substance_amount",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "moles": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -221,8 +236,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -237,7 +252,10 @@
                     "name": "count",
                     "type": "count",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "count": 0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -247,7 +265,7 @@
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "value",
+                            "name": "count",
                             "type": "integer",
                             "blank_value": 0,
                             "default_value": 0,
@@ -256,61 +274,14 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The discrete count.",
+                            "documentation": "The discrete count. What is counted is the statement's `variable`.",
                             "constraints": {}
-                        },
-                        {
-                            "name": "unit",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "What is counted (cells / individuals / spikes / events) -- semantic, NOT dimensional: counts do not normalise across units.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
                         },
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -402,8 +373,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,

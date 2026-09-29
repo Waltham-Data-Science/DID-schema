@@ -70,3 +70,4 @@ row,group,slot (where the term is used),proposed name,proposed definition,decisi
 69,channel labels,keys[].labels (channel),green,The green colour channel of an RGB image.,16,mint,,,
 70,channel labels,keys[].labels (channel),blue,The blue colour channel of an RGB image.,16,mint,,,
 71,channel labels,keys[].labels (statistic),minimum / maximum,Bin minimum / bin maximum.,15,STATO,,,2 terms
+72,entities,subject.local_identifier / session.local_identifier / epoch.local_identifier,local identifier,"An identifier assigned within one dataset or lab, unique only there; not centrally registered.",audit 2 D9,IAO; NCIT; mint,,,"replaces the copied base.id (iao:0000578) / base.session_id (ncit:C169028) annotations, now null"

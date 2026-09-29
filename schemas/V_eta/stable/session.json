@@ -21,10 +21,7 @@
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": {
-                "node": "ncit:C169028",
-                "name": "Study Unique Identifier"
-            },
+            "ontology": null,
             "documentation": "Human-facing handle for this session, unique within its dataset. Renamed from `reference` 2026-08-13 to match `subject` and `epoch`.",
             "constraints": {
                 "maxLength": 256

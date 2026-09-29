@@ -29,7 +29,12 @@
                     "name": "angle",
                     "type": "angle",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "degrees": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -80,8 +85,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -96,7 +101,12 @@
                     "name": "spatial_frequency",
                     "type": "spatial_frequency",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "cycles_per_degree": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -147,8 +157,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -163,7 +173,12 @@
                     "name": "temporal_frequency",
                     "type": "frequency",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -214,8 +229,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -230,7 +245,18 @@
                     "name": "contrast",
                     "type": "score",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "score": 0.0,
+                        "scale": {
+                            "node": "",
+                            "name": ""
+                        },
+                        "scale_min": 0.0,
+                        "scale_max": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -240,7 +266,7 @@
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "value",
+                            "name": "score",
                             "type": "double",
                             "blank_value": 0.0,
                             "default_value": 0.0,
@@ -249,7 +275,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The score (double, so half-integer steps are legal).",
+                            "documentation": "The contrast, on `scale` (e.g. Michelson, 0 to 1).",
                             "constraints": {}
                         },
                         {
@@ -268,7 +294,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The scoring rubric (e.g. Murine Body Condition Score).",
+                            "documentation": "The contrast definition (e.g. Michelson contrast).",
                             "constraints": {},
                             "fields": [
                                 {
@@ -354,8 +380,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -370,7 +396,12 @@
                     "name": "size",
                     "type": "angle",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "degrees": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -421,8 +452,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -434,7 +465,7 @@
                     ]
                 },
                 {
-                    "name": "position",
+                    "name": "center",
                     "type": "structure",
                     "blank_value": {},
                     "default_value": {},
@@ -443,14 +474,19 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Screen position of the stimulus centre, in visual angle.",
+                    "documentation": "Screen position of the stimulus centre, in visual angle (renamed from `position`, which named the `position` type; #73 audit 2 D11).",
                     "constraints": {},
                     "fields": [
                         {
                             "name": "x",
                             "type": "angle",
                             "blank_value": {},
-                            "default_value": {},
+                            "default_value": {
+                                "degrees": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -501,8 +537,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -517,7 +553,12 @@
                             "name": "y",
                             "type": "angle",
                             "blank_value": {},
-                            "default_value": {},
+                            "default_value": {
+                                "degrees": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -568,8 +609,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -586,7 +627,12 @@
                     "name": "duration",
                     "type": "time",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "seconds": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -637,8 +683,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -652,21 +698,26 @@
                 {
                     "name": "blank",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True for a control/blank (no-stimulus) trial (NDI 'isblank').",
+                    "documentation": "True when this stimulus presents nothing (NDI `isblank`). Whether it serves as a sequence's control is `timed_sequence.value.control_item` (#73 audit 2 D11).",
                     "constraints": {}
                 },
                 {
                     "name": "phase",
                     "type": "angle",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "degrees": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -717,8 +768,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,

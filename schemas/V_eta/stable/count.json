@@ -18,11 +18,7 @@
             "blank_value": [],
             "default_value": [
                 {
-                    "value": 0,
-                    "unit": {
-                        "node": "",
-                        "name": ""
-                    },
+                    "count": 0,
                     "approximate": false
                 }
             ],
@@ -31,11 +27,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed count value (shape-library mixin); value.unit names what is counted. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
+            "documentation": "A typed count value; what is counted is the statement's `variable`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
             "constraints": {},
             "fields": [
                 {
-                    "name": "value",
+                    "name": "count",
                     "type": "integer",
                     "blank_value": 0,
                     "default_value": 0,
@@ -44,61 +40,14 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The discrete count.",
+                    "documentation": "The discrete count. What is counted is the statement's `variable`.",
                     "constraints": {}
-                },
-                {
-                    "name": "unit",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "What is counted (cells / individuals / spikes / events) -- semantic, NOT dimensional: counts do not normalise across units.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
                 },
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

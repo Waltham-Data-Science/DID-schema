@@ -67,8 +67,18 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`, or absent. A document marked true with no body pointing at it has lost its data -- the batch check (item 58).",
+            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`, or absent. A document marked true with no body pointing at it has lost its data -- the batch check (item 60).",
             "constraints": {}
+        }
+    ],
+    "rules": [
+        {
+            "name": "datum_type_when_bytes",
+            "fields": [
+                "datum_type",
+                "data_body"
+            ],
+            "statement": "`datum_type` is present whenever the value has bytes: an inline numeric or text array, or `data_body` true."
         }
     ]
 }

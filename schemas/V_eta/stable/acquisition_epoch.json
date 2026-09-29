@@ -94,7 +94,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional intrinsic channel descriptors (count, native unit, storage relationship). Channel meaning lives in a dataseries_channel_map sidecar.",
+            "documentation": "Optional intrinsic channel descriptors (count, native unit, storage relationship).",
             "constraints": {},
             "fields": [
                 {
@@ -296,7 +296,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which axis is X' well defined.",
+                    "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which key is X' well defined.",
                     "constraints": {},
                     "fields": [
                         {
@@ -343,7 +343,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical axis, which uses `labels`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, pascals. Absent for a categorical key, which uses `labels`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -397,7 +397,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Applies to the whole axis.",
+                    "documentation": "Applies to the whole key.",
                     "constraints": {}
                 },
                 {
@@ -410,7 +410,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Number of coordinates along this axis; equals the extent of the value it indexes.",
+                    "documentation": "Number of positions along this key; equals the extent of the value it indexes.",
                     "constraints": {}
                 },
                 {
@@ -436,7 +436,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Where the axis starts. REQUIRED iff `regular`.",
+                    "documentation": "Where the key starts. REQUIRED iff `regular`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -606,7 +606,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the 0-based POSITION of a `key_labels_id` entry on this document (T15: that edge repeats one name and is `ordered`, so entry k is the k-th `key_labels_id`). -1 (the blank) = not used. XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
+                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's drifted private copy of the key entry, and the class declares no `key_labels_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13).",
                     "constraints": {}
                 },
                 {
@@ -632,7 +632,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Positions per chunk along this key when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`; a missing member is an empty chunk. Absent = this key is not split.",
+                    "documentation": "Positions per chunk along this key when the bytes are split across several files (a tiled image). Chunk k is file-series member k; every member is present.",
                     "constraints": {}
                 }
             ]

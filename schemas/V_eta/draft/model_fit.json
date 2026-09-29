@@ -7,7 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
@@ -313,7 +313,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The fitted coefficients, one entry each, named. <- v1 `fit_parameters` zipped with `fit_parameter_names`.",
+                    "documentation": "The fitted coefficients, one entry each, NAMED: `variable` is a term, or a label naming the coefficient (its symbol in the model's equation). (#73 audit 2 D2: one fit entry for every fit.) <- v1 `fit_parameters` zipped with `fit_parameter_names`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -332,7 +332,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Which coefficient: a term, or a label naming the symbol in `equation` (\"a\", \"b\", \"c\").",
+                            "documentation": "Which coefficient: a term, or a label ({name}, no node).",
                             "constraints": {},
                             "fields": [
                                 {
@@ -469,8 +469,8 @@
                         {
                             "name": "r2",
                             "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -482,14 +482,27 @@
                         {
                             "name": "sse",
                             "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
                             "documentation": "Sum of squared errors of the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sse_per_point",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Sum of squared errors per fitted point (v1 vmspikefit `fit_sse_perpoint`).",
                             "constraints": {}
                         }
                     ]
@@ -504,7 +517,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it (fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe grids). Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
+                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it. Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
                     "constraints": {},
                     "fields": [
                         {
@@ -517,7 +530,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The grid, one entry per independent variable in independent_variables[] order.",
+                            "documentation": "The grid: one entry per fit input, in the order of the fitted value's keys (a model_fit's `independent_variables`).",
                             "constraints": {}
                         },
                         {

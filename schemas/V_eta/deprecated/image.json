@@ -24,7 +24,8 @@
             "name": "imageCollection_id",
             "mustBeNonEmpty": false,
             "documentation": "The collection this image belongs to. NDI's own spelling: a depends_on name passes through migration verbatim.",
-            "must_refer_to_document_class": "image_collection"
+            "must_refer_to_document_class": "image_collection",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [

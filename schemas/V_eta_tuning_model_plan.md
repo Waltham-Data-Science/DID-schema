@@ -227,3 +227,18 @@ into `coefficients`, leaves `goodness` empty, and turns contrast's single `fit`
 block (three Naka-Rushton variants) into ONE entry named `fit`. SF/TF's `abs`
 block (every block recomputed on absolute responses; declared empty in v1) is not
 read either. Closing all of this is the DID-matlab half of #73.
+
+## Amendment — #73 audit 2 (2026-09-29, jess; decided, not signed)
+
+Recorded as amendments to the signed shape above; no signature line is added or changed here.
+The decisions are in `review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
+
+- **D2 — one fit entry.** `model_fit[].coefficients` is no longer a structure with no declared
+  fields: it is a NAMED list, `coefficients[] {variable, value}`, the same entry
+  `contrast_sensitivity.value.model_fit[]` and the `model_fit` type use. `goodness` gains
+  `sse_per_point` (v1 vmspikefit `fit_sse_perpoint`). The field NAME `coefficients` is
+  unchanged; only its shape is amended. `metrics` stays tuning's own extra.
+- **D3 — dimensions stated once.** `tuning_curve.value.independent_variables[]` is dropped
+  (amends the #67 name): the stimulus dimensions are the value's `keys`, categorical levels
+  as `labels`. `individual` / `raw_individual` add one trailing trial dimension.
+  `response_type` becomes a bound term (mean | peak | F0 | F1 | F2).

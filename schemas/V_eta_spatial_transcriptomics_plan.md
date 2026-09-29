@@ -192,7 +192,8 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `receptive_field`, so no unmigrated v1 `hartley_calc` document could validate:
     its blocks were undeclared and it lacked a required `receptive_field.value`).
     `hartley_calc` ⊂ [`base`, `hartley_reverse_correlation`] and reaches `ngrid`
-    through `reverse_correlation`, as in v1. #67's requirement — confirmed with Steve
+    through `reverse_correlation`, as in v1. *[Corrected 2026-09-29 (audit 2 C15):
+    restated from its writer as ⊂ [`calculator`, `hartley_reverse_correlation`], d78f2fa.]* #67's requirement — confirmed with Steve
     via jess, 2026-09-25 — is one document class per calculator, not the v1 names:
     the Hartley calculator's document is `receptive_field_calculation`, and
     `receptive_field` stands alone.
@@ -447,6 +448,10 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
       is the stimulator probe (`+probe/+timeseries/stimulator.m:150,171`), but NDI's
       base class keeps the job general ("such as stimulus parameter information"), so
       the name says what it reads, the epoch's parameters, without assuming stimuli.
+      `parameter` here is CONTENT, not a T13 wrapper word: the class reads the epoch's
+      parameters (recorded by audit 2 D13). Its `file_pattern` is renamed `file_regex`
+      (D13), because it is a regular expression while `epoch_file_pattern.file_pattern`
+      uses NDI's #-stem syntax.
     - `epoch_file_pattern.data_file_pattern` → **`file_pattern`**: it groups every file
       of an epoch, the stimulus `.tsv` included, so "data" and "recording" both mislead.
     - `clock_alignment_configuration` is kept (`configuration` is not a T13 container
@@ -530,6 +535,18 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     is checked **in batch through the key that references it** (`labels_from` /
     `key_labels_id`), whose own `variable` names what the list is; on a statement it stays
     keyed by the statement's `variable`.
+
+72. **Audit 2 decisions D2-D13** (2026-09-29, jess; decided, not signed; BUILT together at
+    the end of the walkthrough). The record is `review/73/audit2_SUMMARY.md`'s decision log;
+    the build is the "#73 AUDIT 2 BATCHED BUILD" block of `tools/build_v_eta.py`. In short:
+    one fit entry (D2); tuning / contrast keyed by `keys`, bound `response_type`,
+    `response_unit` on every response type (D3); a `unit` on the parameter entry (D4);
+    relation fields bound to the registry, which was reconciled, and a closed binding
+    meta-schema (D5); declared enums and requirements plus named `rules` (D6); `vmspikefit`
+    and `pyraview` targets (D7); the spatial tombstones restated from v1 (D8); entity details
+    (D9); one value-cell pattern, `count`/`score` slots, pascals, generated defaults (D10);
+    receptive-field planes on the bodies, onsets as the sequence's time key, `center` (D11);
+    `require_inherited` (D12); and ten smaller fixes (D13).
 
 ## F. What is built (schema side), and what is not
 

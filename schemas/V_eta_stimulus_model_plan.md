@@ -198,6 +198,15 @@ And **`presentation_time.clocktype` does NOT land on the axis.** An axis has a `
 no clock; the clock lives on the time reference. So `clocktype` goes to the manipulation's
 `relative_reference` (revision 1), not into `axes[]`.
 
+> **AMENDED — #73 audit 2 D11 (2026-09-29, jess; decided, not signed).** The onsets are the
+> `timed_sequence`'s OWN time key (irregular, values = the onsets; inline, or in a body the
+> SEQUENCE owns), not a body owned by the manipulation: a manipulation that points at a shared
+> sequence has an empty value and no descriptors (#73 item 60), so it cannot own them, and the
+> sequence is shared precisely because every subject saw the same presentation at the same
+> times. Per-trial offsets, where present, are a named per-trial field `offset`.
+> `storage_mode` / `axes[]` above are the pre-#73 names (item 60 deleted `storage_mode`;
+> item 14 renamed `axes` to `keys`).
+
 The v1 block is `presentation_time { clocktype, stimopen, onset, offset, stimclose,
 stimevents[] }` — so `onset`/`offset` are the axis values, `stimopen`/`stimclose` are the
 outer bounds, and `stimevents` needs its own read before it is typed.

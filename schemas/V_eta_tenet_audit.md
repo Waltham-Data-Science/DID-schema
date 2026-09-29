@@ -119,6 +119,9 @@ These conform to the tenets by construction; no open questions.
   family (`term_observation/manipulation/assertion`, T11), `date_assertion`,
   `numeric_assertion` (abstract parent), `dose_manipulation`, `visual_grating_manipulation`.
   (The one `tuning_curve_calculation` leaf inherits the ③ tuning ⚠️; `image_observation` is ⚠️.)
+  *[STALE, noted 2026-09-29 by #73 audit 2 C20: `numeric_assertion`, `visual_grating_manipulation`
+  (item 50) and `image_observation` (item 51) no longer exist. This list is the audit's state
+  at the time; the built tree is the current record.]*
 - **⑤ time_reference family (8/8):** `time_reference` + `epoch_/event_/session_bounded_`
   and `_relative_reference` + `utc_reference` — regular `<origin>_<mode>_reference`
   naming (T11), the T6 timing model. Clean.

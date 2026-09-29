@@ -28,8 +28,8 @@
         {
             "name": "files",
             "type": "string",
-            "blank_value": "",
-            "default_value": "",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,

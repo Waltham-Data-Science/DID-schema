@@ -18,9 +18,10 @@
             "blank_value": [],
             "default_value": [
                 {
-                    "approximate": false,
+                    "square_meters": 0.0,
                     "source_unit": "",
-                    "source_value": 0.0
+                    "source_value": 0.0,
+                    "approximate": false
                 }
             ],
             "mustBeNonEmpty": false,
@@ -28,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A m^2 value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise). Canonical unit square_meters, following `length` (meters) as area = length^2 (#73 item 57); `volume` in liters is the deliberate practical exception.",
+            "documentation": "A value cell for a m^2 quantity (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise). Canonical unit square_meters, following `length` (meters) as area = length^2 (#73 item 57); `volume` in liters is the deliberate practical exception.",
             "constraints": {},
             "fields": [
                 {
@@ -73,8 +74,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

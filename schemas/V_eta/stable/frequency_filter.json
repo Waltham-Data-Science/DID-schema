@@ -181,7 +181,12 @@
                     "name": "low",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -232,8 +237,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -248,7 +253,12 @@
                     "name": "high",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -299,8 +309,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -330,7 +340,12 @@
                     "name": "low",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -381,8 +396,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -397,7 +412,12 @@
                     "name": "high",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -448,8 +468,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -465,8 +485,8 @@
         {
             "name": "order",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -479,7 +499,12 @@
             "name": "passband_ripple",
             "type": "gain",
             "blank_value": 0.0,
-            "default_value": 0.0,
+            "default_value": {
+                "decibels": 0.0,
+                "source_unit": "",
+                "source_value": 0.0,
+                "approximate": false
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -530,8 +555,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -546,7 +571,12 @@
             "name": "stopband_attenuation",
             "type": "gain",
             "blank_value": 0.0,
-            "default_value": 0.0,
+            "default_value": {
+                "decibels": 0.0,
+                "source_unit": "",
+                "source_value": 0.0,
+                "approximate": false
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -597,8 +627,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

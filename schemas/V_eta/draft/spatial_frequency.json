@@ -18,9 +18,10 @@
             "blank_value": [],
             "default_value": [
                 {
-                    "approximate": false,
+                    "cycles_per_degree": 0.0,
                     "source_unit": "",
-                    "source_value": 0.0
+                    "source_value": 0.0,
+                    "approximate": false
                 }
             ],
             "mustBeNonEmpty": false,
@@ -73,8 +74,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

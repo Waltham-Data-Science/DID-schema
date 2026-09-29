@@ -20,7 +20,7 @@
     "file": [],
     "fields": [
         {
-            "name": "file_pattern",
+            "name": "file_regex",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Pattern matching the epoch file this reader parses for the epoch's parameters (e.g. \".*\\\\.tsv\\\\>\"). <- v1 `tab_separated_file_parameter`.",
+            "documentation": "A REGULAR EXPRESSION matching the epoch file this reader parses for the epoch's parameters (e.g. \".*\\\\.tsv\\\\>\"). Named apart from epoch_file_pattern's `file_pattern`, which uses NDI's #-stem syntax (#73 audit 2 D13). <- v1 `tab_separated_file_parameter`.",
             "constraints": {}
         }
     ]

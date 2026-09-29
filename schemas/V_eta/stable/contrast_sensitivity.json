@@ -22,131 +22,9 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A contrast-sensitivity profile across spatial frequencies, with an ARRAY of Naka-Rushton fit variants and typed summary sub-blocks.",
+            "documentation": "A contrast-sensitivity profile: its one key is spatial frequency (unit cycles per degree; <- v1 `spatial_frequencies`), with an ARRAY of Naka-Rushton fit variants and typed summary sub-blocks.",
             "constraints": {},
             "fields": [
-                {
-                    "name": "independent_variables",
-                    "type": "structure",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The axis the profile is over, in the same entry shape tuning_curve uses: one entry, variable = spatial frequency, `values` the frequencies, `unit` cycles per degree of visual angle. <- v1 `spatial_frequencies`.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "variable",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": true,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "What varies along this independent-variable dimension (direction, contrast, spatial_frequency, ...). T11: role in `variable`, not in the class name.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        },
-                        {
-                            "name": "values",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The samples along this independent variable.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "unit",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical unit of `values` (degrees for angles, per angle.value.degrees; absent for a categorical variable).",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        }
-                    ]
-                },
                 {
                     "name": "model_fit",
                     "type": "structure",
@@ -157,7 +35,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ARRAY of fitted models, one entry per Naka-Rushton variant (RB / RBN / RBNS), each carrying its coefficients and the metrics derived from it.",
+                    "documentation": "ARRAY of fitted models, one per Naka-Rushton variant (RB / RBN / RBNS): the shared fit entry plus the four per-spatial-frequency values derived from THIS fit.",
                     "constraints": {},
                     "fields": [
                         {
@@ -176,7 +54,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The fitted Naka-Rushton variant as a controlled term (T8): naka_rushton_rb | naka_rushton_rbn | naka_rushton_rbns.",
+                            "documentation": "The fitted Naka-Rushton variant as a controlled term (T8): naka_rushton_rb | naka_rushton_rbn | naka_rushton_rbns. Coefficients, named as NDIcalc-vis +vis/+contrast/+indexes/fitindexes.m orders them: RB [rm, c50], RBN [rm, c50, n], RBNS [rm, c50, n, s] <- v1 `parameters_<variant>`.",
                             "constraints": {},
                             "fields": [
                                 {
@@ -209,7 +87,7 @@
                         },
                         {
                             "name": "coefficients",
-                            "type": "matrix",
+                            "type": "structure",
                             "blank_value": [],
                             "default_value": [],
                             "mustBeNonEmpty": false,
@@ -217,8 +95,124 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Fitted Naka-Rushton coefficients, as the v1 `parameters_<variant>` vector. Element naming is a follow-up (needs the NDIcalc-vis parameter order).",
-                            "constraints": {}
+                            "documentation": "The fitted coefficients, one entry each, NAMED: `variable` is a term, or a label naming the coefficient (its symbol in the model's equation). (#73 audit 2 D2: one fit entry for every fit.)",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "variable",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": true,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Which coefficient: a term, or a label ({name}, no node).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Its value.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "goodness",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How well the fit matches the measured responses.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "r2",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Coefficient of determination between the responses and the fit (v1 `r2` / `r_squared`).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "sse",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Sum of squared errors of the fit.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "sse_per_point",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Sum of squared errors per fitted point (v1 vmspikefit `fit_sse_perpoint`).",
+                                    "constraints": {}
+                                }
+                            ]
                         },
                         {
                             "name": "sensitivity",
@@ -271,6 +265,47 @@
                             "ontology": null,
                             "documentation": "Saturation index per spatial frequency, from THIS fit.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "sampled_fit",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it. Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "independent_values",
+                                    "type": "matrix",
+                                    "blank_value": [],
+                                    "default_value": [],
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": false,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The grid: one entry per fit input, in the order of the fitted value's keys (a model_fit's `independent_variables`).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "response",
+                                    "type": "matrix",
+                                    "blank_value": [],
+                                    "default_value": [],
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": false,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Fit response at each grid point, sized by the grid.",
+                                    "constraints": {}
+                                }
+                            ]
                         }
                     ]
                 },
@@ -344,30 +379,127 @@
                     ]
                 },
                 {
-                    "name": "modulated_response",
-                    "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "name": "response_type",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True when the response is modulated (F1) rather than mean (F0).",
-                    "constraints": {}
+                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: mean | peak | F0 | F1 | F2 (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0).",
+                    "constraints": {
+                        "binding": {
+                            "root": "did_response_type",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "",
+                                    "name": "mean"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "peak"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F0"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F1"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F2"
+                                }
+                            ],
+                            "strength": "preferred",
+                            "source": "value_set"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
-                    "name": "response_type",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "name": "response_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Which response measure the profile was built on.",
-                    "constraints": {}
+                    "documentation": "Unit of the response values (e.g. spikes per second, dF/F), a term like every other unit.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 }
             ]
         }

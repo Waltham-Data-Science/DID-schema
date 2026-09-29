@@ -173,7 +173,14 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 
 # B6: bound fields with no registry catalogue row (11 of 14 today: only the
 # three `dataset` openMINDS fields are catalogued).
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 11
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 15
+# 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
+# tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
+# undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
+# entity `global_identifier.scheme` (D9) -- none with an entity_field_bindings row
+# (the count before them was 9, under the 11 ceiling). The two `relation` fields are
+# GENERATED from relation_bindings, a list B6 does not read, so they are catalogued
+# in fact and uncatalogued by this measure. Raised by the number of fields added.
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
 # does not register, matched CASE-INSENSITIVELY (the generous reading).

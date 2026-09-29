@@ -48,8 +48,33 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ai | ao | di | do (daqsystemstring.m:53-56).",
-                    "constraints": {},
+                    "documentation": "The channel type: ai | ao | di | do (daqsystemstring.m:53-56). Bound, required (#73 audit 2 D5).",
+                    "constraints": {
+                        "binding": {
+                            "root": "did_channel_type",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "",
+                                    "name": "ai"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "ao"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "di"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "do"
+                                }
+                            ],
+                            "strength": "required",
+                            "source": "value_set"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

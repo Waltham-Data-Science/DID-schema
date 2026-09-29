@@ -1019,7 +1019,11 @@ def test_binding_is_formalized_in_meta_schema():
     assert "keyed_by" in binding["properties"] and "values" in binding["properties"]
     assert "ontology" in binding["properties"] and "root_node" in binding["properties"]
     assert "value_set" not in binding["properties"]
-    assert "source" not in binding["properties"] and "root" not in binding["properties"]
+    # #73 audit 2 D5 (c): `root` (an inline set's name) and `source` (where the members
+    # come from) ARE declared now -- they were in use on every inline set while the
+    # meta-schema said nothing -- and the binding object is closed.
+    assert "root" in binding["properties"] and "source" in binding["properties"]
+    assert binding.get("additionalProperties") is False
     # controlled-vocabulary (openMINDS) binding: a directly-named term set
     assert {"vocabulary", "term_set", "vocabulary_version"} <= set(binding["properties"])
     # #32 increment 2: the lexical-shape key. Declared with a CLOSED enum -- one
@@ -1291,8 +1295,10 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
     assert {"variable", "value", "term", "text"} <= subs
-    # identity is the bound variable; no unit field and no data_type field
-    assert "unit" not in subs and "data_type" not in subs
+    # identity is the bound variable; no data_type field. `unit` IS declared since
+    # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
+    # did for keys): the canonical value is in it.
+    assert "unit" in subs and "source_unit" in subs and "data_type" not in subs
     var = next(s for s in entry["fields"] if s["name"] == "variable")
     assert var["type"] == "ontology_term"
     # no domain fields leaked onto the class
@@ -1455,7 +1461,7 @@ def test_visual_grating_composite():
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
-            "size", "position", "duration", "blank"} <= subs
+            "size", "center", "duration", "blank"} <= subs   # position -> center, audit 2 D11
     assert "visual_grating_manipulation" not in RECORDS
     assert "timed_sequence_manipulation" in RECORDS
 
@@ -1554,30 +1560,41 @@ def test_relation_bindings_present():
     assert "relation_vocabulary" not in reg  # renamed -> relation_bindings
     vocab = {r["relation"]["name"]: r for r in reg["relation_bindings"]}
     # the subject-side terms the migrators already emit + the new entity-layer terms
-    for term in ("part_of", "member_of", "derived_from", "observes", "encountered",
+    # `observes` left with #73 audit 2 D5 (replaced by the statement's instrument_id).
+    assert "observes" not in vocab
+    for term in ("part_of", "member_of", "derived_from", "encountered",
                  "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
                  "documented_by", "stored_at", "hosted_by",
                  # openMINDS crosswalk-parity terms (deferred -> minted)
                  "has_custodian", "contributed_by", "copyright_holder",
                  "alternative_of", "input_data", "has_homepage", "follows_protocol",
-                 "suborganization_of"):
+                 "suborganization_of",
+                 # #73 audit 2 D5: item 24's mappings, and the first undirected rows
+                 "orthologous gene mapping", "gene alias mapping",
+                 "paired_with", "same_as"):
         assert term in vocab, f"{term} missing from relation_bindings"
     # term identity is a {node, name} NodeRef, mirroring variable/method.
     assert all({"node", "name"} <= set(r["relation"]) for r in vocab.values())
     # directed endpoints are child/parent, matching the schema directed_relation
     # child/parent deps (not the old advisory `category`).
+    # (undirected rows carry a symmetric `member_types` instead, #73 audit 2 D5)
     assert all({"relation", "class", "child_types", "parent_types"} <= set(r)
-               for r in vocab.values())
+               for r in vocab.values() if r["class"] == "directed_relation")
+    assert all({"relation", "class", "member_types"} <= set(r)
+               for r in vocab.values() if r["class"] == "undirected_relation")
     assert all(r["class"] in ("directed_relation", "undirected_relation")
                for r in vocab.values())
-    # every current term is directed (undirected/member_types reserved but unused)
-    assert all(r["class"] == "directed_relation" for r in vocab.values())
-    assert all("member_types" not in r for r in vocab.values())
+    # #73 audit 2 D5: the first undirected rows exist, and only they carry member_types
+    assert {n for n, r in vocab.items() if r["class"] == "undirected_relation"} == {
+        "paired_with", "same_as"}
+    assert all("member_types" not in r for r in vocab.values()
+               if r["class"] == "directed_relation")
     assert vocab["part_of"]["relation"]["node"] == "BFO:0000050"
     # every endpoint type is a real class OR an abstract genus (entity/subject)
     known = {r[1]["document_class"]["class_name"] for r in RECORDS.values()}
     for r in vocab.values():
-        for t in r["child_types"] + r["parent_types"]:
+        for t in r.get("child_types", []) + r.get("parent_types", []) + \
+                r.get("member_types", []):
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
     # member_of retargets to subject (a group is a subject; subject_group is gone)
     assert vocab["member_of"]["parent_types"] == ["subject"]
@@ -1660,6 +1677,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # documented exceptions: a count has no dimensional scaling, a score is
     # scale-relative, a term is an identity.)
     exempt = {"count", "score", "ontology_term"}
+    # `date` has no unit to convert from: {instant, precision, source_value,
+    # approximate} (#73 audit 2 D10, the T14 value-cell rule's declared-precision case).
+    exempt_classes = {"date"}
     # AND THE AXIS ENTRY, which hoists the triple RATHER THAN DROPPING IT
     # (2026-08-14, AMENDMENT 1 + 2 to the data_body plan). An axis carries
     # `unit`, `source_unit` and `approximate` at the TOP of the entry, shared by
@@ -1684,9 +1704,13 @@ def test_dimensioned_cells_carry_source_provenance():
     # a hole, since any field called `axes` would then skip the triple check.
     # `axes` was renamed `keys` by #73 (item 14). `conditions` joined once
     # AMENDMENT 2 was built (#73 item 23), with the same hoisted descriptors.
-    hoisted_field_names = {"keys", "conditions"}
+    # `method_parameters` (the parameter entry) joined with #73 audit 2 D4: it now has
+    # the key / condition entry's shape, unit + source_unit at the top of the entry.
+    hoisted_field_names = {"keys", "conditions", "method_parameters"}
     bad = []
     for name, (tier, d) in RECORDS.items():
+        if name in exempt_classes:
+            continue
         for f in d.get("fields", []):
             t = f["type"]
             if t in exempt or not f.get("fields"):
@@ -3725,8 +3749,11 @@ def test_inline_method_parameters_has_the_document_shape():
         return strip(f)
     inline, document = shape("subject_interaction"), shape("method_parameters")
     assert inline == document
-    assert [s["name"] for s in inline["fields"]] == ["variable", "value", "term", "text"]
+    # #73 audit 2 D4: the key / condition entry's shape.
+    assert [s["name"] for s in inline["fields"]] == [
+        "variable", "unit", "source_unit", "value", "term", "text"]
     assert inline["mustBeScalar"] is False
+    assert inline == shape("clock_alignment_configuration")
 
 
 def test_conditions_have_amendment_2_shape():
@@ -3770,7 +3797,9 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert "padding" in chunk["documentation"] and "fill_value" in chunk["documentation"]
     assert "EXACTLY the array's dimensions" in db["keys"]["documentation"]
     fv = next(f for f in RECORDS["sampled_body"][1]["fields"] if f["name"] == "fill_value")
-    assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == []
+    # #73 audit 2 D13: ONE fill value, a char literal read per datum_type.
+    assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == ""
+    assert fv["type"] == "char" and fv["mustBeScalar"] is True
 
 
 def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
@@ -3790,7 +3819,10 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
         "mass", "volume", "substance_amount", "count", "concentration"}
     ing = edges("formulation")["ingredient_id"]
     assert ing["must_refer_to_document_class"] == "chemical,formulation"
-    assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 1
+    # min_count 0 since #73 audit 2 D13: a bought product need not list ingredients;
+    # the `ingredients_or_product` rule says one of the two is present.
+    assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 0
+    assert "ingredients_or_product" in {r["name"] for r in RECORDS["formulation"][1]["rules"]}
     d = subs("dose")
     assert set(d) == {"mass", "volume", "substance_amount", "count", "amount_per_body_mass"}
     assert "route" not in d and "formulation" not in d
@@ -3833,6 +3865,11 @@ def test_hartley_calc_tombstone_is_restated_from_its_writer():
     assert set(fields) == {"input_parameters", "depends_on"}
     assert {s["name"] for s in fields["input_parameters"]["fields"]} == {
         "T", "X_sample", "Y_sample"}
-    assert [e["name"] for e in d["depends_on"]] == ["element_id", "stimulus_presentation_id"]
-    assert all(e["mustBeNonEmpty"] is False for e in d["depends_on"])
+    # The two edges are NOT redeclared since #73 audit 2 D12: reverse_correlation
+    # declares them required, the validator's required set is the chain union, so an
+    # optional redeclaration here was void. They are inherited, required.
+    assert d["depends_on"] == []
+    rc = RECORDS["reverse_correlation"][1]
+    assert {e["name"]: e["mustBeNonEmpty"] for e in rc["depends_on"]} == {
+        "element_id": True, "stimulus_presentation_id": True}
 

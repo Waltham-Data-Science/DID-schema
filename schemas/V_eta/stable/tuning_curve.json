@@ -22,131 +22,9 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A response-vs-independent-variable(s) tuning curve: self-describing raw curve data. The v1 `stimulus_tuningcurve` and per-family result classes (orientation_direction_tuning, contrast_tuning, ...) carried this SHAPE; the shape is collapsed to ONE composite. The tuning family (orientation/direction, contrast, spatial/temporal frequency, speed) is carried by `independent_variables[].variable`, not by a subclass (#73 dropped the marker subclasses). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`, not here.",
+            "documentation": "A response tuning curve. The stimulus dimensions it is tabulated over (direction, contrast, spatial/temporal frequency, ...) are the value's `keys` -- one key each, categorical levels as `labels` -- so which family a curve belongs to is its keys' `variable`s, not a subclass. Statistics of the response are separate named fields (T14: another reading of the same quantity is a key, a different statistic of it is its own field). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`. (#73 audit 2 D3: `independent_variables[]` dropped -- it restated the keys.)",
             "constraints": {},
             "fields": [
-                {
-                    "name": "independent_variables",
-                    "type": "structure",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "ARRAY (1..N; typical 1; speed_tuning typical 2) of the independent-variable axes the response is tabulated over. Each entry carries its {variable, values, unit, ...}. Named `independent_variables` rather than `axes` per issue #67's team choice -- reads better in tuning-curve context. Multi-D tuning (e.g. speed = {temporal_frequency, spatial_frequency}) is first-class via cardinality, not a sibling class.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "variable",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": true,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "What varies along this independent-variable dimension (direction, contrast, spatial_frequency, ...). T11: role in `variable`, not in the class name.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        },
-                        {
-                            "name": "values",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The samples along this independent variable.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "unit",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical unit of `values` (degrees for angles, per angle.value.degrees; absent for a categorical variable).",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        }
-                    ]
-                },
                 {
                     "name": "mean",
                     "type": "matrix",
@@ -157,7 +35,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-sample mean response. N-D tensor sized by independent_variables[].",
+                    "documentation": "Per-sample mean response, sized by the value's keys (the stimulus dimensions).",
                     "constraints": {}
                 },
                 {
@@ -170,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-sample response standard deviation. N-D tensor sized by independent_variables[].",
+                    "documentation": "Per-sample response standard deviation, sized by the value's keys (the stimulus dimensions).",
                     "constraints": {}
                 },
                 {
@@ -183,7 +61,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-sample response standard error of the mean. N-D tensor sized by independent_variables[].",
+                    "documentation": "Per-sample response standard error of the mean, sized by the value's keys (the stimulus dimensions).",
                     "constraints": {}
                 },
                 {
@@ -196,7 +74,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-trial individual response values (independent_variables[] axes + a trial axis). Responses may be normalized or control-subtracted.",
+                    "documentation": "Per-trial individual response values: the value's keys plus ONE trailing trial dimension. Responses may be normalized or control-subtracted.",
                     "constraints": {}
                 },
                 {
@@ -209,7 +87,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "OPTIONAL: unprocessed per-trial responses BEFORE control subtraction or normalization. Paper Fig. 4 shows this on oridir; any curve reporter may include it.",
+                    "documentation": "OPTIONAL: unprocessed per-trial responses BEFORE control subtraction or normalization; the value's keys plus ONE trailing trial dimension.",
                     "constraints": {}
                 },
                 {
@@ -274,7 +152,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Per-trial individual control response values.",
+                            "documentation": "Per-trial individual control response values; ONE trial dimension.",
                             "constraints": {}
                         }
                     ]
@@ -328,16 +206,79 @@
                 },
                 {
                     "name": "response_type",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Reduction applied to each stimulus presentation to yield a per-trial response (e.g., 'mean', 'peak', 'F1').",
-                    "constraints": {}
+                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: mean | peak | F0 | F1 | F2 (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0).",
+                    "constraints": {
+                        "binding": {
+                            "root": "did_response_type",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "",
+                                    "name": "mean"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "peak"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F0"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F1"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "F2"
+                                }
+                            ],
+                            "strength": "preferred",
+                            "source": "value_set"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "coordinates",

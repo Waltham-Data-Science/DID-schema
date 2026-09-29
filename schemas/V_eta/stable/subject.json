@@ -21,11 +21,8 @@
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": {
-                "node": "iao:0000578",
-                "name": "centrally registered identifier"
-            },
-            "documentation": "Human-facing handle for this subject, unique within its dataset. REQUIRED on subjects; the same field is optional on every other entity (see local_identifier there).",
+            "ontology": null,
+            "documentation": "Human-facing handle for this subject, unique within its dataset. Required; also declared (required) on `session` and `epoch` (#73 item 54).",
             "constraints": {
                 "maxLength": 256
             }

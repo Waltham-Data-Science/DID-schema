@@ -153,8 +153,8 @@
         {
             "name": "ndim",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -179,8 +179,8 @@
         {
             "name": "has_planar_contour",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,

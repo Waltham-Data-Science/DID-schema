@@ -832,3 +832,15 @@ RE-DERIVED 2026-09-25 (#73 review item 61: `acquisition_metadata_file` retired; 
 RE-DERIVED 2026-09-29 (#73 review item 67: `control_designation` deleted; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 212); **217 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-29 (#73 review item 68: `model_fit` + `model_fit_calculation` minted; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 211); **219 json file(s) under `schemas/V_eta/`** (was 217); **45 direct subclasses** of `data_type` (was 44; +`model_fit`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+## Amendment — #73 audit 2 D4 (2026-09-29, jess; decided, not signed)
+
+Amends the signed [spike processing parameters] line's "with no `unit` field", as data_body
+Amendment 1 did for the key entry this one was modelled on. The `parameter[]` entry is now
+`{variable, unit, source_unit, value {value, source_value}, term, text}` — the key /
+condition entry's shape — at all three mounts (`subject_interaction`, `method_parameters`,
+`clock_alignment_configuration`). The canonical `value.value` is in `unit`, a term left
+unbound until the unit vocabulary is chosen (`review/73/OPEN_ITEMS.md` item 24). The
+"modelled on the `axis` entry" wording in the field documentation is replaced. The signature
+line above is unchanged; whether it reaches this amendment is for the team (sign-off sheet,
+audit 2 D7c).

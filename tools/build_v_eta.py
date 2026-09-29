@@ -196,22 +196,22 @@ def axis_subfields():
               subfield("variable", "ontology_term",
                        "What varies along this dimension (time, spatial "
                        "position, contrast, ...). UNIQUE within the list -- "
-                       "that uniqueness is what makes 'which axis is X' well "
+                       "that uniqueness is what makes 'which key is X' well "
                        "defined.",
                        non_empty=True),
               subfield("unit", "ontology_term",
                        "Canonical unit of `origin`/`spacing`/`values`. Angles "
                        "are DEGREES, per angle.value.degrees. V_eta's canonical "
                        "units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: "
-                       "grams, liters, celsius, mmHg. "
-                       "Absent for a categorical axis, which uses `labels`."),
+                       "grams, liters, celsius, pascals. "
+                       "Absent for a categorical key, which uses `labels`."),
               subfield("source_unit", "char",
                        "The unit exactly as the source gave it. OMITTED when "
                        "the source unit is already canonical."),
               subfield("approximate", "boolean",
-                       "Applies to the whole axis.", blank=False),
+                       "Applies to the whole key.", blank=False),
               subfield("n", "integer",
-                       "Number of coordinates along this axis; equals the "
+                       "Number of positions along this key; equals the "
                        "extent of the value it indexes.",
                        non_empty=True, scalar=True, blank=0),
               subfield("regular", "boolean",
@@ -219,7 +219,7 @@ def axis_subfields():
                        "False: they are stored, in `values` or `labels`.",
                        blank=False),
               subfield("origin", "structure",
-                       "Where the axis starts. REQUIRED iff `regular`.",
+                       "Where the key starts. REQUIRED iff `regular`.",
                        sub_fields=[
                            subfield("value", "double", "Canonical value.", blank=0.0),
                            subfield("source_value", "double",
@@ -301,6 +301,17 @@ def path_of(name):
 if os.path.exists(VETA):
     shutil.rmtree(VETA)
 shutil.copytree(VZETA, VETA)
+# #73 audit 2 mechanical C9 (2026-09-29): the two V_zeta example documents are
+# instances of classes V_eta does not define (`scalar_temperature_observation`,
+# `utc_reference`), so they are dropped rather than shipped. An example of a class that
+# does not exist teaches the wrong shape; a replacement is written when one is needed.
+for _ex_name in ("scalar_temperature_observation_series.json", "utc_reference_grid.json"):
+    _ex_path = os.path.join(VETA, "examples", _ex_name)
+    if not os.path.exists(_ex_path):
+        raise SystemExit(f"audit2 C9: {_ex_name} is no longer copied in; drop this block")
+    os.remove(_ex_path)
+if not os.listdir(os.path.join(VETA, "examples")):
+    os.rmdir(os.path.join(VETA, "examples"))
 
 
 # ---------- 1. rename map (old class_name -> new class_name) ----------
@@ -981,7 +992,15 @@ DATE_VALUE = field(
                  non_empty=True, blank="day",
                  constraints={"enum": ["year", "month", "day", "hour", "minute",
                                        "second"]}),
-        subfield("source", "char", "The raw input string, preserved."),
+        # #73 audit 2 D10: `source` -> `source_value` (the cell pattern's name), and
+        # `approximate` added. precision is GRANULARITY (how much of the date was
+        # stated), approximate is CERTAINTY (whether the stated date is a guess):
+        # "born around March 2020" is precision month AND approximate.
+        subfield("source_value", "char", "The raw input string, preserved."),
+        subfield("approximate", "boolean",
+                 "True when the date is uncertain (a guess or an estimate). Independent "
+                 "of `precision`, which says how much of the date was stated.",
+                 blank=False),
     ])
 # `date` — the ③ composite for a real date (walkthrough finding B, same as `term`).
 write("stable", "date",
@@ -6714,9 +6733,9 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
           non_empty=False),
     field("datum_order", "char",
           "'C' | 'F' -- the order of DATA within the array: C is row-major "
-          "(last axis fastest), F is column-major (first axis fastest, MATLAB's "
+          "(last key fastest), F is column-major (first key fastest, MATLAB's "
           "native layout). REQUIRED in practice whenever there is more than one "
-          "axis; meaningless, and left empty, for a 1-D body.",
+          "key; meaningless, and left empty, for a 1-D body.",
           non_empty=False),
 ])
 sampled["file"] = BODY_FILE
@@ -6837,7 +6856,8 @@ write("draft", "image_manipulation",
 # existing temperature/pressure/frequency manipulations carry over from V_zeta).
 CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
 NUMERIC_SEED = [
-    ("intensity", "dimensionless (a.u.) — dF/F, fluorescence, ratios, amplitudes"),
+    ("intensity", ("dimensionless intensity (dF/F, fluorescence, ratios, amplitudes; "
+                   "arbitrary units)")),
     ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
     ("angle", "degrees"), ("angular_velocity", "degrees/s"), ("force", "N"),
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
@@ -6854,7 +6874,8 @@ for name, unit in NUMERIC_SEED:
     write("stable", name,
           doc(name, ["base"], abstract=True, fields=[field(
               "value", name,
-              f"A {unit} value cell (canonical + lossless source). Series-as-cardinality: "
+              f"A value cell for a {unit} quantity (canonical + lossless source). "
+              "Series-as-cardinality: "
               "an array of the cell; per-sample timing is a time key in `keys` (the statement's when inline, each body's otherwise).", non_empty=True, scalar=False, blank=[], default=[CELL])]))
     write("stable", name + "_observation",
           doc(name + "_observation", ["subject_observation", name]))
@@ -7899,8 +7920,10 @@ write("stable", "gene_list", _gl)
 #                 This pins term -> class (a `part_of` minted as undirected is an
 #                 error the validator can catch). All current terms are directed.
 #   child_types /
-#   parent_types  the entity/data classes admissible at each endpoint of a directed
-#                 edge (child --name--> parent). These name the same fields as the
+#   parent_types  the entity / subject_statement / data_type classes admissible at
+#                 each endpoint of a directed edge (child --name--> parent); the
+#                 schema edges accept all three (#73 items 22, 27), so the
+#                 registry does too. These name the same fields as the
 #                 schema `directed_relation.child` / `.parent` deps, so the registry
 #                 matches the document exactly. Abstract types (`entity`, `subject`)
 #                 mean "any of that genus"; [] = unconstrained (open, pending D6).
@@ -7920,6 +7943,13 @@ def _rel(name, node, child_role, parent_role, child_types, parent_types,
             "child_role": child_role, "parent_role": parent_role,
             "child_types": child_types, "parent_types": parent_types,
             "timed": timed, "ordered": ordered}
+
+def _urel(name, node, member_role, member_types, *, timed=False):
+    # An undirected term: a symmetric member set, no child/parent.
+    return {"relation": {"node": node, "name": name}, "class": "undirected_relation",
+            "member_role": member_role, "member_types": member_types,
+            "timed": timed, "ordered": False}
+
 
 RELATION_VOCABULARY = [
     # containment / structure
@@ -7971,9 +8001,10 @@ RELATION_VOCABULARY = [
          ["subject"], ["subject"], timed=True),
     _rel("passage_of", "", "the passage", "the parent culture",
          ["subject"], ["subject"], timed=True),
-    # agent / instrument role (a probe/instrument is modeled as a subject)
-    _rel("observes", "", "the instrument-subject", "the observed specimen",
-         ["subject"], ["subject"]),
+    # `observes` WAS HERE (probe --observes--> specimen). Dropped by #73 audit 2 D5:
+    # the recording plan REPLACED that relation with the statement's `instrument_id`
+    # edge (V_eta_recording_observation_plan.md:34), so the row named a relation
+    # nothing should mint.
     # event
     _rel("encountered", "", "the encountering subject", "the encountered subject",
          ["subject"], ["subject"], timed=True),
@@ -8029,6 +8060,20 @@ RELATION_VOCABULARY = [
     # the subject/session part_of rather than widening that term's endpoints.
     _rel("suborganization_of", "", "the child organization", "the parent organization",
          ["organization"], ["organization"]),
+    # data-to-data mappings (#73 item 24; added by audit 2 D5): a gene list mapped onto
+    # another, the per-pair scores in a standalone `score` behind `value_id`, the tool
+    # + version in `method`. Both endpoints are standalone `term` documents (a gene list).
+    _rel("orthologous gene mapping", "", "the mapped gene list", "the target gene list",
+         ["term"], ["term"]),
+    _rel("gene alias mapping", "", "the mapped gene list", "the target gene list",
+         ["term"], ["term"]),
+    # symmetric associations (undirected_relation; audit 2 D5). The first undirected
+    # rows: `member_types` replaces child/parent types, matching the single
+    # `entity_id` family on undirected_relation.
+    _urel("paired_with", "", "an entity in a pair (e.g. littermates, a bilateral "
+          "pair of sites)", ["entity"]),
+    _urel("same_as", "", "entities that are the same thing recorded twice "
+          "(e.g. one animal under two local identifiers)", ["entity"]),
 ]
 
 # ---------- subject_statement bindings ----------
@@ -8215,10 +8260,13 @@ binding_registry = {
              "symmetry: a directed_relation carries child_types -> parent_types "
              "(matching the schema child/parent deps), an undirected_relation "
              "carries a symmetric member_types (matching its single entities dep). "
-             "Abstract types (entity, subject) mean 'any of that genus'; [] = "
-             "unconstrained. NOTE: every term today is directed_relation, so "
-             "undirected_relation / member_types are reserved but currently unused "
-             "-- the first symmetric relation added will exercise them. A relation "
+             "Endpoint types may be entity, subject_statement or data_type classes "
+             "(#73 items 22, 27). Abstract types (entity, subject) mean 'any of that "
+             "genus'; [] = unconstrained. The undirected rows (paired_with, "
+             "same_as; #73 audit 2 D5) carry member_types. directed_relation.relation "
+             "and undirected_relation.relation declare a binding whose values are "
+             "GENERATED from these rows at build time, so the field and the registry "
+             "cannot disagree. A relation "
              "`node` is the backing ontology CURIE (RO/BFO where one exists; "
              "\"\" = an open D6 slot). ordered marks terms where the directed "
              "sequence field is meaningful; timed marks event edges that may carry "
@@ -9854,6 +9902,810 @@ for _n in ("label", "date", "position", "polynomial"):
     write(_t1, _n, _d1)
 
 
+# ---------- #73 AUDIT 2 BATCHED BUILD (2026-09-29, jess; not signed) ------------------
+# Decisions D2-D13 of review/73/audit2_SUMMARY.md, built together at the end of the
+# walkthrough as the team asked ("keep working through decisions then batch the build").
+# Each block names its decision. Post-pass over the written files, like D1 above, so the
+# earlier layered patches (items 57-70) are not re-threaded one by one.
+def _a2_load(name):
+    _t, _p = path_of(name)
+    if _p is None:
+        raise SystemExit(f"audit2: class {name} not found")
+    return _t, load(_p)
+
+
+def _a2_field(fields, dotted):
+    """The declared (sub)field at a dotted path, or SystemExit."""
+    cur = None
+    for part in dotted.split("."):
+        cur = next((f for f in (fields or []) if f["name"] == part), None)
+        if cur is None:
+            raise SystemExit(f"audit2: no field {dotted}")
+        fields = cur.get("fields")
+    return cur
+
+
+def _a2_drop(fields, name):
+    n = len(fields)
+    fields[:] = [f for f in fields if f["name"] != name]
+    if len(fields) != n - 1:
+        raise SystemExit(f"audit2: expected exactly one `{name}` to drop")
+
+
+def _a2_term_binding(root, names, strength="preferred"):
+    return {"binding": {"root": root, "expansion": "value_set",
+                        "values": [{"node": "", "name": n} for n in names],
+                        "strength": strength, "source": "value_set"}}
+
+
+# --- D2 (option A): ONE declared fit entry -------------------------------------------
+# tuning_curve_calculation.model_fit[], contrast_sensitivity.value.model_fit[] and the
+# model_fit type used three coefficient shapes (a structure with no fields, an unnamed
+# matrix, a named list). They now share one core entry; each family keeps its extras.
+def _a2_fit_core(model_doc):
+    return [
+        subfield("model", "ontology_term", model_doc),
+        subfield("coefficients", "structure",
+                 "The fitted coefficients, one entry each, NAMED: `variable` is a term, "
+                 "or a label naming the coefficient (its symbol in the model's equation). "
+                 "(#73 audit 2 D2: one fit entry for every fit.)", scalar=False,
+                 sub_fields=[
+                     subfield("variable", "ontology_term",
+                              "Which coefficient: a term, or a label ({name}, no node).",
+                              non_empty=True),
+                     subfield("value", "double", "Its value.")]),
+        subfield("goodness", "structure",
+                 "How well the fit matches the measured responses.",
+                 sub_fields=[
+                     subfield("r2", "double",
+                              "Coefficient of determination between the responses and "
+                              "the fit (v1 `r2` / `r_squared`)."),
+                     subfield("sse", "double", "Sum of squared errors of the fit."),
+                     subfield("sse_per_point", "double",
+                              "Sum of squared errors per fitted point (v1 vmspikefit "
+                              "`fit_sse_perpoint`).")]),
+        subfield("sampled_fit", "structure",
+                 "OPTIONAL: the fit evaluated on a grid, as v1 stored it. Kept rather "
+                 "than recomputed from model + coefficients, because recomputation "
+                 "reproduces it only if the model definition is exact.",
+                 sub_fields=[
+                     subfield("independent_values", "matrix",
+                              "The grid: one entry per fit input, in the order of the "
+                              "fitted value's keys (a model_fit's `independent_variables`).",
+                              scalar=False),
+                     subfield("response", "matrix",
+                              "Fit response at each grid point, sized by the grid.",
+                              scalar=False)]),
+    ]
+
+
+def _a2_fit_merge(fitfield, core, extras_after_goodness=()):
+    old = {f["name"]: f for f in fitfield["fields"]}
+    out = []
+    for f in core:
+        out.append(f)
+        if f["name"] == "goodness":
+            out += [old[n] for n in extras_after_goodness]
+    fitfield["fields"] = out
+
+
+_t, _tcc = _a2_load("tuning_curve_calculation")
+_mf = _a2_field(_tcc["fields"], "model_fit")
+_a2_fit_merge(_mf, _a2_fit_core(
+    "The fitted model as a controlled term (T8): double_gaussian | naka_rushton | "
+    "difference_of_gaussians | movshon | spline | gausslog | priebe | ...."),
+    extras_after_goodness=("metrics",))
+_mf["documentation"] = (
+    "ARRAY of fitted models, each the shared fit entry {model, coefficients[], goodness, "
+    "sampled_fit} plus the values read off it (`metrics`); a curve may carry several "
+    "co-existing fits (frequency tunings carry 5). Coefficients are named per `model` "
+    "(#73 audit 2 D2, amending the tuning plan's unnamed-structure shape).")
+write(_t, "tuning_curve_calculation", _tcc)
+
+_t, _cs = _a2_load("contrast_sensitivity")
+_csv = _a2_field(_cs["fields"], "value")
+_csmf = _a2_field(_csv["fields"], "model_fit")
+_a2_fit_merge(_csmf, _a2_fit_core(
+    "The fitted Naka-Rushton variant as a controlled term (T8): naka_rushton_rb | "
+    "naka_rushton_rbn | naka_rushton_rbns. Coefficients, named as NDIcalc-vis "
+    "+vis/+contrast/+indexes/fitindexes.m orders them: RB [rm, c50], RBN [rm, c50, n], "
+    "RBNS [rm, c50, n, s] <- v1 `parameters_<variant>`."),
+    extras_after_goodness=("sensitivity", "relative_max_gain", "empirical_c50",
+                           "saturation_index"))
+_csmf["documentation"] = (
+    "ARRAY of fitted models, one per Naka-Rushton variant (RB / RBN / RBNS): the shared "
+    "fit entry plus the four per-spatial-frequency values derived from THIS fit.")
+write(_t, "contrast_sensitivity", _cs)
+
+_t, _mfd = _a2_load("model_fit")
+_mfv = _a2_field(_mfd["fields"], "value")
+_core = {f["name"]: f for f in _a2_fit_core("")}
+for _n in ("coefficients", "goodness", "sampled_fit"):
+    _i = next(i for i, f in enumerate(_mfv["fields"]) if f["name"] == _n)
+    _mfv["fields"][_i] = _core[_n]
+_a2_field(_mfv["fields"], "coefficients")["documentation"] += (
+    " <- v1 `fit_parameters` zipped with `fit_parameter_names`.")
+write(_t, "model_fit", _mfd)
+
+
+# --- D3: tuning / contrast state their dimensions once --------------------------------
+# (a) `independent_variables[]` duplicated the value's `keys`; it is dropped and the
+# stimulus dimensions are the keys (categorical levels as `labels`). The per-trial
+# arrays add ONE trailing trial dimension. Amends the #67 name and item 66.
+# (c) the response is described the same way on every response-carrying type:
+# `response_unit` (a term) and `response_type` (a bound term naming the reduction).
+_RESPONSE_TYPES = ("mean", "peak", "F0", "F1", "F2")
+_RESPONSE_TYPE_DOC = (
+    "The reduction applied to each stimulus presentation to yield a per-trial response: "
+    "mean | peak | F0 | F1 | F2 (#73 audit 2 D3; replaces free text and contrast's "
+    "`modulated_response` flag, which said F1 vs F0).")
+_RESPONSE_UNIT_DOC = ("Unit of the response values (e.g. spikes per second, dF/F), a "
+                      "term like every other unit.")
+_KEYED = " sized by the value's keys (the stimulus dimensions)."
+for _cls in ("tuning_curve", "contrast_sensitivity"):
+    _t, _d = _a2_load(_cls)
+    _v = _a2_field(_d["fields"], "value")
+    _a2_drop(_v["fields"], "independent_variables")
+    for _f in _v["fields"]:
+        if _f["name"] == "response_type":
+            _f.update(type="ontology_term", blank_value={"node": "", "name": ""},
+                      default_value={"node": "", "name": ""},
+                      documentation=_RESPONSE_TYPE_DOC,
+                      constraints=_a2_term_binding("did_response_type", _RESPONSE_TYPES))
+    if _cls == "contrast_sensitivity":
+        _a2_drop(_v["fields"], "modulated_response")
+        _v["fields"].append(subfield("response_unit", "ontology_term", _RESPONSE_UNIT_DOC))
+        _v["documentation"] = (
+            "A contrast-sensitivity profile: its one key is spatial frequency (unit "
+            "cycles per degree; <- v1 `spatial_frequencies`), with an ARRAY of "
+            "Naka-Rushton fit variants and typed summary sub-blocks.")
+    else:
+        for _f in _v["fields"]:
+            if _f["name"] in ("mean", "stddev", "stderr"):
+                _f["documentation"] = _f["documentation"].split(". N-D tensor")[0] + \
+                    "," + _KEYED
+            if _f["name"] == "individual":
+                _f["documentation"] = (
+                    "Per-trial individual response values: the value's keys plus ONE "
+                    "trailing trial dimension. Responses may be normalized or "
+                    "control-subtracted.")
+            if _f["name"] == "raw_individual":
+                _f["documentation"] = (
+                    "OPTIONAL: unprocessed per-trial responses BEFORE control subtraction "
+                    "or normalization; the value's keys plus ONE trailing trial dimension.")
+        _ctl = _a2_field(_v["fields"], "control")
+        _a2_field(_ctl["fields"], "individual")["documentation"] = (
+            "Per-trial individual control response values; ONE trial dimension.")
+        _v["documentation"] = (
+            "A response tuning curve. The stimulus dimensions it is tabulated over "
+            "(direction, contrast, spatial/temporal frequency, ...) are the value's "
+            "`keys` -- one key each, categorical levels as `labels` -- so which "
+            "family a curve belongs to is its keys' `variable`s, not a subclass. "
+            "Statistics of the response are separate named fields (T14: another "
+            "reading of the same quantity is a key, a different statistic of it is its "
+            "own field). Calc-produced metadata (ANOVA p-values, fits) lives on "
+            "`tuning_curve_calculation`. (#73 audit 2 D3: `independent_variables[]` "
+            "dropped -- it restated the keys.)")
+    write(_t, _cls, _d)
+
+_t, _hc = _a2_load("harmonic_component")
+_hv = _a2_field(_hc["fields"], "value")
+_hv["fields"].append(subfield("response_unit", "ontology_term", _RESPONSE_UNIT_DOC))
+write(_t, "harmonic_component", _hc)
+print("audit2 D2/D3: shared fit entry on 3 carriers; tuning_curve + contrast_sensitivity "
+      "keyed by `keys`; response_unit on 3 types, response_type bound on 2")
+
+
+# --- D4 (option A): the parameter entry states its unit ---------------------------------
+# Amends the signed [spike processing parameters] "no `unit` field", as data_body
+# Amendment 1 did for the key entry this one was modelled on: the canonical `value` is in
+# `unit` (a term; unbound until the unit vocabulary is chosen, OPEN_ITEMS 24). The entry
+# now has the key / condition entry's shape. Applied at all three mounts.
+def _a2_parameter_subs():
+    return [
+        subfield("variable", "ontology_term",
+                 "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, "
+                 "2026-09-25), and UNIQUE within the list. Identity lives in a bound "
+                 "variable, so domain-specific knobs are DATA rather than schema and no "
+                 "class or field is minted per program. A knob with no ontology term is "
+                 "a LABEL ({name}, no node; item 33), so every setting fits this list "
+                 "and nothing needs an untyped bag. The entry has the same shape as a "
+                 "key or a condition entry.", non_empty=True),
+        subfield("unit", "ontology_term",
+                 "Canonical unit of `value.value`, for a numeric knob (#73 audit 2 D4, "
+                 "amending the signed 'no unit field'). Unbound until the unit vocabulary "
+                 "is chosen (OPEN_ITEMS 24). Absent for a unitless or non-numeric knob."),
+        subfield("source_unit", "char",
+                 "The unit as the source gave it. Omitted when already canonical."),
+        subfield("value", "structure",
+                 "Numeric knobs: the canonical value, in `unit`, plus what the source "
+                 "wrote.",
+                 sub_fields=[
+                     subfield("value", "double", "Canonical value, in `unit`.", blank=0.0),
+                     subfield("source_value", "char",
+                              "As-recorded value, VERBATIM -- v1 writes a threshold as "
+                              "the string \"0.030\", and the string is kept.")]),
+        subfield("term", "ontology_term", "Categorical knobs (e.g. a threshold method)."),
+        subfield("text", "char", "Free-string knobs."),
+    ]
+
+
+for _cls in ("subject_interaction", "method_parameters", "clock_alignment_configuration"):
+    _t, _d = _a2_load(_cls)
+    _a2_field(_d["fields"], "method_parameters")["fields"] = _a2_parameter_subs()
+    write(_t, _cls, _d)
+
+
+# --- D5: relation predicates, the registry and the binding meta-schema ----------------
+# (a) the two `relation` fields get a binding GENERATED from the registry rows, so the
+# field and the registry are one source (strength preferred: a new predicate is
+# proposed, not rejected). The rows themselves were reconciled at RELATION_VOCABULARY.
+for _cls, _carrier in (("directed_relation", "directed_relation"),
+                       ("undirected_relation", "undirected_relation")):
+    _t, _d = _a2_load(_cls)
+    _rows = [r["relation"] for r in RELATION_VOCABULARY if r["class"] == _carrier]
+    if not _rows:
+        raise SystemExit(f"audit2 D5: no registry rows for {_carrier}")
+    _rf = _a2_field(_d["fields"], "relation")
+    _rf["constraints"] = {"binding": {
+        "root": f"did_relation_{_carrier.split('_')[0]}", "expansion": "value_set",
+        "values": [{"node": r["node"], "name": r["name"]} for r in _rows],
+        "strength": "preferred", "source": "binding_registry_meta.relation_bindings"}}
+    _rf["documentation"] = (
+        "The relation, as a term. Bound (preferred) to the "
+        f"{'directed' if _carrier.startswith('directed') else 'undirected'} rows of "
+        "binding_registry_meta.relation_bindings, from which the allowed values are "
+        "generated at build time (#73 audit 2 D5).")
+    write(_t, _cls, _d)
+
+# (d) acquisition_channels.channels.type: a closed set, bound now.
+_t, _d = _a2_load("acquisition_channels")
+_ct = _a2_field(_d["fields"], "channels.type")
+_ct["constraints"] = _a2_term_binding("did_channel_type", ("ai", "ao", "di", "do"),
+                                      strength="required")
+_ct["documentation"] = ("The channel type: ai | ao | di | do (daqsystemstring.m:53-56). "
+                        "Bound, required (#73 audit 2 D5).")
+write(_t, "acquisition_channels", _d)
+
+
+# --- D6 (1): enumerations and requirements declared ----------------------------------
+_t, _d = _a2_load("sampled_body")
+_a2_field(_d["fields"], "byte_order")["constraints"] = {"enum": ["little", "big"]}
+_a2_field(_d["fields"], "datum_order")["constraints"] = {"enum": ["C", "F"]}
+write(_t, "sampled_body", _d)
+_t, _d = _a2_load("data_body")
+_ha = _a2_field(_d["fields"], "hash_algorithm")
+_ha["constraints"] = {"enum": ["MD5", "SHA-1", "SHA-256", "SHA-512"]}
+_ha["documentation"] = ("The algorithm `content_hash` was computed with: MD5 | SHA-1 | "
+                        "SHA-256 | SHA-512. Without it a hash cannot be checked "
+                        "(item 25).")
+_rd = _a2_field(_d["fields"], "redundant")
+_rd["documentation"] = (
+    "True = this body adds NO information beyond its owner's non-redundant body (e.g. a "
+    "coarser zoom level of an image pyramid): an exact, deterministic rebuild exists, so "
+    "it is safe to delete. That non-redundant body is its source -- no edge is needed, "
+    "and the reason it is kept goes in `description` (T6 as amended by #73 audit 2 D6). "
+    "Nothing may cite a redundant body as the only copy of a fact.")
+write(_t, "data_body", _d)
+_t, _d = _a2_load("absolute_time_reference")
+_a2_field(_d["fields"], "value.start")["mustBeNonEmpty"] = True
+write(_t, "absolute_time_reference", _d)
+
+# (2) + D13 (1): in-document conditions a single field cannot express, declared per class
+# as named rules. DID-matlab implements each as a named check, report-only first.
+_A2_RULES = {
+    "data": [
+        {"name": "key_regular_origin_spacing",
+         "fields": ["keys.regular", "keys.origin", "keys.spacing"],
+         "statement": "A key carries `origin` and `spacing` if and only if `regular` "
+                      "is true."},
+        {"name": "key_positions_one_form",
+         "fields": ["keys.values", "keys.labels", "keys.labels_from"],
+         "statement": "A key that is not `regular` carries exactly one of `values`, "
+                      "`labels`, `labels_from`; a regular key carries none of them."},
+        {"name": "key_chunk_sampled_only", "fields": ["keys.chunk"],
+         "statement": "`chunk` is set only on the keys of a sampled_body."},
+    ],
+    "data_type": [
+        {"name": "datum_type_when_bytes", "fields": ["datum_type", "data_body"],
+         "statement": "`datum_type` is present whenever the value has bytes: an inline "
+                      "numeric or text array, or `data_body` true."},
+    ],
+    "relative_time_reference": [
+        {"name": "clock_with_start", "fields": ["value.start", "value.clock"],
+         "statement": "`value.clock` is present whenever `value.start` is present (an "
+                      "offset means nothing until its clock is named, and the "
+                      "time_reference families are unique by clock)."},
+    ],
+    "formulation": [
+        {"name": "ingredients_or_product", "fields": ["value.ingredients", "product_id"],
+         "statement": "A formulation lists its `ingredients` or points at the "
+                      "`product` it was bought as (or both)."},
+    ],
+}
+for _cls, _rules in _A2_RULES.items():
+    _t, _d = _a2_load(_cls)
+    _d["rules"] = _rules
+    write(_t, _cls, _d)
+
+
+# --- D9: entity details ----------------------------------------------------------------
+for _cls in ("subject", "session"):
+    _t, _d = _a2_load(_cls)
+    _li = _a2_field(_d["fields"], "local_identifier")
+    _li["ontology"] = None      # (a) the term was base.id's / base.session_id's
+    write(_t, _cls, _d)
+_GI_SCHEMES = ("ORCID", "ROR", "DOI", "PMID", "PMCID", "RRID", "UDI", "URL",
+               "AwardNumber", "SWHID", "Wikidata")
+_t, _d = _a2_load("entity")
+_gi = _a2_field(_d["fields"], "global_identifier")
+_gi["documentation"] = (
+    "Cross-reference identifier(s) for this entity, one entry per scheme: "
+    + " | ".join(_GI_SCHEMES) + ". A web_resource's URL is "
+    "global_identifier[scheme=URL]; a funding award's number is "
+    "global_identifier[scheme=AwardNumber]; software is cited by RRID, DOI, SWHID or "
+    "Wikidata (item 53).")
+_sc = _a2_field(_gi["fields"], "scheme")
+# A TERM, no longer free `char`: a binding's members are {node, name} NodeRefs (item
+# 64), and a NodeRef set on a char field is exactly what binding governance B4 forbids.
+# So binding the scheme makes it a term, matched by name while the nodes are staged.
+_sc.update(type="ontology_term", blank_value={"node": "", "name": ""},
+           default_value={"node": "", "name": ""})
+_sc["documentation"] = ("Identifier scheme, as a term (matched by name while its node "
+                        "is staged, T8). Bound, preferred (#73 audit 2 D9; was free "
+                        "`char`).")
+_sc["constraints"] = _a2_term_binding("did_identifier_scheme", _GI_SCHEMES)
+write(_t, "entity", _d)
+for _cls, _say in (("web_resource", "Its URL is `global_identifier` with scheme URL."),
+                   ("funding", ("Its award number is `global_identifier` with "
+                                "scheme AwardNumber."))):
+    _t, _d = _a2_load(_cls)
+    _nf = _a2_field(_d["fields"], "name")
+    _nf["documentation"] = _nf["documentation"].rstrip() + " " + _say
+    write(_t, _cls, _d)
+_t, _d = _a2_load("acquisition_system")
+_a2_field(_d["fields"], "name")["mustBeNonEmpty"] = True           # (c)
+write(_t, "acquisition_system", _d)
+_t, _d = _a2_load("strain")                                        # (d)
+_a2_drop(_d["fields"], "stock_number")
+_d["depends_on"].append(dep(
+    "product_id", "product",
+    "Optional: the strain as a product -- its vendor (an organization) and catalog "
+    "number -- replacing the inline `stock_number` {vendor, code} (#73 audit 2 D9; "
+    "item 59 named strain as product's expected later user).", non_empty=False))
+write(_t, "strain", _d)
+_t, _sm = _a2_load("subject_manipulation")                         # (e)
+_notes = _a2_field(_sm["fields"], "notes")
+_a2_drop(_sm["fields"], "notes")
+write(_t, "subject_manipulation", _sm)
+_t, _si = _a2_load("subject_interaction")
+_notes["documentation"] = ("Optional: irreducible human prose describing this event. "
+                           "Documentation, not queryable structured data. (Moved up from "
+                           "subject_manipulation, #73 audit 2 D9.)")
+_si["fields"].append(_notes)
+write(_t, "subject_interaction", _si)
+
+
+# --- D11: stimulus and receptive-field placement ---------------------------------------
+_t, _d = _a2_load("receptive_field")                                # (a)
+_v = _a2_field(_d["fields"], "value")
+_a2_drop(_v["fields"], "planes")
+_v["documentation"] = (
+    "A spatiotemporal receptive field: the response volume over two spatial axes and a "
+    "time lag. The volume lives in `sampled_body` "
+    "documents, one per plane, each stating what it holds as one body condition "
+    "{variable: represented quantity, term: response estimate | significance} -- bodies "
+    "have no order, so the plane is said on the body (#73 audit 2 D11; `planes[]` "
+    "dropped). The keys (including real lag coordinates) are each body's `keys`.")
+write(_t, "receptive_field", _d)
+_t, _d = _a2_load("timed_sequence")                                 # (b)
+_v = _a2_field(_d["fields"], "value")
+_v["documentation"] = (
+    "An ordered, timed list of references to presented data_type documents. The TIMED "
+    "part is this value's one key: `variable` time, irregular, its values the per-trial "
+    "onsets (inline, or in a body this document owns). A manipulation that presents the "
+    "sequence only points at it (`value_id`, item 60). (#73 audit 2 D11, amending the "
+    "stimulus plan's onset placement.)")
+_po = _a2_field(_v["fields"], "presentation_order")
+_po["documentation"] = (
+    "Playlist, indexed by trial along the value's time key (the onsets): one 0-based "
+    "index per trial naming an `item_id` edge directly; distinct-refs + index-array "
+    "encoding.")
+_v["fields"].insert(1, subfield(
+    "offset", "matrix",
+    "Per-trial offset (end) times on the same clock as the onset key, where the source "
+    "has them. <- v1 `presentation_time.offset`.", scalar=False))
+write(_t, "timed_sequence", _d)
+_t, _d = _a2_load("visual_grating")                                 # (c) + (d)
+_v = _a2_field(_d["fields"], "value")
+_a2_field(_v["fields"], "blank")["documentation"] = (
+    "True when this stimulus presents nothing (NDI `isblank`). Whether it serves as a "
+    "sequence's control is `timed_sequence.value.control_item` (#73 audit 2 D11).")
+_pos = _a2_field(_v["fields"], "position")
+_pos["name"] = "center"
+_pos["documentation"] = ("Screen position of the stimulus centre, in visual angle "
+                         "(renamed from `position`, which named the `position` type; "
+                         "#73 audit 2 D11).")
+write(_t, "visual_grating", _d)
+
+
+# --- D13 -------------------------------------------------------------------------------
+_t, _d = _a2_load("formulation")                                    # (1)
+for _e in _d["depends_on"]:
+    if _e["name"] == "ingredient_id":
+        _e["min_count"] = 0
+_a2_field(_d["fields"], "value.ingredients")["mustBeNonEmpty"] = False
+write(_t, "formulation", _d)
+_t, _d = _a2_load("sampled_body")                                   # (2)
+_fv = _a2_field(_d["fields"], "fill_value")
+_fv.update(type="char", mustBeScalar=True, blank_value="", default_value="",
+           documentation=(
+               "What every position of a MISSING chunk holds, for a dense body "
+               "(`complete` true) whose file series omits members: ONE value, written "
+               "as a literal read according to the owner's `datum_type` (\"NaN\", "
+               "\"-32768\", \"1+2j\") -- exact for every datum type, which a double is "
+               "not for int64/uint64 or complex (#73 audit 2 D13)."))
+write(_t, "sampled_body", _d)
+_A2_STANDALONE = (
+    " Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this "
+    "names a data_type document, that document is a STANDALONE value -- not a "
+    "statement, relation or clock_alignment leaf, all of which are also data_types.")
+for _cls, _edges in (("subject_statement", ("value_id",)), ("relation", ("value_id",)),
+                     ("data_body", ("owner_id",)),
+                     ("directed_relation", ("child_id", "parent_id"))):
+    _t, _d = _a2_load(_cls)
+    for _e in _d["depends_on"]:
+        if _e["name"] in _edges:
+            _e["documentation"] = _e["documentation"].rstrip() + _A2_STANDALONE
+    write(_t, _cls, _d)
+_t, _d = _a2_load("acquisition_epoch")                              # (5)
+_k = _a2_field(_d["fields"], "keys")
+_a2_field(_k["fields"], "chunk")["documentation"] = (
+    "Positions per chunk along this key when the bytes are split across several files "
+    "(a tiled image). Chunk k is file-series member k; every member is present.")
+_a2_field(_k["fields"], "labels_from")["documentation"] = (
+    "NOT USABLE HERE: this is acquisition_epoch's drifted private copy of the key entry, "
+    "and the class declares no `key_labels_id` edge for it to name. Deriving the class "
+    "from `data` waits for the epoch-family re-walk (#73 audit 2 D13).")
+_a2_field(_d["fields"], "channels")["documentation"] = (
+    "Optional intrinsic channel descriptors (count, native unit, storage relationship).")
+write(_t, "acquisition_epoch", _d)
+_t, _d = _a2_load("epoch_parameter_reader")                         # (9)
+_fp = _a2_field(_d["fields"], "file_pattern")
+_fp["name"] = "file_regex"
+_fp["documentation"] = (
+    "A REGULAR EXPRESSION matching the epoch file this reader parses for the epoch's "
+    "parameters (e.g. \".*\\\\.tsv\\\\>\"). Named apart from epoch_file_pattern's "
+    "`file_pattern`, which uses NDI's #-stem syntax (#73 audit 2 D13). "
+    + _fp["documentation"][_fp["documentation"].find("<- v1"):])
+write(_t, "epoch_parameter_reader", _d)
+_t, _d = _a2_load("epoch_file_pattern")
+_fp = _a2_field(_d["fields"], "file_pattern")
+_fp["documentation"] = ("SYNTAX: NDI's #-stem pattern syntax, not a plain regular "
+                        "expression (`#` matches the epoch's common stem). "
+                        + _fp["documentation"])
+write(_t, "epoch_file_pattern", _d)
+for _n in ("model_fit", "model_fit_calculation"):                   # (8)
+    _t, _d = _a2_load(_n)
+    if _t != "draft":
+        os.remove(os.path.join(VETA, _t, _n + ".json"))
+        _d["document_class"]["maturity_level"] = "draft"
+        write("draft", _n, _d)
+
+
+# --- D12 (option B): `require_inherited` replaces edge redeclaration --------------------
+# DID-matlab's required set is the chain UNION (cache.m requiredDependencies), so a
+# redeclaration that TIGHTENS works and one that LOOSENS is silently void; neither is
+# declared as such. A class now LISTS the inherited edges / fields it makes required.
+_A2_REQUIRE = {
+    "subject_calculation": ["software_id"],   # was a redeclared edge
+    "sampled_body": ["keys"],                  # D6: keys required on a sampled body
+    "opaque_body": ["format"],                 # D6: an opaque body states its format
+}
+# Same-strength redeclarations kept as did_v1 fidelity (each class restates a v1
+# template that declares the edge again); anything else redeclared fails the build.
+_A2_V1_REDECLARED = {("image_stack", "document_id"),
+                     ("daqreader_image_epochdata_ingested", "daqreader_id")}
+
+
+def _a2_chain(name, seen=None):
+    seen = [] if seen is None else seen
+    _tt, _pp = path_of(name)
+    if _pp is None:
+        return seen
+    for _s in load(_pp)["document_class"].get("superclasses", []):
+        _sn = _s["class_name"] if isinstance(_s, dict) else _s
+        if _sn not in seen:
+            seen.append(_sn)
+            _a2_chain(_sn, seen)
+    return seen
+
+
+_t, _d = _a2_load("subject_calculation")
+_d["depends_on"] = [e for e in _d["depends_on"] if e["name"] != "software_id"]
+write(_t, "subject_calculation", _d)
+_t, _d = _a2_load("hartley_calc")        # the loosening pair: enforced required anyway
+_d["depends_on"] = [e for e in _d["depends_on"]
+                    if e["name"] not in ("element_id", "stimulus_presentation_id")]
+write(_t, "hartley_calc", _d)
+for _cls, _names in _A2_REQUIRE.items():
+    _t, _d = _a2_load(_cls)
+    _inh = {}
+    for _s in _a2_chain(_cls):
+        _st, _sp = path_of(_s)
+        if _sp is None:
+            continue
+        _sd = load(_sp)
+        for _e in _sd.get("depends_on", []):
+            _inh.setdefault(_e["name"], _e.get("mustBeNonEmpty", False))
+        for _f in _sd.get("fields", []):
+            _inh.setdefault(_f["name"], _f.get("mustBeNonEmpty", False))
+    for _n in _names:
+        if _n not in _inh:
+            raise SystemExit(f"audit2 D12: {_cls}.require_inherited names `{_n}`, "
+                             "which it does not inherit")
+        if _inh[_n]:
+            raise SystemExit(f"audit2 D12: {_cls}.require_inherited `{_n}` is already "
+                             "required -- a no-op listing")
+    _d["require_inherited"] = list(_names)
+    write(_t, _cls, _d)
+
+_a2_redeclared = []
+for _tier in TIERS:
+    for _fn in sorted(os.listdir(os.path.join(VETA, _tier))):
+        if not _fn.endswith(".json") or _fn.endswith("_meta.json"):
+            continue
+        _cn = _fn[:-5]
+        _d = load(os.path.join(VETA, _tier, _fn))
+        if "document_class" not in _d:
+            continue
+        _mine = {e["name"]: e for e in _d.get("depends_on", [])}
+        for _s in _a2_chain(_cn):
+            _st, _sp = path_of(_s)
+            if _sp is None:
+                continue
+            for _e in load(_sp).get("depends_on", []):
+                if _e["name"] in _mine and (_cn, _e["name"]) not in _A2_V1_REDECLARED:
+                    _a2_redeclared.append(f"{_cn}.{_e['name']} (from {_s})")
+if _a2_redeclared:
+    raise SystemExit("audit2 D12: inherited edges redeclared -- use require_inherited "
+                     f"to tighten; loosening is void: {sorted(set(_a2_redeclared))}")
+print(f"audit2 D12: require_inherited on {len(_A2_REQUIRE)} class(es); "
+      f"{len(_A2_V1_REDECLARED)} v1-fidelity redeclaration(s) allowed, 0 others")
+
+
+# --- D8: the eight spatial tombstones restated from the v1 templates ---------------------
+# They were copied from NDI-main with the edges snake_cased and the pyramid re-parented
+# under subject_observation, so an UNMIGRATED v1 document met a schema that is not its
+# shape. Restated as hartley_calc was: the v1 chain, the v1 edge names VERBATIM (did_v1
+# spelling; universalRenames never renames depends_on), the v1 fields, and nothing
+# required that v1 does not write (edges required only where the v1 template requires
+# them; no field required). NDI origin/main database_documents/data/*.json.
+_A2_SPATIAL_EDGES = {
+    "spatial_gene_expression_pyramid": [
+        ("subject_id", "subject", "The subject whose tissue was assayed."),
+        ("geneList_id", "gene_list", "The gene list the counts are indexed by.")],
+    "spatial_gene_expression_tiles": [
+        ("spatialGeneExpressionPyramid_id", "spatial_gene_expression_pyramid",
+         "The pyramid this level belongs to."),
+        ("subject_id", "subject", "The subject."),
+        ("source_file_id", "file_reference", "The source file the tiles came from.")],
+    "spatial_gene_expression_cells": [
+        ("spatialGeneExpressionPyramid_id", "spatial_gene_expression_pyramid",
+         "The pyramid the cells were segmented from."),
+        ("subject_id", "subject", "The subject."),
+        ("source_file_id", "file_reference", "The source file.")],
+    "cell_type_labels": [
+        ("cells_document_id", "spatial_gene_expression_cells", "The labelled cells."),
+        ("reference_document_id", "base", "The reference the labels come from.")],
+    "gene_list_mapping": [
+        ("geneList_id_a", "gene_list", "List a."),
+        ("geneList_id_b", "gene_list", "List b.")],
+}
+# Required exactly where the v1 template requires the edge (its schema_documents
+# mustBeNonEmpty, as the NDI required-ness stamp reads it): those the v1 writer sets.
+_A2_SPATIAL_V1_REQUIRED = {
+    ("spatial_gene_expression_pyramid", "subject_id"),
+    ("spatial_gene_expression_pyramid", "geneList_id"),
+    ("spatial_gene_expression_tiles", "spatialGeneExpressionPyramid_id"),
+    ("spatial_gene_expression_cells", "spatialGeneExpressionPyramid_id"),
+    ("cell_type_labels", "cells_document_id"),
+    ("gene_list_mapping", "geneList_id_a"),
+    ("gene_list_mapping", "geneList_id_b")}
+_A2_SPATIAL_V1_SUPERS = {"spatial_gene_expression_pyramid": ["base", "gene_expression"]}
+for _cls in ("spatial_gene_expression_pyramid", "spatial_gene_expression_tiles",
+             "spatial_gene_expression_cells", "cell_type_labels", "gene_list",
+             "gene_list_mapping", "file_reference", "gene_expression"):
+    _t, _d = _a2_load(_cls)
+    if _cls in _A2_SPATIAL_V1_SUPERS:
+        _d["document_class"]["superclasses"] = [
+            {"class_name": s} for s in _A2_SPATIAL_V1_SUPERS[_cls]]
+    if _cls in _A2_SPATIAL_EDGES:
+        _d["depends_on"] = [dep(n, c, doc_ + " (did_v1 edge, v1 spelling.)",
+                                non_empty=(_cls, n) in _A2_SPATIAL_V1_REQUIRED)
+                            for n, c, doc_ in _A2_SPATIAL_EDGES[_cls]]
+    else:
+        for _e in _d["depends_on"]:
+            _e["mustBeNonEmpty"] = False
+    for _f in _d["fields"]:
+        _f["mustBeNonEmpty"] = False
+    write(_t, _cls, _d)
+
+_t, _d = _a2_load("ontology_image")          # D8: the optional edge in v1 spelling
+for _e in _d["depends_on"]:
+    if _e["name"] == "ontology_table_row_id":
+        _e["name"] = "ontologyTableRow_id"
+write(_t, "ontology_image", _d)
+print("audit2 D8: 8 spatial tombstones restated from the v1 templates "
+      "(v1 chain, v1 edge names, required only where v1 requires); ontology_image edge "
+      "respelled")
+
+
+# --- the meta-schema: D5 (c), D6 (2), D12, D13 (10) -----------------------------------
+_meta2 = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_bind = _meta2["$defs"]["field_definition"]["properties"]["constraints"]["properties"][
+    "binding"]
+_bind["properties"]["root"] = {
+    "type": "string",
+    "description": "The name of an inline value set (a `values` list): the set's "
+                   "identity, e.g. did_filter_band."}
+_bind["properties"]["source"] = {
+    "type": "string",
+    "description": "Where the admissible values come from: `value_set` (the inline "
+                   "`values`), or the registry list they are generated from (e.g. "
+                   "binding_registry_meta.relation_bindings)."}
+_bind["additionalProperties"] = False
+_meta2["properties"]["rules"] = {
+    "type": "array",
+    "description": "In-document conditions a single field declaration cannot express "
+                   "(an iff, an exclusive or, a requirement conditional on another "
+                   "field). Each rule is NAMED so a validator implements it as a "
+                   "named check (DID-matlab, report-only first). #73 audit 2 D6.",
+    "items": {"type": "object", "required": ["name", "fields", "statement"],
+              "additionalProperties": False,
+              "properties": {
+                  "name": {"type": "string"},
+                  "fields": {"type": "array", "items": {"type": "string"},
+                             "description": "Dotted paths of the fields involved."},
+                  "statement": {"type": "string",
+                                "description": "The condition, in one line."}}}}
+_meta2["properties"]["require_inherited"] = {
+    "type": "array", "items": {"type": "string"},
+    "description": "Inherited edges or fields this class makes REQUIRED, by name. The "
+                   "one way to tighten an inherited declaration: redeclaring an "
+                   "inherited edge is refused by the build, and a redeclaration that "
+                   "loosens would be void anyway (the required set is the union over "
+                   "the chain). A listed name must be inherited and not already "
+                   "required. #73 audit 2 D12."}
+_fdp = _meta2["$defs"]["field_definition"]["properties"]
+for _k in ("mustBeNonEmpty", "mustBeScalar"):
+    if not isinstance(_fdp.get(_k), dict):
+        raise SystemExit(f"audit2: meta field_definition has no {_k} property")
+    _fdp[_k]["description"] = (
+        _fdp[_k].get("description", "").rstrip() +
+        " ENFORCED ON TOP-LEVEL FIELDS ONLY: on a nested sub-field it is declarative "
+        "until DID-matlab descends into declared sub-fields (cache.m validateDocument "
+        "calls validateField only for a block's own fields). #73 audit 2 D13.").strip()
+write("stable", "did_schema_meta", _meta2)
+
+
+# --- #73 audit 2 MECHANICAL BATCH: stale documentation --------------------------------
+# No decision content; each line names its finding in review/73/audit2_*.md.
+def _a2_doc(cls, path, text=None, *, edge=None, replace=None):
+    _t, _d = _a2_load(cls)
+    if edge:
+        _obj = next(e for e in _d["depends_on"] if e["name"] == edge)
+    else:
+        _obj = _a2_field(_d["fields"], path)
+    if replace:
+        for _a, _b in replace:
+            if _a not in _obj["documentation"]:
+                raise SystemExit(f"audit2 mech: `{_a[:40]}` not in {cls}.{edge or path}")
+            _obj["documentation"] = _obj["documentation"].replace(_a, _b)
+    else:
+        _obj["documentation"] = text
+    write(_t, cls, _d)
+
+
+_a2_doc("subject", "local_identifier", replace=[(  # A2
+    ("REQUIRED on subjects; the same field is optional on every other entity (see "
+     "local_identifier there)."),
+    ("Required; also declared (required) on `session` and `epoch` (#73 item 54)."))])
+_a2_doc("publication", "publication_date", replace=[(  # A7
+    (" (13 `_name`, 11 `_time`, 10 `_type`, 5 `_id`; 0 bare participles in 472 field "
+     "names)"), "")])
+_a2_doc("data_type", "data_body", replace=[("(item 58)", "(item 60)")])  # A14/B29
+_a2_doc("subject_statement", "conditions", replace=[(                    # A15
+    "A list of typed {variable, value} entries.",
+    ("A list of entries, each {variable, unit, source_unit, approximate} plus ONE "
+     "value form."))])
+for _cls in ("subject_statement", "data_body"):
+    _a2_doc(_cls, "conditions.term.value",
+            "The typed value: length 1 -- a condition is ONE value, true of every "
+            "value it qualifies (AMENDMENT 2; a per-reading label is a key).")
+_a2_doc("subject_interaction", None, edge="software_id", text=(          # A16
+    "Optional: the software that produced this value, modeled as a `software` entity "
+    "(name + version + citation id). The agent of a computation; distinct from "
+    "instrument_id (a measuring device) and from input_id (the input data, on "
+    "calculations). Empty for hand/DAQ measurements; REQUIRED on calculations "
+    "(subject_calculation.require_inherited). Supersedes the v1 `app` block."))
+_a2_doc("subject_calculation", None, edge="input_id", replace=[(
+    "; the provenance inverse of directed_relation's entity->entity child/parent.",
+    ".")])
+for _p in ("value", "value.clock", "value.start"):                     # A23 / C11
+    _a2_doc("relative_time_reference", _p,
+            replace=[("`relative_to`", "`referent_id`")])
+_a2_doc("coordinate_system", "origin", replace=[("`relative_to`", "`referent_id`")])
+_a2_doc("clock_alignment", None, edge="input_id", replace=[(            # A25
+    "and not a `_#` family.", "and not one repeated edge.")])
+_a2_doc("method_parameters", None, edge="parent_id", text=(              # A26
+    "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, "
+    "not precedence, and the variant carries a COMPLETE copy of every setting rather "
+    "than a diff. Named for its role (T15: `parent_id`, the generic lineage edge)."))
+_a2_doc("method_parameters", "name", text=(                              # A27
+    "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant need not be "
+    "named. Decided by #73 item 54: this field, not `base.name` (did_v1 only), holds "
+    "the name. NDI's readers that query `base.name` (spikeextractor.m:372, "
+    "spikesorter.m:373) must read this field for V_eta documents -- a PR #76 "
+    "checklist item."))
+_a2_doc("method_parameters", None, edge="subject_id", replace=[(          # A28
+    "settings that apply to ONE recording.",
+    "settings that apply to ONE subject (an element-subject).")])
+_a2_doc("term_assertion", None, edge="strain_id", replace=[(             # C8
+    ("Named for its target per the convention measured across 97 dependency "
+     "declarations (45 distinct names, all `<target>_id`) -- NOT a generic `term_id`."),
+    ("Named for its target (T15: a specific target names the edge; a generic one is "
+     "named for its role) -- NOT a generic `term_id`."))])
+# B22: the receptive_field value doc is rewritten in D11 above.
+_a2_doc("logical", "value", replace=[(                                   # B12
+    ("`logical` has no current user; retire-or-hold is an open team call "
+     "(V_eta_logical_observation_plan.md)."),
+    ("`logical` STAYS, like every data type (#73 item 52); one user is a gene mapping's "
+     "per-pair `logical` document (item 24)."))])
+
+_a2_mixin = 0                                                           # B1
+for _tier in TIERS:
+    for _fn in sorted(os.listdir(os.path.join(VETA, _tier))):
+        if not _fn.endswith(".json") or _fn.endswith("_meta.json"):
+            continue
+        _d = load(os.path.join(VETA, _tier, _fn))
+        _ch = False
+        for _f in _d.get("fields", []):
+            _doc0 = _f.get("documentation") or ""
+            if "shape-library mixin" not in _doc0:
+                continue
+            _doc1 = _doc0.replace(" (shape-library mixin)", "").replace(
+                "Identity classes that read or impose", "Statement leaves that "
+                "observe, assert or impose").replace(
+                "; value.unit names what is counted.",
+                "; what is counted is the statement's `variable`.")
+            _f["documentation"] = _doc1
+            _ch = True
+        if _ch:
+            _a2_mixin += 1
+            write(_tier, _fn[:-5], _d)
+print(f"audit2 mechanical: 'shape-library mixin' wording replaced in {_a2_mixin} "
+      "composite(s)")
+
+_meta3 = load(os.path.join(VETA, "stable", "did_schema_meta.json"))     # A31
+_meta3["$id"] = "https://did-schema.example.org/V_eta/did_schema_meta.json"
+_meta3["title"] = "DID/NDI Schema Meta-Schema (V_eta)"
+_meta3["description"] = (
+    "Validates the structure of DID/NDI schema files for V_eta. The design rules the "
+    "schema follows are the tenets (schemas/V_eta_tenets.md, T1-T15); this file "
+    "checks form only. Named composite types (the value cells: time, voltage, mass, "
+    "pressure, ..., count, score, ontology_term) declare their sub-fields inline, "
+    "so the canonical slot and the source provenance are read from the schema, not "
+    "from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, "
+    "pascals, degrees; #73 items 44 and audit 2 D10). Every value cell is "
+    "{<canonical slot>, source_value, source_unit, approximate}, except where T14 "
+    "says otherwise (a count; a date's precision).")
+_ml = _meta3["$defs"]["document_class_header"]["properties"].get("maturity_level")
+if isinstance(_ml, dict) and "V_delta" in (_ml.get("description") or ""):
+    _ml["description"] = _ml["description"].replace("V_delta", "V_eta")
+write("stable", "did_schema_meta", _meta3)
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
@@ -9899,7 +10751,12 @@ _DIM_CANON = {
     # --- attested in migrator code (do NOT rename without a coupled migrator change) ---
     "time": ["seconds"], "volume": ["liters"], "mass": ["grams"],
     "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
-    "frequency": ["hertz"], "temperature": ["celsius"], "pressure": ["mmhg"],
+    "frequency": ["hertz"], "temperature": ["celsius"],
+    # PASCALS, not mmhg (#73 audit 2 D10, jess 2026-09-29): a canonical slot exists for
+    # cross-document comparison, so it sits in the same unit system as its neighbours
+    # (newtons, square_meters); a source's mmHg is kept in source_value/source_unit and
+    # the migrators convert. (mmhg was "attested in migrator code", never decided.)
+    "pressure": ["pascals"],
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
     # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
     # whichever the source unit is computable into.
@@ -9936,15 +10793,20 @@ _DIM_CANON = {
 # ontology_term is the third named composite -- {node, name} -- declared so the IDENTITY
 # field of every statement (`variable.node`, T2) becomes a real typed, queryable path.
 _DIM_SPECIAL = {
+    # #73 audit 2 D10: the slot is named for the quantity (`count`, as `ph.value.ph`),
+    # and `unit` is GONE -- what is counted is the statement's `variable` (and its
+    # subject), so the field was a third place for one fact. No migrator wrote it
+    # (jSorterOutput.m:87-91 puts it in `variable`). A count converts nothing, so the
+    # cell has no source pair (the T14 value-cell rule's one drop).
     "count": [
-        subfield("value", "integer", "The discrete count."),
-        subfield("unit", "ontology_term",
-                 "What is counted (cells / individuals / spikes / events) -- semantic, "
-                 "NOT dimensional: counts do not normalise across units."),
+        subfield("count", "integer",
+                 "The discrete count. What is counted is the statement's `variable`."),
         subfield("approximate", "boolean", "True when the count is approximate."),
     ],
     "score": [
-        subfield("value", "double", "The score (double, so half-integer steps are legal)."),
+        subfield("score", "double",
+                 "The score (double, so half-integer steps are legal). Named for the "
+                 "quantity, not `value` (#73 audit 2 D10)."),
         subfield("scale", "ontology_term",
                  "The scoring rubric (e.g. Murine Body Condition Score)."),
         subfield("scale_min", "double", "Lower bound of the scale."),
@@ -9984,7 +10846,16 @@ def _named_type_subfields(tname):
         note = (" (OPTIONAL -- filled when the source unit is computable into it; "
                 "concentration has no single canonical)") if multi else \
                " -- the normalised, cross-document comparable number"
-        subs = [subfield(c, "double", f"Canonical {tname} value{note}.")
+        _canon_doc = {
+            # #73 audit 2 D10: an a.u. number is comparable only within one variable.
+            "intensity": "Canonical intensity value, in arbitrary units: comparable "
+                         "across documents only when they share the statement's "
+                         "`variable`.",
+            "ph": "Canonical pH, the log-scale number. `source_unit` is kept for "
+                  "lossless provenance (a source may write 'pH', or state a scale).",
+        }
+        subs = [subfield(c, "double", _canon_doc.get(tname,
+                                                     f"Canonical {tname} value{note}."))
                 for c in canon]
         subs += [
             subfield("source_unit", "char",
@@ -10023,6 +10894,83 @@ for _tier in ("stable", "draft", "deprecated"):
             _expanded += 1
             write(_tier, _fn[:-5], _obj)
 print(f"V_eta named-type expansion: declared sub_fields in {_expanded} schema(s)")
+
+# ---------- #73 audit 2 D10 (a): ONE generated default per value cell ----------------
+# Three conventions had grown up for one typed cell: a top-level default that omitted
+# the canonical slot, a bare `0.0` when nested, `{}` in visual_grating. Booleans
+# defaulted to 0.0 in a dozen places, three integers to 0.0, one string array to "".
+# The meta-schema says a default "must pass validation". Now: a named-composite cell's
+# default is generated from its declared sub-fields and reused wherever the type is
+# nested (a list of one cell where the field is an array), booleans default `false`,
+# integers `0`, string arrays `[]`.
+_A2_CELL_TYPES = set(_DIM_CANON) | (set(_DIM_SPECIAL) - {"ontology_term"})
+
+
+def _a2_leaf_default(f):
+    if f["type"] in _A2_CELL_TYPES or f.get("fields"):
+        cell = {sf["name"]: _a2_leaf_default(sf) for sf in f.get("fields", [])} \
+            if f["type"] in _A2_CELL_TYPES else f.get("default_value")
+        return cell
+    return f.get("default_value")
+
+
+def _a2_fix_defaults(fields):
+    n = 0
+    for f in fields or []:
+        if f.get("fields"):
+            n += _a2_fix_defaults(f["fields"])
+        t, scalar = f.get("type"), f.get("mustBeScalar", True)
+        if t == "boolean" and scalar:
+            want_b, want_d = False, False
+        elif t == "integer" and scalar:
+            want_b, want_d = 0, 0
+        elif t == "string" and not scalar:
+            want_b, want_d = [], []
+        elif t in _A2_CELL_TYPES:
+            cell = _a2_leaf_default(f)
+            want_b, want_d = f.get("blank_value"), (cell if scalar else [cell])
+        else:
+            continue
+        if t == "boolean" and f.get("blank_value") not in (0, 0.0, False):
+            want_b = f.get("blank_value")          # a deliberate non-false blank stays
+        if t == "integer" and f.get("blank_value") not in (0, 0.0, []):
+            want_b = f.get("blank_value")
+        if t == "integer" and f.get("default_value") not in (0, 0.0, []):
+            want_d = f.get("default_value")
+        if t == "boolean" and f.get("default_value") not in (0, 0.0, False):
+            want_d = f.get("default_value")
+        if (f.get("blank_value"), f.get("default_value")) != (want_b, want_d) or \
+                type(f.get("default_value")) is not type(want_d):
+            f["blank_value"], f["default_value"] = want_b, want_d
+            n += 1
+    return n
+
+
+_a2_def_fixed = _a2_def_files = 0
+for _tier in TIERS:
+    for _fn in sorted(os.listdir(os.path.join(VETA, _tier))):
+        if not _fn.endswith(".json") or _fn.endswith("_meta.json"):
+            continue
+        _obj = load(os.path.join(VETA, _tier, _fn))
+        _k = _a2_fix_defaults(_obj.get("fields"))
+        if _k:
+            _a2_def_fixed += _k
+            _a2_def_files += 1
+            write(_tier, _fn[:-5], _obj)
+print(f"audit2 D10 defaults: {_a2_def_fixed} field default(s) regenerated in "
+      f"{_a2_def_files} schema(s)")
+
+# #73 audit 2 mechanical B28: the `score` cell's own wording (a body-condition rubric)
+# read wrongly under a grating's contrast. Overridden per use, after the expansion
+# that declares the cell's sub-fields.
+_t, _d = _a2_load("visual_grating")                                     # B28
+_c = _a2_field(_a2_field(_d["fields"], "value")["fields"], "contrast")
+for _sf in _c["fields"]:
+    if _sf["name"] == "score":
+        _sf["documentation"] = "The contrast, on `scale` (e.g. Michelson, 0 to 1)."
+    if _sf["name"] == "scale":
+        _sf["documentation"] = "The contrast definition (e.g. Michelson contrast)."
+write(_t, "visual_grating", _d)
 
 # the meta-schema's `fields` description predates this use ("structure type fields")
 _m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
@@ -10509,6 +11457,20 @@ def _disposition(name, doc=None):
 # "does class X survive the build?" would have given the wrong answer for two of the
 # three classes it names, and it is exactly the question someone tidying this set
 # would ask. `contrast_sensitivity` is the only one that really is reused.
+# #73 audit 2 D13 (6) (jess, 2026-09-29): the v1 infra TOMBSTONES whose V_eta
+# successors are signed and built retire; the re-opening above is overtaken for them
+# (their families -- daq configuration, sync configuration, sync mapping, file
+# navigation, epoch, frequency_filter, daq ingested payloads -- are signed on the
+# board). `acquisition_epoch` (V_eta-authored, awaiting the epoch-family re-walk) and
+# `interaction_purpose` (subject-domain) stay in_progress.
+for _i in ("daqsystem", "daqreader", "daqmetadatareader", "filenavigator", "syncgraph",
+           "syncrule", "syncrule_mapping", "epochfiles_ingested", "epochid", "filter",
+           "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested"):
+    _DECIDED_PENDING.pop(_i, None)
+    _RET_V1_BEFORE_STRUCTURE[_i] = ("v1 infra source tombstone; its V_eta successor is "
+                                    "signed and built (#73 audit 2 D13)")
+
+
 _DELETE_PHASE8 = {
     "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
     "subject_group",
@@ -10677,7 +11639,8 @@ _DELETE_PHASE8 = {
 #                     absence in the universe, and is not what is relied on.
 #
 # TWO RESIDUES, RECORDED BECAUSE THEY OUTLIVE THIS EDIT AND ARE NOT FIXED HERE:
-#   1. `schemas/V_eta/examples/utc_reference_grid.json` is an EXAMPLE DOCUMENT
+#   1. [RESOLVED 2026-09-29, #73 audit 2 C9: both example documents are now dropped
+#      at the copy, section 0.] `schemas/V_eta/examples/utc_reference_grid.json` is an EXAMPLE DOCUMENT
 #      instance of `utc_reference`. It is copied in from V_zeta, not generated,
 #      so this delete loop (which walks TIERS only) does not reach it. It
 #      strands no real data -- an example is illustrative -- but the built tree

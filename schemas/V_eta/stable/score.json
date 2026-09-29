@@ -18,13 +18,15 @@
             "blank_value": [],
             "default_value": [
                 {
-                    "value": 0.0,
+                    "score": 0.0,
                     "scale": {
                         "node": "",
                         "name": ""
                     },
                     "scale_min": 0.0,
                     "scale_max": 0.0,
+                    "source_unit": "",
+                    "source_value": 0.0,
                     "approximate": false
                 }
             ],
@@ -33,11 +35,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed score value (shape-library mixin); value.scale names the rubric. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
+            "documentation": "A typed score value; value.scale names the rubric. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
             "constraints": {},
             "fields": [
                 {
-                    "name": "value",
+                    "name": "score",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,
@@ -46,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The score (double, so half-integer steps are legal).",
+                    "documentation": "The score (double, so half-integer steps are legal). Named for the quantity, not `value` (#73 audit 2 D10).",
                     "constraints": {}
                 },
                 {
@@ -151,8 +153,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

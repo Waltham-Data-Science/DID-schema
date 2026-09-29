@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The award/grant title (openMINDS Funding.awardTitle; was `title`, #73 item 54).",
+            "documentation": "The award/grant title (openMINDS Funding.awardTitle; was `title`, #73 item 54). Its award number is `global_identifier` with scheme AwardNumber.",
             "constraints": {}
         }
     ]

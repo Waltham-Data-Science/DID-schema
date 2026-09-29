@@ -52,7 +52,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which axis is X' well defined.",
+                    "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which key is X' well defined.",
                     "constraints": {},
                     "fields": [
                         {
@@ -99,7 +99,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical axis, which uses `labels`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, pascals. Absent for a categorical key, which uses `labels`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -153,7 +153,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Applies to the whole axis.",
+                    "documentation": "Applies to the whole key.",
                     "constraints": {}
                 },
                 {
@@ -166,7 +166,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Number of coordinates along this axis; equals the extent of the value it indexes.",
+                    "documentation": "Number of positions along this key; equals the extent of the value it indexes.",
                     "constraints": {}
                 },
                 {
@@ -192,7 +192,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Where the axis starts. REQUIRED iff `regular`.",
+                    "documentation": "Where the key starts. REQUIRED iff `regular`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -405,6 +405,33 @@
             "ontology": null,
             "documentation": "True: every combination of key positions has a value (a dense grid). False: only the listed rows exist (ragged or sparse; a missing row is absence, e.g. an unlabelled cell).",
             "constraints": {}
+        }
+    ],
+    "rules": [
+        {
+            "name": "key_regular_origin_spacing",
+            "fields": [
+                "keys.regular",
+                "keys.origin",
+                "keys.spacing"
+            ],
+            "statement": "A key carries `origin` and `spacing` if and only if `regular` is true."
+        },
+        {
+            "name": "key_positions_one_form",
+            "fields": [
+                "keys.values",
+                "keys.labels",
+                "keys.labels_from"
+            ],
+            "statement": "A key that is not `regular` carries exactly one of `values`, `labels`, `labels_from`; a regular key carries none of them."
+        },
+        {
+            "name": "key_chunk_sampled_only",
+            "fields": [
+                "keys.chunk"
+            ],
+            "statement": "`chunk` is set only on the keys of a sampled_body."
         }
     ]
 }

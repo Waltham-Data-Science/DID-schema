@@ -14,17 +14,11 @@
         {
             "name": "input_id",
             "mustBeNonEmpty": false,
-            "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). A statement with inputs in the dataset is a calculation; this edge is what makes it one. Typed to a statement leaf -- never an entity; the provenance inverse of directed_relation's entity->entity child/parent.",
+            "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). A statement with inputs in the dataset is a calculation; this edge is what makes it one. Typed to a statement leaf -- never an entity.",
             "must_refer_to_document_class": "subject_statement",
             "multiple": true,
             "min_count": 0,
             "ordered": false
-        },
-        {
-            "name": "software_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The software that produced this document, as a `software` entity (name + version + citation id). REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2): a calculation without a named producer cannot be re-run. Redeclares -- and TIGHTENS to required -- the optional `software_id` every subject_interaction carries; the target class is unchanged. Moved here from the dropped `calculator` mixin (#73). Distinct from `instrument_id` (a measuring device) and from `derived_from` (the input data).",
-            "must_refer_to_document_class": "software"
         },
         {
             "name": "interpreter_id",
@@ -54,5 +48,8 @@
             "documentation": "True = this calculation adds NO information beyond its inputs: an exact, deterministic, choice-free rebuild exists (per-gene totals summed from the counts), so it is safe to delete. Most calculations are NOT redundant -- a clustering, a label transfer or a fit depends on method, version and randomness. Nothing may cite a redundant document as a provenance input (item 31; T6).",
             "constraints": {}
         }
+    ],
+    "require_inherited": [
+        "software_id"
     ]
 }

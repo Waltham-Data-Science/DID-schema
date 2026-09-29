@@ -102,7 +102,8 @@ def test_the_value_cell_carries_the_five_signed_subfields():
     _tier, d = BUILT["harmonic_component"]
     subs = {s["name"]: s for s in _field(d, "value")["fields"]}
     # #73 item 69 (2026-09-29): the control pair nests as control{real, imaginary}.
-    assert set(subs) == {"harmonic", "real", "imaginary", "control"}
+    # #73 audit 2 D3: response_unit, as on tuning_curve and contrast_sensitivity.
+    assert set(subs) == {"harmonic", "real", "imaginary", "control", "response_unit"}
     assert {s["name"] for s in subs["control"]["fields"]} == {"real", "imaginary"}
 
 
@@ -477,7 +478,12 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # item 65's rename and the timed_sequence.control_item addition leave the count.
     # SEVENTEENTH MOVEMENT, re-derived not bumped: 211 -> 213 on 2026-09-29, #73
     # item 68 minted model_fit + model_fit_calculation. Its doubles carry no min/max.
-    assert walked == 213, f'schema count moved; re-derive the inert set ({walked})'
+    # EIGHTEENTH MOVEMENT, re-derived not bumped: 213 -> 211 on 2026-09-29, #73 audit
+    # 2 mechanical C9 dropped the two V_zeta EXAMPLE documents (instances of
+    # `scalar_temperature_observation` and `utc_reference`, classes V_eta does not
+    # define). They are documents, not classes, and declare no constrained field the
+    # INERT list could hold; the list below is untouched.
+    assert walked == 211, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

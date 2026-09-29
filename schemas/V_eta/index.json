@@ -476,8 +476,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "daqmetadatareader_epochdata_ingested",
@@ -501,8 +501,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqreader.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "daqreader_epochdata_ingested",
@@ -514,8 +514,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 daqreader_epoch_cache (awaiting review)"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "daqreader_image_epochdata_ingested",
@@ -528,8 +528,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 fold into the daqreader cache + a modality field; ALSO needs the factual `_image` question answered by NDI (distinct cache shape, or modality label?) (awaiting review)"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "daqsystem",
@@ -540,8 +540,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqsystem.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "data",
@@ -769,8 +769,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochfiles_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "epochid",
@@ -781,8 +781,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochid.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "file_reference",
@@ -805,8 +805,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filenavigator.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "filter",
@@ -817,8 +817,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filter.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "fitcurve",
@@ -1247,25 +1247,25 @@
         },
         {
             "class_name": "model_fit",
-            "tier": "stable",
+            "tier": "draft",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "draft",
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/model_fit.json",
+            "path": "schemas/V_eta/draft/model_fit.json",
             "disposition": "persist"
         },
         {
             "class_name": "model_fit_calculation",
-            "tier": "stable",
+            "tier": "draft",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "draft",
             "superclasses": [
                 "subject_calculation",
                 "model_fit"
             ],
-            "path": "schemas/V_eta/stable/model_fit_calculation.json",
+            "path": "schemas/V_eta/draft/model_fit_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1830,8 +1830,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 "base",
-                "gene_expression",
-                "subject_observation"
+                "gene_expression"
             ],
             "path": "schemas/V_eta/stable/spatial_gene_expression_pyramid.json",
             "disposition": "retire",
@@ -2135,8 +2134,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncgraph.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "syncrule",
@@ -2147,8 +2146,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "syncrule_mapping",
@@ -2159,8 +2158,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule_mapping.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "temperature",

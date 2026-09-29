@@ -23,21 +23,108 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Cross-reference identifier(s) for this entity (ORCID | ROR | DOI | PMID | PMCID | RRID | UDI | \u2026). Array \u2014 e.g. a publication carries DOI+PMID+PMCID.",
+            "documentation": "Cross-reference identifier(s) for this entity, one entry per scheme: ORCID | ROR | DOI | PMID | PMCID | RRID | UDI | URL | AwardNumber | SWHID | Wikidata. A web_resource's URL is global_identifier[scheme=URL]; a funding award's number is global_identifier[scheme=AwardNumber]; software is cited by RRID, DOI, SWHID or Wikidata (item 53).",
             "constraints": {},
             "fields": [
                 {
                     "name": "scheme",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Identifier scheme.",
-                    "constraints": {}
+                    "documentation": "Identifier scheme, as a term (matched by name while its node is staged, T8). Bound, preferred (#73 audit 2 D9; was free `char`).",
+                    "constraints": {
+                        "binding": {
+                            "root": "did_identifier_scheme",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "",
+                                    "name": "ORCID"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "ROR"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "DOI"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "PMID"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "PMCID"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "RRID"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "UDI"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "URL"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "AwardNumber"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "SWHID"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "Wikidata"
+                                }
+                            ],
+                            "strength": "preferred",
+                            "source": "value_set"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "value",

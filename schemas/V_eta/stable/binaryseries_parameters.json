@@ -15,8 +15,8 @@
         {
             "name": "time_size",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -41,8 +41,8 @@
         {
             "name": "data_size",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -67,8 +67,8 @@
         {
             "name": "data_dim",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -80,8 +80,8 @@
         {
             "name": "samples_regular_intervals",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,

@@ -61,7 +61,7 @@
                     }
                 },
                 {
-                    "name": "source",
+                    "name": "source_value",
                     "type": "char",
                     "blank_value": "",
                     "default_value": "",
@@ -71,6 +71,19 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The raw input string, preserved.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the date is uncertain (a guess or an estimate). Independent of `precision`, which says how much of the date was stated.",
                     "constraints": {}
                 }
             ]

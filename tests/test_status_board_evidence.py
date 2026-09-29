@@ -367,10 +367,15 @@ def test_a_private_helper_counts_as_a_migrator():
     (jSoftwareFromApp.m, jFrequencyFilter.m). The ledger reports `app` as having
     no migrator. This sweep must not.
     """
+    # `filter` RETIRED with #73 audit 2 D13 (its V_eta successor, frequency_filter, is
+    # signed and built), so it is no longer open; the sweep is still asked about it
+    # by name, because the undercount it demonstrates is about the sweep, not the
+    # class's disposition.
     classes = set(_open_classes())
-    assert {"app", "filter"} <= classes, (
-        "app/filter are no longer open -- rewrite this test against whatever "
+    assert "app" in classes, (
+        "app is no longer open -- rewrite this test against whatever "
         "block-superclass classes remain, or delete it")
+    classes |= {"filter"}
     mig, src = sb.migrator_evidence(classes, _did_root(),
                                     sb.find_repo("NDI-matlab", "NDI_MATLAB"))
     assert mig is not None and src["files_read"] > 0, (

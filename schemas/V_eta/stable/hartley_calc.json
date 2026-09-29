@@ -12,20 +12,7 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "element_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The element whose responses were reverse-correlated.",
-            "must_refer_to_document_class": "subject"
-        },
-        {
-            "name": "stimulus_presentation_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The Hartley stimulus presentation.",
-            "must_refer_to_document_class": "stimulus_presentation"
-        }
-    ],
+    "depends_on": [],
     "file": [
         {
             "name": "hartley_results.ngrid",

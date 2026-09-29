@@ -315,6 +315,11 @@ stand. Source: Waltham-Data-Science/DID-schema#73.
 - **Knock-on:** `hartley_calc` (retire) becomes ⊂ [`base`,
   `hartley_reverse_correlation`] and `tuning_fit` (retire, abstract, no fields,
   no subclass) becomes ⊂ [`base`]. Neither declared anything of its own.
+  *[CORRECTED 2026-09-29, #73 audit 2 C15: `hartley_calc` was then restated from its
+  WRITER (d78f2fa) as ⊂ [`calculator`, `hartley_reverse_correlation`] with a
+  `hartley_calc` block — NDIcalc-vis hartley.m writes `calculator` and `app` blocks.
+  Audit 2 D12 then dropped its two optional edge redeclarations, which the chain's
+  required declarations made void.]*
 - **Cross-repo:** any migrator that writes `calculator` into a document's
   superclass list, or emits a `calculator:` block, must stop. That is the
   DID-matlab half of #73.

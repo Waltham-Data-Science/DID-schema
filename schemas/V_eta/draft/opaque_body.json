@@ -11,5 +11,8 @@
     },
     "depends_on": [],
     "file": [],
-    "fields": []
+    "fields": [],
+    "require_inherited": [
+        "format"
+    ]
 }

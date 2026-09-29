@@ -22,72 +22,9 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag, with the estimation method and one entry per stored plane. The volume itself lives in `sampled_body` documents; the keys (including real lag coordinates) are declared there, on `keys` (renamed from `axes`, #73 item 14).",
+            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag. The volume lives in `sampled_body` documents, one per plane, each stating what it holds as one body condition {variable: represented quantity, term: response estimate | significance} -- bodies have no order, so the plane is said on the body (#73 audit 2 D11; `planes[]` dropped). The keys (including real lag coordinates) are each body's `keys`.",
             "constraints": {},
-            "fields": [
-                {
-                    "name": "planes",
-                    "type": "structure",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "ARRAY, one entry per emitted body in emission order, naming what that body holds. A receptive field and its significance map are DIFFERENT QUANTITIES that happen to share a grid, so they are separate bodies rather than a length-2 axis -- the v1 writer says the same by giving that dimension no coordinates.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "quantity",
-                            "type": "ontology_term",
-                            "blank_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "default_value": {
-                                "node": "",
-                                "name": ""
-                            },
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "What this plane holds (the response estimate, or its significance).",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+            "fields": []
         }
     ]
 }

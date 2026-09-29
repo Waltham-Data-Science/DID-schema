@@ -19,7 +19,7 @@
         {
             "name": "subject_id",
             "mustBeNonEmpty": false,
-            "documentation": "OPTIONAL scope: settings that apply to ONE recording. Precedence comes from THIS and epoch_id -- not from the self-edge.",
+            "documentation": "OPTIONAL scope: settings that apply to ONE subject (an element-subject). Precedence comes from THIS and epoch_id -- not from the self-edge.",
             "must_refer_to_document_class": "subject"
         },
         {
@@ -31,7 +31,7 @@
         {
             "name": "parent_id",
             "mustBeNonEmpty": false,
-            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`input_id` on calculations); `parent_id` was rejected because it implies the child inherits, and it does not.",
+            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Named for its role (T15: `parent_id`, the generic lineage edge).",
             "must_refer_to_document_class": "method_parameters"
         }
     ],
@@ -47,7 +47,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant need not be named. CITATION CORRECTED 2026-08-12 -- this read \"the string spikeextractor.m:372 and spikesorter.m:373 query by exact_string\", and those two lines query `base.name`, NOT this field: ndi.query('base.name','exact_string',extraction_parameters_name,'') and ndi.query('base.name','exact_string',sorting_parameters_name,''), re-read from NDI origin/main. `method_parameters` inherits `base`, so this declaration is a SECOND COPY of a name the apps read from the `base` block -- one fact in two live storage locations, which is #69. WHICH BLOCK IS AUTHORITATIVE IS AN OPEN TEAM DECISION riding with binding governance; nothing here settles it, and the field and its constraints are unchanged. Do not delete either copy on this note. The block comment above is correct as written: it always said `base.name`, and only this string disagreed with it.",
+            "documentation": "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant need not be named. Decided by #73 item 54: this field, not `base.name` (did_v1 only), holds the name. NDI's readers that query `base.name` (spikeextractor.m:372, spikesorter.m:373) must read this field for V_eta documents -- a PR #76 checklist item.",
             "constraints": {}
         },
         {
@@ -79,7 +79,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag.",
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
                     "constraints": {},
                     "fields": [
                         {
@@ -111,6 +111,66 @@
                     ]
                 },
                 {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical unit of `value.value`, for a numeric knob (#73 audit 2 D4, amending the signed 'no unit field'). Unbound until the unit vocabulary is chosen (OPEN_ITEMS 24). Absent for a unitless or non-numeric knob.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit as the source gave it. Omitted when already canonical.",
+                    "constraints": {}
+                },
+                {
                     "name": "value",
                     "type": "structure",
                     "blank_value": {},
@@ -120,7 +180,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Numeric knobs. The canonical value plus what the source wrote.",
+                    "documentation": "Numeric knobs: the canonical value, in `unit`, plus what the source wrote.",
                     "constraints": {},
                     "fields": [
                         {
@@ -133,20 +193,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical value.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded unit.",
+                            "documentation": "Canonical value, in `unit`.",
                             "constraints": {}
                         },
                         {
@@ -159,7 +206,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept whatever the registry later says.",
+                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept.",
                             "constraints": {}
                         }
                     ]

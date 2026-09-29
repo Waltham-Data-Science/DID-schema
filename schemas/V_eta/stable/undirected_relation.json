@@ -39,8 +39,25 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "An association term (paired_with, same_as).",
-            "constraints": {},
+            "documentation": "The relation, as a term. Bound (preferred) to the undirected rows of binding_registry_meta.relation_bindings, from which the allowed values are generated at build time (#73 audit 2 D5).",
+            "constraints": {
+                "binding": {
+                    "root": "did_relation_undirected",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "",
+                            "name": "paired_with"
+                        },
+                        {
+                            "node": "",
+                            "name": "same_as"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "source": "binding_registry_meta.relation_bindings"
+                }
+            },
             "fields": [
                 {
                     "name": "node",

@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Which files comprise ONE epoch, as declared patterns ({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 form was a string handed to eval. `#` matches an unknown common stem, so a group of files sharing it is one epoch.",
+            "documentation": "SYNTAX: NDI's #-stem pattern syntax, not a plain regular expression (`#` matches the epoch's common stem). Which files comprise ONE epoch, as declared patterns ({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 form was a string handed to eval. `#` matches an unknown common stem, so a group of files sharing it is one epoch.",
             "constraints": {}
         },
         {

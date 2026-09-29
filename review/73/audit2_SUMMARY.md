@@ -187,6 +187,29 @@ evidence, cited in their reports):
   `validateField` call; `validateTypeShape` `:2051` does not recurse); "descend into
   sub-fields" joins the DID-matlab list beside the D6 rules, report-only first.
 
+## Build (2026-09-29): D2-D13 and the mechanical batch, built together
+
+All in the "#73 AUDIT 2 BATCHED BUILD" block of `tools/build_v_eta.py` (plus source edits
+for the value cells, the relation registry and the dispositions), gated by
+`python3 tools/gates.py`: 28 of 28 steps pass. Four things differ from the log above,
+each for a stated reason:
+- **D8:** edges are required where the v1 TEMPLATE requires them (7 edges), not "nothing
+  required": those are the edges the v1 writer sets, so "nothing required that v1 does
+  not write" keeps them. The NDI required-ness stamp reads 26 divergences (was 28).
+- **D9 (b):** `global_identifier.scheme` became an `ontology_term`. A binding's members
+  are `{node, name}` (item 64), and a NodeRef set on a `char` field is what binding
+  governance B4 forbids (must stay 0). DID-matlab also writes a scheme `NDICloud`, which
+  is not in the decided set; the binding is `preferred`, so it is not rejected.
+- **D7 (b):** `pyraview`'s current target is a SIGNED confirmation (2026-08-13, [pyraview
+  pyramid]), so the decision is recorded in its `flags` and on the sign-off sheet (A9),
+  not as `decided_targets`, which cannot coexist with a confirmation.
+- **D13 (6):** 12 infra tombstones retired, not 13: `daqreader_mfdaq_epochdata_ingested`
+  was already removed from the build.
+Also found while building: the V_delta meta-schema described `mmhg` as chosen because it is
+"the curator-natural unit for biological pressure". D10 (e) was decided on the premise that
+no reason was recorded; the build follows the decision (pascals), and the finding goes back
+to jess. The sign-off sheet (D7c) is `review/73/team_signoff_sheet.md`.
+
 ## Mechanical fixes (no decision needed; one batch)
 
 Stale documentation left by renames and decisions already made: A2, A7, A13, A14/B29,

@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "WHICH point on `relative_to` is zero (image upper-left corner, probe tip, bregma). The same concept as a key's `origin`; a term here because a root coordinate system is not measured within another one.",
+            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma). The same concept as a key's `origin`; a term here because a root coordinate system is not measured within another one.",
             "constraints": {},
             "fields": [
                 {
@@ -177,7 +177,12 @@
                     "name": "spacing",
                     "type": "length",
                     "blank_value": {},
-                    "default_value": {},
+                    "default_value": {
+                        "meters": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -228,8 +233,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,

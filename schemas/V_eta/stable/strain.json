@@ -19,6 +19,12 @@
             "min_count": 0,
             "max_count": 2,
             "ordered": false
+        },
+        {
+            "name": "product_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the strain as a product -- its vendor (an organization) and catalog number -- replacing the inline `stock_number` {vendor, code} (#73 audit 2 D9; item 59 named strain as product's expected later user).",
+            "must_refer_to_document_class": "product"
         }
     ],
     "file": [],
@@ -264,47 +270,6 @@
             "constraints": {
                 "pattern": "^$|^[A-Z]([a-z]?)+$"
             }
-        },
-        {
-            "name": "stock_number",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Vendor stock/catalogue number.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "vendor",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The vendor or repository.",
-                    "constraints": {}
-                },
-                {
-                    "name": "code",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Its catalogue/stock code.",
-                    "constraints": {}
-                }
-            ]
         },
         {
             "name": "synonym",

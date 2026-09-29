@@ -30,7 +30,7 @@
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent for a computation; distinct from instrument_id (a measuring device) and from derived_from (the input data). Empty for hand/DAQ measurements; populated on calculations, optional on computed observations. Supersedes the v1 `app` block.",
+            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Empty for hand/DAQ measurements; REQUIRED on calculations (subject_calculation.require_inherited). Supersedes the v1 `app` block.",
             "must_refer_to_document_class": "software"
         },
         {
@@ -129,7 +129,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag.",
+                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
                     "constraints": {},
                     "fields": [
                         {
@@ -161,6 +161,66 @@
                     ]
                 },
                 {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical unit of `value.value`, for a numeric knob (#73 audit 2 D4, amending the signed 'no unit field'). Unbound until the unit vocabulary is chosen (OPEN_ITEMS 24). Absent for a unitless or non-numeric knob.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit as the source gave it. Omitted when already canonical.",
+                    "constraints": {}
+                },
+                {
                     "name": "value",
                     "type": "structure",
                     "blank_value": {},
@@ -170,7 +230,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Numeric knobs. The canonical value plus what the source wrote.",
+                    "documentation": "Numeric knobs: the canonical value, in `unit`, plus what the source wrote.",
                     "constraints": {},
                     "fields": [
                         {
@@ -183,20 +243,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical value.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded unit.",
+                            "documentation": "Canonical value, in `unit`.",
                             "constraints": {}
                         },
                         {
@@ -209,7 +256,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept whatever the registry later says.",
+                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept.",
                             "constraints": {}
                         }
                     ]
@@ -275,6 +322,21 @@
                     "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional: irreducible human prose describing this event. Documentation, not queryable structured data. (Moved up from subject_manipulation, #73 audit 2 D9.)",
+            "constraints": {
+                "maxLength": 4096
+            }
         }
     ]
 }

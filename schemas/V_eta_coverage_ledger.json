@@ -221,9 +221,9 @@
       ]
     },
     "by_disposition": {
-      "retire": 59,
+      "retire": 71,
       "dissolved \u2192 subject": 1,
-      "in_progress": 18,
+      "in_progress": 6,
       "persist": 3,
       "consumed by migrator (no tombstone)": 28,
       "test/demo fixture (non-production)": 2,
@@ -271,8 +271,8 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 38,
-        "2": 43,
+        "1": 37,
+        "2": 44,
         "3": 19,
         "4": 0
       },
@@ -285,14 +285,14 @@
           "no": 13
         },
         "2": {
-          "not measured": 46,
-          "yes": 64,
+          "not measured": 45,
+          "yes": 65,
           "n/a": 3
         },
         "3": {
-          "not measured": 46,
+          "not measured": 45,
           "yes": 18,
-          "no": 46,
+          "no": 47,
           "n/a": 3
         },
         "4": {
@@ -301,7 +301,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 64,
+        "2": 65,
         "3": 18,
         "4": 0
       },
@@ -315,8 +315,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 39,
-          "2": 46,
+          "1": 38,
+          "2": 47,
           "3": 18,
           "4": 0
         },
@@ -390,7 +390,7 @@
       },
       "no_target_recorded": {
         "denominator": 113,
-        "rows": 49,
+        "rows": 48,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -439,7 +439,6 @@
           "subjectmeasurement",
           "treatment_transfer",
           "vmneuralresponseresiduals",
-          "vmspikefit",
           "vmspikesummary"
         ],
         "rungs_it_makes_unreadable": [
@@ -723,13 +722,13 @@
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 516
+                "line": 519
               }
             ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 429
+                "line": 432
               }
             ],
             "calculator + subject_calculation restructure": [
@@ -785,7 +784,7 @@
             "date dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 512
+                "line": 515
               }
             ],
             "ensemble": [
@@ -905,13 +904,13 @@
             "stimulus": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 232
+                "line": 241
               }
             ],
             "stimulus -- visual_grating_manipulation reconciliation": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 278
+                "line": 287
               }
             ],
             "stimulus parameters": [
@@ -965,7 +964,7 @@
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 520
+                "line": 523
               }
             ],
             "time_reference": [
@@ -1021,13 +1020,13 @@
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 516
+                "line": 519
               }
             ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 429
+                "line": 432
               }
             ],
             "calculator + subject_calculation restructure": [
@@ -1057,7 +1056,7 @@
             "date dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 512
+                "line": 515
               }
             ],
             "epoch extent -- row #113": [
@@ -1093,7 +1092,7 @@
             "stimulus -- visual_grating_manipulation reconciliation": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 278
+                "line": 287
               }
             ],
             "sync configuration amendment 1": [
@@ -1105,7 +1104,7 @@
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 520
+                "line": 523
               }
             ],
             "time_reference": [
@@ -1144,7 +1143,8 @@
         "temporal_frequency_tuning",
         "temporal_frequency_tuning_calc",
         "treatment_drug",
-        "virus_injection"
+        "virus_injection",
+        "vmspikefit"
       ]
     }
   },
@@ -1373,7 +1373,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "The `app` MIXIN is replaced by a `software` ENTITY, deduplicated by name+version and referenced from a statement by a `software_id` edge. Run-specific os/interpreter details move to `execution_environment` on the interaction. The class name stops being copied into every calculator output.",
+      "how": "The `app` MIXIN is replaced by a `software` ENTITY, deduplicated by name+version and referenced from a statement by a `software_id` edge. Run-specific os/interpreter details are two more `software` edges on the calculation, `interpreter_id` and `operating_system_id` (#73 item 53; `execution_environment` was dropped). The class name stops being copied into every calculator output.",
       "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. R1. Follow-ups tracked separately: software dedup, attrition and the openMINDS crosswalk.",
       "decided_by_family": {
         "family": "software",
@@ -2333,7 +2333,7 @@
     {
       "v1_class": "daqmetadatareader",
       "veta_class": "daqmetadatareader",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -2560,7 +2560,7 @@
     {
       "v1_class": "daqreader",
       "veta_class": "daqreader",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -2673,7 +2673,7 @@
     {
       "v1_class": "daqreader_epochdata_ingested",
       "veta_class": "daqreader_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -2785,7 +2785,7 @@
     {
       "v1_class": "daqreader_image_epochdata_ingested",
       "veta_class": "daqreader_image_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -3110,7 +3110,7 @@
     {
       "v1_class": "daqsystem",
       "veta_class": "daqsystem",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -4426,7 +4426,7 @@
     {
       "v1_class": "epochfiles_ingested",
       "veta_class": "epochfiles_ingested",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -4555,7 +4555,7 @@
     {
       "v1_class": "epochid",
       "veta_class": "epochid",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -4761,7 +4761,7 @@
     {
       "v1_class": "filenavigator",
       "veta_class": "filenavigator",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -4874,7 +4874,7 @@
     {
       "v1_class": "filter",
       "veta_class": "filter",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -8351,7 +8351,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 219 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 217 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. This AMENDS the signed 2026-08-13 confirmation in `confirmed_targets`, so it is NOT recorded as `decided_targets` (the two cannot coexist, and a signed confirmation is not overwritten here): it waits on the team (review/73/team_signoff_sheet.md, A9).",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -10441,7 +10441,7 @@
       "decided_by_family": {
         "family": "stimulus",
         "document": "V_eta_stimulus_model_plan.md",
-        "line": 232,
+        "line": 241,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_presentation",
@@ -10652,7 +10652,7 @@
       "carried": [],
       "second_pass": [],
       "how": "RESTORED TARGET (#73 review, jess 2026-09-25; V_eta_spatial_transcriptomics_plan.md item 37): `harmonic_component_calculation`, id PRESERVED, per the 2026-08-08 sign-off's mapping. Issue #67 decision 10 had deleted the class on the premise that `_calculation` means a calculator produced it; #73's rule C decides by provenance, and a stimulus response is computed from the spike train + stimulus presentation, both in the dataset. The migrator is a guarded passthrough today (PR #68) and re-attaches the fold from git history -- a DID-matlab follow-up.",
-      "target_flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped. TARGET SUPERSEDED per issue #67 -- pending new signed target.",
+      "target_flags": "A GUARDED PASSTHROUGH today (PR #68; migrators_j/stimulus_response_scalar.m:2-7), awaiting the restored target in `how` (harmonic_component_calculation, id PRESERVED). The earlier fold's facts still hold for the rebuild: the harmonic number is recoverable from the response document alone (`response_type` is a total function of `freq_response`, tuning_response.m:262-266), and `stimulator_id` / `stimulus_control_id` must be restored. [Rewritten 2026-09-29, #73 audit 2 C6: this read 'BUILT ... folds' and 'TARGET SUPERSEDED per issue #67', contradicting `how` and the migrator header.]",
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
@@ -11363,7 +11363,7 @@
     {
       "v1_class": "syncgraph",
       "veta_class": "syncgraph",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -11482,7 +11482,7 @@
     {
       "v1_class": "syncrule",
       "veta_class": "syncrule",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -11596,7 +11596,7 @@
     {
       "v1_class": "syncrule_mapping",
       "veta_class": "syncrule_mapping",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -12817,8 +12817,10 @@
         "session_relative_reference",
         "software"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "model_fit_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -12827,8 +12829,10 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "model_fit_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -12847,22 +12851,22 @@
       ],
       "second_pass": [],
       "how": "r_squared -> a goodness-of-fit score_observation (fit_function as method) + anchor",
-      "target_flags": "fit_parameters + fit file (possibly opaque_body) deferred",
+      "target_flags": "fit_parameters + fit file (possibly opaque_body) deferred DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): vmspikefit -> model_fit_calculation -- its input (`fit_input_id`) is in the dataset, so it is a calculation, not a score_observation; subject from element_id; fit_sse_perpoint -> goodness.sse_per_point. The migrator follows (PR #76 checklist).",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -12873,14 +12877,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12890,7 +12894,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

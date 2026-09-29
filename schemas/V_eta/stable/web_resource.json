@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The resource's name (was `label`, #73 item 54).",
+            "documentation": "The resource's name (was `label`, #73 item 54). Its URL is `global_identifier` with scheme URL.",
             "constraints": {}
         }
     ]

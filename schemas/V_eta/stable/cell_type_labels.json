@@ -13,14 +13,14 @@
         {
             "name": "cells_document_id",
             "mustBeNonEmpty": true,
-            "documentation": "The cells document these labels are aligned to. Row order must match.",
+            "documentation": "The labelled cells. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "spatial_gene_expression_cells",
             "ndi_mustBeNonEmpty": true
         },
         {
             "name": "reference_document_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional back-pointer to the source atlas / taxonomy / clustering result the labels came from.",
+            "documentation": "The reference the labels come from. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "base",
             "ndi_mustBeNonEmpty": false
         }
@@ -74,8 +74,8 @@
         {
             "name": "n_cells",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -87,8 +87,8 @@
         {
             "name": "n_categories",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -100,8 +100,8 @@
         {
             "name": "n_unlabeled",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -126,8 +126,8 @@
         {
             "name": "is_unsupervised",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,

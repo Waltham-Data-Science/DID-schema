@@ -40,19 +40,19 @@ query spans all statements. The family branches by *epistemic direction*:
 `subject_assertion` (timeless fact), `subject_observation` (measured from),
 `subject_manipulation` (done to), `subject_calculation` (derived/computed about). An
 assertion has no act/series; an interaction (observation/manipulation/calculation) adds
-`method` (the verb), its per-reading positions as `keys` (the `sample_time` block retired
-under the signed data_body model, 2026-08-14; built #73 item 21), an optional
-`instrument_id`, and
-requires a `time_reference`. (SPEC §3–§5)
+`method` (the verb), optional `method_parameters`, an optional `instrument_id` and
+`software_id`, and requires a `time_reference`. Its per-reading positions are the value's
+`keys`, declared on `data` (#73 item 65; the `sample_time` block retired under the signed
+data_body model, 2026-08-14, built #73 item 21). (SPEC §3–§5)
 
 **Observation vs calculation is decided by provenance, not by whether software ran**
 (#73, 2026-09-23). A statement whose inputs are **other statements in the dataset** is a
-`subject_calculation` and records them in `derived_from_#`; a statement produced from data
+`subject_calculation` and records them in `input_id` (T15); a statement produced from data
 held **outside** the dataset (an instrument, raw reads that are not stored) is a
-`subject_observation` and has no `derived_from`. Almost every measurement is processed by
+`subject_observation` and has no `input_id`. Almost every measurement is processed by
 some pipeline, so "computed by software" cannot be the test; whether the inputs are in the
 dataset can be read off the document. Consequences: there is no "computed observation";
-`derived_from_#` is declared on `subject_calculation` only; a lossless re-assembly of stored
+`input_id` is declared on `subject_calculation` only; a lossless re-assembly of stored
 statements (`oneepoch`'s concatenation) is a calculation too.
 
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
@@ -81,14 +81,14 @@ writes reads as a supported case nobody has checked.
 unknown-modality recording), do **not** invent a generic `array` /
 `numeric` data_type — that would only duplicate `sampled_body` (T6, which is already
 "self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
-`sampled_body`: its `keys` live on the body, its `datum_type` on the statement (#73), and
+`sampled_body`: its `keys` live on the body, its `datum_type` on the data type (#73 item 60), and
 the `variable` carries the label.
 The dimensioned data_types just *add* units on top. So: type it when you can (a modality → a
 composite); otherwise the self-describing body is the value. *(This is why `array` was killed
 and `ngrid` phases into `sampled_body`.)*
 
 ### T4 — Relationships are first-class documents; the graph carries structure.
-`subject_relation` → `directed_relation` (ordered child→parent: `part_of`, `member_of`,
+`directed_relation` (ordered child→parent: `part_of`, `member_of`,
 `derived_from`, …) + `undirected_relation` (`paired_with`, `same_as`). Relations are
 **binary** — a many-way group is a reified subject + `member_of` edges, never a list.
 Endpoints are typed `depends_on`, so referential integrity and reverse lookup are
@@ -108,9 +108,12 @@ leaf (T3): `value_id` present ⇒ its inline value and descriptors are empty. Th
 `keys`, `complete`, `datum_type` — live on `data_type`, WITH THE VALUE, so a shared value
 states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
-`chunk`, `fill_value` — with `datum_type` on the statement; `summary` dropped, #68;
+`chunk`, `fill_value` — with `datum_type` on the data type it belongs to; `summary` dropped, #68;
 partial-read, value-searchable) and `opaque_body` (bytes laid out by their own `format`:
-TIFF, OME-Zarr, an archive). The two split by **who lays out the bytes**, not by whether
+TIFF, OME-Zarr, an archive; an opaque body must state its `format`, #73 audit 2 D6). One
+exemption, recorded (#73 audit 2 D13): `demo` keeps a file record outside the two bodies,
+because it reproduces v1 `demoNDI`, whose schema requires the file — a fixture class, not
+data. The two split by **who lays out the bytes**, not by whether
 there is an array: both may carry `keys` (required on a sampled body; on an opaque body
 they describe the array as its format presents it) and `conditions` (lightsheet
 walkthrough L1/L3, 2026-09-25). Every carrier — timeseries,
@@ -159,10 +162,14 @@ and project on read:
      source, not a cache).
   2. *A real access need* — a concrete query/read pattern is materially cheaper against the
      cache than against the source at the expected scale (e.g. windowed population reads).
-  3. *Marked & regenerable* — it carries `redundant` + `derived_from`, and a deterministic
-     rebuild from the source exists.
+  3. *Marked & regenerable* — it carries `redundant` + its sources (`input_id` on a
+     calculation), and a deterministic rebuild from the source exists.
   4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
      a new data_type). No silent caches.
+
+  **For a redundant BODY** (amended, #73 audit 2 D6, 2026-09-29): its source is its owner's
+  non-redundant body — no edge is needed to say so — and the recorded reason goes in the body's
+  `description`. (A pyramid's coarser levels, or `pyraview`'s, are the case.)
 
 **A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). This is about
 STANDALONE documents: a leaf that combines a claim with a data type (a statement leaf, or a
@@ -357,7 +364,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
   carries `source_unit` next to `source_value`; by the same rule an inline raster carries
   its `keys` next to its pixels. Exception, #73 item 15: the value's storage type is
-  `datum_type`, stated ONCE on the statement, and colour/channels are read off the channel
+  `datum_type`, stated ONCE on the data type (#73 item 60), and colour/channels are read off the channel
   key. There is no `image` class: a raster is a value of what its pixels measure, #73
   item 51.)*
 - **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
@@ -367,7 +374,20 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   undeclared**, and its internals are then known solely to whoever wrote the migrator.
 - **Every canonical slot names its complete unit** (`grams`, `liters`, `molar`,
   `grams_per_liter`, `grams_per_gram`), never a unit implied by the field it sits in, so a
-  reader can see which slot a source unit converts into (#73 item 59).
+  reader can see which slot a source unit converts into (#73 item 59). A dimensionless
+  quantity's slot is named for the quantity (`ph.value.ph`, `count.value.count`,
+  `score.value.score`), never `value` (#73 audit 2 D10).
+- **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29). Every value cell is
+  `{<canonical slot>, source_value, source_unit, approximate}`, all but the canonical slot
+  optional. A cell drops `source_value`/`source_unit` only when no conversion to the canonical
+  slot exists (a count). A cell whose value can be stated at a coarser granularity than it is
+  stored adds a declared `precision` (a date) — precision is granularity, `approximate` is
+  certainty, and a date carries both. No per-value `uncertainty` field exists until a source
+  states one (the one stated tolerance, `time_reference.clock_tolerance`, is on the timeline).
+- **Another reading is a key; another statistic is a field** (#73 audit 2 D3, refining item
+  15). A further reading of the same quantity (another trial, another stimulus level) is a
+  position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial
+  `individual` values, a control's) is its own named field, sized by the same keys.
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.
@@ -454,12 +474,15 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
 you tell what it points at from the name plus its class alone?
 
 **The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones
-excluded). 16 names are unchanged: `subject_id`, `software_id`, `session_id`, `epoch_id`,
-`strain_id`, `acquisition_system_id`, `method_parameters_id`,
-`coordinate_system_id`, `epoch_file_pattern_id`, `acquisition_metadata_reader_id`,
-`clock_alignment_configuration_id`, `clock_alignment_policy_id`, `instrument_id`, `value_id`,
-`reader_id`, `filter_id`. (#73 item 53, later, removed `runtime_environment_id` and added
-`interpreter_id` and `operating_system_id` → `software`.)
+excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_id`,
+`strain_id`, `acquisition_system_id`, `method_parameters_id`, `coordinate_system_id`,
+`epoch_file_pattern_id`, `clock_alignment_configuration_id`, `clock_alignment_policy_id`,
+`instrument_id`, `value_id`, `reader_id`, `filter_id`. Later changes (corrected by #73 audit 2,
+2026-09-29): `session_id` was dropped by #73 item 57; `acquisition_metadata_reader_id` became
+`epoch_parameter_reader_id` (item 65); item 53 removed `runtime_environment_id` and added
+`interpreter_id` and `operating_system_id` → `software`; item 59 added `ingredient_id`
+(repeated, **ordered**), `formulation_id`, `product_id` and `vendor_id`; audit 2 D9 added
+`strain.product_id`.
 
 | class | today | T15 | repeats | ordered |
 |---|---|---|:-:|:-:|
@@ -469,16 +492,16 @@ excluded). 16 names are unchanged: `subject_id`, `software_id`, `session_id`, `e
 | `coordinate_system` | `relative_to` | `referent_id` | | |
 | `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |
 | `method_parameters` | `derived_from_id` | `parent_id` | | |
-| `control_designation` | `timed_sequence_id` | `value_id` *(class shape under review)* | | |
+| ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |
 | `subject_calculation` | `derived_from_#` | `input_id` | yes | no |
-| `control_designation` | `derived_from_#` | *(class shape under review)* | yes | no |
+| ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |
 | `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
 | `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
 | `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |
-| `subject_statement`, `data_body` | `axis_labels_#` | `key_labels_id` | yes | **yes** |
+| `data` (items 60, 65; was `subject_statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |
 | `strain` | `background_strain_#` | `background_strain_id` | yes | no |
-| `clock_alignment_configuration` | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
-| `acquisition_system` | `acquisition_metadata_reader_#` | `acquisition_metadata_reader_id` | yes | no |
+| `clock_alignment_configuration` (also `subject_interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
+| `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |
 | `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |
 | `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |
 

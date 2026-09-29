@@ -17,7 +17,12 @@
             "name": "clock_tolerance",
             "type": "time",
             "blank_value": 0.0,
-            "default_value": 0.0,
+            "default_value": {
+                "seconds": 0.0,
+                "source_unit": "",
+                "source_value": 0.0,
+                "approximate": false
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -68,8 +73,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

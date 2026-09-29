@@ -8,18 +8,22 @@
             },
             {
                 "class_name": "gene_expression"
-            },
-            {
-                "class_name": "subject_observation"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "gene_list_id",
+            "name": "subject_id",
             "mustBeNonEmpty": true,
-            "documentation": "The gene_list naming the columns of this pyramid's count space. Every gene_index emitted by a child tile row resolves against this list.",
+            "documentation": "The subject whose tissue was assayed. (did_v1 edge, v1 spelling.)",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "geneList_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The gene list the counts are indexed by. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "gene_list",
             "ndi_mustBeNonEmpty": true
         }

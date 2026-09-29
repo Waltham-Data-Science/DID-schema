@@ -30,7 +30,12 @@
             "queryable": true,
             "ontology": null,
             "documentation": "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in practice whenever `datum_type` is multi-byte; meaningless, and left empty, for single-byte data.",
-            "constraints": {}
+            "constraints": {
+                "enum": [
+                    "little",
+                    "big"
+                ]
+            }
         },
         {
             "name": "datum_order",
@@ -42,21 +47,29 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "'C' | 'F' -- the order of DATA within the array: C is row-major (last axis fastest), F is column-major (first axis fastest, MATLAB's native layout). REQUIRED in practice whenever there is more than one axis; meaningless, and left empty, for a 1-D body.",
-            "constraints": {}
+            "documentation": "'C' | 'F' -- the order of DATA within the array: C is row-major (last key fastest), F is column-major (first key fastest, MATLAB's native layout). REQUIRED in practice whenever there is more than one key; meaningless, and left empty, for a 1-D body.",
+            "constraints": {
+                "enum": [
+                    "C",
+                    "F"
+                ]
+            }
         },
         {
             "name": "fill_value",
-            "type": "double",
-            "blank_value": [],
-            "default_value": [],
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
-            "mustBeScalar": false,
+            "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What every position of a MISSING chunk holds, for a dense body (`complete` true) whose file series omits members. In `datum_type` encoding, like the stored bytes (not canonical units); NaN allowed for a float datum. Empty = none declared, and then every chunk must be stored. Meaningless for a sparse body.",
+            "documentation": "What every position of a MISSING chunk holds, for a dense body (`complete` true) whose file series omits members: ONE value, written as a literal read according to the owner's `datum_type` (\"NaN\", \"-32768\", \"1+2j\") -- exact for every datum type, which a double is not for int64/uint64 or complex (#73 audit 2 D13).",
             "constraints": {}
         }
+    ],
+    "require_inherited": [
+        "keys"
     ]
 }

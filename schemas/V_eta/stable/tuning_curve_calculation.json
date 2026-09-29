@@ -66,7 +66,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "ARRAY of fitted models, each {model, coefficients, goodness, metrics, sampled_fit}; a curve may carry several co-existing fits (freq tunings carry 5).",
+            "documentation": "ARRAY of fitted models, each the shared fit entry {model, coefficients[], goodness, sampled_fit} plus the values read off it (`metrics`); a curve may carry several co-existing fits (frequency tunings carry 5). Coefficients are named per `model` (#73 audit 2 D2, amending the tuning plan's unnamed-structure shape).",
             "constraints": {},
             "fields": [
                 {
@@ -119,16 +119,77 @@
                 {
                     "name": "coefficients",
                     "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "blank_value": [],
+                    "default_value": [],
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
+                    "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The fit coefficients (named, per the `model`).",
+                    "documentation": "The fitted coefficients, one entry each, NAMED: `variable` is a term, or a label naming the coefficient (its symbol in the model's equation). (#73 audit 2 D2: one fit entry for every fit.)",
                     "constraints": {},
-                    "fields": []
+                    "fields": [
+                        {
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Which coefficient: a term, or a label ({name}, no node).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Its value.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "goodness",
@@ -146,8 +207,8 @@
                         {
                             "name": "r2",
                             "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -159,14 +220,27 @@
                         {
                             "name": "sse",
                             "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
                             "documentation": "Sum of squared errors of the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sse_per_point",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Sum of squared errors per fitted point (v1 vmspikefit `fit_sse_perpoint`).",
                             "constraints": {}
                         }
                     ]
@@ -404,7 +478,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it (fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe grids). Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
+                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it. Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
                     "constraints": {},
                     "fields": [
                         {
@@ -417,7 +491,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The grid, one entry per independent variable in independent_variables[] order.",
+                            "documentation": "The grid: one entry per fit input, in the order of the fitted value's keys (a model_fit's `independent_variables`).",
                             "constraints": {}
                         },
                         {

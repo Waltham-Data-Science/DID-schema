@@ -17,7 +17,7 @@
             "must_refer_to_document_class": "chemical,formulation",
             "multiple": true,
             "ordered": true,
-            "min_count": 1
+            "min_count": 0
         },
         {
             "name": "product_id",
@@ -46,7 +46,7 @@
                     "type": "structure",
                     "blank_value": [],
                     "default_value": [],
-                    "mustBeNonEmpty": true,
+                    "mustBeNonEmpty": false,
                     "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": true,
@@ -58,7 +58,12 @@
                             "name": "mass",
                             "type": "mass",
                             "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "default_value": {
+                                "grams": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -109,8 +114,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -125,7 +130,12 @@
                             "name": "volume",
                             "type": "volume",
                             "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "default_value": {
+                                "liters": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -176,8 +186,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -192,7 +202,12 @@
                             "name": "substance_amount",
                             "type": "substance_amount",
                             "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "default_value": {
+                                "moles": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -243,8 +258,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -259,7 +274,10 @@
                             "name": "count",
                             "type": "count",
                             "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "default_value": {
+                                "count": 0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -269,7 +287,7 @@
                             "constraints": {},
                             "fields": [
                                 {
-                                    "name": "value",
+                                    "name": "count",
                                     "type": "integer",
                                     "blank_value": 0,
                                     "default_value": 0,
@@ -278,61 +296,14 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The discrete count.",
+                                    "documentation": "The discrete count. What is counted is the statement's `variable`.",
                                     "constraints": {}
-                                },
-                                {
-                                    "name": "unit",
-                                    "type": "ontology_term",
-                                    "blank_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "default_value": {
-                                        "node": "",
-                                        "name": ""
-                                    },
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "What is counted (cells / individuals / spikes / events) -- semantic, NOT dimensional: counts do not normalise across units.",
-                                    "constraints": {},
-                                    "fields": [
-                                        {
-                                            "name": "node",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                            "constraints": {}
-                                        },
-                                        {
-                                            "name": "name",
-                                            "type": "char",
-                                            "blank_value": "",
-                                            "default_value": "",
-                                            "mustBeNonEmpty": false,
-                                            "mustBeScalar": true,
-                                            "mustNotHaveNaN": false,
-                                            "queryable": true,
-                                            "ontology": null,
-                                            "documentation": "The human-readable label.",
-                                            "constraints": {}
-                                        }
-                                    ]
                                 },
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -347,7 +318,17 @@
                             "name": "concentration",
                             "type": "concentration",
                             "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "default_value": {
+                                "molar": 0.0,
+                                "grams_per_liter": 0.0,
+                                "mass_fraction": 0.0,
+                                "volume_fraction": 0.0,
+                                "particles_per_liter": 0.0,
+                                "osmolar": 0.0,
+                                "source_unit": "",
+                                "source_value": 0.0,
+                                "approximate": false
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -463,8 +444,8 @@
                                 {
                                     "name": "approximate",
                                     "type": "boolean",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
+                                    "blank_value": false,
+                                    "default_value": false,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
@@ -481,7 +462,12 @@
                     "name": "ph",
                     "type": "ph",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "ph": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -500,7 +486,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical ph value -- the normalised, cross-document comparable number.",
+                            "documentation": "Canonical pH, the log-scale number. `source_unit` is kept for lossless provenance (a source may write 'pH', or state a scale).",
                             "constraints": {}
                         },
                         {
@@ -532,8 +518,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -548,7 +534,17 @@
                     "name": "osmolarity",
                     "type": "concentration",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "molar": 0.0,
+                        "grams_per_liter": 0.0,
+                        "mass_fraction": 0.0,
+                        "volume_fraction": 0.0,
+                        "particles_per_liter": 0.0,
+                        "osmolar": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -664,8 +660,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -677,6 +673,16 @@
                     ]
                 }
             ]
+        }
+    ],
+    "rules": [
+        {
+            "name": "ingredients_or_product",
+            "fields": [
+                "value.ingredients",
+                "product_id"
+            ],
+            "statement": "A formulation lists its `ingredients` or points at the `product` it was bought as (or both)."
         }
     ]
 }
