@@ -47,7 +47,7 @@ diff -ru a/.github/workflows/test-soph-corpus.yml b/.github/workflows/test-soph-
      runs-on: ubuntu-latest
      env:
 -      DID_SCHEMA_REF: ${{ inputs.did_schema_ref || github.ref_name || 'main' }}
-+      DID_SCHEMA_REF: ${{ inputs.did_schema_ref || github.ref_name || 'v_eta-pre73' }}
++      DID_SCHEMA_REF: ${{ inputs.did_schema_ref || 'v_eta-pre73' }}
        DID_RUN_SOPH_TEST: '1'
      steps:
        - name: Check out repository

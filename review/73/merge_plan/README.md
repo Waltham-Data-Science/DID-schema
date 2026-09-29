@@ -41,7 +41,10 @@ V_eta branch (PR #836), not on NDI `main`.
    - `DID-matlab-pin.patch` on DID-matlab `V2` (and any open branch that should stay
      green): `test-code.yml`, `test-fixtures.yml`, the did-schema fallback in
      `test-migrators-quick.yml` (the NDI-matlab fallback beside it is left alone), and
-     the default in `test-soph-corpus.yml`.
+     the default in `test-soph-corpus.yml` -- which must DROP `github.ref_name` from its
+     fallback chain, not just replace `main`: on a push `ref_name` is always set (the DID-matlab
+     branch name), so a trailing default is never reached. Found on the first pinned run
+     (DID-matlab run 36646874292, did-schema checkout failed) and fixed in the patch.
    - `NDI-matlab-pin.patch` on NDI's V_eta branch: the three `test-eta-migrate-*` files.
    Confirm one green run of each pinned workflow before step 3.
 3. **Get the #73 sign-offs** (or objections) from the team, then **merge PR #76.**
