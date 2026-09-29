@@ -29,7 +29,7 @@ evidence, cited in their reports):
 | D10 ✅ decided, build batched | Value-cell conventions: three default-value conventions, booleans defaulting `0.0`, `count`/`score` slot named `value` (`value.value`), `count.value.unit` not a unit; carried: `intensity`/`ph`, `mmhg`, `date` | B2–B7, B9, A32 |
 | D11 ✅ decided, build batched | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
 | D12 ✅ decided, build batched | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
-| D13 | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
+| D13 ✅ decided, build batched | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
 
 ## Decision log (build batched at the end, per jess 2026-09-29)
 
@@ -166,6 +166,26 @@ evidence, cited in their reports):
   redeclarations on a class restated from a did_v1 template (v1 fidelity); loosening fails
   the build everywhere, so `hartley_calc` drops its two redeclarations (no behaviour change:
   they are enforced required today).
+- **D13** (jess, 2026-09-29), all ten as recommended:
+  (1) `formulation`: ingredients optional (`ingredient_id` min_count 0), with a D6 rule
+  "at least one of `ingredients` or `product_id`".
+  (2) `sampled_body.fill_value`: a scalar `char` literal read per `datum_type` ("NaN",
+  "-32768", "1+2j").
+  (3) `demo`'s file record is an exemption from T6 (a v1 `demoNDI` fixture); T6 names it.
+  (4) a named batch check `standalone_value`: `value_id` / `owner_id` / `parent_id` /
+  `child_id` must reference a `data_type` that is not a statement, relation or
+  `clock_alignment` leaf. Cross-document, batch only, report-only first.
+  (5) `acquisition_epoch`: the three stale docs fixed now (mechanical); deriving it from
+  `data` waits for the epoch-family re-walk.
+  (6) the 13 v1 infra tombstones move `in_progress` -> `retire`.
+  (7) item 65 records that `parameter` in `epoch_parameter_reader` is content (the epoch's
+  parameters), not a wrapper word.
+  (8) `model_fit` / `model_fit_calculation` move to `draft/`.
+  (9) `epoch_parameter_reader.file_pattern` -> `file_regex`; each field's syntax stated.
+  (10) the meta-schema documents that nested `mustBeNonEmpty` / `mustBeScalar` are
+  declarative until DID-matlab descends into sub-fields (`cache.m:869` is the only
+  `validateField` call; `validateTypeShape` `:2051` does not recurse); "descend into
+  sub-fields" joins the DID-matlab list beside the D6 rules, report-only first.
 
 ## Mechanical fixes (no decision needed; one batch)
 
