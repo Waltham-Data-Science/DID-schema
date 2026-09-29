@@ -3330,7 +3330,12 @@ def _governance_md(g):
                 lst=", ".join("`" + f + "`" for f in c["families_unsigned"])),
             "",
         ]
-    tagged_rejects = [r for r in c["rejected_lines"] if r["tag"]]
+    # A quotation in a code fence and a SUPERSEDED signature are rejected ON
+    # PURPOSE (status_board.scan_signoff_lines, 2026-09-29); this warning is about
+    # the placeholder guard only.
+    tagged_rejects = [r for r in c["rejected_lines"] if r["tag"]
+                      and not r["why"].startswith(("SUPERSEDED",
+                                                   "inside a fenced code block"))]
     if tagged_rejects:
         out += [
             "⚠ **{n} rejected line(s) carry a family tag and read as a real "

@@ -650,8 +650,33 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 50,
-          "rejected_lines": [],
+          "accepted_lines": 48,
+          "rejected_lines": [
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 798,
+              "tag": "spatial_transcriptomics_family",
+              "why": "SUPERSEDED -- jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.",
+              "excerpt": "Steve Van Hooser 2026-09-22 --",
+              "document_cited_by_families": [
+                "confirm sheet 2026-08-17",
+                "misc singletons",
+                "session",
+                "subject",
+                "subject measurement"
+              ]
+            },
+            {
+              "document": "V_eta_method_parameters_plan.md",
+              "line": 694,
+              "tag": "epoch",
+              "why": "inside a fenced code block -- a quotation, not a signature",
+              "excerpt": "... MINT `epoch` as an entity (one per epoch id, local_identifier",
+              "document_cited_by_families": [
+                "spike processing parameters"
+              ]
+            }
+          ],
           "distinct_tags": [
             "base naming",
             "binding governance",
@@ -678,7 +703,6 @@
             "receptive field naming",
             "session",
             "software",
-            "spatial_transcriptomics_family",
             "spike processing parameters",
             "spike train leaf",
             "stimulus",
@@ -782,10 +806,6 @@
               {
                 "document": "V_eta_epoch_plan.md",
                 "line": 1360
-              },
-              {
-                "document": "V_eta_method_parameters_plan.md",
-                "line": 694
               }
             ],
             "epoch extent -- row #113": [
@@ -868,12 +888,6 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 10
-              }
-            ],
-            "spatial_transcriptomics_family": [
-              {
-                "document": "V_eta_go_forward_class_audit.md",
-                "line": 796
               }
             ],
             "spike processing parameters": [

@@ -871,8 +871,29 @@ def scan_signoff_lines(text):
     marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
     out = []
     lines = text.splitlines()
+    # TWO MORE WAYS A LINE CAN CARRY THE MARKER WITHOUT BEING A LIVE SIGNATURE
+    # (#73 review, 2026-09-29, jess). Both are returned REJECTED, not dropped, so
+    # the census still shows them.
+    #  (1) Inside a fenced code block: a QUOTATION of a signature, e.g. the epoch
+    #      sign-off quoted in V_eta_method_parameters_plan.md's correction note,
+    #      which the census counted as a fourth epoch signature in the wrong
+    #      document.
+    #  (2) Superseded: a line `SIGN-OFF SUPERSEDED [tag]: who/when -- why`, placed
+    #      before a sign-off, retires the NEXT `TEAM-SIGN-OFF [tag]` in the same
+    #      document. The signed text stays as signed; the marker records that the
+    #      team replaced it (first use: the 2026-09-22 spatial sign-off, replaced
+    #      by #73 review item 18).
+    in_fence = False
+    superseded = {}
     for n, raw in enumerate(lines, 1):
         line = raw.lstrip()
+        if line.startswith("```"):
+            in_fence = not in_fence
+            continue
+        m_sup = re.match(r"SIGN-OFF SUPERSEDED\s*\[([^\]]+)\]\s*:?\s*(.*)$", line)
+        if m_sup and not in_fence:
+            superseded[m_sup.group(1).strip()] = m_sup.group(2).strip()
+            continue
         if not line.startswith(marker):
             continue
         rest = line[len(marker):].strip()
@@ -962,7 +983,11 @@ def scan_signoff_lines(text):
         why = None
         _slots = ("<family>", "<who/when>", "<what was decided>")
         _hit = [s for s in _slots if s in rest]
-        if _hit:
+        if in_fence:
+            why = "inside a fenced code block -- a quotation, not a signature"
+        elif tagged is not None and tagged in superseded:
+            why = "SUPERSEDED -- " + (superseded.pop(tagged) or "marked superseded")
+        elif _hit:
             why = ("TEMPLATE PLACEHOLDER -- carries the unfilled slot %s, not a "
                    "decision" % _hit[0])
         elif len(rest) < 10:

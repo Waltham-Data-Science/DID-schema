@@ -3819,3 +3819,20 @@ def test_value_descriptors_live_with_the_value():
     assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name
+
+
+def test_hartley_calc_tombstone_is_restated_from_its_writer():
+    """NDIcalc-vis-matlab hartley.m:489-494 writes a `hartley_calc` block
+    {input_parameters {T, X_sample, Y_sample}, depends_on} plus `calculator` and
+    `app` blocks, and sets element_id + stimulus_presentation_id. The tombstone
+    must declare all of them, or an unmigrated v1 document cannot validate."""
+    d = RECORDS["hartley_calc"][1]
+    supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
+    assert supers == ["calculator", "hartley_reverse_correlation"]
+    fields = {f["name"]: f for f in d["fields"]}
+    assert set(fields) == {"input_parameters", "depends_on"}
+    assert {s["name"] for s in fields["input_parameters"]["fields"]} == {
+        "T", "X_sample", "Y_sample"}
+    assert [e["name"] for e in d["depends_on"]] == ["element_id", "stimulus_presentation_id"]
+    assert all(e["mustBeNonEmpty"] is False for e in d["depends_on"])
+

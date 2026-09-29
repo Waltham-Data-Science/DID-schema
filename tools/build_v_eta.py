@@ -3782,6 +3782,41 @@ for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation"])
     _d["document_class"]["superclasses"] = [{"class_name": s} for s in _supers]
     write(_t, _name, _d)
 
+# ---- hartley_calc: restated from its WRITER (2026-09-29, jess; the #73 item 43
+# restoration went only partway). NDIcalc-vis-matlab @29ea845 +ndi/+calc/+vis/hartley.m
+# :489-494 builds every document with a `hartley_calc` block, plus `calculator` and
+# `app` blocks from `+ app_doc`, and sets element_id + stimulus_presentation_id
+# (mock/hartley/mock.1.json carries exactly those). The tombstone declared none of
+# them, so an UNMIGRATED v1 document could not validate. Writer wins over the
+# schema_documents file (which omits `calculator`). `calculator` is a retire tombstone
+# (⊂ base, app); naming it here puts no V_eta class back in any V_eta chain.
+# migrators_j.hartley_calc is unaffected: it folds or errors, never passes through.
+_hc_t, _hc_p = path_of("hartley_calc")
+_hc = load(_hc_p)
+_hc["document_class"]["superclasses"] = [{"class_name": "calculator"},
+                                         {"class_name": "hartley_reverse_correlation"}]
+_hc["fields"] = [
+    field("input_parameters", "structure",
+          "The calculator's input parameters, as v1 wrote them (hartley.m:528-531).",
+          non_empty=False, sub_fields=[
+              subfield("T", "matrix", "Reverse-correlation lags, in seconds.",
+                       scalar=False),
+              subfield("X_sample", "double", "Spatial sampling step in x."),
+              subfield("Y_sample", "double", "Spatial sampling step in y."),
+          ]),
+    field("depends_on", "structure",
+          "v1 carries a copy of the dependency list inside the block (hartley.m:532; "
+          "the mock holds {name: element_id, value}). Kept verbatim for the tombstone.",
+          non_empty=False),
+]
+_hc["depends_on"] = [
+    dep("element_id", "element", "The element whose responses were reverse-correlated.",
+        non_empty=False),
+    dep("stimulus_presentation_id", "stimulus_presentation",
+        "The Hartley stimulus presentation.", non_empty=False),
+]
+write(_hc_t, "hartley_calc", _hc)
+
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
           ["subject_manipulation", "visual_grating"]))

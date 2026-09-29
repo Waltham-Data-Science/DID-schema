@@ -987,7 +987,7 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base",
+                "calculator",
                 "hartley_reverse_correlation"
             ],
             "path": "schemas/V_eta/stable/hartley_calc.json",

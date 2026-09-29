@@ -793,6 +793,8 @@ TEAM-SIGN-OFF [orientation_direction_tuning.json location]:
 Steve Van Hooser 2026-09-22 -- STAYS ON NDI-matlab post-retirement of
 ndi.app.oridirtuning (VH-Lab/NDI-matlab#1001). Resolves #67 sub-question.
 
+SIGN-OFF SUPERSEDED [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.
+
 TEAM-SIGN-OFF [spatial_transcriptomics_family]: Steve Van Hooser 2026-09-22 --
 Corrected Option C for the spatial-transcriptomics family from
 Waltham-Data-Science/DID-schema#70. Structural: `spatialGeneExpressionPyramid`

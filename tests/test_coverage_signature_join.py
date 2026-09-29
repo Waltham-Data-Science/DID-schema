@@ -634,7 +634,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         # read `no signature found` in the coverage ledger and reached the team
         # on the confirm sheet as an open question it had already answered.
         rejected = self.gov["census"]["rejected_lines"]
-        tagged = [r for r in rejected if r["tag"]]
+        # 2026-09-29: a quotation in a code fence and a SUPERSEDED signature are
+        # rejected ON PURPOSE (tests/test_signoff_scanner_quotes_and_supersession.py);
+        # this test is about the PLACEHOLDER guard only.
+        tagged = [r for r in rejected if r["tag"]
+                  and not r["why"].startswith(("SUPERSEDED", "inside a fenced code block"))]
         self.assertEqual(tagged, [], "a tagged team sign-off is being "
                          "discarded by the placeholder guard: "
                          + str([(r["document"], r["line"], r["why"])
