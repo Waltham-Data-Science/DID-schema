@@ -501,6 +501,24 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `fitcurve` migrator looks for an `element_id` the template never declares, so every
     document still passes through unchanged until DID-matlab moves.
 
+69. **`harmonic_component`'s control nests like tuning's** (2026-09-29, tabled audit item
+    17; amends the value shape mapped under the [stimulus response] sign-off).
+    `control_real` / `control_imaginary` become **`control{real, imaginary}`**, one per
+    reading, named as the response is, matching `tuning_curve.value.control` (T11: a
+    variant is structure, not a name prefix). Dropping the control columns as derivable
+    was not chosen: whether vlt's control response equals the paired blank trial's own
+    response cannot be checked here (vlt is not attached), and item 67 dropped the pairing.
+70. **`clock_alignment` is a relation leaf** (2026-09-29, tabled audit item 19). The signed
+    `clock_alignment ⊂ relation, polynomial` stays. It is relation × a data type, built the
+    way statement leaves are (T3 amended): its polynomial is inline, and the inherited
+    `relation.value_id` stays empty, under item 60's rule now stated for relations too
+    (`value_id` present ⇒ inline value and descriptors empty). T6's "a standalone
+    data-type document is content, not a claim" is narrowed to standalone documents; a
+    leaf combining a claim with a data type is expected to answer `isa data_type`. A
+    standalone `polynomial` via `value_id` was not chosen (each alignment's polynomial is
+    its own, so it would add a document and a hop to ~5,300 alignments), nor dropping
+    `relation.value_id` (the gene mapping uses it).
+
 ## F. What is built (schema side), and what is not
 
 **Built:** `label`, `label_calculation`, `position`, `position_observation`,

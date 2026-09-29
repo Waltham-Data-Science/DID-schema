@@ -101,8 +101,9 @@ def test_the_value_cell_carries_the_five_signed_subfields():
     for at all -- `control_response_real[]` is meaningless without it."""
     _tier, d = BUILT["harmonic_component"]
     subs = {s["name"]: s for s in _field(d, "value")["fields"]}
-    assert set(subs) == {"harmonic", "real", "imaginary",
-                         "control_real", "control_imaginary"}
+    # #73 item 69 (2026-09-29): the control pair nests as control{real, imaginary}.
+    assert set(subs) == {"harmonic", "real", "imaginary", "control"}
+    assert {s["name"] for s in subs["control"]["fields"]} == {"real", "imaginary"}
 
 
 def test_the_four_coefficient_subfields_are_matrices_and_harmonic_is_scalar():
@@ -121,9 +122,11 @@ def test_the_four_coefficient_subfields_are_matrices_and_harmonic_is_scalar():
     which is what makes the component a component."""
     _tier, d = BUILT["harmonic_component"]
     subs = {s["name"]: s for s in _field(d, "value")["fields"]}
-    for name in ("real", "imaginary", "control_real", "control_imaginary"):
-        assert subs[name]["type"] == "matrix", name
-        assert subs[name]["mustBeScalar"] is False, name
+    ctrl = {s["name"]: s for s in subs["control"]["fields"]}
+    for name, s in [("real", subs["real"]), ("imaginary", subs["imaginary"]),
+                    ("control.real", ctrl["real"]), ("control.imaginary", ctrl["imaginary"])]:
+        assert s["type"] == "matrix", name
+        assert s["mustBeScalar"] is False, name
     assert subs["harmonic"]["type"] == "integer"
     assert subs["harmonic"]["mustBeScalar"] is True
 

@@ -62,6 +62,11 @@ Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
 
+**A relation can be a leaf the same way** (#73 review item 70, 2026-09-29): relation × a
+data type, e.g. `clock_alignment ⊂ relation, polynomial`, when the relation's own value is
+its data. Like a statement leaf it holds the value inline, or points at a shared standalone
+value by `value_id` (the gene-mapping `directed_relation` → a `score`), never both.
+
 **A leaf is made when it is needed, not in advance** (team, 2026-09-25, #73 item 50).
 Every data_type stays whether or not it has a leaf (a standalone data-type document is
 valid content, T6). An `_observation`, `_manipulation`, `_assertion` or `_calculation`
@@ -98,7 +103,8 @@ is normally an *address* (a value), not a subject. (SPEC §4)
 ### T6 — Storage is orthogonal to meaning; there are exactly two data bodies.
 A value is inline (in `value`), shared (the statement's `value_id` points at a standalone
 data-type document), or in bodies (the boolean `data_body` is true and data_body documents
-point up at it; `storage_mode` was deleted by #73 item 9). The value's descriptors —
+point up at it; `storage_mode` was deleted by #73 item 9). The same holds for a relation
+leaf (T3): `value_id` present ⇒ its inline value and descriptors are empty. The value's descriptors —
 `keys`, `complete`, `datum_type` — live on `data_type`, WITH THE VALUE, so a shared value
 states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
@@ -158,7 +164,10 @@ and project on read:
   4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
      a new data_type). No silent caches.
 
-**A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). A statement's
+**A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). This is about
+STANDALONE documents: a leaf that combines a claim with a data type (a statement leaf, or a
+relation leaf such as `clock_alignment`, T3) is a claim that carries its value inline, and
+`isa data_type` returning it is expected (#73 review item 70). A statement's
 `value_id` means "my value lives in another document", so every `data_type` composite is
 concrete: a shared command waveform, a stimulus, an image or a gene list is written once as a
 standalone document, and each statement that uses it points at it by its `value_id` edge. The

@@ -3208,13 +3208,23 @@ _HARMONIC_SUBS = [
              "coefficient per reading.", scalar=False),
     subfield("imaginary", "matrix", "Imaginary part, one per reading.",
              scalar=False),
-    subfield("control_real", "matrix",
-             "Real part of the CONTROL response, one per reading. Kept beside the "
-             "response rather than in a separate document: v1 stores them together "
-             "and a control is meaningless apart from what it controls for.",
-             scalar=False),
-    subfield("control_imaginary", "matrix",
-             "Imaginary part of the control, one per reading.", scalar=False),
+    # #73 review item 69 (2026-09-29, jess; not signed; amends the value shape the
+    # [stimulus response] plan mapped): the control pair NESTS under `control`, with
+    # the response's own names, as tuning_curve.value.control does (T11: a variant is
+    # structure, not a name prefix). v1 control_response_real/_imaginary -> here.
+    subfield("control", "structure",
+             "The CONTROL response, one per reading, named as the response is. Kept "
+             "beside the response rather than in a separate document: v1 stores them "
+             "together and a control is meaningless apart from what it controls for. "
+             "<- v1 `control_response_real` / `control_response_imaginary`.",
+             non_empty=False, sub_fields=[
+                 subfield("real", "matrix",
+                          "Real part of the control response, one per reading.",
+                          scalar=False),
+                 subfield("imaginary", "matrix",
+                          "Imaginary part of the control response, one per reading.",
+                          scalar=False),
+             ]),
 ]
 write("draft", "harmonic_component",
       doc("harmonic_component", ["data_type"], abstract=True, maturity="draft",
@@ -3311,6 +3321,11 @@ write("draft", "polynomial",
                        "than a second source of truth.", blank=0),
           ])]))
 
+# #73 review item 70 (2026-09-29, jess; not signed): `clock_alignment` is a RELATION
+# LEAF -- relation x a data type, built the way a statement leaf is (T3). It holds its
+# polynomial inline; the inherited `relation.value_id` is for a SHARED value and stays
+# empty here (value_id present => inline value and descriptors empty, the item-60 rule,
+# now stated for relations too). The signed [sync mapping] shape is unchanged.
 write("draft", "clock_alignment",
       doc("clock_alignment", ["relation", "polynomial"], maturity="draft",
           deps=[

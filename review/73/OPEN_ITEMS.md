@@ -102,8 +102,12 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
     source fields or labels; mean/stddev/stderr vs item 15's "another column is a key".
 17. **`harmonic_component`** uses flat `control_real`/`control_imaginary` where tuning nests
     `control`.
+    **DECIDED AND BUILT schema-side 2026-09-29 (jess; no sign-off line):** item 69 --
+    `control{real, imaginary}`.
 18. **`receptive_field.value.storage_mode`** duplicates the statement's `storage_mode`.
 19. **`clock_alignment`** inherits `polynomial.value` and `relation.value_id` (T6 question).
+    **DECIDED 2026-09-29 (jess; no sign-off line):** item 70 -- keep the signed shape; a
+    relation leaf like a statement leaf (T3, T6 amended); inline value, `value_id` empty.
 20. **`ngrid`: delete vs fold into `sampled_body`** — the record disagrees with itself.
 
 ## Signed but never built (audit group B) — build items with cross-repo work

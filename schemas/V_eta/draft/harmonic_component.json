@@ -65,30 +65,45 @@
                     "constraints": {}
                 },
                 {
-                    "name": "control_real",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
+                    "name": "control",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
+                    "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Real part of the CONTROL response, one per reading. Kept beside the response rather than in a separate document: v1 stores them together and a control is meaningless apart from what it controls for.",
-                    "constraints": {}
-                },
-                {
-                    "name": "control_imaginary",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Imaginary part of the control, one per reading.",
-                    "constraints": {}
+                    "documentation": "The CONTROL response, one per reading, named as the response is. Kept beside the response rather than in a separate document: v1 stores them together and a control is meaningless apart from what it controls for. <- v1 `control_response_real` / `control_response_imaginary`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "real",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Real part of the control response, one per reading.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "imaginary",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Imaginary part of the control response, one per reading.",
+                            "constraints": {}
+                        }
+                    ]
                 }
             ]
         }
