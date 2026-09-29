@@ -18,7 +18,7 @@ evidence, cited in their reports):
 | # | topic | findings |
 |---|---|---|
 | D1 ✅ item 71 | Lists in single-value types: `term`, `label`, `date`, `position`, `polynomial` are scalar-only, yet items 21/28 store a gene list and one label per cell in them; `term`'s binding needs a `variable` a standalone `term` does not have | B10, B11 |
-| D2 | One fit shape: `contrast_sensitivity` coefficients are an unnamed matrix, tuning's are a structure with no fields, `model_fit` (item 68) is a named list — three shapes, two vocabularies | B19, B20, B21, C3 |
+| D2 ✅ decided, build batched | One fit shape: `contrast_sensitivity` coefficients are an unnamed matrix, tuning's are a structure with no fields, `model_fit` (item 68) is a named list — three shapes, two vocabularies | B19, B20, B21, C3 |
 | D3 | Tuning/contrast state their dimensions twice (`data.keys` and `independent_variables[]`); statistic columns in parallel; only tuning names its response unit; F0/F1 encoded four ways | B14, B15, B17, B18 |
 | D4 | `parameter[]` value has no unit (signed "no unit field"; data_body Amendment 1 reversed the same rule for keys) | A17, A18 |
 | D5 | Relation predicates: `relation` fields unbound while the registry lists 26 predicates nobody points at (stale: `observes`, no gene-mapping terms, no undirected rows); binding keys the meta-schema does not declare | A21, A6, A30 |
@@ -30,6 +30,19 @@ evidence, cited in their reports):
 | D11 | Stimulus/RF placement: `receptive_field` planes matched to bodies by an order bodies do not have; where "timed" lives in `timed_sequence`; the control stated twice (`control_item` and `visual_grating.blank`); grating `position` vs the `position` type | B23, B25, B26, B27 |
 | D12 | Redeclaring an inherited edge to tighten it (`subject_calculation.software_id`) has no rule | A19, C17 |
 | D13 | Smaller questions: a bought formulation must list ingredients; `fill_value` as a double array; `demo` carries bytes outside the bodies; no way for `value_id`/`owner_id`/… to name "a standalone value"; `acquisition_epoch`'s drifted keys copy; 13 infra tombstones `in_progress`; `parameter` in `epoch_parameter_reader`; draft vs stable placement; `file_pattern` names two things; nested `mustBeNonEmpty`/`mustBeScalar` possibly declarative only (DID-matlab) | B13, A12, A34, A22, C13, C16, C12, C4, A29, B8 |
+
+## Decision log (build batched at the end, per jess 2026-09-29)
+
+- **D1** (built, item 71): the five single-value types are list-capable; `datum_type` gains
+  `utf8`; a standalone `term`'s binding is checked through the referencing key.
+- **D2 — A** (jess, 2026-09-29): ONE declared fit entry shared by `tuning_curve_calculation.model_fit[]`,
+  `contrast_sensitivity.value.model_fit[]` and the `model_fit` type: `model`,
+  `coefficients[]{variable, value}` (named; labels where no term), `goodness{r2, sse}`,
+  `sampled_fit`. Families keep their extras (tuning `metrics{...}`, contrast's four
+  per-spatial-frequency arrays). Contrast's coefficients are named from NDIcalc-vis
+  `+vis/+contrast/+indexes/fitindexes.m`: RB `[rm c50]`, RBN `[rm c50 n]`, RBNS
+  `[rm c50 n s]`. Amends the shape (not the name) of tuning's `coefficients` in the signed
+  tuning plan; record it as an amendment there.
 
 ## Mechanical fixes (no decision needed; one batch)
 
