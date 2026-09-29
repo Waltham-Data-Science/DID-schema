@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Cross-reference identifier(s) for this entity, one entry per scheme: ORCID | ROR | DOI | PMID | PMCID | RRID | UDI | URL | AwardNumber | SWHID | Wikidata. A web_resource's URL is global_identifier[scheme=URL]; a funding award's number is global_identifier[scheme=AwardNumber]; software is cited by RRID, DOI, SWHID or Wikidata (item 53).",
+            "documentation": "Cross-reference identifier(s) for this entity, one entry per scheme: ORCID | ROR | DOI | PMID | PMCID | RRID | UDI | URL | AwardNumber | SWHID | Wikidata | NDICloud. A web_resource's URL is global_identifier[scheme=URL]; a funding award's number is global_identifier[scheme=AwardNumber]; software is cited by RRID, DOI, SWHID or Wikidata (item 53).",
             "constraints": {},
             "fields": [
                 {
@@ -91,6 +91,10 @@
                                 {
                                     "node": "",
                                     "name": "Wikidata"
+                                },
+                                {
+                                    "node": "",
+                                    "name": "NDICloud"
                                 }
                             ],
                             "strength": "preferred",

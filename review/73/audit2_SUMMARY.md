@@ -109,7 +109,7 @@ evidence, cited in their reports):
   copied from `base.id` / `base.session_id` (set `null`); "local identifier" goes on the
   term worksheet for all three entities.
   (b) `entity.global_identifier.scheme` bound (preferred) to {ORCID, ROR, DOI, PMID, PMCID,
-  RRID, UDI, URL, AwardNumber, SWHID, Wikidata}; `web_resource` documents its URL as
+  RRID, UDI, URL, AwardNumber, SWHID, Wikidata, NDICloud (added after the build)}; `web_resource` documents its URL as
   `global_identifier[scheme=URL]`, `funding` its award as `[scheme=AwardNumber]`.
   (c) `acquisition_system.name` required.
   (d) `strain` gains optional `product_id` -> `product`; `stock_number` dropped (vendor ->
@@ -132,7 +132,10 @@ evidence, cited in their reports):
   `source_unit` kept for provenance; the garbled intensity class doc fixed). No
   `uncertainty` field: no source states one per value (the one stated tolerance is
   `time_reference.clock_tolerance`); add it by amendment when a source carries it.
-  (e) `pressure.value.mmhg` -> `pascals`; migrators convert, `source_unit` keeps "mmHg".
+  (e) ~~`pressure.value.mmhg` -> `pascals`~~ REVISED (jess, 2026-09-29, after the build):
+  canonical pressure STAYS `mmhg`, for the reason the V_delta meta-schema recorded (the
+  curator-natural unit for biological pressure). The decision above rested on "no recorded
+  reason", which was wrong.
   (f) `date.value` = `{instant, precision, source_value, approximate}`: `source` ->
   `source_value`, and `approximate` added (precision = granularity, approximate =
   certainty; independent).
@@ -207,8 +210,8 @@ each for a stated reason:
   was already removed from the build.
 Also found while building: the V_delta meta-schema described `mmhg` as chosen because it is
 "the curator-natural unit for biological pressure". D10 (e) was decided on the premise that
-no reason was recorded; the build follows the decision (pascals), and the finding goes back
-to jess. The sign-off sheet (D7c) is `review/73/team_signoff_sheet.md`.
+no reason was recorded. Taken back to jess, who kept `mmhg` (D10 (e) revised). jess also
+added `NDICloud` to the D9 (b) scheme set, since DID-matlab writes it. The sign-off sheet (D7c) is `review/73/team_signoff_sheet.md`.
 
 ## Mechanical fixes (no decision needed; one batch)
 

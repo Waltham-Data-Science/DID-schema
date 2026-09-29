@@ -544,7 +544,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     relation fields bound to the registry, which was reconciled, and a closed binding
     meta-schema (D5); declared enums and requirements plus named `rules` (D6); `vmspikefit`
     and `pyraview` targets (D7); the spatial tombstones restated from v1 (D8); entity details
-    (D9); one value-cell pattern, `count`/`score` slots, pascals, generated defaults (D10);
+    (D9); one value-cell pattern, `count`/`score` slots, generated defaults (D10; pressure stays mmHg);
     receptive-field planes on the bodies, onsets as the sequence's time key, `center` (D11);
     `require_inherited` (D12); and ten smaller fixes (D13).
 

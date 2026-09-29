@@ -109,7 +109,7 @@ Also open, carried from earlier: whether the time-reference signature (`V_eta_ti
 | D7 | `vmspikefit` -> `model_fit_calculation`; JH lawn-plate measures decided in the JH mapping; `pyraview` -> redundant sampled bodies owned by the recording's observation; this sheet |
 | D8 | The eight spatial tombstones restated from the v1 templates (v1 chain, v1 edge names, required only where v1 requires); `ontology_image`'s `ontologyTableRow_id` spelling |
 | D9 | `local_identifier` loses the copied id terms; `global_identifier.scheme` bound (and a term); `acquisition_system.name` required; `strain.product_id` replaces `stock_number`; `notes` on `subject_interaction` |
-| D10 | One value-cell pattern (T14); `count.value` = {count, approximate}; `score.value.score`; pressure in `pascals`; `date` = {instant, precision, source_value, approximate}; generated defaults |
+| D10 | One value-cell pattern (T14); `count.value` = {count, approximate}; `score.value.score`; pressure stays `mmhg` (revised); `date` = {instant, precision, source_value, approximate}; generated defaults |
 | D11 | Receptive-field planes stated on each body; onsets are `timed_sequence`'s time key (+ `offset`); `control_item` authoritative, `blank` a stimulus property; `visual_grating.value.center` |
 | D12 | `require_inherited` replaces edge redeclaration; loosening a required edge fails the build |
 | D13 | Formulation: ingredients or product; `fill_value` a char literal; `demo` exempt from T6; `standalone_value` batch check; `acquisition_epoch` doc fixes; 12 infra tombstones retire; `parameter` is content; `model_fit` to draft; `file_regex`; nested flags declarative until DID-matlab descends |

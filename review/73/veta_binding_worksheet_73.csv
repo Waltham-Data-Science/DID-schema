@@ -27,6 +27,6 @@ row,field,what it names,candidate vocabulary,proposed strength,decision / source
 26,strain.genetic_strain_type,wildtype | transgenic | knockout | ...,openMINDS GeneticStrainType,required (openMINDS requires it),audit 2 D5 (added to the worksheet),doc lists the values; no binding declared yet
 27,strain.disease_model,disease or disease model a strain models,openMINDS DiseaseModel / DOID / MONDO,preferred,audit 2 D5 (added to the worksheet),no writer populates it yet
 28,dataset.license,the dataset licence,SPDX licence list,required,audit 2 D5 (added to the worksheet),free char today; doc says SPDX
-29,entity.global_identifier.scheme,identifier scheme,"{ORCID, ROR, DOI, PMID, PMCID, RRID, UDI, URL, AwardNumber, SWHID, Wikidata}",preferred,audit 2 D9: BOUND (built),"type char -> ontology_term to carry the binding; DID-matlab writes a scheme NDICloud, not in the set"
+29,entity.global_identifier.scheme,identifier scheme,"{ORCID, ROR, DOI, PMID, PMCID, RRID, UDI, URL, AwardNumber, SWHID, Wikidata, NDICloud}",preferred,audit 2 D9: BOUND (built),"type char -> ontology_term to carry the binding; NDICloud added by jess 2026-09-29 (DID-matlab writes it)"
 30,acquisition_channels.channels.type,channel type,"{ai, ao, di, do} (daqsystemstring.m:53-56)",required,audit 2 D5: BOUND (built),
 31,tuning_curve.value.response_type / contrast_sensitivity.value.response_type,the reduction applied to each presentation,"{mean, peak, F0, F1, F2}",preferred,audit 2 D3: BOUND (built),type char -> ontology_term; replaces contrast modulated_response

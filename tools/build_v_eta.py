@@ -203,7 +203,7 @@ def axis_subfields():
                        "Canonical unit of `origin`/`spacing`/`values`. Angles "
                        "are DEGREES, per angle.value.degrees. V_eta's canonical "
                        "units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: "
-                       "grams, liters, celsius, pascals. "
+                       "grams, liters, celsius, mmHg. "
                        "Absent for a categorical key, which uses `labels`."),
               subfield("source_unit", "char",
                        "The unit exactly as the source gave it. OMITTED when "
@@ -10235,8 +10235,10 @@ for _cls in ("subject", "session"):
     _li = _a2_field(_d["fields"], "local_identifier")
     _li["ontology"] = None      # (a) the term was base.id's / base.session_id's
     write(_t, _cls, _d)
+# `NDICloud` added (jess, 2026-09-29): DID-matlab's dataset migrators write it for the
+# NDI Cloud dataset id (migrators_j/Contents.m:264).
 _GI_SCHEMES = ("ORCID", "ROR", "DOI", "PMID", "PMCID", "RRID", "UDI", "URL",
-               "AwardNumber", "SWHID", "Wikidata")
+               "AwardNumber", "SWHID", "Wikidata", "NDICloud")
 _t, _d = _a2_load("entity")
 _gi = _a2_field(_d["fields"], "global_identifier")
 _gi["documentation"] = (
@@ -10697,7 +10699,7 @@ _meta3["description"] = (
     "pressure, ..., count, score, ontology_term) declare their sub-fields inline, "
     "so the canonical slot and the source provenance are read from the schema, not "
     "from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, "
-    "pascals, degrees; #73 items 44 and audit 2 D10). Every value cell is "
+    "mmHg, degrees; #73 item 44). Every value cell is "
     "{<canonical slot>, source_value, source_unit, approximate}, except where T14 "
     "says otherwise (a count; a date's precision).")
 _ml = _meta3["$defs"]["document_class_header"]["properties"].get("maturity_level")
@@ -10752,11 +10754,12 @@ _DIM_CANON = {
     "time": ["seconds"], "volume": ["liters"], "mass": ["grams"],
     "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
     "frequency": ["hertz"], "temperature": ["celsius"],
-    # PASCALS, not mmhg (#73 audit 2 D10, jess 2026-09-29): a canonical slot exists for
-    # cross-document comparison, so it sits in the same unit system as its neighbours
-    # (newtons, square_meters); a source's mmHg is kept in source_value/source_unit and
-    # the migrators convert. (mmhg was "attested in migrator code", never decided.)
-    "pressure": ["pascals"],
+    # MMHG, DECIDED (jess, 2026-09-29, #73 audit 2 D10 (e) as revised): the curator-
+    # natural unit for biological pressure (blood, intraocular, partial pressures), the
+    # reason the V_delta meta-schema recorded. D10 first chose pascals on the premise that
+    # no reason had been recorded; the V_delta reason was found during the build and the
+    # choice reverted. Practical SI, like grams / liters / celsius / degrees.
+    "pressure": ["mmhg"],
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
     # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
     # whichever the source unit is computable into.
