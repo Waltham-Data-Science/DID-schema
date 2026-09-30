@@ -8063,6 +8063,14 @@ RELATION_VOCABULARY = [
     # the subject/session part_of rather than widening that term's endpoints.
     _rel("suborganization_of", "", "the child organization", "the parent organization",
          ["organization"], ["organization"]),
+    # instance_of (2026-09-30, jess; not signed): an instrument subject is a unit of a
+    # bought product (a camera -> PixeLink PL-B741F). A RELATION rather than a
+    # `subject.product_id` field so the product can be attached after the instrument
+    # was recorded, without rewriting either document (the reason `data_body.owner_id`
+    # points from the body). Prompted by the Haley import (NDI-matlab
+    # +ndi/+setup/+conv/+haley/import_V2_decisions.md, entry 14). No ontology node yet.
+    _rel("instance_of", "", "the unit (e.g. an instrument subject)",
+         "the product it is a unit of", ["subject"], ["product"]),
     # data-to-data mappings (#73 item 24; added by audit 2 D5): a gene list mapped onto
     # another, the per-pair scores in a standalone `score` behind `value_id`, the tool
     # + version in `method`. Both endpoints are standalone `term` documents (a gene list).

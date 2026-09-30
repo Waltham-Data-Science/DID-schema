@@ -404,8 +404,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # `gene expression` -> spatial_gene_expression_pyramid row), relation_bindings
     # 29, entity_field_bindings 3, binding_examples 4. relation_bindings moved 26 -> 29
     # with #73 audit 2 D5 (2026-09-29): `observes` dropped, the two gene-mapping rows
-    # and the first two undirected rows (paired_with, same_as) added.
-    assert total == 42, f'registry row count moved: {total}'
+    # and the first two undirected rows (paired_with, same_as) added. 29 -> 30 on
+    # 2026-09-30 (jess): `instance_of` (an instrument subject -> its product).
+    assert total == 43, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -415,7 +416,8 @@ def test_the_live_derivation_reports_its_denominator_first():
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
     ("subject_statement_bindings", 6),
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
-    ("relation_bindings", 29),
+    # 29 -> 30 on 2026-09-30 (jess): `instance_of`.
+    ("relation_bindings", 30),
     ("entity_field_bindings", 3),
     ("binding_examples", 4),
 ])

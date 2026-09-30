@@ -3259,3 +3259,5 @@ RE-DERIVED 2026-09-29 (#73 audit 2 batched build; `check_prose_counts` re-derive
 RE-DERIVED 2026-09-29 (#73 audit 2 mechanical C9 dropped the two V_zeta example documents under `schemas/V_eta/examples/`; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 213; the examples named `scalar_temperature_observation` and `utc_reference`, classes V_eta does not define); **217 json file(s) under `schemas/V_eta/`** (was 219). No class was added or removed. Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-30 (the `study` entity; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 211); **218 json file(s) under `schemas/V_eta/`** (was 217); **20 fields carry a binding** (was 18; +`study.factors`, +`study.design`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product; `check_prose_counts` re-derives all nouns): the registry has **43** rows (was 42; relation_bindings 29 -> 30). Re-derive with `check_prose_counts`, do not quote these directly.

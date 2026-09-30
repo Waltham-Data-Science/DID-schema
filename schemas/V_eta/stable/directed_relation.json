@@ -165,6 +165,10 @@
                         },
                         {
                             "node": "",
+                            "name": "instance_of"
+                        },
+                        {
+                            "node": "",
                             "name": "orthologous gene mapping"
                         },
                         {

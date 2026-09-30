@@ -547,6 +547,23 @@
         {
             "relation": {
                 "node": "",
+                "name": "instance_of"
+            },
+            "class": "directed_relation",
+            "child_role": "the unit (e.g. an instrument subject)",
+            "parent_role": "the product it is a unit of",
+            "child_types": [
+                "subject"
+            ],
+            "parent_types": [
+                "product"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
                 "name": "orthologous gene mapping"
             },
             "class": "directed_relation",
