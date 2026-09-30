@@ -1,0 +1,109 @@
+{
+    "document_class": {
+        "class_name": "spatial_frequency_tuning_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "tuning_curve_calculation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "interpolated_values",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Summary points read off the RAW (unfitted) curve by interpolation (v1 `fitless`).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "preferred_value",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The independent-variable value at which the peak response occurs (v1 `pref`). Same unit as the curve's independent variable.",
+                    "constraints": {}
+                },
+                {
+                    "name": "half_maximum_below",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists.",
+                    "constraints": {}
+                },
+                {
+                    "name": "half_maximum_above",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite.",
+                    "constraints": {}
+                },
+                {
+                    "name": "low_pass_index",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Response at the lowest tested value divided by the response at the peak (responses rectified to be non-negative).",
+                    "constraints": {}
+                },
+                {
+                    "name": "high_pass_index",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Response at the highest tested value divided by the response at the peak (responses rectified to be non-negative).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

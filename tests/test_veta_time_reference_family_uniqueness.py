@@ -49,9 +49,10 @@ VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 # is renamed -- an absence turning into a reassuring silence, which is the shape
 # of every epistemic error recorded in CLAUDE.md.
 GOVERNED = {
-    ("subject_interaction", "time_reference_#"),
-    ("directed_relation", "time_reference_#"),
-    ("epoch", "time_reference_#"),
+    # Renamed by T15 (2026-09-25): the family repeats one name, `time_reference_id`.
+    ("subject_interaction", "time_reference_id"),
+    ("directed_relation", "time_reference_id"),
+    ("epoch", "time_reference_id"),
 }
 UNIQUE_BY = "value.clock"
 
@@ -76,7 +77,9 @@ def _families():
     for e in _index():
         d = _load(e)
         for dep in d.get("depends_on") or []:
-            if "#" in dep.get("name", ""):
+            # T15 (2026-09-25): a family is a REPEATED edge -- `multiple` --
+            # whether V_eta (one repeated name) or a did_v1 tombstone (`_#`).
+            if dep.get("multiple") or "#" in dep.get("name", ""):
                 out[(e["class_name"], dep["name"])] = dep
     return out
 
@@ -201,27 +204,25 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
     print(f'DENOMINATOR: {len(closure)} classes in the time_reference subtree; {len(with_clock)} declare value.clock: {with_clock}')
     # 1 -> 2 on 2026-08-13, and this is the deliberate update the message below
     # asks for. `epoch_bounded_reference` gained a `value` slot copied verbatim
-    # from relative_reference so pyraview's epoch EXTENT has transport between
+    # from relative_time_reference so pyraview's epoch EXTENT has transport between
     # pass 1 and did2.convert.epochMint -- it had none, which is why the extent
     # could not be minted. The copy brings `value.clock` with it, so the handle
     # is now comparable by the same discriminator.
     #
     # THAT IS CORRECT RATHER THAN INCIDENTAL: the uniqueness rule says members
     # of one `time_reference_#` family must differ by clock, and a handle that
-    # will BECOME a relative_reference has to satisfy the same rule or the fold
+    # will BECOME a relative_time_reference has to satisfy the same rule or the fold
     # could turn a legal family into an illegal one. The handle is transitional
-    # (not in the persist set -- tier 5 is absolute_reference +
-    # relative_reference), so this list shrinks back to one when it is deleted.
-    assert with_clock == ["epoch_bounded_reference", "relative_reference"], (
-        f"the set of classes the rule can compare has changed: {with_clock}. If the "
-        "collapse (#65 increment 3) has landed, this test's premise is the "
-        "thing that moved -- update it deliberately.")
-    # And the two that hold the documents today still have no clock. Stated as
-    # an assertion so the day it stops being true is a visible event.
-    for legacy in ("session_relative_reference", "session_bounded_reference"):
-        assert legacy in entries, f"{legacy} vanished -- see the epochfiles_ingested " \
-            "regression before deleting a class whose documents exist"
-        assert not has_clock(legacy), (
-            f"{legacy} now declares value.clock; the uniqueness rule became "
-            "measurable on the 127,719 live anchors and the census must be "
-            "re-read before anyone quotes a zero")
+    # (not in the persist set -- tier 5 is absolute_time_reference +
+    # relative_time_reference), so this list shrinks back to one when it is deleted.
+    # 2 -> 1 on 2026-09-25, #65 increment 3b: the collapse LANDED on the schema
+    # side (schema-first, by team decision), exactly as the message below
+    # anticipated. `epoch_bounded_reference` is deleted, so the handle's copy of
+    # `value.clock` went with it, and the two session leaves that held the
+    # documents are deleted too.
+    assert with_clock == ["relative_time_reference"], (
+        f"the set of classes the rule can compare has changed: {with_clock}. "
+        "Update it deliberately.")
+    for legacy in ("session_relative_reference", "session_bounded_reference",
+                   "epoch_bounded_reference"):
+        assert legacy not in entries, f"{legacy} came back; increment 3b deleted it"

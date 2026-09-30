@@ -1,5 +1,16 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
+> **AMENDMENT, 2026-09-25 (#73 review item 62; agreed with jess, NOT signed):** the
+> document's `other` field (the undeclared long tail) is DELETED. A knob with no
+> ontology term is a `method_parameters[]` entry whose `variable` is a label (`{name}`,
+> no node; #73 item 33); the filter group leaves via `filter_id`, the epoch scope via
+> `epoch_id`, the run environment via the calculation's software edges (item 53), and a
+> leftover app block via `software_id`. `THE CLASS` block below still lists `other`.
+>
+> **BUILD STATUS, 2026-09-25 (#73 review item 22):** the INLINE
+> `subject_interaction.method_parameters` now has the signed `parameter[]` shape, copied from
+> the document's own declaration (was an empty free-form structure). Emitters: PR #76 checklist.
+
 **DECIDED with the team, 2026-08-05. RE-DECIDED and SIGNED 2026-08-09. Build deferred
 (#74).** The shape below the "FINAL MODEL" heading supersedes the class described in the
 first half of this document; everything above it stands as rationale.
@@ -794,3 +805,44 @@ which is the per-document cost `check_prose_counts` exists to find.
 RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 254 distinct V_eta class names; 260 json file(s) under schemas/V_eta. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).
 
 RE-DERIVED 2026-09-23 (spatial-transcriptomics family landed via #64 commit `71298fd`, `check_prose_counts`): **262 distinct V_eta class names** (was 254; +8 spatial-transcriptomics classes); **268 json file(s) under `schemas/V_eta`** (was 260; +8). Re-derive with `python3 tools/check_prose_counts.py`, do not quote these directly.
+
+
+RE-DERIVED 2026-09-23 (#73 calculator restructure: `calculator` mixin dropped, 5 tuning markers dropped, 6 `*_calc` leaves -> 5 `*_tuning_calculation` + concrete `tuning_curve_calculation`; `check_prose_counts` re-derives all nouns): **256 distinct V_eta class names** (was 262; -5 markers, -6 `*_calc` leaves, +5 renamed leaves); **262 json file(s) under `schemas/V_eta/`** (was 268; same -6); tombstones classes compared: 74 (was 76; `orientation_direction_tuning` and `tuningcurve_calc` left for "no tombstone" 17 -> 19 when they joined `_DELETE_PHASE8`, and LOSSY fell 11 -> 9 because the V_eta classes that had taken those two did_v1 names never declared their real fields); **20 deleted** in `_DELETE_PHASE8` (was 11; +4 v1 calc tombstones `oridirtuning_calc`, `tuningcurve_calc`, `spatial_frequency_tuning_calc`, `temporal_frequency_tuning_calc`, +5 v1 result tombstones `orientation_direction_tuning`, `contrast_tuning`, `spatial_frequency_tuning`, `temporal_frequency_tuning`, `speed_tuning`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (the #73 review build; `check_prose_counts` re-derives all nouns): the build added label, label_calculation, coordinate_system, position, position_observation, position_calculation, count/area/score/term_calculation and restored harmonic_component_calculation. Live figures: **267 distinct V_eta class names** (was 256); **273 json file(s) under `schemas/V_eta/`** (was 262); **44 direct subclasses** of `data_type` (was 42; +`label`, +`position`) -- and since #73 item 19 NONE of them is abstract. Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#65 increment 3b: `session_relative_reference`, `session_bounded_reference` and `epoch_bounded_reference` deleted schema-first, `is_approximate` removed from `time_reference`; `check_prose_counts` re-derives all nouns): **264 distinct V_eta class names** (was 267); **270 json file(s) under `schemas/V_eta/`** (was 273). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 45: the new `spatial_frequency` composite; `check_prose_counts` re-derives all nouns): **265 distinct V_eta class names** (was 264); **271 json file(s) under `schemas/V_eta/`** (was 270); **45 direct subclasses** of `data_type` (was 44). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 48: the new `voltage_calculation` leaf; `check_prose_counts` re-derives all nouns): **266 distinct V_eta class names** (was 265); **272 json file(s) under `schemas/V_eta/`** (was 271). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 50: 51 unused statement leaves deleted; `check_prose_counts` re-derives all nouns): **215 distinct V_eta class names** (was 266); **221 json file(s) under `schemas/V_eta/`** (was 272). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 51: the V_eta `image` data_type and `image_observation` retired, `image` restated as the did_v1 tombstone; `check_prose_counts` re-derives all nouns): **214 distinct V_eta class names** (was 215); **220 json file(s) under `schemas/V_eta/`** (was 221); **44 direct subclasses** of `data_type` (was 45). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 52: `logical_observation` retired; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 214); **219 json file(s) under `schemas/V_eta/`** (was 220). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 53: the run-environment entity split into two `software` edges and deleted; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 59: `product` minted, `amount` renamed `substance_amount`; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 212); **219 json file(s) under `schemas/V_eta/`** (was 218); **44 direct subclasses** of `data_type` (unchanged: `substance_amount` replaces `amount`, and `product` is an entity). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-25 (#73 review item 61: `acquisition_metadata_file` retired; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 213); **218 json file(s) under `schemas/V_eta/`** (was 219). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-29 (#73 review item 67: `control_designation` deleted; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 212); **217 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-29 (#73 review item 68: `model_fit` + `model_fit_calculation` minted; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 211); **219 json file(s) under `schemas/V_eta/`** (was 217); **45 direct subclasses** of `data_type` (was 44; +`model_fit`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+## Amendment — #73 audit 2 D4 (2026-09-29, jess; decided, not signed)
+
+Amends the signed [spike processing parameters] line's "with no `unit` field", as data_body
+Amendment 1 did for the key entry this one was modelled on. The `parameter[]` entry is now
+`{variable, unit, source_unit, value {value, source_value}, term, text}` — the key /
+condition entry's shape — at all three mounts (`subject_interaction`, `method_parameters`,
+`clock_alignment_configuration`). The canonical `value.value` is in `unit`, a term left
+unbound until the unit vocabulary is chosen (`review/73/OPEN_ITEMS.md` item 24). The
+"modelled on the `axis` entry" wording in the field documentation is replaced. The signature
+line above is unchanged; whether it reaches this amendment is for the team (sign-off sheet,
+audit 2 D7c).
+
+TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: the parameter entry is `{variable, unit, source_unit, value {value, source_value}, term, text}` at all three mounts, replacing the signed line's "no `unit` field"; `unit` stays unbound until the unit vocabulary is chosen.

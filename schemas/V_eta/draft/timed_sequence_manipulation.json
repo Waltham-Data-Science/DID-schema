@@ -12,14 +12,7 @@
         ],
         "maturity_level": "draft"
     },
-    "depends_on": [
-        {
-            "name": "timed_sequence_id",
-            "mustBeNonEmpty": false,
-            "documentation": "For storage_mode:reference (multi-subject) \u2014 the shared timed_sequence body this manipulation presents.",
-            "must_refer_to_document_class": "timed_sequence"
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": []
 }

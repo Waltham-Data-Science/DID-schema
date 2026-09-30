@@ -34,12 +34,30 @@
                     "root": "did_filter_algorithm",
                     "expansion": "value_set",
                     "values": [
-                        "chebyshev_1",
-                        "chebyshev_2",
-                        "butterworth",
-                        "elliptic",
-                        "bessel",
-                        "fir"
+                        {
+                            "node": "",
+                            "name": "chebyshev_1"
+                        },
+                        {
+                            "node": "",
+                            "name": "chebyshev_2"
+                        },
+                        {
+                            "node": "",
+                            "name": "butterworth"
+                        },
+                        {
+                            "node": "",
+                            "name": "elliptic"
+                        },
+                        {
+                            "node": "",
+                            "name": "bessel"
+                        },
+                        {
+                            "node": "",
+                            "name": "fir"
+                        }
                     ],
                     "strength": "required",
                     "source": "value_set"
@@ -96,10 +114,22 @@
                     "root": "did_filter_band",
                     "expansion": "value_set",
                     "values": [
-                        "high_pass",
-                        "low_pass",
-                        "band_pass",
-                        "band_stop"
+                        {
+                            "node": "",
+                            "name": "high_pass"
+                        },
+                        {
+                            "node": "",
+                            "name": "low_pass"
+                        },
+                        {
+                            "node": "",
+                            "name": "band_pass"
+                        },
+                        {
+                            "node": "",
+                            "name": "band_stop"
+                        }
                     ],
                     "strength": "required",
                     "source": "value_set"
@@ -151,7 +181,12 @@
                     "name": "low",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -202,8 +237,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -218,7 +253,12 @@
                     "name": "high",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -269,8 +309,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -300,7 +340,12 @@
                     "name": "low",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -351,8 +396,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -367,7 +412,12 @@
                     "name": "high",
                     "type": "frequency",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "hertz": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -418,8 +468,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
@@ -435,8 +485,8 @@
         {
             "name": "order",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -449,7 +499,12 @@
             "name": "passband_ripple",
             "type": "gain",
             "blank_value": 0.0,
-            "default_value": 0.0,
+            "default_value": {
+                "decibels": 0.0,
+                "source_unit": "",
+                "source_value": 0.0,
+                "approximate": false
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -500,8 +555,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
@@ -516,7 +571,12 @@
             "name": "stopband_attenuation",
             "type": "gain",
             "blank_value": 0.0,
-            "default_value": 0.0,
+            "default_value": {
+                "decibels": 0.0,
+                "source_unit": "",
+                "source_value": 0.0,
+                "approximate": false
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -567,8 +627,8 @@
                 {
                     "name": "approximate",
                     "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,

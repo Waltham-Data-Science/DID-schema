@@ -124,7 +124,7 @@ def bound_fields(veta=VETA):
     Returns (index, denominator). The denominator is measured, not assumed: a
     walker that stopped descending would report "no bindings" and read as
     clean, and two of the fourteen live declarations are NESTED
-    (relative_reference.value.relation and .value.frame), so a top-level-only
+    (relative_time_reference.value.relation and .value.frame), so a top-level-only
     sweep would miss them and call the tree consistent.
     """
     index = {}

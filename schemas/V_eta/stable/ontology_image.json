@@ -14,7 +14,7 @@
     },
     "depends_on": [
         {
-            "name": "ontology_table_row_id",
+            "name": "ontologyTableRow_id",
             "mustBeNonEmpty": false,
             "documentation": "The metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why these documents are deferred rather than migrated. The only edge the class has ever declared, and the only one its writer sets.",
             "must_refer_to_document_class": "ontology_table_row",

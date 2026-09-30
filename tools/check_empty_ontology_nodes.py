@@ -137,7 +137,7 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # and line, and they come back down when the NDIC vocabulary is reachable.
 # ---- RECONCILED AGAIN 2026-08-10, 44 -> 45. ONE row, and it is a GAIN. ------
 # `private/jEpochClockReferences.m:171` -- jOntologyTerm('', bareClock), the
-# NDI clocktype on a lifted relative_reference.
+# NDI clocktype on a lifted relative_time_reference.
 #
 # THE COUNT WENT UP BECAUSE THE CODE GOT MORE HONEST, which is the one case
 # where a rising ratchet is good news. That site previously wrote a RAW STRUCT
@@ -157,13 +157,13 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # moved out of NDI-matlab in 2c19bf24c and that repo is not in session scope.
 # ---- RECONCILED 2026-08-10, 45 -> 46. ONE row, and it is the SECOND gain. ---
 # `migrators_j/stimulus_response_scalar.m:369` -- jOntologyTerm('', 'dev_local_time')
-# on the `clock` of a `relative_reference`.
+# on the `clock` of a `relative_time_reference`.
 #
 # This is the `element_epochid` DATA-LOSS REPAIR arriving. That fold used to
 # emit a bare session anchor and drop the v1 epoch string on the floor, and no
 # counter could see it: silentLoss counts empty edges, vacuous fields and
 # fragments, and a dropped SOURCE FIELD is none of the three. It now emits a
-# relative_reference whose `relative_to` is the real minted `epoch` document.
+# relative_time_reference whose `relative_to` is the real minted `epoch` document.
 #
 # So the emission exists BECAUSE a document is being preserved that previously
 # was not. Note the same line gets `relation` RIGHT with a real CURIE
@@ -328,7 +328,7 @@ BASELINE_MIGRATORS = 60
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
-# (relative_reference.value.clock and clock_alignment_configuration.clock), staged
+# (relative_time_reference.value.clock and clock_alignment_configuration.clock), staged
 # empty because the NDIC identifier authority is in no repository in scope --
 # NDIC.txt was moved out of NDI-matlab in commit 2c19bf24c. Lower it the moment
 # real CURIEs are assigned.

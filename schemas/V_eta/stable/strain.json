@@ -11,13 +11,20 @@
     },
     "depends_on": [
         {
-            "name": "background_strain_#",
+            "name": "background_strain_id",
             "mustBeNonEmpty": false,
             "documentation": "The strain(s) this one was derived from -- a RECURSIVE self-edge forming a DAG, so a cross names both parents and a shared background is stored ONCE rather than duplicated into every descendant. A root strain has none.",
             "must_refer_to_document_class": "strain",
             "multiple": true,
             "min_count": 0,
-            "max_count": 2
+            "max_count": 2,
+            "ordered": false
+        },
+        {
+            "name": "product_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the strain as a product -- its vendor (an organization) and catalog number -- replacing the inline `stock_number` {vendor, code} (#73 audit 2 D9; item 59 named strain as product's expected later user).",
+            "must_refer_to_document_class": "product"
         }
     ],
     "file": [],
@@ -51,7 +58,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The species this strain belongs to. Bound to NCBITaxon. REQUIRED by openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic specimen.species slot -- species and strain stay SIBLING assertions on a subject (record Parts 4 and 5).",
+            "documentation": "The species this strain belongs to. INTENDED binding: NCBITaxon -- NOT YET DECLARED on this field (binding worksheet, 2026-09-25). REQUIRED by openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic specimen.species slot -- species and strain stay SIBLING assertions on a subject (record Parts 4 and 5).",
             "constraints": {},
             "fields": [
                 {
@@ -171,7 +178,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "openMINDS BreedingType, where stated.",
+            "documentation": "openMINDS BreedingType, where stated. INTENDED binding, NOT YET DECLARED on this field (binding worksheet, 2026-09-25).",
             "constraints": {},
             "fields": [
                 {
@@ -265,47 +272,6 @@
             }
         },
         {
-            "name": "stock_number",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Vendor stock/catalogue number.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "vendor",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The vendor or repository.",
-                    "constraints": {}
-                },
-                {
-                    "name": "code",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Its catalogue/stock code.",
-                    "constraints": {}
-                }
-            ]
-        },
-        {
             "name": "synonym",
             "type": "string",
             "blank_value": [],
@@ -316,19 +282,6 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Other names the source uses for this strain.",
-            "constraints": {}
-        },
-        {
-            "name": "local_identifier",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
             "constraints": {}
         }
     ]

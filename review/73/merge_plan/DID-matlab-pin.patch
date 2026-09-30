@@ -1,0 +1,53 @@
+diff -ru a/.github/workflows/test-code.yml b/.github/workflows/test-code.yml
+--- a/.github/workflows/test-code.yml	2026-09-29 19:56:12.262909979 +0000
++++ b/.github/workflows/test-code.yml	2026-09-29 19:56:12.337667584 +0000
+@@ -48,7 +48,10 @@
+           # `main` on 2026-09-23 and deleted the shared topic branch, so the
+           # full V_eta schema tree (schemas/V_eta/, tools/bar2_gap.py, the plan
+           # docs) now lives on main. Validate against main.
+-          ref: main
++          # PINNED to did-schema tag `v_eta-pre73` (= main before DID-schema PR #76) so main can take
++          # the #73 schema while these migrators still emit the old shape. Move the pin forward
++          # as each migrator PR catches up; remove it when DID-matlab emits the #73 shape.
++          ref: v_eta-pre73
+           path: did-schema
+ 
+       # ---------------------------------------------------------------
+diff -ru a/.github/workflows/test-fixtures.yml b/.github/workflows/test-fixtures.yml
+--- a/.github/workflows/test-fixtures.yml	2026-09-29 19:56:12.275168031 +0000
++++ b/.github/workflows/test-fixtures.yml	2026-09-29 19:56:12.337961481 +0000
+@@ -35,7 +35,7 @@
+           repository: Waltham-Data-Science/did-schema
+           # V_eta lives on did-schema `main` since #64 merged (2026-09-23) and
+           # the shared topic branch was deleted. Validate against main.
+-          ref: main
++          ref: v_eta-pre73  # pinned: see test-code.yml
+           path: did-schema
+ 
+       - name: Assemble V_eta schema set (stable + draft)
+diff -ru a/.github/workflows/test-migrators-quick.yml b/.github/workflows/test-migrators-quick.yml
+--- a/.github/workflows/test-migrators-quick.yml	2026-09-29 19:56:12.288063628 +0000
++++ b/.github/workflows/test-migrators-quick.yml	2026-09-29 19:56:12.338100741 +0000
+@@ -50,8 +50,8 @@
+             echo "did-schema HAS PR #68 branch '$schema_pr68' -- using it (this DID-matlab PR implements it)."
+             echo "ref=$schema_pr68" >> "$GITHUB_OUTPUT"
+           else
+-            echo "did-schema has NEITHER '$want' NOR '$schema_pr68' -- FALLING BACK to main."
+-            echo "ref=main" >> "$GITHUB_OUTPUT"
++            echo "did-schema has NEITHER '$want' NOR '$schema_pr68' -- FALLING BACK to v_eta-pre73 (the pre-#73 schema; see test-code.yml)."
++            echo "ref=v_eta-pre73" >> "$GITHUB_OUTPUT"
+           fi
+ 
+       - name: Check out did-schema (sibling, for V_eta validation)
+diff -ru a/.github/workflows/test-soph-corpus.yml b/.github/workflows/test-soph-corpus.yml
+--- a/.github/workflows/test-soph-corpus.yml	2026-09-29 19:56:12.301525358 +0000
++++ b/.github/workflows/test-soph-corpus.yml	2026-09-29 19:56:12.338232881 +0000
+@@ -55,7 +55,7 @@
+     name: Soph (Griswold) corpus discovery
+     runs-on: ubuntu-latest
+     env:
+-      DID_SCHEMA_REF: ${{ inputs.did_schema_ref || github.ref_name || 'main' }}
++      DID_SCHEMA_REF: ${{ inputs.did_schema_ref || 'v_eta-pre73' }}
+       DID_RUN_SOPH_TEST: '1'
+     steps:
+       - name: Check out repository

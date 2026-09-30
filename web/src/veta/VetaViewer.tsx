@@ -108,7 +108,7 @@ export default function VetaViewer({ onOpenSchema }: Props) {
             className={tab === "tenets" ? "active" : ""}
             onClick={() => setTab("tenets")}
           >
-            Tenets T1–T14
+            Tenets T1–T15
           </button>
         </div>
       </header>
@@ -720,7 +720,7 @@ function TenetsText({ model, onClass }: { model: VetaModel; onClass: (n: string)
   }, [map]);
 
   const [before, after] = useMemo(() => {
-    // Sections before the first tenet (the thesis) render above T1-T14; the
+    // Sections before the first tenet (the thesis) render above T1-T15; the
     // rest (the meta-principle) render below. Order is the document's own.
     const idx = TENETS_MD.search(/^### T1 /m);
     const b: typeof model.tenetSections = [];

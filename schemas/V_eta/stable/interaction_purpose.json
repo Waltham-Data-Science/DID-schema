@@ -11,12 +11,13 @@
     },
     "depends_on": [
         {
-            "name": "interaction_id_#",
+            "name": "interaction_id",
             "mustBeNonEmpty": false,
             "documentation": "The interaction(s) this purpose applies to.",
             "must_refer_to_document_class": "subject_interaction",
             "multiple": true,
-            "min_count": 1
+            "min_count": 1,
+            "ordered": false
         }
     ],
     "file": [],

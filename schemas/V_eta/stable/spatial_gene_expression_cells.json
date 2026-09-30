@@ -11,23 +11,23 @@
     },
     "depends_on": [
         {
-            "name": "spatial_gene_expression_pyramid_id",
+            "name": "spatialGeneExpressionPyramid_id",
             "mustBeNonEmpty": true,
-            "documentation": "The pyramid this cell segmentation was computed for.",
+            "documentation": "The pyramid the cells were segmented from. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "spatial_gene_expression_pyramid",
             "ndi_mustBeNonEmpty": true
         },
         {
             "name": "subject_id",
             "mustBeNonEmpty": false,
-            "documentation": "The subject (specimen) this segmentation is about.",
+            "documentation": "The subject. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "subject",
             "ndi_mustBeNonEmpty": false
         },
         {
             "name": "source_file_id",
             "mustBeNonEmpty": false,
-            "documentation": "The external source file (e.g. h5ad) the cell data was imported from, if any.",
+            "documentation": "The source file. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "file_reference",
             "ndi_mustBeNonEmpty": false
         }
@@ -59,8 +59,8 @@
         {
             "name": "n_cells",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -111,8 +111,8 @@
         {
             "name": "contours_present",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -137,8 +137,8 @@
         {
             "name": "n_vertices_per_cell",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,

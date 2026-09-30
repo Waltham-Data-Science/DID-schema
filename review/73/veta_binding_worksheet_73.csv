@@ -1,0 +1,32 @@
+row,field,what it names,candidate vocabulary,proposed strength,decision / source,notes
+1,data.keys.unit,canonical unit of a key's positions,a unit ontology (UO or QUDT) -- NOT named anywhere yet,required when the key is numeric,"data_body Amendment 1: 'BOUND, NOT FREE TEXT' (signed 2026-08-14)","signed as bound but no vocabulary chosen; pick one | PATH CORRECTED (audit 2): keys are declared once on `data` (#73 items 60, 65); rows 2-3 merge here"
+2,sampled_body.keys.unit,"same, on a body",same as above,same as above,data_body Amendment 1,must match the statement's choice | MERGED into row 1 (audit 2): a body inherits data.keys
+3,image.value.keys.unit,"same, on an image value",same as above,same as above,data_body Amendment 1 (via #73 item 16),MERGED into row 1 (audit 2): `image` is a v1 tombstone (#73 item 51)
+4,subject_statement.conditions.count.value.unit,unit of a count condition,same unit vocabulary,preferred,data_body Amendment 2 (unbuilt restructure),moves with the conditions rebuild
+5,count.value.unit,"what is being counted (spikes, cells, UMIs)",NDIC / mint,preferred,none,a count's 'unit' is really the counted thing; check with the team | FIELD DROPPED (audit 2 D10): what is counted is the statement `variable`
+6,tuning_curve.value.independent_variables.unit,unit of a tuning axis,same unit vocabulary as keys.unit,required when numeric,#73 tuning amendment,"FIELD DROPPED (audit 2 D3): a tuning dimension is a key, so this is row 1"
+7,tuning_curve.value.response_units,unit of the response (currently free-text char),same unit vocabulary,preferred,audit B finding,type change char -> ontology_term
+8,visual_grating.value.source_geometry.unit,unit of stimulus geometry (currently char),same unit vocabulary,preferred,audit B finding,type change char -> ontology_term
+9,data.keys.variable,"what a key indexes (time, direction, gene, cell)",NDIC (VH-Lab/ndi-ontology-matlab) + the axis terms in the term worksheet,"preferred, node_form curie (as subject_statement.variable)",T8; subject_statement.variable precedent (signed 2026-08-10),"membership needs NDIC, which is unreachable from this container | PATH CORRECTED (audit 2): keys are declared once on `data`; rows 10-11 merge here"
+10,sampled_body.keys.variable,"same, on a body",same,same,same,MERGED into row 9 (audit 2)
+11,image.value.keys.variable,"same, on an image value",same,same,same,MERGED into row 9 (audit 2): `image` is a v1 tombstone (#73 item 51)
+12,subject_statement.conditions.variable,"what a condition names (OD600, arm direction)",NDIC,"preferred, node_form curie",T8; D9 registry keyed on variable,
+13,tuning_curve.value.independent_variables.variable,"the tuning axis (direction, spatial frequency)",NDIC,"preferred, node_form curie",T8,"FIELD DROPPED (audit 2 D3): a tuning dimension is a key, so this is row 9"
+14,method_parameters.method_parameters.variable,which knob a parameter is,NDIC / per-software term set,preferred,method_parameters plan: doc says 'BOUND',doc claim corrected to 'to be bound'
+15,relation.method,how a relation was established (tool + version),NDIC / EDAM operation,"preferred, node_form curie",#73 item 24 (method moved up to relation),subject_interaction.method precedent is preferred+curie
+16,directed_relation.relation,"the predicate (part_of, derived_from, orthologous gene mapping)",RO (Relation Ontology) + NDIC,required,registry has 26 relation_bindings rows,"the registry rows exist; the field itself carries no binding | BOUND (audit 2 D5): preferred, values GENERATED from relation_bindings (29 rows: -observes, +2 gene mappings)"
+17,undirected_relation.relation,"the predicate (paired_with, same_as)",RO + NDIC,required,same,"BOUND (audit 2 D5): preferred, values generated from the undirected relation_bindings rows (paired_with, same_as)"
+18,clock_alignment.relation,'temporally aligned with',NDIC (mint): NOT OWL-Time,required,"clock_alignment plan :456, :524-525",term to mint
+19,receptive_field.value.method,"estimation method (Hartley, sparse noise, STA)",NDIC / mint,required,RF fold sign-off 2026-08-17: 'a bound term on the composite',"signed as bound, not built"
+20,coordinate_system.origin,"which point is zero (image corner, probe tip, bregma)",NDIC + term worksheet rows,preferred,#73 items 5-9,term worksheet already lists candidate terms
+21,coordinate_system.dimensions.axis,which axis a coordinate is,term worksheet rows 1-N,required,#73 item 9,
+22,coordinate_system.dimensions.positive_direction,which way is positive ('image right'),term worksheet / mint,required,#73 item 9,audit A finding
+23,strain.species,the strain's species,NCBITaxon,required,openMINDS requires it; doc said 'Bound to NCBITaxon',doc claim corrected to 'intended'
+24,strain.breeding_type,breeding type,openMINDS BreedingType,preferred,doc names openMINDS BreedingType,dataset fields show the openMINDS binding form to copy
+25,method_parameters.method_parameters.unit,canonical unit of a numeric parameter,same unit vocabulary as keys.unit,required when numeric,"audit 2 D4 (amends the signed ""no unit field"")",unbound until item 24 names the unit vocabulary; also on subject_interaction and clock_alignment_configuration
+26,strain.genetic_strain_type,wildtype | transgenic | knockout | ...,openMINDS GeneticStrainType,required (openMINDS requires it),audit 2 D5 (added to the worksheet),doc lists the values; no binding declared yet
+27,strain.disease_model,disease or disease model a strain models,openMINDS DiseaseModel / DOID / MONDO,preferred,audit 2 D5 (added to the worksheet),no writer populates it yet
+28,dataset.license,the dataset licence,SPDX licence list,required,audit 2 D5 (added to the worksheet),free char today; doc says SPDX
+29,entity.global_identifier.scheme,identifier scheme,"{ORCID, ROR, DOI, PMID, PMCID, RRID, UDI, URL, AwardNumber, SWHID, Wikidata, NDICloud}",preferred,audit 2 D9: BOUND (built),"type char -> ontology_term to carry the binding; NDICloud added by jess 2026-09-29 (DID-matlab writes it)"
+30,acquisition_channels.channels.type,channel type,"{ai, ao, di, do} (daqsystemstring.m:53-56)",required,audit 2 D5: BOUND (built),
+31,tuning_curve.value.response_type / contrast_sensitivity.value.response_type,the reduction applied to each presentation,"{mean, peak, F0, F1, F2}",preferred,audit 2 D3: BOUND (built),type char -> ontology_term; replaces contrast modulated_response

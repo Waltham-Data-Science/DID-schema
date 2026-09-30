@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://did-schema.example.org/V_delta/did_schema_meta.json",
-    "title": "DID/NDI Schema Meta-Schema (V_delta)",
-    "description": "Validates the structure of DID/NDI schema files for V_delta. V_delta introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', 'frequency', 'concentration', 'temperature', 'pressure', 'count', and 'score', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The nine single-canonical typed-quantity composites ('duration', 'volume', 'mass', 'length', 'voltage', 'current', 'frequency', 'temperature', 'pressure') share the same sub-field layout (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. The canonicals are SI base units except for 'temperature' (canonical 'celsius' rather than the SI Kelvin because \u00b0C is the curator-natural unit for biological temperature; allowed source units include \u00b0C / C / Celsius / K / Kelvin / \u00b0F / F / Fahrenheit) and 'pressure' (canonical 'mmhg' rather than the SI pascal because mmHg is the curator-natural unit for biological pressure \u2014 blood pressure, intraocular pressure, partial pressures; allowed source units include mmHg / torr / kPa / Pa / cmH2O / bar / mbar / psi / atm). 'concentration' breaks the single-canonical pattern because concentration units do not collapse to a single canonical (mass/volume cannot be converted to molar without molecular weight, and vice versa); instead it offers multiple OPTIONAL canonical sub-fields ('molar', 'grams_per_liter', 'mass_fraction', 'volume_fraction', 'particles_per_liter') and the migrator populates whichever the source unit is computable into, alongside the same 'approximate' / 'source_unit' / 'source_value' triple. The 'particles_per_liter' canonical covers count-per-volume entries (viral titer in vg/mL, gc/mL, vp/mL, TU/mL, IU/mL, pfu/mL, TCID50/mL and equivalents \u2014 multiply by 1000 to go from per-mL to per-liter); the kind-of-particle distinction (genome vs physical-particle vs functional unit) is not collapsed by the canonical and remains carried by 'source_unit'. 'count' is the typed composite for discrete-count quantities (sub-fields: value: integer, unit: ontology_term identifying what is counted such as cells / individuals / spikes / events, approximate: boolean); the integer does not normalize across units because counts have no dimensional scaling \u2014 the unit is semantic, not dimensional, and the composite exists so validators and queries can identify count-style quantities as a group. 'score' is the typed composite for scale-based assessment values (sub-fields: value: double, scale: ontology_term identifying the scoring rubric such as Murine Body Condition Score, scale_min: double, scale_max: double, approximate: boolean); double rather than integer allows half-integer increments. NAMING CONVENTION: V_delta drops the V_beta underscore prefix on NDI-extension keys. Every reserved key \u2014 JSON Schema vocabulary or NDI extension \u2014 is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
+    "$id": "https://did-schema.example.org/V_eta/did_schema_meta.json",
+    "title": "DID/NDI Schema Meta-Schema (V_eta)",
+    "description": "Validates the structure of DID/NDI schema files for V_eta. The design rules the schema follows are the tenets (schemas/V_eta_tenets.md, T1-T15); this file checks form only. Named composite types (the value cells: time, voltage, mass, pressure, ..., count, score, ontology_term) declare their sub-fields inline, so the canonical slot and the source provenance are read from the schema, not from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, mmHg, degrees; #73 item 44). Every value cell is {<canonical slot>, source_value, source_unit, approximate}, except where T14 says otherwise (a count; a date's precision).",
     "type": "object",
     "required": [
         "document_class",
@@ -41,6 +41,42 @@
                 "$ref": "#/$defs/field_definition"
             },
             "description": "Array of field definition objects."
+        },
+        "rules": {
+            "type": "array",
+            "description": "In-document conditions a single field declaration cannot express (an iff, an exclusive or, a requirement conditional on another field). Each rule is NAMED so a validator implements it as a named check (DID-matlab, report-only first). #73 audit 2 D6.",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "fields",
+                    "statement"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Dotted paths of the fields involved."
+                    },
+                    "statement": {
+                        "type": "string",
+                        "description": "The condition, in one line."
+                    }
+                }
+            }
+        },
+        "require_inherited": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Inherited edges or fields this class makes REQUIRED, by name. The one way to tighten an inherited declaration: redeclaring an inherited edge is refused by the build, and a redeclaration that loosens would be void anyway (the required set is the union over the chain). A listed name must be inherited and not already required. #73 audit 2 D12."
         }
     },
     "$defs": {
@@ -78,7 +114,7 @@
                         "draft",
                         "deprecated"
                     ],
-                    "description": "Maturity level of this schema. Must agree with the schema's tier folder (stable/draft/deprecated) under schemas/V_delta/."
+                    "description": "Maturity level of this schema. Must agree with the schema's tier folder (stable/draft/deprecated) under schemas/V_eta/."
                 },
                 "abstract": {
                     "type": "boolean",
@@ -111,7 +147,7 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, 'multiple' must be true."
+                    "description": "Name of the dependency: a noun ending `_id` (T15). A V_eta edge that may repeat REPEATS THIS ONE NAME, one entry per referenced document, and is never numbered. A '#' in the name occurs ONLY on did_v1 tombstones and marks a v1 numbered family: 'syncrule_id_#' matches the v1 runtime names 'syncrule_id_1', 'syncrule_id_2', ..., read as written. When '#' appears, 'multiple' must be true."
                 },
                 "mustBeNonEmpty": {
                     "type": "boolean",
@@ -119,7 +155,7 @@
                 },
                 "multiple": {
                     "type": "boolean",
-                    "description": "If true, the document may carry zero or more instances of this dependency at runtime, distinguished by substituting a positive integer for the '#' placeholder in 'name' (e.g., a 'name' of 'syncrule_id_#' yields runtime keys 'syncrule_id_1', 'syncrule_id_2', etc.). The '#' placeholder is required in 'name' whenever 'multiple' is true. Omit or set to false for exactly-one dependencies, in which case 'name' must not contain '#'."
+                    "description": "If true, the document may carry this dependency more than once. On a V_eta class the entries all carry the SAME name (T15) and `ordered` says whether their position is data; on a did_v1 tombstone the name carries a '#' placeholder and the entries are numbered as v1 wrote them. Omit or false for exactly-one."
                 },
                 "documentation": {
                     "type": "string",
@@ -133,20 +169,24 @@
                 "min_count": {
                     "type": "integer",
                     "minimum": 0,
-                    "description": "For a numbered family (`name_#`): the minimum number of instances a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing instance is not a blank one -- so a family that must be present says min_count: 1. Omit on a non-numbered dependency."
+                    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` family): the minimum number of entries a valid document must carry. `mustBeNonEmpty` cannot express this -- a missing entry is not a blank one -- so a repeated edge that must be present says min_count: 1. Omit on a single edge, where `mustBeNonEmpty` already says it (the build enforces this)."
                 },
                 "max_count": {
                     "type": "integer",
                     "minimum": 1,
-                    "description": "For a numbered family (`name_#`): the maximum number of instances a valid document may carry. Omit for unbounded."
+                    "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` family): the maximum number of entries a valid document may carry. Omit for unbounded, and on a single edge."
                 },
                 "referent_unique_by": {
                     "type": "string",
-                    "description": "For a numbered family (`name_#`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it a bare `_1`/`_2` index carries no meaning. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`derived_from_#`: N inputs, no ordering and no uniqueness rule has been decided)."
+                    "description": "For a repeated dependency (`multiple`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it two entries of one name are otherwise indistinguishable. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`input_id`: N inputs, no ordering and no uniqueness rule has been decided)."
                 },
                 "ndi_mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "NDI's OWN `mustbenotempty` verdict for the corresponding did_v1 edge, copied verbatim from the class's NDI schema document (schemas/V_eta_ndi_ground_truth.json). REPORT ONLY: nothing validates, quarantines or gates on it -- `mustBeNonEmpty` alone does that, and this key never changes it. It exists so did2.validate.silentLoss can census the edges NDI declares REQUIRED that V_eta declares OPTIONAL, which are otherwise outside every counter: the census reads `mustBeNonEmpty`, so an edge V_eta relaxed is not merely counted as zero, it is not looked at. ABSENT means NDI stated nothing (no did_v1 source, a JSON Schema-form schema document, or no matching edge name) and must not be read as `false`."
+                },
+                "ordered": {
+                    "type": "boolean",
+                    "description": "For a repeated V_eta edge (`multiple`): true if the entries' POSITION is data (0-based, T14) -- a playlist, a key's label source, a rule list whose ties break by order; false if they are a set whose order must not be read. Required on every repeated V_eta edge (T15); omit otherwise."
                 }
             }
         },
@@ -165,6 +205,10 @@
                 "documentation": {
                     "type": "string",
                     "description": "Description of the file's contents."
+                },
+                "series": {
+                    "type": "boolean",
+                    "description": "True: this name is a DID file series -- a manifest plus members NAME_0, NAME_1, ... (numbered from 0, T14); missing members are expected."
                 }
             }
         },
@@ -264,10 +308,11 @@
                         "resistance",
                         "conductance",
                         "capacitance",
-                        "amount",
+                        "substance_amount",
                         "ph",
                         "gain",
-                        "date"
+                        "date",
+                        "spatial_frequency"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },
@@ -279,11 +324,11 @@
                 },
                 "mustBeNonEmpty": {
                     "type": "boolean",
-                    "description": "Value may not be null, empty string, empty array, or empty object at validation time."
+                    "description": "Value may not be null, empty string, empty array, or empty object at validation time. ENFORCED ON TOP-LEVEL FIELDS ONLY: on a nested sub-field it is declarative until DID-matlab descends into declared sub-fields (cache.m validateDocument calls validateField only for a block's own fields). #73 audit 2 D13."
                 },
                 "mustBeScalar": {
                     "type": "boolean",
-                    "description": "Value must be a single element (not array/matrix). Domain-specific to MATLAB/scientific computing; has no JSON Schema equivalent."
+                    "description": "Value must be a single element (not array/matrix). Domain-specific to MATLAB/scientific computing; has no JSON Schema equivalent. ENFORCED ON TOP-LEVEL FIELDS ONLY: on a nested sub-field it is declarative until DID-matlab descends into declared sub-fields (cache.m validateDocument calls validateField only for a block's own fields). #73 audit 2 D13."
                 },
                 "mustNotHaveNaN": {
                     "type": "boolean",
@@ -346,7 +391,24 @@
                                     "type": "string"
                                 },
                                 "values": {
-                                    "type": "array"
+                                    "type": "array",
+                                    "description": "Admissible set, as {node, name} NodeRefs. A member with a node matches a value by node; a member with an empty node matches by name.",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "node",
+                                            "name"
+                                        ],
+                                        "properties": {
+                                            "node": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
                                 },
                                 "vocabulary": {
                                     "type": "string"
@@ -356,8 +418,17 @@
                                 },
                                 "vocabulary_version": {
                                     "type": "string"
+                                },
+                                "root": {
+                                    "type": "string",
+                                    "description": "The name of an inline value set (a `values` list): the set's identity, e.g. did_filter_band."
+                                },
+                                "source": {
+                                    "type": "string",
+                                    "description": "Where the admissible values come from: `value_set` (the inline `values`), or the registry list they are generated from (e.g. binding_registry_meta.relation_bindings)."
                                 }
-                            }
+                            },
+                            "additionalProperties": false
                         }
                     }
                 },

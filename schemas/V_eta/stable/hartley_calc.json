@@ -4,13 +4,10 @@
         "class_version": "2.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "calculator"
             },
             {
                 "class_name": "hartley_reverse_correlation"
-            },
-            {
-                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable"
@@ -22,5 +19,74 @@
             "documentation": "N-dimensional grid (ngrid) file holding the reverse-correlation kernel computed by this calculator."
         }
     ],
-    "fields": []
+    "fields": [
+        {
+            "name": "input_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The calculator's input parameters, as v1 wrote them (hartley.m:528-531).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "T",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reverse-correlation lags, in seconds.",
+                    "constraints": {}
+                },
+                {
+                    "name": "X_sample",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial sampling step in x.",
+                    "constraints": {}
+                },
+                {
+                    "name": "Y_sample",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial sampling step in y.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "depends_on",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "v1 carries a copy of the dependency list inside the block (hartley.m:532; the mock holds {name: element_id, value}). Kept verbatim for the tombstone.",
+            "constraints": {},
+            "fields": []
+        }
+    ]
 }

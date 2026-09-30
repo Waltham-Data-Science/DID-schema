@@ -7,10 +7,16 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "product_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the bought product/lot this chemical came from. Part of what makes two chemical documents distinct.",
+            "must_refer_to_document_class": "product"
+        }
+    ],
     "file": [],
     "fields": [
         {
@@ -23,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A single agent: a substance term + optional amount.",
+            "documentation": "What you buy: a substance, possibly as a stock.",
             "constraints": {},
             "fields": [
                 {
@@ -42,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The chemical/biological agent (CHEBI/NCBITaxon/\u2026).",
+                    "documentation": "The PURE substance (ChEBI; NCBITaxon for a virus). The bottle's dilution is `concentration`, so 'hydrochloric acid' + 1 M would count the water twice.",
                     "constraints": {},
                     "fields": [
                         {
@@ -74,16 +80,26 @@
                     ]
                 },
                 {
-                    "name": "amount",
+                    "name": "concentration",
                     "type": "concentration",
                     "blank_value": 0.0,
-                    "default_value": 0.0,
+                    "default_value": {
+                        "molar": 0.0,
+                        "grams_per_liter": 0.0,
+                        "mass_fraction": 0.0,
+                        "volume_fraction": 0.0,
+                        "particles_per_liter": 0.0,
+                        "osmolar": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Optional amount/concentration.",
+                    "documentation": "Optional: the bottle's own strength (1 M, 30 %).",
                     "constraints": {},
                     "fields": [
                         {
@@ -152,6 +168,19 @@
                             "constraints": {}
                         },
                         {
+                            "name": "osmolar",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                            "constraints": {}
+                        },
+                        {
                             "name": "source_unit",
                             "type": "char",
                             "blank_value": "",
@@ -180,8 +209,8 @@
                         {
                             "name": "approximate",
                             "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "blank_value": false,
+                            "default_value": false,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,

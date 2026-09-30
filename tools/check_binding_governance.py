@@ -157,11 +157,13 @@ BASELINE_VALUE_SET_DISAGREEMENTS = 1
 
 # B4: three ontology_term-typed fields carry BARE STRINGS in `values`
 # (frequency_filter.algorithm, frequency_filter.band,
-# relative_reference.value.relation) where the two clock bindings carry
+# relative_time_reference.value.relation) where the two clock bindings carry
 # `{node, name}` NodeRefs. build_v_eta.py states the rule in its own comment
 # -- "values are NodeRefs, not bare strings, because the field is now
 # ontology_term" -- and three declarations do not follow it.
-BASELINE_VALUE_SHAPE_MISMATCHES = 3
+BASELINE_VALUE_SHAPE_MISMATCHES = 0
+# 3 -> 0, #73 review item 64 (2026-09-29): every `values` list is now NodeRefs,
+# and the meta-schema's `values.items` requires {node, name}. MUST STAY 0.
 
 # B5: strength disagreements between field and registry. MUST STAY 0 -- the
 # team's 2026-08-10 call makes the field authoritative and the registry
@@ -171,7 +173,14 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 
 # B6: bound fields with no registry catalogue row (11 of 14 today: only the
 # three `dataset` openMINDS fields are catalogued).
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 11
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 15
+# 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
+# tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
+# undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
+# entity `global_identifier.scheme` (D9) -- none with an entity_field_bindings row
+# (the count before them was 9, under the 11 ceiling). The two `relation` fields are
+# GENERATED from relation_bindings, a list B6 does not read, so they are catalogued
+# in fact and uncatalogued by this measure. Raised by the number of fields added.
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
 # does not register, matched CASE-INSENSITIVELY (the generous reading).

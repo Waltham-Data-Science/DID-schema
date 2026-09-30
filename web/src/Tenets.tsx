@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { TenetRow, TenetsDoc } from "./types";
 import { loadTenets } from "./schemaIndex";
 
-// BRAINSTORM J'S 14 TENETS, AND THE CLASSES EACH ONE SHAPED.
+// BRAINSTORM J'S 15 TENETS, AND THE CLASSES EACH ONE SHAPED.
 //
 // The tenets are the design rationale for the whole migration and the link from
 // a tenet to a class existed only in prose: 353 T-references across

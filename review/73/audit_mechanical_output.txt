@@ -1,0 +1,97 @@
+DENOMINATOR: 266 index rows; 182 persist classes (meta excluded: ['CURIE_lookups_meta', 'binding_registry_meta', 'did_schema_meta', 'ndi_reserved_keys'])
+
+== abstract_persist: 12
+   data: abstract; in data_type=False
+   data_body: abstract; in data_type=False
+   data_type: abstract; in data_type=False
+   entity: abstract; in data_type=False
+   relation: abstract; in data_type=False
+   subject_assertion: abstract; in data_type=False
+   subject_calculation: abstract; in data_type=False
+   subject_interaction: abstract; in data_type=False
+   subject_manipulation: abstract; in data_type=False
+   subject_observation: abstract; in data_type=False
+   subject_statement: abstract; in data_type=False
+   time_reference: abstract; in data_type=False
+
+== composite_unused: 2
+   chemical: no subclass and no edge targets it
+   clock_alignment: no subclass and no edge targets it
+
+== dep_redeclared_from_ancestor: 1
+   subject_calculation: `software_id` also declared on ancestor `subject_interaction`
+
+== dep_target_not_persist: 1
+   image_observation: edge `ontology_table_row_id` -> `ontology_table_row` (retire)
+
+== edge_name_shape: 7
+   clock_alignment: `from_reference` (not *_id / *_#)
+   clock_alignment: `to_reference` (not *_id / *_#)
+   coordinate_system: `relative_to` (not *_id / *_#)
+   data_body: `owner` (not *_id / *_#)
+   directed_relation: `child` (not *_id / *_#)
+   directed_relation: `parent` (not *_id / *_#)
+   relative_time_reference: `relative_to` (not *_id / *_#)
+
+== field_redeclared_from_ancestor: 3
+   method_parameters: `name` also declared on ancestor `base`
+   software: `name` also declared on ancestor `base`
+   strain: `name` also declared on ancestor `base`
+
+== ontology_term_unbound_T8: 19
+   clock_alignment: `relation`
+   coordinate_system: `origin`
+   coordinate_system: `dimensions.axis`
+   count: `value.unit`
+   directed_relation: `relation`
+   image: `value.keys.variable`
+   image: `value.keys.unit`
+   method_parameters: `method_parameters.variable`
+   receptive_field: `value.method`
+   relation: `method`
+   sampled_body: `keys.variable`
+   sampled_body: `keys.unit`
+   subject_statement: `conditions.variable`
+   subject_statement: `conditions.count.value.unit`
+   subject_statement: `keys.variable`
+   subject_statement: `keys.unit`
+   tuning_curve: `value.independent_variables.variable`
+   tuning_curve: `value.independent_variables.unit`
+   undirected_relation: `relation`
+
+== serialized_string_T14: 2
+   epoch_file_pattern: `data_file_pattern` (string): which files comprise one epoch, as declared patterns ({'#\\.rhd\\>', '#\\.tsv\\>'}). parsed, never e
+   epoch_file_pattern: `epoch_map_pattern` (string): which of the epoch's files is the probe-map file ({'(.*)epochprobemap.ndi'}). same parsed-not-eval'd
+
+== tier_draft: 26
+   acquisition_channels: draft
+   area_calculation: draft
+   clock_alignment: draft
+   clock_alignment_configuration: draft
+   clock_alignment_policy: draft
+   coordinate_system: draft
+   count_calculation: draft
+   data_body: draft
+   harmonic_component: draft
+   harmonic_component_calculation: draft
+   image_manipulation: draft
+   image_observation: draft
+   label: draft
+   label_calculation: draft
+   logical: draft
+   logical_observation: draft
+   opaque_body: draft
+   polynomial: draft
+   position: draft
+   position_calculation: draft
+   position_observation: draft
+   sampled_body: draft
+   score_calculation: draft
+   term_calculation: draft
+   timed_sequence: draft
+   timed_sequence_manipulation: draft
+
+== vocab_as_char_T8: 1
+   visual_grating: `value.source_geometry.unit` is char
+
+TOTAL findings: 74 across 10 check(s) that fired; checks with zero hits are not listed

@@ -12,5 +12,73 @@
     },
     "depends_on": [],
     "file": [],
-    "fields": []
+    "fields": [
+        {
+            "name": "datum_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How this value is encoded -- the ONE place the value type lives (a body never repeats it). REQUIRED in practice whenever the value has a byte representation (`data_body` true, or an inline numeric payload); absent for a term or an inline composite with no numeric payload.",
+            "constraints": {
+                "enum": [
+                    "uint8",
+                    "uint16",
+                    "uint32",
+                    "uint64",
+                    "int8",
+                    "int16",
+                    "int32",
+                    "int64",
+                    "float16",
+                    "float32",
+                    "float64",
+                    "complex64",
+                    "complex128",
+                    "bool",
+                    "utf8"
+                ]
+            }
+        },
+        {
+            "name": "source_datum_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The source's own spelling, OMITTED when it is already canonical. Kept because the map is NOT invertible -- `bool` maps back to `logical` OR `ubit1`, and `char` has no canonical at all -- so retaining it makes the normalisation AUDITABLE: the corpus can be queried afterwards to verify every `float64` came from a `double` rather than from a default.",
+            "constraints": {}
+        },
+        {
+            "name": "data_body",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`, or absent. A document marked true with no body pointing at it has lost its data -- the batch check (item 60).",
+            "constraints": {}
+        }
+    ],
+    "rules": [
+        {
+            "name": "datum_type_when_bytes",
+            "fields": [
+                "datum_type",
+                "data_body"
+            ],
+            "statement": "`datum_type` is present whenever the value has bytes: an inline numeric or text array, or `data_body` true."
+        }
+    ]
 }

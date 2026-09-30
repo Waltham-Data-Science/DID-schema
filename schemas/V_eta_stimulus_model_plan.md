@@ -7,6 +7,14 @@ re-audit walkthrough. **FINAL; build deferred** — batched. Supersedes the earl
 ndi-next-steps `Stimulus_Manipulation_Proposal.md` (prior art, V_delta/Brainstorm-F frame —
 mined, not adopted wholesale). Subject to further re-audit like every decision.*
 
+**AMENDMENT (#73 review item 67, 2026-09-29, jess; not signed).** The signed line
+"`control_stimulus_ids` -> `control_designation`" (sign-off below) is superseded:
+`control_designation` is deleted. Which condition is the control is a design fact, so it
+lives on the sequence as `timed_sequence.value.control_item` (the 0-based item position of
+the control stimulus); control trials are the playlist positions equal to it. v1's
+per-trial pairing is dropped: nothing reads it since NDI#912 reduced it back to "which
+stimulus is the blank" (`tuning_response.m:293-298`). The signed text is left as signed.
+
 ## The model (final)
 
 A stimulus presentation is an **ordered, timed list of referenced stimulus values shown to a
@@ -190,6 +198,15 @@ And **`presentation_time.clocktype` does NOT land on the axis.** An axis has a `
 no clock; the clock lives on the time reference. So `clocktype` goes to the manipulation's
 `relative_reference` (revision 1), not into `axes[]`.
 
+> **AMENDED — #73 audit 2 D11 (2026-09-29, jess; decided, not signed).** The onsets are the
+> `timed_sequence`'s OWN time key (irregular, values = the onsets; inline, or in a body the
+> SEQUENCE owns), not a body owned by the manipulation: a manipulation that points at a shared
+> sequence has an empty value and no descriptors (#73 item 60), so it cannot own them, and the
+> sequence is shared precisely because every subject saw the same presentation at the same
+> times. Per-trial offsets, where present, are a named per-trial field `offset`.
+> `storage_mode` / `axes[]` above are the pre-#73 names (item 60 deleted `storage_mode`;
+> item 14 renamed `axes` to `keys`).
+
 The v1 block is `presentation_time { clocktype, stimopen, onset, offset, stimclose,
 stimevents[] }` — so `onset`/`offset` are the axis values, `stimopen`/`stimclose` are the
 outer bounds, and `stimevents` needs its own read before it is typed.
@@ -334,3 +351,5 @@ The refinement is recorded here for a human reader and is indexed by the census
 as an orphan tag, not by the family join. Recorded rather than repaired: giving
 it a family of its own would make TWO families claim `stimulus_presentation`,
 which `status_board.py --check` fails on by design.
+
+TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: per-trial onsets are the `timed_sequence`'s own time key (irregular; inline or in a body the sequence owns), per-trial offsets are its `offset` field, and a `timed_sequence_manipulation` only points at the sequence (`value_id`).

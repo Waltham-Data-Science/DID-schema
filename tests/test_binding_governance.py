@@ -223,7 +223,7 @@ def synthetic(tmp_path):
 
 
 def test_synthetic_inventory_finds_the_nested_field(synthetic):
-    """A binding on a SUB-FIELD must be found. `relative_reference.value.clock`
+    """A binding on a SUB-FIELD must be found. `relative_time_reference.value.clock`
     and `.value.relation` are two of the fourteen live bindings and both are
     nested one level down -- a walker that only read top-level fields would
     report 12 and look tidy."""

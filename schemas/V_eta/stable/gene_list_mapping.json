@@ -11,16 +11,16 @@
     },
     "depends_on": [
         {
-            "name": "gene_list_id_a",
+            "name": "geneList_id_a",
             "mustBeNonEmpty": true,
-            "documentation": "The first gene list.",
+            "documentation": "List a. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "gene_list",
             "ndi_mustBeNonEmpty": true
         },
         {
-            "name": "gene_list_id_b",
+            "name": "geneList_id_b",
             "mustBeNonEmpty": true,
-            "documentation": "The second gene list.",
+            "documentation": "List b. (did_v1 edge, v1 spelling.)",
             "must_refer_to_document_class": "gene_list",
             "ndi_mustBeNonEmpty": true
         }
@@ -87,8 +87,8 @@
         {
             "name": "n_pairs",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -100,8 +100,8 @@
         {
             "name": "n_genes_mapped_a",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -113,8 +113,8 @@
         {
             "name": "n_genes_mapped_b",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
@@ -126,8 +126,8 @@
         {
             "name": "has_score",
             "type": "integer",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,

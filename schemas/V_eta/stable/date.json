@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -19,11 +18,11 @@
             "blank_value": {},
             "default_value": {},
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A date value cell (a real date, not a duration).",
+            "documentation": "A date value cell (a real date, not a duration). One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
             "constraints": {},
             "fields": [
                 {
@@ -62,7 +61,7 @@
                     }
                 },
                 {
-                    "name": "source",
+                    "name": "source_value",
                     "type": "char",
                     "blank_value": "",
                     "default_value": "",
@@ -72,6 +71,19 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The raw input string, preserved.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the date is uncertain (a guess or an estimate). Independent of `precision`, which says how much of the date was stated.",
                     "constraints": {}
                 }
             ]

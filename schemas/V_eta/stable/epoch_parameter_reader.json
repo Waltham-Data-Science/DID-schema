@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "epoch_parameter_reader",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The reader program itself, as a `software` entity -- the R1 replacement for an NDI class-handle string.",
+            "must_refer_to_document_class": "software"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "file_regex",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A REGULAR EXPRESSION matching the epoch file this reader parses for the epoch's parameters (e.g. \".*\\\\.tsv\\\\>\"). Named apart from epoch_file_pattern's `file_pattern`, which uses NDI's #-stem syntax (#73 audit 2 D13). <- v1 `tab_separated_file_parameter`.",
+            "constraints": {}
+        }
+    ]
+}

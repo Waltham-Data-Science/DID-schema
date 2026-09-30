@@ -8,7 +8,7 @@
       "properties": {
         "fullName": {
           "target_kind": "field",
-          "ndi_target": "full_name"
+          "ndi_target": "name"
         },
         "shortName": {
           "target_kind": "field",
@@ -183,7 +183,7 @@
       "properties": {
         "fullName": {
           "target_kind": "field",
-          "ndi_target": "full_name"
+          "ndi_target": "name"
         },
         "shortName": {
           "target_kind": "field",
@@ -211,7 +211,7 @@
       "properties": {
         "awardTitle": {
           "target_kind": "field",
-          "ndi_target": "title"
+          "ndi_target": "name"
         },
         "awardNumber": {
           "target_kind": "global_identifier",
@@ -257,11 +257,11 @@
         },
         "operatingSystem": {
           "target_kind": "projection",
-          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured one layer out, on subject_interaction.execution_environment.os (R1) -- a property of the run, not of the software."
+          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured on the calculation instead: its `operating_system_id` edge names the os as a `software` document (#73 item 53) -- a property of the run, not of the software."
         },
         "programmingLanguage": {
           "target_kind": "projection",
-          "notes": "likewise per-run: subject_interaction.execution_environment.interpreter (R1)."
+          "notes": "likewise per-run: the calculation's `interpreter_id` edge names the interpreter as a `software` document (#73 item 53)."
         }
       }
     }

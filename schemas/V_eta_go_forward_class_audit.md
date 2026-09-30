@@ -793,6 +793,8 @@ TEAM-SIGN-OFF [orientation_direction_tuning.json location]:
 Steve Van Hooser 2026-09-22 -- STAYS ON NDI-matlab post-retirement of
 ndi.app.oridirtuning (VH-Lab/NDI-matlab#1001). Resolves #67 sub-question.
 
+SIGN-OFF SUPERSEDED [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.
+
 TEAM-SIGN-OFF [spatial_transcriptomics_family]: Steve Van Hooser 2026-09-22 --
 Corrected Option C for the spatial-transcriptomics family from
 Waltham-Data-Science/DID-schema#70. Structural: `spatialGeneExpressionPyramid`
@@ -819,3 +821,10 @@ formatOntology/origin_corner; a bound `variable` term for the pyramid
 observation (needs to exist in NDIC or the registry before the reshape validates
 end-to-end). Full reasoning in #70.
 
+RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`V_eta_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17 confirm sheet]: jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.
+
+TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm sheet]: jess@walthamdatascience.com / 2026-09-29 -- where the 2026-08-22 confirm sheet names `session_relative_reference`, the target is `relative_time_reference` (#65 increment 3b deleted the session/epoch reference leaves).
+
+TEAM-SIGN-OFF [dimensioned classes, batch confirmation]: jess@walthamdatascience.com / 2026-09-29 -- confirmed as persisting classes: the observations `acceleration_observation`, `concentration_observation`, `current_observation`, `frequency_observation`, `mass_observation`, `pressure_observation`, `temperature_observation`, `velocity_observation`, `volume_observation`; the composites `capacitance`, `conductance`, `current`, `energy`, `force`, `intensity`, `power`, `resistance`; `date_assertion`; `contrast_sensitivity_calculation`; `subject_assertion`; and the tuning leaves under their #73 names (`orientation_direction_tuning_calculation`, `contrast_tuning_calculation`, `spatial_frequency_tuning_calculation`, `temporal_frequency_tuning_calculation`, `speed_tuning_calculation`). (audit 2 C19; the two classes that finding counts but does not name are not covered.)

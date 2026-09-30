@@ -1,5 +1,10 @@
 # V_eta — `logical` / `logical_observation`, and what `valid_interval` becomes
 
+> **AMENDED 2026-09-25 (#73 review item 52, `V_eta_spatial_transcriptomics_plan.md`):**
+> `logical_observation` is RETIRED -- `valid_interval` (its only user) targets
+> `time_observation` since amendment 1. `logical` stays. The pass is still dormant; its
+> rewrite to the amendment-1 shape is on the PR #76 DID-matlab checklist.
+
 *The plan document for the `valid_interval` family. Written 2026-08-12 to hold decisions the
 team made that day and that had no home: the family carried `plan: None` in
 `tools/status_board.py`, and `status_board.py --check` fails a family citing a document that
@@ -306,12 +311,15 @@ scoping. Nothing may require one.
 No test has ever existed under that name in this repository; the assertion is the first half
 of the test named above. Corrected rather than reproduced.)*
 
-**HAZARD 3 — inheritance.** RULE 1 above now answers *how* a consumer inherits. It does **not**
-answer whether V_eta should ever **materialise** copies onto derived subjects instead of
-re-deriving at read time. Nothing forecloses either answer: `subject_id` is the element the v1
-document named and nothing else, and `subject_observation.derived_from_#` exists and is
-optional. `tests/test_veta.py::test_logical_forecloses_neither_answer_on_the_inheritance_question`
-is the gate.
+**HAZARD 3 — inheritance.** RULE 1 above now answers *how* a consumer inherits. Whether V_eta
+should ever **materialise** copies onto derived subjects instead of re-deriving at read time
+is **DECIDED: RE-DERIVE** — team, 2026-08-11 (`V_eta_OPEN_WORK.md`, "`valid_interval`
+inheritance is RE-DERIVED, not materialised"), re-affirmed 2026-09-23 in #73. This paragraph
+called it open until #73 found the two records disagreeing. `subject_id` is the element the
+v1 document named, and a consumer walks the element lineage to find the statement. No copy
+is written, so `subject_observation.derived_from_#` (the edge a copy would have ridden on)
+was removed from the observation chain in #73.
+`tests/test_veta.py::test_logical_inheritance_is_re_derived_not_materialised` is the gate.
 
 ---
 
@@ -329,7 +337,7 @@ is the gate.
 2. **Whether `axes[]` lands before any `valid_interval` migration.** Today the answer is yes by
    construction — the pass is dormant. If that ordering ever changes, it is a decision, not a
    default.
-3. **Materialise vs re-derive** (HAZARD 3 above).
+3. ~~**Materialise vs re-derive**~~ **DECIDED: re-derive** (HAZARD 3 above).
 4. ~~**The signature.**~~ **SIGNED 2026-08-12** — see the TEAM-SIGN-OFF line at the foot of
    this document. It was dictated by the team and transcribed verbatim; one clause was
    CORRECTED before it was written, because the draft justified transitive inheritance as a

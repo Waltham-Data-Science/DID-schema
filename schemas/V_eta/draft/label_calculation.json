@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "label_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_calculation"
+            },
+            {
+                "class_name": "label"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

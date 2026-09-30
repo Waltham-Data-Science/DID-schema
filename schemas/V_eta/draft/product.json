@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "product",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "vendor_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: who sells it (Sigma, Addgene, Tocris).",
+            "must_refer_to_document_class": "organization"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the product as sold.",
+            "constraints": {}
+        },
+        {
+            "name": "catalog_number",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the vendor's catalog number.",
+            "constraints": {}
+        },
+        {
+            "name": "lot_number",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the lot/batch you received.",
+            "constraints": {}
+        }
+    ]
+}

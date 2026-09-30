@@ -13,7 +13,7 @@
     "file": [],
     "fields": [
         {
-            "name": "full_name",
+            "name": "name",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Full dataset name (openMINDS DatasetVersion.fullName).",
+            "documentation": "The dataset's name (openMINDS DatasetVersion.fullName; was `full_name`, #73 item 54).",
             "constraints": {}
         },
         {
@@ -312,19 +312,6 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Copyright year (openMINDS DatasetVersion.copyright -> Copyright.year); the holder is a directed_relation -> organization|person (copyright_holder).",
-            "constraints": {}
-        },
-        {
-            "name": "local_identifier",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
             "constraints": {}
         }
     ]

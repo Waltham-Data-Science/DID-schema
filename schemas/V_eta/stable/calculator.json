@@ -1,31 +1,18 @@
 {
     "document_class": {
         "class_name": "calculator",
-        "class_version": "2.0.0",
+        "class_version": "3.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "software_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The software that produced this document, as a `software` entity (name + version + citation id). REQUIRED on every calculator output (issue #67 \u00a7\u2461, Shape 2): a calculator without a named producer cannot be re-run. Supersedes the v1 `app` mixin; distinct from `instrument_id` (a measuring device) and from `derived_from` (the input data).",
-            "must_refer_to_document_class": "software",
-            "min_count": 1
-        },
-        {
-            "name": "runtime_environment_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The per-run environment (os / os_version / interpreter / interpreter_version) the producing run used, as a `runtime_environment` entity. REQUIRED on every calculator output (issue #67 \u00a7\u2461, Shape 2 -- no `software_run` join). Distinct from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the `software` entity's own identity.",
-            "must_refer_to_document_class": "runtime_environment",
-            "min_count": 1
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": []
 }

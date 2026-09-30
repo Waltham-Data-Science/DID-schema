@@ -107,13 +107,13 @@
         {
             "variable": {
                 "node": "",
-                "name": "holding potential"
+                "name": "bath temperature"
             },
             "method": {
                 "node": "",
-                "name": "voltage clamp"
+                "name": "perfusion heating"
             },
-            "class": "voltage_manipulation",
+            "class": "temperature_manipulation",
             "notes": "method + variable: on an interaction the binding is keyed by both the method and the variable"
         }
     ],
@@ -229,23 +229,6 @@
                 "subject"
             ],
             "timed": true,
-            "ordered": false
-        },
-        {
-            "relation": {
-                "node": "",
-                "name": "observes"
-            },
-            "class": "directed_relation",
-            "child_role": "the instrument-subject",
-            "parent_role": "the observed specimen",
-            "child_types": [
-                "subject"
-            ],
-            "parent_types": [
-                "subject"
-            ],
-            "timed": false,
             "ordered": false
         },
         {
@@ -558,6 +541,66 @@
             ],
             "timed": false,
             "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "orthologous gene mapping"
+            },
+            "class": "directed_relation",
+            "child_role": "the mapped gene list",
+            "parent_role": "the target gene list",
+            "child_types": [
+                "term"
+            ],
+            "parent_types": [
+                "term"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "gene alias mapping"
+            },
+            "class": "directed_relation",
+            "child_role": "the mapped gene list",
+            "parent_role": "the target gene list",
+            "child_types": [
+                "term"
+            ],
+            "parent_types": [
+                "term"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "paired_with"
+            },
+            "class": "undirected_relation",
+            "member_role": "an entity in a pair (e.g. littermates, a bilateral pair of sites)",
+            "member_types": [
+                "entity"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "same_as"
+            },
+            "class": "undirected_relation",
+            "member_role": "entities that are the same thing recorded twice (e.g. one animal under two local identifiers)",
+            "member_types": [
+                "entity"
+            ],
+            "timed": false,
+            "ordered": false
         }
     ],
     "controlled_vocabularies": {
@@ -593,5 +636,5 @@
             "strength": "preferred"
         }
     ],
-    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. NOTE: every term today is directed_relation, so undirected_relation / member_types are reserved but currently unused -- the first symmetric relation added will exercise them. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."
+    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, subject_statement or data_type classes (#73 items 22, 27). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."
 }

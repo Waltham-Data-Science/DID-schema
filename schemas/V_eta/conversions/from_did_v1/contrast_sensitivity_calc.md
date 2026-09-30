@@ -36,7 +36,7 @@ did_v1 name `contrastsensitivity_calc` is normalized to
 | `saturation_index_{RB,RBN,RBNS}` | `saturation_index_{rb,rbn,rbns}` | same |
 | `parameters_{RB,RBN,RBNS}` | `parameters_{rb,rbn,rbns}` | same |
 | `fitless_interpolated_c50` | same | `matrix<double>` |
-| `is_modulated_response` | same | `boolean` (did_v1 stored as 0/1 double; promoted to boolean in V_eta) |
+| `is_modulated_response` | `modulated_response` | `boolean` (did_v1 stored as 0/1 double; promoted to boolean in V_eta) |
 | `visual_response_p_bonferroni` | same | `matrix<double>` |
 | `response_varies_p_bonferroni` | same | `matrix<double>` |
 | `response_type` | same | `char` |
@@ -48,7 +48,7 @@ did_v1 name `contrastsensitivity_calc` is normalized to
 - **Inheritance.** Despite producing contrast-sensitivity outputs, this
   calc does NOT inherit from `contrast_tuning` in did_v1 — only from
   `base`. V_eta preserves that choice. (Inheritance is confirmed `base`-only because this class aggregates across `contrast_tuning` documents rather than being a single one.)
-- **`is_modulated_response` promoted to boolean.** did_v1 stored this as a numeric scalar (0/1 double). V_eta declares it `type: boolean`. Migration tools must convert `0` → `false` / `1` → `true`.
+- **`is_modulated_response` promoted to boolean, and renamed `modulated_response`** (T13: no `is_` prefix on booleans). did_v1 stored this as a numeric scalar (0/1 double). V_eta declares it `type: boolean`. Migration tools must convert `0` → `false` / `1` → `true`.
 
 ## Default values for new fields
 

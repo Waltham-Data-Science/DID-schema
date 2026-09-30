@@ -16,7 +16,7 @@
         {
             "name": "strain_id",
             "mustBeNonEmpty": false,
-            "documentation": "OPTIONAL: the strain document this assertion's term names, when one exists. Named for its target per the convention measured across 97 dependency declarations (45 distinct names, all `<target>_id`) -- NOT a generic `term_id`.",
+            "documentation": "OPTIONAL: the strain document this assertion's term names, when one exists. Named for its target (T15: a specific target names the edge; a generic one is named for its role) -- NOT a generic `term_id`.",
             "must_refer_to_document_class": "strain"
         }
     ],

@@ -12,16 +12,17 @@
     },
     "depends_on": [
         {
-            "name": "statement",
+            "name": "owner_id",
             "mustBeNonEmpty": true,
-            "documentation": "The one statement this body belongs to (reverse pointer); a stream appends more bodies without rewriting the anchor.",
-            "must_refer_to_document_class": "subject_statement"
+            "documentation": "The document this body holds the value of: a statement, or a standalone data_type document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "subject_statement,data_type"
         }
     ],
     "file": [
         {
             "name": "body_data",
-            "documentation": "The byte payload (>=1 file)."
+            "series": true,
+            "documentation": "The byte payload, always a DID FILE SERIES (item 17): member `body_data_k` holds chunk k, numbered from 0; an unchunked body is one member, `body_data_0`. A file held OUTSIDE the database is a member recorded by location and not ingested (item 25)."
         }
     ],
     "fields": [
@@ -35,7 +36,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Container / MIME format of the carried bytes (e.g. 'application/pdf', 'image/tiff', 'tiff'). A descriptor only.",
+            "documentation": "Container format of the carried bytes as an IANA media type (e.g. 'application/pdf', 'image/tiff'; `application/x-...` for lab formats with no registration). NOT a file extension (data_body plan sec.2). A descriptor only.",
             "constraints": {}
         },
         {
@@ -74,7 +75,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional hash of the payload bytes AS STORED in `body_data` -- after `compression`, not before. A natural dedup / integrity key, checkable without decoding. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored file; the algorithm is not declared by this field and is not recoverable from it.",
+            "documentation": "Optional hash of the payload bytes AS STORED in `body_data` -- after `compression`, not before. A natural dedup / integrity key, checkable without decoding. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored file. The algorithm is declared beside it, in `hash_algorithm`.",
             "constraints": {}
         },
         {
@@ -89,6 +90,353 @@
             "ontology": null,
             "documentation": "Human description of the payload.",
             "constraints": {}
+        },
+        {
+            "name": "hash_algorithm",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The algorithm `content_hash` was computed with: MD5 | SHA-1 | SHA-256 | SHA-512. Without it a hash cannot be checked (item 25).",
+            "constraints": {
+                "enum": [
+                    "MD5",
+                    "SHA-1",
+                    "SHA-256",
+                    "SHA-512"
+                ]
+            }
+        },
+        {
+            "name": "size_bytes",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Size of the stored bytes. A cheap first identity check (item 25).",
+            "constraints": {}
+        },
+        {
+            "name": "file_created",
+            "type": "timestamp",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the payload file was created, if the source recorded it. Named file_* so it is never confused with the document's own timestamp.",
+            "constraints": {}
+        },
+        {
+            "name": "file_modified",
+            "type": "timestamp",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the payload file was last modified, if the source recorded it.",
+            "constraints": {}
+        },
+        {
+            "name": "redundant",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True = this body adds NO information beyond its owner's non-redundant body (e.g. a coarser zoom level of an image pyramid): an exact, deterministic rebuild exists, so it is safe to delete. That non-redundant body is its source -- no edge is needed, and the reason it is kept goes in `description` (T6 as amended by #73 audit 2 D6). Nothing may cite a redundant body as the only copy of a fact.",
+            "constraints": {}
+        },
+        {
+            "name": "conditions",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `subject_statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's keys and conditions and this body's (a batch check: the owner does not list its bodies).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The condition's name (arm direction, OD600, trial type); registry-keyed for its value_set (D9).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical unit of the condition's numeric value(s), for the whole condition (as on a key). Absent for a categorical condition.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit as the source gave it. Omitted when already canonical.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Applies to the whole condition.",
+                    "constraints": {}
+                },
+                {
+                    "name": "term",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical value(s): an ontology-term array.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "ontology_term",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The typed value: length 1 -- a condition is ONE value, true of every value it qualifies (AMENDMENT 2; a per-reading label is a key).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "count",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Integer value(s).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "integer",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The count(s). Length 1: a condition is held fixed for the body.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "quantity",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Dimensioned numeric value(s), in `unit`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "structure",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Length 1: a condition is held fixed for the body.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Canonical value, in `unit`.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The number as the source gave it, in `source_unit`.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

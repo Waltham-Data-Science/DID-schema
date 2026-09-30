@@ -41,7 +41,7 @@ def _final_set(per_category, excluded=()):
 
 
 def _tenets(ids=None):
-    ids = ids or [f"T{i}" for i in range(1, 15)]
+    ids = ids or [f"T{i}" for i in range(1, 16)]
     body = ["# Tenets", "", "## Thesis", "", "text", "", "## The tenets", ""]
     for t in ids:
         body += [f"### {t} — Tenet {t}.", "body", ""]
@@ -113,7 +113,7 @@ def test_a_missing_category_fails(tmp_path):
 
 
 def test_a_missing_tenet_fails(tmp_path):
-    ids = [f"T{i}" for i in range(1, 15) if i != 7]
+    ids = [f"T{i}" for i in range(1, 16) if i != 7]
     fails = cv.check(str(make_repo(tmp_path, tenets=_tenets(ids))))
     assert any("tenets parsed" in f for f in fails)
 

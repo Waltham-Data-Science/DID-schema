@@ -252,10 +252,12 @@ def test_every_binding_in_the_built_tree_declares_a_strength():
     """
     index, den = rbs.bound_fields(VETA)
     assert den["bound_field_declarations"] == len(index)
-    assert len(index) >= 13, (
+    # 13 -> 12 on 2026-09-25: `epoch_bounded_reference.epoch_clock` left with its
+    # class (#65 increment 3b deleted it).
+    assert len(index) >= 12, (
         f'only {len(index)} bound declarations found -- the sweep stopped descending, and a shrinking denominator is how this check goes quietly vacuous')
     assert den["bound_field_declarations_nested"] >= 2, (
-        "the two nested bindings on relative_reference.value are not being "
+        "the two nested bindings on relative_time_reference.value are not being "
         "reached; a top-level-only sweep would call the tree consistent")
     missing = sorted(k for k, v in index.items()
                      if v["binding"].get("strength") is None)
@@ -400,8 +402,10 @@ def test_the_live_derivation_reports_its_denominator_first():
     total = sum(len(reg[k]) for k in rbs.REGISTRY_LISTS)
     # subject_statement_bindings 6 (was 5 until 2026-09-22, when #120 added the
     # `gene expression` -> spatial_gene_expression_pyramid row), relation_bindings
-    # 26, entity_field_bindings 3, binding_examples 4.
-    assert total == 39, f'registry row count moved: {total}'
+    # 29, entity_field_bindings 3, binding_examples 4. relation_bindings moved 26 -> 29
+    # with #73 audit 2 D5 (2026-09-29): `observes` dropped, the two gene-mapping rows
+    # and the first two undirected rows (paired_with, same_as) added.
+    assert total == 42, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -410,7 +414,8 @@ def test_the_live_derivation_reports_its_denominator_first():
     # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
     ("subject_statement_bindings", 6),
-    ("relation_bindings", 26),
+    # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
+    ("relation_bindings", 29),
     ("entity_field_bindings", 3),
     ("binding_examples", 4),
 ])

@@ -1,4 +1,4 @@
-> **V_eta retarget.** → `dose_manipulation`/`formulation_manipulation` (virus on the chemical term; titer/dilution in the composite); site → Path S. Not `injection (kind:virus)`.
+> **V_eta retarget.** → `dose_manipulation` (virus on the chemical term; titer/dilution in the composite); site → Path S. Not `injection (kind:virus)`.
 
 # `virus_injection` → `injection` (`kind: "virus"`)  [Brainstorm J]
 

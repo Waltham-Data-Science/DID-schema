@@ -108,7 +108,7 @@ HUSK_BRIDGE = {
 SECOND_PASS = {
     "stimulus_presentation": {
         "emits": "visual_grating (deduped) + timed_sequence_manipulation "
-                 "(+ control_designation)",
+                 "(+ timed_sequence.control_item)",
         "assembler": "ndi.migrate.internal.stimulusPresentationToTimedSequence "
                      "(local.m resolveStimulusPresentations, wired :723)",
         "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "

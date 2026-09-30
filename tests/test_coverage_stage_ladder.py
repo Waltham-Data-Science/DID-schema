@@ -1255,7 +1255,24 @@ class ConfirmedTargetsCase(unittest.TestCase):
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
-        for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
+        # element and pyraview LEFT this list 2026-09-25: #65 increment 3b deleted
+        # the time-anchor classes they emit, schema-first (jess), and their
+        # confirmed sets now name relative_time_reference, which the migrators do
+        # not emit yet. They sit at stage 2 with rung 3 `no` until the PR #76
+        # DID-matlab emitter change lands -- pinned below.
+        st = rows["element"]["stage"]
+        self.assertEqual(st["reached"], 2, f"element: {st}")
+        self.assertEqual(st["blocked_by"], 3, f"element: {st}")
+        # pyraview LEFT the confirmed rows 2026-09-29: jess signed [pyraview levels],
+        # which supersedes its 2026-08-13 confirmation with decided_targets
+        # [sampled_body]. It now reads rung 3 `yes` -- AT THE CLASS LEVEL ONLY: the
+        # migrator emits sampled_body but still mints its own voltage_observation as
+        # the owner, which the decision removes and the ladder cannot see. Pinned so
+        # the caveat on the row cannot silently disappear.
+        py = rows["pyraview"]
+        self.assertEqual(py["stage"]["reached"], 3, f"pyraview: {py['stage']}")
+        self.assertNotEqual(py.get("decided_targets_source"), "confirmed_emission")
+        for cls in ("daqreader_ndr", "session", "subject"):
             st = rows[cls]["stage"]
             self.assertEqual(
                 st["reached"], 3,
@@ -1302,4 +1319,11 @@ class ConfirmedTargetsCase(unittest.TestCase):
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]
         self.assertIn("voltage_observation", el["decided_targets"])
-        self.assertEqual(el["stage"]["reached"], 3)
+        # Was `reached == 3`. Since 2026-09-25 element stops at rung 3 on the
+        # time anchor (relative_time_reference, not yet emitted), so what this test
+        # protects -- the unread observation counting as emitted -- is checked on
+        # the rung-3 detail instead: the ONLY missing target is the anchor.
+        self.assertEqual(el["stage"]["reached"], 2)
+        rung3 = next(r for r in el["stage"]["ladder"] if r["stage"] == 3)
+        self.assertEqual(rung3["state"], "no")
+        self.assertIn("relative_time_reference", rung3["why"])

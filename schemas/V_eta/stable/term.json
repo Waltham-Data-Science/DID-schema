@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -25,11 +24,11 @@
                 "name": ""
             },
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The bound term this statement is about \u2014 asserted (species, sex, strain, instrument type), observed (developmental stage, health status, behaviour, anatomical site), or imposed (a procedure, a regime, a transferred material). The admissible vocabulary is a variable-keyed binding (D9), REQUIRED for every direction: a term must resolve against the registry whether it is observed, imposed or asserted. An unrepresentable concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
+            "documentation": "The bound term, or a keyed list of them (`keys` says what each entry is) -- asserted (species, sex, strain, instrument type), observed (developmental stage, health status, behaviour, anatomical site), or imposed (a procedure, a regime, a transferred material). The admissible vocabulary is a variable-keyed binding (D9), REQUIRED for every direction. On a statement the key is its `variable`; a STANDALONE `term` document (e.g. a gene list) has no `variable`, so its binding is checked in batch through the key that references it (`labels_from` / `key_labels_id`), whose own `variable` names what the list is (#73 review D1). An unrepresentable concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
             "constraints": {
                 "binding": {
                     "keyed_by": "variable",
