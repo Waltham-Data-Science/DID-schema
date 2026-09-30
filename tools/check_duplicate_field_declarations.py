@@ -156,7 +156,12 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
 # 15 -> 16 (2026-09-30, jess): the new `study` entity declares its own `name`
 # beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
-BASELINE = 16
+# 16 -> 17 (2026-09-30, jess): `session.name`. NOT an OVERRIDE: `session` is a
+# did_v1 class, so the ground truth answers the row (did_v1 names a session in
+# base.name) and the checker rightly refuses a hand override there. It stays in
+# V_eta-SHADOW: for a MIGRATED session, which of base.name / session.name holds the
+# name is the session migrator's question (DID-matlab +migrators_j/session.m).
+BASELINE = 17
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"

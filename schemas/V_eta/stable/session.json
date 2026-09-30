@@ -41,6 +41,21 @@
             "constraints": {
                 "maxLength": 4096
             }
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the session's display name, for people (e.g. 'Foraging concentration, experiment 1 (1 Feb 2022)'). `local_identifier` stays the stable handle code and paths use.",
+            "constraints": {
+                "maxLength": 256
+            }
         }
     ]
 }
