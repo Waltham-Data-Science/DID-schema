@@ -22,3 +22,13 @@ TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity (name, short_name, desc
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of relation (subject -> product) instead of a subject.product_id field
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the awarded_to relation (funding -> person/organization)
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add directed_relation.roles, bound to the 14 CRediT roles plus corresponding author
+
+## Session fields (did-schema PR #79)
+
+- `session.description` (optional): a free-text record of the session -- what
+  was done, the lab notebook entry, notes about the day.
+- `session.name` (optional): a display name beside `local_identifier`, which
+  stays the stable handle (spaceless by convention; not schema-enforced).
+
+TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.description
+TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.name as a display name beside local_identifier
