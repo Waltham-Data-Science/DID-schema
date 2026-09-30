@@ -564,6 +564,24 @@
         {
             "relation": {
                 "node": "",
+                "name": "awarded_to"
+            },
+            "class": "directed_relation",
+            "child_role": "the funding (award)",
+            "parent_role": "the recipient (person/org)",
+            "child_types": [
+                "funding"
+            ],
+            "parent_types": [
+                "person",
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
                 "name": "orthologous gene mapping"
             },
             "class": "directed_relation",

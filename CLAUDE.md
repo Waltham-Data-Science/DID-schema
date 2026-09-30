@@ -2818,3 +2818,5 @@ RE-DERIVED 2026-09-29 (#73 audit 2 mechanical C9 dropped the two V_zeta example 
 RE-DERIVED 2026-09-30 (the `study` entity; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 211); **218 json file(s) under `schemas/V_eta/`** (was 217); **20 fields carry a binding** (was 18; +`study.factors`, +`study.design`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product; `check_prose_counts` re-derives all nouns): the registry has **43** rows (was 42; relation_bindings 29 -> 30). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (`directed_relation.roles` + the `awarded_to` relation; `check_prose_counts` re-derives all nouns): **21 fields carry a binding** (was 20; +`directed_relation.roles`); the registry has **44** rows (was 43; relation_bindings 30 -> 31). Re-derive with `check_prose_counts`, do not quote these directly.

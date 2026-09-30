@@ -8071,6 +8071,11 @@ RELATION_VOCABULARY = [
     # +ndi/+setup/+conv/+haley/import_V2_decisions.md, entry 14). No ontology node yet.
     _rel("instance_of", "", "the unit (e.g. an instrument subject)",
          "the product it is a unit of", ["subject"], ["product"]),
+    # awarded_to (2026-09-30, jess; not signed): who holds an award. `funded_by`
+    # links the dataset to its funding and `issued_by` the funding to its funder;
+    # the recipient had no home (e.g. NSF GRFP DGE-1650112 -> Jessica A Haley).
+    _rel("awarded_to", "", "the funding (award)", "the recipient (person/org)",
+         ["funding"], ["person", "organization"]),
     # data-to-data mappings (#73 item 24; added by audit 2 D5): a gene list mapped onto
     # another, the per-pair scores in a standalone `score` behind `value_id`, the tool
     # + version in `method`. Both endpoints are standalone `term` documents (a gene list).
@@ -10206,6 +10211,33 @@ for _cls, _carrier in (("directed_relation", "directed_relation"),
         "binding_registry_meta.relation_bindings, from which the allowed values are "
         "generated at build time (#73 audit 2 D5).")
     write(_t, _cls, _d)
+
+# --- `roles` on directed_relation (2026-09-30, jess; not signed) -----------------------
+# A contributor's roles on a `has_author` / `contributed_by` edge: the 14 CRediT
+# contributor roles (NISO CRediT, credit.niso.org) plus `corresponding author`, which
+# CRediT does not cover. A list because one person holds several (the Haley paper
+# gives its first author all 14). On the edge, not the person: roles belong to one
+# contribution to one dataset. Nodes staged empty, matched by name (T8), like the
+# relation terms themselves. Prompted by the Haley import (NDI-matlab
+# +ndi/+setup/+conv/+haley/import_V2_decisions.md).
+_CREDIT_ROLES = (
+    "conceptualization", "data curation", "formal analysis", "funding acquisition",
+    "investigation", "methodology", "project administration", "resources",
+    "software", "supervision", "validation", "visualization",
+    "writing - original draft", "writing - review & editing",
+    "corresponding author")
+_t, _d = _a2_load("directed_relation")
+if any(f["name"] == "roles" for f in _d["fields"]):
+    raise SystemExit("directed_relation already declares roles")
+_d["fields"].append(field(
+    "roles", "ontology_term",
+    "Optional: the child's roles in this relation, for a contribution edge "
+    "(`has_author`, `contributed_by`): the 14 CRediT contributor roles plus "
+    "`corresponding author`. Bound, preferred.",
+    non_empty=False, scalar=False,
+    constraints=_a2_term_binding("did_contributor_role", _CREDIT_ROLES)))
+write(_t, "directed_relation", _d)
+
 
 # (d) acquisition_channels.channels.type: a closed set, bound now.
 _t, _d = _a2_load("acquisition_channels")

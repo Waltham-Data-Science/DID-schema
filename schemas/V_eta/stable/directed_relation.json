@@ -169,6 +169,10 @@
                         },
                         {
                             "node": "",
+                            "name": "awarded_to"
+                        },
+                        {
+                            "node": "",
                             "name": "orthologous gene mapping"
                         },
                         {
@@ -221,6 +225,122 @@
             "ontology": null,
             "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge). Empty for unordered relations.",
             "constraints": {}
+        },
+        {
+            "name": "roles",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the child's roles in this relation, for a contribution edge (`has_author`, `contributed_by`): the 14 CRediT contributor roles plus `corresponding author`. Bound, preferred.",
+            "constraints": {
+                "binding": {
+                    "root": "did_contributor_role",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "",
+                            "name": "conceptualization"
+                        },
+                        {
+                            "node": "",
+                            "name": "data curation"
+                        },
+                        {
+                            "node": "",
+                            "name": "formal analysis"
+                        },
+                        {
+                            "node": "",
+                            "name": "funding acquisition"
+                        },
+                        {
+                            "node": "",
+                            "name": "investigation"
+                        },
+                        {
+                            "node": "",
+                            "name": "methodology"
+                        },
+                        {
+                            "node": "",
+                            "name": "project administration"
+                        },
+                        {
+                            "node": "",
+                            "name": "resources"
+                        },
+                        {
+                            "node": "",
+                            "name": "software"
+                        },
+                        {
+                            "node": "",
+                            "name": "supervision"
+                        },
+                        {
+                            "node": "",
+                            "name": "validation"
+                        },
+                        {
+                            "node": "",
+                            "name": "visualization"
+                        },
+                        {
+                            "node": "",
+                            "name": "writing - original draft"
+                        },
+                        {
+                            "node": "",
+                            "name": "writing - review & editing"
+                        },
+                        {
+                            "node": "",
+                            "name": "corresponding author"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "source": "value_set"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }
