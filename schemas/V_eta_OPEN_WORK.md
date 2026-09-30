@@ -3263,3 +3263,5 @@ RE-DERIVED 2026-09-30 (the `study` entity; `check_prose_counts` re-derives all n
 RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product; `check_prose_counts` re-derives all nouns): the registry has **43** rows (was 42; relation_bindings 29 -> 30). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-30 (`directed_relation.roles` + the `awarded_to` relation; `check_prose_counts` re-derives all nouns): **21 fields carry a binding** (was 20; +`directed_relation.roles`); the registry has **44** rows (was 43; relation_bindings 30 -> 31). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`, the sign-off record for `study`, `instance_of`, `awarded_to` and contributor `roles`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.

@@ -633,14 +633,14 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 53,
+          "documents_read": 54,
           "documents_excluded_as_generated": [
             "V_eta_STATUS.md",
             "V_eta_coverage_ledger.md",
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 60,
+          "accepted_lines": 64,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -1057,7 +1057,8 @@
           },
           "untagged_documents": {
             "V_eta_frequency_filter_model_plan.md": 1,
-            "V_eta_openminds_family_record.md": 2
+            "V_eta_openminds_family_record.md": 2,
+            "V_eta_study_plan.md": 4
           },
           "families_total": 27,
           "families_signed": [
