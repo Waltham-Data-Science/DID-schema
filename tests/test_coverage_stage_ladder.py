@@ -1260,10 +1260,18 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # confirmed sets now name relative_time_reference, which the migrators do
         # not emit yet. They sit at stage 2 with rung 3 `no` until the PR #76
         # DID-matlab emitter change lands -- pinned below.
-        for cls in ("element", "pyraview"):
-            st = rows[cls]["stage"]
-            self.assertEqual(st["reached"], 2, f"{cls}: {st}")
-            self.assertEqual(st["blocked_by"], 3, f"{cls}: {st}")
+        st = rows["element"]["stage"]
+        self.assertEqual(st["reached"], 2, f"element: {st}")
+        self.assertEqual(st["blocked_by"], 3, f"element: {st}")
+        # pyraview LEFT the confirmed rows 2026-09-29: jess signed [pyraview levels],
+        # which supersedes its 2026-08-13 confirmation with decided_targets
+        # [sampled_body]. It now reads rung 3 `yes` -- AT THE CLASS LEVEL ONLY: the
+        # migrator emits sampled_body but still mints its own voltage_observation as
+        # the owner, which the decision removes and the ladder cannot see. Pinned so
+        # the caveat on the row cannot silently disappear.
+        py = rows["pyraview"]
+        self.assertEqual(py["stage"]["reached"], 3, f"pyraview: {py['stage']}")
+        self.assertNotEqual(py.get("decided_targets_source"), "confirmed_emission")
         for cls in ("daqreader_ndr", "session", "subject"):
             st = rows[cls]["stage"]
             self.assertEqual(

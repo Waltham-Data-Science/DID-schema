@@ -272,8 +272,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 44,
-        "3": 19,
+        "2": 43,
+        "3": 20,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -291,8 +291,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 18,
-          "no": 47,
+          "yes": 19,
+          "no": 46,
           "n/a": 3
         },
         "4": {
@@ -302,7 +302,7 @@
       "per_stage_satisfied_independently": {
         "1": 100,
         "2": 65,
-        "3": 18,
+        "3": 19,
         "4": 0
       },
       "capped": {
@@ -316,8 +316,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 47,
-          "3": 18,
+          "2": 46,
+          "3": 19,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -8529,12 +8529,9 @@
         "epoch_bounded_reference"
       ],
       "decided_targets": [
-        "voltage_observation",
-        "sampled_body",
-        "relative_time_reference",
-        "frequency_filter"
+        "sampled_body"
       ],
-      "decided_targets_source": "confirmed_emission",
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -8543,15 +8540,12 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 4,
+        "schema_targets_named": 1,
         "schema_targets_built": [
-          "frequency_filter",
-          "relative_time_reference",
-          "sampled_body",
-          "voltage_observation"
+          "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -8568,7 +8562,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 217 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. This AMENDS the signed 2026-08-13 confirmation in `confirmed_targets`, so it is NOT recorded as `decided_targets` (the two cannot coexist, and a signed confirmation is not overwritten here): it waits on the team (review/73/team_signoff_sheet.md, A9).",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 217 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md): the 2026-08-13 confirmation is superseded (kept under `superseded_confirmation`) and the target is now `decided_targets`. RUNG 3 READS `yes` AT THE CLASS LEVEL ONLY: the migrator already emits `sampled_body`, but it still mints its OWN `voltage_observation` as the bodies' owner, which is exactly what the signed decision removes. The ladder compares class names and cannot see ownership (the same limit CLAUDE.md records for husks), so this row is NOT at its decided shape until the migrator hangs the levels on the recording's observation (PR #76 DID-matlab / NDI second-pass checklist).",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -8598,10 +8592,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -8613,13 +8607,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `voltage_observation`, `sampled_body`, `relative_time_reference`, `frequency_filter` are not all among what the migrator emits today (`voltage_observation`, `sampled_body`, `session_relative_reference`, `frequency_filter`, `epoch_bounded_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -8629,7 +8623,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
