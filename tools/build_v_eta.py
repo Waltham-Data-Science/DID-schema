@@ -9650,6 +9650,45 @@ write("draft", "study", doc("study", ["entity"], maturity="draft", fields=[
           constraints={"binding": {"strength": "preferred", "node_form": "curie"}}),
 ]))
 
+
+# --- `session.description` (2026-09-30, jess; not signed) ---------------------------
+# A day's free-text record: the lab notebook entry, the conditions run, and notes
+# such as "no contrast video, so patches are poorly aligned" (the Haley
+# tableOfContents.xlsx; NDI-matlab +ndi/+setup/+conv/+haley/import_V2_decisions.md).
+# `session` carried only `local_identifier`; `subject` already has a `description`.
+def _session_description(d):
+    if any(f["name"] == "description" for f in d["fields"]):
+        raise SystemExit("session already declares description")
+    d["fields"].append(field(
+        "description", "char",
+        "Optional: a free-text description of the session -- what was done, the "
+        "lab notebook entry, and any notes about the day.",
+        non_empty=False, queryable=False, constraints={"maxLength": 4096}))
+
+
+_patch("session", _session_description)
+
+
+# --- `session.name` (2026-09-30, jess; not signed) -----------------------------------
+# A display name beside the stable handle: `local_identifier` is what code, paths and
+# cross-references use (by convention spaceless, e.g. `foragingConcentration_0001`),
+# `name` is what a person reads ("Foraging concentration, experiment 1 (1 Feb 2022)").
+# #73 item 54: a V_eta class that has a name declares its own `name` field (base.name
+# is the did_v1-only slot). Spaceless is a convention, not enforced: nothing checks a
+# `pattern` yet, and migrated subjects already carry spaces in `local_identifier`.
+def _session_name(d):
+    if any(f["name"] == "name" for f in d["fields"]):
+        raise SystemExit("session already declares name")
+    d["fields"].append(field(
+        "name", "char",
+        "Optional: the session's display name, for people (e.g. 'Foraging "
+        "concentration, experiment 1 (1 Feb 2022)'). `local_identifier` stays the "
+        "stable handle code and paths use.",
+        non_empty=False, constraints={"maxLength": 256}))
+
+
+_patch("session", _session_name)
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
