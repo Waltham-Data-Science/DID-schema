@@ -15,8 +15,8 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
 | open **decision families** | **27** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 25 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 2 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 27 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
@@ -29,7 +29,7 @@ for each model; this board owns *how much is left and what exactly*.
 
 The class count is not the work count. 8 open classes are 27 decisions, because most open classes move as a family.
 
-**2 of those 27 are not settled**: 2 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 25 are signed off.
+**0 of those 27 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 27 are signed off.
 
 ## What is actually left on the 8 open classes
 
@@ -264,11 +264,7 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
-| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
-| **spatial_transcriptomics_family** | 8 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
-- **calculator mixin dropped (#73)**: `calculator`
-- **spatial_transcriptomics_family**: `cellTypeLabels`, `fileReference`, `geneExpression`, `geneList`, `geneListMapping`, `spatialGeneExpressionCells`, `spatialGeneExpressionPyramid`, `spatialGeneExpressionTiles`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -296,16 +292,17 @@ Until that line exists the family shows here regardless of what
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 25 signed families. 17 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 27 signed families. 18 named at least one decided target class and were checked against the built tree; 9 named none and are UNCHECKED HERE.**
 
-Across the 17 checked: 37 distinct target class(es), 37 present in the built set, 0 not.
+Across the 18 checked: 46 distinct target class(es), 46 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
 queue for schema.
 
-**The other 8 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
+**The other 9 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
 
+- **calculator mixin dropped (#73)** (1 class(es)): 1 `calculator` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stranded sources** (2 class(es)): 2 `generic_file`, `imageCollection` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **receptive field fold** (1 class(es)): 1 `hartley_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **image / ngrid** (2 class(es)): 2 `imageStack_parameters`, `ngrid` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
@@ -329,6 +326,7 @@ is why migrator work before the target closes is rework.
 
 | family | classes | targets built | decision | recorded in |
 |---|---|---|---|---|
+| **calculator mixin dropped (#73)** | 1 | no target recorded | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
 | **logical_observation** | 1 | 1 of 1 | SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: the target is ONE time_observation per source document, an N x 2 array of `time` cells keyed [interval, endpoint (start/end)], anchored to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed but is still DORMANT (census only, emits nothing), and its preserved code is the rejected 1->N shape, so re-arming is a rewrite. The documents live on the v1 tombstone. logical_observation retired (#73 item 52); `logical` stays | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | 1 | 1 of 1 | epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build | `V_eta_time_reference_family_plan.md` |
@@ -354,10 +352,11 @@ is why migrator work before the target closes is rework.
 | **subject** | 1 | no target recorded | PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id PRESERVED (subject_id is the most-referenced edge in the corpus). The did_v1 template and V_eta declare the same two fields; the superclass moves base -> entity, `local_identifier` becomes REQUIRED, and `datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename rather than this migrator. No fold is owed and none should be built | `V_eta_go_forward_class_audit.md` |
 | **session** | 1 | no target recorded | `reference` -> `local_identifier`, REQUIRED, matching subject and epoch, with the now-duplicate optional slot dropped; type/date/purpose DELETED as V_zeta inventions (NDI's template declares `reference` and nothing else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first migrator, and the two NDI reads by path -- which accept BOTH spellings rather than moving, because a database may be pre- or post-migration. NDI's WRITE stays did_v1 on purpose: it validates against NDI's own template, which still declares `reference` | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
+| **spatial_transcriptomics_family** | 8 | 14 of 14 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 25 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 17 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 24 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -402,6 +401,7 @@ it.
 | **subject measurement** | `absolute_time_reference` | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | `pyraview` | `V_eta_recording_observation_plan.md` |
 | **misc singletons** | `sampled_body`, `subject_statement` | `V_eta_go_forward_class_audit.md` |
+| **spatial_transcriptomics_family** | `coordinate_system`, `count_observation`, `directed_relation`, `label_calculation`, `score`, `term`, `term_calculation` | `V_eta_spatial_transcriptomics_plan.md` |
 
 **AND: 1 document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`
 line.** An untagged line signs the document, and counts only when

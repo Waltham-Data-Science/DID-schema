@@ -351,3 +351,5 @@ The refinement is recorded here for a human reader and is indexed by the census
 as an orphan tag, not by the family join. Recorded rather than repaired: giving
 it a family of its own would make TWO families claim `stimulus_presentation`,
 which `status_board.py --check` fails on by design.
+
+TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: per-trial onsets are the `timed_sequence`'s own time key (irregular; inline or in a body the sequence owns), per-trial offsets are its `offset` field, and a `timed_sequence_manipulation` only points at the sequence (`value_id`).

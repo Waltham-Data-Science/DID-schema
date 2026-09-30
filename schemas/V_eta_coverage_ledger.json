@@ -348,7 +348,7 @@
             "v1_class": "calculator",
             "disposition": "retire",
             "target_source": "passthrough",
-            "governance": "family UNSIGNED"
+            "governance": "signed"
           },
           {
             "v1_class": "demoNDISeries",
@@ -507,26 +507,28 @@
       "governance": {
         "denominator": 113,
         "by_state": {
-          "signed": 48,
+          "signed": 57,
           "DISPUTED": 1,
-          "family UNSIGNED": 9,
+          "family UNSIGNED": 0,
           "no signature found": 55
         },
         "signed_by": {
-          "derived from a signed family": 40,
+          "derived from a signed family": 49,
           "checked transcription on the row": 8
         },
         "join": {
           "rows_inspected": 113,
-          "rows_matched_by_a_signed_family": 48,
+          "rows_matched_by_a_signed_family": 57,
           "matched_on": {
-            "v1_class": 48
+            "v1_class": 57
           },
-          "matched_on_v1_class_only": 8,
+          "matched_on_v1_class_only": 16,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
             "misc singletons": 2,
+            "calculator mixin dropped (#73)": 1,
+            "spatial_transcriptomics_family": 8,
             "daq configuration": 4,
             "daq ingested payloads": 3,
             "raw recording observation": 2,
@@ -553,7 +555,7 @@
           },
           "conflicting_claims": [],
           "unmoved_by_cause": {
-            "a family names this class and that family is UNSIGNED": 9,
+            "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 6,
             "no family names this class, and the row has no V_eta class and no target either": 4,
             "no family in FAMILIES names this class": 45
@@ -612,17 +614,6 @@
               "demoNDISeriesMixed",
               "mock"
             ],
-            "a family names this class and that family is UNSIGNED": [
-              "calculator",
-              "cellTypeLabels",
-              "fileReference",
-              "geneExpression",
-              "geneList",
-              "geneListMapping",
-              "spatialGeneExpressionCells",
-              "spatialGeneExpressionPyramid",
-              "spatialGeneExpressionTiles"
-            ],
             "no family names this class; a SIGNED family names a class its migrator EMITS": [
               "daqreader_mfdaq_epochdata_ingested",
               "neuron_extracellular",
@@ -649,7 +640,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 48,
+          "accepted_lines": 59,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -677,9 +668,11 @@
             }
           ],
           "distinct_tags": [
+            "#73 audit 2, D1-D13",
             "base naming",
             "binding governance",
             "calculator + subject_calculation restructure",
+            "calculator mixin dropped (#73)",
             "confirm sheet 2026-08-17",
             "confirm sheet 2026-08-22",
             "daq configuration",
@@ -687,6 +680,7 @@
             "data_body",
             "dataseries_channel_map",
             "date dtype",
+            "dimensioned classes, batch confirmation",
             "ensemble",
             "epoch",
             "epoch extent -- row #113",
@@ -696,14 +690,20 @@
             "logical_observation",
             "logical_observation amendment 1",
             "misc singletons",
+            "observation vs calculation, amends #67",
+            "onsets on the sequence, #73 audit 2 D11",
             "orientation_direction_tuning.json location",
+            "parameter unit, #73 audit 2 D4",
+            "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation",
             "raw recording observation",
             "receptive field fold",
             "receptive field naming",
             "session",
             "software",
+            "spatial_transcriptomics_family",
             "spike processing parameters",
             "spike train leaf",
+            "spike-sorter output, amends the 2026-08-17 confirm sheet",
             "stimulus",
             "stimulus -- visual_grating_manipulation reconciliation",
             "stimulus parameters",
@@ -714,11 +714,19 @@
             "sync configuration",
             "sync configuration amendment 1",
             "sync mapping",
+            "time anchors, amends the 2026-08-22 confirm sheet",
             "time dtype",
             "time_reference",
+            "tuning shape, #73 audit 2 amendment",
             "tuning_curve composite + tuning_curve_calculation leaf, restructure"
           ],
           "tags": {
+            "#73 audit 2, D1-D13": [
+              {
+                "document": "V_eta_spatial_transcriptomics_plan.md",
+                "line": 567
+              }
+            ],
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -735,6 +743,12 @@
               {
                 "document": "V_eta_subject_calculation_plan.md",
                 "line": 270
+              }
+            ],
+            "calculator mixin dropped (#73)": [
+              {
+                "document": "V_eta_subject_calculation_plan.md",
+                "line": 371
               }
             ],
             "confirm sheet 2026-08-17": [
@@ -785,6 +799,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 515
+              }
+            ],
+            "dimensioned classes, batch confirmation": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 830
               }
             ],
             "ensemble": [
@@ -849,10 +869,34 @@
                 "line": 3
               }
             ],
+            "observation vs calculation, amends #67": [
+              {
+                "document": "V_eta_subject_calculation_plan.md",
+                "line": 369
+              }
+            ],
+            "onsets on the sequence, #73 audit 2 D11": [
+              {
+                "document": "V_eta_stimulus_model_plan.md",
+                "line": 355
+              }
+            ],
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 792
+              }
+            ],
+            "parameter unit, #73 audit 2 D4": [
+              {
+                "document": "V_eta_method_parameters_plan.md",
+                "line": 848
+              }
+            ],
+            "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 111
               }
             ],
             "raw recording observation": [
@@ -889,6 +933,12 @@
                 "line": 10
               }
             ],
+            "spatial_transcriptomics_family": [
+              {
+                "document": "V_eta_spatial_transcriptomics_plan.md",
+                "line": 565
+              }
+            ],
             "spike processing parameters": [
               {
                 "document": "V_eta_method_parameters_plan.md",
@@ -899,6 +949,12 @@
               {
                 "document": "V_eta_ensemble_plan.md",
                 "line": 218
+              }
+            ],
+            "spike-sorter output, amends the 2026-08-17 confirm sheet": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 826
               }
             ],
             "stimulus": [
@@ -961,6 +1017,12 @@
                 "line": 508
               }
             ],
+            "time anchors, amends the 2026-08-22 confirm sheet": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 828
+              }
+            ],
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -971,6 +1033,12 @@
               {
                 "document": "V_eta_time_reference_model_plan.md",
                 "line": 468
+              }
+            ],
+            "tuning shape, #73 audit 2 amendment": [
+              {
+                "document": "V_eta_tuning_model_plan.md",
+                "line": 246
               }
             ],
             "tuning_curve composite + tuning_curve_calculation leaf, restructure": [
@@ -986,6 +1054,7 @@
           },
           "families_total": 27,
           "families_signed": [
+            "calculator mixin dropped (#73)",
             "confirm sheet 2026-08-17",
             "daq configuration",
             "daq ingested payloads",
@@ -1002,6 +1071,7 @@
             "receptive field fold",
             "session",
             "software",
+            "spatial_transcriptomics_family",
             "spike processing parameters",
             "stimulus",
             "stimulus parameters",
@@ -1012,11 +1082,14 @@
             "sync configuration",
             "sync mapping"
           ],
-          "families_unsigned": [
-            "calculator mixin dropped (#73)",
-            "spatial_transcriptomics_family"
-          ],
+          "families_unsigned": [],
           "orphan_tags": {
+            "#73 audit 2, D1-D13": [
+              {
+                "document": "V_eta_spatial_transcriptomics_plan.md",
+                "line": 567
+              }
+            ],
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -1059,6 +1132,12 @@
                 "line": 515
               }
             ],
+            "dimensioned classes, batch confirmation": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 830
+              }
+            ],
             "epoch extent -- row #113": [
               {
                 "document": "V_eta_OPEN_WORK.md",
@@ -1071,10 +1150,34 @@
                 "line": 425
               }
             ],
+            "observation vs calculation, amends #67": [
+              {
+                "document": "V_eta_subject_calculation_plan.md",
+                "line": 369
+              }
+            ],
+            "onsets on the sequence, #73 audit 2 D11": [
+              {
+                "document": "V_eta_stimulus_model_plan.md",
+                "line": 355
+              }
+            ],
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 792
+              }
+            ],
+            "parameter unit, #73 audit 2 D4": [
+              {
+                "document": "V_eta_method_parameters_plan.md",
+                "line": 848
+              }
+            ],
+            "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 111
               }
             ],
             "receptive field naming": [
@@ -1089,6 +1192,12 @@
                 "line": 218
               }
             ],
+            "spike-sorter output, amends the 2026-08-17 confirm sheet": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 826
+              }
+            ],
             "stimulus -- visual_grating_manipulation reconciliation": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
@@ -1101,6 +1210,12 @@
                 "line": 638
               }
             ],
+            "time anchors, amends the 2026-08-22 confirm sheet": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 828
+              }
+            ],
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -1111,6 +1226,12 @@
               {
                 "document": "V_eta_time_reference_model_plan.md",
                 "line": 468
+              }
+            ],
+            "tuning shape, #73 audit 2 amendment": [
+              {
+                "document": "V_eta_tuning_model_plan.md",
+                "line": 246
               }
             ],
             "tuning_curve composite + tuning_curve_calculation leaf, restructure": [
@@ -1779,15 +1900,31 @@
       "second_pass": [],
       "how": "",
       "target_flags": "",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "calculator mixin dropped (#73)",
+        "document": "V_eta_subject_calculation_plan.md",
+        "line": 371,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.",
+        "matched_on": "v1_class",
+        "matched_name": "calculator",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "calculator mixin dropped (#73)"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `calculator mixin dropped (#73)` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "calculator mixin dropped (#73)",
+          "document": "V_eta_subject_calculation_plan.md",
+          "line": 371,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.",
+          "matched_on": "v1_class",
+          "matched_name": "calculator",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `calculator mixin dropped (#73)` names this class as `calculator` (v1_class), and that family is signed at `V_eta_subject_calculation_plan.md`:371. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -1881,15 +2018,31 @@
       "second_pass": [],
       "how": "#73 review (items 27, 33): a supervised call is a term_calculation (variable 'cell type', values bound to ontology terms); an unsupervised clustering is a label_calculation (variable 'cluster assignment'); the reference atlas is a dataset entity linked by a derived_from directed_relation.",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "cellTypeLabels",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "cellTypeLabels",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `cellTypeLabels` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4706,15 +4859,31 @@
       "second_pass": [],
       "how": "#73 review (item 25): an external file NOT held in the database is an unheld body (a file-series member recorded by location, not ingested) of the statement whose value it stores, carrying filename, content_hash + hash_algorithm, size_bytes and file dates.",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "fileReference",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "fileReference",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `fileReference` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -5122,15 +5291,31 @@
       "second_pass": [],
       "how": "DISSOLVES (#73 review item 26): assay -> the observation's `method`; count_units -> the `variable` (UMI count vs read count); count_type raw -> nothing (it is what a count_observation is), normalized -> a separate score_calculation derived_from the raw counts. No class, no fields -- so no target. A superclass mixin: no document is ever an instance of it on its own.",
       "target_flags": "The 2026-09-22 decision (persist as a shape mixin) is SUPERSEDED by the #73 review; the review's sign-off line is the team's to add.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "geneExpression",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "geneExpression",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `geneExpression` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -5224,15 +5409,31 @@
       "second_pass": [],
       "how": "#73 review (items 21-23): a STANDALONE `term` document (content, not a claim) whose body holds the index/node/name table; derived_from the genome annotation `dataset`, itself derived_from the assembly `dataset`.",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "geneList",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "geneList",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `geneList` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -5324,15 +5525,31 @@
       "second_pass": [],
       "how": "#73 review (item 24): a directed_relation list A -> list B (relation 'orthologous gene mapping' | 'gene alias mapping', method = tool + version) with `value_id` to a standalone `score` (or `logical`) document whose keys are [gene of A, gene of B].",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "geneListMapping",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "geneListMapping",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `geneListMapping` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8970,15 +9187,31 @@
       "second_pass": [],
       "how": "#73 review (items 2, 11, 28, 33): the cell list is a label_calculation (variable 'SAW source cell identifier', one label per cell); centroids and boundaries are position_calculations; area / capture spots / UMI count / detected genes are per-cell calculations over the cell key (labels_from the cell list).",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "spatialGeneExpressionCells",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "spatialGeneExpressionCells",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `spatialGeneExpressionCells` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9075,15 +9308,31 @@
       "second_pass": [],
       "how": "#73 review (V_eta_spatial_transcriptomics_plan.md items 1, 4-9, 17, 29): the bin-1 counts are a count_observation of the tissue section over keys [y, x, gene (labels_from the gene list)] in a coordinate_system; every zoom level is a sampled_body of that observation (bins 2-32 `redundant`); per-gene totals a redundant count_calculation; chip -> an instrument subject; pipeline -> a software entity. The v1 copy is retired (item 18).",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "spatialGeneExpressionPyramid",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "spatialGeneExpressionPyramid",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `spatialGeneExpressionPyramid` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9171,15 +9420,31 @@
       "second_pass": [],
       "how": "#73 review (items 14-17): each tiles document is ONE level body -- a file series whose member body_data_k holds chunk k (0-based); the 20 layout fields dissolve into keys (+ chunk) and data_body.format.",
       "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; V_eta_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review's own sign-off line is the team's to add. DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
-      "decided_by_family": null,
+      "decided_by_family": {
+        "family": "spatial_transcriptomics_family",
+        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "line": 565,
+        "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+        "matched_on": "v1_class",
+        "matched_name": "spatialGeneExpressionTiles",
+        "conflict": []
+      },
       "families_naming_this_class": [
         "spatial_transcriptomics_family"
       ],
-      "governance_gap": "a family names this class and that family is UNSIGNED",
+      "governance_gap": null,
       "governance": {
-        "state": "family UNSIGNED",
-        "signoff": null,
-        "why": "the decision family `spatial_transcriptomics_family` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
+        "state": "signed",
+        "signoff": {
+          "family": "spatial_transcriptomics_family",
+          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "line": 565,
+          "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+          "matched_on": "v1_class",
+          "matched_name": "spatialGeneExpressionTiles",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `spatial_transcriptomics_family` names this class as `spatialGeneExpressionTiles` (v1_class), and that family is signed at `V_eta_spatial_transcriptomics_plan.md`:565. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

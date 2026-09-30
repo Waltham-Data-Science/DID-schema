@@ -6,8 +6,8 @@
     "classes_claimed": 59,
     "open_classes": 8,
     "by_state": {
-      "signed_awaiting_build": 25,
-      "awaiting_signature": 2,
+      "signed_awaiting_build": 27,
+      "awaiting_signature": 0,
       "proposed_unreviewed": 0,
       "open": 0
     },
@@ -31,10 +31,10 @@
       "plan": "V_eta_subject_calculation_plan.md",
       "decision": "`calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough",
       "status": "team",
-      "signed": false,
-      "signoff": null,
-      "state": "awaiting_signature",
-      "state_label": "decided in a walkthrough, awaiting a signature"
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
     },
     {
       "name": "stranded sources",
@@ -615,10 +615,10 @@
       "plan": "V_eta_spatial_transcriptomics_plan.md",
       "decision": "#73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable.",
       "status": "team",
-      "signed": false,
-      "signoff": null,
-      "state": "awaiting_signature",
-      "state_label": "decided in a walkthrough, awaiting a signature"
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
     }
   ],
   "by_class": {

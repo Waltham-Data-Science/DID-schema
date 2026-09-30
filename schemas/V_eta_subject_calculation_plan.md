@@ -365,3 +365,7 @@ depend on knowing which software counts as a "calculator":
   neither `label` nor `label_calculation` exists yet. `spike_clusters` itself passes through
   to the NDI second pass today (`+migrators_j/spike_clusters.m`); when that pass is built,
   it targets the same shape.
+
+TEAM-SIGN-OFF [observation vs calculation, amends #67]: jess@walthamdatascience.com / 2026-09-29 -- a statement whose inputs are other statements in the dataset is a `subject_calculation` (recorded in `input_id`); one produced from data held outside the dataset is a `subject_observation`. This replaces #67's rule that `_calculation` is reserved for calculator outputs (#73 item 3, T2).
+
+TEAM-SIGN-OFF [calculator mixin dropped (#73)]: jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.

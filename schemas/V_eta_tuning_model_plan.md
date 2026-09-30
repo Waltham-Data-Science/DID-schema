@@ -242,3 +242,5 @@ The decisions are in `review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
   (amends the #67 name): the stimulus dimensions are the value's `keys`, categorical levels
   as `labels`. `individual` / `raw_individual` add one trailing trial dimension.
   `response_type` becomes a bound term (mean | peak | F0 | F1 | F2).
+
+TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: `model_fit[].coefficients` is the shared named list `{variable, value}` and `goodness` gains `sse_per_point` (D2); `independent_variables[]` is dropped and the stimulus dimensions are the value's `keys`, with a trailing trial dimension on the per-trial arrays (D3); `response_type` is a bound term (mean | peak | F0 | F1 | F2).

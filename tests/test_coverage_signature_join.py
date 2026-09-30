@@ -565,9 +565,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         # it joins nothing); G_SIGNED drops by the eight rows that are now
         # "decided, unsigned" -- the truth until the team signs.
         self.assertEqual(transcribed, 9)
-        self.assertEqual(derived, 40)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 48,
-                         "9 transcribed + 40 derived, less `ngrid`, whose "
+        # derived 40 -> 49 and signed 48 -> 57 on 2026-09-29: jess signed
+        # [spatial_transcriptomics_family] and [calculator mixin dropped (#73)],
+        # so the 8 spatial rows and `calculator` join through signed families.
+        self.assertEqual(derived, 49)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 57,
+                         "9 transcribed + 49 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

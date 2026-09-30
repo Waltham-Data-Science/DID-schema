@@ -844,3 +844,5 @@ unbound until the unit vocabulary is chosen (`review/73/OPEN_ITEMS.md` item 24).
 "modelled on the `axis` entry" wording in the field documentation is replaced. The signature
 line above is unchanged; whether it reaches this amendment is for the team (sign-off sheet,
 audit 2 D7c).
+
+TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: the parameter entry is `{variable, unit, source_unit, value {value, source_value}, term, text}` at all three mounts, replacing the signed line's "no `unit` field"; `unit` stays unbound until the unit vocabulary is chosen.
