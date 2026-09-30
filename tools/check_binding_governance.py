@@ -173,7 +173,11 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 
 # B6: bound fields with no registry catalogue row (11 of 14 today: only the
 # three `dataset` openMINDS fields are catalogued).
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 15
+# 15 -> 17 (2026-09-30, jess): `study.factors` and `study.design`, bound
+# {strength: preferred, node_form: curie} exactly like `subject_statement.variable`
+# and `subject_interaction.method`, which are also uncatalogued. Cataloguing a
+# node_form-only binding in the registry is a separate question, open for all four.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 17
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and

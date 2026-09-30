@@ -128,11 +128,13 @@
             "parent_role": "the whole",
             "child_types": [
                 "subject",
-                "session"
+                "session",
+                "study"
             ],
             "parent_types": [
                 "subject",
-                "dataset"
+                "dataset",
+                "study"
             ],
             "timed": false,
             "ordered": false

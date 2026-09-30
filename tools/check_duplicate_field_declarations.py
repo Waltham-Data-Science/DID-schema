@@ -154,7 +154,9 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # count falls by nine the day `base.name` is deleted with the last passthrough class.
 # 14 -> 15 (#73 item 59, 2026-09-25): the new `product` entity declares its own `name`
 # beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
-BASELINE = 15
+# 15 -> 16 (2026-09-30, jess): the new `study` entity declares its own `name`
+# beside `base.name` -- the same V1-ONLY-SLOT pair, named in OVERRIDES below.
+BASELINE = 16
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -175,6 +177,7 @@ OVERRIDES = {
     ("organization", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("publication", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("software", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("study", "name"): (V1_ONLY_SLOT, "#73 item 54 (applied to `study`, 2026-09-30): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("strain", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("web_resource", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
 }
