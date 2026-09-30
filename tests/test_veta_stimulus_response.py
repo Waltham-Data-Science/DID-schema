@@ -483,7 +483,9 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # `scalar_temperature_observation` and `utc_reference`, classes V_eta does not
     # define). They are documents, not classes, and declare no constrained field the
     # INERT list could hold; the list below is untouched.
-    assert walked == 211, f'schema count moved; re-derive the inert set ({walked})'
+    # NINETEENTH MOVEMENT, re-derived not bumped: 211 -> 212 on 2026-09-30, the
+    # `study` entity (jess). Its char and ontology_term fields carry no min/max.
+    assert walked == 212, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

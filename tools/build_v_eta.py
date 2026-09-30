@@ -7953,8 +7953,11 @@ def _urel(name, node, member_role, member_types, *, timed=False):
 
 RELATION_VOCABULARY = [
     # containment / structure
+    # `study` joins both ends (2026-09-30, jess; not signed): a session is part_of
+    # its study, a study part_of its dataset, and a study may be part_of a larger
+    # study. See the `study` class below.
     _rel("part_of", "BFO:0000050", "the part", "the whole",
-         ["subject", "session"], ["subject", "dataset"]),
+         ["subject", "session", "study"], ["subject", "dataset", "study"]),
     _rel("contained_in", "RO:0001018", "the contained", "the container",
          [], []),
     # is_group was removed from subject, so a group IS just a subject with members.
@@ -8060,6 +8063,19 @@ RELATION_VOCABULARY = [
     # the subject/session part_of rather than widening that term's endpoints.
     _rel("suborganization_of", "", "the child organization", "the parent organization",
          ["organization"], ["organization"]),
+    # instance_of (2026-09-30, jess; not signed): an instrument subject is a unit of a
+    # bought product (a camera -> PixeLink PL-B741F). A RELATION rather than a
+    # `subject.product_id` field so the product can be attached after the instrument
+    # was recorded, without rewriting either document (the reason `data_body.owner_id`
+    # points from the body). Prompted by the Haley import (NDI-matlab
+    # +ndi/+setup/+conv/+haley/import_V2_decisions.md, entry 14). No ontology node yet.
+    _rel("instance_of", "", "the unit (e.g. an instrument subject)",
+         "the product it is a unit of", ["subject"], ["product"]),
+    # awarded_to (2026-09-30, jess; not signed): who holds an award. `funded_by`
+    # links the dataset to its funding and `issued_by` the funding to its funder;
+    # the recipient had no home (e.g. NSF GRFP DGE-1650112 -> Jessica A Haley).
+    _rel("awarded_to", "", "the funding (award)", "the recipient (person/org)",
+         ["funding"], ["person", "organization"]),
     # data-to-data mappings (#73 item 24; added by audit 2 D5): a gene list mapped onto
     # another, the per-pair scores in a standalone `score` behind `value_id`, the tool
     # + version in `method`. Both endpoints are standalone `term` documents (a gene list).
@@ -9596,6 +9612,44 @@ write("draft", "product", doc("product", ["entity"], maturity="draft", deps=[
           non_empty=False)]))
 
 
+
+# --- `study` (2026-09-30, jess; not signed) ---------------------------------------
+# A unit of research with its own question and design, between the dataset and its
+# sessions: ISA's investigation / study / assay, with the dataset as the
+# investigation. Prompted by the Haley import (NDI-matlab
+# +ndi/+setup/+conv/+haley/import_V2_decisions.md, entries 8 and 11): five C. elegans
+# foraging experiments and one E. coli lawn-imaging experiment, each run over many
+# days, with a session per day. V_eta had nothing between session and dataset --
+# `part_of` allowed only session -> dataset, and a term assertion must be about a
+# subject, not a session.
+#
+# NOT `protocol`: a protocol is a recipe, and these studies share one recipe while
+# differing in design. NOT `experiment`: the source lab uses that word for both the
+# study and the day. People, publications and protocols are relations, not fields;
+# a study's date range follows from its sessions. Containment is the `part_of`
+# relation (session -> study, study -> dataset, study -> study), so a day can belong
+# to two studies and studies can nest.
+write("draft", "study", doc("study", ["entity"], maturity="draft", fields=[
+    field("name", "char", "The study's name (e.g. 'Foraging on lawns of varying "
+          "bacterial concentration').", non_empty=True),
+    field("short_name", "char", "Optional: the handle the lab uses for it "
+          "(e.g. 'foragingConcentration').", non_empty=False),
+    field("description", "char", "Optional: what the study asked and how.",
+          non_empty=False),
+    field("factors", "ontology_term",
+          "Optional: the variables DELIBERATELY VARIED by the design (OD600, lawn "
+          "configuration, strain), as opposed to variables only recorded. The same "
+          "terms a statement's `variable` uses, so 'every study that varied X' is a "
+          "query (ISA study factors). Bound like `subject_statement.variable`.",
+          non_empty=False, scalar=False,
+          constraints={"binding": {"strength": "preferred", "node_form": "curie"}}),
+    field("design", "ontology_term",
+          "Optional: the type of design (e.g. a dose-response or factorial design) "
+          "(ISA study design descriptors).",
+          non_empty=False, scalar=False,
+          constraints={"binding": {"strength": "preferred", "node_form": "curie"}}),
+]))
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
@@ -10157,6 +10211,33 @@ for _cls, _carrier in (("directed_relation", "directed_relation"),
         "binding_registry_meta.relation_bindings, from which the allowed values are "
         "generated at build time (#73 audit 2 D5).")
     write(_t, _cls, _d)
+
+# --- `roles` on directed_relation (2026-09-30, jess; not signed) -----------------------
+# A contributor's roles on a `has_author` / `contributed_by` edge: the 14 CRediT
+# contributor roles (NISO CRediT, credit.niso.org) plus `corresponding author`, which
+# CRediT does not cover. A list because one person holds several (the Haley paper
+# gives its first author all 14). On the edge, not the person: roles belong to one
+# contribution to one dataset. Nodes staged empty, matched by name (T8), like the
+# relation terms themselves. Prompted by the Haley import (NDI-matlab
+# +ndi/+setup/+conv/+haley/import_V2_decisions.md).
+_CREDIT_ROLES = (
+    "conceptualization", "data curation", "formal analysis", "funding acquisition",
+    "investigation", "methodology", "project administration", "resources",
+    "software", "supervision", "validation", "visualization",
+    "writing - original draft", "writing - review & editing",
+    "corresponding author")
+_t, _d = _a2_load("directed_relation")
+if any(f["name"] == "roles" for f in _d["fields"]):
+    raise SystemExit("directed_relation already declares roles")
+_d["fields"].append(field(
+    "roles", "ontology_term",
+    "Optional: the child's roles in this relation, for a contribution edge "
+    "(`has_author`, `contributed_by`): the 14 CRediT contributor roles plus "
+    "`corresponding author`. Bound, preferred.",
+    non_empty=False, scalar=False,
+    constraints=_a2_term_binding("did_contributor_role", _CREDIT_ROLES)))
+write(_t, "directed_relation", _d)
+
 
 # (d) acquisition_channels.channels.type: a closed set, bound now.
 _t, _d = _a2_load("acquisition_channels")

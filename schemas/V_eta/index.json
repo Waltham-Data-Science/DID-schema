@@ -2026,6 +2026,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "study",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/draft/study.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "subject",
             "tier": "stable",
             "class_version": "3.0.0",

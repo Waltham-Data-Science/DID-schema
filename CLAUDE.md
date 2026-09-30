@@ -2814,3 +2814,11 @@ RE-DERIVED 2026-09-29 (#73 review item 68: `model_fit` + `model_fit_calculation`
 RE-DERIVED 2026-09-29 (#73 audit 2 batched build; `check_prose_counts` re-derives all nouns): **18 fields carry a binding** (was 12; +6 bound by decision -- `tuning_curve`/`contrast_sensitivity` `value.response_type` (D3), `directed_relation`/`undirected_relation` `relation` and `acquisition_channels.channels.type` (D5), `entity.global_identifier.scheme` (D9)); the registry has **42** rows (was 39; relation_bindings 26 -> 29: `observes` dropped, the two gene-mapping rows and the first two undirected rows added, D5). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-29 (#73 audit 2 mechanical C9 dropped the two V_zeta example documents under `schemas/V_eta/examples/`; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 213; the examples named `scalar_temperature_observation` and `utc_reference`, classes V_eta does not define); **217 json file(s) under `schemas/V_eta/`** (was 219). No class was added or removed. Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (the `study` entity; `check_prose_counts` re-derives all nouns): **212 distinct V_eta class names** (was 211); **218 json file(s) under `schemas/V_eta/`** (was 217); **20 fields carry a binding** (was 18; +`study.factors`, +`study.design`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product; `check_prose_counts` re-derives all nouns): the registry has **43** rows (was 42; relation_bindings 29 -> 30). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (`directed_relation.roles` + the `awarded_to` relation; `check_prose_counts` re-derives all nouns): **21 fields carry a binding** (was 20; +`directed_relation.roles`); the registry has **44** rows (was 43; relation_bindings 30 -> 31). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`, the sign-off record for `study`, `instance_of`, `awarded_to` and contributor `roles`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
