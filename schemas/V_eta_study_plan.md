@@ -40,3 +40,4 @@ TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.name as a display name 
   (`concentration_assayPlate0011`); `name` is for people ("Assay Plate 0011",
   "Axio Zoom.V16"), may carry spaces, need not be unique, and can be corrected
   without breaking anything, because nothing refers to a subject by name.
+TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional subject.name as a display name beside local_identifier
