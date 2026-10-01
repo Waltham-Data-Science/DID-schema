@@ -170,9 +170,13 @@ def _flat_dep_names(name):
 # ---- Brainstorm J: subject side ----
 
 def test_subject_is_bare_identity():
-    """is_group / is_biological removed; kind is a term_assertion, not a flag."""
+    """is_group / is_biological removed; kind is a term_assertion, not a flag.
+
+    `name` (2026-10-01, did-schema PR #80) is a display name beside the handle,
+    as on `session`: identity, not a property, so it does not reopen the flags.
+    """
     fields = {f["name"] for f in RECORDS["subject"][1]["fields"]}
-    assert fields == {"local_identifier", "description"}, fields
+    assert fields == {"local_identifier", "description", "name"}, fields
     assert RECORDS["subject"][1]["document_class"]["class_version"] == "3.0.0"
     assert RECORDS["subject"][1]["depends_on"] == []
 

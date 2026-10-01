@@ -9744,6 +9744,27 @@ def _session_time(d):
 
 _patch("session", _session_time)
 
+
+# --- `subject.name` (2026-10-01, jess; not signed) --------------------------------------
+# A display name beside the stable handle, as `session.name` (#79): `local_identifier`
+# is what code and cross-references use (spaceless, e.g. `concentration_assayPlate0011`),
+# `name` is what a person reads ("Assay Plate 0011", "Axio Zoom.V16"). Unlike the
+# handle it may carry spaces and be corrected freely: nothing refers to a subject by
+# name, and it need not be unique. Most other entities already declare a name
+# (organization, person, software, study, dataset ...); `subject` was the gap.
+def _subject_name(d):
+    if any(f["name"] == "name" for f in d["fields"]):
+        raise SystemExit("subject already declares name")
+    d["fields"].append(field(
+        "name", "char",
+        "Optional: the subject's display name, for people (e.g. 'Assay Plate 0011', "
+        "'Axio Zoom.V16'). Need not be unique; `local_identifier` stays the stable "
+        "handle code and cross-references use.",
+        non_empty=False, constraints={"maxLength": 256}))
+
+
+_patch("subject", _subject_name)
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":

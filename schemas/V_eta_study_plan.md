@@ -32,3 +32,11 @@ TEAM-SIGN-OFF: jess / 2026-09-30 -- add directed_relation.roles, bound to the 14
 
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.description
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.name as a display name beside local_identifier
+
+## Subject field (did-schema PR #80)
+
+- `subject.name` (optional): a display name beside `local_identifier`, as
+  `session.name`. `local_identifier` stays the stable, spaceless handle
+  (`concentration_assayPlate0011`); `name` is for people ("Assay Plate 0011",
+  "Axio Zoom.V16"), may carry spaces, need not be unique, and can be corrected
+  without breaking anything, because nothing refers to a subject by name.
