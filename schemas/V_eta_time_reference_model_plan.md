@@ -733,3 +733,28 @@ at the time; read the names through this amendment.
   classes, which no v1 document and no production document carries.
 
 TEAM-SIGN-OFF [time_reference uniqueness rule]: jess@walthamdatascience.com / 2026-09-30 -- CHANGE 5 is agreed: every `time_reference_id` entry on one document describes the same instant or extent, and `value.clock` is unique across them; split anchors, recurrence and epoch-vs-statement time are not modelled as multiple references.
+
+## 2026-10-01 — epochs and sessions placed in wall-clock time (jess; built, NOT YET SIGNED)
+
+Raised while building stage 4 of `ndi.setup.conv.haley.import_V2` (NDI-matlab
+`+ndi/+setup/+conv/+haley/import_V2_decisions.md` #35): a video's start (`timeRecord`)
+and a microscope image's `acquisitionTime` are known in UTC, and there was nowhere to
+say so.
+
+- **`epoch.time_reference_id` now names `time_reference`** (was
+  `relative_time_reference` only), as `subject_interaction` and `directed_relation`
+  already do. Nothing recorded chose "relative only": it followed from keying the #52
+  family on `value.clock`, which only a relative reference has. **For the #52 rule an
+  `absolute_time_reference` member is the `utc` member**: at most one per epoch, and
+  never beside a relative reference whose `value.clock` is `utc`.
+  NOT YET ENFORCED: DID-matlab's batch check (`did2.validate.silentLoss`,
+  `referentKey`) skips a member with no `value.clock`, so an absolute member is not yet
+  compared with a relative `utc` one. Follow-up there: read an absolute member as `utc`.
+- **`session` gains an optional `time_reference_id` → `time_reference`**: when the
+  session took place, normally an `absolute_time_reference` (start, and duration when
+  known). The session is the referent of most relative times (epochMint anchors epoch
+  extents to it), so this places them in UTC, and "sessions in a date range" becomes a
+  query instead of a search of `name` text. Optional: migrated sessions carry no times.
+- **Considered and not added:** `study` (its span is its sessions' span, so a copy
+  would drift), `subject` (times about a subject are statements; date of birth is open
+  item #41), `dataset` / `publication` (their dates are publication metadata).

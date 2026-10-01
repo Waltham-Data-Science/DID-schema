@@ -9689,6 +9689,61 @@ def _session_name(d):
 
 _patch("session", _session_name)
 
+
+# --- an epoch may carry its UTC extent (2026-10-01, jess; not signed) -----------------
+# `epoch.time_reference_#` named only `relative_time_reference`. Nothing recorded
+# chose that: it followed from keying the family on `value.clock` (#52), which only a
+# relative reference has. But `utc` is one of the four clocks, and a UTC extent can
+# only be stated relative to a referent with a known start -- the session has none
+# recorded -- so an epoch whose start is known in wall-clock time (a video's
+# `timeRecord`, a microscope image's `acquisitionTime`; NDI-matlab
+# +ndi/+setup/+conv/+haley/import_V2_decisions.md #35) had nowhere to say it.
+# An `absolute_time_reference` IS on the utc clock, so the #52 rule reads it as
+# clock `utc`: at most one per epoch, and not beside a relative reference on `utc`.
+_EPOCH_UTC_DOC = (
+    " An `absolute_time_reference` member gives the epoch's extent in wall-clock "
+    "time; for the #52 rule it is the `utc` member, so an epoch carries at most one, "
+    "and never alongside a relative reference whose `value.clock` is `utc`.")
+
+
+def _epoch_takes_absolute(d):
+    hits = [e for e in d["depends_on"]
+            if e["name"] in ("time_reference_#", "time_reference_id")]
+    if len(hits) != 1:
+        raise SystemExit("epoch: expected one time_reference edge, found %d" % len(hits))
+    e = hits[0]
+    if e.get("must_refer_to_document_class") != "relative_time_reference":
+        raise SystemExit("epoch time_reference edge no longer names only "
+                         "relative_time_reference; revisit this patch")
+    # The parent class, as `subject_interaction` and `directed_relation` name it:
+    # both subclasses, and any later one, without restating the list.
+    e["must_refer_to_document_class"] = "time_reference"
+    e["documentation"] = e["documentation"].rstrip() + _EPOCH_UTC_DOC
+
+
+_patch("epoch", _epoch_takes_absolute)
+
+
+# --- a session may say when it took place (2026-10-01, jess; not signed) --------------
+# The session is the referent of most relative times in V_eta (epochMint anchors
+# epoch extents to it; the migrated "during the session" anchors point at it), yet
+# nothing placed the session itself in time. An optional edge to a time reference --
+# normally an `absolute_time_reference` (start, and duration when known) -- lets every
+# session-relative time be placed in UTC, and makes "sessions in a date range" a query
+# rather than a search of `name` text. Optional: migrated sessions carry no times.
+def _session_time(d):
+    if any(e["name"] == "time_reference_id" for e in d["depends_on"]):
+        raise SystemExit("session already declares time_reference_id")
+    d["depends_on"].append(dep(
+        "time_reference_id", "time_reference",
+        "Optional: when the session took place, normally an "
+        "`absolute_time_reference` (its start in UTC, and its duration when known). "
+        "The session is the referent of most relative times, so this places them "
+        "in wall-clock time.", non_empty=False))
+
+
+_patch("session", _session_time)
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":

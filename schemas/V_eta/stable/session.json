@@ -9,7 +9,14 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "time_reference_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: when the session took place, normally an `absolute_time_reference` (its start in UTC, and its duration when known). The session is the referent of most relative times, so this places them in wall-clock time.",
+            "must_refer_to_document_class": "time_reference"
+        }
+    ],
     "file": [],
     "fields": [
         {
