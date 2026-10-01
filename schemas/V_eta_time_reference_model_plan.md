@@ -734,7 +734,7 @@ at the time; read the names through this amendment.
 
 TEAM-SIGN-OFF [time_reference uniqueness rule]: jess@walthamdatascience.com / 2026-09-30 -- CHANGE 5 is agreed: every `time_reference_id` entry on one document describes the same instant or extent, and `value.clock` is unique across them; split anchors, recurrence and epoch-vs-statement time are not modelled as multiple references.
 
-## 2026-10-01 — epochs and sessions placed in wall-clock time (jess; built, NOT YET SIGNED)
+## 2026-10-01 — epochs and sessions placed in wall-clock time (jess; built, signed below)
 
 Raised while building stage 4 of `ndi.setup.conv.haley.import_V2` (NDI-matlab
 `+ndi/+setup/+conv/+haley/import_V2_decisions.md` #35): a video's start (`timeRecord`)
@@ -758,3 +758,5 @@ say so.
 - **Considered and not added:** `study` (its span is its sessions' span, so a copy
   would drift), `subject` (times about a subject are statements; date of birth is open
   item #41), `dataset` / `publication` (their dates are publication metadata).
+
+TEAM-SIGN-OFF [epoch and session wall-clock time]: jess@walthamdatascience.com / 2026-10-01 -- epoch.time_reference_id names time_reference (an absolute_time_reference member is the epoch's utc member, at most one); session gains an optional time_reference_id -> time_reference.

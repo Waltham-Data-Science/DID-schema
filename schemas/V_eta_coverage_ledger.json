@@ -640,7 +640,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 66,
+          "accepted_lines": 67,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -683,6 +683,7 @@
             "dimensioned classes, batch confirmation",
             "ensemble",
             "epoch",
+            "epoch and session wall-clock time",
             "epoch extent -- row #113",
             "epochclocktimes",
             "file navigation",
@@ -826,6 +827,12 @@
               {
                 "document": "V_eta_epoch_plan.md",
                 "line": 1360
+              }
+            ],
+            "epoch and session wall-clock time": [
+              {
+                "document": "V_eta_time_reference_model_plan.md",
+                "line": 762
               }
             ],
             "epoch extent -- row #113": [
@@ -1144,6 +1151,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 830
+              }
+            ],
+            "epoch and session wall-clock time": [
+              {
+                "document": "V_eta_time_reference_model_plan.md",
+                "line": 762
               }
             ],
             "epoch extent -- row #113": [
