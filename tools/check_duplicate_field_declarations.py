@@ -161,7 +161,11 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # base.name) and the checker rightly refuses a hand override there. It stays in
 # V_eta-SHADOW: for a MIGRATED session, which of base.name / session.name holds the
 # name is the session migrator's question (DID-matlab +migrators_j/session.m).
-BASELINE = 17
+# 17 -> 18 (2026-10-01, jess): `subject.name`, the same case as `session.name`:
+# `subject` is a did_v1 class, so no hand override; V_eta-SHADOW. For a MIGRATED
+# subject the name stays where did_v1 put it (base.name, or nowhere); the element
+# migrator's subject label is a separate concern (`local_identifier`).
+BASELINE = 18
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"

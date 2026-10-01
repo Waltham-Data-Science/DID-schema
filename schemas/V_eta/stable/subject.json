@@ -44,6 +44,21 @@
             "constraints": {
                 "maxLength": 1024
             }
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the subject's display name, for people (e.g. 'Assay Plate 0011', 'Axio Zoom.V16'). Need not be unique; `local_identifier` stays the stable handle code and cross-references use.",
+            "constraints": {
+                "maxLength": 256
+            }
         }
     ]
 }

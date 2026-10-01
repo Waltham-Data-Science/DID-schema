@@ -9689,6 +9689,82 @@ def _session_name(d):
 
 _patch("session", _session_name)
 
+
+# --- an epoch may carry its UTC extent (2026-10-01, jess; not signed) -----------------
+# `epoch.time_reference_#` named only `relative_time_reference`. Nothing recorded
+# chose that: it followed from keying the family on `value.clock` (#52), which only a
+# relative reference has. But `utc` is one of the four clocks, and a UTC extent can
+# only be stated relative to a referent with a known start -- the session has none
+# recorded -- so an epoch whose start is known in wall-clock time (a video's
+# `timeRecord`, a microscope image's `acquisitionTime`; NDI-matlab
+# +ndi/+setup/+conv/+haley/import_V2_decisions.md #35) had nowhere to say it.
+# An `absolute_time_reference` IS on the utc clock, so the #52 rule reads it as
+# clock `utc`: at most one per epoch, and not beside a relative reference on `utc`.
+_EPOCH_UTC_DOC = (
+    " An `absolute_time_reference` member gives the epoch's extent in wall-clock "
+    "time; for the #52 rule it is the `utc` member, so an epoch carries at most one, "
+    "and never alongside a relative reference whose `value.clock` is `utc`.")
+
+
+def _epoch_takes_absolute(d):
+    hits = [e for e in d["depends_on"]
+            if e["name"] in ("time_reference_#", "time_reference_id")]
+    if len(hits) != 1:
+        raise SystemExit("epoch: expected one time_reference edge, found %d" % len(hits))
+    e = hits[0]
+    if e.get("must_refer_to_document_class") != "relative_time_reference":
+        raise SystemExit("epoch time_reference edge no longer names only "
+                         "relative_time_reference; revisit this patch")
+    # The parent class, as `subject_interaction` and `directed_relation` name it:
+    # both subclasses, and any later one, without restating the list.
+    e["must_refer_to_document_class"] = "time_reference"
+    e["documentation"] = e["documentation"].rstrip() + _EPOCH_UTC_DOC
+
+
+_patch("epoch", _epoch_takes_absolute)
+
+
+# --- a session may say when it took place (2026-10-01, jess; not signed) --------------
+# The session is the referent of most relative times in V_eta (epochMint anchors
+# epoch extents to it; the migrated "during the session" anchors point at it), yet
+# nothing placed the session itself in time. An optional edge to a time reference --
+# normally an `absolute_time_reference` (start, and duration when known) -- lets every
+# session-relative time be placed in UTC, and makes "sessions in a date range" a query
+# rather than a search of `name` text. Optional: migrated sessions carry no times.
+def _session_time(d):
+    if any(e["name"] == "time_reference_id" for e in d["depends_on"]):
+        raise SystemExit("session already declares time_reference_id")
+    d["depends_on"].append(dep(
+        "time_reference_id", "time_reference",
+        "Optional: when the session took place, normally an "
+        "`absolute_time_reference` (its start in UTC, and its duration when known). "
+        "The session is the referent of most relative times, so this places them "
+        "in wall-clock time.", non_empty=False))
+
+
+_patch("session", _session_time)
+
+
+# --- `subject.name` (2026-10-01, jess; not signed) --------------------------------------
+# A display name beside the stable handle, as `session.name` (#79): `local_identifier`
+# is what code and cross-references use (spaceless, e.g. `concentration_assayPlate0011`),
+# `name` is what a person reads ("Assay Plate 0011", "Axio Zoom.V16"). Unlike the
+# handle it may carry spaces and be corrected freely: nothing refers to a subject by
+# name, and it need not be unique. Most other entities already declare a name
+# (organization, person, software, study, dataset ...); `subject` was the gap.
+def _subject_name(d):
+    if any(f["name"] == "name" for f in d["fields"]):
+        raise SystemExit("subject already declares name")
+    d["fields"].append(field(
+        "name", "char",
+        "Optional: the subject's display name, for people (e.g. 'Assay Plate 0011', "
+        "'Axio Zoom.V16'). Need not be unique; `local_identifier` stays the stable "
+        "handle code and cross-references use.",
+        non_empty=False, constraints={"maxLength": 256}))
+
+
+_patch("subject", _subject_name)
+
 # --- lightsheet L1-L3 (walkthrough 2026-09-25, review/73/OPEN_ITEMS.md; NOT signed) --
 # Prompted by NDI-matlab PR #979 (lightsheetZarrPyramid / lightsheetZarrLevel).
 # The two body classes now split by WHO LAYS OUT THE BYTES, not by "has an array":
