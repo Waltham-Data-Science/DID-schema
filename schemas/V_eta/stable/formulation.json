@@ -62,7 +62,8 @@
                                 "grams": 0.0,
                                 "source_unit": "",
                                 "source_value": 0.0,
-                                "approximate": false
+                                "approximate": false,
+                                "tolerance": {}
                             },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
@@ -123,6 +124,51 @@
                                     "ontology": null,
                                     "documentation": "True when the value is approximate.",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "tolerance",
+                                    "type": "structure",
+                                    "blank_value": {},
+                                    "default_value": {},
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (grams). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "minus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (grams) (for a time: how much EARLIER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        },
+                                        {
+                                            "name": "plus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (grams) (for a time: how much LATER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -134,7 +180,8 @@
                                 "liters": 0.0,
                                 "source_unit": "",
                                 "source_value": 0.0,
-                                "approximate": false
+                                "approximate": false,
+                                "tolerance": {}
                             },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
@@ -195,6 +242,51 @@
                                     "ontology": null,
                                     "documentation": "True when the value is approximate.",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "tolerance",
+                                    "type": "structure",
+                                    "blank_value": {},
+                                    "default_value": {},
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (liters). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "minus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (liters) (for a time: how much EARLIER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        },
+                                        {
+                                            "name": "plus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (liters) (for a time: how much LATER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -206,7 +298,8 @@
                                 "moles": 0.0,
                                 "source_unit": "",
                                 "source_value": 0.0,
-                                "approximate": false
+                                "approximate": false,
+                                "tolerance": {}
                             },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
@@ -267,6 +360,51 @@
                                     "ontology": null,
                                     "documentation": "True when the value is approximate.",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "tolerance",
+                                    "type": "structure",
+                                    "blank_value": {},
+                                    "default_value": {},
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (moles). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "minus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (moles) (for a time: how much EARLIER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        },
+                                        {
+                                            "name": "plus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (moles) (for a time: how much LATER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -327,7 +465,8 @@
                                 "osmolar": 0.0,
                                 "source_unit": "",
                                 "source_value": 0.0,
-                                "approximate": false
+                                "approximate": false,
+                                "tolerance": {}
                             },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
@@ -453,6 +592,51 @@
                                     "ontology": null,
                                     "documentation": "True when the value is approximate.",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "tolerance",
+                                    "type": "structure",
+                                    "blank_value": {},
+                                    "default_value": {},
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the unit of the canonical slot that is filled. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "minus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far BELOW the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much EARLIER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        },
+                                        {
+                                            "name": "plus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far ABOVE the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much LATER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -466,7 +650,8 @@
                         "ph": 0.0,
                         "source_unit": "",
                         "source_value": 0.0,
-                        "approximate": false
+                        "approximate": false,
+                        "tolerance": {}
                     },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
@@ -527,6 +712,51 @@
                             "ontology": null,
                             "documentation": "True when the value is approximate.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (ph). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (ph) (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (ph) (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },
@@ -543,7 +773,8 @@
                         "osmolar": 0.0,
                         "source_unit": "",
                         "source_value": 0.0,
-                        "approximate": false
+                        "approximate": false,
+                        "tolerance": {}
                     },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
@@ -669,6 +900,51 @@
                             "ontology": null,
                             "documentation": "True when the value is approximate.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the unit of the canonical slot that is filled. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }

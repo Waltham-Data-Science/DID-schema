@@ -129,6 +129,36 @@ def subfield(name, ftype, doc, *, non_empty=False, scalar=True, blank=None,
     return obj
 
 
+def tolerance_subfield(unit):
+    """`tolerance {minus, plus}` -- CHANGE 7 of the time reference plan (2026-10-02).
+
+    A BOUND, not a statistic: the true value lies between `value - minus` and
+    `value + plus`, both non-negative, in the cell's canonical unit (`unit`).
+    Asymmetric because the cases that prompted it are one-sided: a clock time read
+    off and written down to the minute is +0 / +59 s; a transfer time read off the
+    video that followed it is -5 min / +0. Symmetric is just minus == plus.
+    ABSENT = no tolerance stated (the value may still be `approximate`);
+    {minus: 0, plus: 0} = stated to be exact as given. A standard deviation or SEM
+    is NOT a tolerance -- spread over many measurements belongs to a calculation.
+    """
+    return subfield(
+        "tolerance", "structure",
+        f"The bound on this value: the true value lies between `value - minus` and "
+        f"`value + plus`, in {unit}. Asymmetric when the uncertainty is one-sided "
+        f"(a clock time written to the minute is minus 0 / plus 59 s). ABSENT means "
+        f"no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+        sub_fields=[
+            subfield("minus", "double",
+                     f"How far BELOW the stated value the true value may lie, in {unit} "
+                     f"(for a time: how much EARLIER). Non-negative.",
+                     constraints={"minimum": 0}),
+            subfield("plus", "double",
+                     f"How far ABOVE the stated value the true value may lie, in {unit} "
+                     f"(for a time: how much LATER). Non-negative.",
+                     constraints={"minimum": 0}),
+        ])
+
+
 def field(name, ftype, doc, *, non_empty=False, scalar=True, queryable=True,
           blank=None, default=None, constraints=None, ontology=None, sub_fields=None):
     if blank is None:
@@ -2560,6 +2590,7 @@ _ABSOLUTE_REFERENCE_SUBS = [
                           "TRUE when the ANCHOR is imprecise. Distinct from "
                           "`duration.approximate` (the EXTENT) and from "
                           "`time_reference.clock_tolerance` (the TIMELINE)."),
+                 tolerance_subfield("seconds"),
              ]),
     subfield("duration", "time",
              "The EXTENT, measured from `start`. ABSENT (with `end` absent) means an "
@@ -2597,6 +2628,7 @@ _ABSOLUTE_REFERENCE_SUBS = [
                  subfield("approximate", "boolean",
                           "TRUE when the END is imprecise. Distinct from "
                           "`start.approximate` and `duration.approximate`."),
+                 tolerance_subfield("seconds"),
              ]),
 ]
 
@@ -2633,7 +2665,7 @@ _RELATIVE_REFERENCE_SUBS = [
 ]
 
 write("stable", "absolute_time_reference",
-      doc("absolute_time_reference", ["time_reference"], version="3.0.0", fields=[
+      doc("absolute_time_reference", ["time_reference"], version="3.1.0", fields=[
           field("value", "structure",
                 "A wall-clock instant or interval. Carries NO dependency: it is "
                 "interpretable on its own, which is what distinguishes it from "
@@ -2642,7 +2674,7 @@ write("stable", "absolute_time_reference",
                 non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
 
 write("stable", "relative_time_reference",
-      doc("relative_time_reference", ["time_reference"], version="2.1.0",
+      doc("relative_time_reference", ["time_reference"], version="2.2.0",
           deps=[dep("relative_to", "base",
                     "What the time is measured against -- an epoch, a session, an "
                     "interaction, another reference. REQUIRED (team call): a relative "
@@ -11101,6 +11133,10 @@ def _named_type_subfields(tname):
             subfield("source_value", "double",
                      "The number as given by the source, in `source_unit`."),
             subfield("approximate", "boolean", "True when the value is approximate."),
+            # CHANGE 7 (time reference plan, 2026-10-02): every dimensioned cell may
+            # state a bound, in its canonical unit.
+            tolerance_subfield(f"the canonical unit ({canon[0]})" if not multi
+                               else "the unit of the canonical slot that is filled"),
         ]
         return subs
     return None

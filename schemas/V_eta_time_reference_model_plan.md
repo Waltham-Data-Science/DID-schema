@@ -795,3 +795,46 @@ lets a reference state exactly what is known: an exact span, an exact end, or bo
 `+build/private/checkRules.m`; the Haley import's assay window (start ~T, end exact).
 
 TEAM-SIGN-OFF [time_reference end]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 6 is agreed: absolute_time_reference and relative_time_reference each gain `end` beside `duration` (absolute's absorbs `source_end`), with start, duration and end each carrying their own `approximate`; rule end_consistent (an end needs a start, is not before it, and agrees with duration to 1 ms when both are given). This amends the 2026-08-08 "start + duration, NOT start + end" line: duration stays, end is added.
+
+## 2026-10-02 — CHANGE 7: `tolerance { minus, plus }` on every dimensioned value (jess; built, awaiting sign-off)
+
+**The gap.** `approximate` is a boolean: it says a value is imprecise, not by how much or in
+which direction. The Haley import has three different imprecisions that all read
+`approximate: true`: a clock time written down to the minute, a transfer time T that is
+known only to fall BEFORE the video it was read off, and a video time good to the second.
+`clock_tolerance` (CHANGE 4) carries a magnitude but applies to a whole reference, so it
+cannot say "this start is good to a minute, this end is exact".
+
+**The change.** Every dimensioned cell (the `_DIM_CANON` family: mass, length, volume,
+time, temperature, pressure, voltage, current, frequency, angle, concentration,
+substance_amount, ...) and both instants of `absolute_time_reference` (`start`, `end`) gain
+
+| field | type | meaning |
+|---|---|---|
+| `tolerance.minus` | double, ≥ 0 | how far BELOW the stated value the true value may lie (for a time: EARLIER) |
+| `tolerance.plus` | double, ≥ 0 | how far ABOVE it (for a time: LATER) |
+
+in the cell's canonical unit (seconds for times). The true value lies in
+`[value − minus, value + plus]`.
+
+- **A BOUND, not a statistic.** A standard deviation or SEM describes many measurements and
+  belongs to a calculation, not to the value cell.
+- **Asymmetric** because the cases are one-sided: T read off the video that followed the
+  transfer is `{minus: 300, plus: 0}`; symmetric is `minus == plus`.
+- **Absent = none stated.** `{minus: 0, plus: 0}` = stated exact as given. Optional
+  everywhere, so no existing document changes.
+- `approximate` stays as the plain yes/no; a tolerance refines it.
+- **Not added** to `count`, `score` (scale-relative), `ontology_term`, or structured
+  composites (tuning curves, fits, positions, images), which carry their own uncertainty or
+  have no ± meaning.
+- Source resolution is also preserved in `source_value` (e.g. `2023-11-03T07:53` for a time
+  written to the minute) -- an emitter convention, no schema change.
+
+**Versions:** `absolute_time_reference` 3.1.0, `relative_time_reference` 2.2.0.
+
+**First use (Haley import, decision #52/#53):** T `{minus: min(300 s, lawn-clip end → first
+video), plus: 0}` on lawn-first plates and `{minus: 300, plus: 0}` worms first; pick and
+food-deprivation times (read off a clock, possibly analog) `{minus: 60, plus: 60}`; video
+times exact (no tolerance).
+
+TEAM-SIGN-OFF [time_reference tolerance]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 7 is agreed: every dimensioned value cell and absolute_time_reference start/end gain an optional `tolerance {minus, plus}`, both >= 0 in the canonical unit (seconds for times), the true value lying in [value - minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not a statistic; absent means none stated, {0, 0} means exact as given; `approximate` stays as the yes/no.
