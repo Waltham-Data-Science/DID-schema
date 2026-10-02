@@ -2562,17 +2562,42 @@ _ABSOLUTE_REFERENCE_SUBS = [
                           "`time_reference.clock_tolerance` (the TIMELINE)."),
              ]),
     subfield("duration", "time",
-             "The EXTENT, measured from `start`. ABSENT means an INSTANT, not an "
-             "interval. CHANGE 1: this replaces `end_utc`, so 'started around 09:00, ran "
-             "exactly 60 minutes' is expressible -- with two instants both inherit the "
-             "anchor's fuzziness and the exactness of the span is lost."),
-    subfield("source_end", "char",
-             "The end instant verbatim, when the source expressed the interval as TWO "
-             "INSTANTS. NOT renamed `source_duration`: the source wrote an end instant, "
-             "not a quantity of time, and filing it in a duration's source slot would "
-             "label it as something it is not (the distance_metadata assumed-shape error). "
-             "`end` is exactly recoverable as start + duration, so what this preserves is "
-             "the SOURCE'S SHAPE, not one of our fields."),
+             "The EXTENT, measured from `start`. ABSENT (with `end` absent) means an "
+             "INSTANT, not an interval. CHANGE 1: 'started around 09:00, ran exactly 60 "
+             "minutes' is expressible -- with two instants alone both would inherit the "
+             "anchor's fuzziness and the exactness of the span would be lost."),
+    # ADDED 2026-10-02 (time reference plan, CHANGE 6): `end` beside `duration`,
+    # each with its own precision. CHANGE 1 made the EXTENT a fact separate from
+    # the ANCHOR ("around 09:00, exactly 60 minutes"); the reverse -- an
+    # imprecise start with an exactly known end, e.g. worms moved onto a plate a
+    # few minutes before a recording whose end is exact -- needs the END as a
+    # fact of its own. `end` ABSORBS `source_end`: the verbatim end string is
+    # `end.source_value` (no emitter ever wrote `source_end`; the builder's
+    # 'SourceEnd' option now fills it). Rule end_consistent: an end needs a
+    # start, is not before it, and agrees with `duration` when both are given.
+    subfield("end", "structure",
+             "The END: the wall-clock instant the interval ends, as a fact of its own "
+             "with its own precision (CHANGE 6) -- so an approximate start and an exact "
+             "end are both expressible. Optional: an interval may give `duration`, "
+             "`end`, or both; with both they must agree (end = start + duration; rule "
+             "end_consistent). Absorbs the former `source_end`: the end as the source "
+             "wrote it is `end.source_value`.",
+             sub_fields=[
+                 subfield("utc", "timestamp",
+                          "Canonical UTC instant -- the normalised, cross-document "
+                          "comparable value."),
+                 subfield("source_value", "char",
+                          "The end exactly as the source wrote it, before "
+                          "normalisation (formerly `source_end`)."),
+                 subfield("source_timezone", "char",
+                          "IANA time zone name as the source gave it."),
+                 subfield("source_utc_offset", "char",
+                          "UTC offset as the source gave it, when only an offset was "
+                          "available and no zone name."),
+                 subfield("approximate", "boolean",
+                          "TRUE when the END is imprecise. Distinct from "
+                          "`start.approximate` and `duration.approximate`."),
+             ]),
 ]
 
 _RELATIVE_REFERENCE_SUBS = [
@@ -2596,22 +2621,28 @@ _RELATIVE_REFERENCE_SUBS = [
              "107,308 'during the session' anchors, and is why no value-level "
              "`approximate` flag is needed to say 'we do not know exactly when'."),
     subfield("duration", "time",
-             "The EXTENT, measured from `start`. ABSENT means an INSTANT. CHANGE 1: this "
-             "replaces `end`, so an approximate anchor and an exact span are separately "
+             "The EXTENT, measured from `start`. ABSENT (with `end` absent) means an "
+             "INSTANT. CHANGE 1: an approximate anchor and an exact span are separately "
              "expressible."),
+    subfield("end", "time",
+             "The END: offset of the end from the referent named by `referent_id`, on "
+             "the named clock, as a fact of its own with its own precision (CHANGE 6) "
+             "-- so an approximate start and an exact end are both expressible. "
+             "Optional: give `duration`, `end`, or both; with both they must agree "
+             "(end = start + duration; rule end_consistent)."),
 ]
 
 write("stable", "absolute_time_reference",
-      doc("absolute_time_reference", ["time_reference"], version="2.0.0", fields=[
+      doc("absolute_time_reference", ["time_reference"], version="3.0.0", fields=[
           field("value", "structure",
                 "A wall-clock instant or interval. Carries NO dependency: it is "
                 "interpretable on its own, which is what distinguishes it from "
-                "relative_time_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
-                "separate facts with separate precisions.",
+                "relative_time_reference. ANCHOR (`start`), EXTENT (`duration`) and END "
+                "(`end`) are separate facts with separate precisions.",
                 non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
 
 write("stable", "relative_time_reference",
-      doc("relative_time_reference", ["time_reference"], version="2.0.0",
+      doc("relative_time_reference", ["time_reference"], version="2.1.0",
           deps=[dep("relative_to", "base",
                     "What the time is measured against -- an epoch, a session, an "
                     "interaction, another reference. REQUIRED (team call): a relative "
@@ -10408,10 +10439,18 @@ _A2_RULES = {
                       "numeric or text array, or `data_body` true."},
     ],
     "relative_time_reference": [
-        {"name": "clock_with_start", "fields": ["value.start", "value.clock"],
-         "statement": "`value.clock` is present whenever `value.start` is present (an "
-                      "offset means nothing until its clock is named, and the "
+        {"name": "clock_with_start", "fields": ["value.start", "value.end", "value.clock"],
+         "statement": "`value.clock` is present whenever `value.start` or `value.end` is "
+                      "present (an offset means nothing until its clock is named, and the "
                       "time_reference families are unique by clock)."},
+        {"name": "end_consistent", "fields": ["value.start", "value.duration", "value.end"],
+         "statement": "`value.end` needs `value.start`, is not before it, and when "
+                      "`value.duration` is also given they agree: end = start + duration."},
+    ],
+    "absolute_time_reference": [
+        {"name": "end_consistent", "fields": ["value.start", "value.duration", "value.end"],
+         "statement": "`value.end` needs `value.start`, is not before it, and when "
+                      "`value.duration` is also given they agree: end = start + duration."},
     ],
     "formulation": [
         {"name": "ingredients_or_product", "fields": ["value.ingredients", "product_id"],

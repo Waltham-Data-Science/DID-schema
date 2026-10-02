@@ -760,3 +760,36 @@ say so.
   item #41), `dataset` / `publication` (their dates are publication metadata).
 
 TEAM-SIGN-OFF [epoch and session wall-clock time]: jess@walthamdatascience.com / 2026-10-01 -- epoch.time_reference_id names time_reference (an absolute_time_reference member is the epoch's utc member, at most one); session gains an optional time_reference_id -> time_reference.
+
+## 2026-10-02 — CHANGE 6: `end` beside `duration` (jess; built, awaiting sign-off)
+
+**The case.** In the Haley import a worm is on its assay plate from the transfer T to
+the end of filming. T is not recorded and is approximate (a few minutes before the
+recording); the end of filming is exact (the end of a video). CHANGE 1 made the EXTENT a
+fact separate from the ANCHOR so that "around 09:00, exactly 60 minutes" is expressible.
+The reverse -- an approximate start with an exactly known END -- was not: with `start` +
+`duration` an approximate start makes the extent approximate, and the end, which is only
+start + duration, inherits it. The exact end had to live elsewhere (on the epochs).
+
+**The change, on both time references.**
+
+| class | added | removed |
+|---|---|---|
+| `absolute_time_reference` (3.0.0) | `value.end` {`utc`, `source_value`, `source_timezone`, `source_utc_offset`, `approximate`} -- an instant shaped like `start` | `value.source_end` (absorbed: the verbatim end is `end.source_value`) |
+| `relative_time_reference` (2.1.0) | `value.end` {`seconds`, `source_unit`, `source_value`, `approximate`} -- an offset from the referent on the named clock | -- |
+
+- `start`, `duration` and `end` each carry their own `approximate`; none restates another.
+- An interval may give `duration`, `end`, or both. Rule `end_consistent` (both classes):
+  an end needs a start, is not before it, and agrees with `duration` when both are given
+  (end = start + duration). Rule `clock_with_start` (relative) now also covers `end`.
+- `source_end` had no emitter (`jAbsoluteReference.m` documents it but never writes it);
+  the builder's `'SourceEnd'` option now fills `end.source_value`, so callers are unchanged.
+
+**Why not only `end` (back to start + end)?** That would lose CHANGE 1's case: "around
+09:00, exactly 60 minutes" needs an exact extent with an approximate anchor. Keeping both
+lets a reference state exactly what is known: an exact span, an exact end, or both.
+
+**Built:** did-schema `tools/build_v_eta.py` (both classes, the two rules); DID-matlab
+`did2.build.absoluteTimeReference` / `relativeTimeReference` ('End', 'EndApproximate',
+'EndSourceValue', ...; 'SourceEnd' kept) and the `end_consistent` check in
+`+build/private/checkRules.m`; the Haley import's assay window (start ~T, end exact).

@@ -167,7 +167,12 @@ def test_change_1_end_is_gone_and_duration_is_the_extent():
         value = _field(d, "value")
         subs = _subnames(value)
         assert "duration" in subs, (name, subs)
-        assert "end" not in subs, (name, subs)
+        # CHANGE 6 (2026-10-02) brings `end` back BESIDE `duration`, not instead of
+        # it: each is its own fact with its own precision, so CHANGE 1's case
+        # (approximate anchor, exact extent) and its reverse (approximate anchor,
+        # exact end) are both expressible.
+        assert "end" in subs, (name, subs)
+        assert subs.index("end") > subs.index("duration"), (name, subs)
         assert "end_utc" not in subs, (name, subs)
         # the extent is a `time` cell, so canonical seconds + source provenance
         # come for free. The FIELD is still named `duration` and the TYPE is now
@@ -274,7 +279,7 @@ def test_absolute_reference_anchor_is_a_cell_carrying_its_own_provenance():
     exactly as every dimensioned value does (T14)."""
     _t, d = BUILT["absolute_time_reference"]
     value = _field(d, "value")
-    assert _subnames(value) == ["start", "duration", "source_end"], _subnames(value)
+    assert _subnames(value) == ["start", "duration", "end"], _subnames(value)
     start = _sub(value, "start")
     assert _subnames(start) == [
         "utc", "source_value", "source_timezone", "source_utc_offset",
@@ -289,13 +294,33 @@ def test_absolute_reference_anchor_is_a_cell_carrying_its_own_provenance():
 def test_source_end_is_not_renamed_source_duration():
     """The source wrote an END INSTANT, not a quantity of time. Filing that
     string in a duration's source slot would label it as something it is not --
-    the distance_metadata assumed-shape error. It stays at value level, as
-    provenance of the SOURCE'S SHAPE rather than of one of our fields."""
+    the distance_metadata assumed-shape error. Since CHANGE 6 (2026-10-02) it
+    lives in the END cell, `end.source_value`, beside the end's canonical `utc`:
+    still the source's end, never a duration."""
     _t, d = BUILT["absolute_time_reference"]
     value = _field(d, "value")
-    assert _sub(value, "source_end")["type"] == "char"
+    assert "source_end" not in _subnames(value)
+    end = _sub(value, "end")
+    assert _subnames(end) == [
+        "utc", "source_value", "source_timezone", "source_utc_offset",
+        "approximate"], _subnames(end)
+    assert _sub(end, "source_value")["type"] == "char"
     assert "source_duration" not in _subnames(value)
     assert "source_duration" not in _subnames(_sub(value, "duration"))
+
+
+def test_end_is_checked_against_start_and_duration():
+    """CHANGE 6: rule end_consistent on both classes (DID-matlab checks it by
+    name), and the relative clock rule now covers an end offset too."""
+    for name in TARGETS:
+        _t, d = BUILT[name]
+        rules = {r["name"]: r for r in d.get("rules", [])}
+        assert "end_consistent" in rules, (name, list(rules))
+        assert set(rules["end_consistent"]["fields"]) == \
+            {"value.start", "value.duration", "value.end"}
+    _t, d = BUILT["relative_time_reference"]
+    rules = {r["name"]: r for r in d["rules"]}
+    assert "value.end" in rules["clock_with_start"]["fields"]
 
 
 # ------------------------------------------------- relative_time_reference's shape
@@ -318,8 +343,9 @@ def test_relative_to_is_required_and_says_it_cannot_be_filled_in_pass_one():
 
 def test_relative_reference_value_is_exactly_the_signed_four():
     _t, d = BUILT["relative_time_reference"]
+    # the signed four, plus CHANGE 6's `end` (2026-10-02)
     assert _subnames(_field(d, "value")) == \
-        ["relation", "clock", "start", "duration"]
+        ["relation", "clock", "start", "duration", "end"]
 
 
 def test_relation_still_binds_all_thirteen_allen_relations():
