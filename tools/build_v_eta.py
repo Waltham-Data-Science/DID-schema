@@ -1031,6 +1031,10 @@ DATE_VALUE = field(
                  "True when the date is uncertain (a guess or an estimate). Independent "
                  "of `precision`, which says how much of the date was stated.",
                  blank=False),
+        # CHANGE 7 amendment (2026-10-02): a date's bound, in SECONDS like every other
+        # instant ("around the 3rd, give or take two days" = 172800 / 172800).
+        # `precision` stays the granularity of what was stated; this is the bound.
+        tolerance_subfield("seconds"),
     ])
 # `date` — the ③ composite for a real date (walkthrough finding B, same as `term`).
 write("stable", "date",
@@ -2850,7 +2854,11 @@ write("stable", "dose",
                                subfield("source_value", "double",
                                         "The number as given, in `source_unit`."),
                                subfield("approximate", "boolean",
-                                        "True when the value is approximate.")])])]))
+                                        "True when the value is approximate."),
+                               # CHANGE 7: a dimensioned cell built by hand, so the
+                               # _DIM_CANON pass did not reach it.
+                               tolerance_subfield("the unit of the canonical slot "
+                                                  "that is filled")])])]))
 
 # data-type-named manipulation leaves
 write("stable", "dose_manipulation",
@@ -11072,6 +11080,8 @@ _DIM_SPECIAL = {
         subfield("count", "integer",
                  "The discrete count. What is counted is the statement's `variable`."),
         subfield("approximate", "boolean", "True when the count is approximate."),
+        # CHANGE 7 amendment: "about 50 worms, give or take 5" -- in counts.
+        tolerance_subfield("counts"),
     ],
     "score": [
         subfield("score", "double",
@@ -11091,6 +11101,9 @@ _DIM_SPECIAL = {
         subfield("source_value", "double",
                  "The number as the source gave it, in `source_unit`."),
         subfield("approximate", "boolean", "True when the score is approximate."),
+        # CHANGE 7 amendment: a bound in the score's own `scale` (a contrast of 0.5
+        # known to +/- 0.05).
+        tolerance_subfield("the score's `scale`"),
     ],
     "ontology_term": [
         subfield("node", "char", "The CURIE (prefix resolved via CURIE_lookups_meta.json)."),

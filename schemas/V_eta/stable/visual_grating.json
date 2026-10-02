@@ -393,7 +393,8 @@
                         "scale_max": 0.0,
                         "source_unit": "",
                         "source_value": 0.0,
-                        "approximate": false
+                        "approximate": false,
+                        "tolerance": {}
                     },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
@@ -527,6 +528,51 @@
                             "ontology": null,
                             "documentation": "True when the score is approximate.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the score's `scale`. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the score's `scale` (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the score's `scale` (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },
