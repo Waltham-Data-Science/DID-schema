@@ -149,7 +149,7 @@
             "parent_role": "the container",
             "child_types": [],
             "parent_types": [],
-            "timed": false,
+            "timed": true,
             "ordered": false
         },
         {

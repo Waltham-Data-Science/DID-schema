@@ -41,3 +41,13 @@ TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.name as a display name 
   "Axio Zoom.V16"), may carry spaces, need not be unique, and can be corrected
   without breaking anything, because nothing refers to a subject by name.
 TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional subject.name as a display name beside local_identifier
+
+## `contained_in` is timed (did-schema PR #84)
+
+- The relation registry marked `contained_in` `timed: false`, so a
+  `contained_in` edge was not declared to carry a `time_reference`. The Haley
+  import's stage 6 (NDI-matlab decision #52) gives every one a window: a worm is
+  on its acclimation plate, then its food deprivation plate, then its assay
+  plate, each from one transfer to the next. The flag now says `timed: true`,
+  like `member_of`, `derived_from` and `sample_of`. Nothing enforced the flag,
+  so no document changes; the registry now says what the documents do.

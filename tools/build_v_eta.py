@@ -8034,8 +8034,11 @@ RELATION_VOCABULARY = [
     # study. See the `study` class below.
     _rel("part_of", "BFO:0000050", "the part", "the whole",
          ["subject", "session", "study"], ["subject", "dataset", "study"]),
+    # timed since 2026-10-02 (V_eta_study_plan.md, "contained_in is timed"): a
+    # container holds its contents for a while -- a worm is on each plate in turn,
+    # and the Haley import gives every contained_in edge that window.
     _rel("contained_in", "RO:0001018", "the contained", "the container",
-         [], []),
+         [], [], timed=True),
     # is_group was removed from subject, so a group IS just a subject with members.
     #
     # timed + ordered, BOTH SET 2026-08-10 (team delegated the call after the
