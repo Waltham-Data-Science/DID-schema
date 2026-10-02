@@ -793,3 +793,5 @@ lets a reference state exactly what is known: an exact span, an exact end, or bo
 `did2.build.absoluteTimeReference` / `relativeTimeReference` ('End', 'EndApproximate',
 'EndSourceValue', ...; 'SourceEnd' kept) and the `end_consistent` check in
 `+build/private/checkRules.m`; the Haley import's assay window (start ~T, end exact).
+
+TEAM-SIGN-OFF [time_reference end]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 6 is agreed: absolute_time_reference and relative_time_reference each gain `end` beside `duration` (absolute's absorbs `source_end`), with start, duration and end each carrying their own `approximate`; rule end_consistent (an end needs a start, is not before it, and agrees with duration to 1 ms when both are given). This amends the 2026-08-08 "start + duration, NOT start + end" line: duration stays, end is added.
