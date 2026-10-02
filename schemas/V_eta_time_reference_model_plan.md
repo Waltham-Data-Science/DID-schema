@@ -857,3 +857,5 @@ whole axis key or condition descriptor, not a value, so a bound would mean somet
 new value cell arrives without a tolerance or a key/condition gains one without a decision.
 
 After the amendment: **66 of 70 carry a tolerance; the 4 without are exactly group 4.**
+
+TEAM-SIGN-OFF [time_reference tolerance amendment 1]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 7 amendment 1 is agreed: `tolerance {minus, plus}` also goes on dose.value.amount_per_body_mass (in the canonical slot filled), on every count cell (in counts) and score cell (in the score's scale, incl. visual_grating contrast), and on date.value (in seconds, beside `precision`); axis keys and condition descriptors (acquisition_epoch.keys, data.keys, data_body.conditions, subject_statement.conditions) stay without one.
