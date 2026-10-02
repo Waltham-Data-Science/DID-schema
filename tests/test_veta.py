@@ -174,9 +174,15 @@ def test_subject_is_bare_identity():
 
     `name` (2026-10-01, did-schema PR #80) is a display name beside the handle,
     as on `session`: identity, not a property, so it does not reopen the flags.
+
+    `type` (2026-10-02, V_eta_study_plan.md) DOES reopen one of them, on purpose
+    and recorded as a reversal of migration plan A.2 for the COARSE kind only:
+    organism | culture | tissue | cell | group | device | material. `group` is
+    the old `is_group`, now checkable against `member_of`; the finer kind stays
+    a term_assertion (tests/test_veta_subject_type.py).
     """
     fields = {f["name"] for f in RECORDS["subject"][1]["fields"]}
-    assert fields == {"local_identifier", "description", "name"}, fields
+    assert fields == {"local_identifier", "description", "name", "type"}, fields
     assert RECORDS["subject"][1]["document_class"]["class_version"] == "3.0.0"
     assert RECORDS["subject"][1]["depends_on"] == []
 
@@ -3852,7 +3858,9 @@ def test_value_descriptors_live_with_the_value():
     assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
     assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["subject_statement"][1]
-    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions"}
+    # `distributive` (2026-10-02): whether a statement about a group holds of each
+    # member -- a fact about the claim, not a value descriptor, so it stays here.
+    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions", "distributive"}
     assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name

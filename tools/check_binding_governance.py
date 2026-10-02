@@ -179,7 +179,9 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # node_form-only binding in the registry is a separate question, open for all four.
 # 17 -> 18 (2026-09-30, jess): `directed_relation.roles`, bound inline to the CRediT
 # roles + `corresponding author` (the same inline_set shape as channels.type).
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 18
+# 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
+# subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 19
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and

@@ -10433,6 +10433,63 @@ _d["fields"].append(field(
 write(_t, "directed_relation", _d)
 
 
+# --- `subject.type` (2026-10-02, jess; not signed; V_eta_study_plan.md) ---------------
+# What kind of thing a subject is, at the coarsest level, as a field. This REVERSES, for
+# the coarse kind only, V_eta_migration_plan.md A.2's "kind is a bound term_assertion,
+# not a field": the subject-defining assertions (species, cell type, instrument type,
+# material type) cannot tell an organism from a tissue, a culture or a cell of the same
+# species -- a worm and the bacterial lawn it forages on both just carry a species --
+# and A.2's "presence is an ingestion-layer invariant" was never built. Fine kind
+# (species, strain, cell type, ...) stays an assertion, added as it becomes known.
+# `group` brings back the removed `is_group`, but checkably: a group's members are
+# subjects with a `member_of` edge to it, and only a group has them (a BATCH rule,
+# like the time-reference family rule). A mass whose members are never subjects (a
+# bacterial lawn, a cell culture) is a `culture`, not a group. Named `type` after
+# `acquisition_channels.channels.type` (bound the same way, #73 audit 2 D5); on
+# `subject`, `subject_type` would repeat the class.
+_SUBJECT_TYPES = ("organism", "culture", "tissue", "cell", "group", "device",
+                  "material")
+_t, _d = _a2_load("subject")
+if any(f["name"] == "type" for f in _d["fields"]):
+    raise SystemExit("subject already declares type")
+_d["fields"].append(field(
+    "type", "ontology_term",
+    "Optional: what kind of thing this subject is, at the coarsest level -- organism "
+    "(one whole living individual) | culture (a mass grown as one, whose members are "
+    "never subjects: a bacterial lawn, a cell culture) | tissue (part of an organism: "
+    "a slice, a biopsy, a region) | cell (one cell) | group (a subject whose members "
+    "are subjects, by `member_of`: a cohort, an ensemble; only a group has members) | "
+    "device (an instrument) | material (a non-living object or substance: an agar "
+    "plate). Known when the subject is made; the finer kind (species, strain, cell "
+    "type, instrument type) is a `term_assertion`. Bound, required.",
+    non_empty=False,
+    constraints=_a2_term_binding("did_subject_type", _SUBJECT_TYPES,
+                                 strength="required")))
+write(_t, "subject", _d)
+
+
+# --- `distributive` (2026-10-02, jess; not signed; V_eta_study_plan.md) ---------------
+# A statement or relation about a GROUP is either about each member (the cohort was
+# moved to plate 11: each worm was) or about the group as a whole (the cohort had 12
+# worms: no worm did). Absent means the literal reading -- it is about its subject --
+# so nothing is applied to every member unless it says so.
+_DISTRIBUTIVE_DOC = (
+    "Optional; meaningful only when the subject is a group (`subject.type` group). True: "
+    "this holds of EACH member, as well as of the group (a cohort moved to a plate: each "
+    "worm was moved). Absent or false: it holds of the group as a whole and of no member "
+    "by implication (a cohort's size).")
+for _name, _where in (("subject_statement", "statement"), ("directed_relation",
+                                                           "relation")):
+    _t, _d = _a2_load(_name)
+    if any(f["name"] == "distributive" for f in _d["fields"]):
+        raise SystemExit(f"{_name} already declares distributive")
+    _d["fields"].append(field("distributive", "boolean",
+                              _DISTRIBUTIVE_DOC.replace("this holds",
+                                                        f"this {_where} holds"),
+                              non_empty=False))
+    write(_t, _name, _d)
+
+
 # (d) acquisition_channels.channels.type: a closed set, bound now.
 _t, _d = _a2_load("acquisition_channels")
 _ct = _a2_field(_d["fields"], "channels.type")

@@ -52,3 +52,51 @@ TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional subject.name as a display name 
   like `member_of`, `derived_from` and `sample_of`. Nothing enforced the flag,
   so no document changes; the registry now says what the documents do.
 TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
+
+## `subject.type` (did-schema PR #84)
+
+- `subject.type` (optional, bound, required strength): what kind of thing a
+  subject is, at the coarsest level. Seven values:
+
+  | value | meaning | examples |
+  |---|---|---|
+  | organism | one whole living individual | a worm, a mouse |
+  | culture | a mass grown as one, whose members are never subjects | a bacterial lawn, a cell culture |
+  | tissue | part of an organism | a slice, a biopsy, a brain region |
+  | cell | one cell | a neuron, a sorted unit |
+  | group | a subject whose members are subjects, by `member_of` | a cohort of worms, a neuron ensemble |
+  | device | an instrument | a camera, a probe, an electrode |
+  | material | a non-living object or substance | an agar plate, a dish |
+
+- **This reverses, for the coarse kind only, `V_eta_migration_plan.md` A.2**
+  ("kind is a bound `term_assertion`, not a field") and the matching line of
+  `V_eta_SPEC.md` §1. Why: the subject-defining assertions (species, cell type,
+  instrument type, material type) cannot tell an organism from a tissue, a
+  culture or a cell of the same species (a worm and the lawn it forages on both
+  carry only a species), and A.2's "presence is an ingestion-layer invariant"
+  was not built. The coarse kind is known when a subject is made; the finer kind
+  (species, strain, cell type, instrument type) is often learned later and stays
+  an assertion, as T1 intends.
+- `group` brings back the removed `is_group`, but checkably: a group's members
+  are subjects with a `member_of` edge to it, and only a group has them. That is
+  a batch rule (across documents), not checked per document. A mass whose
+  members will never be subjects (a lawn, a culture) is a `culture`.
+  `is_biological` is not stored: it is every value except device and material.
+- "cell population" was considered and dropped: it mixed a culture (biology)
+  with an ensemble (a grouping of identified cells), which are `culture` and
+  `group`.
+- Named `type`, after `acquisition_channels.channels.type`; on `subject`,
+  `subject_type` would repeat the class. Optional, because migrated v1 subjects
+  carry no kind; a migrator may fill it from the v1 class.
+
+## `distributive` (did-schema PR #84)
+
+- `subject_statement.distributive` and `directed_relation.distributive`
+  (optional boolean): on a statement or relation about a group, true means it
+  holds of each member (a cohort moved to a plate: each worm was moved). Absent
+  or false is the literal reading: it is about the group as a whole and says
+  nothing about any member (a cohort's size). So nothing is applied to every
+  member unless it says so.
+- Prompted by the Haley import, which puts the transfers, plate windows,
+  species and strain of a cohort of worms on the cohort, with each worm
+  `member_of` it (NDI-matlab decisions #54 and stage 7).

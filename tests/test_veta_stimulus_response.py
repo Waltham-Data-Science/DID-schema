@@ -534,8 +534,9 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     """
     # #73 item 60 (2026-09-25): the value descriptors moved WITH THE VALUE to
     # data_type, which every statement leaf inherits (T3); the statement keeps the claim.
+    # `distributive` (2026-10-02, V_eta_study_plan.md) is about the claim, not the value.
     assert {f["name"] for f in BUILT["subject_statement"][1]["fields"]} == {
-        "variable", "conditions"}
+        "variable", "conditions", "distributive"}
     # #73 item 65 (2026-09-29): keys/complete moved on up to `data`, data_type's parent.
     _tier, d = BUILT["data"]
     names = {f["name"] for f in d["fields"]}
