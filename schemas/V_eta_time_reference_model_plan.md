@@ -838,3 +838,24 @@ food-deprivation times (read off a clock, possibly analog) `{minus: 60, plus: 60
 times exact (no tolerance).
 
 TEAM-SIGN-OFF [time_reference tolerance]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 7 is agreed: every dimensioned value cell and absolute_time_reference start/end gain an optional `tolerance {minus, plus}`, both >= 0 in the canonical unit (seconds for times), the true value lying in [value - minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not a statistic; absent means none stated, {0, 0} means exact as given; `approximate` stays as the yes/no.
+
+### CHANGE 7, amendment 1 — tolerance on counts, scores, dates and the dose ratio (jess, 2026-10-02; built, awaiting sign-off)
+
+An audit after CHANGE 7 landed: **70 places declare `approximate`; 59 had a `tolerance`
+beside it.** Of the 11 without, three groups now gain one (jess: "groups 1-3"):
+
+| group | where | unit of the bound |
+|---|---|---|
+| 1, missed by the build (a dimensioned cell built by hand, outside `_DIM_CANON`) | `dose.value.amount_per_body_mass` | the canonical slot that is filled |
+| 2, counts and scores | `count.value` (and every `count` cell: `dose.value.count`, `formulation.value.ingredients.count`), `score.value` (and every `score` cell: `visual_grating.value.contrast`) | counts; the score's own `scale` |
+| 3, dates | `date.value` | seconds, like every other instant; `precision` stays the granularity of what was stated |
+
+**Left without, by decision (group 4):** `acquisition_epoch.keys`, `data.keys`,
+`data_body.conditions`, `subject_statement.conditions` -- there `approximate` describes a
+whole axis key or condition descriptor, not a value, so a bound would mean something new
+(e.g. jitter on a sample axis). Pinned by `tests/test_veta_tolerance.py`, which fails if a
+new value cell arrives without a tolerance or a key/condition gains one without a decision.
+
+After the amendment: **66 of 70 carry a tolerance; the 4 without are exactly group 4.**
+
+TEAM-SIGN-OFF [time_reference tolerance amendment 1]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 7 amendment 1 is agreed: `tolerance {minus, plus}` also goes on dose.value.amount_per_body_mass (in the canonical slot filled), on every count cell (in counts) and score cell (in the score's scale, incl. visual_grating contrast), and on date.value (in seconds, beside `precision`); axis keys and condition descriptors (acquisition_epoch.keys, data.keys, data_body.conditions, subject_statement.conditions) stay without one.
