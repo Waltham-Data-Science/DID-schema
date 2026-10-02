@@ -591,3 +591,5 @@ The change:
 
 `must_refer` is existence-only, so documents written before the change still
 validate.
+
+TEAM-SIGN-OFF [formulation strain ingredient]: jess@walthamdatascience.com / 2026-10-02 -- formulation.ingredient_id may also refer to a strain, as recorded in section G.
