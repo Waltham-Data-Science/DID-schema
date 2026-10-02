@@ -836,3 +836,5 @@ in the cell's canonical unit (seconds for times). The true value lies in
 video), plus: 0}` on lawn-first plates and `{minus: 300, plus: 0}` worms first; pick and
 food-deprivation times (read off a clock, possibly analog) `{minus: 60, plus: 60}`; video
 times exact (no tolerance).
+
+TEAM-SIGN-OFF [time_reference tolerance]: jess@walthamdatascience.com / 2026-10-02 -- CHANGE 7 is agreed: every dimensioned value cell and absolute_time_reference start/end gain an optional `tolerance {minus, plus}`, both >= 0 in the canonical unit (seconds for times), the true value lying in [value - minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not a statistic; absent means none stated, {0, 0} means exact as given; `approximate` stays as the yes/no.
