@@ -2801,10 +2801,15 @@ write("stable", "chemical",
                            "+ 1 M would count the water twice.", non_empty=True),
                   subfield("concentration", "concentration",
                            "Optional: the bottle's own strength (1 M, 30 %).")])]))
+# A `strain` is an ingredient too (2026-10-02, the Haley seeding suspension: OP50-GFP
+# grown in LB with an antibiotic; V_eta_spatial_transcriptomics_plan.md section G).
+# A strain is an entity, not a bought substance, so it is not a `chemical`; how much
+# of it went in is `count` or a final `concentration` (particles_per_liter).
 _ingredient_id = dep(
-    "ingredient_id", "chemical,formulation",
+    "ingredient_id", "chemical,formulation,strain",
     "What went in, in the order of `value.ingredients` (entry k describes edge k; the "
-    "order carries no other meaning). A stock you made is a formulation.",
+    "order carries no other meaning). A stock you made is a formulation; a live strain "
+    "grown or suspended in it (bacteria in broth) is a `strain`.",
     non_empty=False, multiple=True)
 _ingredient_id["ordered"] = True
 _ingredient_id["min_count"] = 1

@@ -3822,7 +3822,8 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     assert {s["name"] for s in f["ingredients"]["fields"]} == {
         "mass", "volume", "substance_amount", "count", "concentration"}
     ing = edges("formulation")["ingredient_id"]
-    assert ing["must_refer_to_document_class"] == "chemical,formulation"
+    # `strain` since 2026-10-02 (plan section G): bacteria suspended in broth.
+    assert ing["must_refer_to_document_class"] == "chemical,formulation,strain"
     # min_count 0 since #73 audit 2 D13: a bought product need not list ingredients;
     # the `ingredients_or_product` rule says one of the two is present.
     assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 0
