@@ -283,7 +283,7 @@ def test_absolute_reference_anchor_is_a_cell_carrying_its_own_provenance():
     start = _sub(value, "start")
     assert _subnames(start) == [
         "utc", "source_value", "source_timezone", "source_utc_offset",
-        "approximate"], _subnames(start)
+        "approximate", "tolerance"], _subnames(start)
     assert _sub(start, "utc")["type"] == "timestamp"
     # the canonical slot is OPTIONAL: an unlabelled local time is not
     # convertible, and recording the source string with an empty canonical is
@@ -303,7 +303,7 @@ def test_source_end_is_not_renamed_source_duration():
     end = _sub(value, "end")
     assert _subnames(end) == [
         "utc", "source_value", "source_timezone", "source_utc_offset",
-        "approximate"], _subnames(end)
+        "approximate", "tolerance"], _subnames(end)
     assert _sub(end, "source_value")["type"] == "char"
     assert "source_duration" not in _subnames(value)
     assert "source_duration" not in _subnames(_sub(value, "duration"))
@@ -493,3 +493,39 @@ def test_the_targets_declare_no_field_the_retiring_classes_would_collide_with():
         _tier, d = BUILT[name]
         own = {f["name"] for f in d["fields"]}
         assert not (own & root_fields), (name, sorted(own & root_fields))
+
+
+def test_change_7_every_time_value_can_state_an_asymmetric_tolerance():
+    """CHANGE 7 (2026-10-02): `tolerance {minus, plus}` -- a BOUND, both
+    non-negative, in the cell's canonical unit. It is on every time value the
+    references carry (absolute start/end/duration, relative start/duration/end),
+    and on every dimensioned cell (mass, length, ...), not only on time.
+
+    DENOMINATOR: 6 reference cells + every dimensioned cell type in the build.
+    """
+    def check(cell, where):
+        tol = _sub(cell, "tolerance")
+        assert tol["type"] == "structure", where
+        assert _subnames(tol) == ["minus", "plus"], (where, _subnames(tol))
+        for b in ("minus", "plus"):
+            assert _sub(tol, b)["type"] == "double", (where, b)
+            assert _sub(tol, b)["constraints"].get("minimum") == 0, (where, b)
+        assert tol["mustBeNonEmpty"] is False, where   # absent = none stated
+
+    n = 0
+    for cls, cells in (("absolute_time_reference", ("start", "duration", "end")),
+                       ("relative_time_reference", ("start", "duration", "end"))):
+        value = _field(BUILT[cls][1], "value")
+        for c in cells:
+            check(_sub(value, c), f"{cls}.value.{c}")
+            n += 1
+    assert n == 6
+    dims = 0
+    for name, (_tier, d) in BUILT.items():
+        f = next((x for x in d.get("fields", []) if x["name"] == "value"), None)
+        if f is None or f.get("type") != name or "source_unit" not in _subnames(f) \
+                or name == "score":   # scale-relative, not dimensioned (count too)
+            continue
+        check(f, f"{name}.value")
+        dims += 1
+    assert dims >= 12, dims   # mass, length, volume, time, voltage, ... (count grows)

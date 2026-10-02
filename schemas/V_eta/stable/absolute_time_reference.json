@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "absolute_time_reference",
-        "class_version": "3.0.0",
+        "class_version": "3.1.0",
         "superclasses": [
             {
                 "class_name": "time_reference"
@@ -102,6 +102,51 @@
                             "ontology": null,
                             "documentation": "TRUE when the ANCHOR is imprecise. Distinct from `duration.approximate` (the EXTENT) and from `time_reference.clock_tolerance` (the TIMELINE).",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in seconds. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in seconds (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in seconds (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },
@@ -113,7 +158,8 @@
                         "seconds": 0.0,
                         "source_unit": "",
                         "source_value": 0.0,
-                        "approximate": false
+                        "approximate": false,
+                        "tolerance": {}
                     },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
@@ -174,6 +220,51 @@
                             "ontology": null,
                             "documentation": "True when the value is approximate.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (seconds). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (seconds) (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (seconds) (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },
@@ -254,6 +345,51 @@
                             "ontology": null,
                             "documentation": "TRUE when the END is imprecise. Distinct from `start.approximate` and `duration.approximate`.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in seconds. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in seconds (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in seconds (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
