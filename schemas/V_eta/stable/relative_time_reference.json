@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "relative_time_reference",
-        "class_version": "2.0.0",
+        "class_version": "2.1.0",
         "superclasses": [
             {
                 "class_name": "time_reference"
@@ -299,7 +299,79 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The EXTENT, measured from `start`. ABSENT means an INSTANT. CHANGE 1: this replaces `end`, so an approximate anchor and an exact span are separately expressible.",
+                    "documentation": "The EXTENT, measured from `start`. ABSENT (with `end` absent) means an INSTANT. CHANGE 1: an approximate anchor and an exact span are separately expressible.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "end",
+                    "type": "time",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "seconds": 0.0,
+                        "source_unit": "",
+                        "source_value": 0.0,
+                        "approximate": false
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The END: offset of the end from the referent named by `referent_id`, on the named clock, as a fact of its own with its own precision (CHANGE 6) -- so an approximate start and an exact end are both expressible. Optional: give `duration`, `end`, or both; with both they must agree (end = start + duration; rule end_consistent).",
                     "constraints": {},
                     "fields": [
                         {
@@ -364,9 +436,19 @@
             "name": "clock_with_start",
             "fields": [
                 "value.start",
+                "value.end",
                 "value.clock"
             ],
-            "statement": "`value.clock` is present whenever `value.start` is present (an offset means nothing until its clock is named, and the time_reference families are unique by clock)."
+            "statement": "`value.clock` is present whenever `value.start` or `value.end` is present (an offset means nothing until its clock is named, and the time_reference families are unique by clock)."
+        },
+        {
+            "name": "end_consistent",
+            "fields": [
+                "value.start",
+                "value.duration",
+                "value.end"
+            ],
+            "statement": "`value.end` needs `value.start`, is not before it, and when `value.duration` is also given they agree: end = start + duration."
         }
     ]
 }

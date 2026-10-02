@@ -198,6 +198,7 @@ KNOWN_DIVERGENT = {
     ("pyraview", "decimation_sampling_rates", "matrix"),
     ("pyraview", "decimation_start_times", "matrix"),
     ("relative_time_reference", "value.duration", "time"),
+    ("relative_time_reference", "value.end", "time"),   # CHANGE 6 (2026-10-02): the same time cell as start/duration
     ("relative_time_reference", "value.start", "time"),
     # ("sampled_body", "sample_time.dt"/".t0") REMOVED 2026-08-15: the body-side
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows

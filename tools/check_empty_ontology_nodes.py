@@ -332,7 +332,20 @@ BASELINE_MIGRATORS = 60
 # empty because the NDIC identifier authority is in no repository in scope --
 # NDIC.txt was moved out of NDI-matlab in commit 2c19bf24c. Lower it the moment
 # real CURIEs are assigned.
-BASELINE_SCHEMAS = 8
+#
+# RAISED 8 -> 86 on 2026-10-02 (jess, deliberately). The #73 audit-2 build
+# (4c88f2c, D3/D5/D9) and the later study / instance_of / awarded_to / roles
+# work bound value sets whose terms are staged with an empty node, and none of
+# them raised this number -- it went unnoticed because this script runs with
+# --enforce only in DID-matlab's quick gate, which was pinned to a pre-#73
+# schema until a same-named did-schema branch (CHANGE 6) exposed main. The 86,
+# by value set, as the sweep prints them:
+#   did_channel_type 4, did_clocktype 8 (the original 8), did_contributor_role
+#   15, did_filter_algorithm 6, did_filter_band 4, did_identifier_scheme 12,
+#   did_relation_directed 25, did_relation_undirected 2, did_response_type 10
+# Same block as the clock terms: no CURIEs until a minting authority is in
+# scope. Lower it as terms are minted.
+BASELINE_SCHEMAS = 86
 
 CALL = re.compile(r"jOntologyTerm\(\s*''\s*,\s*([^)]*)\)")
 LITERAL = re.compile(r"^'((?:[^']|'')*)'\s*$")
