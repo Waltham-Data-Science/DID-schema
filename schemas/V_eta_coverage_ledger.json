@@ -640,7 +640,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 68,
+          "accepted_lines": 69,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -718,6 +718,7 @@
             "time anchors, amends the 2026-08-22 confirm sheet",
             "time dtype",
             "time_reference",
+            "time_reference end",
             "time_reference uniqueness rule",
             "tuning shape, #73 audit 2 amendment",
             "tuning_curve composite + tuning_curve_calculation leaf, restructure"
@@ -1043,6 +1044,12 @@
                 "line": 468
               }
             ],
+            "time_reference end": [
+              {
+                "document": "V_eta_time_reference_model_plan.md",
+                "line": 797
+              }
+            ],
             "time_reference uniqueness rule": [
               {
                 "document": "V_eta_time_reference_model_plan.md",
@@ -1247,6 +1254,12 @@
               {
                 "document": "V_eta_time_reference_model_plan.md",
                 "line": 468
+              }
+            ],
+            "time_reference end": [
+              {
+                "document": "V_eta_time_reference_model_plan.md",
+                "line": 797
               }
             ],
             "time_reference uniqueness rule": [
