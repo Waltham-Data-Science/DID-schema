@@ -100,3 +100,5 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
 - Prompted by the Haley import, which puts the transfers, plate windows,
   species and strain of a cohort of worms on the cohort, with each worm
   `member_of` it (NDI-matlab decisions #54 and stage 7).
+TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional subject.type (organism, culture, tissue, cell, group, device, material), superseding A.2 for the coarse kind only
+TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_statement and directed_relation
