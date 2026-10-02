@@ -51,3 +51,4 @@ TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional subject.name as a display name 
   plate, each from one transfer to the next. The flag now says `timed: true`,
   like `member_of`, `derived_from` and `sample_of`. Nothing enforced the flag,
   so no document changes; the registry now says what the documents do.
+TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
