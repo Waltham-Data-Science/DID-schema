@@ -8110,8 +8110,10 @@ RELATION_VOCABULARY = [
     _rel("affiliated_with", "", "the person", "the organization",
          ["person"], ["organization"]),
     # reference / storage (entity layer)
-    _rel("documented_by", "", "the documented entity", "the web_resource",
-         ["entity"], ["web_resource"]),
+    # + formulation (2026-10-02, V_eta_study_plan.md "documented_by a recipe"): a
+    # standard recipe (WormBook's S-Complete, LB) cites where it is written down.
+    _rel("documented_by", "", "the documented entity or recipe", "the web_resource",
+         ["entity", "formulation"], ["web_resource"]),
     _rel("stored_at", "", "the stored dataset", "the web_resource (remote copy)",
          ["dataset"], ["web_resource"]),
     _rel("hosted_by", "", "the web_resource", "the hosting organization",

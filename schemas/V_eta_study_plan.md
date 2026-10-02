@@ -102,3 +102,14 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
   `member_of` it (NDI-matlab decisions #54 and stage 7).
 TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional subject.type (organism, culture, tissue, cell, group, device, material), superseding A.2 for the coarse kind only
 TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_statement and directed_relation
+
+## `documented_by` a recipe (did-schema PR #84)
+
+- `documented_by` (child -> `web_resource`) allowed only an `entity` as the
+  child. A `formulation` is a `data_type`, not an entity, so a standard recipe
+  could not cite where it is written down. The child may now also be a
+  `formulation`. Prompted by the Haley import: S-Complete and LB were made by
+  the Salk media kitchen to the standard recipes, and WormBook (Stiernagle
+  2006, "Maintenance of C. elegans", doi:10.1895/wormbook.1.101.1) is taken as
+  their source, so each recipe is written out as ingredients and
+  `documented_by` the WormBook chapter.
