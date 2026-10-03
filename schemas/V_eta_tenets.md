@@ -377,6 +377,14 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   reader can see which slot a source unit converts into (#73 item 59). A dimensionless
   quantity's slot is named for the quantity (`ph.value.ph`, `count.value.count`,
   `score.value.score`), never `value` (#73 audit 2 D10).
+- **Canonical units are PRACTICAL SI**: the unit the field's practitioners actually use, not
+  the strict SI base unit — `grams` (not kilograms), `liters`, `celsius`, `mmhg`, `degrees`
+  (not radians), `percent_relative_humidity`. A source in any other unit is converted into the
+  canonical slot, and `source_value`/`source_unit` keep what was written. One quantity has one
+  canonical slot, except where it has incommensurable forms (`concentration`: `molar`,
+  `grams_per_liter`, …). *(Until 2026-10-03 this rule lived only in builder text and plan
+  amendments: mass became grams on 2026-09-23 (#73), angles degrees in #73 review item 44,
+  humidity percent on 2026-10-03; the list is `_DIM_CANON` in `tools/build_v_eta.py`.)*
 - **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29). Every value cell is
   `{<canonical slot>, source_value, source_unit, approximate}`, all but the canonical slot
   optional. A cell drops `source_value`/`source_unit` only when no conversion to the canonical

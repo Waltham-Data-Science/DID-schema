@@ -1,0 +1,137 @@
+{
+    "document_class": {
+        "class_name": "humidity",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "humidity",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "percent_relative_humidity": 0.0,
+                    "source_unit": "",
+                    "source_value": 0.0,
+                    "approximate": false,
+                    "tolerance": {}
+                }
+            ],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A humidity value cell, percent relative humidity (canonical + lossless source). Series-as-cardinality: an array of the cell.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "percent_relative_humidity",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical relative humidity, in percent (0-100): the practical unit every sensor reports (T14).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "tolerance",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (percent_relative_humidity). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "minus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (percent_relative_humidity) (for a time: how much EARLIER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        },
+                        {
+                            "name": "plus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (percent_relative_humidity) (for a time: how much LATER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

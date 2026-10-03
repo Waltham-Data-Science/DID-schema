@@ -1008,6 +1008,29 @@
             "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
         {
+            "class_name": "humidity",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/humidity.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "humidity_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_observation",
+                "humidity"
+            ],
+            "path": "schemas/V_eta/draft/humidity_observation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "image",
             "tier": "deprecated",
             "class_version": "2.0.0",
@@ -1077,6 +1100,18 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/intensity.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "intensity_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "intensity"
+            ],
+            "path": "schemas/V_eta/draft/intensity_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1174,6 +1209,18 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/length.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "length_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "length"
+            ],
+            "path": "schemas/V_eta/draft/length_calculation.json",
             "disposition": "persist"
         },
         {
@@ -2402,6 +2449,18 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/velocity.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "velocity_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "velocity"
+            ],
+            "path": "schemas/V_eta/draft/velocity_calculation.json",
             "disposition": "persist"
         },
         {
