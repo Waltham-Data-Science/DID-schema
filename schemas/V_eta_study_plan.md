@@ -161,3 +161,5 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional formulation.value.type, a term 
   written. Until now it lived only in builder text (`build_v_eta.py`) and plan
   amendments (#73 item 44 for degrees; mass to grams on 2026-09-23), so the
   tenets could not answer "which unit is canonical".
+TEAM-SIGN-OFF: jess / 2026-10-03 -- add the humidity data type, canonical percent_relative_humidity, with a humidity_observation leaf
+TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units are practical SI
