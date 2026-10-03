@@ -181,7 +181,9 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # roles + `corresponding author` (the same inline_set shape as channels.type).
 # 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
 # subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 19
+# 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
+# node_form: curie} like `study.factors` and `subject_statement.variable`.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 20
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and

@@ -113,3 +113,22 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_stateme
   2006, "Maintenance of C. elegans", doi:10.1895/wormbook.1.101.1) is taken as
   their source, so each recipe is written out as ingredients and
   `documented_by` the WormBook chapter.
+
+## `formulation.value.type` (did-schema PR #84)
+
+- `formulation.value.type` (optional `ontology_term`, bound like
+  `subject_statement.variable`: preferred strength, node in CURIE form): what
+  kind of mixture a formulation is, the standard recipe or medium it is
+  ("S-Complete", "LB", "NGM, 3% agar, no peptone"). The counterpart of
+  `subject.type`, inside `value` beside `ingredients`, `ph` and
+  `osmolarity` because a `data_type` exposes one payload field and its
+  descriptors ride inside the cell (T14). `base.name` is refused in V_eta (#73 item 54), so a
+  formulation had no name at all: it was identifiable only from its ingredient
+  list, and two standard recipes `documented_by` the same source (WormBook's LB
+  and S-Complete) could not be told apart.
+- A term rather than a free-text name: it is given by name with its node staged
+  until the ontology lookup, then is queryable across datasets ("everything
+  grown in LB"). It classifies the recipe; the recipe is still its ingredients
+  (or its product), so a term does not make a formulation a `chemical` (one
+  pure substance, as bought). Left out for a one-off mixture, such as a day's
+  OD600 0.5 dilution, which is no standard kind.

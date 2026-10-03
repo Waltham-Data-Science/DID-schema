@@ -10492,6 +10492,32 @@ for _name, _where in (("subject_statement", "statement"), ("directed_relation",
     write(_t, _name, _d)
 
 
+# --- `formulation.value.type` (2026-10-03, jess; not signed; V_eta_study_plan.md) -----
+# What kind of mixture a formulation is ("S-Complete", "LB", "NGM, 3% agar, no
+# peptone") as a TERM, the counterpart of `subject.type`: `base.name` is refused in
+# V_eta (#73 item 54), so a recipe had no name and two standard recipes documented_by
+# one source (WormBook's LB and S-Complete) could not be told apart. A term, not free
+# text: given by name with its node staged until the ontology lookup, then queryable
+# across datasets ("everything grown in LB"). It classifies the recipe; the recipe is
+# still its ingredients (or its product), so a term does not make it a `chemical`.
+# Optional: a one-off mixture (a day's OD600 0.5 dilution) is no standard kind.
+# Inside `value`, beside `ingredients` / `ph` / `osmolarity`: a data_type exposes ONE
+# payload field and its descriptors ride inside the cell (T14).
+_t, _d = _a2_load("formulation")
+_fv = _a2_field(_d["fields"], "value")
+if any(f["name"] == "type" for f in _fv["fields"]):
+    raise SystemExit("formulation.value already declares type")
+_fv["fields"].insert(0, subfield(
+    "type", "ontology_term",
+    "Optional: what kind of mixture this is -- the standard recipe or medium it is "
+    "(e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its "
+    "ingredients (or its product). Left out for a one-off mixture (a day's dilution). "
+    "Bound like `subject_statement.variable`.",
+    non_empty=False,
+    constraints={"binding": {"strength": "preferred", "node_form": "curie"}}))
+write(_t, "formulation", _d)
+
+
 # (d) acquisition_channels.channels.type: a closed set, bound now.
 _t, _d = _a2_load("acquisition_channels")
 _ct = _a2_field(_d["fields"], "channels.type")

@@ -2828,3 +2828,5 @@ RE-DERIVED 2026-10-02 (didmatlab_m_files, sibling drift; `check_prose_counts` wa
 RE-DERIVED 2026-10-02 (didmatlab_m_files, sibling drift, the same coupling as the 320 above): **321 .m file(s) under DID-matlab src/** on the V2 line once CHANGE 7's builder lands (`+did2/+build/private/toleranceCell.m`, VH-Lab/DID-matlab#213; `cd DID-matlab && find src -name '*.m' | wc -l` = 321 on its branch `claude/ecstatic-pascal-md91fw`). The 320 and 291 above stay live for their refs. Nothing in this repository changed. Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-02 (`subject.type` and `distributive`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **22 fields carry a binding** (was 21; +`subject.type`, bound to the seven coarse subject kinds; `distributive` is an unbound boolean). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-03 (`formulation.value.type`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **23 fields carry a binding** (was 22; +`formulation.value.type`, bound like `subject_statement.variable`). Re-derive with `check_prose_counts`, do not quote these directly.

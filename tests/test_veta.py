@@ -3824,7 +3824,8 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     assert subs("chemical")["substance"]["mustBeNonEmpty"] is True
     assert edges("chemical")["product_id"]["must_refer_to_document_class"] == "product"
     f = subs("formulation")
-    assert set(f) == {"ingredients", "ph", "osmolarity"}
+    # `type` since 2026-10-03 (V_eta_study_plan.md): what kind of mixture it is.
+    assert set(f) == {"type", "ingredients", "ph", "osmolarity"}
     assert {s["name"] for s in f["ingredients"]["fields"]} == {
         "mass", "volume", "substance_amount", "count", "concentration"}
     ing = edges("formulation")["ingredient_id"]
