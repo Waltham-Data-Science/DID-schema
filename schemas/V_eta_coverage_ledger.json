@@ -640,7 +640,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 75,
+          "accepted_lines": 77,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -1093,7 +1093,7 @@
           "untagged_documents": {
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2,
-            "V_eta_study_plan.md": 10
+            "V_eta_study_plan.md": 12
           },
           "families_total": 27,
           "families_signed": [
