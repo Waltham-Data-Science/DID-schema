@@ -512,6 +512,54 @@ system, whose space — the values are measured in. The zero point on it is a se
 names the time-reference document itself (T6); `origin_id` because `origin` already names the
 zero point.
 
+
+### T16 — `variable` names a property, `value` its state, `method` how it was done: the statement reads as one sentence.
+*(Written 2026-10-03 at Jess Haley's request, from the review of the Haley import's stage 8
+manipulations, NDI-matlab `src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md` #58. It
+sharpens T2's "`variable` (what) / `value` / `method` (the verb)" and T7's "`method` = verb",
+which said what each field is but not how to tell them apart when a case is borderline.)*
+
+Every statement must read as one sentence:
+
+> the subject's **`variable`** was *[asserted / observed / set / computed]* as **`value`**, by **`method`**
+
+- **`variable` names a property of the subject, never the act.** A noun phrase that could be
+  observed as well as set: `ambient temperature`, `location`, `food availability`, `species`.
+  A manipulation and an observation of the same property share one variable, so one query
+  finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and
+  fails the sentence ("the cohort's plate transfer was set to assay plate").
+- **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an
+  amount, a term. It never names the act either.
+- **`method` is how it was done — the technique — and is recorded only when it adds
+  something** the variable and value do not already say, and only when it is known. "Heating"
+  or "cooling" on a move into a 4 °C cold room adds nothing; `refrigeration`, `incubation` and
+  `ambient exposure` do: the last two can both be 20 °C, and the method is what tells a
+  controlled incubator from the open bench. An unknown method is absent, never a generic word
+  (`transfer`, `manipulation`) that restates the statement's direction.
+- **The device or place that did it is the instrument** (`instrument_id`, T7) once it is a
+  subject; until then the method names the technique alone.
+- **Fallback, only when no lasting property changed** (a sham surgery, an anaesthesia):
+  `variable` is `procedure` and the value names the procedure. A procedure that did change
+  something is stated as that change, with the procedure in `method`.
+- **An assertion has no `method`** (T2): "the cohort's species is *C. elegans*".
+
+**Worked example** (the Haley import's stage 8; terms are names until the ontology lookup):
+
+| manipulation | leaf | method | variable | value |
+|---|---|---|---|---|
+| pour a plate | `dose_manipulation` | pouring | NGM agar | 25 mL (+ `formulation_id`) |
+| seed a patch | `dose_manipulation` | seeding | the strain (OP50) | 0.5 µL (+ `formulation_id`) |
+| into the cold room | `temperature_manipulation` | refrigeration | ambient temperature | 4 °C |
+| onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 °C |
+| into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 °C |
+| move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |
+| take food away | `term_manipulation` | — | food availability | none |
+
+The transfer's value is the KIND of plate; the plate itself is the parent of the
+`contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs
+its `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its
+`method` only when the rule above admits one.
+
 ---
 
 ## The meta-principle

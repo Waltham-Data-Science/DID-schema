@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (15 since T15, 2026-09-25).
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (16 since T16, 2026-10-03).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 15 tenets declared, N with at least one row, and
+  1. It states its denominator: 16 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 16)]
+TENET_IDS = [f"T{i}" for i in range(1, 17)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T15
+    tenet    T1..T16
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -339,6 +339,19 @@ TENET_MAP = [
         "a repeated edge repeats that one name",
         "Built schema-side 2026-09-25; DID-matlab's depends_on must gain a "
         "position before a repeated name can be stored."),
+    Row("T16",
+        "v1's `treatment_transfer` made the variable and the value the same "
+        "transferred-material term, and the first Haley build named the act "
+        "(`plate transfer`, `food deprivation`) as the variable. T16 reads every "
+        "statement as one sentence: the variable is a property, the value its "
+        "state, the method how it was done -- so a transfer is `location` = the "
+        "plate kind, and the method tells the incubator from the bench.",
+        ["treatment_transfer"],
+        ["term_manipulation", "temperature_manipulation", "dose_manipulation"],
+        "V_eta_tenets.md",
+        "`variable` names a property, `value` its state, `method` how it was done",
+        "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab "
+        "import_V2_decisions.md #58)."),
 ]
 
 

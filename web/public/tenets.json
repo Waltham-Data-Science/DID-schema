@@ -14,6 +14,7 @@
   "daqsystem",
   "dataset",
   "directed_relation",
+  "dose_manipulation",
   "element",
   "element_epoch",
   "ensemble",
@@ -46,8 +47,10 @@
   "temporal_frequency_tuning",
   "temporal_frequency_tuning_calc",
   "term_assertion",
+  "term_manipulation",
   "timed_sequence",
   "treatment",
+  "treatment_transfer",
   "tuning_curve",
   "tuning_curve_calculation",
   "tuningcurve_calc",
@@ -59,8 +62,8 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 38,
-  "classes_that_are_v1_sources": 25,
+  "classes_in_the_built_set": 40,
+  "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
    "contrasttuning_calc",
@@ -69,7 +72,7 @@
    "validity_observation",
    "zarr"
   ],
-  "distinct_classes_named": 57,
+  "distinct_classes_named": 60,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
   "plan_documents_cited": [
    "schemas/V_eta_daq_family_decisions.md",
@@ -85,9 +88,9 @@
    "schemas/V_eta_tenets.md",
    "schemas/V_eta_tuning_model_plan.md"
   ],
-  "rows": 22,
-  "tenets_declared": 15,
-  "tenets_with_at_least_one_row": 15,
+  "rows": 23,
+  "tenets_declared": 16,
+  "tenets_with_at_least_one_row": 16,
   "tenets_with_no_substantiated_row": []
  },
  "description": "A CURATED map: the link from a tenet to a class exists only in prose (353 T-references across schemas/*.md; 0 of 245 built schema files name a tenet), so every row carries the plan document and the verbatim line that substantiates it. A row that could not be substantiated was dropped, not softened.",
@@ -238,7 +241,8 @@
      "named_in_cited_plan"
     ],
     "temperature_manipulation": [
-     "built"
+     "built",
+     "named_in_cited_plan"
     ],
     "temperature_observation": [
      "built"
@@ -1017,6 +1021,49 @@
    "note": "Built schema-side 2026-09-25; DID-matlab's depends_on must gain a position before a repeated name can be stored.",
    "plan_only_classes": [],
    "tenet": "T15"
+  },
+  {
+   "after": [
+    "term_manipulation",
+    "temperature_manipulation",
+    "dose_manipulation"
+   ],
+   "after_built": [
+    "term_manipulation",
+    "temperature_manipulation",
+    "dose_manipulation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "treatment_transfer"
+   ],
+   "change": "v1's `treatment_transfer` made the variable and the value the same transferred-material term, and the first Haley build named the act (`plate transfer`, `food deprivation`) as the variable. T16 reads every statement as one sentence: the variable is a property, the value its state, the method how it was done -- so a transfer is `location` = the plate kind, and the method tells the incubator from the bench.",
+   "citation": {
+    "anchor": "`variable` names a property, `value` its state, `method` how it was done",
+    "doc": "schemas/V_eta_tenets.md",
+    "line": 516,
+    "quote": "### T16 \u2014 `variable` names a property, `value` its state, `method` how it was done: the statement reads as one sentence."
+   },
+   "class_registers": {
+    "dose_manipulation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "temperature_manipulation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "term_manipulation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "treatment_transfer": [
+     "v1_source"
+    ]
+   },
+   "note": "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab import_V2_decisions.md #58).",
+   "plan_only_classes": [],
+   "tenet": "T16"
   }
  ],
  "tenets": [
@@ -1107,8 +1154,14 @@
   {
    "id": "T15",
    "line": 427,
-   "statement": "*(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the\n`_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every\nV_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matlab's work in\n\"What it costs\" lands.)*\n\n- **Every edge name is a noun ending `_id`.** No verbs, no prepositions, no bare role words:\n  `owner` \u2192 `owner_id`, `relative_to` \u2192 `referent_id`, `derived_from_#` \u2192 `input_id`.\n- **Name it for its target class when the edge just means \"which X\"** (`subject_id`,\n  `software_id`, `epoch_id`). **Name it for its role when the target is generic or the role is\n  not the target's name** (`instrument_id` \u2192 an entity, `value_id` \u2192 a data type,\n  `parent_id`/`child_id`).\n- **A name's meaning is fixed by its class, and stays within one sense across classes.**\n  `input_id` is \"what goes in\" on a calculation (its sources) and on a clock alignment (the\n  timeline fed to the polynomial); `parent_id` is the upper end of a typed relation on\n  `directed_relation` and the protocol a variant came from on `method_parameters`. A reader who\n  needs the exact meaning reads the class \u2014 the name never has to carry it alone.\n- **A repeated edge repeats its name; it is never numbered.** A calculation with three inputs\n  carries three `input_id` entries, with one input it carries one, and it is never\n  `input_id_0`. Repetition is declared on the edge (`multiple`, `min_count`, `max_count`), not\n  signalled by the name, so the spelling never depends on how many there are, and \"what was\n  derived from X\" is one exact name, never a pattern over `name_*`.\n- **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`\n  means position is data (0-based, T14): `timed_sequence.item_id` (the playlist indexes it),\n  `key_labels_id` (a key's `labels_from` names an entry by position), and\n  `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and\n  breaks ties by rule order \u2014 `syncgraph.m`, `if c<lowcost`). `ordered: false` means the\n  entries are a set and their order must not be read.\n- **Why not `_k`.** A counter in a name hides a value in an identifier \u2014 a relational\n  \"repeating group\" (`item1`, `item2`, \u2026), which first normal form exists to remove \u2014 and it is\n  structure carried by convention, which T14 forbids. Every established model repeats one\n  name instead: a PROV activity has several `used` statements, FHIR elements repeat, a\n  relational link table carries one row per edge plus a position column where order matters.\n  did_v1's `_1`, `_2`, \u2026 came from a storage limit (a document's edge names had to be unique),\n  not from a modelling choice.\n- **v1 is untouched.** did_v1 tombstones keep their v1 spelling (`neuron_id_#`,\n  `daqmetadatareader_id_#`, `syncrule_id_#`) because they describe documents as written;\n  migrators read v1 numbering and never emit it.\n\n**What it costs.** DID-matlab's `depends_on` table is keyed `(doc_id, name)`\n(`+did2/+database/sqlitedb.m`), so a name cannot repeat today. It becomes\n`(doc_id, name, position)`; `add_dependency_value_n` stops appending `_<n>` and\n`dependency_value_n` returns every entry of a name in order; every reader that builds\n`name_1`, `name_2`, \u2026 by hand asks for the list instead. These are the same call sites the\n0-based renumbering already touches.\n\n**Litmus:** could you write this edge's name without knowing how many there are, and could\nyou tell what it points at from the name plus its class alone?\n\n**The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones\nexcluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_id`,\n`strain_id`, `acquisition_system_id`, `method_parameters_id`, `coordinate_system_id`,\n`epoch_file_pattern_id`, `clock_alignment_configuration_id`, `clock_alignment_policy_id`,\n`instrument_id`, `value_id`, `reader_id`, `filter_id`. Later changes (corrected by #73 audit 2,\n2026-09-29): `session_id` was dropped by #73 item 57; `acquisition_metadata_reader_id` became\n`epoch_parameter_reader_id` (item 65); item 53 removed `runtime_environment_id` and added\n`interpreter_id` and `operating_system_id` \u2192 `software`; item 59 added `ingredient_id`\n(repeated, **ordered**), `formulation_id`, `product_id` and `vendor_id`; audit 2 D9 added\n`strain.product_id`.\n\n| class | today | T15 | repeats | ordered |\n|---|---|---|:-:|:-:|\n| `data_body` | `owner` | `owner_id` | | |\n| `directed_relation` | `parent`, `child` | `parent_id`, `child_id` | | |\n| `relative_time_reference` | `relative_to` | `referent_id` | | |\n| `coordinate_system` | `relative_to` | `referent_id` | | |\n| `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |\n| `method_parameters` | `derived_from_id` | `parent_id` | | |\n| ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |\n| `subject_calculation` | `derived_from_#` | `input_id` | yes | no |\n| ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |\n| `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |\n| `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |\n| `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |\n| `data` (items 60, 65; was `subject_statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |\n| `strain` | `background_strain_#` | `background_strain_id` | yes | no |\n| `clock_alignment_configuration` (also `subject_interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |\n| `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |\n| `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |\n| `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |\n\n`referent_id` is the time plan's and NDI's own word for this edge (`ndi.time.timereference`\nis `(referent, clocktype, epoch, time)`): the document whose timeline \u2014 or, for a coordinate\nsystem, whose space \u2014 the values are measured in. The zero point on it is a separate thing\n(`clock` for time, `origin` for space). `anchor_id` was rejected because \"anchor\" already\nnames the time-reference document itself (T6); `origin_id` because `origin` already names the\nzero point.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "statement": "*(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the\n`_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every\nV_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matlab's work in\n\"What it costs\" lands.)*\n\n- **Every edge name is a noun ending `_id`.** No verbs, no prepositions, no bare role words:\n  `owner` \u2192 `owner_id`, `relative_to` \u2192 `referent_id`, `derived_from_#` \u2192 `input_id`.\n- **Name it for its target class when the edge just means \"which X\"** (`subject_id`,\n  `software_id`, `epoch_id`). **Name it for its role when the target is generic or the role is\n  not the target's name** (`instrument_id` \u2192 an entity, `value_id` \u2192 a data type,\n  `parent_id`/`child_id`).\n- **A name's meaning is fixed by its class, and stays within one sense across classes.**\n  `input_id` is \"what goes in\" on a calculation (its sources) and on a clock alignment (the\n  timeline fed to the polynomial); `parent_id` is the upper end of a typed relation on\n  `directed_relation` and the protocol a variant came from on `method_parameters`. A reader who\n  needs the exact meaning reads the class \u2014 the name never has to carry it alone.\n- **A repeated edge repeats its name; it is never numbered.** A calculation with three inputs\n  carries three `input_id` entries, with one input it carries one, and it is never\n  `input_id_0`. Repetition is declared on the edge (`multiple`, `min_count`, `max_count`), not\n  signalled by the name, so the spelling never depends on how many there are, and \"what was\n  derived from X\" is one exact name, never a pattern over `name_*`.\n- **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`\n  means position is data (0-based, T14): `timed_sequence.item_id` (the playlist indexes it),\n  `key_labels_id` (a key's `labels_from` names an entry by position), and\n  `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and\n  breaks ties by rule order \u2014 `syncgraph.m`, `if c<lowcost`). `ordered: false` means the\n  entries are a set and their order must not be read.\n- **Why not `_k`.** A counter in a name hides a value in an identifier \u2014 a relational\n  \"repeating group\" (`item1`, `item2`, \u2026), which first normal form exists to remove \u2014 and it is\n  structure carried by convention, which T14 forbids. Every established model repeats one\n  name instead: a PROV activity has several `used` statements, FHIR elements repeat, a\n  relational link table carries one row per edge plus a position column where order matters.\n  did_v1's `_1`, `_2`, \u2026 came from a storage limit (a document's edge names had to be unique),\n  not from a modelling choice.\n- **v1 is untouched.** did_v1 tombstones keep their v1 spelling (`neuron_id_#`,\n  `daqmetadatareader_id_#`, `syncrule_id_#`) because they describe documents as written;\n  migrators read v1 numbering and never emit it.\n\n**What it costs.** DID-matlab's `depends_on` table is keyed `(doc_id, name)`\n(`+did2/+database/sqlitedb.m`), so a name cannot repeat today. It becomes\n`(doc_id, name, position)`; `add_dependency_value_n` stops appending `_<n>` and\n`dependency_value_n` returns every entry of a name in order; every reader that builds\n`name_1`, `name_2`, \u2026 by hand asks for the list instead. These are the same call sites the\n0-based renumbering already touches.\n\n**Litmus:** could you write this edge's name without knowing how many there are, and could\nyou tell what it points at from the name plus its class alone?\n\n**The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones\nexcluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_id`,\n`strain_id`, `acquisition_system_id`, `method_parameters_id`, `coordinate_system_id`,\n`epoch_file_pattern_id`, `clock_alignment_configuration_id`, `clock_alignment_policy_id`,\n`instrument_id`, `value_id`, `reader_id`, `filter_id`. Later changes (corrected by #73 audit 2,\n2026-09-29): `session_id` was dropped by #73 item 57; `acquisition_metadata_reader_id` became\n`epoch_parameter_reader_id` (item 65); item 53 removed `runtime_environment_id` and added\n`interpreter_id` and `operating_system_id` \u2192 `software`; item 59 added `ingredient_id`\n(repeated, **ordered**), `formulation_id`, `product_id` and `vendor_id`; audit 2 D9 added\n`strain.product_id`.\n\n| class | today | T15 | repeats | ordered |\n|---|---|---|:-:|:-:|\n| `data_body` | `owner` | `owner_id` | | |\n| `directed_relation` | `parent`, `child` | `parent_id`, `child_id` | | |\n| `relative_time_reference` | `relative_to` | `referent_id` | | |\n| `coordinate_system` | `relative_to` | `referent_id` | | |\n| `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |\n| `method_parameters` | `derived_from_id` | `parent_id` | | |\n| ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |\n| `subject_calculation` | `derived_from_#` | `input_id` | yes | no |\n| ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |\n| `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |\n| `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |\n| `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |\n| `data` (items 60, 65; was `subject_statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |\n| `strain` | `background_strain_#` | `background_strain_id` | yes | no |\n| `clock_alignment_configuration` (also `subject_interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |\n| `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |\n| `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |\n| `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |\n\n`referent_id` is the time plan's and NDI's own word for this edge (`ndi.time.timereference`\nis `(referent, clocktype, epoch, time)`): the document whose timeline \u2014 or, for a coordinate\nsystem, whose space \u2014 the values are measured in. The zero point on it is a separate thing\n(`clock` for time, `origin` for space). `anchor_id` was rejected because \"anchor\" already\nnames the time-reference document itself (T6); `origin_id` because `origin` already names the\nzero point.",
    "title": "An edge is a noun ending `_id`; a repeated edge repeats that one name."
+  },
+  {
+   "id": "T16",
+   "line": 516,
+   "statement": "*(Written 2026-10-03 at Jess Haley's request, from the review of the Haley import's stage 8\nmanipulations, NDI-matlab `src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md` #58. It\nsharpens T2's \"`variable` (what) / `value` / `method` (the verb)\" and T7's \"`method` = verb\",\nwhich said what each field is but not how to tell them apart when a case is borderline.)*\n\nEvery statement must read as one sentence:\n\n> the subject's **`variable`** was *[asserted / observed / set / computed]* as **`value`**, by **`method`**\n\n- **`variable` names a property of the subject, never the act.** A noun phrase that could be\n  observed as well as set: `ambient temperature`, `location`, `food availability`, `species`.\n  A manipulation and an observation of the same property share one variable, so one query\n  finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and\n  fails the sentence (\"the cohort's plate transfer was set to assay plate\").\n- **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an\n  amount, a term. It never names the act either.\n- **`method` is how it was done \u2014 the technique \u2014 and is recorded only when it adds\n  something** the variable and value do not already say, and only when it is known. \"Heating\"\n  or \"cooling\" on a move into a 4 \u00b0C cold room adds nothing; `refrigeration`, `incubation` and\n  `ambient exposure` do: the last two can both be 20 \u00b0C, and the method is what tells a\n  controlled incubator from the open bench. An unknown method is absent, never a generic word\n  (`transfer`, `manipulation`) that restates the statement's direction.\n- **The device or place that did it is the instrument** (`instrument_id`, T7) once it is a\n  subject; until then the method names the technique alone.\n- **Fallback, only when no lasting property changed** (a sham surgery, an anaesthesia):\n  `variable` is `procedure` and the value names the procedure. A procedure that did change\n  something is stated as that change, with the procedure in `method`.\n- **An assertion has no `method`** (T2): \"the cohort's species is *C. elegans*\".\n\n**Worked example** (the Haley import's stage 8; terms are names until the ontology lookup):\n\n| manipulation | leaf | method | variable | value |\n|---|---|---|---|---|\n| pour a plate | `dose_manipulation` | pouring | NGM agar | 25 mL (+ `formulation_id`) |\n| seed a patch | `dose_manipulation` | seeding | the strain (OP50) | 0.5 \u00b5L (+ `formulation_id`) |\n| into the cold room | `temperature_manipulation` | refrigeration | ambient temperature | 4 \u00b0C |\n| onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 \u00b0C |\n| into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 \u00b0C |\n| move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |\n| take food away | `term_manipulation` | \u2014 | food availability | none |\n\nThe transfer's value is the KIND of plate; the plate itself is the parent of the\n`contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs\nits `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its\n`method` only when the rule above admits one.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "title": "`variable` names a property, `value` its state, `method` how it was done: the statement reads as one sentence."
   }
  ],
  "tenets_document": "schemas/V_eta_tenets.md",
