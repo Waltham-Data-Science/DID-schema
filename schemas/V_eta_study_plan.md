@@ -134,3 +134,30 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_stateme
   OD600 0.5 dilution, which is no standard kind.
 TEAM-SIGN-OFF: jess / 2026-10-03 -- a formulation may be documented_by a web_resource, so a standard recipe cites its source
 TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional formulation.value.type, a term naming what kind of mixture a recipe is
+
+## `humidity` (did-schema PR #86)
+
+- A new data type `humidity` (draft), with one leaf, `humidity_observation`.
+  Its value cell's canonical slot is `percent_relative_humidity` (0-100), with
+  `source_value`/`source_unit` keeping what the source wrote. Prompted by the
+  Haley import's stage 9: each recording carries the room's temperature and
+  relative humidity (`temp`, `humidity`, in %RH), and V_eta had no type for a
+  humidity.
+- Relative humidity is a dimensionless ratio with no SI unit; percent is the
+  unit every room sensor reports, so it is canonical under practical SI (T14,
+  below). The slot is named for the quantity and its scale, as a dimensionless
+  quantity's slot is (T14), so 45 and 0.45 cannot be confused.
+- Absolute humidity is a different quantity (mass of water per volume of air).
+  When a source has it, it becomes a second slot on this type
+  (`grams_per_cubic_meter`), as `concentration` carries several forms, rather
+  than a second type.
+
+## T14: canonical units are practical SI (did-schema PR #86)
+
+- A new T14 bullet states the rule the schema already followed: canonical units
+  are the units the field's practitioners use, not strict SI base units --
+  grams (not kilograms), liters, celsius, mmhg, degrees (not radians), percent
+  relative humidity -- with `source_value`/`source_unit` keeping what was
+  written. Until now it lived only in builder text (`build_v_eta.py`) and plan
+  amendments (#73 item 44 for degrees; mass to grams on 2026-09-23), so the
+  tenets could not answer "which unit is canonical".
