@@ -9365,7 +9365,13 @@ write("draft", "position_calculation",
 # the cell list) both became `label_calculation` (items 27/33).
 # `voltage` added 2026-09-25 (#73 review item 48): neuron_extracellular's mean
 # waveform is computed from the spike sort, so it is a calculation (T2 rule).
-for _dt in ("count", "area", "score", "term", "voltage"):
+# `length`, `velocity`, `intensity` added 2026-10-03 (jess, the Haley import's stage
+# 10): computed from the recordings, so calculations (T2 rule). length -- a worm's
+# distance to the nearest patch edge per frame, an E. coli patch's peak offset;
+# velocity -- the smoothed per-frame speed; intensity -- an E. coli patch's
+# fluorescence profile, its amplitudes, and the fitted background image.
+for _dt in ("count", "area", "score", "term", "voltage", "length", "velocity",
+            "intensity"):
     _t, _p = path_of(_dt)
     write("draft", f"{_dt}_calculation",
           doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))

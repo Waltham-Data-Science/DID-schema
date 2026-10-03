@@ -1472,3 +1472,5 @@ RE-DERIVED 2026-09-25 (#73 review item 61: `acquisition_metadata_file` retired; 
 RE-DERIVED 2026-09-29 (#73 review item 67: `control_designation` deleted; `check_prose_counts` re-derives all nouns): **211 distinct V_eta class names** (was 212); **217 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-29 (#73 review item 68: `model_fit` + `model_fit_calculation` minted; `check_prose_counts` re-derives all nouns): **213 distinct V_eta class names** (was 211); **219 json file(s) under `schemas/V_eta/`** (was 217); **45 direct subclasses** of `data_type` (was 44; +`model_fit`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidity_observation` leaf, and the `length_calculation`, `velocity_calculation` and `intensity_calculation` leaves, for the Haley import's stages 9-10; `check_prose_counts` re-derives all nouns): **217 distinct V_eta class names** (was 212); **223 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.

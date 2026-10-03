@@ -2830,3 +2830,5 @@ RE-DERIVED 2026-10-02 (didmatlab_m_files, sibling drift, the same coupling as th
 RE-DERIVED 2026-10-02 (`subject.type` and `distributive`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **22 fields carry a binding** (was 21; +`subject.type`, bound to the seven coarse subject kinds; `distributive` is an unbound boolean). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-03 (`formulation.value.type`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **23 fields carry a binding** (was 22; +`formulation.value.type`, bound like `subject_statement.variable`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidity_observation` leaf, and the `length_calculation`, `velocity_calculation` and `intensity_calculation` leaves, for the Haley import's stages 9-10; `check_prose_counts` re-derives all nouns): **217 distinct V_eta class names** (was 212); **223 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.

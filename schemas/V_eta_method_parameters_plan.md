@@ -846,3 +846,5 @@ line above is unchanged; whether it reaches this amendment is for the team (sign
 audit 2 D7c).
 
 TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: the parameter entry is `{variable, unit, source_unit, value {value, source_value}, term, text}` at all three mounts, replacing the signed line's "no `unit` field"; `unit` stays unbound until the unit vocabulary is chosen.
+
+RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidity_observation` leaf, and the `length_calculation`, `velocity_calculation` and `intensity_calculation` leaves, for the Haley import's stages 9-10; `check_prose_counts` re-derives all nouns): **217 distinct V_eta class names** (was 212); **223 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.

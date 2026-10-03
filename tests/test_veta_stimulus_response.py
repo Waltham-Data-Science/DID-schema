@@ -489,7 +489,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # `humidity` composite and its `humidity_observation` leaf (jess, the Haley
     # import's stage 9). The cell's only bounds are the shared tolerance minima the
     # other cells carry; the INERT list below is untouched.
-    assert walked == 214, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-FIRST MOVEMENT, re-derived not bumped: 214 -> 217 on 2026-10-03, the
+    # length, velocity and intensity calculation leaves (jess, the Haley import's
+    # stage 10). A leaf declares no fields, so the INERT list below is untouched.
+    assert walked == 217, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

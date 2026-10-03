@@ -163,3 +163,19 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional formulation.value.type, a term 
   tenets could not answer "which unit is canonical".
 TEAM-SIGN-OFF: jess / 2026-10-03 -- add the humidity data type, canonical percent_relative_humidity, with a humidity_observation leaf
 TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units are practical SI
+
+## `length_calculation`, `velocity_calculation`, `intensity_calculation` (did-schema PR #86)
+
+- Three calculation leaves, each a statement direction crossed with an existing data
+  type (T3), minted because the Haley import's stage 10 needs them. Under T2's rule a
+  value computed from data in the dataset (the videos, the E. coli images) is a
+  calculation, and these types had no calculation leaf:
+  - `length_calculation`: a worm's distance to the nearest patch edge per frame
+    (`distanceLawnEdge`); an E. coli patch's peak offset from its edge (`xPeak`).
+  - `velocity_calculation`: a worm's smoothed speed per frame (`velocitySmooth`).
+  - `intensity_calculation`: an E. coli patch's fluorescence profile against distance
+    from its edge, its amplitudes (`borderAmplitude`, `centerAmplitude`, `yPeak`,
+    `yOuterEdge`), and the fitted background image they were normalised by.
+- Positions use the existing `position_calculation`, the patch and arena masks and
+  `closestLawnID` the existing `label_calculation`, and circularity the existing
+  `score_calculation`.
