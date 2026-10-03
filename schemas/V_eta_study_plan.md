@@ -179,3 +179,4 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units are practical SI
 - Positions use the existing `position_calculation`, the patch and arena masks and
   `closestLawnID` the existing `label_calculation`, and circularity the existing
   `score_calculation`.
+TEAM-SIGN-OFF: jess / 2026-10-03 -- add length_calculation, velocity_calculation and intensity_calculation leaves
