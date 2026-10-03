@@ -565,3 +565,31 @@ change (PR #76 checklists); the per-member hash (a recorded gap).
 TEAM-SIGN-OFF [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).
 
 TEAM-SIGN-OFF [#73 audit 2, D1-D13]: jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).
+
+## G. Amendment 1 — a `strain` can be an ingredient (2026-10-02)
+
+**Decided by jess, 2026-10-02, in the Haley import's stage 8 (plate preparation);
+not signed here (Operating Rule 4).** Amends item 59.
+
+The prompt: the Haley plates are seeded with a bacterial suspension, OP50-GFP grown
+in Luria broth with an antibiotic. One suspension was made per day of seeding and
+used for every plate seeded that day, so it is a `formulation`, reused across those
+plates by their `dose_manipulation`s. Item 59 lets `formulation.ingredient_id` name
+only a `chemical` or another `formulation`. A strain is an entity (`strain` ⊂
+`entity`), not a bought substance, so it fits neither, and without this change the
+suspension could not say which bacterium it holds.
+
+The change:
+
+- `formulation.ingredient_id` may also refer to a `strain`
+  (`must_refer_to_document_class` `chemical,formulation,strain`).
+- How much of the strain went in uses the existing `value.ingredients[k]` slots:
+  `count`, or a final `concentration` (`particles_per_liter` for CFU per volume; an
+  OD600 reading is kept as `source_unit` / `source_value`).
+- Nothing else changes: no new field, no new class, and the edge stays optional,
+  repeated and ordered.
+
+`must_refer` is existence-only, so documents written before the change still
+validate.
+
+TEAM-SIGN-OFF [formulation strain ingredient]: jess@walthamdatascience.com / 2026-10-02 -- formulation.ingredient_id may also refer to a strain, as recorded in section G.

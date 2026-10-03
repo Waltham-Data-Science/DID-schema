@@ -3265,3 +3265,7 @@ RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product
 RE-DERIVED 2026-09-30 (`directed_relation.roles` + the `awarded_to` relation; `check_prose_counts` re-derives all nouns): **21 fields carry a binding** (was 20; +`directed_relation.roles`); the registry has **44** rows (was 43; relation_bindings 30 -> 31). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`, the sign-off record for `study`, `instance_of`, `awarded_to` and contributor `roles`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-02 (`subject.type` and `distributive`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **22 fields carry a binding** (was 21; +`subject.type`, bound to the seven coarse subject kinds; `distributive` is an unbound boolean). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-03 (`formulation.value.type`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **23 fields carry a binding** (was 22; +`formulation.value.type`, bound like `subject_statement.variable`). Re-derive with `check_prose_counts`, do not quote these directly.

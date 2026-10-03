@@ -352,6 +352,19 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "distributive",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional; meaningful only when the subject is a group (`subject.type` group). True: this statement holds of EACH member, as well as of the group (a cohort moved to a plate: each worm was moved). Absent or false: it holds of the group as a whole and of no member by implication (a cohort's size).",
+            "constraints": {}
         }
     ]
 }

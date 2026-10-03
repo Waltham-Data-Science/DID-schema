@@ -640,7 +640,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 71,
+          "accepted_lines": 77,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -687,6 +687,7 @@
             "epoch extent -- row #113",
             "epochclocktimes",
             "file navigation",
+            "formulation strain ingredient",
             "image / ngrid",
             "logical_observation",
             "logical_observation amendment 1",
@@ -854,6 +855,12 @@
               {
                 "document": "V_eta_daq_family_decisions.md",
                 "line": 333
+              }
+            ],
+            "formulation strain ingredient": [
+              {
+                "document": "V_eta_spatial_transcriptomics_plan.md",
+                "line": 595
               }
             ],
             "image / ngrid": [
@@ -1086,7 +1093,7 @@
           "untagged_documents": {
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2,
-            "V_eta_study_plan.md": 7
+            "V_eta_study_plan.md": 12
           },
           "families_total": 27,
           "families_signed": [
@@ -1184,6 +1191,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 3022
+              }
+            ],
+            "formulation strain ingredient": [
+              {
+                "document": "V_eta_spatial_transcriptomics_plan.md",
+                "line": 595
               }
             ],
             "logical_observation amendment 1": [

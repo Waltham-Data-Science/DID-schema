@@ -41,3 +41,96 @@ TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional session.name as a display name 
   "Axio Zoom.V16"), may carry spaces, need not be unique, and can be corrected
   without breaking anything, because nothing refers to a subject by name.
 TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional subject.name as a display name beside local_identifier
+
+## `contained_in` is timed (did-schema PR #84)
+
+- The relation registry marked `contained_in` `timed: false`, so a
+  `contained_in` edge was not declared to carry a `time_reference`. The Haley
+  import's stage 6 (NDI-matlab decision #52) gives every one a window: a worm is
+  on its acclimation plate, then its food deprivation plate, then its assay
+  plate, each from one transfer to the next. The flag now says `timed: true`,
+  like `member_of`, `derived_from` and `sample_of`. Nothing enforced the flag,
+  so no document changes; the registry now says what the documents do.
+TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
+
+## `subject.type` (did-schema PR #84)
+
+- `subject.type` (optional, bound, required strength): what kind of thing a
+  subject is, at the coarsest level. Seven values:
+
+  | value | meaning | examples |
+  |---|---|---|
+  | organism | one whole living individual | a worm, a mouse |
+  | culture | a mass grown as one, whose members are never subjects | a bacterial lawn, a cell culture |
+  | tissue | part of an organism | a slice, a biopsy, a brain region |
+  | cell | one cell | a neuron, a sorted unit |
+  | group | a subject whose members are subjects, by `member_of` | a cohort of worms, a neuron ensemble |
+  | device | an instrument | a camera, a probe, an electrode |
+  | material | a non-living object or substance | an agar plate, a dish |
+
+- **This reverses, for the coarse kind only, `V_eta_migration_plan.md` A.2**
+  ("kind is a bound `term_assertion`, not a field") and the matching line of
+  `V_eta_SPEC.md` §1. Why: the subject-defining assertions (species, cell type,
+  instrument type, material type) cannot tell an organism from a tissue, a
+  culture or a cell of the same species (a worm and the lawn it forages on both
+  carry only a species), and A.2's "presence is an ingestion-layer invariant"
+  was not built. The coarse kind is known when a subject is made; the finer kind
+  (species, strain, cell type, instrument type) is often learned later and stays
+  an assertion, as T1 intends.
+- `group` brings back the removed `is_group`, but checkably: a group's members
+  are subjects with a `member_of` edge to it, and only a group has them. That is
+  a batch rule (across documents), not checked per document. A mass whose
+  members will never be subjects (a lawn, a culture) is a `culture`.
+  `is_biological` is not stored: it is every value except device and material.
+- "cell population" was considered and dropped: it mixed a culture (biology)
+  with an ensemble (a grouping of identified cells), which are `culture` and
+  `group`.
+- Named `type`, after `acquisition_channels.channels.type`; on `subject`,
+  `subject_type` would repeat the class. Optional, because migrated v1 subjects
+  carry no kind; a migrator may fill it from the v1 class.
+
+## `distributive` (did-schema PR #84)
+
+- `subject_statement.distributive` and `directed_relation.distributive`
+  (optional boolean): on a statement or relation about a group, true means it
+  holds of each member (a cohort moved to a plate: each worm was moved). Absent
+  or false is the literal reading: it is about the group as a whole and says
+  nothing about any member (a cohort's size). So nothing is applied to every
+  member unless it says so.
+- Prompted by the Haley import, which puts the transfers, plate windows,
+  species and strain of a cohort of worms on the cohort, with each worm
+  `member_of` it (NDI-matlab decisions #54 and stage 7).
+TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional subject.type (organism, culture, tissue, cell, group, device, material), superseding A.2 for the coarse kind only
+TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_statement and directed_relation
+
+## `documented_by` a recipe (did-schema PR #84)
+
+- `documented_by` (child -> `web_resource`) allowed only an `entity` as the
+  child. A `formulation` is a `data_type`, not an entity, so a standard recipe
+  could not cite where it is written down. The child may now also be a
+  `formulation`. Prompted by the Haley import: S-Complete and LB were made by
+  the Salk media kitchen to the standard recipes, and WormBook (Stiernagle
+  2006, "Maintenance of C. elegans", doi:10.1895/wormbook.1.101.1) is taken as
+  their source, so each recipe is written out as ingredients and
+  `documented_by` the WormBook chapter.
+
+## `formulation.value.type` (did-schema PR #84)
+
+- `formulation.value.type` (optional `ontology_term`, bound like
+  `subject_statement.variable`: preferred strength, node in CURIE form): what
+  kind of mixture a formulation is, the standard recipe or medium it is
+  ("S-Complete", "LB", "NGM, 3% agar, no peptone"). The counterpart of
+  `subject.type`, inside `value` beside `ingredients`, `ph` and
+  `osmolarity` because a `data_type` exposes one payload field and its
+  descriptors ride inside the cell (T14). `base.name` is refused in V_eta (#73 item 54), so a
+  formulation had no name at all: it was identifiable only from its ingredient
+  list, and two standard recipes `documented_by` the same source (WormBook's LB
+  and S-Complete) could not be told apart.
+- A term rather than a free-text name: it is given by name with its node staged
+  until the ontology lookup, then is queryable across datasets ("everything
+  grown in LB"). It classifies the recipe; the recipe is still its ingredients
+  (or its product), so a term does not make a formulation a `chemical` (one
+  pure substance, as bought). Left out for a one-off mixture, such as a day's
+  OD600 0.5 dilution, which is no standard kind.
+TEAM-SIGN-OFF: jess / 2026-10-03 -- a formulation may be documented_by a web_resource, so a standard recipe cites its source
+TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional formulation.value.type, a term naming what kind of mixture a recipe is

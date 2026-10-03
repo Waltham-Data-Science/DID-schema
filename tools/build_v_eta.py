@@ -2801,10 +2801,15 @@ write("stable", "chemical",
                            "+ 1 M would count the water twice.", non_empty=True),
                   subfield("concentration", "concentration",
                            "Optional: the bottle's own strength (1 M, 30 %).")])]))
+# A `strain` is an ingredient too (2026-10-02, the Haley seeding suspension: OP50-GFP
+# grown in LB with an antibiotic; V_eta_spatial_transcriptomics_plan.md section G).
+# A strain is an entity, not a bought substance, so it is not a `chemical`; how much
+# of it went in is `count` or a final `concentration` (particles_per_liter).
 _ingredient_id = dep(
-    "ingredient_id", "chemical,formulation",
+    "ingredient_id", "chemical,formulation,strain",
     "What went in, in the order of `value.ingredients` (entry k describes edge k; the "
-    "order carries no other meaning). A stock you made is a formulation.",
+    "order carries no other meaning). A stock you made is a formulation; a live strain "
+    "grown or suspended in it (bacteria in broth) is a `strain`.",
     non_empty=False, multiple=True)
 _ingredient_id["ordered"] = True
 _ingredient_id["min_count"] = 1
@@ -8029,8 +8034,11 @@ RELATION_VOCABULARY = [
     # study. See the `study` class below.
     _rel("part_of", "BFO:0000050", "the part", "the whole",
          ["subject", "session", "study"], ["subject", "dataset", "study"]),
+    # timed since 2026-10-02 (V_eta_study_plan.md, "contained_in is timed"): a
+    # container holds its contents for a while -- a worm is on each plate in turn,
+    # and the Haley import gives every contained_in edge that window.
     _rel("contained_in", "RO:0001018", "the contained", "the container",
-         [], []),
+         [], [], timed=True),
     # is_group was removed from subject, so a group IS just a subject with members.
     #
     # timed + ordered, BOTH SET 2026-08-10 (team delegated the call after the
@@ -8102,8 +8110,10 @@ RELATION_VOCABULARY = [
     _rel("affiliated_with", "", "the person", "the organization",
          ["person"], ["organization"]),
     # reference / storage (entity layer)
-    _rel("documented_by", "", "the documented entity", "the web_resource",
-         ["entity"], ["web_resource"]),
+    # + formulation (2026-10-02, V_eta_study_plan.md "documented_by a recipe"): a
+    # standard recipe (WormBook's S-Complete, LB) cites where it is written down.
+    _rel("documented_by", "", "the documented entity or recipe", "the web_resource",
+         ["entity", "formulation"], ["web_resource"]),
     _rel("stored_at", "", "the stored dataset", "the web_resource (remote copy)",
          ["dataset"], ["web_resource"]),
     _rel("hosted_by", "", "the web_resource", "the hosting organization",
@@ -10423,6 +10433,89 @@ _d["fields"].append(field(
     non_empty=False, scalar=False,
     constraints=_a2_term_binding("did_contributor_role", _CREDIT_ROLES)))
 write(_t, "directed_relation", _d)
+
+
+# --- `subject.type` (2026-10-02, jess; not signed; V_eta_study_plan.md) ---------------
+# What kind of thing a subject is, at the coarsest level, as a field. This REVERSES, for
+# the coarse kind only, V_eta_migration_plan.md A.2's "kind is a bound term_assertion,
+# not a field": the subject-defining assertions (species, cell type, instrument type,
+# material type) cannot tell an organism from a tissue, a culture or a cell of the same
+# species -- a worm and the bacterial lawn it forages on both just carry a species --
+# and A.2's "presence is an ingestion-layer invariant" was never built. Fine kind
+# (species, strain, cell type, ...) stays an assertion, added as it becomes known.
+# `group` brings back the removed `is_group`, but checkably: a group's members are
+# subjects with a `member_of` edge to it, and only a group has them (a BATCH rule,
+# like the time-reference family rule). A mass whose members are never subjects (a
+# bacterial lawn, a cell culture) is a `culture`, not a group. Named `type` after
+# `acquisition_channels.channels.type` (bound the same way, #73 audit 2 D5); on
+# `subject`, `subject_type` would repeat the class.
+_SUBJECT_TYPES = ("organism", "culture", "tissue", "cell", "group", "device",
+                  "material")
+_t, _d = _a2_load("subject")
+if any(f["name"] == "type" for f in _d["fields"]):
+    raise SystemExit("subject already declares type")
+_d["fields"].append(field(
+    "type", "ontology_term",
+    "Optional: what kind of thing this subject is, at the coarsest level -- organism "
+    "(one whole living individual) | culture (a mass grown as one, whose members are "
+    "never subjects: a bacterial lawn, a cell culture) | tissue (part of an organism: "
+    "a slice, a biopsy, a region) | cell (one cell) | group (a subject whose members "
+    "are subjects, by `member_of`: a cohort, an ensemble; only a group has members) | "
+    "device (an instrument) | material (a non-living object or substance: an agar "
+    "plate). Known when the subject is made; the finer kind (species, strain, cell "
+    "type, instrument type) is a `term_assertion`. Bound, required.",
+    non_empty=False,
+    constraints=_a2_term_binding("did_subject_type", _SUBJECT_TYPES,
+                                 strength="required")))
+write(_t, "subject", _d)
+
+
+# --- `distributive` (2026-10-02, jess; not signed; V_eta_study_plan.md) ---------------
+# A statement or relation about a GROUP is either about each member (the cohort was
+# moved to plate 11: each worm was) or about the group as a whole (the cohort had 12
+# worms: no worm did). Absent means the literal reading -- it is about its subject --
+# so nothing is applied to every member unless it says so.
+_DISTRIBUTIVE_DOC = (
+    "Optional; meaningful only when the subject is a group (`subject.type` group). True: "
+    "this holds of EACH member, as well as of the group (a cohort moved to a plate: each "
+    "worm was moved). Absent or false: it holds of the group as a whole and of no member "
+    "by implication (a cohort's size).")
+for _name, _where in (("subject_statement", "statement"), ("directed_relation",
+                                                           "relation")):
+    _t, _d = _a2_load(_name)
+    if any(f["name"] == "distributive" for f in _d["fields"]):
+        raise SystemExit(f"{_name} already declares distributive")
+    _d["fields"].append(field("distributive", "boolean",
+                              _DISTRIBUTIVE_DOC.replace("this holds",
+                                                        f"this {_where} holds"),
+                              non_empty=False))
+    write(_t, _name, _d)
+
+
+# --- `formulation.value.type` (2026-10-03, jess; not signed; V_eta_study_plan.md) -----
+# What kind of mixture a formulation is ("S-Complete", "LB", "NGM, 3% agar, no
+# peptone") as a TERM, the counterpart of `subject.type`: `base.name` is refused in
+# V_eta (#73 item 54), so a recipe had no name and two standard recipes documented_by
+# one source (WormBook's LB and S-Complete) could not be told apart. A term, not free
+# text: given by name with its node staged until the ontology lookup, then queryable
+# across datasets ("everything grown in LB"). It classifies the recipe; the recipe is
+# still its ingredients (or its product), so a term does not make it a `chemical`.
+# Optional: a one-off mixture (a day's OD600 0.5 dilution) is no standard kind.
+# Inside `value`, beside `ingredients` / `ph` / `osmolarity`: a data_type exposes ONE
+# payload field and its descriptors ride inside the cell (T14).
+_t, _d = _a2_load("formulation")
+_fv = _a2_field(_d["fields"], "value")
+if any(f["name"] == "type" for f in _fv["fields"]):
+    raise SystemExit("formulation.value already declares type")
+_fv["fields"].insert(0, subfield(
+    "type", "ontology_term",
+    "Optional: what kind of mixture this is -- the standard recipe or medium it is "
+    "(e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its "
+    "ingredients (or its product). Left out for a one-off mixture (a day's dilution). "
+    "Bound like `subject_statement.variable`.",
+    non_empty=False,
+    constraints={"binding": {"strength": "preferred", "node_form": "curie"}}))
+write(_t, "formulation", _d)
 
 
 # (d) acquisition_channels.channels.type: a closed set, bound now.

@@ -149,7 +149,7 @@
             "parent_role": "the container",
             "child_types": [],
             "parent_types": [],
-            "timed": false,
+            "timed": true,
             "ordered": false
         },
         {
@@ -358,10 +358,11 @@
                 "name": "documented_by"
             },
             "class": "directed_relation",
-            "child_role": "the documented entity",
+            "child_role": "the documented entity or recipe",
             "parent_role": "the web_resource",
             "child_types": [
-                "entity"
+                "entity",
+                "formulation"
             ],
             "parent_types": [
                 "web_resource"

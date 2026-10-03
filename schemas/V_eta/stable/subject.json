@@ -59,6 +59,90 @@
             "constraints": {
                 "maxLength": 256
             }
+        },
+        {
+            "name": "type",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: what kind of thing this subject is, at the coarsest level -- organism (one whole living individual) | culture (a mass grown as one, whose members are never subjects: a bacterial lawn, a cell culture) | tissue (part of an organism: a slice, a biopsy, a region) | cell (one cell) | group (a subject whose members are subjects, by `member_of`: a cohort, an ensemble; only a group has members) | device (an instrument) | material (a non-living object or substance: an agar plate). Known when the subject is made; the finer kind (species, strain, cell type, instrument type) is a `term_assertion`. Bound, required.",
+            "constraints": {
+                "binding": {
+                    "root": "did_subject_type",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "",
+                            "name": "organism"
+                        },
+                        {
+                            "node": "",
+                            "name": "culture"
+                        },
+                        {
+                            "node": "",
+                            "name": "tissue"
+                        },
+                        {
+                            "node": "",
+                            "name": "cell"
+                        },
+                        {
+                            "node": "",
+                            "name": "group"
+                        },
+                        {
+                            "node": "",
+                            "name": "device"
+                        },
+                        {
+                            "node": "",
+                            "name": "material"
+                        }
+                    ],
+                    "strength": "required",
+                    "source": "value_set"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }
