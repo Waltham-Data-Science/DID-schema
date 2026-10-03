@@ -1008,6 +1008,29 @@
             "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
         {
+            "class_name": "humidity",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/humidity.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "humidity_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_observation",
+                "humidity"
+            ],
+            "path": "schemas/V_eta/draft/humidity_observation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "image",
             "tier": "deprecated",
             "class_version": "2.0.0",

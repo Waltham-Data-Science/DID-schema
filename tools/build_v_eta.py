@@ -6971,6 +6971,20 @@ write("draft", "spatial_frequency",
           "A spatial frequency value cell, cycles per degree of visual angle "
           "(canonical + lossless source). Series-as-cardinality: an array of the cell.",
           non_empty=True, scalar=False, blank=[], default=[CELL])]))
+# humidity (jess, 2026-10-03, the Haley import's stage 9): the moisture of the air.
+# Relative humidity is a dimensionless ratio with no SI unit; its practical unit is the
+# percent relative humidity every room sensor reports, so that is the canonical slot
+# (practical SI, T14). Absolute humidity is a different quantity: a second slot
+# (`grams_per_cubic_meter`) when a source has one, not a second type. One leaf, the
+# observation the Haley recordings need (T3: a leaf is made when it is needed).
+write("draft", "humidity",
+      doc("humidity", ["base"], abstract=True, maturity="draft", fields=[field(
+          "value", "humidity",
+          "A humidity value cell, percent relative humidity (canonical + lossless "
+          "source). Series-as-cardinality: an array of the cell.",
+          non_empty=True, scalar=False, blank=[], default=[CELL])]))
+write("draft", "humidity_observation",
+      doc("humidity_observation", ["subject_observation", "humidity"], maturity="draft"))
 
 
 # ---------- 11c. frequency_filter ----------
@@ -7084,6 +7098,8 @@ if "date" not in type_enum:
     type_enum.append("date")
 if "spatial_frequency" not in type_enum:     # #73 review item 45
     type_enum.append("spatial_frequency")
+if "humidity" not in type_enum:              # the Haley import, 2026-10-03
+    type_enum.append("humidity")
 
 # ---- `base.datestamp` -> `base.creation_timestamp` -------------------------
 # THE FIELD IS INHERITED FROM V_zeta AND NOTHING HERE TOUCHED IT, which is why
@@ -11158,6 +11174,9 @@ _DIM_CANON = {
     # the QUANTITY (gain), not the unit (decibel), per the family rule that gives
     # `voltage` not `volt` and `frequency` not `hertz`.
     "gain": ["decibels"],
+    # humidity (2026-10-03): relative humidity is dimensionless, so the slot is named
+    # for the quantity with its scale (T14), in the practical unit sensors report.
+    "humidity": ["percent_relative_humidity"],
 }
 # count / score are the documented EXCEPTIONS to the canonical+source triple: a count has no
 # dimensional scaling (its unit is semantic, not convertible) and a score is scale-relative.
@@ -11227,6 +11246,8 @@ def _named_type_subfields(tname):
             "intensity": "Canonical intensity value, in arbitrary units: comparable "
                          "across documents only when they share the statement's "
                          "`variable`.",
+            "humidity": "Canonical relative humidity, in percent (0-100): the "
+                        "practical unit every sensor reports (T14).",
             "ph": "Canonical pH, the log-scale number. `source_unit` is kept for "
                   "lossless provenance (a source may write 'pH', or state a scale).",
         }
