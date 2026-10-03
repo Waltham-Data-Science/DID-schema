@@ -132,3 +132,5 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional distributive on subject_stateme
   (or its product), so a term does not make a formulation a `chemical` (one
   pure substance, as bought). Left out for a one-off mixture, such as a day's
   OD600 0.5 dilution, which is no standard kind.
+TEAM-SIGN-OFF: jess / 2026-10-03 -- a formulation may be documented_by a web_resource, so a standard recipe cites its source
+TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional formulation.value.type, a term naming what kind of mixture a recipe is
