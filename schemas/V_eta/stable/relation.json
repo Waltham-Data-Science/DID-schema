@@ -36,8 +36,13 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional: the procedure that produced the relation -- the `how` (surgical_dissection, biological_reproduction, an orthology-inference tool). Declared on `relation` so undirected relations have it too (item 24). A timed `derived_from` with a `method` and a `time_reference` IS the creation event.",
-            "constraints": {},
+            "documentation": "Optional: the procedure that produced the relation -- its technique (surgical dissection, biological reproduction, an orthology-inference tool), as for an interaction's `method` (T16) and bound the same way. Declared on `relation` so undirected relations have it too (item 24). A timed `derived_from` with a `method` and a `time_reference` IS the creation event.",
+            "constraints": {
+                "binding": {
+                    "strength": "preferred",
+                    "node_form": "curie"
+                }
+            },
             "fields": [
                 {
                     "name": "node",

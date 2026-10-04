@@ -133,21 +133,21 @@ adding a body never rewrites the statement — so that rule is checked in batch.
 **Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is
 **losslessly derivable** from representation *A*, store *A* once at the **finest grain** and
 treat *B* as a **rebuildable cache**, never as a second source of truth. A materialized cache
-is still one of the two bodies (usually `sampled_body`), but it is marked `derived_from` its
-source subjects (T10) and carries no authority — deleting it loses nothing, because it
+is still one of the two bodies (usually `sampled_body`), owned by a calculation whose
+`input_id` edges name its sources (T10, T15), and it carries no authority — deleting it loses nothing, because it
 regenerates from *A*. Store the source, project the view. *Example:* per-neuron spike trains
 are the source of truth; an ensemble's combined (time, neuron) marked-point-process is a
 derived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
 
-**The cache marker (required).** `derived_from` alone is overloaded — T10 uses it for
-*authoritative* analysis outputs (a calculation result IS the science), while a cache is
-*disposable*. A consumer must be able to tell them apart, so a materialized cache carries an
-explicit **`redundant: true`** marker (distinct from a plain `derived_from` provenance edge).
-`redundant` ⇒ adds no information, regenerable exactly, no authority, safe to drop and
-rebuild; absent ⇒ the `derived_from` product is authoritative (a T10 calculation). Never infer
-cache-ness from `derived_from` presence. *(Named `is_cache` until 2026-09-24: "cache" reads as
+**The cache marker (required).** A calculation's `input_id` edges (T15; `derived_from_#`
+before it) are overloaded — T10 uses them for *authoritative* analysis outputs (a calculation
+result IS the science), while a cache is *disposable*. A consumer must be able to tell them
+apart, so a materialized cache carries an explicit **`redundant: true`** marker, on the
+calculation or on its body. `redundant` ⇒ adds no information, regenerable exactly, no
+authority, safe to drop and rebuild; absent ⇒ the product is authoritative (a T10
+calculation). Never infer cache-ness from the presence of inputs. *(Named `is_cache` until 2026-09-24: "cache" reads as
 transient and possibly stale, and collides with NDI's in-memory `ndi.cache`; `redundant` names
 test 1 below directly, and T13 drops the `is_` prefix. Declared ONLY on `data_body` and
 `subject_calculation` — the only places a cache can exist: an observation's source is outside
@@ -385,13 +385,19 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   `grams_per_liter`, …). *(Until 2026-10-03 this rule lived only in builder text and plan
   amendments: mass became grams on 2026-09-23 (#73), angles degrees in #73 review item 44,
   humidity percent on 2026-10-03; the list is `_DIM_CANON` in `tools/build_v_eta.py`.)*
-- **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29). Every value cell is
-  `{<canonical slot>, source_value, source_unit, approximate}`, all but the canonical slot
-  optional. A cell drops `source_value`/`source_unit` only when no conversion to the canonical
-  slot exists (a count). A cell whose value can be stated at a coarser granularity than it is
-  stored adds a declared `precision` (a date) — precision is granularity, `approximate` is
-  certainty, and a date carries both. No per-value `uncertainty` field exists until a source
-  states one (the one stated tolerance, `time_reference.clock_tolerance`, is on the timeline).
+- **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29; `tolerance` added by CHANGE 7,
+  signed 2026-10-02). Every value cell is
+  `{<canonical slot>, source_value, source_unit, approximate, tolerance}`, all but the
+  canonical slot optional. A cell drops `source_value`/`source_unit` only when no conversion to
+  the canonical slot exists (a count). A cell whose value can be stated at a coarser
+  granularity than it is stored adds a declared `precision` (a date) — precision is
+  granularity, `approximate` is certainty, and a date carries both. **`tolerance {minus,
+  plus}`** is the stated bound, both ≥ 0 in the canonical unit, the true value lying in
+  [value − minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not
+  a statistic; absent means none stated, `{0, 0}` means exact as given. Every dimensioned cell
+  carries it, as do count, score and date cells (CHANGE 7 amendment 1); axis keys and
+  conditions do not. A measured spread (a standard deviation) is another statistic, so it is
+  its own field (next bullet), never a tolerance.
 - **Another reading is a key; another statistic is a field** (#73 audit 2 D3, refining item
   15). A further reading of the same quantity (another trial, another stimulus level) is a
   position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial

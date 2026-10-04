@@ -183,7 +183,12 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
 # node_form: curie} like `study.factors` and `subject_statement.variable`.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 20
+# 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
+# and the `variable` of keys (data, acquisition_epoch), conditions (subject_statement,
+# data_body) and method parameters (subject_interaction, method_parameters,
+# clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
+# like the statement's own `variable` and `method`, which are also uncatalogued.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 28
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and

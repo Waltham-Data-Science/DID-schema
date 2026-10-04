@@ -42,7 +42,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The noun the statement concerns \u2014 the quantity/entity (temperature, body weight, a drug, species). One name across assertions, observations and manipulations, so identity search is uniform.",
+            "documentation": "The property of the subject the statement is about -- a noun phrase that could be observed as well as set (ambient temperature, location, body weight, species), never the act (T16). One name across assertions, observations, manipulations and calculations, so one query finds every statement about it.",
             "constraints": {
                 "binding": {
                     "strength": "preferred",
@@ -108,7 +108,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The condition's name (arm direction, OD600, trial type); registry-keyed for its value_set (D9).",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

@@ -224,3 +224,45 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- add length_calculation, velocity_calculation
     `local.m`) and its tests.
   - Dated records (plan documents, corpus results, CLAUDE.md) keep the name they were
     written with.
+
+## Tenet audit, 2026-10-04 (did-schema PR #87)
+
+Every non-deprecated class (212 of 217; 70 of them retired v1 tombstones, held to their
+own v1-spelling rule) checked against T1-T16 on main `967f84a`. Passed with nothing
+found: T13 (no `is_`/`has_` booleans, no camelCase), T15 (every edge `_id`, every
+repeated edge `ordered`, no count on a single edge; `ensemble.neuron_id_#` is a v1
+tombstone), T14 (one `value` payload, the full cell on all 29 dimensioned types, every
+canonical slot names its unit), T3 (every leaf a direction x a data type, but see 1),
+#73 item 54 (`local_identifier` only on subject, session, epoch). Fixed here:
+
+1. **`humidity` is a concrete `data_type`** (it was `base` and abstract: PR #86 wrote it
+   like `spatial_frequency` but left it out of the build's `DATA_TYPES` list, so it was
+   never reparented, #73 item 19). A new test, `test_value_bearing_classes_are_data_types`,
+   fails any class carrying a `value` that is not one, naming the time references and
+   NDI's `demo` fixture as the only exemptions. No new decision: the signed rule, applied.
+2. **T14's value-cell bullet catches up with CHANGE 7** (signed 2026-10-02): the cell is
+   `{<canonical slot>, source_value, source_unit, approximate, tolerance}`, and the
+   sentence "No per-value `uncertainty` field exists" goes. The meta-schema's description
+   says the same.
+3. **`variable` and `method` are documented as T16 says**: `variable` is a property, never
+   the act; `method` is the technique, recorded only when it adds something, never a
+   direction-restating word. The old `method` text recommended "measurement".
+4. **`relation.method` is bound like `subject_interaction.method`** (preferred, CURIE form),
+   its examples written as plain names.
+5. **T6's cache paragraph speaks T15**: a cache body is owned by a calculation whose
+   `input_id` edges name its sources (it said "marked `derived_from` its source
+   subjects", and `data_body` has no such edge).
+6. **`product` and `acquisition_channels` become stable**: stable classes point at them
+   (`chemical`/`formulation`/`strain.product_id`, `subject_interaction.acquisition_channels_id`).
+7. **Binding parity for `variable`**: the `variable` of a key (`data`, `acquisition_epoch`),
+   a condition (`subject_statement`, `data_body`) and a method parameter
+   (`subject_interaction`, `method_parameters`, `clock_alignment_configuration`) is bound
+   like the statement's own (preferred, CURIE form). Units stay unbound (no unit registry,
+   D9), as do model-fit coefficient names (the model's, not a property). Bound fields
+   23 -> 31; the binding-governance baseline for uncatalogued bound fields 20 -> 28.
+
+Not changed, still open: `strain.species`, `chemical.value.substance`,
+`coordinate_system.origin`/axes and `score.value.scale` have no vocabulary to bind to
+yet (T8, blocked on the ontology lookup). `subject_calculation` requires
+`interpreter_id` and `operating_system_id`, which a compiled program (WormLab) does not
+have an interpreter for: a question for the Haley import's stage 10.

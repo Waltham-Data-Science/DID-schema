@@ -3271,3 +3271,7 @@ RE-DERIVED 2026-10-02 (`subject.type` and `distributive`, did-schema PR #84; `ch
 RE-DERIVED 2026-10-03 (`formulation.value.type`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **23 fields carry a binding** (was 22; +`formulation.value.type`, bound like `subject_statement.variable`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidity_observation` leaf, and the `length_calculation`, `velocity_calculation` and `intensity_calculation` leaves, for the Haley import's stages 9-10; `check_prose_counts` re-derives all nouns): **217 distinct V_eta class names** (was 212); **223 json file(s) under `schemas/V_eta/`** (was 218). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved under `data_type`, where #86 should have put it; `check_prose_counts` re-derives all nouns): **46 direct subclasses** of `data_type` (was 45; +`humidity`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `relation.method` and the `variable` of keys, conditions and method parameters bound like `subject_statement.variable`; `check_prose_counts` re-derives all nouns): **31 fields carry a binding** (was 23; +8). Re-derive with `check_prose_counts`, do not quote these directly.

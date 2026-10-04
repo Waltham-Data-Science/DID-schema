@@ -53,7 +53,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which key is X' well defined.",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

@@ -8920,7 +8920,11 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_grating", "spatial_frequency"]
+    "visual_grating", "spatial_frequency",
+    # humidity (2026-10-04): written ⊂ base like spatial_frequency above, and left
+    # out of this list by PR #86, so it shipped abstract and outside data_type
+    # until the tenet audit of 2026-10-04 found it (test_value_bearing_classes_are_data_types).
+    "humidity"]
 for name in DATA_TYPES:
     # path_of, not a stable/ literal: spatial_frequency (item 45) is in draft/.
     _dt_tier, p = path_of(name)
@@ -11090,12 +11094,97 @@ _meta3["description"] = (
     "so the canonical slot and the source provenance are read from the schema, not "
     "from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, "
     "mmHg, degrees; #73 item 44). Every value cell is "
-    "{<canonical slot>, source_value, source_unit, approximate}, except where T14 "
-    "says otherwise (a count; a date's precision).")
+    "{<canonical slot>, source_value, source_unit, approximate, tolerance}, except "
+    "where T14 says otherwise (a count; a date's precision).")
 _ml = _meta3["$defs"]["document_class_header"]["properties"].get("maturity_level")
 if isinstance(_ml, dict) and "V_delta" in (_ml.get("description") or ""):
     _ml["description"] = _ml["description"].replace("V_delta", "V_eta")
 write("stable", "did_schema_meta", _meta3)
+
+
+# ---------- 12.8. the tenet audit of 2026-10-04 -------------------------------------
+# A pass over every built class against T1-T16 (did-schema PR #87; the plan section
+# is `V_eta_study_plan.md`, "Tenet audit, 2026-10-04"). Four schema-side fixes; the
+# fifth, `humidity` outside `data_type`, is the DATA_TYPES entry in section 12.
+
+# (a) T16: `variable` and `method` say what T16 says they are. The old `method` text
+# ("the verb ... the observation verb is nearly always 'measurement'") recommended
+# exactly the direction-restating word T16 rules out.
+for _cls, _fname, _doc in [
+    ("subject_statement", "variable",
+     ("The property of the subject the statement is about -- a noun phrase that could "
+      "be observed as well as set (ambient temperature, location, body weight, "
+      "species), never the act (T16). One name across assertions, observations, "
+      "manipulations and calculations, so one query finds every statement about it.")),
+    ("subject_interaction", "method",
+     ("Optional: HOW it was done -- the technique (refrigeration, eyelash picking, "
+      "whole-cell patch clamp) -- recorded only when it adds something the variable "
+      "and value do not already say, and only when known (T16). Never a generic word "
+      "that restates the statement's direction ('measurement', 'manipulation', "
+      "'transfer'); an unknown method is absent. The device that did it is "
+      "`instrument_id`, not the method (T7).")),
+]:
+    _t, _p = path_of(_cls)
+    _d = load(_p)
+    _hit = [f for f in _d["fields"] if f["name"] == _fname]
+    if not _hit:
+        raise SystemExit(f"tenet audit: {_cls} declares no {_fname!r}")
+    _hit[0]["documentation"] = _doc
+    write(_t, _cls, _d)
+
+# (b) T8 parity: a relation's `method` is the same concept as an interaction's, so it
+# is bound the same way (preferred, CURIE form); its examples are written as the
+# plain names statements use.
+_t, _p = path_of("relation")
+_d = load(_p)
+_hit = [f for f in _d["fields"] if f["name"] == "method"]
+if not _hit:
+    raise SystemExit("tenet audit: relation declares no 'method'")
+_hit[0]["constraints"] = {"binding": {"strength": "preferred", "node_form": "curie"}}
+_hit[0]["documentation"] = (
+    "Optional: the procedure that produced the relation -- its technique (surgical "
+    "dissection, biological reproduction, an orthology-inference tool), as for an "
+    "interaction's `method` (T16) and bound the same way. Declared on `relation` so "
+    "undirected relations have it too (item 24). A timed `derived_from` with a "
+    "`method` and a `time_reference` IS the creation event.")
+write(_t, "relation", _d)
+
+# (c) T8 parity: the `variable` of a key, a condition and a method parameter is the
+# same kind of term as a statement's `variable` (T16: a property), so it is bound the
+# same way. Units and the model-fit coefficient names are not: units have no
+# registry yet (D9), and a coefficient's name is the model's, not a property.
+_VAR_PARITY = [
+    ("data", ("keys", "variable")),
+    ("subject_statement", ("conditions", "variable")),
+    ("data_body", ("conditions", "variable")),
+    ("subject_interaction", ("method_parameters", "variable")),
+    ("method_parameters", ("method_parameters", "variable")),
+    ("clock_alignment_configuration", ("method_parameters", "variable")),
+    ("acquisition_epoch", ("keys", "variable")),
+]
+for _cls, (_outer, _inner) in _VAR_PARITY:
+    _t, _p = path_of(_cls)
+    if _t is None:
+        raise SystemExit(f"tenet audit: no V_eta schema named {_cls!r}")
+    _d = load(_p)
+    _o = [f for f in _d["fields"] if f["name"] == _outer]
+    _i = [f for f in (_o[0].get("fields") or []) if f["name"] == _inner] if _o else []
+    if not _i or _i[0]["type"] != "ontology_term":
+        raise SystemExit(f"tenet audit: {_cls}.{_outer}.{_inner} is not an ontology_term")
+    _i[0].setdefault("constraints", {})["binding"] = {"strength": "preferred",
+                                                      "node_form": "curie"}
+    write(_t, _cls, _d)
+
+# (d) Maturity: a stable class rests only on stable ones. `product` (#73 item 59) and
+# `acquisition_channels` are each the target of a stable class's edge
+# (chemical/formulation/strain.product_id; subject_interaction.acquisition_channels_id).
+for _name in ("product", "acquisition_channels"):
+    _t, _p = path_of(_name)
+    if _t == "draft":
+        _d = load(_p)
+        _d["document_class"]["maturity_level"] = "stable"
+        write("stable", _name, _d)
+        os.remove(_p)
 
 
 # ---------- 9. regenerate index.json ----------

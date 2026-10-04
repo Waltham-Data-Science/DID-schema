@@ -6,11 +6,11 @@
 |---|--:|
 | ① Statement spine & genus | 14 |
 | ② Entities | 14 |
-| ③ Quantity & substance composites (data_type) | 45 |
+| ③ Quantity & substance composites (data_type) | 46 |
 | ④ Data-type leaf tier | 44 |
 | ⑤ time_reference family | 3 |
 | ⑥ data_body family | 2 |
-| ⑦ Acquisition & infra (keep) | 13 |
+| ⑦ Acquisition & infra (keep) | 12 |
 | **Persist total** | **135** |
 
 ## ① Statement spine & genus (14)
@@ -19,8 +19,8 @@
 ## ② Entities (14)
 `acquisition_system`, `dataset`, `epoch`, `funding`, `organization`, `person`, `product`, `publication`, `session`, `software`, `strain`, `study`, `subject`, `web_resource`
 
-## ③ Quantity & substance composites (data_type) (45)
-`acceleration`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `intensity`, `label`, `length`, `logical`, `mass`, `model_fit`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `score`, `spatial_frequency`, `substance_amount`, `temperature`, `term`, `time`, `timed_sequence`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`
+## ③ Quantity & substance composites (data_type) (46)
+`acceleration`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `humidity`, `intensity`, `label`, `length`, `logical`, `mass`, `model_fit`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `score`, `spatial_frequency`, `substance_amount`, `temperature`, `term`, `time`, `timed_sequence`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`
 
 ## ④ Data-type leaf tier (44)
 `acceleration_observation`, `area_calculation`, `concentration_observation`, `contrast_sensitivity_calculation`, `contrast_tuning_calculation`, `count_calculation`, `count_observation`, `current_observation`, `date_assertion`, `dose_manipulation`, `frequency_observation`, `harmonic_component_calculation`, `humidity_observation`, `intensity_calculation`, `intensity_observation`, `label_calculation`, `length_calculation`, `length_observation`, `mass_observation`, `model_fit_calculation`, `orientation_direction_tuning_calculation`, `position_calculation`, `position_observation`, `pressure_observation`, `receptive_field_calculation`, `score_calculation`, `score_observation`, `spatial_frequency_tuning_calculation`, `speed_tuning_calculation`, `temperature_manipulation`, `temperature_observation`, `temporal_frequency_tuning_calculation`, `term_assertion`, `term_calculation`, `term_manipulation`, `term_observation`, `time_observation`, `timed_sequence_manipulation`, `tuning_curve_calculation`, `velocity_calculation`, `velocity_observation`, `voltage_calculation`, `voltage_observation`, `volume_observation`
@@ -31,8 +31,8 @@
 ## ⑥ data_body family (2)
 `opaque_body`, `sampled_body`
 
-## ⑦ Acquisition & infra (keep) (13)
-`acquisition_channels`, `acquisition_reader`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `frequency_filter`, `humidity`, `ingestion_manifest`, `method_parameters`
+## ⑦ Acquisition & infra (keep) (12)
+`acquisition_channels`, `acquisition_reader`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `frequency_filter`, `ingestion_manifest`, `method_parameters`
 
 ---
 

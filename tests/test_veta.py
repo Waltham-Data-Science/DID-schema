@@ -62,7 +62,7 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` already uses."""
     si = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
-    ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
+    ac = _load(os.path.join(VETA, "stable", "acquisition_channels.json"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_system_id" not in si_edges
@@ -3887,3 +3887,37 @@ def test_hartley_calc_tombstone_is_restated_from_its_writer():
     assert {e["name"]: e["mustBeNonEmpty"] for e in rc["depends_on"]} == {
         "element_id": True, "stimulus_presentation_id": True}
 
+
+
+def test_value_bearing_classes_are_data_types():
+    """A class that carries a `value` payload is a concrete `data_type` (T3, T14;
+    #73 item 19), so its leaves are a direction x a data type and a standalone value
+    can be a `value_id` target or own a body.
+
+    REGRESSION (2026-10-04 tenet audit): `humidity` (PR #86) was written ⊂ base and
+    abstract, like every composite before section 12 reparents them, but was left
+    out of section 12's DATA_TYPES list -- so it shipped outside `data_type` and no
+    test noticed, because nothing asked this question of every class.
+
+    Exempt by name, each for a stated reason: the time references (an anchored
+    "when", T6/item 10, not a value of a quantity) and `demo` (NDI's demoNDI test
+    fixture, whose `value` is the example calculator's input).
+    """
+    exempt_roots = {"time_reference"}
+    exempt = {"demo"}
+    disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
+    checked, bad = 0, []
+    for name, (tier, d) in RECORDS.items():
+        if tier == "deprecated" or disp.get(name) == "retire" or name in exempt:
+            continue
+        if not any(f["name"] == "value" for f in d.get("fields", [])):
+            continue
+        chain = _chain(name)
+        if exempt_roots & set(chain) or name == "data_type":
+            continue
+        checked += 1
+        if "data_type" not in chain or d["document_class"].get("abstract"):
+            bad.append(f"{name}: superclasses {[s['class_name'] for s in d['document_class']['superclasses']]}, "
+                       f"abstract={d['document_class'].get('abstract')}")
+    assert checked > 40, f"only {checked} value-bearing classes checked"
+    assert not bad, "value-bearing classes outside data_type:\n  " + "\n  ".join(bad)

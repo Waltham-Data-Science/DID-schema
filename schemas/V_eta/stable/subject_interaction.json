@@ -64,7 +64,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The verb: what was done (measure, inject, heat, stimulate). Present only on interactions; optional (the observation verb is nearly always 'measurement').",
+            "documentation": "Optional: HOW it was done -- the technique (refrigeration, eyelash picking, whole-cell patch clamp) -- recorded only when it adds something the variable and value do not already say, and only when known (T16). Never a generic word that restates the statement's direction ('measurement', 'manipulation', 'transfer'); an unknown method is absent. The device that did it is `instrument_id`, not the method (T7).",
             "constraints": {
                 "binding": {
                     "strength": "preferred",
@@ -130,7 +130,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

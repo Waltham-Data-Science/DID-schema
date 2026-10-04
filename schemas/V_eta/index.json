@@ -89,13 +89,13 @@
         },
         {
             "class_name": "acquisition_channels",
-            "tier": "draft",
+            "tier": "stable",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
+            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/acquisition_channels.json",
+            "path": "schemas/V_eta/stable/acquisition_channels.json",
             "disposition": "persist"
         },
         {
@@ -1013,7 +1013,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "base"
+                "data_type"
             ],
             "path": "schemas/V_eta/draft/humidity.json",
             "disposition": "persist"
@@ -1615,13 +1615,13 @@
         },
         {
             "class_name": "product",
-            "tier": "draft",
+            "tier": "stable",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
+            "maturity_level": "stable",
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/draft/product.json",
+            "path": "schemas/V_eta/stable/product.json",
             "disposition": "persist"
         },
         {

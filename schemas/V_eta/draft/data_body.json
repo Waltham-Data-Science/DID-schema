@@ -193,7 +193,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The condition's name (arm direction, OD600, trial type); registry-keyed for its value_set (D9).",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
