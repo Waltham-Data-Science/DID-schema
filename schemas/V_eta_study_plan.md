@@ -274,3 +274,6 @@ have an interpreter for: answered in the next section.
   (MATLAB, Python). A compiled program -- WormLab, which produced the Haley import's
   tracks -- runs on an operating system with no interpreter, so a required edge would
   force an invented one. Present whenever the calculator runs in an interpreter.
+TEAM-SIGN-OFF: jess / 2026-10-04 -- timed_sequence becomes item: item_id may point at any document, value.item replaces presentation_order, keys as needed; item_manipulation and item_calculation leaves
+TEAM-SIGN-OFF: jess / 2026-10-04 -- tenet audit fixes: humidity is a data_type; T14 cell includes tolerance; T6 cache via input_id; variable/method documented per T16; relation.method and key/condition/parameter variable bound like the statement's; product and acquisition_channels stable
+TEAM-SIGN-OFF: jess / 2026-10-04 -- subject_calculation.interpreter_id is optional; operating_system_id stays required
