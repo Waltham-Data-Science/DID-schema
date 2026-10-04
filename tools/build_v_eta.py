@@ -11221,8 +11221,12 @@ _v["documentation"] = (
     "of distinct documents in `item_id`: the stimulus shown at each onset, the patch "
     "nearest the worm in each video frame. The keys are whatever the statement needs "
     "(an onset key for a stimulus sequence, a frame key for a track); the values may "
-    "sit in a body when there are many. The `variable` says what kind of item it is. "
+    "sit in a body when there are many, and `value` is then absent (as for every "
+    "data_type with a body). The `variable` says what kind of item it is. "
     "(`timed_sequence` until 2026-10-04.)")
+# The signed section puts the values in a body when there are many (a track's frames),
+# so `value` cannot be required: timed_sequence's mustBeNonEmpty refused every body.
+_v["mustBeNonEmpty"] = False
 for _f in _v["fields"]:
     if _f["name"] == "presentation_order":
         _f["name"] = "item"

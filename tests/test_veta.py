@@ -3943,6 +3943,8 @@ def test_item_generalises_timed_sequence():
     subs = {s["name"] for s in val["fields"]}
     assert {"item", "offset", "control_item"} <= subs
     assert "presentation_order" not in subs
+    # the signed section puts many values in a body, so `value` cannot be required
+    assert not val.get("mustBeNonEmpty"), "an item's values may sit in a body"
     for leaf, direction in (("item_manipulation", "subject_manipulation"),
                             ("item_calculation", "subject_calculation")):
         sup = [s["class_name"] for s in RECORDS[leaf][1]["document_class"]["superclasses"]]

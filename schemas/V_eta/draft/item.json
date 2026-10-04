@@ -27,12 +27,12 @@
             "type": "structure",
             "blank_value": {},
             "default_value": {},
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many. The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
+            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many, and `value` is then absent (as for every data_type with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
             "constraints": {},
             "fields": [
                 {
