@@ -180,3 +180,47 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units are practical SI
   `closestLawnID` the existing `label_calculation`, and circularity the existing
   `score_calculation`.
 TEAM-SIGN-OFF: jess / 2026-10-03 -- add length_calculation, velocity_calculation and intensity_calculation leaves
+
+## `timed_sequence` becomes `item` (did-schema PR #87)
+
+- **`timed_sequence` is renamed `item` and generalised**: a value that names, at each
+  position along its keys, ONE document out of an ordered list of distinct documents.
+  Its structure does not change -- the distinct documents are the ordered, multiple
+  `item_id` edges, and the value holds a 0-based position in that list -- but nothing
+  in it is about stimuli or time any more.
+  - Prompted by the Haley import's stage 10: `closestLawnID` is, per video frame, the
+    patch nearest the worm. Its values are patch SUBJECTS, not text; `label` would
+    store a name that only resembles a subject's local identifier.
+  - Named for what the value is, like its neighbours `term` (an ontology term) and
+    `label` (a local name): each value is an item of the listed set. The variable says
+    what kind of item ("nearest patch", "visual stimulus"), so the type needs no
+    qualifier (T13). Rejected: `item_index` (names the encoding, not the content),
+    `reference` / `referent` (taken by the time references and `referent_id`),
+    `document`, `entity` (taken), `member` (reads as `member_of`).
+- **Changes:**
+  - `item_id` may point at ANY document (was `data_type` only), so an item can be a
+    subject. Still ordered, multiple, deduplicated.
+  - `value.presentation_order` is renamed `value.item`: one 0-based position in
+    `item_id` per position along the keys. A position with no item is empty: NaN
+    inline, the body's `fill_value` when the values are in a body (a track's
+    tens of thousands of frames are).
+  - **Time is no longer built in.** The value's keys are the inherited `keys`, whatever
+    the statement needs: a stimulus sequence keeps its onset key (`variable` time,
+    irregular); the nearest patch is keyed by video frame.
+  - `control_item` (which item is the control condition) and `offset` (per-position
+    end times, only when the key is time) stay, optional.
+  - Leaves: `timed_sequence_manipulation` is renamed `item_manipulation` (the stimulus
+    sequence shown to a subject); a new `item_calculation` (the nearest patch,
+    computed from a track and the patch mask). Both draft.
+  - Supersedes, for `closestLawnID` only, the PR #86 note that it would be a
+    `label_calculation`.
+- **Everything that names the old classes moves with it**, as one change across
+  three repositories, each with its own PR and CI, landing together:
+  - did-schema: the builder, coverage, status and bar-2 tools and their tests;
+    `visual_grating.blank`'s documentation.
+  - DID-matlab: the stimulus migrators (`stimulus_presentation`,
+    `control_stimulus_ids`, `hartley_calc`) and their tests.
+  - NDI-matlab: the stimulus second pass (`stimulusPresentationToTimedSequence`,
+    `local.m`) and its tests.
+  - Dated records (plan documents, corpus results, CLAUDE.md) keep the name they were
+    written with.
