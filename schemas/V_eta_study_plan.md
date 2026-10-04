@@ -265,4 +265,12 @@ Not changed, still open: `strain.species`, `chemical.value.substance`,
 `coordinate_system.origin`/axes and `score.value.scale` have no vocabulary to bind to
 yet (T8, blocked on the ontology lookup). `subject_calculation` requires
 `interpreter_id` and `operating_system_id`, which a compiled program (WormLab) does not
-have an interpreter for: a question for the Haley import's stage 10.
+have an interpreter for: answered in the next section.
+
+## `interpreter_id` is optional (did-schema PR #87)
+
+- `subject_calculation.interpreter_id` becomes optional; `operating_system_id` stays
+  required. #73 item 53 required both, assuming every calculator runs in an interpreter
+  (MATLAB, Python). A compiled program -- WormLab, which produced the Haley import's
+  tracks -- runs on an operating system with no interpreter, so a required edge would
+  force an invented one. Present whenever the calculator runs in an interpreter.

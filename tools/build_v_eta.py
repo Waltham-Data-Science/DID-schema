@@ -907,12 +907,18 @@ _SUBJECT_CALCULATION_SOFTWARE_ID = dep(
 # so R1's "the os this run used, not the os the software supports" still holds.
 # Required, as #67 required the environment. `mustBeNonEmpty` says so; `min_count`
 # is for REPEATED edges only (the build enforces that, after the T15 pass).
+# OPTIONAL since 2026-10-04 (jess; V_eta_study_plan.md, "interpreter_id is
+# optional"): a compiled program (WormLab, a vendor's tracking software) runs on
+# an operating system with no interpreter, so a required edge would force an
+# invented one. The operating system stays required.
 _SUBJECT_CALCULATION_INTERPRETER_ID = dep(
     "interpreter_id", "software",
-    "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python "
-    "3.11), as a `software` entity (name + version). REQUIRED on every "
-    "calculation (#73 item 53; replaces the environment entity's interpreter / "
-    "interpreter_version). The run's, not the calculator's supported interpreters.")
+    "Optional: the interpreter the producing run executed on (e.g. MATLAB R2023b, "
+    "Python 3.11), as a `software` entity (name + version). Present whenever the "
+    "calculator runs in one; absent for a compiled program, which has none (#73 "
+    "item 53, made optional 2026-10-04; replaces the environment entity's "
+    "interpreter / interpreter_version). The run's, not the calculator's supported "
+    "interpreters.", non_empty=False)
 _SUBJECT_CALCULATION_OS_ID = dep(
     "operating_system_id", "software",
     "The operating system the producing run executed on (e.g. macOS 14.5), as a "

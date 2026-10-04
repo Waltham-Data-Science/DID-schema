@@ -22,8 +22,8 @@
         },
         {
             "name": "interpreter_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters.",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). Present whenever the calculator runs in one; absent for a compiled program, which has none (#73 item 53, made optional 2026-10-04; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters.",
             "must_refer_to_document_class": "software"
         },
         {
