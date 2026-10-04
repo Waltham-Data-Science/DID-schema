@@ -286,10 +286,10 @@ TENET_MAP = [
         "`control_stimulus_ids` drops the `ids` container word and becomes "
         "`control_designation` -- a name for the content, not for the box the "
         "content came in. (#73 review item 67 then folded it into "
-        "`timed_sequence.value.control_item`: which condition is the control is a "
+        "`item.value.control_item` (was `timed_sequence`): which condition is the control is a "
         "design fact.)",
         ["control_stimulus_ids"],
-        ["timed_sequence"],
+        ["item"],
         "V_eta_tenet_audit.md",
         "`control_stimulus_ids` → **`control_designation`** (drops the `ids` container word, T13)",
         "The same rule kills `parameters`, `data`, `info`, `table`, `record` "
@@ -333,7 +333,7 @@ TENET_MAP = [
         "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
         "whose order is not.",
         ["syncgraph"],
-        ["clock_alignment_policy", "subject_calculation", "timed_sequence",
+        ["clock_alignment_policy", "subject_calculation", "item",
          "relative_time_reference"],
         "V_eta_tenets.md",
         "a repeated edge repeats that one name",

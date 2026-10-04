@@ -396,7 +396,7 @@
             ],
             "path": "schemas/V_eta/stable/control_stimulus_ids.json",
             "disposition": "retire",
-            "disposition_note": "consumed \u2192 timed_sequence.control_item (#73 item 67)"
+            "disposition_note": "consumed \u2192 item.control_item (#73 item 67; was timed_sequence)"
         },
         {
             "class_name": "coordinate_system",
@@ -1137,6 +1137,41 @@
             "path": "schemas/V_eta/stable/interaction_purpose.json",
             "disposition": "in_progress",
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+        },
+        {
+            "class_name": "item",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/item.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "item_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "item"
+            ],
+            "path": "schemas/V_eta/draft/item_calculation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "item_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_manipulation",
+                "item"
+            ],
+            "path": "schemas/V_eta/draft/item_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "jrclust_clusters",
@@ -2356,29 +2391,6 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/time_reference.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "timed_sequence",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "data_type"
-            ],
-            "path": "schemas/V_eta/draft/timed_sequence.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "timed_sequence_manipulation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "subject_manipulation",
-                "timed_sequence"
-            ],
-            "path": "schemas/V_eta/draft/timed_sequence_manipulation.json",
             "disposition": "persist"
         },
         {

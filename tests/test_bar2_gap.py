@@ -83,7 +83,7 @@ def test_overlay_matches_by_normalised_name():
     # a corpus report's by_class keys are normalised (no underscores); the
     # overlay keys use underscores. They must still match. (run 50 bug.)
     v, _ = B.verdict_for("stimuluspresentation",
-                         _row("no", decided=["timed_sequence_manipulation"]))
+                         _row("no", decided=["item_manipulation"]))
     assert v == "SECOND_PASS"
 
 
@@ -92,15 +92,15 @@ def test_second_pass_overlay_beats_a_stale_ledger():
     # second pass; the overlay knows stimulus_presentation is decomposed there.
     v, detail = B.verdict_for("stimulus_presentation",
                               _row("no", targets=["stimulus_presentation"],
-                                   decided=["timed_sequence_manipulation"]))
+                                   decided=["item_manipulation"]))
     assert v == "SECOND_PASS"
-    assert "timed_sequence_manipulation" in detail
+    assert "item_manipulation" in detail
 
 
 def test_second_pass_is_not_counted_a_bar2_failure(tmp_path):
     led = _ledger(tmp_path, [
         _row("no", targets=["stimulus_presentation"],
-             decided=["timed_sequence_manipulation"]) | {"v1_class": "stimulus_presentation"},
+             decided=["item_manipulation"]) | {"v1_class": "stimulus_presentation"},
         _row("yes", decided=["subject"]) | {"v1_class": "subject"},
     ])
     _write(tmp_path, "SPonly", {"stimulus_presentation": 11, "subject": 3})
@@ -130,7 +130,7 @@ def _ledger(tmp, rows):
 def test_end_to_end_not_at_bar2(tmp_path):
     led = _ledger(tmp_path, [
         _row("no", targets=["stimulus_presentation"],
-             decided=["timed_sequence_manipulation"]) | {"v1_class": "stimulus_presentation"},
+             decided=["item_manipulation"]) | {"v1_class": "stimulus_presentation"},
         _row("yes", decided=["subject"]) | {"v1_class": "subject"},
     ])
     _write(tmp_path, "K", {"stimulus_presentation": 11, "subject": 3,

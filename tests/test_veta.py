@@ -1467,7 +1467,7 @@ def test_no_revived_classes_in_migrators():
 def test_visual_grating_composite():
     """A grating is a structured multi-parameter `visual_grating` composite (orientation
     + spatial/temporal freq + contrast at once, so not a single-quantity leaf). It is
-    presented as an ITEM of a timed_sequence_manipulation; its own manipulation leaf was
+    presented as an ITEM of an item_manipulation (timed_sequence_manipulation until 2026-10-04); its own manipulation leaf was
     deleted with the other unused leaves (#73 item 50)."""
     comp = RECORDS["visual_grating"][1]
     assert "data_type" in _chain("visual_grating")
@@ -1476,7 +1476,7 @@ def test_visual_grating_composite():
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
             "size", "center", "duration", "blank"} <= subs   # position -> center, audit 2 D11
     assert "visual_grating_manipulation" not in RECORDS
-    assert "timed_sequence_manipulation" in RECORDS
+    assert "item_manipulation" in RECORDS
 
 
 def test_openminds_import_is_absent():
@@ -3694,7 +3694,7 @@ def test_t15_ordered_flags_match_the_table():
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
         ("data", "key_labels_id"),
         ("formulation", "ingredient_id"),
-        ("timed_sequence", "item_id"),
+        ("item", "item_id"),
     ], ordered
 
 
@@ -3924,3 +3924,26 @@ def test_value_bearing_classes_are_data_types():
                        f"abstract={d['document_class'].get('abstract')}")
     assert checked > 40, f"only {checked} value-bearing classes checked"
     assert not bad, "value-bearing classes outside data_type:\n  " + "\n  ".join(bad)
+
+
+def test_item_generalises_timed_sequence():
+    """`timed_sequence` became `item` (V_eta_study_plan.md, signed 2026-10-04): a value
+    naming, at each position along its keys, ONE document out of the ordered list of
+    distinct documents in `item_id`. Nothing in it is about stimuli or time: `item_id`
+    may point at any document (a patch subject as well as a stimulus), the playlist
+    field is `item`, and there are manipulation and calculation leaves."""
+    assert "timed_sequence" not in RECORDS and "timed_sequence_manipulation" not in RECORDS
+    _tier, d = RECORDS["item"]
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
+    assert not d["document_class"].get("abstract")
+    edge = {e["name"]: e for e in d["depends_on"]}["item_id"]
+    assert edge["must_refer_to_document_class"] == "base"
+    assert edge["multiple"] is True and edge["ordered"] is True
+    val = next(f for f in d["fields"] if f["name"] == "value")
+    subs = {s["name"] for s in val["fields"]}
+    assert {"item", "offset", "control_item"} <= subs
+    assert "presentation_order" not in subs
+    for leaf, direction in (("item_manipulation", "subject_manipulation"),
+                            ("item_calculation", "subject_calculation")):
+        sup = [s["class_name"] for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
+        assert sup == [direction, "item"], (leaf, sup)

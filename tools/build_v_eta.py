@@ -11193,6 +11193,80 @@ for _name in ("product", "acquisition_channels"):
         os.remove(_p)
 
 
+# ---------- 12.9. `timed_sequence` becomes `item` (signed 2026-10-04) ---------------
+# V_eta_study_plan.md, "`timed_sequence` becomes `item`" (TEAM-SIGN-OFF jess
+# 2026-10-04). Built here, after every earlier pass has shaped `timed_sequence`, as one
+# rename: the class becomes `item`, a value naming at each position along its keys ONE
+# document out of an ordered list of distinct documents (`item_id`); nothing in it is
+# about stimuli or time any more. `item_id` may point at ANY document (a subject, a
+# stimulus data_type); `value.presentation_order` becomes `value.item`; the time key is
+# no longer built in (the keys are the inherited `keys`, whatever the statement needs);
+# `control_item` and `offset` stay, optional. `timed_sequence_manipulation` becomes
+# `item_manipulation`, and `item_calculation` is new (the Haley import's nearest patch).
+_t, _p = path_of("timed_sequence")
+if _t is None:
+    raise SystemExit("item rename: no timed_sequence to rename")
+_d = load(_p)
+_d["document_class"]["class_name"] = "item"
+for _e in _d["depends_on"]:
+    if _e["name"] == "item_id":
+        _e["must_refer_to_document_class"] = "base"
+        _e["documentation"] = (
+            "The DISTINCT documents the value names, deduplicated, in order: any "
+            "document (a stimulus data_type, a subject). Value k names the k-th entry "
+            "(0-based, T14).")
+_v = next(f for f in _d["fields"] if f["name"] == "value")
+_v["documentation"] = (
+    "At each position along the value's keys, ONE document out of the ordered list "
+    "of distinct documents in `item_id`: the stimulus shown at each onset, the patch "
+    "nearest the worm in each video frame. The keys are whatever the statement needs "
+    "(an onset key for a stimulus sequence, a frame key for a track); the values may "
+    "sit in a body when there are many. The `variable` says what kind of item it is. "
+    "(`timed_sequence` until 2026-10-04.)")
+for _f in _v["fields"]:
+    if _f["name"] == "presentation_order":
+        _f["name"] = "item"
+        _f["documentation"] = (
+            "One 0-based position in `item_id` per position along the keys (value k "
+            "names the k-th `item_id` entry). A position with no item is empty: NaN "
+            "inline, the body's `fill_value` when the values are in a body. "
+            "(`presentation_order` until 2026-10-04.)")
+    elif _f["name"] == "offset":
+        _f["documentation"] = (
+            "Optional, only when the key is time: the end of each position's interval "
+            "on the same clock as the key (a stimulus's offset). "
+            "<- v1 `presentation_time.offset`.")
+    elif _f["name"] == "control_item":
+        _f["documentation"] = (
+            "Optional: the control condition (a stimulus sequence's blank): the 0-based "
+            "position in `item_id` of the item that is the control. Control positions "
+            "are the `item` entries equal to it. Empty = no control. "
+            "<- v1 `control_stimulus_ids`, reduced to its one control stimulus.")
+write(_t, "item", _d)
+os.remove(_p)
+
+_t, _p = path_of("timed_sequence_manipulation")
+_d = load(_p)
+_d["document_class"]["class_name"] = "item_manipulation"
+_d["document_class"]["superclasses"] = [{"class_name": "subject_manipulation"},
+                                        {"class_name": "item"}]
+write(_t, "item_manipulation", _d)
+os.remove(_p)
+write("draft", "item_calculation",
+      doc("item_calculation", ["subject_calculation", "item"], maturity="draft"))
+
+_t, _p = path_of("visual_grating")
+_d = load(_p)
+_vg = next(f for f in _d["fields"] if f["name"] == "value")
+for _f in _vg["fields"]:
+    if _f["name"] == "blank":
+        _f["documentation"] = (
+            "True when this stimulus presents nothing (NDI `isblank`). Whether it serves "
+            "as a sequence's control is the presenting `item`'s `value.control_item` "
+            "(#73 audit 2 D11).")
+write(_t, "visual_grating", _d)
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
@@ -11901,7 +11975,7 @@ def _disposition(name, doc=None):
     if name in _RET_CARRIERS:
         return ("retire", "2.D → data_body fold")
     if name in _RET_RENAMED_SOURCES:
-        return ("retire", "consumed → timed_sequence.control_item (#73 item 67)")
+        return ("retire", "consumed → item.control_item (#73 item 67; was timed_sequence)")
     if name in _RET_TOOBS:
         return ("retire", "→ observations (needs-NDI / D10-11)")
     if name in _IN_PROGRESS:

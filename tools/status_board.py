@@ -371,7 +371,7 @@ FAMILIES = [
     # amendment is unsigned, and naming it in this SIGNED family would report it signed.
     ("stimulus", ["stimulus_presentation"],
      "V_eta_stimulus_model_plan.md",
-     "timed_sequence data_type + timed_sequence_manipulation leaf",
+     "item data_type (was timed_sequence) + item_manipulation leaf",
      "team"),
 
     ("ensemble", ["ensemble"],

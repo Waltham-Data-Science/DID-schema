@@ -22,6 +22,7 @@
   "imageStack",
   "intensity",
   "intensity_observation",
+  "item",
   "label_calculation",
   "logical",
   "ngrid",
@@ -48,7 +49,6 @@
   "temporal_frequency_tuning_calc",
   "term_assertion",
   "term_manipulation",
-  "timed_sequence",
   "treatment",
   "treatment_transfer",
   "tuning_curve",
@@ -821,16 +821,16 @@
   },
   {
    "after": [
-    "timed_sequence"
+    "item"
    ],
    "after_built": [
-    "timed_sequence"
+    "item"
    ],
    "after_not_built": [],
    "before": [
     "control_stimulus_ids"
    ],
-   "change": "`control_stimulus_ids` drops the `ids` container word and becomes `control_designation` -- a name for the content, not for the box the content came in. (#73 review item 67 then folded it into `timed_sequence.value.control_item`: which condition is the control is a design fact.)",
+   "change": "`control_stimulus_ids` drops the `ids` container word and becomes `control_designation` -- a name for the content, not for the box the content came in. (#73 review item 67 then folded it into `item.value.control_item` (was `timed_sequence`): which condition is the control is a design fact.)",
    "citation": {
     "anchor": "`control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13)",
     "doc": "schemas/V_eta_tenet_audit.md",
@@ -843,7 +843,7 @@
      "built",
      "named_in_cited_plan"
     ],
-    "timed_sequence": [
+    "item": [
      "built",
      "named_in_cited_plan"
     ]
@@ -975,13 +975,13 @@
    "after": [
     "clock_alignment_policy",
     "subject_calculation",
-    "timed_sequence",
+    "item",
     "relative_time_reference"
    ],
    "after_built": [
     "clock_alignment_policy",
     "subject_calculation",
-    "timed_sequence",
+    "item",
     "relative_time_reference"
    ],
    "after_not_built": [],
@@ -1000,6 +1000,10 @@
      "built",
      "named_in_cited_plan"
     ],
+    "item": [
+     "built",
+     "named_in_cited_plan"
+    ],
     "relative_time_reference": [
      "built",
      "named_in_cited_plan"
@@ -1010,10 +1014,6 @@
     ],
     "syncgraph": [
      "v1_source",
-     "built",
-     "named_in_cited_plan"
-    ],
-    "timed_sequence": [
      "built",
      "named_in_cited_plan"
     ]
