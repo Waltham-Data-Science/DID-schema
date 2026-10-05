@@ -76,6 +76,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acceleration_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "acceleration"
+            ],
+            "path": "schemas/V_eta/draft/acceleration_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "acceleration_observation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2368,6 +2380,18 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/time.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "time_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "time"
+            ],
+            "path": "schemas/V_eta/draft/time_calculation.json",
             "disposition": "persist"
         },
         {

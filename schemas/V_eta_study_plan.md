@@ -274,6 +274,58 @@ have an interpreter for: answered in the next section.
   (MATLAB, Python). A compiled program -- WormLab, which produced the Haley import's
   tracks -- runs on an operating system with no interpreter, so a required edge would
   force an invented one. Present whenever the calculator runs in an interpreter.
+## `key_id`: a key's positions from another document (did-schema PR #87)
+
+- **`key_labels_id` is renamed `key_id`**, and the key field `labels_from` is renamed
+  `positions_from`. Prompted by the Haley import's stage 11 (the encounters), discussed
+  2026-10-05.
+  - The edge says "this key's positions live in that document", so it mirrors
+    `value_id` ("my value lives in that document").
+  - The positions are not always labels: a worm's encounter list is its onset times.
+    The rename says what is taken -- the positions -- not one kind of them.
+- **It may point only at a `data_type` document** (was any document, `base`):
+  - a statement leaf: the cell list (a `label_calculation`), a worm's encounter onsets
+    (a `time_calculation`);
+  - or a standalone value: the gene list (a standalone `term`, #73 review item 21).
+  - Never a subject, an entity or a body. Statement leaves are data types too, so
+    "only subject statements" would have excluded the signed gene list.
+- **The meaning is unchanged:** position k along the key is entry k of the referenced
+  document's value, which names it; `n` must equal its number of entries.
+- **Nothing wrote the edge before the rename.** The DID-matlab builders that name it
+  (`did2.build.key` `LabelsFrom`, `KeyLabelsIds` on bodies) follow in their own PR.
+- **T14 gains a bullet** stating where a key's positions come from (listed, or taken
+  from one document through `key_id`).
+
+## Repeated events (did-schema PR #87)
+
+- **T2 gains a paragraph on repeated events.** The time-reference rule (signed
+  2026-09-30) allows a document ONE instant or extent between its time references, so
+  N occurrences are never N time references on one document. The paragraph says what
+  to do instead:
+  - **a one-off event** is its own statement with its own time reference;
+  - **a recurring event with its own measurements** (a worm's patch encounters) is a
+    LIST statement whose value is the occurrences' onsets, plus one statement per
+    measured quantity keyed by that list through `key_id`;
+  - **a protocol repeating an action on a schedule** (a stimulus sequence, five
+    identical doses) is an `item` keyed by onset.
+- Considered for the encounters and rejected:
+  - one set of documents per encounter (about 20 times the documents; it only pays
+    off if single encounters need their own notes or corrections later);
+  - one "encounter" data type bundling the measurements (T12: they already have types,
+    and a bundle breaks queries such as "all speeds");
+  - a repeating time reference ("every 10 min, 5 times"; a strict-schedule shorthand
+    that conflicts with the one-extent rule, left until a dataset needs it).
+
+## `time_calculation` and `acceleration_calculation` (did-schema PR #87)
+
+- Two calculation leaves (T3: direction x data type, made when needed), for the Haley
+  import's stage 11, computed from the tracks so calculations (T2 rule):
+  - `time_calculation`: a worm's encounter onsets (the encounter list) and each
+    encounter's time to slow down (`timeSlowDown`);
+  - `acceleration_calculation`: the deceleration on entering a patch (`decelerate`,
+    um/s^2 -> m/s^2).
+- Both draft, like the other stage 10-11 leaves.
+
 TEAM-SIGN-OFF: jess / 2026-10-04 -- timed_sequence becomes item: item_id may point at any document, value.item replaces presentation_order, keys as needed; item_manipulation and item_calculation leaves
 TEAM-SIGN-OFF: jess / 2026-10-04 -- tenet audit fixes: humidity is a data_type; T14 cell includes tolerance; T6 cache via input_id; variable/method documented per T16; relation.method and key/condition/parameter variable bound like the statement's; product and acquisition_channels stable
 TEAM-SIGN-OFF: jess / 2026-10-04 -- subject_calculation.interpreter_id is optional; operating_system_id stays required

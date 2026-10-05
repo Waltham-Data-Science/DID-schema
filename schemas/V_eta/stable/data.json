@@ -12,10 +12,10 @@
     },
     "depends_on": [
         {
-            "name": "key_labels_id",
+            "name": "key_id",
             "mustBeNonEmpty": false,
-            "documentation": "The documents whose rows name a key's positions, referenced from that key's `labels_from` by edge name (item 12). Resolved and orphan-checked like any other edge.",
-            "must_refer_to_document_class": "base",
+            "documentation": "The documents a key takes its positions from, chosen by that key's `positions_from` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `data_type` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the key's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05.)",
+            "must_refer_to_document_class": "data_type",
             "multiple": true,
             "min_count": 0,
             "ordered": true
@@ -184,7 +184,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `labels_from`.",
+                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `positions_from`.",
                     "constraints": {}
                 },
                 {
@@ -326,7 +326,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `labels_from`.",
+                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `positions_from`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -358,7 +358,7 @@
                     ]
                 },
                 {
-                    "name": "labels_from",
+                    "name": "positions_from",
                     "type": "integer",
                     "blank_value": -1,
                     "default_value": -1,
@@ -367,7 +367,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this key's positions from the ROWS of another document, in its order, instead of an inline `labels` list: the 0-based POSITION of a `key_labels_id` entry on this document (T15: that edge repeats one name and is `ordered`, so entry k is the k-th `key_labels_id`). -1 (the blank) = not used. XOR with `labels`/`values`. `n` must equal the referenced document's row count, and that document must carry an explicit 0-based index column.",
+                    "documentation": "Take this key's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along this key is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). `n` must equal the number of entries. -1 (the blank) = not used. XOR with `labels`/`values`. (`labels_from` until 2026-10-05.)",
                     "constraints": {}
                 },
                 {
@@ -427,9 +427,9 @@
             "fields": [
                 "keys.values",
                 "keys.labels",
-                "keys.labels_from"
+                "keys.positions_from"
             ],
-            "statement": "A key that is not `regular` carries exactly one of `values`, `labels`, `labels_from`; a regular key carries none of them."
+            "statement": "A key that is not `regular` carries exactly one of `values`, `labels`, `positions_from`; a regular key carries none of them."
         },
         {
             "name": "key_chunk_sampled_only",

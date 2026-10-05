@@ -3277,3 +3277,5 @@ RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved unde
 RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `relation.method` and the `variable` of keys, conditions and method parameters bound like `subject_statement.variable`; `check_prose_counts` re-derives all nouns): **31 fields carry a binding** (was 23; +8). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.

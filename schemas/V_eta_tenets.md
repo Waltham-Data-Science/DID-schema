@@ -55,6 +55,19 @@ dataset can be read off the document. Consequences: there is no "computed observ
 `input_id` is declared on `subject_calculation` only; a lossless re-assembly of stored
 statements (`oneepoch`'s concatenation) is a calculation too.
 
+**Repeated events** (2026-10-05). The time-reference rule (signed 2026-09-30) gives a
+document's time references ONE instant or extent between them, so N occurrences are never
+N time references on one document. What to do instead depends on what each occurrence
+carries:
+- **a one-off event** is its own statement with its own time reference;
+- **a recurring event with its own measurements** (a worm's patch encounters) is a LIST
+  statement whose value is the occurrences' onsets (keyed by occurrence), plus one
+  statement per measured quantity keyed by that list through `key_id` (T14), each holding
+  one value per occurrence; the statements' own time reference is the span they cover;
+- **a protocol that repeats an action on a schedule** (a stimulus sequence, five
+  identical doses) is an `item` keyed by onset: `item_id` names what was done, `value.item`
+  which one at each onset, `value.offset` when each ended.
+
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
 `term`, `timed_sequence`, …) × directions = one-word leaves (`mass_observation`,
@@ -402,6 +415,15 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   15). A further reading of the same quantity (another trial, another stimulus level) is a
   position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial
   `individual` values, a control's) is its own named field, sized by the same keys.
+- **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
+  states its positions itself (`regular` origin + spacing, `values`, or `labels`), or takes
+  them from another `data_type` document through the **`key_id`** edge, chosen by the key's
+  `positions_from`: position *k* is entry *k* of that document's value, which names it.
+  A list several statements share is stated once and the others key by it -- a gene list
+  (a standalone `term`), a cell list (a `label_calculation`), a worm's encounter onsets (a
+  `time_calculation`). `key_id` mirrors `value_id` ("my value lives in that document" /
+  "this key's positions live in that document") and points only at a `data_type`, never at
+  a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05.)*
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.
@@ -409,7 +431,8 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   base is exactly the kind of fact a reader cannot recover from the numbers themselves, so
   V_eta has ONE rule rather than a per-field note:
   - **every index is 0-based**: a position along a key, a row of a document named by
-    `labels_from`, a chunk number, `timed_sequence.value.presentation_order`;
+    `positions_from` (`labels_from` until 2026-10-05), a chunk number,
+    `item.value.item` (`timed_sequence.value.presentation_order` until 2026-10-04);
   - *[SUPERSEDED FOR EDGES by T15, 2026-09-25: edges are no longer numbered at all. A
     position into a multi-edge is still 0-based — `presentation_order` value *k* is the
     *k*-th `item_id` entry — which is the first bullet above, not this one.]*

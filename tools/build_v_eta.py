@@ -9380,8 +9380,11 @@ write("draft", "position_calculation",
 # distance to the nearest patch edge per frame, an E. coli patch's peak offset;
 # velocity -- the smoothed per-frame speed; intensity -- an E. coli patch's
 # fluorescence profile, its amplitudes, and the fitted background image.
+# `time` and `acceleration` added 2026-10-05 (jess, the Haley import's stage 11):
+# time -- an encounter's onset (the encounter list) and its time to slow down;
+# acceleration -- the deceleration on entering a patch.
 for _dt in ("count", "area", "score", "term", "voltage", "length", "velocity",
-            "intensity"):
+            "intensity", "time", "acceleration"):
     _t, _p = path_of(_dt)
     write("draft", f"{_dt}_calculation",
           doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))
@@ -11269,6 +11272,55 @@ for _f in _vg["fields"]:
             "as a sequence's control is the presenting `item`'s `value.control_item` "
             "(#73 audit 2 D11).")
 write(_t, "visual_grating", _d)
+
+
+# ---------- 12.10 `key_labels_id` becomes `key_id` (2026-10-05) ----------
+# V_eta_study_plan.md, "`key_id`: a key's positions from another document". The edge
+# that lets a key take its positions from another document is renamed to match
+# `value_id` ("my value lives in that document" / "this key's positions live in that
+# document"), its key field `labels_from` becomes `positions_from` (the positions are
+# what is taken, and they are not always labels: an encounter list's entries are
+# onset times), and it may point only at a `data_type` document -- a statement leaf
+# (the cell list, the encounter onsets) or a standalone value (the gene list); never a
+# subject, an entity or a body. Nothing wrote the edge before the rename.
+_KEY_RENAME = (("key_labels_id", "key_id"), ("labels_from", "positions_from"))
+for _tier in TIERS:
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json"):
+            continue
+        _fp = os.path.join(_dir, _fn)
+        with open(_fp) as _fh:
+            _txt = _fh.read()
+        _new = _txt
+        for _old, _repl in _KEY_RENAME:
+            _new = _new.replace(_old, _repl)
+        if _new != _txt:
+            with open(_fp, "w") as _fh:
+                _fh.write(_new)
+_t, _p = path_of("data")
+_d = load(_p)
+_e = next(e for e in _d["depends_on"] if e["name"] == "key_id")
+_e["must_refer_to_document_class"] = "data_type"
+_e["documentation"] = (
+    "The documents a key takes its positions from, chosen by that key's "
+    "`positions_from` (its 0-based position among these entries; T15: the edge repeats "
+    "one name and is `ordered`). Each must be a `data_type` document -- a statement "
+    "(the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- "
+    "whose value entries, in order, are the key's positions and name them. Mirrors "
+    "`value_id`. (`key_labels_id` until 2026-10-05.)")
+_k = next(f for f in _d["fields"] if f["name"] == "keys")
+_pf = next(f for f in _k["fields"] if f["name"] == "positions_from")
+_pf["documentation"] = (
+    "Take this key's positions from another document instead of listing them: the "
+    "0-based position of a `key_id` entry on this document. Position k along this key "
+    "is entry k of that document's value, in its order, and that entry names it (gene "
+    "k of a gene list; encounter k of an encounter-onset list). `n` must equal the "
+    "number of entries. -1 (the blank) = not used. XOR with `labels`/`values`. "
+    "(`labels_from` until 2026-10-05.)")
+write(_t, "data", _d)
 
 
 # ---------- 9. regenerate index.json ----------

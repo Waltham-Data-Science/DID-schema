@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 222 |
-| settled (persist) | 140 |
+| target classes | 224 |
+| settled (persist) | 142 |
 | settled (retire) | 74 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |

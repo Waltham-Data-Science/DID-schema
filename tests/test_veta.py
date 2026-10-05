@@ -3692,7 +3692,7 @@ def test_t15_ordered_flags_match_the_table():
                      if d.get("multiple") and d.get("ordered"))
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
-        ("data", "key_labels_id"),
+        ("data", "key_id"),
         ("formulation", "ingredient_id"),
         ("item", "item_id"),
     ], ordered
@@ -3796,9 +3796,9 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
     assert sb == {"byte_order", "datum_order", "fill_value"}, sb
     assert ob == set(), ob
-    # the key-labels edge follows `keys` up, so an opaque body's keys can use it
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
-    assert "key_labels_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
+    # the key-positions edge follows `keys` up, so an opaque body's keys can use it
+    assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
+    assert "key_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
     # a body's conditions have the statement's entry shape (Amendment 2)
     ss = next(f for f in RECORDS["subject_statement"][1]["fields"]
               if f["name"] == "conditions")
@@ -3854,13 +3854,14 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
 
 def test_value_descriptors_live_with_the_value():
     """#73 item 60 (2026-09-25; not signed): keys / complete / datum_type /
-    source_datum_type / key_labels_id / the `data_body` flag live on data_type; the
+    source_datum_type / key_id (key_labels_id until 2026-10-05) / the `data_body` flag
+    live on data_type; the
     statement keeps only the claim, and references a shared value through value_id."""
     dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
     assert dt == {"datum_type", "source_datum_type", "data_body"}
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
     assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
+    assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["subject_statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each
     # member -- a fact about the claim, not a value descriptor, so it stays here.
@@ -3949,3 +3950,21 @@ def test_item_generalises_timed_sequence():
                             ("item_calculation", "subject_calculation")):
         sup = [s["class_name"] for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
         assert sup == [direction, "item"], (leaf, sup)
+
+
+def test_key_id_takes_positions_from_one_data_type():
+    """`key_labels_id` / `labels_from` became `key_id` / `positions_from`
+    (V_eta_study_plan.md, 2026-10-05): a key takes its positions from another
+    document's value, mirroring `value_id`, and that document must be a data_type
+    (a statement leaf such as an encounter-onset list, or a standalone value such as a
+    gene list) -- never a subject, an entity or a body. No class keeps the old names."""
+    edge = {e["name"]: e for e in RECORDS["data"][1]["depends_on"]}["key_id"]
+    assert edge["must_refer_to_document_class"] == "data_type"
+    assert edge["multiple"] and edge["ordered"]
+    keys = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")
+    assert "positions_from" in {f["name"] for f in keys["fields"]}
+    for cls, (_tier, d) in RECORDS.items():
+        assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
+    for leaf, dt in (("time_calculation", "time"), ("acceleration_calculation", "acceleration")):
+        sup = [c["class_name"] for c in RECORDS[leaf][1]["document_class"]["superclasses"]]
+        assert sup == ["subject_calculation", dt], (leaf, sup)

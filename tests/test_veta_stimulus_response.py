@@ -496,7 +496,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # timed_sequence becomes `item` (jess): timed_sequence and its manipulation leaf
     # are renamed, and the new item_calculation leaf adds one. A leaf declares no
     # fields, so the INERT list below is untouched.
-    assert walked == 218, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-THIRD MOVEMENT, re-derived not bumped: 218 -> 220 on 2026-10-05, the
+    # time_calculation and acceleration_calculation leaves (jess, the Haley import's
+    # stage 11). A leaf declares no fields, so the INERT list below is untouched.
+    assert walked == 220, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
