@@ -4,11 +4,10 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "data_type"
             }
         ],
-        "maturity_level": "draft",
-        "abstract": true
+        "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
@@ -26,7 +25,7 @@
                     "tolerance": {}
                 }
             ],
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,

@@ -799,8 +799,13 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # #73 review item 65: renamed epoch_parameter_reader; the
                   # migrator emits the old name until DID-matlab moves.
                   "acquisition_metadata_reader",
-                  # #73 review item 67: deleted; folds into timed_sequence.control_item.
-                  "control_designation"}
+                  # #73 review item 67: deleted; folds into item.control_item.
+                  "control_designation",
+                  # 2026-10-04 (signed, V_eta_study_plan.md): timed_sequence becomes
+                  # `item`, its leaf `item_manipulation`. NDI's
+                  # stimulusPresentationToTimedSequence.m still mints the old names;
+                  # remove both when the NDI rename lands.
+                  "timed_sequence", "timed_sequence_manipulation"}
 
 
 def guardrail(veta, emitted):
@@ -984,13 +989,16 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # are deliberately NOT listed: their classes depend on the stimulus
     # (`visual_grating`, `image`, ...) and no fixed set is signed.
     "stimulus_presentation": (
-        ["timed_sequence", "timed_sequence_manipulation"],
+        # renamed `item` / `item_manipulation` 2026-10-04 (V_eta_study_plan.md,
+        # "`timed_sequence` becomes `item`", signed); the quotes below are the
+        # stimulus plan's own words, as signed.
+        ["item", "item_manipulation"],
         "V_eta_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id",
         ("the v1 `stimulus_presentation` id is preserved on the body-of-record "
         "it becomes (the `timed_sequence`)"),
         ("DECOMPOSED around its preserved id: the id rides on the "
-        "`timed_sequence`, with one `timed_sequence_manipulation` per resolved "
+        "`item` (was `timed_sequence`), with one `item_manipulation` per resolved "
         "subject. The deduped stimulus `data_type` documents it also mints are "
         "not a fixed class set and are not listed.")),
 

@@ -180,3 +180,155 @@ TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units are practical SI
   `closestLawnID` the existing `label_calculation`, and circularity the existing
   `score_calculation`.
 TEAM-SIGN-OFF: jess / 2026-10-03 -- add length_calculation, velocity_calculation and intensity_calculation leaves
+
+## `timed_sequence` becomes `item` (did-schema PR #87)
+
+- **`timed_sequence` is renamed `item` and generalised**: a value that names, at each
+  position along its keys, ONE document out of an ordered list of distinct documents.
+  Its structure does not change -- the distinct documents are the ordered, multiple
+  `item_id` edges, and the value holds a 0-based position in that list -- but nothing
+  in it is about stimuli or time any more.
+  - Prompted by the Haley import's stage 10: `closestLawnID` is, per video frame, the
+    patch nearest the worm. Its values are patch SUBJECTS, not text; `label` would
+    store a name that only resembles a subject's local identifier.
+  - Named for what the value is, like its neighbours `term` (an ontology term) and
+    `label` (a local name): each value is an item of the listed set. The variable says
+    what kind of item ("nearest patch", "visual stimulus"), so the type needs no
+    qualifier (T13). Rejected: `item_index` (names the encoding, not the content),
+    `reference` / `referent` (taken by the time references and `referent_id`),
+    `document`, `entity` (taken), `member` (reads as `member_of`).
+- **Changes:**
+  - `item_id` may point at ANY document (was `data_type` only), so an item can be a
+    subject. Still ordered, multiple, deduplicated.
+  - `value.presentation_order` is renamed `value.item`: one 0-based position in
+    `item_id` per position along the keys. A position with no item is empty: NaN
+    inline, the body's `fill_value` when the values are in a body (a track's
+    tens of thousands of frames are).
+  - **Time is no longer built in.** The value's keys are the inherited `keys`, whatever
+    the statement needs: a stimulus sequence keeps its onset key (`variable` time,
+    irregular); the nearest patch is keyed by video frame.
+  - `control_item` (which item is the control condition) and `offset` (per-position
+    end times, only when the key is time) stay, optional.
+  - Leaves: `timed_sequence_manipulation` is renamed `item_manipulation` (the stimulus
+    sequence shown to a subject); a new `item_calculation` (the nearest patch,
+    computed from a track and the patch mask). Both draft.
+  - Supersedes, for `closestLawnID` only, the PR #86 note that it would be a
+    `label_calculation`.
+- **Everything that names the old classes moves with it**, as one change across
+  three repositories, each with its own PR and CI, landing together:
+  - did-schema: the builder, coverage, status and bar-2 tools and their tests;
+    `visual_grating.blank`'s documentation.
+  - DID-matlab: the stimulus migrators (`stimulus_presentation`,
+    `control_stimulus_ids`, `hartley_calc`) and their tests.
+  - NDI-matlab: the stimulus second pass (`stimulusPresentationToTimedSequence`,
+    `local.m`) and its tests.
+  - Dated records (plan documents, corpus results, CLAUDE.md) keep the name they were
+    written with.
+
+## Tenet audit, 2026-10-04 (did-schema PR #87)
+
+Every non-deprecated class (212 of 217; 70 of them retired v1 tombstones, held to their
+own v1-spelling rule) checked against T1-T16 on main `967f84a`. Passed with nothing
+found: T13 (no `is_`/`has_` booleans, no camelCase), T15 (every edge `_id`, every
+repeated edge `ordered`, no count on a single edge; `ensemble.neuron_id_#` is a v1
+tombstone), T14 (one `value` payload, the full cell on all 29 dimensioned types, every
+canonical slot names its unit), T3 (every leaf a direction x a data type, but see 1),
+#73 item 54 (`local_identifier` only on subject, session, epoch). Fixed here:
+
+1. **`humidity` is a concrete `data_type`** (it was `base` and abstract: PR #86 wrote it
+   like `spatial_frequency` but left it out of the build's `DATA_TYPES` list, so it was
+   never reparented, #73 item 19). A new test, `test_value_bearing_classes_are_data_types`,
+   fails any class carrying a `value` that is not one, naming the time references and
+   NDI's `demo` fixture as the only exemptions. No new decision: the signed rule, applied.
+2. **T14's value-cell bullet catches up with CHANGE 7** (signed 2026-10-02): the cell is
+   `{<canonical slot>, source_value, source_unit, approximate, tolerance}`, and the
+   sentence "No per-value `uncertainty` field exists" goes. The meta-schema's description
+   says the same.
+3. **`variable` and `method` are documented as T16 says**: `variable` is a property, never
+   the act; `method` is the technique, recorded only when it adds something, never a
+   direction-restating word. The old `method` text recommended "measurement".
+4. **`relation.method` is bound like `subject_interaction.method`** (preferred, CURIE form),
+   its examples written as plain names.
+5. **T6's cache paragraph speaks T15**: a cache body is owned by a calculation whose
+   `input_id` edges name its sources (it said "marked `derived_from` its source
+   subjects", and `data_body` has no such edge).
+6. **`product` and `acquisition_channels` become stable**: stable classes point at them
+   (`chemical`/`formulation`/`strain.product_id`, `subject_interaction.acquisition_channels_id`).
+7. **Binding parity for `variable`**: the `variable` of a key (`data`, `acquisition_epoch`),
+   a condition (`subject_statement`, `data_body`) and a method parameter
+   (`subject_interaction`, `method_parameters`, `clock_alignment_configuration`) is bound
+   like the statement's own (preferred, CURIE form). Units stay unbound (no unit registry,
+   D9), as do model-fit coefficient names (the model's, not a property). Bound fields
+   23 -> 31; the binding-governance baseline for uncatalogued bound fields 20 -> 28.
+
+Not changed, still open: `strain.species`, `chemical.value.substance`,
+`coordinate_system.origin`/axes and `score.value.scale` have no vocabulary to bind to
+yet (T8, blocked on the ontology lookup). `subject_calculation` requires
+`interpreter_id` and `operating_system_id`, which a compiled program (WormLab) does not
+have an interpreter for: answered in the next section.
+
+## `interpreter_id` is optional (did-schema PR #87)
+
+- `subject_calculation.interpreter_id` becomes optional; `operating_system_id` stays
+  required. #73 item 53 required both, assuming every calculator runs in an interpreter
+  (MATLAB, Python). A compiled program -- WormLab, which produced the Haley import's
+  tracks -- runs on an operating system with no interpreter, so a required edge would
+  force an invented one. Present whenever the calculator runs in an interpreter.
+## `key_id`: a key's positions from another document (did-schema PR #87)
+
+- **`key_labels_id` is renamed `key_id`**, and the key field `labels_from` is renamed
+  `positions_from`. Prompted by the Haley import's stage 11 (the encounters), discussed
+  2026-10-05.
+  - The edge says "this key's positions live in that document", so it mirrors
+    `value_id` ("my value lives in that document").
+  - The positions are not always labels: a worm's encounter list is its onset times.
+    The rename says what is taken -- the positions -- not one kind of them.
+- **It may point only at a `data_type` document** (was any document, `base`):
+  - a statement leaf: the cell list (a `label_calculation`), a worm's encounter onsets
+    (a `time_calculation`);
+  - or a standalone value: the gene list (a standalone `term`, #73 review item 21).
+  - Never a subject, an entity or a body. Statement leaves are data types too, so
+    "only subject statements" would have excluded the signed gene list.
+- **The meaning is unchanged:** position k along the key is entry k of the referenced
+  document's value, which names it; `n` must equal its number of entries.
+- **Nothing wrote the edge before the rename.** The DID-matlab builders that name it
+  (`did2.build.key` `LabelsFrom`, `KeyLabelsIds` on bodies) follow in their own PR.
+- **T14 gains a bullet** stating where a key's positions come from (listed, or taken
+  from one document through `key_id`).
+
+## Repeated events (did-schema PR #87)
+
+- **T2 gains a paragraph on repeated events.** The time-reference rule (signed
+  2026-09-30) allows a document ONE instant or extent between its time references, so
+  N occurrences are never N time references on one document. The paragraph says what
+  to do instead:
+  - **a one-off event** is its own statement with its own time reference;
+  - **a recurring event with its own measurements** (a worm's patch encounters) is a
+    LIST statement whose value is the occurrences' onsets, plus one statement per
+    measured quantity keyed by that list through `key_id`;
+  - **a protocol repeating an action on a schedule** (a stimulus sequence, five
+    identical doses) is an `item` keyed by onset.
+- Considered for the encounters and rejected:
+  - one set of documents per encounter (about 20 times the documents; it only pays
+    off if single encounters need their own notes or corrections later);
+  - one "encounter" data type bundling the measurements (T12: they already have types,
+    and a bundle breaks queries such as "all speeds");
+  - a repeating time reference ("every 10 min, 5 times"; a strict-schedule shorthand
+    that conflicts with the one-extent rule, left until a dataset needs it).
+
+## `time_calculation` and `acceleration_calculation` (did-schema PR #87)
+
+- Two calculation leaves (T3: direction x data type, made when needed), for the Haley
+  import's stage 11, computed from the tracks so calculations (T2 rule):
+  - `time_calculation`: a worm's encounter onsets (the encounter list) and each
+    encounter's time to slow down (`timeSlowDown`);
+  - `acceleration_calculation`: the deceleration on entering a patch (`decelerate`,
+    um/s^2 -> m/s^2).
+- Both draft, like the other stage 10-11 leaves.
+
+TEAM-SIGN-OFF: jess / 2026-10-04 -- timed_sequence becomes item: item_id may point at any document, value.item replaces presentation_order, keys as needed; item_manipulation and item_calculation leaves
+TEAM-SIGN-OFF: jess / 2026-10-04 -- tenet audit fixes: humidity is a data_type; T14 cell includes tolerance; T6 cache via input_id; variable/method documented per T16; relation.method and key/condition/parameter variable bound like the statement's; product and acquisition_channels stable
+TEAM-SIGN-OFF: jess / 2026-10-04 -- subject_calculation.interpreter_id is optional; operating_system_id stays required
+TEAM-SIGN-OFF: jess / 2026-10-05 -- key_labels_id becomes key_id and labels_from becomes positions_from; key_id points only at a data_type document; T14 bullet on where a key's positions come from
+TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on repeated events: one-off statement; recurring event = list statement of onsets plus statements keyed by it through key_id; scheduled protocol = item
+TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calculation leaves

@@ -118,7 +118,7 @@ PINNED_DECIDED_TARGETS = {
         "V_eta_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`"),
     "stimulus_presentation": (
-        ["timed_sequence", "timed_sequence_manipulation"],
+        ["item", "item_manipulation"],
         "V_eta_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id"),
     # MOVED HERE FROM PINNED_DISPUTED, 2026-08-11: the team ruled the SIGNATURE

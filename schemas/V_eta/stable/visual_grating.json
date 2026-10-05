@@ -1073,7 +1073,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True when this stimulus presents nothing (NDI `isblank`). Whether it serves as a sequence's control is `timed_sequence.value.control_item` (#73 audit 2 D11).",
+                    "documentation": "True when this stimulus presents nothing (NDI `isblank`). Whether it serves as a sequence's control is the presenting `item`'s `value.control_item` (#73 audit 2 D11).",
                     "constraints": {}
                 },
                 {

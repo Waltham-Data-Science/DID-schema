@@ -55,6 +55,19 @@ dataset can be read off the document. Consequences: there is no "computed observ
 `input_id` is declared on `subject_calculation` only; a lossless re-assembly of stored
 statements (`oneepoch`'s concatenation) is a calculation too.
 
+**Repeated events** (2026-10-05). The time-reference rule (signed 2026-09-30) gives a
+document's time references ONE instant or extent between them, so N occurrences are never
+N time references on one document. What to do instead depends on what each occurrence
+carries:
+- **a one-off event** is its own statement with its own time reference;
+- **a recurring event with its own measurements** (a worm's patch encounters) is a LIST
+  statement whose value is the occurrences' onsets (keyed by occurrence), plus one
+  statement per measured quantity keyed by that list through `key_id` (T14), each holding
+  one value per occurrence; the statements' own time reference is the span they cover;
+- **a protocol that repeats an action on a schedule** (a stimulus sequence, five
+  identical doses) is an `item` keyed by onset: `item_id` names what was done, `value.item`
+  which one at each onset, `value.offset` when each ended.
+
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
 `term`, `timed_sequence`, …) × directions = one-word leaves (`mass_observation`,
@@ -133,21 +146,21 @@ adding a body never rewrites the statement — so that rule is checked in batch.
 **Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is
 **losslessly derivable** from representation *A*, store *A* once at the **finest grain** and
 treat *B* as a **rebuildable cache**, never as a second source of truth. A materialized cache
-is still one of the two bodies (usually `sampled_body`), but it is marked `derived_from` its
-source subjects (T10) and carries no authority — deleting it loses nothing, because it
+is still one of the two bodies (usually `sampled_body`), owned by a calculation whose
+`input_id` edges name its sources (T10, T15), and it carries no authority — deleting it loses nothing, because it
 regenerates from *A*. Store the source, project the view. *Example:* per-neuron spike trains
 are the source of truth; an ensemble's combined (time, neuron) marked-point-process is a
 derived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
 
-**The cache marker (required).** `derived_from` alone is overloaded — T10 uses it for
-*authoritative* analysis outputs (a calculation result IS the science), while a cache is
-*disposable*. A consumer must be able to tell them apart, so a materialized cache carries an
-explicit **`redundant: true`** marker (distinct from a plain `derived_from` provenance edge).
-`redundant` ⇒ adds no information, regenerable exactly, no authority, safe to drop and
-rebuild; absent ⇒ the `derived_from` product is authoritative (a T10 calculation). Never infer
-cache-ness from `derived_from` presence. *(Named `is_cache` until 2026-09-24: "cache" reads as
+**The cache marker (required).** A calculation's `input_id` edges (T15; `derived_from_#`
+before it) are overloaded — T10 uses them for *authoritative* analysis outputs (a calculation
+result IS the science), while a cache is *disposable*. A consumer must be able to tell them
+apart, so a materialized cache carries an explicit **`redundant: true`** marker, on the
+calculation or on its body. `redundant` ⇒ adds no information, regenerable exactly, no
+authority, safe to drop and rebuild; absent ⇒ the product is authoritative (a T10
+calculation). Never infer cache-ness from the presence of inputs. *(Named `is_cache` until 2026-09-24: "cache" reads as
 transient and possibly stale, and collides with NDI's in-memory `ndi.cache`; `redundant` names
 test 1 below directly, and T13 drops the `is_` prefix. Declared ONLY on `data_body` and
 `subject_calculation` — the only places a cache can exist: an observation's source is outside
@@ -385,17 +398,32 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   `grams_per_liter`, …). *(Until 2026-10-03 this rule lived only in builder text and plan
   amendments: mass became grams on 2026-09-23 (#73), angles degrees in #73 review item 44,
   humidity percent on 2026-10-03; the list is `_DIM_CANON` in `tools/build_v_eta.py`.)*
-- **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29). Every value cell is
-  `{<canonical slot>, source_value, source_unit, approximate}`, all but the canonical slot
-  optional. A cell drops `source_value`/`source_unit` only when no conversion to the canonical
-  slot exists (a count). A cell whose value can be stated at a coarser granularity than it is
-  stored adds a declared `precision` (a date) — precision is granularity, `approximate` is
-  certainty, and a date carries both. No per-value `uncertainty` field exists until a source
-  states one (the one stated tolerance, `time_reference.clock_tolerance`, is on the timeline).
+- **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29; `tolerance` added by CHANGE 7,
+  signed 2026-10-02). Every value cell is
+  `{<canonical slot>, source_value, source_unit, approximate, tolerance}`, all but the
+  canonical slot optional. A cell drops `source_value`/`source_unit` only when no conversion to
+  the canonical slot exists (a count). A cell whose value can be stated at a coarser
+  granularity than it is stored adds a declared `precision` (a date) — precision is
+  granularity, `approximate` is certainty, and a date carries both. **`tolerance {minus,
+  plus}`** is the stated bound, both ≥ 0 in the canonical unit, the true value lying in
+  [value − minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not
+  a statistic; absent means none stated, `{0, 0}` means exact as given. Every dimensioned cell
+  carries it, as do count, score and date cells (CHANGE 7 amendment 1); axis keys and
+  conditions do not. A measured spread (a standard deviation) is another statistic, so it is
+  its own field (next bullet), never a tolerance.
 - **Another reading is a key; another statistic is a field** (#73 audit 2 D3, refining item
   15). A further reading of the same quantity (another trial, another stimulus level) is a
   position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial
   `individual` values, a control's) is its own named field, sized by the same keys.
+- **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
+  states its positions itself (`regular` origin + spacing, `values`, or `labels`), or takes
+  them from another `data_type` document through the **`key_id`** edge, chosen by the key's
+  `positions_from`: position *k* is entry *k* of that document's value, which names it.
+  A list several statements share is stated once and the others key by it -- a gene list
+  (a standalone `term`), a cell list (a `label_calculation`), a worm's encounter onsets (a
+  `time_calculation`). `key_id` mirrors `value_id` ("my value lives in that document" /
+  "this key's positions live in that document") and points only at a `data_type`, never at
+  a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05.)*
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.
@@ -403,7 +431,8 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   base is exactly the kind of fact a reader cannot recover from the numbers themselves, so
   V_eta has ONE rule rather than a per-field note:
   - **every index is 0-based**: a position along a key, a row of a document named by
-    `labels_from`, a chunk number, `timed_sequence.value.presentation_order`;
+    `positions_from` (`labels_from` until 2026-10-05), a chunk number,
+    `item.value.item` (`timed_sequence.value.presentation_order` until 2026-10-04);
   - *[SUPERSEDED FOR EDGES by T15, 2026-09-25: edges are no longer numbered at all. A
     position into a multi-edge is still 0-based — `presentation_order` value *k* is the
     *k*-th `item_id` entry — which is the first bullet above, not this one.]*

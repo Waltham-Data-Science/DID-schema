@@ -7,7 +7,7 @@
                 "class_name": "base"
             }
         ],
-        "maturity_level": "draft"
+        "maturity_level": "stable"
     },
     "depends_on": [
         {

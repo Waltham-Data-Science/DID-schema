@@ -907,12 +907,18 @@ _SUBJECT_CALCULATION_SOFTWARE_ID = dep(
 # so R1's "the os this run used, not the os the software supports" still holds.
 # Required, as #67 required the environment. `mustBeNonEmpty` says so; `min_count`
 # is for REPEATED edges only (the build enforces that, after the T15 pass).
+# OPTIONAL since 2026-10-04 (jess; V_eta_study_plan.md, "interpreter_id is
+# optional"): a compiled program (WormLab, a vendor's tracking software) runs on
+# an operating system with no interpreter, so a required edge would force an
+# invented one. The operating system stays required.
 _SUBJECT_CALCULATION_INTERPRETER_ID = dep(
     "interpreter_id", "software",
-    "The interpreter the producing run executed on (e.g. MATLAB R2023b, Python "
-    "3.11), as a `software` entity (name + version). REQUIRED on every "
-    "calculation (#73 item 53; replaces the environment entity's interpreter / "
-    "interpreter_version). The run's, not the calculator's supported interpreters.")
+    "Optional: the interpreter the producing run executed on (e.g. MATLAB R2023b, "
+    "Python 3.11), as a `software` entity (name + version). Present whenever the "
+    "calculator runs in one; absent for a compiled program, which has none (#73 "
+    "item 53, made optional 2026-10-04; replaces the environment entity's "
+    "interpreter / interpreter_version). The run's, not the calculator's supported "
+    "interpreters.", non_empty=False)
 _SUBJECT_CALCULATION_OS_ID = dep(
     "operating_system_id", "software",
     "The operating system the producing run executed on (e.g. macOS 14.5), as a "
@@ -8920,7 +8926,11 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_grating", "spatial_frequency"]
+    "visual_grating", "spatial_frequency",
+    # humidity (2026-10-04): written ⊂ base like spatial_frequency above, and left
+    # out of this list by PR #86, so it shipped abstract and outside data_type
+    # until the tenet audit of 2026-10-04 found it (test_value_bearing_classes_are_data_types).
+    "humidity"]
 for name in DATA_TYPES:
     # path_of, not a stable/ literal: spatial_frequency (item 45) is in draft/.
     _dt_tier, p = path_of(name)
@@ -9370,8 +9380,11 @@ write("draft", "position_calculation",
 # distance to the nearest patch edge per frame, an E. coli patch's peak offset;
 # velocity -- the smoothed per-frame speed; intensity -- an E. coli patch's
 # fluorescence profile, its amplitudes, and the fitted background image.
+# `time` and `acceleration` added 2026-10-05 (jess, the Haley import's stage 11):
+# time -- an encounter's onset (the encounter list) and its time to slow down;
+# acceleration -- the deceleration on entering a patch.
 for _dt in ("count", "area", "score", "term", "voltage", "length", "velocity",
-            "intensity"):
+            "intensity", "time", "acceleration"):
     _t, _p = path_of(_dt)
     write("draft", f"{_dt}_calculation",
           doc(f"{_dt}_calculation", ["subject_calculation", _dt], maturity="draft"))
@@ -11090,12 +11103,224 @@ _meta3["description"] = (
     "so the canonical slot and the source provenance are read from the schema, not "
     "from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, "
     "mmHg, degrees; #73 item 44). Every value cell is "
-    "{<canonical slot>, source_value, source_unit, approximate}, except where T14 "
-    "says otherwise (a count; a date's precision).")
+    "{<canonical slot>, source_value, source_unit, approximate, tolerance}, except "
+    "where T14 says otherwise (a count; a date's precision).")
 _ml = _meta3["$defs"]["document_class_header"]["properties"].get("maturity_level")
 if isinstance(_ml, dict) and "V_delta" in (_ml.get("description") or ""):
     _ml["description"] = _ml["description"].replace("V_delta", "V_eta")
 write("stable", "did_schema_meta", _meta3)
+
+
+# ---------- 12.8. the tenet audit of 2026-10-04 -------------------------------------
+# A pass over every built class against T1-T16 (did-schema PR #87; the plan section
+# is `V_eta_study_plan.md`, "Tenet audit, 2026-10-04"). Four schema-side fixes; the
+# fifth, `humidity` outside `data_type`, is the DATA_TYPES entry in section 12.
+
+# (a) T16: `variable` and `method` say what T16 says they are. The old `method` text
+# ("the verb ... the observation verb is nearly always 'measurement'") recommended
+# exactly the direction-restating word T16 rules out.
+for _cls, _fname, _doc in [
+    ("subject_statement", "variable",
+     ("The property of the subject the statement is about -- a noun phrase that could "
+      "be observed as well as set (ambient temperature, location, body weight, "
+      "species), never the act (T16). One name across assertions, observations, "
+      "manipulations and calculations, so one query finds every statement about it.")),
+    ("subject_interaction", "method",
+     ("Optional: HOW it was done -- the technique (refrigeration, eyelash picking, "
+      "whole-cell patch clamp) -- recorded only when it adds something the variable "
+      "and value do not already say, and only when known (T16). Never a generic word "
+      "that restates the statement's direction ('measurement', 'manipulation', "
+      "'transfer'); an unknown method is absent. The device that did it is "
+      "`instrument_id`, not the method (T7).")),
+]:
+    _t, _p = path_of(_cls)
+    _d = load(_p)
+    _hit = [f for f in _d["fields"] if f["name"] == _fname]
+    if not _hit:
+        raise SystemExit(f"tenet audit: {_cls} declares no {_fname!r}")
+    _hit[0]["documentation"] = _doc
+    write(_t, _cls, _d)
+
+# (b) T8 parity: a relation's `method` is the same concept as an interaction's, so it
+# is bound the same way (preferred, CURIE form); its examples are written as the
+# plain names statements use.
+_t, _p = path_of("relation")
+_d = load(_p)
+_hit = [f for f in _d["fields"] if f["name"] == "method"]
+if not _hit:
+    raise SystemExit("tenet audit: relation declares no 'method'")
+_hit[0]["constraints"] = {"binding": {"strength": "preferred", "node_form": "curie"}}
+_hit[0]["documentation"] = (
+    "Optional: the procedure that produced the relation -- its technique (surgical "
+    "dissection, biological reproduction, an orthology-inference tool), as for an "
+    "interaction's `method` (T16) and bound the same way. Declared on `relation` so "
+    "undirected relations have it too (item 24). A timed `derived_from` with a "
+    "`method` and a `time_reference` IS the creation event.")
+write(_t, "relation", _d)
+
+# (c) T8 parity: the `variable` of a key, a condition and a method parameter is the
+# same kind of term as a statement's `variable` (T16: a property), so it is bound the
+# same way. Units and the model-fit coefficient names are not: units have no
+# registry yet (D9), and a coefficient's name is the model's, not a property.
+_VAR_PARITY = [
+    ("data", ("keys", "variable")),
+    ("subject_statement", ("conditions", "variable")),
+    ("data_body", ("conditions", "variable")),
+    ("subject_interaction", ("method_parameters", "variable")),
+    ("method_parameters", ("method_parameters", "variable")),
+    ("clock_alignment_configuration", ("method_parameters", "variable")),
+    ("acquisition_epoch", ("keys", "variable")),
+]
+for _cls, (_outer, _inner) in _VAR_PARITY:
+    _t, _p = path_of(_cls)
+    if _t is None:
+        raise SystemExit(f"tenet audit: no V_eta schema named {_cls!r}")
+    _d = load(_p)
+    _o = [f for f in _d["fields"] if f["name"] == _outer]
+    _i = [f for f in (_o[0].get("fields") or []) if f["name"] == _inner] if _o else []
+    if not _i or _i[0]["type"] != "ontology_term":
+        raise SystemExit(f"tenet audit: {_cls}.{_outer}.{_inner} is not an ontology_term")
+    _i[0].setdefault("constraints", {})["binding"] = {"strength": "preferred",
+                                                      "node_form": "curie"}
+    write(_t, _cls, _d)
+
+# (d) Maturity: a stable class rests only on stable ones. `product` (#73 item 59) and
+# `acquisition_channels` are each the target of a stable class's edge
+# (chemical/formulation/strain.product_id; subject_interaction.acquisition_channels_id).
+for _name in ("product", "acquisition_channels"):
+    _t, _p = path_of(_name)
+    if _t == "draft":
+        _d = load(_p)
+        _d["document_class"]["maturity_level"] = "stable"
+        write("stable", _name, _d)
+        os.remove(_p)
+
+
+# ---------- 12.9. `timed_sequence` becomes `item` (signed 2026-10-04) ---------------
+# V_eta_study_plan.md, "`timed_sequence` becomes `item`" (TEAM-SIGN-OFF jess
+# 2026-10-04). Built here, after every earlier pass has shaped `timed_sequence`, as one
+# rename: the class becomes `item`, a value naming at each position along its keys ONE
+# document out of an ordered list of distinct documents (`item_id`); nothing in it is
+# about stimuli or time any more. `item_id` may point at ANY document (a subject, a
+# stimulus data_type); `value.presentation_order` becomes `value.item`; the time key is
+# no longer built in (the keys are the inherited `keys`, whatever the statement needs);
+# `control_item` and `offset` stay, optional. `timed_sequence_manipulation` becomes
+# `item_manipulation`, and `item_calculation` is new (the Haley import's nearest patch).
+_t, _p = path_of("timed_sequence")
+if _t is None:
+    raise SystemExit("item rename: no timed_sequence to rename")
+_d = load(_p)
+_d["document_class"]["class_name"] = "item"
+for _e in _d["depends_on"]:
+    if _e["name"] == "item_id":
+        _e["must_refer_to_document_class"] = "base"
+        _e["documentation"] = (
+            "The DISTINCT documents the value names, deduplicated, in order: any "
+            "document (a stimulus data_type, a subject). Value k names the k-th entry "
+            "(0-based, T14).")
+_v = next(f for f in _d["fields"] if f["name"] == "value")
+_v["documentation"] = (
+    "At each position along the value's keys, ONE document out of the ordered list "
+    "of distinct documents in `item_id`: the stimulus shown at each onset, the patch "
+    "nearest the worm in each video frame. The keys are whatever the statement needs "
+    "(an onset key for a stimulus sequence, a frame key for a track); the values may "
+    "sit in a body when there are many, and `value` is then absent (as for every "
+    "data_type with a body). The `variable` says what kind of item it is. "
+    "(`timed_sequence` until 2026-10-04.)")
+# The signed section puts the values in a body when there are many (a track's frames),
+# so `value` cannot be required: timed_sequence's mustBeNonEmpty refused every body.
+_v["mustBeNonEmpty"] = False
+for _f in _v["fields"]:
+    if _f["name"] == "presentation_order":
+        _f["name"] = "item"
+        _f["documentation"] = (
+            "One 0-based position in `item_id` per position along the keys (value k "
+            "names the k-th `item_id` entry). A position with no item is empty: NaN "
+            "inline, the body's `fill_value` when the values are in a body. "
+            "(`presentation_order` until 2026-10-04.)")
+    elif _f["name"] == "offset":
+        _f["documentation"] = (
+            "Optional, only when the key is time: the end of each position's interval "
+            "on the same clock as the key (a stimulus's offset). "
+            "<- v1 `presentation_time.offset`.")
+    elif _f["name"] == "control_item":
+        _f["documentation"] = (
+            "Optional: the control condition (a stimulus sequence's blank): the 0-based "
+            "position in `item_id` of the item that is the control. Control positions "
+            "are the `item` entries equal to it. Empty = no control. "
+            "<- v1 `control_stimulus_ids`, reduced to its one control stimulus.")
+write(_t, "item", _d)
+os.remove(_p)
+
+_t, _p = path_of("timed_sequence_manipulation")
+_d = load(_p)
+_d["document_class"]["class_name"] = "item_manipulation"
+_d["document_class"]["superclasses"] = [{"class_name": "subject_manipulation"},
+                                        {"class_name": "item"}]
+write(_t, "item_manipulation", _d)
+os.remove(_p)
+write("draft", "item_calculation",
+      doc("item_calculation", ["subject_calculation", "item"], maturity="draft"))
+
+_t, _p = path_of("visual_grating")
+_d = load(_p)
+_vg = next(f for f in _d["fields"] if f["name"] == "value")
+for _f in _vg["fields"]:
+    if _f["name"] == "blank":
+        _f["documentation"] = (
+            "True when this stimulus presents nothing (NDI `isblank`). Whether it serves "
+            "as a sequence's control is the presenting `item`'s `value.control_item` "
+            "(#73 audit 2 D11).")
+write(_t, "visual_grating", _d)
+
+
+# ---------- 12.10 `key_labels_id` becomes `key_id` (2026-10-05) ----------
+# V_eta_study_plan.md, "`key_id`: a key's positions from another document". The edge
+# that lets a key take its positions from another document is renamed to match
+# `value_id` ("my value lives in that document" / "this key's positions live in that
+# document"), its key field `labels_from` becomes `positions_from` (the positions are
+# what is taken, and they are not always labels: an encounter list's entries are
+# onset times), and it may point only at a `data_type` document -- a statement leaf
+# (the cell list, the encounter onsets) or a standalone value (the gene list); never a
+# subject, an entity or a body. Nothing wrote the edge before the rename.
+_KEY_RENAME = (("key_labels_id", "key_id"), ("labels_from", "positions_from"))
+for _tier in TIERS:
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json"):
+            continue
+        _fp = os.path.join(_dir, _fn)
+        with open(_fp) as _fh:
+            _txt = _fh.read()
+        _new = _txt
+        for _old, _repl in _KEY_RENAME:
+            _new = _new.replace(_old, _repl)
+        if _new != _txt:
+            with open(_fp, "w") as _fh:
+                _fh.write(_new)
+_t, _p = path_of("data")
+_d = load(_p)
+_e = next(e for e in _d["depends_on"] if e["name"] == "key_id")
+_e["must_refer_to_document_class"] = "data_type"
+_e["documentation"] = (
+    "The documents a key takes its positions from, chosen by that key's "
+    "`positions_from` (its 0-based position among these entries; T15: the edge repeats "
+    "one name and is `ordered`). Each must be a `data_type` document -- a statement "
+    "(the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- "
+    "whose value entries, in order, are the key's positions and name them. Mirrors "
+    "`value_id`. (`key_labels_id` until 2026-10-05.)")
+_k = next(f for f in _d["fields"] if f["name"] == "keys")
+_pf = next(f for f in _k["fields"] if f["name"] == "positions_from")
+_pf["documentation"] = (
+    "Take this key's positions from another document instead of listing them: the "
+    "0-based position of a `key_id` entry on this document. Position k along this key "
+    "is entry k of that document's value, in its order, and that entry names it (gene "
+    "k of a gene list; encounter k of an encounter-onset list). `n` must equal the "
+    "number of entries. -1 (the blank) = not used. XOR with `labels`/`values`. "
+    "(`labels_from` until 2026-10-05.)")
+write(_t, "data", _d)
 
 
 # ---------- 9. regenerate index.json ----------
@@ -11806,7 +12031,7 @@ def _disposition(name, doc=None):
     if name in _RET_CARRIERS:
         return ("retire", "2.D → data_body fold")
     if name in _RET_RENAMED_SOURCES:
-        return ("retire", "consumed → timed_sequence.control_item (#73 item 67)")
+        return ("retire", "consumed → item.control_item (#73 item 67; was timed_sequence)")
     if name in _RET_TOOBS:
         return ("retire", "→ observations (needs-NDI / D10-11)")
     if name in _IN_PROGRESS:

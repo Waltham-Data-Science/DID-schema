@@ -345,7 +345,13 @@ BASELINE_MIGRATORS = 60
 #   did_relation_directed 25, did_relation_undirected 2, did_response_type 10
 # Same block as the clock terms: no CURIEs until a minting authority is in
 # scope. Lower it as terms are minted.
-BASELINE_SCHEMAS = 86
+#
+# RAISED 86 -> 93 on 2026-10-04: did_subject_type 7 (cell, culture, device,
+# group, material, organism, tissue), bound on `subject.type` by PR #84 (signed
+# 2026-10-02), staged with empty nodes like the rest. #84 did not raise this
+# number, for the reason above: the did-schema gates run the sweep without
+# --enforce, so it surfaced only in DID-matlab's quick gate (VH-Lab/DID-matlab#215).
+BASELINE_SCHEMAS = 93
 
 CALL = re.compile(r"jOntologyTerm\(\s*''\s*,\s*([^)]*)\)")
 LITERAL = re.compile(r"^'((?:[^']|'')*)'\s*$")

@@ -62,7 +62,7 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` already uses."""
     si = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
-    ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
+    ac = _load(os.path.join(VETA, "stable", "acquisition_channels.json"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_system_id" not in si_edges
@@ -1163,7 +1163,10 @@ def test_software_crosswalks_to_openminds_softwareversion():
     edges = {e["name"]: e for e in RECORDS["subject_calculation"][1]["depends_on"]}
     for edge in ("interpreter_id", "operating_system_id"):
         assert edges[edge]["must_refer_to_document_class"] == "software"
-        assert edges[edge]["mustBeNonEmpty"] is True
+    # the OS is required; the interpreter is not (2026-10-04: a compiled program,
+    # e.g. WormLab, has none -- a required edge would force an invented one)
+    assert edges["operating_system_id"]["mustBeNonEmpty"] is True
+    assert edges["interpreter_id"]["mustBeNonEmpty"] is False
     assert "runtime_environment_id" not in edges
     assert "execution_environment" not in RECORDS and "runtime_environment" not in RECORDS
 
@@ -1464,7 +1467,7 @@ def test_no_revived_classes_in_migrators():
 def test_visual_grating_composite():
     """A grating is a structured multi-parameter `visual_grating` composite (orientation
     + spatial/temporal freq + contrast at once, so not a single-quantity leaf). It is
-    presented as an ITEM of a timed_sequence_manipulation; its own manipulation leaf was
+    presented as an ITEM of an item_manipulation (timed_sequence_manipulation until 2026-10-04); its own manipulation leaf was
     deleted with the other unused leaves (#73 item 50)."""
     comp = RECORDS["visual_grating"][1]
     assert "data_type" in _chain("visual_grating")
@@ -1473,7 +1476,7 @@ def test_visual_grating_composite():
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
             "size", "center", "duration", "blank"} <= subs   # position -> center, audit 2 D11
     assert "visual_grating_manipulation" not in RECORDS
-    assert "timed_sequence_manipulation" in RECORDS
+    assert "item_manipulation" in RECORDS
 
 
 def test_openminds_import_is_absent():
@@ -3689,9 +3692,9 @@ def test_t15_ordered_flags_match_the_table():
                      if d.get("multiple") and d.get("ordered"))
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
-        ("data", "key_labels_id"),
+        ("data", "key_id"),
         ("formulation", "ingredient_id"),
-        ("timed_sequence", "item_id"),
+        ("item", "item_id"),
     ], ordered
 
 
@@ -3793,9 +3796,9 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
     assert sb == {"byte_order", "datum_order", "fill_value"}, sb
     assert ob == set(), ob
-    # the key-labels edge follows `keys` up, so an opaque body's keys can use it
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
-    assert "key_labels_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
+    # the key-positions edge follows `keys` up, so an opaque body's keys can use it
+    assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
+    assert "key_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
     # a body's conditions have the statement's entry shape (Amendment 2)
     ss = next(f for f in RECORDS["subject_statement"][1]["fields"]
               if f["name"] == "conditions")
@@ -3851,13 +3854,14 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
 
 def test_value_descriptors_live_with_the_value():
     """#73 item 60 (2026-09-25; not signed): keys / complete / datum_type /
-    source_datum_type / key_labels_id / the `data_body` flag live on data_type; the
+    source_datum_type / key_id (key_labels_id until 2026-10-05) / the `data_body` flag
+    live on data_type; the
     statement keeps only the claim, and references a shared value through value_id."""
     dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
     assert dt == {"datum_type", "source_datum_type", "data_body"}
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
     assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
-    assert "key_labels_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
+    assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["subject_statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each
     # member -- a fact about the claim, not a value descriptor, so it stays here.
@@ -3887,3 +3891,80 @@ def test_hartley_calc_tombstone_is_restated_from_its_writer():
     assert {e["name"]: e["mustBeNonEmpty"] for e in rc["depends_on"]} == {
         "element_id": True, "stimulus_presentation_id": True}
 
+
+
+def test_value_bearing_classes_are_data_types():
+    """A class that carries a `value` payload is a concrete `data_type` (T3, T14;
+    #73 item 19), so its leaves are a direction x a data type and a standalone value
+    can be a `value_id` target or own a body.
+
+    REGRESSION (2026-10-04 tenet audit): `humidity` (PR #86) was written ⊂ base and
+    abstract, like every composite before section 12 reparents them, but was left
+    out of section 12's DATA_TYPES list -- so it shipped outside `data_type` and no
+    test noticed, because nothing asked this question of every class.
+
+    Exempt by name, each for a stated reason: the time references (an anchored
+    "when", T6/item 10, not a value of a quantity) and `demo` (NDI's demoNDI test
+    fixture, whose `value` is the example calculator's input).
+    """
+    exempt_roots = {"time_reference"}
+    exempt = {"demo"}
+    disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
+    checked, bad = 0, []
+    for name, (tier, d) in RECORDS.items():
+        if tier == "deprecated" or disp.get(name) == "retire" or name in exempt:
+            continue
+        if not any(f["name"] == "value" for f in d.get("fields", [])):
+            continue
+        chain = _chain(name)
+        if exempt_roots & set(chain) or name == "data_type":
+            continue
+        checked += 1
+        if "data_type" not in chain or d["document_class"].get("abstract"):
+            bad.append(f"{name}: superclasses {[s['class_name'] for s in d['document_class']['superclasses']]}, "
+                       f"abstract={d['document_class'].get('abstract')}")
+    assert checked > 40, f"only {checked} value-bearing classes checked"
+    assert not bad, "value-bearing classes outside data_type:\n  " + "\n  ".join(bad)
+
+
+def test_item_generalises_timed_sequence():
+    """`timed_sequence` became `item` (V_eta_study_plan.md, signed 2026-10-04): a value
+    naming, at each position along its keys, ONE document out of the ordered list of
+    distinct documents in `item_id`. Nothing in it is about stimuli or time: `item_id`
+    may point at any document (a patch subject as well as a stimulus), the playlist
+    field is `item`, and there are manipulation and calculation leaves."""
+    assert "timed_sequence" not in RECORDS and "timed_sequence_manipulation" not in RECORDS
+    _tier, d = RECORDS["item"]
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
+    assert not d["document_class"].get("abstract")
+    edge = {e["name"]: e for e in d["depends_on"]}["item_id"]
+    assert edge["must_refer_to_document_class"] == "base"
+    assert edge["multiple"] is True and edge["ordered"] is True
+    val = next(f for f in d["fields"] if f["name"] == "value")
+    subs = {s["name"] for s in val["fields"]}
+    assert {"item", "offset", "control_item"} <= subs
+    assert "presentation_order" not in subs
+    # the signed section puts many values in a body, so `value` cannot be required
+    assert not val.get("mustBeNonEmpty"), "an item's values may sit in a body"
+    for leaf, direction in (("item_manipulation", "subject_manipulation"),
+                            ("item_calculation", "subject_calculation")):
+        sup = [s["class_name"] for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
+        assert sup == [direction, "item"], (leaf, sup)
+
+
+def test_key_id_takes_positions_from_one_data_type():
+    """`key_labels_id` / `labels_from` became `key_id` / `positions_from`
+    (V_eta_study_plan.md, 2026-10-05): a key takes its positions from another
+    document's value, mirroring `value_id`, and that document must be a data_type
+    (a statement leaf such as an encounter-onset list, or a standalone value such as a
+    gene list) -- never a subject, an entity or a body. No class keeps the old names."""
+    edge = {e["name"]: e for e in RECORDS["data"][1]["depends_on"]}["key_id"]
+    assert edge["must_refer_to_document_class"] == "data_type"
+    assert edge["multiple"] and edge["ordered"]
+    keys = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")
+    assert "positions_from" in {f["name"] for f in keys["fields"]}
+    for cls, (_tier, d) in RECORDS.items():
+        assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
+    for leaf, dt in (("time_calculation", "time"), ("acceleration_calculation", "acceleration")):
+        sup = [c["class_name"] for c in RECORDS[leaf][1]["document_class"]["superclasses"]]
+        assert sup == ["subject_calculation", dt], (leaf, sup)

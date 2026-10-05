@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 221 |
-| settled (persist) | 139 |
+| target classes | 224 |
+| settled (persist) | 142 |
 | settled (retire) | 74 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
@@ -240,7 +240,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `ensemble` | ensemble | (b) | 1 consuming reference(s) (1 per-document migrator); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | - | 25 (23+2) | n/a -- not measured |
 | `interaction_purpose` | misc singletons | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 | `projectvar` | misc singletons | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
-| `stimulus_presentation` | stimulus | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 6 consuming reference(s) (6 per-document migrator); decided target(s) built: `timed_sequence`, `timed_sequence_manipulation` | - | - | - | 41 (39+2) | n/a -- not measured |
+| `stimulus_presentation` | stimulus | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 6 consuming reference(s) (6 per-document migrator); decided target(s) built: `item`, `item_manipulation` | - | - | - | 41 (39+2) | n/a -- not measured |
 
 #### (a) decided, nothing built -- 2
 
@@ -254,7 +254,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `subject_statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1049 (guard)`, `DID-matlab:convert/epochMint.m:1791 (field_read)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1080 (named)`, `DID-matlab:convert/epochMint.m:1790 (named)`; mentioned in 10 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:589 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)` ...; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1189 (comment_mention)`, `DID-matlab:convert/epochMint.m:211 (comment_mention)`, `DID-matlab:convert/epochMint.m:212 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)`, `DID-matlab:convert/epochMint.m:28 (comment_mention)`, `DID-matlab:convert/epochMint.m:287 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `ensemble` (ensemble) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:438 (guard)`; mentioned in 23 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:151 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:73 (comment_mention)`, `DID-matlab:migrators_j/private/jRecordingModality.m:240 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
-- `stimulus_presentation` (stimulus) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:898 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:899 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)`; target(s) BUILT: `timed_sequence`, `timed_sequence_manipulation`
+- `stimulus_presentation` (stimulus) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:898 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:899 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)`; target(s) BUILT: `item`, `item_manipulation`
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -330,7 +330,7 @@ is why migrator work before the target closes is rework.
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
 | **logical_observation** | 1 | 1 of 1 | SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: the target is ONE time_observation per source document, an N x 2 array of `time` cells keyed [interval, endpoint (start/end)], anchored to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed but is still DORMANT (census only, emits nothing), and its preserved code is the rejected 1->N shape, so re-arming is a rewrite. The documents live on the v1 tombstone. logical_observation retired (#73 item 52); `logical` stays | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | 1 | 1 of 1 | epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build | `V_eta_time_reference_family_plan.md` |
-| **stimulus** | 1 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **stimulus** | 1 | 2 of 2 | item data_type (was timed_sequence) + item_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
 | **confirm sheet 2026-08-17** | 5 | 11 of 11 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
@@ -356,7 +356,7 @@ is why migrator work before the target closes is rework.
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 24 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 28 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -391,10 +391,11 @@ it.
 
 | family | unsigned class name(s) in the one-liner | sign-off in |
 |---|---|---|
-| **logical_observation** | `epoch`, `time_observation` | `V_eta_logical_observation_plan.md` |
+| **logical_observation** | `epoch`, `item`, `time_observation` | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | `relative_time_reference` | `V_eta_time_reference_family_plan.md` |
+| **stimulus** | `item`, `item_manipulation` | `V_eta_stimulus_model_plan.md` |
 | **image / ngrid** | `data_type`, `image_stack`, `sampled_body`, `subject` | `V_eta_image_model_plan.md` |
-| **daq ingested payloads** | `opaque_body`, `term_manipulation` | `V_eta_ingested_payload_findings.md` |
+| **daq ingested payloads** | `item`, `opaque_body`, `term_manipulation` | `V_eta_ingested_payload_findings.md` |
 | **sync mapping** | `data_type`, `relative_time_reference` | `V_eta_clock_alignment_cluster_plan.md` |
 | **openMINDS** | `entity` | `V_eta_openminds_family_record.md` |
 | **software** | `entity` | `V_eta_tenet_audit.md` |

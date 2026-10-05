@@ -23,7 +23,7 @@ INPUTS
 VERDICT per (corpus, v1 class present in it)
   SUPERSEDED   ladder rung 3 == 'no' -- the migrator emits a shape the signed
                model SUPERSEDES (e.g. stimulus_presentation -> the old shape, not
-               timed_sequence_manipulation). A definite Bar-2 failure.
+               item_manipulation, was timed_sequence_manipulation). A definite Bar-2 failure.
   HUSK/BRIDGE  the class is in HUSK_BRIDGE below -- the migrator emits SOMETHING,
                but the source documents survive undeleted (a husk) or a raw v1
                string is preserved (a bridge). Not at final shape. The ladder
@@ -107,8 +107,8 @@ HUSK_BRIDGE = {
 # per-corpus Bar-2 needs the census of the FULL ndi.migrate.local output.
 SECOND_PASS = {
     "stimulus_presentation": {
-        "emits": "visual_grating (deduped) + timed_sequence_manipulation "
-                 "(+ timed_sequence.control_item)",
+        "emits": "visual_grating (deduped) + item_manipulation "
+                 "(+ item.control_item; was timed_sequence, renamed 2026-10-04)",
         "assembler": "ndi.migrate.internal.stimulusPresentationToTimedSequence "
                      "(local.m resolveStimulusPresentations, wired :723)",
         "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "

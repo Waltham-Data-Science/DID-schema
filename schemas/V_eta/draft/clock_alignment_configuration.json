@@ -131,7 +131,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

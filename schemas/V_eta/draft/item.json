@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "timed_sequence",
+        "class_name": "item",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -13,8 +13,8 @@
         {
             "name": "item_id",
             "mustBeNonEmpty": false,
-            "documentation": "References to the DISTINCT presented stimulus data_type docs (deduped); the playlist indexes these.",
-            "must_refer_to_document_class": "data_type",
+            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document (a stimulus data_type, a subject). Value k names the k-th entry (0-based, T14).",
+            "must_refer_to_document_class": "base",
             "multiple": true,
             "min_count": 0,
             "ordered": true
@@ -27,16 +27,16 @@
             "type": "structure",
             "blank_value": {},
             "default_value": {},
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "An ordered, timed list of references to presented data_type documents. The TIMED part is this value's one key: `variable` time, irregular, its values the per-trial onsets (inline, or in a body this document owns). A manipulation that presents the sequence only points at it (`value_id`, item 60). (#73 audit 2 D11, amending the stimulus plan's onset placement.)",
+            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many, and `value` is then absent (as for every data_type with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
             "constraints": {},
             "fields": [
                 {
-                    "name": "presentation_order",
+                    "name": "item",
                     "type": "matrix",
                     "blank_value": [],
                     "default_value": [],
@@ -45,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Playlist, indexed by trial along the value's time key (the onsets): one 0-based index per trial naming an `item_id` edge directly; distinct-refs + index-array encoding.",
+                    "documentation": "One 0-based position in `item_id` per position along the keys (value k names the k-th `item_id` entry). A position with no item is empty: NaN inline, the body's `fill_value` when the values are in a body. (`presentation_order` until 2026-10-04.)",
                     "constraints": {}
                 },
                 {
@@ -58,7 +58,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-trial offset (end) times on the same clock as the onset key, where the source has them. <- v1 `presentation_time.offset`.",
+                    "documentation": "Optional, only when the key is time: the end of each position's interval on the same clock as the key (a stimulus's offset). <- v1 `presentation_time.offset`.",
                     "constraints": {}
                 },
                 {
@@ -71,7 +71,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The control condition (the blank): the 0-based position in the item list of the stimulus that is the control. Control trials are the `presentation_order` entries equal to it. Empty = the sequence has no control. <- v1 `control_stimulus_ids`, reduced to its one control stimulus (NDI's writer allows at most one).",
+                    "documentation": "Optional: the control condition (a stimulus sequence's blank): the 0-based position in `item_id` of the item that is the control. Control positions are the `item` entries equal to it. Empty = no control. <- v1 `control_stimulus_ids`, reduced to its one control stimulus.",
                     "constraints": {}
                 }
             ]

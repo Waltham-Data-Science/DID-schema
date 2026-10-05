@@ -297,7 +297,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which key is X' well defined.",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -423,7 +428,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `labels_from`.",
+                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `positions_from`.",
                     "constraints": {}
                 },
                 {
@@ -565,7 +570,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `labels_from`.",
+                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `positions_from`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -597,7 +602,7 @@
                     ]
                 },
                 {
-                    "name": "labels_from",
+                    "name": "positions_from",
                     "type": "integer",
                     "blank_value": -1,
                     "default_value": -1,
@@ -606,7 +611,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's drifted private copy of the key entry, and the class declares no `key_labels_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13).",
+                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's drifted private copy of the key entry, and the class declares no `key_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13).",
                     "constraints": {}
                 },
                 {

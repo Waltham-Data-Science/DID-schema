@@ -103,7 +103,7 @@
         "stimulus_presentation"
       ],
       "plan": "V_eta_stimulus_model_plan.md",
-      "decision": "timed_sequence data_type + timed_sequence_manipulation leaf",
+      "decision": "item data_type (was timed_sequence) + item_manipulation leaf",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
@@ -1483,7 +1483,7 @@
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/stimulus_presentation.m`",
           "6 consuming reference(s) (6 per-document migrator)",
-          "decided target(s) built: `timed_sequence`, `timed_sequence_manipulation`"
+          "decided target(s) built: `item`, `item_manipulation`"
         ],
         "migrator_file": "DID-matlab:migrators_j/stimulus_presentation.m",
         "n_consuming_refs": 6,
@@ -1557,12 +1557,12 @@
           }
         },
         "decided_targets": [
-          "timed_sequence",
-          "timed_sequence_manipulation"
+          "item",
+          "item_manipulation"
         ],
         "decided_targets_built": [
-          "timed_sequence",
-          "timed_sequence_manipulation"
+          "item",
+          "item_manipulation"
         ],
         "decided_targets_missing": [],
         "survivors": null,
