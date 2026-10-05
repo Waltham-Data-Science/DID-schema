@@ -329,3 +329,6 @@ have an interpreter for: answered in the next section.
 TEAM-SIGN-OFF: jess / 2026-10-04 -- timed_sequence becomes item: item_id may point at any document, value.item replaces presentation_order, keys as needed; item_manipulation and item_calculation leaves
 TEAM-SIGN-OFF: jess / 2026-10-04 -- tenet audit fixes: humidity is a data_type; T14 cell includes tolerance; T6 cache via input_id; variable/method documented per T16; relation.method and key/condition/parameter variable bound like the statement's; product and acquisition_channels stable
 TEAM-SIGN-OFF: jess / 2026-10-04 -- subject_calculation.interpreter_id is optional; operating_system_id stays required
+TEAM-SIGN-OFF: jess / 2026-10-05 -- key_labels_id becomes key_id and labels_from becomes positions_from; key_id points only at a data_type document; T14 bullet on where a key's positions come from
+TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on repeated events: one-off statement; recurring event = list statement of onsets plus statements keyed by it through key_id; scheduled protocol = item
+TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calculation leaves
