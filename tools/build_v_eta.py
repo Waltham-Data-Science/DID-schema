@@ -9647,7 +9647,11 @@ def _si22(d):
             nf = json.loads(json.dumps(_mp_shape))   # a deep copy
             nf["mustBeNonEmpty"] = False
             nf["documentation"] = (
-                "The settings of the algorithm that produced this value, inline: the "
+                "The settings the method was run with, inline: an algorithm's "
+                "configuration for a calculation, the acquisition settings for an "
+                "observation (exposure time, zoom, a filter set's excitation and emission "
+                "bands), a procedure's settings for a manipulation. The technique itself "
+                "is `method`; the device is `instrument_id`. The "
                 "SAME `parameter[]` shape as the `method_parameters` document (signed "
                 "2026-08-09, built #73 item 22). Used when the settings have no name and "
                 "id of their own in the source; otherwise the statement points at a "
