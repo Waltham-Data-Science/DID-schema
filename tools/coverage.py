@@ -765,7 +765,7 @@ def helper_entries(v1_class, veta_class):
 # they are ACKNOWLEDGED here, not allowed silently. REMOVE BOTH ENTRIES when the
 # DID-matlab rename lands -- until then a migrated document of either class does not
 # validate against this schema, which is why PR #76 must not merge ahead of it.
-# 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): each retired name and what
+# 2026-10-08 (signed, V_eta_entity_composition_plan.md): each retired name and what
 # a document of it becomes. A join leaf becomes its direction with the value kind as a
 # mixin; a merged entity class becomes `entity` with that `type`.
 _JOIN_KINDS = {
@@ -843,7 +843,7 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "data_type", "subject_statement", "subject_assertion",
                   "subject_interaction", "subject_observation",
                   "subject_manipulation", "subject_calculation",
-                  # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): the
+                  # 2026-10-08 (signed, V_eta_entity_composition_plan.md): the
                   # 39 direction-by-value join leaves go (a statement's value kind
                   # is a mixin on `observation` / `assertion` / ...), and 13 entity
                   # classes merge into one `entity` with a bound `type`. The pinned

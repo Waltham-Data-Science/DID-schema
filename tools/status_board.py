@@ -2454,7 +2454,7 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # CLASS is `epoch`). Listed to keep the rule general rather than fitted to
     # one family; it changes no state, because `epochid` reaches (b) on nine
     # CONSUMING references and is minted only as a superclass mixin anyway.
-    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 4): the `epoch`
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): the `epoch`
     # class merged into `entity` (type epoch), so the replacement CLASS is `entity`.
     "epochid": "entity",
 }
