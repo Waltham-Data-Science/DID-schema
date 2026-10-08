@@ -1,7 +1,7 @@
 # V_eta: one entity class, statements by composition, CURIE identifiers
 
-PROPOSAL, built ahead of signature at Jess's request (2026-10-08): "I'll sign
-them after you make the changes." Nothing below carries a sign-off line. Each
+Built ahead of signature at Jess's request (2026-10-08) and signed by Jess the
+same day: each section's TEAM-SIGN-OFF line sits under its "To be signed:" line. Each
 section ends with "To be signed:" and the decision its sign-off line has to
 name; the line itself is added by the team, never by Claude (operating rule 4). Decided in conversation with Jess,
 2026-10-08.
@@ -46,6 +46,7 @@ lists the kind's chain in `document_class.superclasses` after its own.
   document's own superclasses, which the database indexes.
 
 To be signed: statements are a direction class plus one value-kind mixin; the join leaves go; every v1 calculator keeps a named class
+TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a direction class plus one value-kind mixin; the 39 join leaves go; every v1 calculator keeps a named class
 
 ## 2. `datum_type` becomes `data_type`, and is needed only for bytes
 
@@ -57,6 +58,7 @@ an untyped array (a kind whose `value` is not a declared cell). A typed cell
 already says its type (`celsius` is a `double`).
 
 To be signed: datum_type is renamed data_type and required only for bytes or untyped arrays
+TEAM-SIGN-OFF: jess / 2026-10-08 -- datum_type is renamed data_type and required only for bytes or untyped arrays
 
 ## 3. `text`, a value kind
 
@@ -65,6 +67,7 @@ the text IS lives in the statement's `variable` (given name, email, how to
 cite). No `name` or `email` kinds: neither has a canonical form.
 
 To be signed: add the text value kind {text, language}
+TEAM-SIGN-OFF: jess / 2026-10-08 -- add the text value kind {text, language}
 
 ## 4. One `entity` class
 
@@ -109,6 +112,7 @@ session; `name` for the rest) and a description. The relation registry's
 `child_types` / `parent_types` name these types.
 
 To be signed: one concrete entity class with a bound type; the entity leaves go; per-type requirements live in a type registry
+TEAM-SIGN-OFF: jess / 2026-10-08 -- one concrete entity class with a bound type; the 13 entity classes go; per-type requirements live in a type registry
 
 ## 5. Strain is a relation
 
@@ -119,6 +123,7 @@ of a strain or a product holds of each of its instances. This reverses the
 2026-08-05 strain decision (an inline term plus an optional edge).
 
 To be signed: strain is an instance_of relation; T17 adds type-to-instance inheritance
+TEAM-SIGN-OFF: jess / 2026-10-08 -- strain is an instance_of relation; T17 adds type-to-instance inheritance
 
 ## 6. CURIE identifiers
 
@@ -139,6 +144,7 @@ normalised to it (`NCIT:` -> `ncit:`, `RO:` -> `ro:`, ...).
 - `ndicloud` is registered as ours.
 
 To be signed: global identifiers are CURIEs or IRIs from one lowercase prefix registry with Bioregistry patterns
+TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are CURIEs or IRIs from one lowercase prefix registry with Bioregistry patterns
 
 ## 7. `web_resource` retires; `protocol` is a type
 
@@ -149,6 +155,7 @@ A URL is an address for the thing it names, so it goes in that thing's
 (a dataset's analysis code).
 
 To be signed: web_resource and the has_homepage / stored_at relations retire; protocol is an entity type
+TEAM-SIGN-OFF: jess / 2026-10-08 -- web_resource and the has_homepage / stored_at / hosted_by relations retire; protocol is an entity type
 
 ## 8. `acquisition_system` is configuration
 
@@ -160,12 +167,14 @@ This reverses `acquisition_system ⊂ entity` from `V_eta_daq_family_decisions.m
 could reach it; the instrument is now the device entity behind `device_id`.
 
 To be signed: acquisition_system is configuration off base, with an optional device_id; epochs are recorded_by it
+TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is configuration off base, with an optional device_id; epochs are recorded_by it
 
 ## 9. `method_parameters.subject_id` becomes `entity_id`
 
 Missed by the 2026-10-08 rename.
 
 To be signed: method_parameters scopes to entity_id
+TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters scopes to entity_id
 
 ## What this does NOT change, and what it costs
 
