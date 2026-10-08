@@ -1533,7 +1533,7 @@ CLASS_EMIT = _coverage_class_emit_patterns()
 
 
 def _coverage_supersession():
-    """coverage.py's table of names the 2026-10-08 composition PROPOSAL retired,
+    """coverage.py's table of names the 2026-10-08 composition (signed) retired,
     imported for the same reason as CLASS_EMIT: one table, never two."""
     import importlib.util
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coverage.py")
@@ -2501,7 +2501,7 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
     for cls in sorted(open_work):
         row = ledger.get(cls) or {}
         decided = [t for t in (row.get("decided_targets") or []) if t != cls]
-        # A name retired by the 2026-10-08 composition PROPOSAL is built when what
+        # A name retired by the 2026-10-08 composition (signed) is built when what
         # replaced it is (coverage.py SUPERSEDED_BY_ENTITY_COMPOSITION), so the
         # board never lists a mixin's old join leaf as schema still to build.
         built_t = [t for t in decided if _target_built(t, built_classes)]

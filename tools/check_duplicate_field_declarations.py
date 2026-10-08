@@ -165,7 +165,7 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # `subject` is a did_v1 class, so no hand override; V_eta-SHADOW. For a MIGRATED
 # subject the name stays where did_v1 put it (base.name, or nowhere); the element
 # migrator's subject label is a separate concern (`local_identifier`).
-# 18 -> 8 (2026-10-08, PROPOSAL, V_eta_entity_composition_plan.md): `subject`,
+# 18 -> 8 (2026-10-08, signed, V_eta_entity_composition_plan.md): `subject`,
 # `session` and the nine V1-ONLY-SLOT entities merged into one `entity`, whose
 # `name` beside `base.name` is ONE V1-ONLY-SLOT row (OVERRIDES), so ten rows went.
 BASELINE = 8

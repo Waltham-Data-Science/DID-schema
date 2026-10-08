@@ -16,7 +16,7 @@ def _fields(cls):
 
 
 def test_subject_type_is_an_optional_bound_term_over_seven_values():
-    """`subject.type` became `entity.type` 2026-10-08 (PROPOSAL,
+    """`subject.type` became `entity.type` 2026-10-08 (signed,
     V_eta_entity_composition_plan.md sec. 4): REQUIRED now, because it is what
     tells a worm from a dataset, and widened past the seven physical kinds,
     which it still begins with."""

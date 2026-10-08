@@ -407,7 +407,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # and the first two undirected rows (paired_with, same_as) added. 29 -> 30 on
     # 2026-09-30 (jess): `instance_of` (an instrument subject -> its product);
     # 30 -> 31 the same day: `awarded_to` (an award -> its recipient).
-    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): subject_statement 6 ->
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md): subject_statement 6 ->
     # 11 (five bound fields of merged entities -- dataset accessibility, ethics
     # assessment, experimental approach; study factors, design -- became variable-keyed
     # term-assertion rows), relation 31 -> 30 (-stored_at, -hosted_by, -has_homepage,

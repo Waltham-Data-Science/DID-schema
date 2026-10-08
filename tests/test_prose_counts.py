@@ -180,7 +180,7 @@ def test_derivations_match_an_independent_recomputation():
                                         + len(reg["binding_examples"])
                                         + len(reg["relation_bindings"])
                                         + len(reg["entity_field_bindings"])
-                                        # 2026-10-08 (PROPOSAL): what each entity.type requires
+                                        # 2026-10-08 (signed): what each entity.type requires
                                         + len(reg["entity_type_bindings"]))
 
     md = subprocess.run(["ls", os.path.join(REPO_ROOT, "schemas")],

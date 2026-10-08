@@ -1801,7 +1801,7 @@ def build_ledger():
         _eb = tinfo.get("emitted_by")
         build_state = {
             "schema_targets_named": len(_named),
-            # A target retired by the 2026-10-08 composition PROPOSAL is built when
+            # A target retired by the 2026-10-08 composition (signed) is built when
             # what replaced it is (`time_observation` -> `observation` + `time`,
             # `software` -> `entity`): the decision names a shape, and the shape
             # is now spelled as a direction plus a mixin, or an entity type.

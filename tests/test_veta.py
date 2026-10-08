@@ -173,7 +173,7 @@ def test_subject_is_bare_identity():
     """An entity is bare identity; what kind of thing it is, beyond its coarse
     `type`, is an assertion, not a flag.
 
-    2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 4): `subject` and
+    2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): `subject` and
     twelve other entity classes merged into one `entity` whose fields are identity
     only. `type` carries the coarse kind the old `subject.type` carried, widened to
     every entity kind; the finer kind stays an assertion."""
@@ -267,7 +267,7 @@ def test_direction_classes_renamed():
 
 def test_leaf_tier_named_by_data_type_no_scalar_prefix():
     """No `<kind>_observation` class exists: the value kind is a mixin (2026-10-08,
-    PROPOSAL, V_eta_entity_composition_plan.md sec. 1). Each kind a pre-#73 leaf
+    signed, V_eta_entity_composition_plan.md sec. 1). Each kind a pre-#73 leaf
     named still exists as a value, under its own name (no scalar_ prefix, `time`
     not `duration`)."""
     for dim in ("mass", "temperature", "length", "time", "volume", "pressure",
@@ -314,7 +314,7 @@ def test_relation_branch():
 
 
 def test_entity_genus():
-    """One concrete `entity` class with a bound `type` (2026-10-08, PROPOSAL,
+    """One concrete `entity` class with a bound `type` (2026-10-08, signed,
     V_eta_entity_composition_plan.md sec. 4)."""
     assert not RECORDS["entity"][1]["document_class"].get("abstract")
     for gone in ("subject", "person", "organization", "publication", "funding",
@@ -342,7 +342,7 @@ def _local_id(cls):
 
 def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     """`local_identifier` lives on the one `entity` class, optional there; which
-    types REQUIRE it is the type registry's job (2026-10-08, PROPOSAL,
+    types REQUIRE it is the type registry's job (2026-10-08, signed,
     V_eta_entity_composition_plan.md sec. 4): the physical kinds, session and
     epoch, as subject/session/epoch required it before the merge (session since
     the signed 2026-08-13 rename)."""
@@ -1030,7 +1030,7 @@ def test_binding_is_formalized_in_meta_schema():
 def test_openminds_controlled_term_fields_bound():
     """openMINDS controlled-term facts about a dataset (accessibility / ethics
     assessment / experimental approach) are term ASSERTIONS about the dataset
-    entity since 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 4).
+    entity since 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4).
     The term set moves from the old field's inline binding onto a statement
     binding keyed by the variable, and the instance library is still pinned once
     in controlled_vocabularies -- never copied inline as `values`."""
@@ -1087,7 +1087,7 @@ def test_openminds_crosswalk_round_trips():
         for prop, e in spec["properties"].items():
             assert e["target_kind"] != "deferred", \
                 f"{type_name}.{prop} is deferred -- give it a home"
-    # `assertion` since 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md):
+    # `assertion` since 2026-10-08 (signed, V_eta_entity_composition_plan.md):
     # a fact that was a field on the old class is a statement about the entity.
     valid_kinds = {"field", "relation", "global_identifier", "implied", "projection",
                    "assertion"}
@@ -1328,7 +1328,7 @@ def test_settings_edge_is_on_the_interaction_branch_only():
 
 
 def test_strain_is_an_entity_with_a_recursive_pedigree():
-    """#56, as amended 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md
+    """#56, as amended 2026-10-08 (signed, V_eta_entity_composition_plan.md
     sec. 4-5): a strain is an `entity` of type strain; its facts are assertions
     and its pedigree is a `derived_from` relation (strain -> strain), so a shared
     background is still stored once and referenced. `global_identifier` stays
@@ -1344,7 +1344,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
 
 
 def test_term_assertion_keeps_its_inline_value_and_gains_strain_id():
-    """REVERSED 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 5).
+    """REVERSED 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 5).
     #56 kept an inline strain term on the assertion plus an optional `strain_id`
     edge, on the drift argument that 115 strains carry no identifier and may
     warrant no document. Entities need no identifier (a person without an ORCID
@@ -2814,7 +2814,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
 
     # the statement the team named (#73 item 51: intensity_observation, not image_observation)
     assert "image_observation" not in RECORDS
-    # an `observation` listing `intensity` since 2026-10-08 (composition, PROPOSAL)
+    # an `observation` listing `intensity` since 2026-10-08 (composition, signed)
     assert "intensity_observation" not in RECORDS
     _t, obs = RECORDS["observation"]
     assert not obs["document_class"].get("abstract"), (
@@ -3184,7 +3184,7 @@ def test_directed_relation_has_an_optional_epoch_id_slot():
     assert "epoch_id" in deps, (
         "directed_relation needs an epoch_id slot or the signed ensemble model "
         "cannot express an epoch-scoped member_of edge")
-    # an epoch is an `entity` of type epoch since 2026-10-08 (PROPOSAL)
+    # an epoch is an `entity` of type epoch since 2026-10-08 (signed)
     assert deps["epoch_id"]["must_refer_to_document_class"] == "entity"
     assert deps["epoch_id"]["mustBeNonEmpty"] is False, (
         "epoch_id must stay OPTIONAL -- most relations have no epoch, and "
@@ -3217,7 +3217,7 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
         "expected at least the three known holders (ingestion_manifest, "
         f"method_parameters, directed_relation); got {sorted(holders)!r}")
     for name, d in sorted(holders.items()):
-        # the epoch is an `entity` of type epoch since 2026-10-08 (PROPOSAL)
+        # the epoch is an `entity` of type epoch since 2026-10-08 (signed)
         assert d["must_refer_to_document_class"] == "entity", (
             "{}.epoch_id must point at the epoch entity, not {!r}".format(name, d["must_refer_to_document_class"]))
 
@@ -3728,7 +3728,7 @@ def test_leaves_exist_only_when_needed():
         assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
         composite = leaf.rsplit("_", 1)[0]
         assert composite in RECORDS, f"value {composite} must stay"
-    # 2026-10-08 (PROPOSAL): no join leaf is made at all -- the value kind is a
+    # 2026-10-08 (signed): no join leaf is made at all -- the value kind is a
     # mixin -- so the leaves item 50 kept went too, and their values stay.
     for gone2, value in (("position_observation", "position"),
                          ("temperature_manipulation", "temperature"),
@@ -3841,7 +3841,7 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     assert edges("dose")["formulation_id"]["mustBeNonEmpty"] is True
     assert "amount" not in RECORDS and "substance_amount" in RECORDS
     assert "osmolar" in {s["name"] for s in RECORDS["concentration"][1]["fields"][0]["fields"]}
-    # a product is an `entity` of type product since 2026-10-08 (PROPOSAL): its
+    # a product is an `entity` of type product since 2026-10-08 (signed): its
     # catalog and lot numbers are text assertions, its vendor a `sold_by` relation
     assert "product" not in RECORDS
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
@@ -3855,7 +3855,7 @@ def test_value_descriptors_live_with_the_value():
     live on value; the
     statement keeps only the claim, and references a shared value through value_id."""
     dt = {f["name"] for f in RECORDS["value"][1]["fields"]}
-    # `datum_type` became `data_type` 2026-10-08 (PROPOSAL, composition plan sec. 2)
+    # `datum_type` became `data_type` 2026-10-08 (signed, composition plan sec. 2)
     assert dt == {"data_type", "source_data_type", "data_body"}
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
     assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}

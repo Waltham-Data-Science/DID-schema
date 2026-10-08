@@ -145,7 +145,7 @@ def test_harmonic_component_calculation_is_restored():
     re-add it silently"). It is not silent: it is inverted here, beside its
     reason, so the two decisions cannot be confused. The restoration's own
     TEAM-SIGN-OFF line is the team's to add (Operating Rule 4)."""
-    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 1): the leaf is a
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 1): the leaf is a
     # `calculation` document listing `harmonic_component`; no join class is built.
     assert "harmonic_component_calculation" not in BUILT
     assert "harmonic_component" in BUILT and "calculation" in BUILT
@@ -504,7 +504,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # time_calculation and acceleration_calculation leaves (jess, the Haley import's
     # stage 11). A leaf declares no fields, so the INERT list below is untouched.
     # TWENTY-FOURTH MOVEMENT, re-derived not bumped: 220 -> 166 on 2026-10-08
-    # (PROPOSAL, V_eta_entity_composition_plan.md): 39 join leaves and 13 entity
+    # (signed, V_eta_entity_composition_plan.md): 39 join leaves and 13 entity
     # classes deleted, `text` added (166 for an hour, until the three named
     # calculators came back). A leaf declares no fields; the entities' fields
     # carried no min/max. The INERT list below is untouched.
@@ -605,7 +605,7 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     # #73 item 57 (2026-09-25): the epoch's `session_id` EDGE is dropped. Its
     # session is `base.session_id`, required on every document, and session
     # documents are 1:1 with those values (#51) -- the edge restated it.
-    # an epoch is an `entity` of type epoch since 2026-10-08 (PROPOSAL)
+    # an epoch is an `entity` of type epoch since 2026-10-08 (signed)
     epoch = BUILT["entity"][1]
     assert "session_id" not in {x["name"] for x in epoch["depends_on"]}
     base = BUILT["base"][1]

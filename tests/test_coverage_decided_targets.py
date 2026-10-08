@@ -400,7 +400,7 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     """A target nobody can find is a typo, not a plan."""
     built = _built_classes()
     rows = _rows()
-    # A name retired by the 2026-10-08 composition PROPOSAL resolves through
+    # A name retired by the 2026-10-08 composition (signed) resolves through
     # coverage.py's supersession table (`software` -> `entity`,
     # `time_observation` -> `observation` + `time`); what it resolves to must exist.
     sup = _cov().SUPERSEDED_BY_ENTITY_COMPOSITION
@@ -485,7 +485,7 @@ def test_app_schema_half_is_reported_as_built():
     """
     row = next(r for r in _rows() if r["v1_class"] == "app")
     assert row["decided_targets"] == ["software"], row["decided_targets"]
-    # `software` is an `entity` type since 2026-10-08 (PROPOSAL), so the target
+    # `software` is an `entity` type since 2026-10-08 (signed), so the target
     # is built when `entity` is.
     assert "entity" in _built_classes(), (
         "`entity` is not in the built set -- re-check this test's premise "

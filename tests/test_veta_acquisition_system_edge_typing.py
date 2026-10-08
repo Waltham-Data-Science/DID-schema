@@ -81,7 +81,7 @@ def test_the_target_class_exists_in_the_built_set():
         f"{TARGET} is not in the built set; the typing below has no referent")
     d = _load(entries[TARGET])
     supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    # ⊂ base since 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 8):
+    # ⊂ base since 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 8):
     # an acquisition system is configuration, not an entity. This reverses the
     # `acquisition_system ⊂ entity` of V_eta_daq_family_decisions.md (2026-08-05),
     # which the plan's sec. 8 records.

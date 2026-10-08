@@ -12577,9 +12577,9 @@ if _card_bad:
 
 
 # ---------- 12.12 one entity class, statements by composition, CURIE identifiers (2026-10-08) ----------
-# PROPOSAL built ahead of signature at Jess's request (2026-10-08, "I'll sign them
-# after you make the changes"); the record is V_eta_entity_composition_plan.md,
-# whose sections 1-9 these blocks follow. Nothing here is signed.
+# Built ahead of signature at Jess's request and signed by Jess the same day
+# (2026-10-08); the record is V_eta_entity_composition_plan.md, whose sections
+# 1-9 these blocks follow, each with its TEAM-SIGN-OFF line.
 def _all_class_files():
     for _tier in TIERS:
         _dir = os.path.join(VETA, _tier)
