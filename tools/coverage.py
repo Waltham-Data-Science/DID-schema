@@ -805,7 +805,16 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # `item`, its leaf `item_manipulation`. NDI's
                   # stimulusPresentationToTimedSequence.m still mints the old names;
                   # remove both when the NDI rename lands.
-                  "timed_sequence", "timed_sequence_manipulation"}
+                  "timed_sequence", "timed_sequence_manipulation",
+                  # 2026-10-08 (Jess Haley; V_eta_tenets.md, T2 amendment): the
+                  # statement family drops `subject_` and `data_type` becomes
+                  # `value`. NDI's second pass (+migrate/+internal:
+                  # hartleyBasisGratings, stimulusBathToBath,
+                  # stimulusPresentationToManipulation,
+                  # stimulusPresentationToTimedSequence, ontologyLabelSubjects)
+                  # still mints the old names; its migration CI is pinned to the
+                  # pre-#73 schema. Remove these when the NDI rename lands there.
+                  "data_type", "subject_manipulation", "subject_observation"}
 
 
 def guardrail(veta, emitted):
