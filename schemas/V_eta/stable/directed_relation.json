@@ -125,14 +125,6 @@
                         },
                         {
                             "node": "",
-                            "name": "stored_at"
-                        },
-                        {
-                            "node": "",
-                            "name": "hosted_by"
-                        },
-                        {
-                            "node": "",
                             "name": "has_custodian"
                         },
                         {
@@ -150,10 +142,6 @@
                         {
                             "node": "",
                             "name": "input_data"
-                        },
-                        {
-                            "node": "",
-                            "name": "has_homepage"
                         },
                         {
                             "node": "",
@@ -178,6 +166,14 @@
                         {
                             "node": "",
                             "name": "gene alias mapping"
+                        },
+                        {
+                            "node": "",
+                            "name": "sold_by"
+                        },
+                        {
+                            "node": "",
+                            "name": "recorded_by"
                         }
                     ],
                     "strength": "preferred",

@@ -31,4 +31,5 @@ def test_a_recipe_can_cite_its_source():
     assert len(row) == 1
     assert row[0]["child_types"] == ["entity", "formulation"]
     # web_resource retired 2026-10-08 (PROPOSAL): a recipe cites a protocol or a publication
-    assert row[0]["parent_types"] == ["protocol", "publication"]
+    # and code: a dataset is documented by its analysis code (2026-10-08)
+    assert row[0]["parent_types"] == ["protocol", "publication", "software"]

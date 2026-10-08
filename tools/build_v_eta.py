@@ -12831,8 +12831,10 @@ for _r in _reg["relation_bindings"]:
     elif _n == "input_data":
         _r["parent_types"] = ["dataset"]
     elif _n == "documented_by":
-        _r["parent_types"] = ["protocol", "publication"]
-        _r["parent_role"] = "the document (a protocol or a publication)"
+        # software too: a dataset is documented by its analysis code (the Haley
+        # dataset's GitHub repository), which is software, not a publication
+        _r["parent_types"] = ["protocol", "publication", "software"]
+        _r["parent_role"] = "the document (a protocol, a publication, or code)"
     elif _n == "instance_of":
         _r["parent_types"] = ["product", "strain"]
         _r["parent_role"] = "the product or strain it is an instance of"
@@ -12848,6 +12850,14 @@ _rows.append(_relrow("sold_by", "the product", "the vendor", ["product"], ["orga
 _rows.append(_relrow("recorded_by", "the epoch", "the acquisition system that recorded it",
                      ["epoch"], ["acquisition_system"]))
 _reg["relation_bindings"] = _rows
+# directed_relation.relation's bound value set is the registry's directed rows,
+# so the two cannot disagree (it was copied from RELATION_VOCABULARY earlier)
+_t, _p = path_of("directed_relation")
+_d = load(_p)
+_rf = next(f for f in _d["fields"] if f["name"] == "relation")
+_rf["constraints"]["binding"]["values"] = [
+    dict(r["relation"]) for r in _rows if r["class"] == "directed_relation"]
+write(_t, "directed_relation", _d)
 for _r in _reg["subject_statement_bindings"] + _reg.get("binding_examples", []):
     _cls = _r.get("class", "")
     for _dir in _DIRECTIONS:

@@ -145,7 +145,8 @@ To be signed: global identifiers are CURIEs or IRIs from one lowercase prefix re
 A URL is an address for the thing it names, so it goes in that thing's
 `global_identifier`. `has_homepage`, `stored_at` and `hosted_by` (web_resource -> organization) go.
 `follows_protocol` points at an `entity {type: protocol}`; `input_data` at an
-`entity {type: dataset}`; `documented_by` at a protocol or a publication.
+`entity {type: dataset}`; `documented_by` at a protocol, a publication or software
+(a dataset's analysis code).
 
 To be signed: web_resource and the has_homepage / stored_at relations retire; protocol is an entity type
 

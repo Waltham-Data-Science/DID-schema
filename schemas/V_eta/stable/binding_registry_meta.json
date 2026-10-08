@@ -510,14 +510,15 @@
             },
             "class": "directed_relation",
             "child_role": "the documented entity or recipe",
-            "parent_role": "the document (a protocol or a publication)",
+            "parent_role": "the document (a protocol, a publication, or code)",
             "child_types": [
                 "entity",
                 "formulation"
             ],
             "parent_types": [
                 "protocol",
-                "publication"
+                "publication",
+                "software"
             ],
             "timed": false,
             "ordered": false
