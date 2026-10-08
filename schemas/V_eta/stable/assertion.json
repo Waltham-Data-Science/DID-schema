@@ -1,10 +1,10 @@
 {
     "document_class": {
-        "class_name": "subject_observation",
-        "class_version": "2.0.0",
+        "class_name": "assertion",
+        "class_version": "3.0.0",
         "superclasses": [
             {
-                "class_name": "subject_interaction"
+                "class_name": "statement"
             }
         ],
         "maturity_level": "stable",

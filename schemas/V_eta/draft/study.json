@@ -67,7 +67,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional: the variables DELIBERATELY VARIED by the design (OD600, lawn configuration, strain), as opposed to variables only recorded. The same terms a statement's `variable` uses, so 'every study that varied X' is a query (ISA study factors). Bound like `subject_statement.variable`.",
+            "documentation": "Optional: the variables DELIBERATELY VARIED by the design (OD600, lawn configuration, strain), as opposed to variables only recorded. The same terms a statement's `variable` uses, so 'every study that varied X' is a query (ISA study factors). Bound like `statement.variable`.",
             "constraints": {
                 "binding": {
                     "strength": "preferred",

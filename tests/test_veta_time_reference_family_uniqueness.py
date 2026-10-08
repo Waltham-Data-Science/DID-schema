@@ -50,7 +50,7 @@ VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 # of every epistemic error recorded in CLAUDE.md.
 GOVERNED = {
     # Renamed by T15 (2026-09-25): the family repeats one name, `time_reference_id`.
-    ("subject_interaction", "time_reference_id"),
+    ("interaction", "time_reference_id"),
     ("directed_relation", "time_reference_id"),
     ("epoch", "time_reference_id"),
 }

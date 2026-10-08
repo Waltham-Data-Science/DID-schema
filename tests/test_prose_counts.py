@@ -255,7 +255,7 @@ def test_demotion_does_not_reach_across_a_clause(tmp_path):
     """THE MUTATION THIS PINS: widening the demotion window.
 
     An earlier draft searched the preceding 46 characters for a cue, and
-    demoted the live `38` in "NOT `data_type` -- that is a CLASS with **38
+    demoted the live `38` in "NOT `value` -- that is a CLASS with **38
     direct subclasses**" because the `NOT` forty-one characters upstream was
     about something else entirely. A widened rule silently exempts live claims,
     which is a checker that has stopped checking."""

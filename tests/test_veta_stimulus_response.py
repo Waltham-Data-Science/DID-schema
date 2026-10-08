@@ -8,8 +8,8 @@ MATLAB here. Nothing in this file proves anything about the migrators.
 
 Guards the SIGNED model (`schemas/V_eta_stimulus_response_model_plan.md`,
 TEAM-SIGN-OFF [stimulus response], jess@walthamdatascience.com / 2026-08-08):
-four v1 classes collapse to TWO -- `harmonic_component` (an abstract `data_type`
-composite) plus `harmonic_component_calculation` (its `subject_calculation`
+four v1 classes collapse to TWO -- `harmonic_component` (an abstract `value`
+composite) plus `harmonic_component_calculation` (its `calculation`
 leaf, id preserved) -- and four source tombstones are repaired on the way.
 
 WHY A SEPARATE FILE, AND WHAT IT IS ANCHORED TO
@@ -83,13 +83,13 @@ def _field(schema, name):
 def test_harmonic_component_is_a_concrete_data_type_composite():
     """The composite half of the signed pair. It WAS abstract ("a bare harmonic
     is never a document, only the direction leaf is"); #73 item 19 (team,
-    2026-09-24) made every data_type composite concrete, because T6's
+    2026-09-24) made every value composite concrete, because T6's
     `storage_mode: reference` needs a standalone value document to point at. A
     standalone composite is CONTENT, not a claim."""
     tier, d = BUILT["harmonic_component"]
     assert tier == "draft"
     assert not d["document_class"].get("abstract")
-    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["value"]
     # T14: ONE `value` slot, structure, not a bag of loose top-level fields.
     assert [f["name"] for f in d["fields"]] == ["value"]
     assert d["fields"][0]["type"] == "structure"
@@ -147,24 +147,24 @@ def test_harmonic_component_calculation_is_restored():
     TEAM-SIGN-OFF line is the team's to add (Operating Rule 4)."""
     _tier, d = BUILT["harmonic_component_calculation"]
     supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    assert supers == ["subject_calculation", "harmonic_component"], supers
+    assert supers == ["calculation", "harmonic_component"], supers
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
-    """The migrator writes subject_id, time_reference_1, instrument_id,
+    """The migrator writes entity_id, time_reference_1, instrument_id,
     derived_from_1, derived_from_2 and method_parameters_id. Each must be
     declared SOMEWHERE in the ancestor chain, or the fold is writing edges the
     schema does not know about."""
-    chain = ["subject_statement", "subject_interaction", "subject_calculation"]
+    chain = ["statement", "interaction", "calculation"]
     declared = set()
     for cls in chain:
         declared |= _dep_names(BUILT[cls][1])
-    assert {"subject_id", "time_reference_id", "instrument_id",
+    assert {"entity_id", "time_reference_id", "instrument_id",
             "method_parameters_id", "input_id"} <= declared
     # input_id REPEATS (T15), so the fold may write two input_id entries.
     # #63 has not put a maximum on it; assert there is none, so a future cap
     # cannot land silently under a fold that emits two.
-    dfrom = next(d for d in BUILT["subject_calculation"][1]["depends_on"]
+    dfrom = next(d for d in BUILT["calculation"][1]["depends_on"]
                  if d["name"] == "input_id")
     assert "max_count" not in dfrom or dfrom["max_count"] is None
 
@@ -314,7 +314,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
 
     243 -> 245 on 2026-08-11: `validity` + `validity_observation`, the
     go-forward home for `valid_interval` (team decision, boolean-valued
-    `subject_statement`). Neither adds an inert min/max either -- a BOOLEAN has
+    `statement`). Neither adds an inert min/max either -- a BOOLEAN has
     no bound to declare, and the `sequence` ordinal is deliberately unbounded
     because the v1 array has no stated length -- so again only the denominator
     moved. THIS TEST DID ITS JOB: the count is pinned precisely so a schema
@@ -400,7 +400,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # storage_mode, planes[]}` and the leaf declares no fields of its own, so
     # neither carries a `min` or `max` constraint at any depth and neither can
     # enter the inert set. Note the two are counted here but only ONE of them
-    # is a `data_type` subclass -- the leaf hangs off `subject_calculation` --
+    # is a `value` subclass -- the leaf hangs off `calculation` --
     # which is why the `data_type_subclasses` counter moved by one and this one
     # by two.
     # SIXTH MOVEMENT, SIXTH RE-DERIVATION. 243 -> 254: #67 calculator
@@ -418,11 +418,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # bodies live on `tuning_curve.value.*` as matrix/char/structure without
     # min/max, and the leaves have no fields), and `runtime_environment`'s
     # four char fields carry no min/max either. The composite additions are
-    # ABSTRACT so the count of data_type subclasses only moves by the
+    # ABSTRACT so the count of value subclasses only moves by the
     # non-marker composites, but this walk counts every schema, not just
-    # data_type subclasses -- which is why this one moves by 11 while the
+    # value subclasses -- which is why this one moves by 11 while the
     # data_type_subclasses counter moved by ONE (tuning_curve alone; the five
-    # markers hang off tuning_curve, not data_type directly).
+    # markers hang off tuning_curve, not value directly).
     # walked 243 -> 254 -> 262 as families landed: +11 for #67's tuning
     # restructure (2026-09-21), then +8 for the spatial-transcriptomics family
     # (2026-09-22, TEAM-SIGN-OFF [spatial_transcriptomics_family] +
@@ -443,7 +443,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # the substantive check: the new typed blocks (circular_statistics,
     # interpolated_values, model_fit[].goodness/metrics/sampled_fit) are
     # double/matrix fields with NO min/max constraint at any depth, and the
-    # `calculator` tombstone and subject_calculation's two moved edges declare
+    # `calculator` tombstone and calculation's two moved edges declare
     # no field at all.
     # EIGHTH MOVEMENT, re-derived not bumped: 256 -> 267 for the #73 review build
     # (2026-09-25). +11: label, label_calculation, coordinate_system, position,
@@ -539,7 +539,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     noticing (the ngrid coordinate slot was the first).
 
     WHAT IS NOW OWED, AND IT IS NOT DONE HERE. The SCHEMA half is what landed:
-    `subject_statement` can hold axes, so an inline or reference value finally has
+    `statement` can hold axes, so an inline or reference value finally has
     somewhere to put its extent -- the mount rule's other arm, which had no home
     at all until now. The MIGRATOR half -- moving `stimid` out of `conditions`
     into an axis entry -- is #61's, and until it lands the migrator still carries
@@ -547,20 +547,20 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     distinction the ngrid inversion had to make.
     """
     # #73 item 60 (2026-09-25): the value descriptors moved WITH THE VALUE to
-    # data_type, which every statement leaf inherits (T3); the statement keeps the claim.
+    # value, which every statement leaf inherits (T3); the statement keeps the claim.
     # `distributive` (2026-10-02, V_eta_study_plan.md) is about the claim, not the value.
-    assert {f["name"] for f in BUILT["subject_statement"][1]["fields"]} == {
+    assert {f["name"] for f in BUILT["statement"][1]["fields"]} == {
         "variable", "conditions", "distributive"}
-    # #73 item 65 (2026-09-29): keys/complete moved on up to `data`, data_type's parent.
+    # #73 item 65 (2026-09-29): keys/complete moved on up to `data`, value's parent.
     _tier, d = BUILT["data"]
     names = {f["name"] for f in d["fields"]}
     assert "keys" in names, (
-        "`subject_statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
+        "`statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
     assert names == {"keys", "complete"}
-    assert {f["name"] for f in BUILT["data_type"][1]["fields"]} == {
+    assert {f["name"] for f in BUILT["value"][1]["fields"]} == {
         "datum_type", "source_datum_type", "data_body"}
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
@@ -568,7 +568,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     axes = next(f for f in d["fields"] if f["name"] == "keys")
     sub = [s["name"] for s in axes.get("fields", [])]
     assert "variable" in sub and "n" in sub, (
-        f"`subject_statement.axes[]` declares {sub!r}, which is not the signed "
+        f"`statement.axes[]` declares {sub!r}, which is not the signed "
         "axis entry")
 
 

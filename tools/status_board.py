@@ -139,15 +139,15 @@ BUILT_AHEAD_OF_DECISION = "BUILT AHEAD OF THE DECISION"
 
 FAMILIES = [
     # ADDED 2026-09-23 (#73), and the board is again what demanded it. Dropping the
-    # `calculator` MIXIN from subject_calculation's chain left the name as a v1
+    # `calculator` MIXIN from calculation's chain left the name as a v1
     # source tombstone restating NDI's database_documents/calculator.json
     # (⊂ [base, app], no fields) -- `retire`, no migrator -- so it became an open
     # class that no family claimed, and this generator refused to go green. The
-    # family points at the amendment in the subject_calculation plan, and it reads
+    # family points at the amendment in the calculation plan, and it reads
     # "awaiting review" until that document carries its signature.
     ("calculator mixin dropped (#73)", ["calculator"],
      "V_eta_subject_calculation_plan.md",
-     ("`calculator` leaves every V_eta chain; subject_calculation declares the "
+     ("`calculator` leaves every V_eta chain; calculation declares the "
       "required software_id + interpreter_id + operating_system_id itself; the name survives "
       "only as a retiring v1 tombstone for passthrough"), "team"),
     # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
@@ -371,7 +371,7 @@ FAMILIES = [
     # amendment is unsigned, and naming it in this SIGNED family would report it signed.
     ("stimulus", ["stimulus_presentation"],
      "V_eta_stimulus_model_plan.md",
-     "item data_type (was timed_sequence) + item_manipulation leaf",
+     "item value (was timed_sequence) + item_manipulation leaf",
      "team"),
 
     ("ensemble", ["ensemble"],
@@ -434,7 +434,7 @@ FAMILIES = [
 
     ("image / ngrid", ["ngrid", "imageStack_parameters"],
      "V_eta_image_model_plan.md",
-     ("ngrid phases into sampled_body; image is a standalone data_type; the two "
+     ("ngrid phases into sampled_body; image is a standalone value; the two "
      "image_stack tombstones are held until the subject is recoverable"),
      "team"),
 
@@ -559,14 +559,14 @@ FAMILIES = [
     # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
     # DECIDED with the team 2026-08-06 ("Record the whole cluster"); SIGNED 2026-08-08.
     # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
-    # comes from a new `polynomial` data_type -- NOT {slope,intercept}, because
+    # comes from a new `polynomial` value -- NOT {slope,intercept}, because
     # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
     # would be LOSSY. Endpoints are relative_time_reference DOCUMENTS (each carrying epoch +
     # clock), not clocktype terms. syncgraph_id restored; the invented required
     # `epochid` (5,316 docs, 100% empty) removed.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_clock_alignment_cluster_plan.md",
-     ("-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
+     ("-> `clock_alignment` (relation + `polynomial` value); endpoints are "
      "relative_time_reference docs; syncgraph_id restored, invented epochid removed"),
      "team"),
 
@@ -668,14 +668,14 @@ FAMILIES = [
     # NOT the same thing as stimulus parameters: this is the response to a presented
     # stimulus, computed by ndi.app.stimulus.tuning_response -- the input the tuning
     # calculators consumed. The two live classes sat OUTSIDE the J tier system
-    # entirely (⊂ base, no direction, no data_type): a V_zeta carry-over that never
+    # entirely (⊂ base, no direction, no value): a V_zeta carry-over that never
     # had a walkthrough.
     # DECIDED with the team 2026-08-06; SIGNED 2026-08-08. 4 classes -> 2: a
-    # `harmonic_component` data_type (harmonic 0 = DC/mean, so v1's three
+    # `harmonic_component` value (harmonic 0 = DC/mean, so v1's three
     # response_types are ONE field at three values) + a `harmonic_component_
     # calculation` leaf, id preserved. The parameters class FOLDS inline --
     # at most 6 distinct value-tuples can exist yet 11,440 documents carry them.
-    # The first proposal, a `stimulus_response` data_type, was REJECTED by the
+    # The first proposal, a `stimulus_response` value, was REJECTED by the
     # team on naming: it names a relationship, not a value (the ground `array`
     # was killed on). The field list is PROPOSED, not decided.
     ("stimulus response", [
@@ -683,7 +683,7 @@ FAMILIES = [
         "stimulus_response_scalar_parameters",
         "stimulus_response_scalar_parameters_basic"],
      "V_eta_stimulus_response_model_plan.md",
-     ("4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); "
+     ("4 -> 2: `harmonic_component` value + calculation leaf (id preserved); "
      "parameters fold inline, killing 11,440 empty required edges"),
      "team"),
 
@@ -791,15 +791,15 @@ FAMILIES = [
     # this row in the coverage ledger's DISPUTED bucket, with the board's prose
     # quietly settling it one way while the ledger correctly refused to. The team
     # ruled that the SIGNATURE is what is intended, and the signature routes to
-    # TWO mounts: `data_type` to the STATEMENT unconditionally, and the axis
-    # entry to `subject_statement` or `sampled_body` by `storage_mode`. Both are
+    # TWO mounts: `value` to the STATEMENT unconditionally, and the axis
+    # entry to `statement` or `sampled_body` by `storage_mode`. Both are
     # now recorded (tools/coverage.py DECIDED_TARGETS_BY_SIGNOFF), so this line
     # names both -- prose and artifact agreeing by construction rather than by
     # nobody noticing.
     ("misc singletons", [
         "binaryseries_parameters", "interaction_purpose", "projectvar"],
      "V_eta_go_forward_class_audit.md",
-     "binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+     "binaryseries_parameters -> statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
      "team"),
 
     # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
@@ -1254,8 +1254,8 @@ def family_prose_vs_signoff(built_classes):
     the sign-off that signs that family. A name the signature does not contain
     is UNSIGNED -- which is not automatically wrong, and is never resolved here.
 
-    DELIBERATELY UNDER-FILTERED. Abstract roots (`data_type`, `entity`,
-    `subject`) get used as ordinary words -- "a standalone data_type", "->
+    DELIBERATELY UNDER-FILTERED. Abstract roots (`value`, `entity`,
+    `subject`) get used as ordinary words -- "a standalone value", "->
     entity" -- and would be the obvious things to suppress. They are NOT
     suppressed: a filter tuned on today's eight rows is a filter that hides
     tomorrow's real one, and eight lines across eighteen families is a
@@ -3317,7 +3317,7 @@ def build(ocs=None, didm=None, log=None):
     # By 2026-08-11 it was false for essentially all of them: a hand check of
     # the 26 target classes these families name found 25 present as schema
     # files and the 26th (`execution_environment`) present as a block on
-    # `subject_interaction`. The sentence would have sent a reader to rebuild
+    # `interaction`. The sentence would have sent a reader to rebuild
     # the entire decided set.
     #
     # It is the project's own recurring error wearing the opposite sign. The
@@ -3538,7 +3538,7 @@ def build(ocs=None, didm=None, log=None):
     p("**THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**")
     p("The family one-liner is Claude-authored prose in `tools/status_board.py`;")
     p("the sign-off is the team's own words. An unsigned name may be a fair")
-    p("paraphrase, a structural word used in passing (`data_type`, `entity`), or")
+    p("paraphrase, a structural word used in passing (`value`, `entity`), or")
     p("a target nobody agreed to -- and only a person can tell which.")
     p("")
     p("It exists because on 2026-08-11 `ngrid` was filed as a dissolution,")
@@ -3556,7 +3556,7 @@ def build(ocs=None, didm=None, log=None):
     p("with both citations and no choice made\", and half of that went stale")
     p("the day it was written. The team ruled on 2026-08-11 that for")
     p("`binaryseries_parameters` the SIGNATURE is what is intended, so its")
-    p("ledger row now records TWO decided targets -- `subject_statement` and")
+    p("ledger row now records TWO decided targets -- `statement` and")
     p("`sampled_body`, the two mounts the axis entry can take, selected per")
     p("document by `storage_mode`. `ngrid` is UNCHANGED and still DISPUTED:")
     p("nothing was decided about it, and the two rows only ever shared a")

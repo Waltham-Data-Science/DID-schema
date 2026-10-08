@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "subject_statement",
+        "class_name": "statement",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -12,16 +12,16 @@
     },
     "depends_on": [
         {
-            "name": "subject_id",
+            "name": "entity_id",
             "mustBeNonEmpty": true,
-            "documentation": "The subject this statement is about (the finest entity the value directly describes; Brainstorm J objective-annotation rule).",
-            "must_refer_to_document_class": "subject"
+            "documentation": "The entity this statement is about: the finest entity the value directly describes (T17). Usually a subject; any entity may be described (a strain, a session), but a statement about a non-subject entity only says what that entity's class has no field for (T1, T17). (`entity_id`, and subjects only, until 2026-10-08.)",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "value_id",
             "mustBeNonEmpty": false,
-            "documentation": "The standalone data_type document that holds this statement's value, shared by every statement that points at it (item 30). When present, this statement's own value and value descriptors are empty: the shared document states them. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "data_type"
+            "documentation": "The standalone value document that holds this statement's value, shared by every statement that points at it (item 30). When present, this statement's own value and value descriptors are empty: the shared document states them. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "value"
         }
     ],
     "file": [],

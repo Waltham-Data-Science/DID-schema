@@ -1058,7 +1058,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # in V_eta_data_body_model_plan.md, which carries NO sign-off line at all --
     # so it is quoted above as the mechanism, and is not the citation.
     "binaryseries_parameters": (
-        ["subject_statement", "sampled_body"],
+        ["statement", "sampled_body"],  # `subject_statement` until 2026-10-08
         "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired",
         ("its `time_type` is the time axis's new `datum_type`, its `data_type` "

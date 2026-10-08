@@ -21,7 +21,7 @@
             "name": "manipulation_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional link to a manipulation. NEVER set by any writer on origin/main.",
-            "must_refer_to_document_class": "subject_manipulation",
+            "must_refer_to_document_class": "manipulation",
             "ndi_mustBeNonEmpty": false
         },
         {

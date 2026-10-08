@@ -13,14 +13,14 @@
         {
             "name": "child_id",
             "mustBeNonEmpty": true,
-            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "parent_id",
             "mustBeNonEmpty": true,
-            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "time_reference_id",

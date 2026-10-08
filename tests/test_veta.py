@@ -3,9 +3,9 @@
 Validate the V_eta set on its own terms: every schema file passes the
 meta-schema, index.json agrees with disk, superclass and dependency references
 resolve, the tier folder matches maturity_level, and the Brainstorm-J subject
-model composes (bare-identity subject, restored subject_statement, the
-subject_relation branch, the subject_assertion genus, and the renamed
-subject_observation / subject_manipulation direction classes).
+model composes (bare-identity subject, restored statement, the
+subject_relation branch, the assertion genus, and the renamed
+observation / manipulation direction classes).
 
 Scope note: the leaf-tier depth (dose/formulation composites replacing the
 pharmacological family, the dataseries -> data_body consolidation, and the
@@ -56,12 +56,12 @@ META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 
 def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     """#73 item 56 (2026-09-25, 6b option B) REPLACES a test that pinned TWO copies
-    of the `channels` shape identical -- inline on subject_interaction and on
+    of the `channels` shape identical -- inline on interaction and on
     `acquisition_channels`. Two copies kept in step by a test are still two places
     for one fact; now there is one. A statement points at a shared
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` already uses."""
-    si = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
+    si = _load(os.path.join(VETA, "stable", "interaction.json"))
     ac = _load(os.path.join(VETA, "stable", "acquisition_channels.json"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
@@ -188,47 +188,47 @@ def test_subject_is_bare_identity():
 
 
 def test_subject_statement_restored_and_owns_variable():
-    """subject_statement is the abstract parent owning subject_id + variable."""
-    assert "subject_statement" in RECORDS
-    dc = RECORDS["subject_statement"][1]["document_class"]
+    """statement is the abstract parent owning entity_id + variable."""
+    assert "statement" in RECORDS
+    dc = RECORDS["statement"][1]["document_class"]
     assert dc.get("abstract") is True
     assert dc["superclasses"] == [{"class_name": "base"}]
-    assert _flat_field_types("subject_statement").get("variable") == "ontology_term"
-    assert "subject_id" in _flat_dep_names("subject_statement")
+    assert _flat_field_types("statement").get("variable") == "ontology_term"
+    assert "entity_id" in _flat_dep_names("statement")
 
 
 def test_interaction_and_assertion_are_statement_children():
-    for child in ("subject_interaction", "subject_assertion"):
-        assert "subject_statement" in _chain(child), f"{child} not under subject_statement"
+    for child in ("interaction", "assertion"):
+        assert "statement" in _chain(child), f"{child} not under statement"
 
 
 def test_spine_composes_onto_every_interaction():
-    """Every interaction leaf inherits subject_id, variable, required time, method."""
+    """Every interaction leaf inherits entity_id, variable, required time, method."""
     for name in RECORDS:
-        if "subject_interaction" not in _chain(name):
+        if "interaction" not in _chain(name):
             continue
         ft, deps = _flat_field_types(name), _flat_dep_names(name)
-        assert "subject_id" in deps, f"{name} missing subject_id"
+        assert "entity_id" in deps, f"{name} missing entity_id"
         assert "time_reference_id" in deps, f"{name} missing time_reference"
         assert ft.get("variable") == "ontology_term", f"{name} missing variable"
         assert ft.get("method") == "ontology_term", f"{name} missing method"
         # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
         assert "sample_time" not in ft, f"{name} still carries sample_time"
-        # #73 item 60: `keys` lives on data_type (with the value), so only leaves --
+        # #73 item 60: `keys` lives on value (with the value), so only leaves --
         # a direction x a data type (T3) -- carry it; the abstract directions do not.
-        if "data_type" in _chain(name):
+        if "value" in _chain(name):
             assert ft.get("keys") == "structure", f"{name} missing keys"
 
 
 def test_path_t_removed_and_element_id_retired():
     """Path T target_structure and V_zeta's element_id are gone from the spine."""
-    ft = _flat_field_types("subject_interaction")
+    ft = _flat_field_types("interaction")
     assert "target_structure" not in ft
-    assert "element_id" not in _flat_dep_names("subject_interaction")
+    assert "element_id" not in _flat_dep_names("interaction")
 
 
 def test_instrument_id_is_optional_device_edge():
-    deps = {d["name"]: d for d in RECORDS["subject_interaction"][1]["depends_on"]}
+    deps = {d["name"]: d for d in RECORDS["interaction"][1]["depends_on"]}
     assert "instrument_id" in deps
     assert deps["instrument_id"]["mustBeNonEmpty"] is False
     assert deps["instrument_id"]["must_refer_to_document_class"] == "subject"
@@ -237,14 +237,14 @@ def test_instrument_id_is_optional_device_edge():
 def test_derived_from_is_statement_typed_provenance():
     # #73 (2026-09-23) THE OBSERVATION / CALCULATION RULE: a statement whose
     # inputs are other statements in the dataset is a CALCULATION and records them
-    # via input_id, typed to a subject_statement leaf (NEVER an entity) --
+    # via input_id, typed to a statement leaf (NEVER an entity) --
     # the provenance inverse of directed_relation's entity->entity child/parent.
-    # INVERTED, not updated: this asserted the edge on subject_observation (the
+    # INVERTED, not updated: this asserted the edge on observation (the
     # "computed observation"), which the rule abolishes.
-    deps = {d["name"]: d for d in RECORDS["subject_calculation"][1]["depends_on"]}
+    deps = {d["name"]: d for d in RECORDS["calculation"][1]["depends_on"]}
     assert "input_id" in deps
     df = deps["input_id"]
-    assert df["must_refer_to_document_class"] == "subject_statement"
+    assert df["must_refer_to_document_class"] == "statement"
     assert df["must_refer_to_document_class"] != "entity"
     assert df["mustBeNonEmpty"] is False
     # inherited by the calculation leaves...
@@ -252,17 +252,21 @@ def test_derived_from_is_statement_typed_provenance():
     assert "input_id" in _flat_dep_names("receptive_field_calculation")
     # ...and on NO other direction: an observation comes from outside the
     # dataset, a manipulation is imposed, an assertion is declared.
-    assert "input_id" not in _flat_dep_names("subject_observation")
+    assert "input_id" not in _flat_dep_names("observation")
     assert "input_id" not in _flat_dep_names("voltage_observation")
     assert "input_id" not in _flat_dep_names("score_observation")
-    assert "input_id" not in _flat_dep_names("subject_manipulation")
+    assert "input_id" not in _flat_dep_names("manipulation")
     assert "input_id" not in _flat_dep_names("term_assertion")
 
 
 def test_direction_classes_renamed():
-    for new in ("subject_observation", "subject_manipulation"):
+    # V_zeta's `observation`/`manipulation` became `subject_observation`/
+    # `subject_manipulation`, and those became `observation`/`manipulation` again
+    # on 2026-10-08 (statements about any entity): the names are back, the
+    # `subject_` spellings are gone.
+    for new in ("observation", "manipulation"):
         assert new in RECORDS
-    for old in ("observation", "manipulation", "annotation", "group_assignment"):
+    for old in ("subject_observation", "subject_manipulation", "annotation", "group_assignment"):
         assert old not in RECORDS, f"{old} should be gone in V_eta"
 
 
@@ -282,7 +286,7 @@ def test_leaf_tier_named_by_data_type_no_scalar_prefix():
         leaf = f"{dim}_observation"
         assert leaf in RECORDS, f"missing {leaf}"
         assert f"scalar_{dim}_observation" not in RECORDS
-        assert "subject_observation" in _chain(leaf)
+        assert "observation" in _chain(leaf)
         assert _flat_field_types(leaf).get("value") == dim
     # categorical -> the single term_observation; no scalar umbrella
     assert "term_observation" in RECORDS and "categorical_observation" not in RECORDS
@@ -290,19 +294,19 @@ def test_leaf_tier_named_by_data_type_no_scalar_prefix():
 
 
 def test_subject_assertion_is_genus_with_typed_leaves():
-    dc = RECORDS["subject_assertion"][1]["document_class"]
-    assert dc.get("abstract") is True and "subject_statement" in _chain("subject_assertion")
+    dc = RECORDS["assertion"][1]["document_class"]
+    assert dc.get("abstract") is True and "statement" in _chain("assertion")
     assert "term_assertion" in RECORDS and "date_assertion" in RECORDS
-    # Every assertion leaf is direction x data_type, like every other leaf (finding A).
+    # Every assertion leaf is direction x value, like every other leaf (finding A).
     # The `numeric_assertion` genus is gone: it held no fields and existed only to carry
-    # a `mustBeScalar` flag, which cost an `isa <data_type>` query the assertions.
+    # a `mustBeScalar` flag, which cost an `isa <value>` query the assertions.
     assert "numeric_assertion" not in RECORDS
     for leaf, composite in (("term_assertion", "term"), ("date_assertion", "date")):
         chain = [s["class_name"]
                  for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
-        assert chain == ["subject_assertion", composite], f"{leaf} chain {chain}"
+        assert chain == ["assertion", composite], f"{leaf} chain {chain}"
         assert not RECORDS[leaf][1].get("fields"), f"{leaf} should own no fields"
-    # the value is inherited from the composite, so `isa <data_type>` spans directions
+    # the value is inherited from the composite, so `isa <value>` spans directions
     assert _flat_field_types("voltage_observation").get("value") == "voltage"
     assert "voltage" in _chain("voltage_observation") and "voltage" in _chain("voltage_calculation")
 
@@ -330,7 +334,7 @@ def test_entity_genus():
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
     for end in ("child_id", "parent_id"):
         assert dr[end]["must_refer_to_document_class"].split(",") == [
-            "entity", "subject_statement", "data_type"], dr[end]
+            "entity", "statement", "value"], dr[end]
     # dataset documentation/homepage links are relations -> web_resource, not fields
     dataset_fields = {f["name"] for f in RECORDS["dataset"][1]["fields"]}
     assert "documentation" not in dataset_fields
@@ -439,7 +443,7 @@ def test_timing_cadence_moved_off_time_reference():
     since #73 item 21 (the signed data_body sec.2) it is an ordinary time key."""
     tr_fields = {f["name"] for f in RECORDS["time_reference"][1]["fields"]}
     assert "sampling" not in tr_fields
-    assert "sample_time" not in _flat_field_types("subject_interaction")
+    assert "sample_time" not in _flat_field_types("interaction")
 
 
 # ---- increment 2: leaf-tier depth ----
@@ -451,7 +455,7 @@ def test_manipulation_tier_is_strict_j():
                  "generic_scalar_manipulation", "biological_transfer"):
         assert gone not in RECORDS, f"{gone} must be retired in strict J"
     for leaf in ("dose_manipulation", "term_manipulation", "temperature_manipulation"):
-        assert leaf in RECORDS and "subject_manipulation" in _chain(leaf)
+        assert leaf in RECORDS and "manipulation" in _chain(leaf)
     # composites are structure-typed value mixins
     for comp in ("dose", "formulation", "chemical"):
         assert comp in RECORDS
@@ -464,24 +468,24 @@ def test_manipulation_tier_is_strict_j():
 def test_storage_mode_on_statement():
     """INVERTED by #73 item 60 (2026-09-25): `storage_mode` is deleted. `reference` is
     `value_id` present, and "my value is in bodies" is the boolean `data_body` on
-    data_type, with the value it describes."""
-    assert "storage_mode" not in _flat_field_types("subject_statement")
-    db = next(f for f in RECORDS["data_type"][1]["fields"] if f["name"] == "data_body")
+    value, with the value it describes."""
+    assert "storage_mode" not in _flat_field_types("statement")
+    db = next(f for f in RECORDS["value"][1]["fields"] if f["name"] == "data_body")
     assert db["type"] == "boolean" and db["mustBeNonEmpty"] is False
     assert db["blank_value"] is False
-    assert "value_id" in {e["name"] for e in RECORDS["subject_statement"][1]["depends_on"]}
+    assert "value_id" in {e["name"] for e in RECORDS["statement"][1]["depends_on"]}
 
 
 def test_conditions_on_statement():
-    """subject_statement carries a `conditions` list (D10 qualifiers, renamed from
+    """statement carries a `conditions` list (D10 qualifiers, renamed from
     `parameters`) of typed {variable, value} entries — each with a variable plus
     nested term/count/quantity data-type blocks (exactly-one is an ingest validator,
     provisional). A per-reading array value is the independent-variable axis; a
     length-1 value is a held-fixed covariate."""
-    ft = _flat_field_types("subject_statement")
+    ft = _flat_field_types("statement")
     assert ft.get("conditions") == "structure"
     assert ft.get("parameters") is None, "old `parameters` name must be gone"
-    params = next(f for f in RECORDS["subject_statement"][1]["fields"]
+    params = next(f for f in RECORDS["statement"][1]["fields"]
                   if f["name"] == "conditions")
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
@@ -517,15 +521,15 @@ def test_directed_relation_optional_time_reference():
 
 def test_assertion_is_timeless():
     """Timing model: requiredness is expressed by WHERE time_reference is declared.
-    subject_interaction REQUIRES it (event); subject_assertion declares NONE at all
-    (a timeless fact cannot even carry a clock anchor); the shared subject_statement
+    interaction REQUIRES it (event); assertion declares NONE at all
+    (a timeless fact cannot even carry a clock anchor); the shared statement
     parent stays neutral. So it is never a uniform parent-optional flag."""
     # DENOMINATOR: count the assertions actually examined, so a chain lookup
     # that silently stopped matching cannot leave this passing on zero classes.
     seen = 0
     for name in RECORDS:
         chain = _chain(name)
-        if "subject_assertion" not in chain and name != "subject_assertion":
+        if "assertion" not in chain and name != "assertion":
             continue
         seen += 1
         deps = _flat_dep_names(name)
@@ -533,8 +537,8 @@ def test_assertion_is_timeless():
             f"{name} is an assertion — it must not declare time_reference"
     assert seen > 1, f"only {seen} assertion class(es) examined"
     # the parent declares no time either; only the interaction branch requires it
-    assert "time_reference_id" not in _flat_dep_names("subject_statement")
-    assert _flat_dep_names("subject_interaction")  # (interaction side checked above)
+    assert "time_reference_id" not in _flat_dep_names("statement")
+    assert _flat_dep_names("interaction")  # (interaction side checked above)
 
 
 def test_data_body_classes():
@@ -555,7 +559,7 @@ def test_data_body_classes():
     # edge on the parent, still REQUIRED.
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
                      if d["name"] == "owner_id")
-    assert statement["must_refer_to_document_class"] == "subject_statement,data_type"
+    assert statement["must_refer_to_document_class"] == "statement,value"
     assert statement["mustBeNonEmpty"] is True, (
         "the hoisted `owner` edge must be REQUIRED -- optional would drop a "
         "guarantee sampled_body already enforced under the armed #37 gate")
@@ -570,7 +574,7 @@ def test_data_body_classes():
             f"{body} re-declares `owner`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     # `datum` IS GONE (signed sec.5): its `dtype` became
-    # `subject_statement.datum_type`, and `unit` / `shape` / `kind` were dropped
+    # `statement.datum_type`, and `unit` / `shape` / `kind` were dropped
     # -- unit was empty at 4 of 4 writers, shape was read two ways by its own
     # writers, and kind was the axis COUNT restated.
     assert sft.get("datum") is None, (
@@ -602,7 +606,7 @@ def test_data_body_classes():
     # LIGHTSHEET L3 (2026-09-25): `keys` moved UP to data_body -- the two bodies
     # split by who lays out the bytes, and an opaque body may describe its array
     # too. sampled_body still HAS it, through the chain.
-    # #73 item 65 (2026-09-29): and on up to `data`, shared with data_type.
+    # #73 item 65 (2026-09-29): and on up to `data`, shared with value.
     assert "keys" not in {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
     sampled_axes = next(f for f in RECORDS["data"][1]["fields"]
                         if f["name"] == "keys")
@@ -702,7 +706,7 @@ def test_the_two_stranding_classes_have_a_tombstone():
             "description", "hash_algorithm", "size_bytes", "file_created",
             "file_modified", "redundant",
             "conditions"} == db_fields, db_fields
-    # #73 item 65: `keys` + `complete` moved on up to `data` (shared with data_type).
+    # #73 item 65: `keys` + `complete` moved on up to `data` (shared with value).
     assert {"keys", "complete"} <= {f["name"] for f in RECORDS["data"][1]["fields"]}
     # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
     # moot: it said that if `compression` ever appeared, content_hash must state
@@ -1160,7 +1164,7 @@ def test_software_crosswalks_to_openminds_softwareversion():
                        ("programmingLanguage", "interpreter_id")):
         assert props[prop]["target_kind"] == "projection"
         assert edge in props[prop]["notes"]
-    edges = {e["name"]: e for e in RECORDS["subject_calculation"][1]["depends_on"]}
+    edges = {e["name"]: e for e in RECORDS["calculation"][1]["depends_on"]}
     for edge in ("interpreter_id", "operating_system_id"):
         assert edges[edge]["must_refer_to_document_class"] == "software"
     # the OS is required; the interpreter is not (2026-10-04: a compiled program,
@@ -1308,7 +1312,7 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
     assert {"variable", "value", "term", "text"} <= subs
-    # identity is the bound variable; no data_type field. `unit` IS declared since
+    # identity is the bound variable; no value field. `unit` IS declared since
     # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
     # did for keys): the canonical value is in it.
     assert "unit" in subs and "source_unit" in subs and "data_type" not in subs
@@ -1324,15 +1328,15 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
 
 
 def test_settings_edge_is_on_the_interaction_branch_only():
-    """#74: only `subject_interaction` gets the edge. The assertion branch is
+    """#74: only `interaction` gets the edge. The assertion branch is
     timeless and methodless -- "this animal is of strain PR811" has no algorithm --
     so 30 assertion leaves must NOT inherit it."""
-    assert "method_parameters_id" in _flat_dep_names("subject_interaction")
+    assert "method_parameters_id" in _flat_dep_names("interaction")
     assert "method_parameters_id" in _flat_dep_names("voltage_observation")
-    assert "method_parameters_id" not in _flat_dep_names("subject_assertion")
+    assert "method_parameters_id" not in _flat_dep_names("assertion")
     assert "method_parameters_id" not in _flat_dep_names("term_assertion")
     # and it stays optional: a run with unnamed knobs uses the inline field
-    dep = next(x for x in RECORDS["subject_interaction"][1]["depends_on"]
+    dep = next(x for x in RECORDS["interaction"][1]["depends_on"]
                if x["name"] == "method_parameters_id")
     assert dep["mustBeNonEmpty"] is False
 
@@ -1409,7 +1413,7 @@ def test_numbered_edge_families_declare_cardinality():
             assert dep["max_count"] >= max(dep["min_count"], 1)
     # the spine and the purpose edge are the two that must be PRESENT
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
-    assert ("subject_interaction", "time_reference_id") in required
+    assert ("interaction", "time_reference_id") in required
     assert ("interaction_purpose", "interaction_id") in required
     # NDI's own schema says syncrule_id_# may be empty -- V_eta had tightened it
     sg = next(d for c, d in fams if c == "syncgraph" and d["name"] == "syncrule_id_#")
@@ -1426,7 +1430,7 @@ def test_data_body_carrier_dispositions():
                                  for s in r[1]["document_class"].get("superclasses", [])}}
     assert bodies == {"sampled_body", "opaque_body"}
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
-    # #73 item 51 (2026-09-25): the V_eta `image` data_type and its leaf RETIRE. The
+    # #73 item 51 (2026-09-25): the V_eta `image` value and its leaf RETIRE. The
     # name is the did_v1 tombstone again (retire), and image_observation is gone.
     assert disp["image"] == "retire"
     assert "image_observation" not in disp
@@ -1470,7 +1474,7 @@ def test_visual_grating_composite():
     presented as an ITEM of an item_manipulation (timed_sequence_manipulation until 2026-10-04); its own manipulation leaf was
     deleted with the other unused leaves (#73 item 50)."""
     comp = RECORDS["visual_grating"][1]
-    assert "data_type" in _chain("visual_grating")
+    assert "value" in _chain("visual_grating")
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
@@ -1505,7 +1509,7 @@ def test_openminds_import_is_absent():
 
 
 def _leaf_ok(concrete, cls):
-    """A binding `class` must be a concrete (non-abstract) subject_statement leaf."""
+    """A binding `class` must be a concrete (non-abstract) statement leaf."""
     dc = concrete.get(cls)
     return dc is not None and not dc.get("abstract", False)
 
@@ -1531,15 +1535,15 @@ def test_binding_registry_meta_present():
 
 def test_binding_examples_well_formed():
     """binding_examples is a SEPARATE block (never mistaken for swept data). Each
-    row carries a NodeRef `variable` and a concrete subject_statement leaf `class`;
-    no `data_type` (the leaf fixes the type). A term-valued leaf pins an admissible
+    row carries a NodeRef `variable` and a concrete statement leaf `class`;
+    no `value` (the leaf fixes the type). A term-valued leaf pins an admissible
     set (values | ontology+root_node) -- with `values` given as NodeRefs, not bare
     strings -- and a dimensional leaf carries none."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     assert "bindings" not in reg  # renamed -> subject_statement_bindings
     concrete = {r[1]["document_class"]["class_name"]: r[1]["document_class"]
                 for r in RECORDS.values()}
-    # every real binding AND every example must name a concrete leaf, no data_type
+    # every real binding AND every example must name a concrete leaf, no value
     for b in reg["subject_statement_bindings"] + reg["binding_examples"]:
         assert set(b["variable"]) >= {"node", "name"}
         assert _leaf_ok(concrete, b["class"]), f"{b['class']} must be a concrete leaf"
@@ -1617,12 +1621,12 @@ def test_relation_bindings_present():
 
 
 # ------------------------------------------------- value-cell convention conformance
-# Every `data_type` composite exposes its payload at ONE predictable slot, `value`.
-# That is what makes T3's `direction x data_type` factoring mechanical: `mass.value`
+# Every `value` composite exposes its payload at ONE predictable slot, `value`.
+# That is what makes T3's `direction x value` factoring mechanical: `mass.value`
 # means the same under voltage_observation and voltage_calculation. The rule was unwritten for
 # most of the project's life and two classes silently drifted off it, so it is a test
 # now rather than a convention.
-# Empty: every data_type composite conforms. (contrast_sensitivity was the last
+# Empty: every value composite conforms. (contrast_sensitivity was the last
 # exception -- its flat v1 bag is now reshaped onto a `value` cell with a model_fit
 # array. Keep this set empty; a new entry needs a recorded reason and an exit plan.)
 _VALUE_SLOT_EXCEPTIONS = set()
@@ -1631,7 +1635,7 @@ _VALUE_SLOT_EXCEPTIONS = set()
 def _data_type_composites():
     for name, (tier, d) in RECORDS.items():
         chain = [s["class_name"] for s in d["document_class"].get("superclasses", [])]
-        if "data_type" in chain:
+        if "value" in chain:
             yield name, d
 
 
@@ -1644,7 +1648,7 @@ def test_data_type_composites_expose_one_value_slot():
         if names != ["value"]:
             offenders[name] = names
     assert not offenders, (
-        "data_type composites must expose exactly one payload field named "
+        "value composites must expose exactly one payload field named "
         f"`value` (descriptors ride INSIDE the cell, beside the payload): {offenders!r}")
 
 
@@ -1704,7 +1708,7 @@ def test_dimensioned_cells_carry_source_provenance():
     # `conditions` is the same shape for the same reason (AMENDMENT 2).
     #
     # KEYED ON THE FIELD NAME, NOT ON AN ENUMERATED LIST OF MOUNTS. This read
-    # `{("sampled_body", "axes"), ("subject_statement", "axes")}` and broke the
+    # `{("sampled_body", "axes"), ("statement", "axes")}` and broke the
     # moment `acquisition_epoch.axes` folded into the same entry (2026-08-14,
     # signed addendum sec.5, "ALL THREE AXES DECLARATIONS FOLD INTO THE ONE
     # ENTRY"). A hard-coded pair list needs an edit every time a mount is added
@@ -2250,8 +2254,8 @@ def test_uncurated_stays_at_zero():
 # ---------------------------------------------------------------------------
 
 _PIVOT_BINDINGS = [
-    ("subject_statement", "variable"),
-    ("subject_interaction", "method"),
+    ("statement", "variable"),
+    ("interaction", "method"),
     ("interaction_purpose", "purpose"),
 ]
 
@@ -2780,7 +2784,7 @@ def test_all_axes_declarations_are_the_one_entry():
 
     # DENOMINATOR FIRST. Without it a walker that silently found nothing would
     # pass by vacuous agreement -- the `silentLoss` defect, inside a test.
-    # #73 item 65 (2026-09-29): data_type's and data_body's mounts merged into ONE
+    # #73 item 65 (2026-09-29): value's and data_body's mounts merged into ONE
     # declaration on `data`, so the floor is 2 (data, acquisition_epoch).
     assert len(found) >= 2, (
         f"only {len(found)} `axes` declaration(s) found across {len(RECORDS)} "
@@ -2834,7 +2838,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "intensity_observation is the minted class; an abstract one cannot be "
         "instantiated (cache.m raises did2:validation:abstractInstantiation)")
     supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
-    assert supers == ["subject_observation", "intensity"], supers
+    assert supers == ["observation", "intensity"], supers
 
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]
@@ -2880,8 +2884,8 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "every folded body")
 
     # `data_body` true is what says the pixels are in the sampled_body (#73 item 60:
-    # it replaced storage_mode 'body', and lives on data_type with the value)
-    _t, dt = RECORDS["data_type"]
+    # it replaced storage_mode 'body', and lives on value with the value)
+    _t, dt = RECORDS["value"]
     assert "data_body" in {f["name"] for f in dt["fields"]}
 
 
@@ -3055,7 +3059,7 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     2. The `epochid` superclass, carrying its `epochid` field. This is the ENTIRE
        argument that decided `interaction_purpose` over `term_assertion`: the
        assertion tier is timeless by construction (`time_reference_#` lives on
-       `subject_interaction`, the other branch), so an assertion cannot hold the
+       `interaction`, the other branch), so an assertion cannot hold the
        epoch both NDI writers set (`stimulusDocMaker.m:407-412`,
        `add_stimulus_approach.m:59-65`). Drop the epoch from the passthrough and
        the second pass has nothing to resolve -- silently, because a passthrough
@@ -3393,13 +3397,13 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
 # `validity_observation` are REPLACED by `logical` and `logical_observation`.
 # The 32 `*_observation` data_types name a KIND OF VALUE; `validity` was the
 # only one naming a SEMANTIC, and a semantic belongs in
-# `subject_statement.variable` -- which is what the live table-column pass
+# `statement.variable` -- which is what the live table-column pass
 # already does (`resolveLawnPlateSubjects.m:1106-1113` sends six distinct
 # fluorescence semantics to ONE `intensity_observation`, told apart by
 # `variable`). `boolean` was impossible as a class name: it is a hard-coded
 # primitive in DID-matlab's type switch (`+did2/+schema/cache.m:1793`), so a
 # composite of that name would send every struct-valued field into that check.
-# `logical` follows the `term`/`ontology_term` precedent -- the data_type name
+# `logical` follows the `term`/`ontology_term` precedent -- the value name
 # differs from the field-type name it wraps.
 #
 # THE MODEL ITSELF IS STILL UNSIGNED. The 2026-08-11 "decision" it rests on was
@@ -3409,29 +3413,29 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
 
 
 def test_logical_is_a_boolean_valued_statement_leaf():
-    """The shape: a `subject_statement`-derived class carrying a BOOLEAN, sharing
+    """The shape: a `statement`-derived class carrying a BOOLEAN, sharing
     the statement family's time reference.
 
-    `variable` (what is judged), `subject_id` (whose data) and `time_reference_#`
-    (over which stretch) are all INHERITED -- from subject_statement and
-    subject_interaction -- which is the whole point of "takes a subject
-    statement". If the chain ever stops reaching subject_interaction, the class
+    `variable` (what is judged), `entity_id` (whose data) and `time_reference_#`
+    (over which stretch) are all INHERITED -- from statement and
+    interaction -- which is the whole point of "takes a subject
+    statement". If the chain ever stops reaching interaction, the class
     silently loses its time anchor and starts asserting over all time, so the
     chain is asserted here rather than assumed.
     """
     assert "logical" in RECORDS
     # #73 item 52 (2026-09-25): the leaf is deleted. valid_interval, its only user,
     # moved to time_observation (amendment 1, 2026-08-18); `logical` stays, like
-    # every data_type.
+    # every value.
     assert "logical_observation" not in RECORDS
     assert "validity" not in RECORDS and "validity_observation" not in RECORDS, (
         "the replaced classes are still built; a name that means the same thing "
         "twice is how a migrator ends up emitting the dead one")
     _tier, comp = RECORDS["logical"]
-    # CONCRETE since #73 item 19: every data_type composite is instantiable (a
+    # CONCRETE since #73 item 19: every value composite is instantiable (a
     # standalone value document is content, not a claim).
     assert not comp["document_class"].get("abstract")
-    assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
+    assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["value"]
 
     # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a
     # cell. The cell it replaced was `{value: boolean}`, i.e. `value.value`: a
@@ -3634,22 +3638,22 @@ def test_logical_inheritance_is_re_derived_not_materialised():
     rule in NDI, and V_eta keeps it one. The statement is stored once, on the
     element the v1 document named, and a consumer walks the element lineage to
     find it. RENAMED from ..._forecloses_neither_answer_..., which kept the
-    materialising answer buildable through `subject_observation.derived_from_#`;
+    materialising answer buildable through `observation.derived_from_#`;
     that edge left the observation chain in #73 (an observation derived from
     other statements is a calculation), and no copy is ever written, so nothing
     needs it.
     """
-    inherited = RECORDS["subject_observation"][1]["depends_on"]
+    inherited = RECORDS["observation"][1]["depends_on"]
     assert not [d for d in inherited if d["name"] == "input_id"], (
-        "subject_observation carries input_id again -- under the #73 rule "
+        "observation carries input_id again -- under the #73 rule "
         "an observation has no inputs in the dataset, and a materialised copy "
         "of a validity statement is ruled out by the re-derive decision")
     # What the re-derive walk DOES need: the statement points at the element
-    # the v1 document named -- subject_statement's own edge, typed `subject`,
-    # which is what element.m's id-preserving promotion lands on.
-    sid = [d for d in RECORDS["subject_statement"][1]["depends_on"]
-           if d["name"] == "subject_id"]
-    assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "subject"
+    # the v1 document named -- statement's own edge, which reaches any entity
+    # (2026-10-08) and so the subject element.m's id-preserving promotion lands on.
+    sid = [d for d in RECORDS["statement"][1]["depends_on"]
+           if d["name"] == "entity_id"]
+    assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "entity"
 
 
 def test_repeated_edges_are_numbered_families():
@@ -3700,9 +3704,9 @@ def test_t15_ordered_flags_match_the_table():
 
 def test_v1_tombstones_under_a_composite_chain_still_retire():
     """REGRESSION (217d305 -> fixed 2026-09-25). #73 item 19 widened _disposition's
-    structural rule to "any data_type ancestor persists", and the v1 `hartley_calc`
+    structural rule to "any value ancestor persists", and the v1 `hartley_calc`
     tombstone -- which sits under hartley_reverse_correlation -> reverse_correlation
-    -> receptive_field -> data_type so passthrough documents validate -- flipped
+    -> receptive_field -> value so passthrough documents validate -- flipped
     retire -> persist with no one deciding it. `ngrid` moved from in_progress to
     retire in the same fix: both readings of its disputed record end with no V_eta
     class."""
@@ -3725,7 +3729,7 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
 
 
 def test_leaves_exist_only_when_needed():
-    """#73 item 50 (team, 2026-09-25): every data_type stays; a direction leaf exists
+    """#73 item 50 (team, 2026-09-25): every value stays; a direction leaf exists
     only once a writer or a decided target needs it. The 52 leaves nothing needed are
     gone, their data types are not, and the rule is written into T3."""
     with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as fh:
@@ -3736,7 +3740,7 @@ def test_leaves_exist_only_when_needed():
     for leaf in gone:
         assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
         composite = leaf.rsplit("_", 1)[0]
-        assert composite in RECORDS, f"data_type {composite} must stay"
+        assert composite in RECORDS, f"value {composite} must stay"
     for kept in ("position_observation", "temperature_manipulation",
                  "voltage_observation", "term_assertion", "date_assertion"):
         assert kept in RECORDS
@@ -3747,7 +3751,7 @@ def test_leaves_exist_only_when_needed():
 
 def test_inline_method_parameters_has_the_document_shape():
     """Signed [spike processing parameters] 2026-08-09, built #73 item 22: the inline
-    `subject_interaction.method_parameters` keeps the SAME name and shape as the
+    `interaction.method_parameters` keeps the SAME name and shape as the
     `method_parameters` document's settings, a `parameter[]` entry. Pinned equal
     (documentation and required-ness aside) so the two mount points cannot drift."""
     def shape(cls):
@@ -3760,7 +3764,7 @@ def test_inline_method_parameters_has_the_document_shape():
                 return [strip(v) for v in x]
             return x
         return strip(f)
-    inline, document = shape("subject_interaction"), shape("method_parameters")
+    inline, document = shape("interaction"), shape("method_parameters")
     assert inline == document
     # #73 audit 2 D4: the key / condition entry's shape.
     assert [s["name"] for s in inline["fields"]] == [
@@ -3773,7 +3777,7 @@ def test_conditions_have_amendment_2_shape():
     """data_body AMENDMENT 2 (signed 2026-08-14), built #73 item 23: the four
     descriptors sit at the top of each condition, `count` flattens, and `quantity`
     holds {value, source_value}. No per-element unit or approximate remains."""
-    f = next(x for x in RECORDS["subject_statement"][1]["fields"]
+    f = next(x for x in RECORDS["statement"][1]["fields"]
              if x["name"] == "conditions")
     names = [x["name"] for x in f["fields"]]
     assert names[:4] == ["variable", "unit", "source_unit", "approximate"]
@@ -3800,7 +3804,7 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     assert "key_id" not in {e["name"] for e in RECORDS["sampled_body"][1]["depends_on"]}
     # a body's conditions have the statement's entry shape (Amendment 2)
-    ss = next(f for f in RECORDS["subject_statement"][1]["fields"]
+    ss = next(f for f in RECORDS["statement"][1]["fields"]
               if f["name"] == "conditions")
     assert ([s["name"] for s in db["conditions"]["fields"]]
             == [s["name"] for s in ss["fields"]])
@@ -3855,18 +3859,18 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
 def test_value_descriptors_live_with_the_value():
     """#73 item 60 (2026-09-25; not signed): keys / complete / datum_type /
     source_datum_type / key_id (key_labels_id until 2026-10-05) / the `data_body` flag
-    live on data_type; the
+    live on value; the
     statement keeps only the claim, and references a shared value through value_id."""
-    dt = {f["name"] for f in RECORDS["data_type"][1]["fields"]}
+    dt = {f["name"] for f in RECORDS["value"][1]["fields"]}
     assert dt == {"datum_type", "source_datum_type", "data_body"}
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
     assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
     assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
-    ss = RECORDS["subject_statement"][1]
+    ss = RECORDS["statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each
     # member -- a fact about the claim, not a value descriptor, so it stays here.
     assert {f["name"] for f in ss["fields"]} == {"variable", "conditions", "distributive"}
-    assert {e["name"] for e in ss["depends_on"]} == {"subject_id", "value_id"}
+    assert {e["name"] for e in ss["depends_on"]} == {"entity_id", "value_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name
 
@@ -3894,13 +3898,13 @@ def test_hartley_calc_tombstone_is_restated_from_its_writer():
 
 
 def test_value_bearing_classes_are_data_types():
-    """A class that carries a `value` payload is a concrete `data_type` (T3, T14;
+    """A class that carries a `value` payload is a concrete `value` (T3, T14;
     #73 item 19), so its leaves are a direction x a data type and a standalone value
     can be a `value_id` target or own a body.
 
     REGRESSION (2026-10-04 tenet audit): `humidity` (PR #86) was written ⊂ base and
     abstract, like every composite before section 12 reparents them, but was left
-    out of section 12's DATA_TYPES list -- so it shipped outside `data_type` and no
+    out of section 12's DATA_TYPES list -- so it shipped outside `value` and no
     test noticed, because nothing asked this question of every class.
 
     Exempt by name, each for a stated reason: the time references (an anchored
@@ -3917,14 +3921,14 @@ def test_value_bearing_classes_are_data_types():
         if not any(f["name"] == "value" for f in d.get("fields", [])):
             continue
         chain = _chain(name)
-        if exempt_roots & set(chain) or name == "data_type":
+        if exempt_roots & set(chain) or name == "value":
             continue
         checked += 1
-        if "data_type" not in chain or d["document_class"].get("abstract"):
+        if "value" not in chain or d["document_class"].get("abstract"):
             bad.append(f"{name}: superclasses {[s['class_name'] for s in d['document_class']['superclasses']]}, "
                        f"abstract={d['document_class'].get('abstract')}")
     assert checked > 40, f"only {checked} value-bearing classes checked"
-    assert not bad, "value-bearing classes outside data_type:\n  " + "\n  ".join(bad)
+    assert not bad, "value-bearing classes outside value:\n  " + "\n  ".join(bad)
 
 
 def test_item_generalises_timed_sequence():
@@ -3935,7 +3939,7 @@ def test_item_generalises_timed_sequence():
     field is `item`, and there are manipulation and calculation leaves."""
     assert "timed_sequence" not in RECORDS and "timed_sequence_manipulation" not in RECORDS
     _tier, d = RECORDS["item"]
-    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["data_type"]
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["value"]
     assert not d["document_class"].get("abstract")
     edge = {e["name"]: e for e in d["depends_on"]}["item_id"]
     assert edge["must_refer_to_document_class"] == "base"
@@ -3946,8 +3950,8 @@ def test_item_generalises_timed_sequence():
     assert "presentation_order" not in subs
     # the signed section puts many values in a body, so `value` cannot be required
     assert not val.get("mustBeNonEmpty"), "an item's values may sit in a body"
-    for leaf, direction in (("item_manipulation", "subject_manipulation"),
-                            ("item_calculation", "subject_calculation")):
+    for leaf, direction in (("item_manipulation", "manipulation"),
+                            ("item_calculation", "calculation")):
         sup = [s["class_name"] for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
         assert sup == [direction, "item"], (leaf, sup)
 
@@ -3955,11 +3959,11 @@ def test_item_generalises_timed_sequence():
 def test_key_id_takes_positions_from_one_data_type():
     """`key_labels_id` / `labels_from` became `key_id` / `positions_from`
     (V_eta_study_plan.md, 2026-10-05): a key takes its positions from another
-    document's value, mirroring `value_id`, and that document must be a data_type
+    document's value, mirroring `value_id`, and that document must be a value
     (a statement leaf such as an encounter-onset list, or a standalone value such as a
     gene list) -- never a subject, an entity or a body. No class keeps the old names."""
     edge = {e["name"]: e for e in RECORDS["data"][1]["depends_on"]}["key_id"]
-    assert edge["must_refer_to_document_class"] == "data_type"
+    assert edge["must_refer_to_document_class"] == "value"
     assert edge["multiple"] and edge["ordered"]
     keys = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")
     assert "positions_from" in {f["name"] for f in keys["fields"]}
@@ -3967,4 +3971,4 @@ def test_key_id_takes_positions_from_one_data_type():
         assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
     for leaf, dt in (("time_calculation", "time"), ("acceleration_calculation", "acceleration")):
         sup = [c["class_name"] for c in RECORDS[leaf][1]["document_class"]["superclasses"]]
-        assert sup == ["subject_calculation", dt], (leaf, sup)
+        assert sup == ["calculation", dt], (leaf, sup)

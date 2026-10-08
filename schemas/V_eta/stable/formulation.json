@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -57,7 +57,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `subject_statement.variable`.",
+                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `statement.variable`.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",

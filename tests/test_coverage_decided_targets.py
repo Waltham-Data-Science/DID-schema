@@ -127,7 +127,7 @@ PINNED_DECIDED_TARGETS = {
     # test_binaryseries_parameters_records_both_mounts_not_one for why collapsing
     # to either single class is the regression this pin exists to catch.
     "binaryseries_parameters": (
-        ["subject_statement", "sampled_body"],
+        ["statement", "sampled_body"],
         "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
@@ -332,20 +332,20 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     Why both, spelled out so a future reader can check the reasoning rather than
     trust it. The signature (`V_eta_go_forward_class_audit.md`:3) routes:
 
-        `data_type`                 -> "the statement's"        UNCONDITIONAL
+        `value`                 -> "the statement's"        UNCONDITIONAL
         `time_type` / `data_dim` /
         `samples_regular_intervals` -> an AXIS ENTRY
 
-    and the axis entry mounts on `subject_statement` when `storage_mode` is
+    and the axis entry mounts on `statement` when `storage_mode` is
     inline and on `sampled_body` when it is body -- mutually exclusive, per
     document (`V_eta_data_body_model_plan.md`:136-137). So `sampled_body` alone
     (the section heading at :459, which the team ruled does NOT govern) silently
     drops the statement mount that the signature names unconditionally, and
-    `subject_statement` alone drops the body mount entirely.
+    `statement` alone drops the body mount entirely.
     """
     row = next(r for r in _rows() if r["v1_class"] == "binaryseries_parameters")
     got = set(row["decided_targets"])
-    assert got == {"subject_statement", "sampled_body"}, (
+    assert got == {"statement", "sampled_body"}, (
         f"binaryseries_parameters records decided_targets={sorted(got)}. The signature "
         "routes to TWO mounts; recording one of them drops the other.")
 
@@ -442,7 +442,7 @@ def test_build_state_reports_schema_and_migrator_separately():
 
     The authored `flags` prose says "DECIDED AND SIGNED, BUILD NOT DONE" on
     eight rows. For `app` the schema half is DONE -- `software` is built and
-    shipping, plus an `execution_environment` block on `subject_interaction` --
+    shipping, plus an `execution_environment` block on `interaction` --
     and only the migrator is outstanding. A reader acting on the
     undifferentiated sentence re-authors schema that already exists.
     """

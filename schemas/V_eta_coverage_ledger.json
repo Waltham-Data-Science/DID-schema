@@ -1745,7 +1745,7 @@
         "binaryseries_parameters"
       ],
       "decided_targets": [
-        "subject_statement",
+        "statement",
         "sampled_body"
       ],
       "decided_targets_source": "signoff_transcription",
@@ -1765,7 +1765,7 @@
         "schema_targets_named": 2,
         "schema_targets_built": [
           "sampled_body",
-          "subject_statement"
+          "statement"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -1782,8 +1782,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `data_type` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
-      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, data_type -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
+      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
+      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "decided_by_family": {
         "family": "misc singletons",
         "document": "V_eta_go_forward_class_audit.md",
@@ -1831,7 +1831,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject_statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2311,7 +2311,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -2414,7 +2414,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -3061,7 +3061,7 @@
       "carried": [],
       "second_pass": [],
       "how": "RETIRES by decomposition into three things that already exist: the frames and their descriptors become an `image_observation` over a `sampled_body`, and `frametimes` + `clocktype` become time references. No new class.",
-      "target_flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_time_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved. -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: camera frames are an intensity_observation.",
+      "target_flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_time_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved. -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: camera frames are an intensity_observation.",
       "decided_by_family": {
         "family": "daq ingested payloads",
         "document": "V_eta_ingested_payload_findings.md",
@@ -4123,7 +4123,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on subject_statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means \"not measured\" and mints no condition",
+      "how": "ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means \"not measured\" and mints no condition",
       "target_flags": "guarded: errors on the invented offset_voltages/voltage_units shape. Those names never existed, so the isempty guard always fired and EVERY document was carried through unconverted. The old per-channel-array model was also wrong: the writer makes one document per CSV row with a scalar offset",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -5829,7 +5829,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "1->1 fold, id- and deps-PRESERVED, into the `receptive_field_calculation` leaf (= subject_calculation + receptive_field) + session anchor. The [200 200 36 2] response volume splits into TWO `sampled_body` documents -- one STA plane, one p-value plane -- because the writer gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438), so it is not a coordinate axis. `ngrid.coordinates` segments [36,200,200] into `axes[].values`; the lag axis carries `values` rather than origin+spacing because 0 of 210 documents reproduce T exactly from -0.1 + k*0.01. `spiketimes` rides as a third, input-side body with `derived_from` the neuron, not as archival data.",
+      "how": "1->1 fold, id- and deps-PRESERVED, into the `receptive_field_calculation` leaf (= calculation + receptive_field) + session anchor. The [200 200 36 2] response volume splits into TWO `sampled_body` documents -- one STA plane, one p-value plane -- because the writer gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438), so it is not a coordinate axis. `ngrid.coordinates` segments [36,200,200] into `axes[].values`; the lag axis carries `values` rather than origin+spacing because 0 of 210 documents reproduce T exactly from -0.1 + k*0.01. `spiketimes` rides as a third, input-side body with `derived_from` the neuron, not as archival data.",
       "target_flags": "`ngrid` is NOT retired by this fold and the block still rides through: the sign-off gates retirement on BOTH consumers and `ontology_image` still consumes it (#46). THIS ROW READ `DEFERRED calculator: calcCommon passthrough, class retained` UNTIL 2026-08-18, which was true when written and stopped being true at DID-matlab 89aace1 (2026-08-17), an ancestor of the branch head -- so a signed fold that had already run green rendered on the confirm sheet as work still owed. Same shape as the stale `how` this file already records against `daqreader_ndr`. `targets` beside it was correct throughout, being GENERATED.",
       "decided_by_family": {
         "family": "receptive field fold",
@@ -5952,7 +5952,7 @@
       ],
       "second_pass": [],
       "how": "delegates ENTIRELY to migrators_j.image_stack(preBody) -- same emitted set: a body-backed image_observation + sampled_body + anchor",
-      "target_flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type's required `value` and quarantined. Consuming the v1 class removes the collision by construction -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: a brightness/fluorescence image -> intensity_observation, a mask or label map -> label_calculation, chosen from the document's `label`. The name `image` is the v1 tombstone again, so an unmigrated v1 image now validates and the migrator's name-collision refusal is no longer needed.",
+      "target_flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` value (a raster value) share not one field, so an unmigrated v1 doc met the value's required `value` and quarantined. Consuming the v1 class removes the collision by construction -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: a brightness/fluorescence image -> intensity_observation, a mask or label map -> label_calculation, chosen from the document's `label`. The name `image` is the v1 tombstone again, so an unmigrated v1 image now validates and the migrator's name-collision refusal is no longer needed.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -6164,7 +6164,7 @@
       ],
       "second_pass": [],
       "how": "file-backed pixel blob -> a body-backed image_observation (geometry inline, storage_mode body) + sampled_body (frames) + anchor",
-      "target_flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: JH's microscopy images -> intensity_observation, its masks / closest-patch maps -> label_calculation.",
+      "target_flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: JH's microscopy images -> intensity_observation, its masks / closest-patch maps -> label_calculation.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -7070,7 +7070,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, data_type, data_dim, coordinates); no class change, emits no new document",
+      "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, value, data_dim, coordinates); no class change, emits no new document",
       "target_flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, and the v1 reverse_correlation tombstone that v1 hartley_calc documents validate through); the axis entry exists (keys[].values)",
       "decided_by_family": {
         "family": "image / ngrid",
@@ -7281,7 +7281,7 @@
         "ontology_image"
       ],
       "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
-      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
+      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -7800,7 +7800,7 @@
       "second_pass": [
         "interaction_purpose"
       ],
-      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on subject_interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
       "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -7893,7 +7893,7 @@
       ],
       "second_pass": [],
       "how": "bundled openMINDS controlled-term (Species/Strain/GeneticStrainType/BiologicalSex) -> ONE term_assertion on the subject (carried); timeless",
-      "target_flags": "subject_assertion is the abstract superclass, excluded",
+      "target_flags": "assertion is the abstract superclass, excluded",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -7995,7 +7995,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
@@ -8116,7 +8116,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9612,7 +9612,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9715,7 +9715,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9818,7 +9818,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9921,7 +9921,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -11629,7 +11629,7 @@
       "carried": [],
       "second_pass": [],
       "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_time_reference`) rather than a field.",
-      "target_flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed subject_observation leaf, `term_observation` for the untyped case, and an `absolute_time_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
+      "target_flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed observation leaf, `term_observation` for the untyped case, and an `absolute_time_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
       "decided_by_family": {
         "family": "subject measurement",
         "document": "V_eta_go_forward_class_audit.md",
@@ -12098,7 +12098,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -12201,7 +12201,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -12317,7 +12317,7 @@
         "term_assertion",
         "directed_relation"
       ],
-      "how": "dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor",
+      "how": "dispatched by data structure into ONE data-type-named manipulation leaf + an optional site term_observation + session anchor",
       "target_flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
@@ -12760,7 +12760,7 @@
         "relative_time_reference"
       ],
       "how": "NO PASS-1 MIGRATOR, deliberately: the document passes through under its own tombstone (the identity migrator), which is what stops it stranding. CORRECTED 2026-09-25 (#73 item 52): an earlier version of this note said the second pass was RE-ARMED as of 2026-08-18. It was NOT: the signed amendment of that date says 'IS NOT RE-ARMED YET', and resolveValidIntervals.m at 775353d (2026-08-13, the head of both DID-matlab V_eta branches) is still 'DORMANT BY DECISION -- census only; emits nothing', its preserved code being the rejected 1->N shape. THE SIGNED TARGET (TEAM-SIGN-OFF [logical_observation amendment 1], V_eta_logical_observation_plan.md, 2026-08-18): the leaf is `time_observation`, NOT `logical_observation` (retired, #73 item 52), and THE INTERVAL TIMES ARE THE VALUE. One statement per source document carrying an N x 2 array of `time` cells keyed [interval (a bare regular index), endpoint (labels `start`, `end`)], so the pairing is DECLARED rather than positional (T14). WHY THE BOOLEAN ARRAY WAS WITHDRAWN: the v1 class declares four fields (timeref_structt0, t0, timeref_structt1, t1) and NOT ONE IS A BOOLEAN, so a boolean array would have been INVENTED on every migrated document, and for a list of VALID intervals every element of it is true by construction. Each statement is anchored by a `relative_time_reference` via `time_reference_id` (start = t0, duration = t1 - t0, clock de-encoded from clocktypestring), whose `referent_id` names the minted `epoch` DOCUMENT. A batch pass and not a migrator for the same structural reason as resolveSessionAnchors: that document's id exists only after did2.convert.epochMint has minted it corpus-wide, and a single-document migrator holds an epoch STRING it cannot map to a document id.",
-      "target_flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical_observation` was left with NO CONSUMER (valid_interval was its only one) and is RETIRED, #73 item 52 (2026-09-25); `logical` stays, like every data_type. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
+      "target_flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical_observation` was left with NO CONSUMER (valid_interval was its only one) and is RETIRED, #73 item 52 (2026-09-25); `logical` stays, like every value. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
       "decided_by_family": {
         "family": "logical_observation",
         "document": "V_eta_logical_observation_plan.md",

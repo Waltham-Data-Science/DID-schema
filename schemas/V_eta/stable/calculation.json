@@ -1,10 +1,10 @@
 {
     "document_class": {
-        "class_name": "subject_calculation",
+        "class_name": "calculation",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_interaction"
+                "class_name": "interaction"
             }
         ],
         "maturity_level": "stable",
@@ -14,8 +14,8 @@
         {
             "name": "input_id",
             "mustBeNonEmpty": false,
-            "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). A statement with inputs in the dataset is a calculation; this edge is what makes it one. Typed to a statement leaf -- never an entity.",
-            "must_refer_to_document_class": "subject_statement",
+            "documentation": "The statement leaf(s) this value was COMPUTED from (its inputs). A statement with inputs in the dataset is a calculation; this edge is what makes it one. Typed to a statement leaf -- never an entity.",
+            "must_refer_to_document_class": "statement",
             "multiple": true,
             "min_count": 0,
             "ordered": false

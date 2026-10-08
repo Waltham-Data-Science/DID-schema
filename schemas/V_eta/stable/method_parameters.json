@@ -60,7 +60,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `subject_interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable.",
+            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable.",
             "constraints": {},
             "fields": [
                 {

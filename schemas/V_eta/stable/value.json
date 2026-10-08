@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "data_type",
+        "class_name": "value",
         "class_version": "1.0.0",
         "superclasses": [
             {

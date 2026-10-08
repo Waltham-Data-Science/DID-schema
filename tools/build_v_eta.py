@@ -11327,6 +11327,92 @@ _pf["documentation"] = (
 write(_t, "data", _d)
 
 
+
+# ---------- 12.11 statements are about any entity; `data_type` becomes `value` (2026-10-08) ----------
+# Decided by Jess Haley 2026-10-08 (V_eta_tenets.md, T2 and T17 amendments). The
+# statement family drops its `subject_` prefix -- `statement`, `assertion`,
+# `interaction`, `observation`, `manipulation`, `calculation` -- and its edge
+# `subject_id` becomes `entity_id`, which may point at ANY entity (a subject, a strain,
+# a session, ...), as a relation's ends already may. `data_type` becomes `value`: an
+# abstract parent names what each child IS (entity, statement, relation), and a
+# temperature, a term or a model fit IS a value; "data type" read as an encoding,
+# which is `datum_type`. Built last, as one rename over every built schema, so every
+# earlier pass keeps its own names. `subject_id` is renamed ON THE STATEMENT ONLY: the
+# did_v1 tombstones (element, measurement, openminds_subject, ...) and
+# method_parameters' scope edge keep it, because it is their real edge.
+_RENAME_CLASSES = (
+    ("subject_statement", "statement"),
+    ("subject_assertion", "assertion"),
+    ("subject_interaction", "interaction"),
+    ("subject_observation", "observation"),
+    ("subject_manipulation", "manipulation"),
+    ("subject_calculation", "calculation"),
+    ("data_type", "value"),
+)
+# A CLASS name, never a FIELD of that spelling: several did_v1 tombstones carry a real
+# `data_type` field (binaryseries_parameters, ngrid, image_stack_parameters,
+# daqreader_image_epochdata_ingested, acquisition_epoch's channels), which keeps its
+# v1 spelling. So a field declaration (`"name": "data_type"`) and a field path
+# (`x.data_type`, preceded by a dot) are left alone.
+_RENAME_RE = [(_re.compile(r'(?<![A-Za-z0-9_.])(?<!"name": ")' + _re.escape(_o)
+                           + r"(?![A-Za-z0-9_])"), _n)
+              for _o, _n in _RENAME_CLASSES]
+for _tier in TIERS:
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json"):
+            continue
+        _fp = os.path.join(_dir, _fn)
+        with open(_fp) as _fh:
+            _txt = _fh.read()
+        if '"name": "data_type"' in _txt:
+            # a tombstone with a real `data_type` field: its prose is about that
+            # field, so only class names and edge targets are renamed
+            def _structural(_m):
+                _v = _m.group(2)
+                for _rx, _repl in _RENAME_RE:
+                    _v = _rx.sub(_repl, _v)
+                return _m.group(1) + _v + '"'
+            _new = _re.sub(r'("(?:class_name|must_refer_to_document_class)": ")([^"]*)"',
+                           _structural, _txt)
+        else:
+            _new = _txt
+            for _rx, _repl in _RENAME_RE:
+                _new = _rx.sub(_repl, _new)
+        if _new != _txt:
+            with open(_fp, "w") as _fh:
+                _fh.write(_new)
+for _o, _n in _RENAME_CLASSES:
+    _t, _p = path_of(_o)
+    if _t is None:
+        raise SystemExit(f"statement rename: no {_o} to rename")
+    _d = load(_p)
+    if _d["document_class"]["class_name"] != _n:
+        raise SystemExit(f"statement rename: {_o}.json does not name {_n} after the text pass")
+    write(_t, _n, _d)
+    os.remove(_p)
+_t, _p = path_of("statement")
+_d = load(_p)
+_e = next(e for e in _d["depends_on"] if e["name"] == "subject_id")
+_e["name"] = "entity_id"
+_e["must_refer_to_document_class"] = "entity"
+_e["documentation"] = (
+    "The entity this statement is about: the finest entity the value directly describes "
+    "(T17). Usually a subject; any entity may be described (a strain, a session), but a "
+    "statement about a non-subject entity only says what that entity's class has no field "
+    "for (T1, T17). (`subject_id`, and subjects only, until 2026-10-08.)")
+write(_t, "statement", _d)
+for _name in ("statement", "interaction"):
+    _t, _p = path_of(_name)
+    with open(_p) as _fh:
+        _txt = _fh.read()
+    _new = _re.sub(r"(?<![A-Za-z0-9_])subject_id(?![A-Za-z0-9_])", "entity_id", _txt)
+    if _new != _txt:
+        with open(_p, "w") as _fh:
+            _fh.write(_new)
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
@@ -12015,12 +12101,15 @@ def _disposition(name, doc=None):
         _ancestors = set(_chain)
         for _s in _chain:
             _ancestors |= _transitive_supers(_s)
-        if "subject_calculation" in _ancestors:
+        # The index is regenerated AFTER 12.11's rename, so the chain carries the
+        # new names: `calculation` (was subject_calculation), `value` (was
+        # data_type), `statement` (was subject_statement).
+        if "calculation" in _ancestors:
             return ("persist", None)
         # ANY data_type composite, abstract or not: since #73 item 19 every
         # composite is concrete (a standalone value document is content), so
         # abstractness no longer marks the target tier.
-        if "data_type" in _ancestors and "subject_statement" not in _ancestors:
+        if "value" in _ancestors and "statement" not in _ancestors:
             return ("persist", None)
     if name in _KEEP_INFRA:
         return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)

@@ -332,7 +332,7 @@ def test_b5_catches_a_strength_in_a_list_it_never_used_to_read():
     `entity_field_bindings` only, so this row -- a second copy of an
     authoritative fact -- would have been stored, ignored, and reported as part
     of a clean sweep."""
-    rows = [_row("subject_statement", "variable", strength="preferred")]
+    rows = [_row("statement", "variable", strength="preferred")]
     reg = {"subject_statement_bindings": [
         {"variable": {"node": "", "name": "species"}, "class": "term_assertion",
          "strength": "required"}]}
@@ -371,14 +371,14 @@ def test_b5_reports_the_field_side_too():
     """A field carrying a binding that NO registry row of any list resolves to.
     Fine under the team's call -- the field is authoritative -- and reported,
     because it is the population that would silently grow a second copy."""
-    rows = [_row("subject_statement", "variable", strength="preferred"),
+    rows = [_row("statement", "variable", strength="preferred"),
             _row("dataset", "accessibility", strength="required")]
     reg = {"entity_field_bindings": [
         {"class": "dataset", "field": "accessibility", "strength": "required"}]}
     f = TOOL.strength_agreement(rows, reg)
     assert f["bound_fields_stating_a_strength"] == 2, f
     assert [(x["class"], x["field"]) for x in f["bound_fields_with_no_registry_row"]] \
-        == [("subject_statement", "variable")], f
+        == [("statement", "variable")], f
     assert f["count"] == 0, "an uncatalogued field is not a disagreement"
 
 
@@ -436,8 +436,8 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     `node_form: curie` is the part of "a resolvable term reference" that needs
     no ontology; MEMBERSHIP still does, and is out of scope (NDIC.txt moved to
     VH-Lab/ndi-ontology-matlab, 2c19bf24c)."""
-    want = {("subject_statement", "variable"),
-            ("subject_interaction", "method"),
+    want = {("statement", "variable"),
+            ("interaction", "method"),
             ("interaction_purpose", "purpose")}
     got = {(i["class"], i["field"]): i for i in LIVE["inventory"]}
     assert want <= set(got), sorted(got)

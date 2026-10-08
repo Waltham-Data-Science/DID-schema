@@ -14,8 +14,8 @@
         {
             "name": "owner_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document this body holds the value of: a statement, or a standalone data_type document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "subject_statement,data_type"
+            "documentation": "The document this body holds the value of: a statement, or a standalone value document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "statement,value"
         }
     ],
     "file": [
@@ -173,7 +173,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `subject_statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's keys and conditions and this body's (a batch check: the owner does not list its bodies).",
+            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's keys and conditions and this body's (a batch check: the owner does not list its bodies).",
             "constraints": {},
             "fields": [
                 {

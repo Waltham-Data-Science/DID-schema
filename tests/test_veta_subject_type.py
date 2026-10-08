@@ -34,7 +34,7 @@ def test_subject_stays_a_bare_identity_otherwise():
 
 
 def test_distributive_is_an_optional_boolean_on_statements_and_relations():
-    for cls in ("subject_statement", "directed_relation"):
+    for cls in ("statement", "directed_relation"):
         d = _fields(cls)["distributive"]
         assert d["type"] == "boolean"
         assert d["mustBeNonEmpty"] is False

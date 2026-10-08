@@ -64,7 +64,7 @@ is generated, this paragraph is prose, and when they disagree the tool wins.
         attaches it -- `add_file('imageFile'` has zero hits on origin/main, and a
         bare-name sweep matches only local variables (`imageFiles`,
         `imageFileName`) in 4 files. Also moot: migrators_j.image consumes every
-        did_v1 image document, so none reaches the V_eta `image` data_type.
+        did_v1 image document, so none reaches the V_eta `image` value.
     jrclust_clusters                    declared-but-absent
         `jrclust_output_file`. SURVIVES as an over-declaration: the template has
         no `files` block and the bare name has ZERO hits in any file on
@@ -334,8 +334,8 @@ def _chain_deps(name, veta):
     resolves a dependency against the class's transitive `must_refer_to_document_class`
     declaration set, so a dep declared on a superclass IS declared for the
     subclass. Comparing only the leaf would report subject_id as "undeclared"
-    on any subject_observation subclass that leaves subject_id to the
-    subject_statement declaration (which requires it) -- a false alarm."""
+    on any observation subclass that leaves subject_id to the
+    statement declaration (which requires it) -- a false alarm."""
     out = {_defamily(d["name"])
            for d in veta.get(name, {}).get("depends_on", [])}
     for sup in super_chain(name, veta):
@@ -383,8 +383,8 @@ def compare(cls, ndi, schema, name, veta):
     # `undeclared_deps` asks: does NDI declare an edge V_eta's class chain does
     # not cover? An edge inherited via multi-inheritance IS covered. The live
     # case, from 2026-09-22: `spatialGeneExpressionPyramid` becomes ⊂
-    # [geneExpression, subject_observation] and its `subject_id` requirement
-    # rides on the inherited subject_statement slot rather than a local
+    # [geneExpression, observation] and its `subject_id` requirement
+    # rides on the inherited statement slot rather than a local
     # declaration (TEAM-SIGN-OFF [spatial_transcriptomics_family]). A leaf-only
     # read would see V_eta declaring `[geneList_id]` against NDI's
     # `[subject_id, geneList_id]` and flag it LOSSY -- exactly a false alarm
@@ -504,7 +504,7 @@ def main():
         # every document of the v1 class, none can ever reach the schema under
         # that name, so the shared name is harmless -- that is how the did_v1
         # `image` collision was resolved (migrators_j.image folds it into an
-        # image_observation) rather than by renaming the V_eta data_type.
+        # image_observation) rather than by renaming the V_eta value.
         collision = (tier == "passthrough" and disp.get(name) == "persist"
                      and ours and theirs and not (ours & theirs))
         if disp.get(name) == "persist" and ours and theirs and not (ours & theirs) \

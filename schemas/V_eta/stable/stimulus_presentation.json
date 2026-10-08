@@ -67,7 +67,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- the parameters become typed fields of the referenced stimulus data_type documents in the second pass, not here.",
+                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- the parameters become typed fields of the referenced stimulus value documents in the second pass, not here.",
                     "constraints": {},
                     "fields": []
                 }

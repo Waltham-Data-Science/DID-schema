@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "draft"
@@ -13,7 +13,7 @@
         {
             "name": "item_id",
             "mustBeNonEmpty": false,
-            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document (a stimulus data_type, a subject). Value k names the k-th entry (0-based, T14).",
+            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document (a stimulus value, a subject). Value k names the k-th entry (0-based, T14).",
             "must_refer_to_document_class": "base",
             "multiple": true,
             "min_count": 0,
@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many, and `value` is then absent (as for every data_type with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
+            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many, and `value` is then absent (as for every value with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
             "constraints": {},
             "fields": [
                 {

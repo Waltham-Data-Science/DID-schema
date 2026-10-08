@@ -70,7 +70,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/acceleration.json",
             "disposition": "persist"
@@ -81,7 +81,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "acceleration"
             ],
             "path": "schemas/V_eta/draft/acceleration_calculation.json",
@@ -93,7 +93,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "acceleration"
             ],
             "path": "schemas/V_eta/stable/acceleration_observation.json",
@@ -151,7 +151,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/angle.json",
             "disposition": "persist"
@@ -162,7 +162,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/angular_velocity.json",
             "disposition": "persist"
@@ -185,7 +185,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/area.json",
             "disposition": "persist"
@@ -196,10 +196,21 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "area"
             ],
             "path": "schemas/V_eta/draft/area_calculation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "assertion",
+            "tier": "stable",
+            "class_version": "3.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "statement"
+            ],
+            "path": "schemas/V_eta/stable/assertion.json",
             "disposition": "persist"
         },
         {
@@ -238,6 +249,17 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "interaction"
+            ],
+            "path": "schemas/V_eta/stable/calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "calculator",
             "tier": "stable",
             "class_version": "3.0.0",
@@ -256,7 +278,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/capacitance.json",
             "disposition": "persist"
@@ -279,7 +301,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/charge.json",
             "disposition": "persist"
@@ -290,7 +312,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/chemical.json",
             "disposition": "persist"
@@ -335,7 +357,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/concentration.json",
             "disposition": "persist"
@@ -346,7 +368,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "concentration"
             ],
             "path": "schemas/V_eta/stable/concentration_observation.json",
@@ -358,7 +380,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/conductance.json",
             "disposition": "persist"
@@ -369,7 +391,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity.json",
             "disposition": "persist"
@@ -380,7 +402,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "contrast_sensitivity"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
@@ -427,7 +449,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/count.json",
             "disposition": "persist"
@@ -438,7 +460,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "count"
             ],
             "path": "schemas/V_eta/draft/count_calculation.json",
@@ -450,7 +472,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "count"
             ],
             "path": "schemas/V_eta/stable/count_observation.json",
@@ -462,7 +484,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/current.json",
             "disposition": "persist"
@@ -473,7 +495,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "current"
             ],
             "path": "schemas/V_eta/stable/current_observation.json",
@@ -578,17 +600,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "data_type",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "data"
-            ],
-            "path": "schemas/V_eta/stable/data_type.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "dataset",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -605,7 +616,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/date.json",
             "disposition": "persist"
@@ -616,7 +627,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_assertion",
+                "assertion",
                 "date"
             ],
             "path": "schemas/V_eta/stable/date_assertion.json",
@@ -662,7 +673,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/dose.json",
             "disposition": "persist"
@@ -673,7 +684,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_manipulation",
+                "manipulation",
                 "dose"
             ],
             "path": "schemas/V_eta/stable/dose_manipulation.json",
@@ -709,7 +720,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/energy.json",
             "disposition": "persist"
@@ -850,7 +861,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/force.json",
             "disposition": "persist"
@@ -861,7 +872,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/formulation.json",
             "disposition": "persist"
@@ -872,7 +883,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/frequency.json",
             "disposition": "persist"
@@ -894,7 +905,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "frequency"
             ],
             "path": "schemas/V_eta/stable/frequency_observation.json",
@@ -917,7 +928,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/gain.json",
             "disposition": "persist"
@@ -976,7 +987,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/harmonic_component.json",
             "disposition": "persist"
@@ -987,7 +998,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "harmonic_component"
             ],
             "path": "schemas/V_eta/draft/harmonic_component_calculation.json",
@@ -1025,7 +1036,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/humidity.json",
             "disposition": "persist"
@@ -1036,7 +1047,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "humidity"
             ],
             "path": "schemas/V_eta/draft/humidity_observation.json",
@@ -1109,7 +1120,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/intensity.json",
             "disposition": "persist"
@@ -1120,7 +1131,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "intensity"
             ],
             "path": "schemas/V_eta/draft/intensity_calculation.json",
@@ -1132,10 +1143,21 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "intensity"
             ],
             "path": "schemas/V_eta/stable/intensity_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "interaction",
+            "tier": "stable",
+            "class_version": "3.1.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "statement"
+            ],
+            "path": "schemas/V_eta/stable/interaction.json",
             "disposition": "persist"
         },
         {
@@ -1156,7 +1178,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/item.json",
             "disposition": "persist"
@@ -1167,7 +1189,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "item"
             ],
             "path": "schemas/V_eta/draft/item_calculation.json",
@@ -1179,7 +1201,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_manipulation",
+                "manipulation",
                 "item"
             ],
             "path": "schemas/V_eta/draft/item_manipulation.json",
@@ -1230,7 +1252,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/label.json",
             "disposition": "persist"
@@ -1241,7 +1263,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "label"
             ],
             "path": "schemas/V_eta/draft/label_calculation.json",
@@ -1253,7 +1275,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/length.json",
             "disposition": "persist"
@@ -1264,7 +1286,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "length"
             ],
             "path": "schemas/V_eta/draft/length_calculation.json",
@@ -1276,7 +1298,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "length"
             ],
             "path": "schemas/V_eta/stable/length_observation.json",
@@ -1288,9 +1310,20 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/logical.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "manipulation",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "interaction"
+            ],
+            "path": "schemas/V_eta/stable/manipulation.json",
             "disposition": "persist"
         },
         {
@@ -1299,7 +1332,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/mass.json",
             "disposition": "persist"
@@ -1310,7 +1343,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "mass"
             ],
             "path": "schemas/V_eta/stable/mass_observation.json",
@@ -1345,7 +1378,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/model_fit.json",
             "disposition": "persist"
@@ -1356,7 +1389,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "model_fit"
             ],
             "path": "schemas/V_eta/draft/model_fit_calculation.json",
@@ -1386,6 +1419,17 @@
             "path": "schemas/V_eta/stable/ngrid.json",
             "disposition": "retire",
             "disposition_note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
+        },
+        {
+            "class_name": "observation",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "interaction"
+            ],
+            "path": "schemas/V_eta/stable/observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "oneepoch",
@@ -1539,7 +1583,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/ph.json",
             "disposition": "persist"
@@ -1550,7 +1594,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/polynomial.json",
             "disposition": "persist"
@@ -1561,7 +1605,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/position.json",
             "disposition": "persist"
@@ -1572,7 +1616,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "position"
             ],
             "path": "schemas/V_eta/draft/position_calculation.json",
@@ -1596,7 +1640,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "position"
             ],
             "path": "schemas/V_eta/draft/position_observation.json",
@@ -1608,7 +1652,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/power.json",
             "disposition": "persist"
@@ -1619,7 +1663,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/pressure.json",
             "disposition": "persist"
@@ -1630,7 +1674,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "pressure"
             ],
             "path": "schemas/V_eta/stable/pressure_observation.json",
@@ -1714,7 +1758,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/receptive_field.json",
             "disposition": "persist"
@@ -1725,7 +1769,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "receptive_field"
             ],
             "path": "schemas/V_eta/stable/receptive_field_calculation.json",
@@ -1759,7 +1803,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/resistance.json",
             "disposition": "persist"
@@ -1794,7 +1838,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/score.json",
             "disposition": "persist"
@@ -1805,7 +1849,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "score"
             ],
             "path": "schemas/V_eta/draft/score_calculation.json",
@@ -1817,7 +1861,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "score"
             ],
             "path": "schemas/V_eta/stable/score_observation.json",
@@ -1889,7 +1933,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/draft/spatial_frequency.json",
             "disposition": "persist"
@@ -2019,6 +2063,17 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "statement",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/statement.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "stimulus_parameter",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -2142,72 +2197,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "subject_assertion",
-            "tier": "stable",
-            "class_version": "3.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_statement"
-            ],
-            "path": "schemas/V_eta/stable/subject_assertion.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "subject_calculation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_interaction"
-            ],
-            "path": "schemas/V_eta/stable/subject_calculation.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "subject_interaction",
-            "tier": "stable",
-            "class_version": "3.1.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_statement"
-            ],
-            "path": "schemas/V_eta/stable/subject_interaction.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "subject_manipulation",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_interaction"
-            ],
-            "path": "schemas/V_eta/stable/subject_manipulation.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "subject_observation",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_interaction"
-            ],
-            "path": "schemas/V_eta/stable/subject_observation.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "subject_statement",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/subject_statement.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "subjectmeasurement",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2225,7 +2214,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/substance_amount.json",
             "disposition": "persist"
@@ -2272,7 +2261,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/temperature.json",
             "disposition": "persist"
@@ -2283,7 +2272,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_manipulation",
+                "manipulation",
                 "temperature"
             ],
             "path": "schemas/V_eta/stable/temperature_manipulation.json",
@@ -2295,7 +2284,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "temperature"
             ],
             "path": "schemas/V_eta/stable/temperature_observation.json",
@@ -2318,7 +2307,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/term.json",
             "disposition": "persist"
@@ -2329,7 +2318,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_assertion",
+                "assertion",
                 "term"
             ],
             "path": "schemas/V_eta/stable/term_assertion.json",
@@ -2341,7 +2330,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "term"
             ],
             "path": "schemas/V_eta/draft/term_calculation.json",
@@ -2353,7 +2342,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_manipulation",
+                "manipulation",
                 "term"
             ],
             "path": "schemas/V_eta/stable/term_manipulation.json",
@@ -2365,7 +2354,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "term"
             ],
             "path": "schemas/V_eta/stable/term_observation.json",
@@ -2377,7 +2366,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/time.json",
             "disposition": "persist"
@@ -2388,7 +2377,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "time"
             ],
             "path": "schemas/V_eta/draft/time_calculation.json",
@@ -2400,7 +2389,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "time"
             ],
             "path": "schemas/V_eta/stable/time_observation.json",
@@ -2423,7 +2412,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/tuning_curve.json",
             "disposition": "persist"
@@ -2434,7 +2423,7 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "tuning_curve"
             ],
             "path": "schemas/V_eta/stable/tuning_curve_calculation.json",
@@ -2477,12 +2466,23 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
+            "class_name": "value",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data"
+            ],
+            "path": "schemas/V_eta/stable/value.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "velocity",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/velocity.json",
             "disposition": "persist"
@@ -2493,7 +2493,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "velocity"
             ],
             "path": "schemas/V_eta/draft/velocity_calculation.json",
@@ -2505,7 +2505,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "velocity"
             ],
             "path": "schemas/V_eta/stable/velocity_observation.json",
@@ -2517,7 +2517,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/visual_grating.json",
             "disposition": "persist"
@@ -2581,7 +2581,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/voltage.json",
             "disposition": "persist"
@@ -2592,7 +2592,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "subject_calculation",
+                "calculation",
                 "voltage"
             ],
             "path": "schemas/V_eta/draft/voltage_calculation.json",
@@ -2604,7 +2604,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "voltage"
             ],
             "path": "schemas/V_eta/stable/voltage_observation.json",
@@ -2616,7 +2616,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "data_type"
+                "value"
             ],
             "path": "schemas/V_eta/stable/volume.json",
             "disposition": "persist"
@@ -2627,7 +2627,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation",
+                "observation",
                 "volume"
             ],
             "path": "schemas/V_eta/stable/volume_observation.json",

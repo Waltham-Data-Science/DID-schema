@@ -116,8 +116,8 @@ TENET_MAP = [
         "The tenet is doing negative work here -- it is the reason a class was "
         "kept OFF the subject spine."),
     Row("T2",
-        "`validity` was the only data_type naming a SEMANTIC rather than a kind "
-        "of value. The semantic moved onto `subject_statement.variable`, where "
+        "`validity` was the only value naming a SEMANTIC rather than a kind "
+        "of value. The semantic moved onto `statement.variable`, where "
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
         ["logical"],
@@ -134,7 +134,7 @@ TENET_MAP = [
         ["temperature", "temperature_observation", "temperature_manipulation"],
         "V_eta_tenets.md",
         "A leaf class = a direction × a data type",
-        "T3 is the factoring move: data_type x direction, so a new stance on "
+        "T3 is the factoring move: value x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
     Row("T4",
         "An ensemble's membership stops being a list inside a document and "
@@ -217,7 +217,7 @@ TENET_MAP = [
         ["oridirtuning_calc", "contrasttuning_calc",
          "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
          "speedtuning_calc", "tuningcurve_calc"],
-        ["tuning_curve_calculation", "subject_calculation"],
+        ["tuning_curve_calculation", "calculation"],
         "V_eta_tuning_model_plan.md",
         "REVERSE R2/R3's LEAF COLLAPSE",
         "The 11,448-orphan run is what this tenet is made of: id preservation "
@@ -333,7 +333,7 @@ TENET_MAP = [
         "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
         "whose order is not.",
         ["syncgraph"],
-        ["clock_alignment_policy", "subject_calculation", "item",
+        ["clock_alignment_policy", "calculation", "item",
          "relative_time_reference"],
         "V_eta_tenets.md",
         "a repeated edge repeats that one name",
@@ -359,7 +359,7 @@ TENET_MAP = [
         "of each member), assertions along `part_of` (true of each part), and "
         "interactions along `contained_in` only as CONTEXT for the overlapping time.",
         [],
-        ["subject_statement", "directed_relation"],
+        ["statement", "directed_relation"],
         "V_eta_tenets.md",
         "A statement describes only its subject; the graph decides what else it holds of",
         "Written 2026-10-08 from the Haley videos question; the reader is "
