@@ -517,7 +517,7 @@
       "members": [
         {
           "class_name": "subject",
-          "disposition": "persist"
+          "disposition": "(absent)"
         }
       ],
       "open_members": [],
@@ -534,7 +534,7 @@
       "members": [
         {
           "class_name": "session",
-          "disposition": "persist"
+          "disposition": "(absent)"
         }
       ],
       "open_members": [],

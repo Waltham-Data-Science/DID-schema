@@ -179,7 +179,9 @@ def test_derivations_match_an_independent_recomputation():
     assert C.derive_registry_rows() == (len(reg["subject_statement_bindings"])
                                         + len(reg["binding_examples"])
                                         + len(reg["relation_bindings"])
-                                        + len(reg["entity_field_bindings"]))
+                                        + len(reg["entity_field_bindings"])
+                                        # 2026-10-08 (PROPOSAL): what each entity.type requires
+                                        + len(reg["entity_type_bindings"]))
 
     md = subprocess.run(["ls", os.path.join(REPO_ROOT, "schemas")],
                         capture_output=True, text=True, check=True)

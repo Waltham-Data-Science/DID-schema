@@ -1,66 +1,77 @@
 {
-  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped).",
+  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped). 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): every openMINDS type maps to the one `entity` class with `entity_type`; a property that was a field on the old class is a statement (`target_kind: assertion`, `ndi_target` the statement's variable, `value_kind` its value) unless it is identity (name, description, local_identifier, global_identifier); global_identifier targets name a CURIE prefix registered in CURIE_lookups_meta.json, or `IRI`.",
   "crosswalk_version": "1.1.0",
   "vocabulary": "openMINDS",
   "types": {
     "DatasetVersion": {
-      "ndi_entity": "dataset",
+      "ndi_entity": "entity",
       "properties": {
         "fullName": {
           "target_kind": "field",
           "ndi_target": "name"
         },
         "shortName": {
-          "target_kind": "field",
-          "ndi_target": "short_name"
+          "target_kind": "assertion",
+          "ndi_target": "short name",
+          "value_kind": "text"
         },
         "versionIdentifier": {
-          "target_kind": "field",
-          "ndi_target": "version"
+          "target_kind": "assertion",
+          "ndi_target": "version",
+          "value_kind": "text"
         },
         "versionInnovation": {
-          "target_kind": "field",
-          "ndi_target": "version_innovation"
+          "target_kind": "assertion",
+          "ndi_target": "version innovation",
+          "value_kind": "text"
         },
         "description": {
           "target_kind": "field",
           "ndi_target": "description"
         },
         "howToCite": {
-          "target_kind": "field",
-          "ndi_target": "how_to_cite"
+          "target_kind": "assertion",
+          "ndi_target": "how to cite",
+          "value_kind": "text"
         },
         "keyword": {
-          "target_kind": "field",
-          "ndi_target": "keyword"
+          "target_kind": "assertion",
+          "ndi_target": "keyword",
+          "value_kind": "term"
         },
         "license": {
-          "target_kind": "field",
-          "ndi_target": "license"
+          "target_kind": "assertion",
+          "ndi_target": "license",
+          "value_kind": "term"
         },
         "releaseDate": {
-          "target_kind": "field",
-          "ndi_target": "release_date"
+          "target_kind": "assertion",
+          "ndi_target": "release date",
+          "value_kind": "date"
         },
         "accessibility": {
-          "target_kind": "field",
+          "target_kind": "assertion",
           "ndi_target": "accessibility",
-          "term_set": "ProductAccessibility"
+          "term_set": "ProductAccessibility",
+          "value_kind": "term"
         },
         "ethicsAssessment": {
-          "target_kind": "field",
-          "ndi_target": "ethics_assessment",
-          "term_set": "EthicsAssessment"
+          "target_kind": "assertion",
+          "ndi_target": "ethics assessment",
+          "term_set": "EthicsAssessment",
+          "value_kind": "term"
         },
         "experimentalApproach": {
-          "target_kind": "field",
-          "ndi_target": "experimental_approach",
-          "term_set": "ExperimentalApproach"
+          "target_kind": "assertion",
+          "ndi_target": "experimental approach",
+          "term_set": "ExperimentalApproach",
+          "value_kind": "term"
         },
         "supportChannel": {
-          "target_kind": "field",
-          "ndi_target": "support_channel",
-          "notes": "email/discussion form -> field; a support URL is instead documented_by -> web_resource."
+          "target_kind": "assertion",
+          "ndi_target": "support channel",
+          "notes": "email/discussion form -> field; a support URL is instead documented_by -> web_resource.",
+          "value_kind": "text"
         },
         "author": {
           "target_kind": "relation",
@@ -84,9 +95,10 @@
           "endpoint": "web_resource"
         },
         "repository": {
-          "target_kind": "relation",
-          "ndi_target": "stored_at",
-          "endpoint": "web_resource"
+          "target_kind": "global_identifier",
+          "ndi_target": "ndicloud",
+          "endpoint": "web_resource",
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). NDI Cloud copies are `ndicloud:<id>`; any other repository is its IRI."
         },
         "isNewVersionOf": {
           "target_kind": "relation",
@@ -96,7 +108,7 @@
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
-          "ndi_target": "DOI"
+          "ndi_target": "doi"
         },
         "type": {
           "target_kind": "implied",
@@ -125,9 +137,10 @@
           "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."
         },
         "homepage": {
-          "target_kind": "relation",
-          "ndi_target": "has_homepage",
-          "endpoint": "web_resource"
+          "target_kind": "global_identifier",
+          "ndi_target": "IRI",
+          "endpoint": "web_resource",
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). "
         },
         "protocol": {
           "target_kind": "relation",
@@ -145,27 +158,31 @@
           "ndi_target": "alternative_of",
           "endpoint": "dataset"
         }
-      }
+      },
+      "entity_type": "dataset"
     },
     "Person": {
-      "ndi_entity": "person",
+      "ndi_entity": "entity",
       "properties": {
         "givenName": {
-          "target_kind": "field",
-          "ndi_target": "given_name"
+          "target_kind": "assertion",
+          "ndi_target": "given name",
+          "value_kind": "text"
         },
         "familyName": {
-          "target_kind": "field",
-          "ndi_target": "family_name"
+          "target_kind": "assertion",
+          "ndi_target": "family name",
+          "value_kind": "text"
         },
         "contactInformation": {
-          "target_kind": "field",
+          "target_kind": "assertion",
           "ndi_target": "email",
-          "notes": "ContactInformation.email."
+          "notes": "ContactInformation.email.",
+          "value_kind": "text"
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
-          "ndi_target": "ORCID"
+          "ndi_target": "orcid"
         },
         "affiliation": {
           "target_kind": "relation",
@@ -173,30 +190,34 @@
           "endpoint": "organization"
         },
         "alternateName": {
-          "target_kind": "field",
-          "ndi_target": "alternate_name"
+          "target_kind": "assertion",
+          "ndi_target": "alternate name",
+          "value_kind": "text"
         }
-      }
+      },
+      "entity_type": "person"
     },
     "Organization": {
-      "ndi_entity": "organization",
+      "ndi_entity": "entity",
       "properties": {
         "fullName": {
           "target_kind": "field",
           "ndi_target": "name"
         },
         "shortName": {
-          "target_kind": "field",
-          "ndi_target": "short_name"
+          "target_kind": "assertion",
+          "ndi_target": "short name",
+          "value_kind": "text"
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
-          "ndi_target": "RORID"
+          "ndi_target": "ror"
         },
         "homepage": {
-          "target_kind": "relation",
-          "ndi_target": "has_homepage",
-          "endpoint": "web_resource"
+          "target_kind": "global_identifier",
+          "ndi_target": "IRI",
+          "endpoint": "web_resource",
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). "
         },
         "hasParent": {
           "target_kind": "relation",
@@ -204,28 +225,31 @@
           "endpoint": "organization",
           "notes": "org hierarchy, kept distinct from subject/session part_of."
         }
-      }
+      },
+      "entity_type": "organization"
     },
     "Funding": {
-      "ndi_entity": "funding",
+      "ndi_entity": "entity",
       "properties": {
         "awardTitle": {
           "target_kind": "field",
           "ndi_target": "name"
         },
         "awardNumber": {
-          "target_kind": "global_identifier",
-          "ndi_target": "AwardNumber"
+          "target_kind": "field",
+          "ndi_target": "local_identifier",
+          "notes": "An award number is unique only within its funder, so it is not a global identifier: a grant DOI goes in global_identifier when there is one, otherwise the number is the funding entity's local_identifier (V_eta_entity_composition_plan.md sec. 6)."
         },
         "funder": {
           "target_kind": "relation",
           "ndi_target": "issued_by",
           "endpoint": "organization"
         }
-      }
+      },
+      "entity_type": "funding"
     },
     "SoftwareVersion": {
-      "ndi_entity": "software",
+      "ndi_entity": "entity",
       "properties": {
         "fullName": {
           "target_kind": "field",
@@ -237,22 +261,23 @@
           "notes": "the entity keeps ONE name field; per its own documentation software.name carries the fullName/shortName pair. A separate short form would be a coordinate, not a thing (T13)."
         },
         "versionIdentifier": {
-          "target_kind": "field",
-          "ndi_target": "version"
+          "target_kind": "assertion",
+          "ndi_target": "version",
+          "value_kind": "text"
         },
         "homepage": {
           "target_kind": "global_identifier",
-          "ndi_target": "URL",
+          "ndi_target": "IRI",
           "notes": "populated by the app->software fold from the v1 app.url."
         },
         "repository": {
           "target_kind": "global_identifier",
-          "ndi_target": "URL",
+          "ndi_target": "IRI",
           "notes": "same URL scheme as homepage; the two are distinguished by the stored value, not by separate slots."
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
-          "ndi_target": "DOI",
+          "ndi_target": "doi",
           "notes": "DOI or SWHID, whichever the source supplies."
         },
         "operatingSystem": {
@@ -263,7 +288,8 @@
           "target_kind": "projection",
           "notes": "likewise per-run: the calculation's `interpreter_id` edge names the interpreter as a `software` document (#73 item 53)."
         }
-      }
+      },
+      "entity_type": "software"
     }
   }
 }

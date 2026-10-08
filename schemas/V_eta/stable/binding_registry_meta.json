@@ -9,58 +9,121 @@
                 "node": "",
                 "name": "species"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "ontology": "NCBITaxon",
-            "root_node": "NCBITaxon:1",
-            "subject_defining": true
+            "root_node": "ncbitaxon:1",
+            "subject_defining": true,
+            "value_kind": "term"
         },
         {
             "variable": {
                 "node": "",
                 "name": "instrument type"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "ontology": "OBI",
-            "root_node": "OBI:0000968",
-            "subject_defining": true
+            "root_node": "obi:0000968",
+            "subject_defining": true,
+            "value_kind": "term"
         },
         {
             "variable": {
                 "node": "",
                 "name": "cell type"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "ontology": "CL",
-            "root_node": "CL:0000000",
-            "subject_defining": true
+            "root_node": "cl:0000000",
+            "subject_defining": true,
+            "value_kind": "term"
         },
         {
             "variable": {
                 "node": "",
                 "name": "material type"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "ontology": "CHEBI",
-            "root_node": "CHEBI:24431",
-            "subject_defining": true
+            "root_node": "chebi:24431",
+            "subject_defining": true,
+            "value_kind": "term"
         },
         {
             "variable": {
                 "node": "",
                 "name": "developmental stage"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "ontology": "UBERON",
-            "root_node": "UBERON:0000105",
-            "subject_defining": true
+            "root_node": "uberon:0000105",
+            "subject_defining": true,
+            "value_kind": "term"
         },
         {
             "variable": {
-                "node": "NCIT:C16608",
+                "node": "ncit:C16608",
                 "name": "gene expression"
             },
             "class": "spatial_gene_expression_pyramid",
             "subject_defining": false
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "accessibility"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "dataset",
+            "subject_defining": false,
+            "vocabulary": "openMINDS",
+            "term_set": "ProductAccessibility"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "ethics assessment"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "dataset",
+            "subject_defining": false,
+            "vocabulary": "openMINDS",
+            "term_set": "EthicsAssessment"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "experimental approach"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "dataset",
+            "subject_defining": false,
+            "vocabulary": "openMINDS",
+            "term_set": "ExperimentalApproach"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "factors"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "study",
+            "subject_defining": false,
+            "node_form": "curie"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "design"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "study",
+            "subject_defining": false,
+            "node_form": "curie"
         }
     ],
     "binding_examples": [
@@ -69,40 +132,43 @@
                 "node": "",
                 "name": "brain region"
             },
-            "class": "term_observation",
+            "class": "observation",
             "ontology": "UBERON",
-            "root_node": "UBERON:0000955",
-            "notes": "term leaf + subtree: a located structure is a term_observation whose value resolves against the UBERON brain subtree"
+            "root_node": "uberon:0000955",
+            "notes": "term leaf + subtree: a located structure is a term_observation whose value resolves against the UBERON brain subtree",
+            "value_kind": "term"
         },
         {
             "variable": {
-                "node": "PATO:0000047",
+                "node": "pato:0000047",
                 "name": "biological sex"
             },
-            "class": "term_assertion",
+            "class": "assertion",
             "values": [
                 {
-                    "node": "PATO:0000384",
+                    "node": "pato:0000384",
                     "name": "male"
                 },
                 {
-                    "node": "PATO:0000383",
+                    "node": "pato:0000383",
                     "name": "female"
                 },
                 {
-                    "node": "PATO:0001340",
+                    "node": "pato:0001340",
                     "name": "hermaphrodite"
                 }
             ],
-            "notes": "term leaf + enumeration: a fixed set of ontology terms (NodeRefs, not bare strings) rather than a subtree"
+            "notes": "term leaf + enumeration: a fixed set of ontology terms (NodeRefs, not bare strings) rather than a subtree",
+            "value_kind": "term"
         },
         {
             "variable": {
                 "node": "",
                 "name": "body mass"
             },
-            "class": "mass_observation",
-            "notes": "dimensional leaf: mass_observation already fixes the value type, so no admissible-set spec is needed"
+            "class": "observation",
+            "notes": "dimensional leaf: mass_observation already fixes the value type, so no admissible-set spec is needed",
+            "value_kind": "mass"
         },
         {
             "variable": {
@@ -113,26 +179,39 @@
                 "node": "",
                 "name": "perfusion heating"
             },
-            "class": "temperature_manipulation",
-            "notes": "method + variable: on an interaction the binding is keyed by both the method and the variable"
+            "class": "manipulation",
+            "notes": "method + variable: on an interaction the binding is keyed by both the method and the variable",
+            "value_kind": "temperature"
         }
     ],
     "relation_bindings": [
         {
             "relation": {
-                "node": "BFO:0000050",
+                "node": "bfo:0000050",
                 "name": "part_of"
             },
             "class": "directed_relation",
             "child_role": "the part",
             "parent_role": "the whole",
             "child_types": [
-                "subject",
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material",
                 "session",
                 "study"
             ],
             "parent_types": [
-                "subject",
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material",
                 "dataset",
                 "study"
             ],
@@ -141,7 +220,7 @@
         },
         {
             "relation": {
-                "node": "RO:0001018",
+                "node": "ro:0001018",
                 "name": "contained_in"
             },
             "class": "directed_relation",
@@ -154,24 +233,36 @@
         },
         {
             "relation": {
-                "node": "RO:0002350",
+                "node": "ro:0002350",
                 "name": "member_of"
             },
             "class": "directed_relation",
             "child_role": "the member",
             "parent_role": "the group",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": true
         },
         {
             "relation": {
-                "node": "RO:0001000",
+                "node": "ro:0001000",
                 "name": "derived_from"
             },
             "class": "directed_relation",
@@ -191,10 +282,22 @@
             "child_role": "the sample",
             "parent_role": "the sampled source",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": false
@@ -208,10 +311,22 @@
             "child_role": "the aliquot",
             "parent_role": "the parent quantity",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": false
@@ -225,10 +340,22 @@
             "child_role": "the passage",
             "parent_role": "the parent culture",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": false
@@ -242,10 +369,22 @@
             "child_role": "the encountering subject",
             "parent_role": "the encountered subject",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": false
@@ -259,10 +398,22 @@
             "child_role": "the measured-from subject",
             "parent_role": "the reference subject",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "timed": true,
             "ordered": false
@@ -359,47 +510,14 @@
             },
             "class": "directed_relation",
             "child_role": "the documented entity or recipe",
-            "parent_role": "the web_resource",
+            "parent_role": "the document (a protocol or a publication)",
             "child_types": [
                 "entity",
                 "formulation"
             ],
             "parent_types": [
-                "web_resource"
-            ],
-            "timed": false,
-            "ordered": false
-        },
-        {
-            "relation": {
-                "node": "",
-                "name": "stored_at"
-            },
-            "class": "directed_relation",
-            "child_role": "the stored dataset",
-            "parent_role": "the web_resource (remote copy)",
-            "child_types": [
-                "dataset"
-            ],
-            "parent_types": [
-                "web_resource"
-            ],
-            "timed": false,
-            "ordered": false
-        },
-        {
-            "relation": {
-                "node": "",
-                "name": "hosted_by"
-            },
-            "class": "directed_relation",
-            "child_role": "the web_resource",
-            "parent_role": "the hosting organization",
-            "child_types": [
-                "web_resource"
-            ],
-            "parent_types": [
-                "organization"
+                "protocol",
+                "publication"
             ],
             "timed": false,
             "ordered": false
@@ -487,28 +605,9 @@
                 "dataset"
             ],
             "parent_types": [
-                "dataset",
-                "web_resource"
+                "dataset"
             ],
             "timed": true,
-            "ordered": false
-        },
-        {
-            "relation": {
-                "node": "",
-                "name": "has_homepage"
-            },
-            "class": "directed_relation",
-            "child_role": "the entity",
-            "parent_role": "the homepage (web_resource)",
-            "child_types": [
-                "dataset",
-                "organization"
-            ],
-            "parent_types": [
-                "web_resource"
-            ],
-            "timed": false,
             "ordered": false
         },
         {
@@ -518,12 +617,12 @@
             },
             "class": "directed_relation",
             "child_role": "the dataset",
-            "parent_role": "the protocol (web_resource)",
+            "parent_role": "the protocol",
             "child_types": [
                 "dataset"
             ],
             "parent_types": [
-                "web_resource"
+                "protocol"
             ],
             "timed": false,
             "ordered": false
@@ -551,13 +650,20 @@
                 "name": "instance_of"
             },
             "class": "directed_relation",
-            "child_role": "the unit (e.g. an instrument subject)",
-            "parent_role": "the product it is a unit of",
+            "child_role": "the instance (a unit of a product, a member of a strain)",
+            "parent_role": "the product or strain it is an instance of",
             "child_types": [
-                "subject"
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "group",
+                "device",
+                "material"
             ],
             "parent_types": [
-                "product"
+                "product",
+                "strain"
             ],
             "timed": false,
             "ordered": false
@@ -639,6 +745,40 @@
             ],
             "timed": false,
             "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "sold_by"
+            },
+            "class": "directed_relation",
+            "child_role": "the product",
+            "parent_role": "the vendor",
+            "child_types": [
+                "product"
+            ],
+            "parent_types": [
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "recorded_by"
+            },
+            "class": "directed_relation",
+            "child_role": "the epoch",
+            "parent_role": "the acquisition system that recorded it",
+            "child_types": [
+                "epoch"
+            ],
+            "parent_types": [
+                "acquisition_system"
+            ],
+            "timed": false,
+            "ordered": false
         }
     ],
     "controlled_vocabularies": {
@@ -650,29 +790,148 @@
     },
     "entity_field_bindings": [
         {
-            "class": "dataset",
-            "field": "accessibility",
-            "vocabulary": "openMINDS",
-            "term_set": "ProductAccessibility",
+            "class": "entity",
+            "field": "type",
+            "vocabulary": "did",
+            "term_set": "did_entity_type",
             "closed": true,
             "strength": "required"
-        },
-        {
-            "class": "dataset",
-            "field": "ethics_assessment",
-            "vocabulary": "openMINDS",
-            "term_set": "EthicsAssessment",
-            "closed": true,
-            "strength": "required"
-        },
-        {
-            "class": "dataset",
-            "field": "experimental_approach",
-            "vocabulary": "openMINDS",
-            "term_set": "ExperimentalApproach",
-            "closed": false,
-            "strength": "preferred"
         }
     ],
-    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no value and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, statement or value classes (#73 items 22, 27). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."
+    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no value and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, statement or value classes (#73 items 22, 27). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor.",
+    "entity_type_bindings": [
+        {
+            "type": "organism",
+            "description": "one whole living individual",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "culture",
+            "description": "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "tissue",
+            "description": "part of an organism: a slice, a biopsy, a region",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "cell",
+            "description": "one cell",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "group",
+            "description": "an entity whose members are entities, by `member_of`: a cohort, an ensemble",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "device",
+            "description": "an instrument or a piece of apparatus",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "material",
+            "description": "a non-living object or substance: an agar plate",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "strain",
+            "description": "a genetically defined line; its members are `instance_of` it",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "product",
+            "description": "something bought: a reagent, a device model; units are `instance_of` it",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "software",
+            "description": "a program, at a version",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "person",
+            "description": "a person",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "organization",
+            "description": "an institution, a lab, a company, a funder",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "funding",
+            "description": "a grant or award",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "dataset",
+            "description": "a published body of data, at a version",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "study",
+            "description": "a unit of research with its own question and design",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "publication",
+            "description": "an article or preprint",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "protocol",
+            "description": "a written procedure",
+            "requires": [
+                "name"
+            ]
+        },
+        {
+            "type": "session",
+            "description": "a period of work: one sitting at the rig, one day of an assay",
+            "requires": [
+                "local_identifier"
+            ]
+        },
+        {
+            "type": "epoch",
+            "description": "one recording: the files one acquisition system wrote for one stretch of time",
+            "requires": [
+                "local_identifier"
+            ]
+        }
+    ]
 }

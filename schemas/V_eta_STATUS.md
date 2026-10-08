@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 224 |
-| settled (persist) | 142 |
+| target classes | 170 |
+| settled (persist) | 88 |
 | settled (retire) | 74 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
@@ -356,7 +356,7 @@ is why migrator work before the target closes is rework.
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 28 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 20 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -391,11 +391,11 @@ it.
 
 | family | unsigned class name(s) in the one-liner | sign-off in |
 |---|---|---|
-| **logical_observation** | `epoch`, `item`, `time_observation` | `V_eta_logical_observation_plan.md` |
+| **logical_observation** | `item` | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | `relative_time_reference` | `V_eta_time_reference_family_plan.md` |
-| **stimulus** | `item`, `item_manipulation` | `V_eta_stimulus_model_plan.md` |
-| **image / ngrid** | `image_stack`, `sampled_body`, `subject`, `value` | `V_eta_image_model_plan.md` |
-| **daq ingested payloads** | `item`, `opaque_body`, `term_manipulation` | `V_eta_ingested_payload_findings.md` |
+| **stimulus** | `item` | `V_eta_stimulus_model_plan.md` |
+| **image / ngrid** | `image_stack`, `sampled_body`, `value` | `V_eta_image_model_plan.md` |
+| **daq ingested payloads** | `item`, `opaque_body` | `V_eta_ingested_payload_findings.md` |
 | **sync mapping** | `relative_time_reference`, `value` | `V_eta_clock_alignment_cluster_plan.md` |
 | **openMINDS** | `entity` | `V_eta_openminds_family_record.md` |
 | **software** | `entity` | `V_eta_tenet_audit.md` |
@@ -403,7 +403,7 @@ it.
 | **subject measurement** | `absolute_time_reference` | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | `pyraview` | `V_eta_recording_observation_plan.md` |
 | **misc singletons** | `sampled_body` | `V_eta_go_forward_class_audit.md` |
-| **spatial_transcriptomics_family** | `coordinate_system`, `count_observation`, `directed_relation`, `label_calculation`, `score`, `term`, `term_calculation` | `V_eta_spatial_transcriptomics_plan.md` |
+| **spatial_transcriptomics_family** | `coordinate_system`, `directed_relation`, `score`, `term` | `V_eta_spatial_transcriptomics_plan.md` |
 
 **AND: 1 document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`
 line.** An untagged line signs the document, and counts only when
@@ -418,12 +418,12 @@ visible either.
 | disposition | count |
 |---|---|
 | retire | 71 |
-| consumed by migrator (no tombstone) | 28 |
+| consumed by migrator (no tombstone) | 30 |
 | in_progress | 6 |
-| persist | 3 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |
+| persist | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 3 rows
 

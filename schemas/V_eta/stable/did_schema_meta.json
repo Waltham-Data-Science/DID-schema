@@ -119,6 +119,24 @@
                 "abstract": {
                     "type": "boolean",
                     "description": "If true, no document may have document_class.class_name equal to this class \u2014 only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
+                },
+                "value_kind": {
+                    "type": "object",
+                    "required": [
+                        "root",
+                        "count"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "root": {
+                            "type": "string"
+                        },
+                        "count": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Composition (V_eta_entity_composition_plan.md sec. 1): a document of this class lists, after its own chain, the chain of `count` concrete descendants of `root` (a value kind), minus the classes its own chain already holds. A class whose own chain already contains a descendant of `root` (a named calculator) takes none. Inherited by subclasses."
                 }
             }
         },

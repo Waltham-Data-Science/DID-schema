@@ -119,6 +119,9 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
+    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 4): what each
+    # `entity.type` requires. Normative, and carries no strength of its own.
+    "entity_type_bindings": True,
     "binding_examples": False,
 }
 

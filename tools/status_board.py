@@ -1532,6 +1532,24 @@ def _coverage_class_emit_patterns():
 CLASS_EMIT = _coverage_class_emit_patterns()
 
 
+def _coverage_supersession():
+    """coverage.py's table of names the 2026-10-08 composition PROPOSAL retired,
+    imported for the same reason as CLASS_EMIT: one table, never two."""
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coverage.py")
+    spec = importlib.util.spec_from_file_location("_status_board_coverage_sup", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return dict(mod.SUPERSEDED_BY_ENTITY_COMPOSITION)
+
+
+SUPERSEDED = _coverage_supersession()
+
+
+def _target_built(name, built_classes):
+    return all(x in built_classes for x in SUPERSEDED.get(name, [name]))
+
+
 def code_before_comment(line):
     """(the line up to its comment/continuation, does it continue?).
 
@@ -2436,7 +2454,9 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # CLASS is `epoch`). Listed to keep the rule general rather than fitted to
     # one family; it changes no state, because `epochid` reaches (b) on nine
     # CONSUMING references and is minted only as a superclass mixin anyway.
-    "epochid": "epoch",
+    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 4): the `epoch`
+    # class merged into `entity` (type epoch), so the replacement CLASS is `entity`.
+    "epochid": "entity",
 }
 
 
@@ -2481,8 +2501,11 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
     for cls in sorted(open_work):
         row = ledger.get(cls) or {}
         decided = [t for t in (row.get("decided_targets") or []) if t != cls]
-        built_t = [t for t in decided if t in built_classes]
-        missing_t = [t for t in decided if t not in built_classes]
+        # A name retired by the 2026-10-08 composition PROPOSAL is built when what
+        # replaced it is (coverage.py SUPERSEDED_BY_ENTITY_COMPOSITION), so the
+        # board never lists a mixin's old join leaf as schema still to build.
+        built_t = [t for t in decided if _target_built(t, built_classes)]
+        missing_t = [t for t in decided if not _target_built(t, built_classes)]
 
         m = (mig or {}).get(cls)
         measured = m is not None
@@ -3371,8 +3394,8 @@ def build(ocs=None, didm=None, log=None):
         if not led:
             return set(), set(), None
         dec = [t for t in (led.get("decided_targets") or []) if t != member]
-        return ({t for t in dec if t in built_classes_now},
-                {t for t in dec if t not in built_classes_now},
+        return ({t for t in dec if _target_built(t, built_classes_now)},
+                {t for t in dec if not _target_built(t, built_classes_now)},
                 "coverage_ledger")
 
     def family_targets(members):

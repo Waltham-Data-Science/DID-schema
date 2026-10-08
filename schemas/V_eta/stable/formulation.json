@@ -14,7 +14,7 @@
             "name": "ingredient_id",
             "mustBeNonEmpty": false,
             "documentation": "What went in, in the order of `value.ingredients` (entry k describes edge k; the order carries no other meaning). A stock you made is a formulation; a live strain grown or suspended in it (bacteria in broth) is a `strain`.",
-            "must_refer_to_document_class": "chemical,formulation,strain",
+            "must_refer_to_document_class": "chemical,formulation,entity",
             "multiple": true,
             "ordered": true,
             "min_count": 0
@@ -23,7 +23,7 @@
             "name": "product_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the bought product/lot, for a mixture bought ready-made (PBS tablets, saline).",
-            "must_refer_to_document_class": "product"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

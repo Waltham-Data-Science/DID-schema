@@ -20,7 +20,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The recording element (a subject in V_eta) the ensemble was computed from.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {
@@ -34,7 +34,7 @@
             "name": "neuron_id_#",
             "mustBeNonEmpty": false,
             "documentation": "The constituent neurons, in COLUMN ORDER -- the per-epoch roster of the ensemble. NDI writes these with `add_dependency_value_n` (+ndi/+element/ensemble.m:274-276), so the `_1`/`_2` suffix is the column index into the combined marked-point-process binary, and `neuron_names.txt` carries the NAMES of this same roster rather than the roster itself. Typed to `subject` because a neuron is an element and `migrators_j.element` promotes an element to a subject with its id PRESERVED. This is what the NDI second pass (ndi.migrate.internal.ensembleMembership) reads to mint the signed epoch-scoped `member_of` edges; the plan's original premise that it had to read the file bytes was WRONG.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "multiple": true,
             "min_count": 0
         }

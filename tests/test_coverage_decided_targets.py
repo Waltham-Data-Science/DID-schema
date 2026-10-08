@@ -93,6 +93,15 @@ def _md_row(cls):
     raise AssertionError(f"no rendered ledger row for `{cls}`")
 
 
+def _cov():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "cov_supersession", os.path.join(REPO_ROOT, "tools", "coverage.py"))
+    cov = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cov)
+    return cov
+
+
 def _built_classes():
     with open(INDEX) as fh:
         return {e["class_name"] for e in json.load(fh)["schemas"]}
@@ -391,8 +400,13 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     """A target nobody can find is a typo, not a plan."""
     built = _built_classes()
     rows = _rows()
+    # A name retired by the 2026-10-08 composition PROPOSAL resolves through
+    # coverage.py's supersession table (`software` -> `entity`,
+    # `time_observation` -> `observation` + `time`); what it resolves to must exist.
+    sup = _cov().SUPERSEDED_BY_ENTITY_COMPOSITION
     bad = [(r["v1_class"], t) for r in rows
-           for t in r["decided_targets"] if t not in built]
+           for t in r["decided_targets"]
+           if not all(x in built for x in sup.get(t, [t]))]
     assert not bad, (
         f'DENOMINATOR: {len(rows)} rows, {len(built)} built classes. Decided targets naming no built class: {bad}')
 
@@ -471,8 +485,10 @@ def test_app_schema_half_is_reported_as_built():
     """
     row = next(r for r in _rows() if r["v1_class"] == "app")
     assert row["decided_targets"] == ["software"], row["decided_targets"]
-    assert "software" in _built_classes(), (
-        "`software` is not in the built set -- re-check this test's premise "
+    # `software` is an `entity` type since 2026-10-08 (PROPOSAL), so the target
+    # is built when `entity` is.
+    assert "entity" in _built_classes(), (
+        "`entity` is not in the built set -- re-check this test's premise "
         "before relaxing it")
     bs = row["build_state"]
     assert bs["schema_targets_built"] == ["software"], bs

@@ -14,7 +14,7 @@
             "name": "product_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the bought product/lot this chemical came from. Part of what makes two chemical documents distinct.",
-            "must_refer_to_document_class": "product"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

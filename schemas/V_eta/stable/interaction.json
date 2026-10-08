@@ -25,13 +25,13 @@
             "name": "instrument_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; entity_id is the patient. Empty for hand measurements (D2).",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Empty for hand/DAQ measurements; REQUIRED on calculations (calculation.require_inherited). Supersedes the v1 `app` block.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "method_parameters_id",

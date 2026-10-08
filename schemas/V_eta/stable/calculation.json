@@ -8,7 +8,10 @@
             }
         ],
         "maturity_level": "stable",
-        "abstract": true
+        "value_kind": {
+            "root": "value",
+            "count": 1
+        }
     },
     "depends_on": [
         {
@@ -24,13 +27,13 @@
             "name": "interpreter_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). Present whenever the calculator runs in one; absent for a compiled program, which has none (#73 item 53, made optional 2026-10-04; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "operating_system_id",
             "mustBeNonEmpty": true,
             "documentation": "The operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem).",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

@@ -8,7 +8,10 @@
             }
         ],
         "maturity_level": "stable",
-        "abstract": true
+        "value_kind": {
+            "root": "value",
+            "count": 1
+        }
     },
     "depends_on": [],
     "file": [],

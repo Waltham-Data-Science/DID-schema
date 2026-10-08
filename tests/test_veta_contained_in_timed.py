@@ -31,6 +31,6 @@ def test_contained_in_may_carry_a_time_reference():
         rows = _relation_rows(json.load(f))
     row = [r for r in rows if r["relation"]["name"] == "contained_in"]
     assert len(row) == 1
-    assert row[0]["relation"]["node"] == "RO:0001018"
+    assert row[0]["relation"]["node"] == "ro:0001018"   # lowercase prefix, 2026-10-08
     assert row[0]["timed"] is True
     assert row[0]["ordered"] is False

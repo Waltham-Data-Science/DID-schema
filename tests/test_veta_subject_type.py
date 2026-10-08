@@ -16,21 +16,25 @@ def _fields(cls):
 
 
 def test_subject_type_is_an_optional_bound_term_over_seven_values():
-    t = _fields("subject")["type"]
+    """`subject.type` became `entity.type` 2026-10-08 (PROPOSAL,
+    V_eta_entity_composition_plan.md sec. 4): REQUIRED now, because it is what
+    tells a worm from a dataset, and widened past the seven physical kinds,
+    which it still begins with."""
+    t = _fields("entity")["type"]
     assert t["type"] == "ontology_term"
-    assert t["mustBeNonEmpty"] is False
+    assert t["mustBeNonEmpty"] is True
     b = t["constraints"]["binding"]
     assert b["strength"] == "required"
-    assert b["root"] == "did_subject_type"
-    assert [v["name"] for v in b["values"]] == [
+    assert b["root"] == "did_entity_type"
+    assert [v["name"] for v in b["values"]][:7] == [
         "organism", "culture", "tissue", "cell", "group", "device", "material"]
     # The two values the design turned on: no "cell population", no "population".
     assert "cell population" not in t["documentation"]
 
 
 def test_subject_stays_a_bare_identity_otherwise():
-    assert set(_fields("subject")) == {"local_identifier", "description", "name",
-                                       "type"}
+    assert set(_fields("entity")) == {"type", "name", "local_identifier",
+                                      "description", "global_identifier"}
 
 
 def test_distributive_is_an_optional_boolean_on_statements_and_relations():

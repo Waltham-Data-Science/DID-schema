@@ -277,8 +277,8 @@ def test_scan_actually_read_something():
     """Rule 5. A zero-denominator scan reports 'clean' and means 'blind'."""
     stats, _, _ = _scan()
     print(_denominator(stats))
-    assert stats["files"] >= 200, _denominator(stats)
-    assert stats["files_with_fields"] >= 200, _denominator(stats)
+    assert stats["files"] >= 150, _denominator(stats)   # 220 -> 170 on 2026-10-08: join leaves and entity classes merged
+    assert stats["files_with_fields"] >= 150, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass
     # vacuously; it is 38 types today.

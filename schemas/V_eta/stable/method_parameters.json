@@ -14,19 +14,19 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "Which program these settings configure.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
-            "name": "subject_id",
+            "name": "entity_id",
             "mustBeNonEmpty": false,
-            "documentation": "OPTIONAL scope: settings that apply to ONE subject (an element-subject). Precedence comes from THIS and epoch_id -- not from the self-edge.",
-            "must_refer_to_document_class": "subject"
+            "documentation": "OPTIONAL scope: settings that apply to ONE entity. (`subject_id` until 2026-10-08.)",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "OPTIONAL scope: settings that apply to ONE epoch.",
-            "must_refer_to_document_class": "epoch"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "parent_id",

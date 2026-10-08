@@ -765,6 +765,30 @@ def helper_entries(v1_class, veta_class):
 # they are ACKNOWLEDGED here, not allowed silently. REMOVE BOTH ENTRIES when the
 # DID-matlab rename lands -- until then a migrated document of either class does not
 # validate against this schema, which is why PR #76 must not merge ahead of it.
+# 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): each retired name and what
+# a document of it becomes. A join leaf becomes its direction with the value kind as a
+# mixin; a merged entity class becomes `entity` with that `type`.
+_JOIN_KINDS = {
+    "assertion": ["date", "term"],
+    "observation": ["acceleration", "concentration", "count", "current", "frequency",
+                    "humidity", "intensity", "length", "mass", "position", "pressure",
+                    "score", "temperature", "term", "time", "velocity", "voltage",
+                    "volume"],
+    "manipulation": ["dose", "item", "temperature", "term"],
+    "calculation": ["acceleration", "area", "contrast_sensitivity", "count",
+                    "harmonic_component", "intensity", "item", "label", "length",
+                    "model_fit", "position", "receptive_field", "score", "term", "time",
+                    "velocity", "voltage"],
+}
+SUPERSEDED_BY_ENTITY_COMPOSITION = {
+    f"{_k}_{_d}": [_d, _k] for _d, _ks in _JOIN_KINDS.items() for _k in _ks}
+SUPERSEDED_BY_ENTITY_COMPOSITION["speed_tuning_calculation"] = ["tuning_curve_calculation"]
+for _e in ("subject", "strain", "product", "software", "person", "organization",
+           "funding", "web_resource", "dataset", "study", "publication", "session",
+           "epoch"):
+    SUPERSEDED_BY_ENTITY_COMPOSITION[_e] = ["entity"]
+assert len(SUPERSEDED_BY_ENTITY_COMPOSITION) == 55, len(SUPERSEDED_BY_ENTITY_COMPOSITION)
+
 KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "absolute_reference", "relative_reference",
                   # #65 increment 3b, 2026-09-25: deleted SCHEMA-FIRST by team
@@ -816,7 +840,19 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # schema already. Remove these when the migrators move.
                   "data_type", "subject_statement", "subject_assertion",
                   "subject_interaction", "subject_observation",
-                  "subject_manipulation", "subject_calculation"}
+                  "subject_manipulation", "subject_calculation",
+                  # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): the
+                  # 42 direction-by-value join leaves go (a statement's value kind
+                  # is a mixin on `observation` / `assertion` / ...), and 13 entity
+                  # classes merge into one `entity` with a bound `type`. The pinned
+                  # pre-#73 migrators and NDI's second pass still mint these names;
+                  # remove them when the migrators move (PR #76 checklist).
+                  *SUPERSEDED_BY_ENTITY_COMPOSITION}
+
+
+def _target_built(name, veta):
+    """A target class is built when it, or everything that replaced it, is in `veta`."""
+    return all(x in veta for x in SUPERSEDED_BY_ENTITY_COMPOSITION.get(name, [name]))
 
 
 def guardrail(veta, emitted):
@@ -1763,8 +1799,12 @@ def build_ledger():
         _eb = tinfo.get("emitted_by")
         build_state = {
             "schema_targets_named": len(_named),
-            "schema_targets_built": sorted(t for t in _named if t in veta),
-            "schema_targets_missing": sorted(t for t in _named if t not in veta),
+            # A target retired by the 2026-10-08 composition PROPOSAL is built when
+            # what replaced it is (`time_observation` -> `observation` + `time`,
+            # `software` -> `entity`): the decision names a shape, and the shape
+            # is now spelled as a direction plus a mixin, or an entity type.
+            "schema_targets_built": sorted(t for t in _named if _target_built(t, veta)),
+            "schema_targets_missing": sorted(t for t in _named if not _target_built(t, veta)),
             # A migrator implements the decision only when it EMITS the decided
             # class. Emitting the source class back out is a passthrough.
             "migrator_emits_decided_targets": bool(

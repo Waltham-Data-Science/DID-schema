@@ -145,9 +145,11 @@ def test_harmonic_component_calculation_is_restored():
     re-add it silently"). It is not silent: it is inverted here, beside its
     reason, so the two decisions cannot be confused. The restoration's own
     TEAM-SIGN-OFF line is the team's to add (Operating Rule 4)."""
-    _tier, d = BUILT["harmonic_component_calculation"]
-    supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    assert supers == ["calculation", "harmonic_component"], supers
+    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md sec. 1): the leaf is a
+    # `calculation` document listing `harmonic_component`; no join class is built.
+    assert "harmonic_component_calculation" not in BUILT
+    assert "harmonic_component" in BUILT and "calculation" in BUILT
+    assert BUILT["calculation"][1]["document_class"]["value_kind"]["root"] == "value"
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
@@ -501,7 +503,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # TWENTY-THIRD MOVEMENT, re-derived not bumped: 218 -> 220 on 2026-10-05, the
     # time_calculation and acceleration_calculation leaves (jess, the Haley import's
     # stage 11). A leaf declares no fields, so the INERT list below is untouched.
-    assert walked == 220, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-FOURTH MOVEMENT, re-derived not bumped: 220 -> 166 on 2026-10-08
+    # (PROPOSAL, V_eta_entity_composition_plan.md): 42 join leaves and 13 entity
+    # classes deleted, `text` added. A leaf declares no fields; the entities' fields
+    # carried no min/max. The INERT list below is untouched.
+    assert walked == 166, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
@@ -563,7 +569,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
         "extent and the stimid move has no target.")
     assert names == {"keys", "complete"}
     assert {f["name"] for f in BUILT["value"][1]["fields"]} == {
-        "datum_type", "source_datum_type", "data_body"}
+        "data_type", "source_data_type", "data_body"}   # datum_type renamed 2026-10-08
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.
@@ -598,7 +604,8 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     # #73 item 57 (2026-09-25): the epoch's `session_id` EDGE is dropped. Its
     # session is `base.session_id`, required on every document, and session
     # documents are 1:1 with those values (#51) -- the edge restated it.
-    epoch = BUILT["epoch"][1]
+    # an epoch is an `entity` of type epoch since 2026-10-08 (PROPOSAL)
+    epoch = BUILT["entity"][1]
     assert "session_id" not in {x["name"] for x in epoch["depends_on"]}
     base = BUILT["base"][1]
     sid = next(f for f in base["fields"] if f["name"] == "session_id")

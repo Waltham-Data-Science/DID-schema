@@ -12576,6 +12576,358 @@ if _card_bad:
                      + ", ".join(_card_bad))
 
 
+# ---------- 12.12 one entity class, statements by composition, CURIE identifiers (2026-10-08) ----------
+# PROPOSAL built ahead of signature at Jess's request (2026-10-08, "I'll sign them
+# after you make the changes"); the record is V_eta_entity_composition_plan.md,
+# whose sections 1-9 these blocks follow. Nothing here is signed.
+def _all_class_files():
+    for _tier in TIERS:
+        _dir = os.path.join(VETA, _tier)
+        if not os.path.isdir(_dir):
+            continue
+        for _fn in sorted(os.listdir(_dir)):
+            if not _fn.endswith(".json"):
+                continue
+            _fp = os.path.join(_dir, _fn)
+            _o = load(_fp)
+            if isinstance(_o, dict) and "document_class" in _o:
+                yield _tier, _fp, _o
+
+def _save(fp, obj):
+    with open(fp, "w") as _fh:
+        json.dump(obj, _fh, indent=4)
+        _fh.write("\n")
+
+_DIRECTIONS = ("assertion", "observation", "manipulation", "calculation")
+
+# -- section 1: statements by composition --
+# Every `<kind>_<direction>` leaf declares nothing of its own, so it goes; the
+# document lists its value kind's chain after its own instead. A named
+# calculator stays only when it is a v1 calculator with content of its own.
+_supers = {}
+_owns = {}
+for _t, _fp, _o in _all_class_files():
+    _c = _o["document_class"]["class_name"]
+    _supers[_c] = [s["class_name"] for s in _o["document_class"].get("superclasses", [])]
+    _owns[_c] = bool(_o.get("fields")) or bool(_o.get("depends_on"))
+def _ancestors(c):
+    out = []
+    for p in _supers.get(c, []):
+        out += [p] + _ancestors(p)
+    return out
+_JOIN_LEAVES = sorted(
+    c for c in _supers
+    if c not in _DIRECTIONS and set(_ancestors(c)) & set(_DIRECTIONS)
+    # term_assertion's only content is `strain_id`, which section 5 removes
+    and (not _owns[c] or c == "term_assertion"))
+if len(_JOIN_LEAVES) != 42:
+    raise SystemExit(f"12.12: expected 42 join leaves, found {len(_JOIN_LEAVES)}: {_JOIN_LEAVES}")
+for _c in _JOIN_LEAVES:
+    os.remove(path_of(_c)[1])
+for _c in _DIRECTIONS:
+    _t, _p = path_of(_c)
+    _d = load(_p)
+    _d["document_class"].pop("abstract", None)
+    _d["document_class"]["value_kind"] = {"root": "value", "count": 1}
+    write(_t, _c, _d)
+_m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_m["$defs"]["document_class_header"]["properties"]["value_kind"] = {
+    "type": "object",
+    "required": ["root", "count"],
+    "additionalProperties": False,
+    "properties": {"root": {"type": "string"}, "count": {"type": "integer", "minimum": 0}},
+    "description": (
+        "Composition (V_eta_entity_composition_plan.md sec. 1): a document of this class "
+        "lists, after its own chain, the chain of `count` concrete descendants of `root` "
+        "(a value kind), minus the classes its own chain already holds. A class whose "
+        "own chain already contains a descendant of `root` (a named calculator) takes "
+        "none. Inherited by subclasses.")}
+_save(os.path.join(VETA, "stable", "did_schema_meta.json"), _m)
+
+# -- section 2: `datum_type` becomes `data_type`, needed only for bytes --
+for _t, _fp, _o in _all_class_files():
+    with open(_fp) as _fh:
+        _txt = _fh.read()
+    _new = _txt.replace("datum_type", "data_type")
+    if _new != _txt:
+        with open(_fp, "w") as _fh:
+            _fh.write(_new)
+_t, _p = path_of("value")
+_d = load(_p)
+_d["rules"] = [{
+    "name": "data_type_when_bytes", "fields": ["data_type", "data_body"],
+    "statement": ("`data_type` is present when the value has bytes the schema does not "
+                  "type: `data_body` true, or an inline value that is not a declared "
+                  "cell (a bare numeric or text array). A typed cell already says its "
+                  "type (`temperature.value.celsius` is a double), so it needs none.")}]
+for _f in _d["fields"]:
+    if _f["name"] == "data_type":
+        _f["documentation"] = (
+            "How this value's bytes are encoded -- the ONE place the encoding lives (a "
+            "body never repeats it). Needed only for bytes the schema does not type "
+            "(rule `data_type_when_bytes`). `datum_type` until 2026-10-08, renamed once "
+            "the class `data_type` became `value`; it is the v1 spelling of the same "
+            "fact (binaryseries_parameters, ngrid, ...).")
+write(_t, "value", _d)
+
+# -- section 3: `text`, a value kind --
+write("draft", "text", doc("text", ["value"], maturity="draft", fields=[
+    field("value", "structure",
+          "Text, one cell per value. What the text IS -- a given name, an email, how to "
+          "cite -- is the statement's `variable`; there are no `name` or `email` kinds, "
+          "because neither has a canonical form to normalise onto.",
+          scalar=False, sub_fields=[
+              subfield("text", "char", "The text."),
+              subfield("language", "char",
+                       "Optional: the language, a BCP 47 tag ('en', 'de-CH'). Blank "
+                       "when unknown or not applicable."),
+          ])]))
+
+# -- section 4: one `entity` class --
+_ENTITY_TYPES = [
+    ("organism", "one whole living individual"),
+    ("culture", "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture"),
+    ("tissue", "part of an organism: a slice, a biopsy, a region"),
+    ("cell", "one cell"),
+    ("group", "an entity whose members are entities, by `member_of`: a cohort, an ensemble"),
+    ("device", "an instrument or a piece of apparatus"),
+    ("material", "a non-living object or substance: an agar plate"),
+    ("strain", "a genetically defined line; its members are `instance_of` it"),
+    ("product", "something bought: a reagent, a device model; units are `instance_of` it"),
+    ("software", "a program, at a version"),
+    ("person", "a person"),
+    ("organization", "an institution, a lab, a company, a funder"),
+    ("funding", "a grant or award"),
+    ("dataset", "a published body of data, at a version"),
+    ("study", "a unit of research with its own question and design"),
+    ("publication", "an article or preprint"),
+    ("protocol", "a written procedure"),
+    ("session", "a period of work: one sitting at the rig, one day of an assay"),
+    ("epoch", "one recording: the files one acquisition system wrote for one stretch of time"),
+]
+_PHYSICAL = ["organism", "culture", "tissue", "cell", "group", "device", "material"]
+_GONE_ENTITIES = ["subject", "strain", "product", "software", "person", "organization",
+                  "funding", "web_resource", "dataset", "study", "publication",
+                  "session", "epoch"]
+_old_bindings = []           # bound fields of the deleted classes -> statement bindings
+for _c in _GONE_ENTITIES:
+    _t, _p = path_of(_c)
+    if _t is None:
+        raise SystemExit(f"12.12: no {_c} to merge into entity")
+    for _f in load(_p).get("fields", []):
+        _b = (_f.get("constraints") or {}).get("binding")
+        if _b and _f["name"] != "type":
+            _old_bindings.append((_c, _f["name"], _b))
+    os.remove(_p)
+_t, _p = path_of("entity")
+_d = load(_p)
+_d["document_class"].pop("abstract", None)
+_d["fields"] = [
+    field("type", "ontology_term",
+          "What kind of entity this is -- " + " | ".join(
+              f"{n} ({w})" for n, w in _ENTITY_TYPES) + ". Bound, required. What each "
+          "type requires is in `binding_registry_meta.json` `entity_type_bindings`. The "
+          "finer kind (species, cell type, instrument type) is an assertion.",
+          non_empty=True,
+          constraints={"binding": {
+              "root": "did_entity_type", "expansion": "value_set",
+              "values": [{"node": "", "name": n} for n, _w in _ENTITY_TYPES],
+              "strength": "required", "source": "value_set"}}),
+    field("name", "char",
+          "A display name, for people ('Assay Plate 0011', 'N2', 'Jess Haley'). Need not "
+          "be unique."),
+    field("local_identifier", "char",
+          "A handle, unique within its dataset among entities of its type. Required for "
+          "the types that `entity_type_bindings` says require it."),
+    field("description", "char", "Free text."),
+    field("global_identifier", "string",
+          "Identifiers this entity is known by outside the dataset, each a CURIE whose "
+          "prefix is registered in CURIE_lookups_meta.json ('orcid:0000-0002-1825-0097', "
+          "'doi:10.1234/abc', 'wormbase:WBStrain00000001') or, where no prefix exists, a "
+          "full IRI ('https://lab.org/haley'). The local id must match its prefix's "
+          "`pattern`. A URL is an address for this entity, so it lives here rather than "
+          "on a separate document.", scalar=False),
+]
+_d["depends_on"] = [{
+    "name": "time_reference_id", "mustBeNonEmpty": False,
+    "documentation": (
+        "Optional: when this entity existed or took place -- a worm from hatching to "
+        "death, a plate from pouring to discarding, a session from start to end, an "
+        "epoch's extent, one member per clock (the epoch's epochtable)." + _UNIQ_DOC),
+    "must_refer_to_document_class": "time_reference", "multiple": True,
+    "min_count": 0, "referent_unique_by": "value.clock", "ordered": False}]
+_d["fields"][0]["fields"] = _named_type_subfields("ontology_term")
+write(_t, "entity", _d)
+
+# every edge that pointed at a deleted entity points at `entity`
+for _t, _fp, _o in _all_class_files():
+    _changed = False
+    for _e in _o.get("depends_on", []):
+        # a comma-separated list of classes is legal here ("chemical,formulation,strain")
+        _tgt = _e.get("must_refer_to_document_class") or ""
+        _nt = []
+        for _x in _tgt.split(","):
+            _x = "entity" if _x in _GONE_ENTITIES else _x
+            if _x and _x not in _nt:
+                _nt.append(_x)
+        if ",".join(_nt) != _tgt:
+            _e["must_refer_to_document_class"] = ",".join(_nt)
+            _changed = True
+    if _changed:
+        _save(_fp, _o)
+
+# -- section 8: acquisition_system is configuration --
+_t, _p = path_of("acquisition_system")
+_d = load(_p)
+_d["document_class"]["superclasses"] = [{"class_name": "base"}]
+_d["depends_on"].append(dep(
+    "device_id", "entity",
+    "Optional: the hardware this system reads, an entity of type device (the "
+    "amplifier, the camera). The acquisition system itself is configuration -- which "
+    "software reads which files -- not a thing in the world.", non_empty=False))
+write(_t, "acquisition_system", _d)
+
+# -- section 9: method_parameters scopes to entity_id --
+_t, _p = path_of("method_parameters")
+_d = load(_p)
+for _e in _d["depends_on"]:
+    if _e["name"] == "subject_id":
+        _e["name"] = "entity_id"
+        _e["documentation"] = (
+            "OPTIONAL scope: settings that apply to ONE entity. (`subject_id` until "
+            "2026-10-08.)")
+write(_t, "method_parameters", _d)
+
+# -- registry: sections 4, 5, 7 and 8 --
+_rp = os.path.join(VETA, "stable", "binding_registry_meta.json")
+_reg = load(_rp)
+def _types(ts):
+    out = []
+    for t in ts:
+        out += _PHYSICAL if t == "subject" else [t]
+    return out
+_GONE_REL = {"stored_at", "hosted_by", "has_homepage"}
+_rows = []
+for _r in _reg["relation_bindings"]:
+    _n = _r["relation"]["name"]
+    if _n in _GONE_REL:
+        continue
+    for _k in ("child_types", "parent_types", "member_types"):
+        if _r.get(_k):
+            _r[_k] = _types(_r[_k])
+    if _n == "follows_protocol":
+        _r["parent_types"] = ["protocol"]
+        _r["parent_role"] = "the protocol"
+    elif _n == "input_data":
+        _r["parent_types"] = ["dataset"]
+    elif _n == "documented_by":
+        _r["parent_types"] = ["protocol", "publication"]
+        _r["parent_role"] = "the document (a protocol or a publication)"
+    elif _n == "instance_of":
+        _r["parent_types"] = ["product", "strain"]
+        _r["parent_role"] = "the product or strain it is an instance of"
+        _r["child_role"] = "the instance (a unit of a product, a member of a strain)"
+    _rows.append(_r)
+def _relrow(name, child_role, parent_role, child_types, parent_types):
+    # `_rel` is rebound to a schema patcher further up the file, so the row is spelled out
+    return {"relation": {"node": "", "name": name}, "class": "directed_relation",
+            "child_role": child_role, "parent_role": parent_role,
+            "child_types": child_types, "parent_types": parent_types,
+            "timed": False, "ordered": False}
+_rows.append(_relrow("sold_by", "the product", "the vendor", ["product"], ["organization"]))
+_rows.append(_relrow("recorded_by", "the epoch", "the acquisition system that recorded it",
+                     ["epoch"], ["acquisition_system"]))
+_reg["relation_bindings"] = _rows
+for _r in _reg["subject_statement_bindings"] + _reg.get("binding_examples", []):
+    _cls = _r.get("class", "")
+    for _dir in _DIRECTIONS:
+        if _cls.endswith("_" + _dir):
+            _r["class"] = _dir
+            _r["value_kind"] = _cls[:-len(_dir) - 1]
+for _c, _fname, _b in _old_bindings:
+    _row = {"variable": {"node": "", "name": _fname.replace("_", " ")},
+            "class": "assertion", "value_kind": "term", "entity_type": _c,
+            "subject_defining": False}
+    _row.update({k: v for k, v in _b.items() if k != "strength"})
+    _reg["subject_statement_bindings"].append(_row)
+# no `strength`: tools/regen_binding_strengths.py derives it from the field
+_reg["entity_field_bindings"] = [{
+    "class": "entity", "field": "type", "vocabulary": "did", "term_set": "did_entity_type",
+    "closed": True}]
+_REQUIRES_LOCAL = set(_PHYSICAL) | {"session", "epoch"}
+_reg["entity_type_bindings"] = [
+    {"type": n, "description": w,
+     "requires": ["local_identifier"] if n in _REQUIRES_LOCAL else ["name"]}
+    for n, w in _ENTITY_TYPES]
+_save(_rp, _reg)
+
+# -- section 6: CURIE identifiers --
+# Patterns fetched from https://bioregistry.io/api/registry/<prefix> on 2026-10-08.
+# The registry's own convention is lowercase prefixes, matched case-insensitively,
+# which is also Bioregistry's normalised prefix; term nodes are normalised to it.
+_BIOREGISTRY = {
+    "orcid": ("ORCID", "https://orcid.org/", r"^\d{4}-\d{4}-\d{4}-\d{3}(\d|X)$"),
+    "doi": ("Digital Object Identifier", "https://doi.org/", r"^10.\d{2,9}/.*$"),
+    "ror": ("Research Organization Registry", "https://ror.org/", r"^0[a-hj-km-np-tv-z|0-9]{6}[0-9]{2}$"),
+    "pubmed": ("PubMed", "https://www.ncbi.nlm.nih.gov/pubmed/", r"^\d+$"),
+    "pmc": ("PubMed Central", "http://europepmc.org/articles/", r"^PMC\d+(\.\d+)?$"),
+    "rrid": ("Research Resource Identifier", "https://scicrunch.org/resolver/RRID:", r"^[a-zA-Z]+.+$"),
+    "wikidata": ("Wikidata", "http://www.wikidata.org/entity/", r"^(Q|P|E|L)\d+$"),
+    "swh": ("Software Heritage", "https://archive.softwareheritage.org/browse/swh:", r"^[1-9]:(cnt|dir|rel|rev|snp):[0-9a-f]+(;(origin|visit|anchor|path|lines)=\S+)*$"),
+    "ncbitaxon": ("NCBI Taxonomy", "http://purl.obolibrary.org/obo/NCBITaxon_", r"^(\d+)|([a-zA-Z_]+)$"),
+    "wormbase": ("WormBase", "https://www.wormbase.org/get?name=", r"^(CE[0-9]{5}|WB[A-Z][a-z]+\d+)$"),
+    "cellosaurus": ("Cellosaurus", "https://www.cellosaurus.org/CVCL_", r"^[A-Z0-9]{4}$"),
+    "addgene": ("Addgene", "http://addgene.org/", r"^[0-9]{5}(-[a-zA-Z0-9-]{0,7})?$|^[0-9]{10}$"),
+    "ncit": (None, None, r"^(C|R|P|A|NHC)\d+$"),
+    "iao": (None, None, r"^\d{7}$"),
+    "pato": (None, None, r"^\d{7}$"),
+    "uberon": (None, None, r"^\d+$"),
+    "obi": (None, None, r"^\d{7}$"),
+    "stato": (None, None, r"^\d{7}$"),
+    "emapa": (None, None, r"^\d+$"),
+    "bfo": ("Basic Formal Ontology", "http://purl.obolibrary.org/obo/BFO_", r"^\d{7}$"),
+    "ro": ("Relation Ontology", "http://purl.obolibrary.org/obo/RO_", r"^(HOM)?\d{7}$"),
+    "cl": ("Cell Ontology", "http://purl.obolibrary.org/obo/CL_", r"^\d{7}$"),
+    "chebi": ("Chemical Entities of Biological Interest", "http://purl.obolibrary.org/obo/CHEBI_", r"^\d+$"),
+    "wbls": ("C. elegans development ontology", "http://purl.obolibrary.org/obo/WBls_", r"^\d{7}$"),
+    "wbphenotype": ("C. elegans phenotype ontology", "http://purl.obolibrary.org/obo/WBPhenotype_", r"^\d{7}$"),
+    "wbbt": ("C. elegans gross anatomy ontology", "http://purl.obolibrary.org/obo/WBbt_", r"^\d{7}$"),
+}
+_cp = os.path.join(VETA, "stable", "CURIE_lookups_meta.json")
+_curie = load(_cp)
+for _px, (_label, _base, _pat) in _BIOREGISTRY.items():
+    _e = _curie["prefixes"].get(_px)
+    if _e is None:
+        _e = {"label": _label, "uri_base": _base,
+              "uri_style": "obo_underscore" if _base and "/obo/" in _base else "direct",
+              "approximate": False, "documentation": f"Bioregistry prefix `{_px}`."}
+        _curie["prefixes"][_px] = _e
+    _e["pattern"] = _pat
+    _e["pattern_source"] = f"https://bioregistry.io/api/registry/{_px} (2026-10-08)"
+_curie["prefixes"]["ndicloud"] = {
+    "label": "NDI Cloud dataset", "uri_base": "", "uri_style": "local",
+    "approximate": False, "pattern": r"^[0-9a-f]{24}$",
+    "documentation": "A dataset's id on NDI Cloud ('ndicloud:68a1...'). Ours; not in "
+                     "Bioregistry. Replaces the `stored_at` relation."}
+_curie["documentation"] = (
+    _curie["documentation"] + " Each prefix may carry a `pattern` (a regular "
+    "expression for the local id, from Bioregistry where it has one) so a CURIE's form "
+    "can be checked; `entity.global_identifier` uses the same prefixes "
+    "(V_eta_entity_composition_plan.md sec. 6).")
+_save(_cp, _curie)
+
+def _lower_prefix(_m):
+    return _m.group(1) + _m.group(2).lower() + ":"
+_NODE_RE = _re.compile(r'("(?:node|root_node)": ")([A-Za-z][A-Za-z0-9_.]*):')
+for _fp in [p for _t, p, _o in _all_class_files()] + [_rp]:
+    with open(_fp) as _fh:
+        _txt = _fh.read()
+    _new = _NODE_RE.sub(_lower_prefix, _txt)
+    if _new != _txt:
+        with open(_fp, "w") as _fh:
+            _fh.write(_new)
+
+
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
 # tested WITHOUT running a build. A property that can only be exercised by

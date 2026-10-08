@@ -59,6 +59,18 @@ of the value kinds, `data_type`, becomes `value`: a parent names what each child
 "data type" read as an encoding, which is `datum_type`. The leaves keep their names
 (`temperature_observation`, `term_assertion`).
 
+**One entity class; statements by composition** (2026-10-08, PROPOSAL built ahead of
+signature, `V_eta_entity_composition_plan.md`). An entity is something the science
+describes, the named periods of an experiment included; configuration (what the software
+needs to read the data) is its own class off `base`. So every entity is one `entity` class
+with a bound `type` (organism ... session, epoch, protocol): its fields are identity only
+(`name`, `local_identifier`, `description`, `global_identifier`, and when it existed as a
+`time_reference`), and what is true of it is a statement. A statement's class is its
+direction, and its value kind is a mixin listed in its `superclasses`: there are no
+`temperature_observation` or `term_assertion` classes any more, only an `observation` or an
+`assertion` whose document also lists `temperature` or `term` (T3). `datum_type` is renamed
+`data_type`. A strain is an entity, and a subject is `instance_of` it (T17).
+
 **Observation vs calculation is decided by provenance, not by whether software ran**
 (#73, 2026-09-23). A statement whose inputs are **other statements in the dataset** is a
 `calculation` and records them in `input_id` (T15); a statement produced from data
@@ -88,6 +100,15 @@ Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`
 `dose_manipulation`, `term_assertion`, `timed_sequence_manipulation`,
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
+
+**AMENDED 2026-10-08 -- the product is a document, not a class** (PROPOSAL,
+`V_eta_entity_composition_plan.md` sec. 1). A statement document's class is its direction
+and its `superclasses` list the value kind's chain after its own
+(`observation` + `temperature`), so the direction × value product exists only in documents.
+A direction declares `value_kind {root: value, count: 1}`; the validator accepts exactly one
+kind. A NAMED class remains only for a v1 calculator with content of its own
+(`tuning_curve_calculation` and its four subclasses). "A leaf is made when it is needed"
+below is therefore moot for the joins: no join is ever made.
 
 **A relation can be a leaf the same way** (#73 review item 70, 2026-09-29): relation × a
 data type, e.g. `clock_alignment ⊂ relation, polynomial`, when the relation's own value is
@@ -647,6 +668,12 @@ Containment carries context, so a reader keeps it apart:
 
 The reverse question, what was stated of anything inside a container, is a walk the reader
 asks for explicitly (the container's descendants, then their statements), never inheritance.
+
+**A fourth path, from a type to its instances** (2026-10-08, PROPOSAL,
+`V_eta_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
+product). What is **asserted** of the strain or the product is **true of each instance**: N2's
+genotype is each N2 worm's genotype. Like `part_of`, assertions pass and interactions do not
+(a reading of one bottle of a product is not a reading of every bottle), and never upward.
 
 ---
 

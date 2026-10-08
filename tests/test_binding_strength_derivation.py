@@ -385,7 +385,7 @@ def test_the_registry_list_table_is_not_a_second_hand_kept_copy():
     hand-kept copies of one list is the defect this whole change is about, so
     they are asserted equal rather than merely both present."""
     assert rbs.REGISTRY_LISTS == cbg.REGISTRY_LISTS
-    assert len(rbs.REGISTRY_LISTS) == 4
+    assert len(rbs.REGISTRY_LISTS) == 5   # + entity_type_bindings, 2026-10-08
 
 
 # ---------------------------------------------------------------------------
@@ -407,7 +407,12 @@ def test_the_live_derivation_reports_its_denominator_first():
     # and the first two undirected rows (paired_with, same_as) added. 29 -> 30 on
     # 2026-09-30 (jess): `instance_of` (an instrument subject -> its product);
     # 30 -> 31 the same day: `awarded_to` (an award -> its recipient).
-    assert total == 44, f'registry row count moved: {total}'
+    # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): subject_statement 6 ->
+    # 11 (five bound fields of merged entities -- dataset accessibility, ethics
+    # assessment, experimental approach; study factors, design -- became variable-keyed
+    # term-assertion rows), relation 31 -> 30 (-stored_at, -hosted_by, -has_homepage,
+    # +sold_by, +recorded_by), entity_field 3 -> 1 (entity.type), + entity_type 19.
+    assert total == 65, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -415,11 +420,12 @@ def test_the_live_derivation_reports_its_denominator_first():
     # subject_statement_bindings moved 5 -> 6 on 2026-09-22 when #120 added
     # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
-    ("subject_statement_bindings", 6),
+    ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above)
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 31),
-    ("entity_field_bindings", 3),
+    ("relation_bindings", 30),            # 31 -> 30, 2026-10-08
+    ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
+    ("entity_type_bindings", 19),         # new 2026-10-08
     ("binding_examples", 4),
 ])
 def test_the_live_registry_lists_have_the_sizes_the_record_claims(list_name,
@@ -437,5 +443,5 @@ def test_only_the_rows_that_name_a_field_carry_a_strength_in_the_live_registry()
                 with_strength.append((list_name, i))
             if row.get("class") and row.get("field"):
                 naming_a_field.append((list_name, i))
-    assert len(naming_a_field) == 3, naming_a_field
+    assert len(naming_a_field) == 1, naming_a_field   # entity.type, 2026-10-08
     assert with_strength == naming_a_field

@@ -30,4 +30,5 @@ def test_a_recipe_can_cite_its_source():
     row = [r for r in rows if r["relation"]["name"] == "documented_by"]
     assert len(row) == 1
     assert row[0]["child_types"] == ["entity", "formulation"]
-    assert row[0]["parent_types"] == ["web_resource"]
+    # web_resource retired 2026-10-08 (PROPOSAL): a recipe cites a protocol or a publication
+    assert row[0]["parent_types"] == ["protocol", "publication"]
