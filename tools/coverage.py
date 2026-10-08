@@ -808,13 +808,15 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "timed_sequence", "timed_sequence_manipulation",
                   # 2026-10-08 (Jess Haley; V_eta_tenets.md, T2 amendment): the
                   # statement family drops `subject_` and `data_type` becomes
-                  # `value`. NDI's second pass (+migrate/+internal:
-                  # hartleyBasisGratings, stimulusBathToBath,
-                  # stimulusPresentationToManipulation,
-                  # stimulusPresentationToTimedSequence, ontologyLabelSubjects)
-                  # still mints the old names; its migration CI is pinned to the
-                  # pre-#73 schema. Remove these when the NDI rename lands there.
-                  "data_type", "subject_manipulation", "subject_observation"}
+                  # `value`. The DID-matlab migrators (+migrators_j, the batch
+                  # passes) and NDI's second pass (+migrate/+internal) still mint
+                  # the old names: both are validated against the pinned pre-#73
+                  # schema (`v_eta-pre73`), which has them, and move with the rest
+                  # of #73 (the PR #76 checklist). did2.build follows the current
+                  # schema already. Remove these when the migrators move.
+                  "data_type", "subject_statement", "subject_assertion",
+                  "subject_interaction", "subject_observation",
+                  "subject_manipulation", "subject_calculation"}
 
 
 def guardrail(veta, emitted):

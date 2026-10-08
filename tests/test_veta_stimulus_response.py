@@ -151,10 +151,12 @@ def test_harmonic_component_calculation_is_restored():
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
-    """The migrator writes entity_id, time_reference_1, instrument_id,
+    """The migrator writes the entity edge, time_reference_1, instrument_id,
     derived_from_1, derived_from_2 and method_parameters_id. Each must be
     declared SOMEWHERE in the ancestor chain, or the fold is writing edges the
-    schema does not know about."""
+    schema does not know about. (The entity edge is `entity_id` since
+    2026-10-08; the migrator, validated against the pinned pre-#73 schema,
+    still writes `subject_id` until it moves with the rest of #73.)"""
     chain = ["statement", "interaction", "calculation"]
     declared = set()
     for cls in chain:
