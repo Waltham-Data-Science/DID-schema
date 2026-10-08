@@ -775,19 +775,21 @@ _JOIN_KINDS = {
                     "score", "temperature", "term", "time", "velocity", "voltage",
                     "volume"],
     "manipulation": ["dose", "item", "temperature", "term"],
-    "calculation": ["acceleration", "area", "contrast_sensitivity", "count",
+    "calculation": ["acceleration", "area", "count",
                     "harmonic_component", "intensity", "item", "label", "length",
-                    "model_fit", "position", "receptive_field", "score", "term", "time",
+                    "model_fit", "position", "score", "term", "time",
                     "velocity", "voltage"],
 }
 SUPERSEDED_BY_ENTITY_COMPOSITION = {
     f"{_k}_{_d}": [_d, _k] for _d, _ks in _JOIN_KINDS.items() for _k in _ks}
-SUPERSEDED_BY_ENTITY_COMPOSITION["speed_tuning_calculation"] = ["tuning_curve_calculation"]
 for _e in ("subject", "strain", "product", "software", "person", "organization",
            "funding", "web_resource", "dataset", "study", "publication", "session",
            "epoch"):
     SUPERSEDED_BY_ENTITY_COMPOSITION[_e] = ["entity"]
-assert len(SUPERSEDED_BY_ENTITY_COMPOSITION) == 55, len(SUPERSEDED_BY_ENTITY_COMPOSITION)
+# 39 join leaves + 13 entity classes. The eight v1 calculators keep their
+# named classes (contrast_sensitivity_, receptive_field_ and speed_tuning_
+# calculation included), so none of them is here.
+assert len(SUPERSEDED_BY_ENTITY_COMPOSITION) == 52, len(SUPERSEDED_BY_ENTITY_COMPOSITION)
 
 KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "absolute_reference", "relative_reference",
@@ -842,7 +844,7 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "subject_interaction", "subject_observation",
                   "subject_manipulation", "subject_calculation",
                   # 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): the
-                  # 42 direction-by-value join leaves go (a statement's value kind
+                  # 39 direction-by-value join leaves go (a statement's value kind
                   # is a mixin on `observation` / `assertion` / ...), and 13 entity
                   # classes merge into one `entity` with a bound `type`. The pinned
                   # pre-#73 migrators and NDI's second pass still mint these names;

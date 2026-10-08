@@ -106,8 +106,9 @@ new `variable`; it is **not** a new hand-written class. (SPEC §6)
 and its `superclasses` list the value kind's chain after its own
 (`observation` + `temperature`), so the direction × value product exists only in documents.
 A direction declares `value_kind {root: value, count: 1}`; the validator accepts exactly one
-kind. A NAMED class remains only for a v1 calculator with content of its own
-(`tuning_curve_calculation` and its four subclasses). "A leaf is made when it is needed"
+kind. A NAMED class remains for each v1 calculator (the eight vision calculators,
+`tuning_curve_calculation` ... `receptive_field_calculation`), so the calculator code
+can name it. "A leaf is made when it is needed"
 below is therefore moot for the joins: no join is ever made.
 
 **A relation can be a leaf the same way** (#73 review item 70, 2026-09-29): relation × a

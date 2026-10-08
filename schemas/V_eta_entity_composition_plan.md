@@ -25,7 +25,7 @@ lists the kind's chain in `document_class.superclasses` after its own.
       "superclasses": ["interaction", "statement", "base", "temperature", "value", "data"]}
     "temperature": {"value": [{"celsius": 21.62, ...}]}
 
-- The 42 `<kind>_<direction>` join classes go: they declared no field and no
+- The 39 `<kind>_<direction>` join classes go: they declared no field and no
   edge of their own (`term_assertion`'s `strain_id` excepted, see 4).
 - **Exactly one value kind per statement.** A direction declares
   `"value_kind": {"root": "value", "count": 1}` on its `document_class`; the
@@ -33,18 +33,19 @@ lists the kind's chain in `document_class.superclasses` after its own.
   `value` (and that kind's chain, without repeating what the class chain already
   holds). A class whose own chain already contains a kind (a named calculator)
   takes none.
-- **Named calculators: a v1 calculator that carries content of its own.** Kept:
-  `tuning_curve_calculation` (`significance`, `model_fit`) and the four with an
-  extra block -- `contrast_tuning_calculation`, `orientation_direction_tuning_calculation`,
-  `spatial_frequency_tuning_calculation`, `temporal_frequency_tuning_calculation`.
-  Folded (no content of their own): `speed_tuning_calculation` ->
-  `tuning_curve_calculation`; `contrast_sensitivity_calculation`,
-  `receptive_field_calculation`, `model_fit_calculation` -> `calculation` with
-  that value kind.
+- **Named calculators: every v1 calculator keeps a named class** (Jess,
+  2026-10-08: the calculator code names them), whether or not it adds content:
+  `tuning_curve_calculation`, `contrast_tuning_calculation`,
+  `orientation_direction_tuning_calculation`, `spatial_frequency_tuning_calculation`,
+  `temporal_frequency_tuning_calculation`, `speed_tuning_calculation`,
+  `contrast_sensitivity_calculation` and `receptive_field_calculation`. Every other
+  calculation is a generic `calculation` with a value kind; `model_fit_calculation`
+  (v1 `fitcurve` / `vmspikefit`, not vision calculators) is one of those. So 39 join
+  leaves go, not 42.
 - Search: `isa observation` AND `isa temperature`; both names are in the
   document's own superclasses, which the database indexes.
 
-To be signed: statements are a direction class plus one value-kind mixin; the join leaves and the content-free named calculators go
+To be signed: statements are a direction class plus one value-kind mixin; the join leaves go; every v1 calculator keeps a named class
 
 ## 2. `datum_type` becomes `data_type`, and is needed only for bytes
 

@@ -12599,6 +12599,13 @@ def _save(fp, obj):
         _fh.write("\n")
 
 _DIRECTIONS = ("assertion", "observation", "manipulation", "calculation")
+# The calculation classes that correspond to a v1 calculator. Each stays a named
+# class whether or not it adds content, so the calculator code can name it.
+_NAMED_CALCULATORS = {
+    "tuning_curve_calculation", "contrast_tuning_calculation",
+    "orientation_direction_tuning_calculation", "spatial_frequency_tuning_calculation",
+    "temporal_frequency_tuning_calculation", "speed_tuning_calculation",
+    "contrast_sensitivity_calculation", "receptive_field_calculation"}
 
 # -- section 1: statements by composition --
 # Every `<kind>_<direction>` leaf declares nothing of its own, so it goes; the
@@ -12619,9 +12626,12 @@ _JOIN_LEAVES = sorted(
     c for c in _supers
     if c not in _DIRECTIONS and set(_ancestors(c)) & set(_DIRECTIONS)
     # term_assertion's only content is `strain_id`, which section 5 removes
-    and (not _owns[c] or c == "term_assertion"))
-if len(_JOIN_LEAVES) != 42:
-    raise SystemExit(f"12.12: expected 42 join leaves, found {len(_JOIN_LEAVES)}: {_JOIN_LEAVES}")
+    and (not _owns[c] or c == "term_assertion")
+    # every v1 calculator keeps its named class, content or not (Jess,
+    # 2026-10-08: the calculator code names them)
+    and c not in _NAMED_CALCULATORS)
+if len(_JOIN_LEAVES) != 39:
+    raise SystemExit(f"12.12: expected 39 join leaves, found {len(_JOIN_LEAVES)}: {_JOIN_LEAVES}")
 for _c in _JOIN_LEAVES:
     os.remove(path_of(_c)[1])
 for _c in _DIRECTIONS:

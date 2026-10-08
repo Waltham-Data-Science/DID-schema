@@ -504,10 +504,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # time_calculation and acceleration_calculation leaves (jess, the Haley import's
     # stage 11). A leaf declares no fields, so the INERT list below is untouched.
     # TWENTY-FOURTH MOVEMENT, re-derived not bumped: 220 -> 166 on 2026-10-08
-    # (PROPOSAL, V_eta_entity_composition_plan.md): 42 join leaves and 13 entity
-    # classes deleted, `text` added. A leaf declares no fields; the entities' fields
+    # (PROPOSAL, V_eta_entity_composition_plan.md): 39 join leaves and 13 entity
+    # classes deleted, `text` added (166 for an hour, until the three named
+    # calculators came back). A leaf declares no fields; the entities' fields
     # carried no min/max. The INERT list below is untouched.
-    assert walked == 166, f'schema count moved; re-derive the inert set ({walked})'
+    assert walked == 169, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

@@ -291,8 +291,12 @@ def test_subject_assertion_is_genus_with_typed_leaves():
         assert dc.get("value_kind") == {"root": "value", "count": 1}, direction
         assert "statement" in _chain(direction)
     for leaf in ("term_assertion", "date_assertion", "voltage_observation",
-                 "voltage_calculation", "receptive_field_calculation"):
+                 "voltage_calculation"):
         assert leaf not in RECORDS, f"{leaf} is back"
+    # every v1 calculator keeps its named class (Jess, 2026-10-08)
+    for calc in ("tuning_curve_calculation", "speed_tuning_calculation",
+                 "contrast_sensitivity_calculation", "receptive_field_calculation"):
+        assert calc in RECORDS, f"{calc} is a named calculator and must stay"
     assert "numeric_assertion" not in RECORDS
     # a named calculator carries its kind in its chain, so it takes no mixin
     assert "tuning_curve" in _chain("tuning_curve_calculation")

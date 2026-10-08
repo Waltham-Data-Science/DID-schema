@@ -349,6 +349,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "contrast_sensitivity_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "calculation",
+                "contrast_sensitivity"
+            ],
+            "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "contrast_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1387,6 +1399,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "receptive_field_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "calculation",
+                "receptive_field"
+            ],
+            "path": "schemas/V_eta/stable/receptive_field_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "relation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1550,6 +1574,17 @@
             "path": "schemas/V_eta/stable/spatial_gene_expression_tiles.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "speed_tuning_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "tuning_curve_calculation"
+            ],
+            "path": "schemas/V_eta/stable/speed_tuning_calculation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "spike_clusters",
