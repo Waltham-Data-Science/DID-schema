@@ -41,6 +41,7 @@
   "strain",
   "subject",
   "subject_calculation",
+  "subject_statement",
   "syncgraph",
   "temperature",
   "temperature_manipulation",
@@ -62,7 +63,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 40,
+  "classes_in_the_built_set": 41,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -72,7 +73,7 @@
    "validity_observation",
    "zarr"
   ],
-  "distinct_classes_named": 60,
+  "distinct_classes_named": 61,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
   "plan_documents_cited": [
    "schemas/V_eta_daq_family_decisions.md",
@@ -88,9 +89,9 @@
    "schemas/V_eta_tenets.md",
    "schemas/V_eta_tuning_model_plan.md"
   ],
-  "rows": 23,
-  "tenets_declared": 16,
-  "tenets_with_at_least_one_row": 16,
+  "rows": 24,
+  "tenets_declared": 17,
+  "tenets_with_at_least_one_row": 17,
   "tenets_with_no_substantiated_row": []
  },
  "description": "A CURATED map: the link from a tenet to a class exists only in prose (353 T-references across schemas/*.md; 0 of 245 built schema files name a tenet), so every row carries the plan document and the verbatim line that substantiates it. A row that could not be substantiated was dropped, not softened.",
@@ -1064,6 +1065,38 @@
    "note": "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab import_V2_decisions.md #58).",
    "plan_only_classes": [],
    "tenet": "T16"
+  },
+  {
+   "after": [
+    "subject_statement",
+    "directed_relation"
+   ],
+   "after_built": [
+    "subject_statement",
+    "directed_relation"
+   ],
+   "after_not_built": [],
+   "before": [],
+   "change": "A video of an assay plate shows the plate, its patches and the worms. T17 keeps it one statement, about the plate, and names the three ways a statement reaches other subjects: `distributive` along `member_of` (true of each member), assertions along `part_of` (true of each part), and interactions along `contained_in` only as CONTEXT for the overlapping time.",
+   "citation": {
+    "anchor": "A statement describes only its subject; the graph decides what else it holds of",
+    "doc": "schemas/V_eta_tenets.md",
+    "line": 600,
+    "quote": "### T17 \u2014 A statement describes only its subject; the graph decides what else it holds of, and what is context."
+   },
+   "class_registers": {
+    "directed_relation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "subject_statement": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "Written 2026-10-08 from the Haley videos question; the reader is NDI-matlab ndi.subject (statements, 'inherited', 'context').",
+   "plan_only_classes": [],
+   "tenet": "T17"
   }
  ],
  "tenets": [
@@ -1160,8 +1193,14 @@
   {
    "id": "T16",
    "line": 553,
-   "statement": "*(Written 2026-10-03 at Jess Haley's request, from the review of the Haley import's stage 8\nmanipulations, NDI-matlab `src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md` #58. It\nsharpens T2's \"`variable` (what) / `value` / `method` (the verb)\" and T7's \"`method` = verb\",\nwhich said what each field is but not how to tell them apart when a case is borderline.)*\n\nEvery statement must read as one sentence:\n\n> the subject's **`variable`** was *[asserted / observed / set / computed]* as **`value`**, by **`method`**\n\n- **`variable` names a property of the subject, never the act.** A noun phrase that could be\n  observed as well as set: `ambient temperature`, `location`, `food availability`, `species`.\n  A manipulation and an observation of the same property share one variable, so one query\n  finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and\n  fails the sentence (\"the cohort's plate transfer was set to assay plate\").\n- **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an\n  amount, a term. It never names the act either.\n- **`method` is how it was done \u2014 the technique \u2014 and is recorded only when it adds\n  something** the variable and value do not already say, and only when it is known. \"Heating\"\n  or \"cooling\" on a move into a 4 \u00b0C cold room adds nothing; `refrigeration`, `incubation` and\n  `ambient exposure` do: the last two can both be 20 \u00b0C, and the method is what tells a\n  controlled incubator from the open bench. An unknown method is absent, never a generic word\n  (`transfer`, `manipulation`) that restates the statement's direction.\n- **The device or place that did it is the instrument** (`instrument_id`, T7) once it is a\n  subject; until then the method names the technique alone.\n- **Fallback, only when no lasting property changed** (a sham surgery, an anaesthesia):\n  `variable` is `procedure` and the value names the procedure. A procedure that did change\n  something is stated as that change, with the procedure in `method`.\n- **An assertion has no `method`** (T2): \"the cohort's species is *C. elegans*\".\n\n**Worked example** (the Haley import's stage 8; terms are names until the ontology lookup):\n\n| manipulation | leaf | method | variable | value |\n|---|---|---|---|---|\n| pour a plate | `dose_manipulation` | pouring | NGM agar | 25 mL (+ `formulation_id`) |\n| seed a patch | `dose_manipulation` | seeding | the strain (OP50) | 0.5 \u00b5L (+ `formulation_id`) |\n| into the cold room | `temperature_manipulation` | refrigeration | ambient temperature | 4 \u00b0C |\n| onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 \u00b0C |\n| into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 \u00b0C |\n| move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |\n| take food away | `term_manipulation` | \u2014 | food availability | none |\n\nThe transfer's value is the KIND of plate; the plate itself is the parent of the\n`contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs\nits `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its\n`method` only when the rule above admits one.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "statement": "*(Written 2026-10-03 at Jess Haley's request, from the review of the Haley import's stage 8\nmanipulations, NDI-matlab `src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md` #58. It\nsharpens T2's \"`variable` (what) / `value` / `method` (the verb)\" and T7's \"`method` = verb\",\nwhich said what each field is but not how to tell them apart when a case is borderline.)*\n\nEvery statement must read as one sentence:\n\n> the subject's **`variable`** was *[asserted / observed / set / computed]* as **`value`**, by **`method`**\n\n- **`variable` names a property of the subject, never the act.** A noun phrase that could be\n  observed as well as set: `ambient temperature`, `location`, `food availability`, `species`.\n  A manipulation and an observation of the same property share one variable, so one query\n  finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and\n  fails the sentence (\"the cohort's plate transfer was set to assay plate\").\n- **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an\n  amount, a term. It never names the act either.\n- **`method` is how it was done \u2014 the technique \u2014 and is recorded only when it adds\n  something** the variable and value do not already say, and only when it is known. \"Heating\"\n  or \"cooling\" on a move into a 4 \u00b0C cold room adds nothing; `refrigeration`, `incubation` and\n  `ambient exposure` do: the last two can both be 20 \u00b0C, and the method is what tells a\n  controlled incubator from the open bench. An unknown method is absent, never a generic word\n  (`transfer`, `manipulation`) that restates the statement's direction.\n- **The device or place that did it is the instrument** (`instrument_id`, T7) once it is a\n  subject; until then the method names the technique alone.\n- **Fallback, only when no lasting property changed** (a sham surgery, an anaesthesia):\n  `variable` is `procedure` and the value names the procedure. A procedure that did change\n  something is stated as that change, with the procedure in `method`.\n- **An assertion has no `method`** (T2): \"the cohort's species is *C. elegans*\".\n\n**Worked example** (the Haley import's stage 8; terms are names until the ontology lookup):\n\n| manipulation | leaf | method | variable | value |\n|---|---|---|---|---|\n| pour a plate | `dose_manipulation` | pouring | NGM agar | 25 mL (+ `formulation_id`) |\n| seed a patch | `dose_manipulation` | seeding | the strain (OP50) | 0.5 \u00b5L (+ `formulation_id`) |\n| into the cold room | `temperature_manipulation` | refrigeration | ambient temperature | 4 \u00b0C |\n| onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 \u00b0C |\n| into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 \u00b0C |\n| move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |\n| take food away | `term_manipulation` | \u2014 | food availability | none |\n\nThe transfer's value is the KIND of plate; the plate itself is the parent of the\n`contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs\nits `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its\n`method` only when the rule above admits one.",
    "title": "`variable` names a property, `value` its state, `method` how it was done: the statement reads as one sentence."
+  },
+  {
+   "id": "T17",
+   "line": 600,
+   "statement": "*(Written 2026-10-08 at Jess Haley's request, from the question of whom a Haley video is about:\nthe video shows the assay plate, its patches and the worms on it. It states how a statement\nreaches subjects other than its own, which the object layer (NDI-matlab `ndi.subject`)\nhad been doing by rules no tenet named.)*\n\n**The subject is the finest subject that covers everything the value describes**\n(`subject_statement.subject_id`). A video of an assay plate shows the plate, its patches and\nthe worms, so its subject is the plate, not the cohort. **Each fact is stated once**: a second\nstatement putting the same value on another subject (one per subject, sharing it through\n`value_id`) restates what the graph already says and can come to disagree with it. Sharing a\nvalue through `value_id` is for a value that really does describe each subject on its own.\n\nA statement then reaches other subjects only along the graph (T4), in three ways, and never\nupward (from a member to its group, a part to its whole, or contents to their container):\n\n| path | what reaches | how it reads |\n|---|---|---|\n| `member_of` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain |\n| `part_of`, `sample_of`, `aliquot_of`, `passage_of` | an **assertion** about the whole | **true of each part**: a plate's assertions hold of its patches. Interactions do not pass: a reading of the whole is not a reading of each part |\n| `contained_in` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 \u00b0C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm |\n\nContainment carries context, so a reader keeps it apart:\n- **Only while contained.** A container's interaction reaches its contents only when its time\n  overlaps the `contained_in` relation's time. An assertion has no time and never passes.\n- **Undecidable means excluded.** A stay or a statement whose overlap cannot be decided (no\n  time, an anchor that does not resolve, a stay with no end) does not pass, and is counted;\n  it is never assumed open-ended.\n- **Separate from what is true.** A reader returns context only when asked (NDI-matlab:\n  `'context', true`, default false) and marks each statement with how it was reached, so a\n  search for subjects with a temperature reading still means subjects that were measured.\n  `member_of` and `part_of` inheritance is truth about the subject and is on by default\n  (`'inherited'`).\n\nThe reverse question, what was stated of anything inside a container, is a walk the reader\nasks for explicitly (the container's descendants, then their statements), never inheritance.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "title": "A statement describes only its subject; the graph decides what else it holds of, and what is context."
   }
  ],
  "tenets_document": "schemas/V_eta_tenets.md",

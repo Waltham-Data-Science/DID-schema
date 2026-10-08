@@ -11101,7 +11101,7 @@ _meta3["$id"] = "https://did-schema.example.org/V_eta/did_schema_meta.json"
 _meta3["title"] = "DID/NDI Schema Meta-Schema (V_eta)"
 _meta3["description"] = (
     "Validates the structure of DID/NDI schema files for V_eta. The design rules the "
-    "schema follows are the tenets (schemas/V_eta_tenets.md, T1-T16); this file "
+    "schema follows are the tenets (schemas/V_eta_tenets.md, T1-T17); this file "
     "checks form only. Named composite types (the value cells: time, voltage, mass, "
     "pressure, ..., count, score, ontology_term) declare their sub-fields inline, "
     "so the canonical slot and the source provenance are read from the schema, not "

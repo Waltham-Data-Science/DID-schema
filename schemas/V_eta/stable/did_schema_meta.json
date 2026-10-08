@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_eta/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_eta)",
-    "description": "Validates the structure of DID/NDI schema files for V_eta. The design rules the schema follows are the tenets (schemas/V_eta_tenets.md, T1-T16); this file checks form only. Named composite types (the value cells: time, voltage, mass, pressure, ..., count, score, ontology_term) declare their sub-fields inline, so the canonical slot and the source provenance are read from the schema, not from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, mmHg, degrees; #73 item 44). Every value cell is {<canonical slot>, source_value, source_unit, approximate, tolerance}, except where T14 says otherwise (a count; a date's precision).",
+    "description": "Validates the structure of DID/NDI schema files for V_eta. The design rules the schema follows are the tenets (schemas/V_eta_tenets.md, T1-T17); this file checks form only. Named composite types (the value cells: time, voltage, mass, pressure, ..., count, score, ontology_term) declare their sub-fields inline, so the canonical slot and the source provenance are read from the schema, not from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, mmHg, degrees; #73 item 44). Every value cell is {<canonical slot>, source_value, source_unit, approximate, tolerance}, except where T14 says otherwise (a count; a date's precision).",
     "type": "object",
     "required": [
         "document_class",

@@ -597,6 +597,43 @@ The transfer's value is the KIND of plate; the plate itself is the parent of the
 its `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its
 `method` only when the rule above admits one.
 
+### T17 — A statement describes only its subject; the graph decides what else it holds of, and what is context.
+*(Written 2026-10-08 at Jess Haley's request, from the question of whom a Haley video is about:
+the video shows the assay plate, its patches and the worms on it. It states how a statement
+reaches subjects other than its own, which the object layer (NDI-matlab `ndi.subject`)
+had been doing by rules no tenet named.)*
+
+**The subject is the finest subject that covers everything the value describes**
+(`subject_statement.subject_id`). A video of an assay plate shows the plate, its patches and
+the worms, so its subject is the plate, not the cohort. **Each fact is stated once**: a second
+statement putting the same value on another subject (one per subject, sharing it through
+`value_id`) restates what the graph already says and can come to disagree with it. Sharing a
+value through `value_id` is for a value that really does describe each subject on its own.
+
+A statement then reaches other subjects only along the graph (T4), in three ways, and never
+upward (from a member to its group, a part to its whole, or contents to their container):
+
+| path | what reaches | how it reads |
+|---|---|---|
+| `member_of` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain |
+| `part_of`, `sample_of`, `aliquot_of`, `passage_of` | an **assertion** about the whole | **true of each part**: a plate's assertions hold of its patches. Interactions do not pass: a reading of the whole is not a reading of each part |
+| `contained_in` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 °C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm |
+
+Containment carries context, so a reader keeps it apart:
+- **Only while contained.** A container's interaction reaches its contents only when its time
+  overlaps the `contained_in` relation's time. An assertion has no time and never passes.
+- **Undecidable means excluded.** A stay or a statement whose overlap cannot be decided (no
+  time, an anchor that does not resolve, a stay with no end) does not pass, and is counted;
+  it is never assumed open-ended.
+- **Separate from what is true.** A reader returns context only when asked (NDI-matlab:
+  `'context', true`, default false) and marks each statement with how it was reached, so a
+  search for subjects with a temperature reading still means subjects that were measured.
+  `member_of` and `part_of` inheritance is truth about the subject and is on by default
+  (`'inherited'`).
+
+The reverse question, what was stated of anything inside a container, is a walk the reader
+asks for explicitly (the container's descendants, then their statements), never inheritance.
+
 ---
 
 ## The meta-principle
