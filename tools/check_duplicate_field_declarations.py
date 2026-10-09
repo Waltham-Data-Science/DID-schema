@@ -165,7 +165,10 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # `subject` is a did_v1 class, so no hand override; V_eta-SHADOW. For a MIGRATED
 # subject the name stays where did_v1 put it (base.name, or nowhere); the element
 # migrator's subject label is a separate concern (`local_identifier`).
-BASELINE = 18
+# 18 -> 8 (2026-10-08, signed, V_eta_entity_composition_plan.md): `subject`,
+# `session` and the nine V1-ONLY-SLOT entities merged into one `entity`, whose
+# `name` beside `base.name` is ONE V1-ONLY-SLOT row (OVERRIDES), so ten rows went.
+BASELINE = 8
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -179,16 +182,8 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 # name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
 OVERRIDES = {
     ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("product", "name"): (V1_ONLY_SLOT, "#73 item 54 (applied to `product`, item 59): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("dataset", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("funding", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (V_eta_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("method_parameters", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("organization", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("publication", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("software", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("study", "name"): (V1_ONLY_SLOT, "#73 item 54 (applied to `study`, 2026-09-30): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("strain", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("web_resource", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
 }
 
 

@@ -13,14 +13,14 @@
         {
             "name": "child_id",
             "mustBeNonEmpty": true,
-            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "parent_id",
             "mustBeNonEmpty": true,
-            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "time_reference_id",
@@ -36,7 +36,7 @@
             "name": "epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "OPTIONAL scope: the recording this relation was observed in, for relations whose truth is per-epoch. The ensemble's `member_of` edges are the signed case -- the recorded neuron set changes epoch to epoch, so the roster is preserved as one edge per (member, epoch) rather than lost to the cache. NOT a restatement of `time_reference_id`: that says WHEN the relation happened, this says WHICH RECORDING it holds in. Empty for every timeless or session-wide relation (part_of, has_author, derived_from), which is why it is optional.",
-            "must_refer_to_document_class": "epoch"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -64,19 +64,19 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "BFO:0000050",
+                            "node": "bfo:0000050",
                             "name": "part_of"
                         },
                         {
-                            "node": "RO:0001018",
+                            "node": "ro:0001018",
                             "name": "contained_in"
                         },
                         {
-                            "node": "RO:0002350",
+                            "node": "ro:0002350",
                             "name": "member_of"
                         },
                         {
-                            "node": "RO:0001000",
+                            "node": "ro:0001000",
                             "name": "derived_from"
                         },
                         {
@@ -125,14 +125,6 @@
                         },
                         {
                             "node": "",
-                            "name": "stored_at"
-                        },
-                        {
-                            "node": "",
-                            "name": "hosted_by"
-                        },
-                        {
-                            "node": "",
                             "name": "has_custodian"
                         },
                         {
@@ -150,10 +142,6 @@
                         {
                             "node": "",
                             "name": "input_data"
-                        },
-                        {
-                            "node": "",
-                            "name": "has_homepage"
                         },
                         {
                             "node": "",
@@ -178,6 +166,14 @@
                         {
                             "node": "",
                             "name": "gene alias mapping"
+                        },
+                        {
+                            "node": "",
+                            "name": "sold_by"
+                        },
+                        {
+                            "node": "",
+                            "name": "recorded_by"
                         }
                     ],
                     "strength": "preferred",

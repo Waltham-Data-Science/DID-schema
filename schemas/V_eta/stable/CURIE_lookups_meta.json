@@ -1,99 +1,292 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
-  "title": "CURIE Registry for DID/NDI V_gamma",
-  "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'uberon:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively; by convention prefixes are written in lowercase inside documents and annotations.",
-  "format_version": "1.0.3",
-  "prefixes": {
-    "iao": {
-      "label": "Information Artifact Ontology",
-      "uri_base": "http://purl.obolibrary.org/obo/IAO_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "OBO Foundry ontology for information entities. Expansion rule: 'iao:NNNNNNN' -> 'http://purl.obolibrary.org/obo/IAO_NNNNNNN'."
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
+    "title": "CURIE Registry for DID/NDI V_gamma",
+    "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'uberon:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively; by convention prefixes are written in lowercase inside documents and annotations.",
+    "format_version": "1.0.3",
+    "prefixes": {
+        "iao": {
+            "label": "Information Artifact Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/IAO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "OBO Foundry ontology for information entities. Expansion rule: 'iao:NNNNNNN' -> 'http://purl.obolibrary.org/obo/IAO_NNNNNNN'.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/iao (2026-10-08)"
+        },
+        "uberon": {
+            "label": "Uber-anatomy Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/UBERON_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Multi-species anatomy ontology.",
+            "pattern": "^\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/uberon (2026-10-08)"
+        },
+        "pato": {
+            "label": "Phenotype And Trait Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/PATO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Ontology of phenotypic qualities.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/pato (2026-10-08)"
+        },
+        "emapa": {
+            "label": "Mouse Developmental Anatomy Ontology (abstract)",
+            "uri_base": "http://purl.obolibrary.org/obo/EMAPA_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Anatomical ontology for the developing mouse.",
+            "pattern": "^\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/emapa (2026-10-08)"
+        },
+        "ncit": {
+            "label": "NCI Thesaurus",
+            "uri_base": "http://purl.obolibrary.org/obo/NCIT_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Controlled vocabulary for biomedical concepts. An OBO-style mirror is available at the given base; the canonical browser lives at https://ncit.nci.nih.gov/ncitbrowser/.",
+            "pattern": "^(C|R|P|A|NHC)\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/ncit (2026-10-08)"
+        },
+        "stato": {
+            "label": "Statistical Methods Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/STATO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "OBO Foundry ontology of statistical methods, distributions, variables, and spread/variation metrics. Site: https://stato-ontology.org/.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/stato (2026-10-08)"
+        },
+        "obi": {
+            "label": "Ontology for Biomedical Investigations",
+            "uri_base": "http://purl.obolibrary.org/obo/OBI_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "OBO Foundry ontology of biological and clinical investigations. Used here for mid-level concepts (e.g., 'independent variable' OBI:0000750) that STATO imports rather than re-defining.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/obi (2026-10-08)"
+        },
+        "schema": {
+            "label": "Schema.org",
+            "uri_base": "https://schema.org/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "General-purpose linked-data vocabulary. CURIE local part is the term name (e.g., 'schema:name' -> 'https://schema.org/name')."
+        },
+        "allen_ccf_v3": {
+            "label": "Allen Mouse Brain Common Coordinate Framework v3",
+            "uri_base": "",
+            "uri_style": "local",
+            "approximate": false,
+            "documentation": "Identifiers are integer region IDs from the Allen CCF v3 structure graph. No canonical web URI is defined here; consumers should resolve via the Allen SDK or equivalent."
+        },
+        "empty": {
+            "label": "Empty Ontology (Experimental Measurements, Purposes, and Treatments)",
+            "uri_base": "https://raw.githubusercontent.com/Waltham-Data-Science/empty-ontology/main/empty-base.owl#EMPTY_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Empty Ontology by Waltham Data Science \u2014 https://github.com/Waltham-Data-Science/empty-ontology. Term IDs are numeric (e.g., 'empty:0000001'). No PURL is in use yet; the canonical artefact is the GitHub-raw OWL file 'empty-base.owl' on the main branch, and CURIEs expand to a fragment within that file (matching the EMPTY_ prefix used inside the OWL). Consumer tooling (e.g., ndi-ontology-matlab) fetches the full OWL and searches by ID/label rather than dereferencing per-term URIs."
+        },
+        "placeholder": {
+            "label": "Placeholder namespace for example and in-progress data",
+            "uri_base": "",
+            "uri_style": "local",
+            "approximate": true,
+            "documentation": "Reserved placeholder for documentation examples and for values that have not yet been mapped to a real ontology. Values are not expected to resolve. Flagged approximate so tooling can warn. Distinct from the 'empty' prefix (registered above), which points at the real Empty Ontology."
+        },
+        "time": {
+            "label": "OWL-Time (W3C Time Ontology)",
+            "uri_base": "http://www.w3.org/2006/time#",
+            "uri_style": "fragment",
+            "approximate": false,
+            "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' -> 'http://www.w3.org/2006/time#intervalDuring'. Used by relative_time_reference.value.relation for Allen's thirteen interval relations. A W3C Recommendation, so terms are stable and nothing needs minting."
+        },
+        "orcid": {
+            "label": "ORCID",
+            "uri_base": "https://orcid.org/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `orcid`.",
+            "pattern": "^\\d{4}-\\d{4}-\\d{4}-\\d{3}(\\d|X)$",
+            "pattern_source": "https://bioregistry.io/api/registry/orcid (2026-10-08)"
+        },
+        "doi": {
+            "label": "Digital Object Identifier",
+            "uri_base": "https://doi.org/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `doi`.",
+            "pattern": "^10.\\d{2,9}/.*$",
+            "pattern_source": "https://bioregistry.io/api/registry/doi (2026-10-08)"
+        },
+        "ror": {
+            "label": "Research Organization Registry",
+            "uri_base": "https://ror.org/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `ror`.",
+            "pattern": "^0[a-hj-km-np-tv-z|0-9]{6}[0-9]{2}$",
+            "pattern_source": "https://bioregistry.io/api/registry/ror (2026-10-08)"
+        },
+        "pubmed": {
+            "label": "PubMed",
+            "uri_base": "https://www.ncbi.nlm.nih.gov/pubmed/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `pubmed`.",
+            "pattern": "^\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/pubmed (2026-10-08)"
+        },
+        "pmc": {
+            "label": "PubMed Central",
+            "uri_base": "http://europepmc.org/articles/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `pmc`.",
+            "pattern": "^PMC\\d+(\\.\\d+)?$",
+            "pattern_source": "https://bioregistry.io/api/registry/pmc (2026-10-08)"
+        },
+        "rrid": {
+            "label": "Research Resource Identifier",
+            "uri_base": "https://scicrunch.org/resolver/RRID:",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `rrid`.",
+            "pattern": "^[a-zA-Z]+.+$",
+            "pattern_source": "https://bioregistry.io/api/registry/rrid (2026-10-08)"
+        },
+        "wikidata": {
+            "label": "Wikidata",
+            "uri_base": "http://www.wikidata.org/entity/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `wikidata`.",
+            "pattern": "^(Q|P|E|L)\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/wikidata (2026-10-08)"
+        },
+        "swh": {
+            "label": "Software Heritage",
+            "uri_base": "https://archive.softwareheritage.org/browse/swh:",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `swh`.",
+            "pattern": "^[1-9]:(cnt|dir|rel|rev|snp):[0-9a-f]+(;(origin|visit|anchor|path|lines)=\\S+)*$",
+            "pattern_source": "https://bioregistry.io/api/registry/swh (2026-10-08)"
+        },
+        "ncbitaxon": {
+            "label": "NCBI Taxonomy",
+            "uri_base": "http://purl.obolibrary.org/obo/NCBITaxon_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `ncbitaxon`.",
+            "pattern": "^(\\d+)|([a-zA-Z_]+)$",
+            "pattern_source": "https://bioregistry.io/api/registry/ncbitaxon (2026-10-08)"
+        },
+        "wormbase": {
+            "label": "WormBase",
+            "uri_base": "https://www.wormbase.org/get?name=",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `wormbase`.",
+            "pattern": "^(CE[0-9]{5}|WB[A-Z][a-z]+\\d+)$",
+            "pattern_source": "https://bioregistry.io/api/registry/wormbase (2026-10-08)"
+        },
+        "cellosaurus": {
+            "label": "Cellosaurus",
+            "uri_base": "https://www.cellosaurus.org/CVCL_",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `cellosaurus`.",
+            "pattern": "^[A-Z0-9]{4}$",
+            "pattern_source": "https://bioregistry.io/api/registry/cellosaurus (2026-10-08)"
+        },
+        "addgene": {
+            "label": "Addgene",
+            "uri_base": "http://addgene.org/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `addgene`.",
+            "pattern": "^[0-9]{5}(-[a-zA-Z0-9-]{0,7})?$|^[0-9]{10}$",
+            "pattern_source": "https://bioregistry.io/api/registry/addgene (2026-10-08)"
+        },
+        "bfo": {
+            "label": "Basic Formal Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/BFO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `bfo`.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/bfo (2026-10-08)"
+        },
+        "ro": {
+            "label": "Relation Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/RO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `ro`.",
+            "pattern": "^(HOM)?\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/ro (2026-10-08)"
+        },
+        "cl": {
+            "label": "Cell Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/CL_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `cl`.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/cl (2026-10-08)"
+        },
+        "chebi": {
+            "label": "Chemical Entities of Biological Interest",
+            "uri_base": "http://purl.obolibrary.org/obo/CHEBI_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `chebi`.",
+            "pattern": "^\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/chebi (2026-10-08)"
+        },
+        "wbls": {
+            "label": "C. elegans development ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/WBls_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `wbls`.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/wbls (2026-10-08)"
+        },
+        "wbphenotype": {
+            "label": "C. elegans phenotype ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/WBPhenotype_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `wbphenotype`.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/wbphenotype (2026-10-08)"
+        },
+        "wbbt": {
+            "label": "C. elegans gross anatomy ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/WBbt_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `wbbt`.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/wbbt (2026-10-08)"
+        },
+        "ndicloud": {
+            "label": "NDI Cloud dataset",
+            "uri_base": "",
+            "uri_style": "local",
+            "approximate": false,
+            "pattern": "^[0-9a-f]{24}$",
+            "documentation": "A dataset's id on NDI Cloud ('ndicloud:68a1...'). Ours; not in Bioregistry. Replaces the `stored_at` relation."
+        }
     },
-    "uberon": {
-      "label": "Uber-anatomy Ontology",
-      "uri_base": "http://purl.obolibrary.org/obo/UBERON_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "Multi-species anatomy ontology."
+    "uri_styles": {
+        "obo_underscore": "Concatenate uri_base with the CURIE local part verbatim; underscore-separated form (e.g., 'http://purl.obolibrary.org/obo/UBERON_0002436').",
+        "direct": "Concatenate uri_base with the CURIE local part verbatim (e.g., 'https://schema.org/name').",
+        "local": "No URI expansion; the CURIE is the authoritative identifier and the uri_base is empty."
     },
-    "pato": {
-      "label": "Phenotype And Trait Ontology",
-      "uri_base": "http://purl.obolibrary.org/obo/PATO_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "Ontology of phenotypic qualities."
-    },
-    "emapa": {
-      "label": "Mouse Developmental Anatomy Ontology (abstract)",
-      "uri_base": "http://purl.obolibrary.org/obo/EMAPA_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "Anatomical ontology for the developing mouse."
-    },
-    "ncit": {
-      "label": "NCI Thesaurus",
-      "uri_base": "http://purl.obolibrary.org/obo/NCIT_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "Controlled vocabulary for biomedical concepts. An OBO-style mirror is available at the given base; the canonical browser lives at https://ncit.nci.nih.gov/ncitbrowser/."
-    },
-    "stato": {
-      "label": "Statistical Methods Ontology",
-      "uri_base": "http://purl.obolibrary.org/obo/STATO_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "OBO Foundry ontology of statistical methods, distributions, variables, and spread/variation metrics. Site: https://stato-ontology.org/."
-    },
-    "obi": {
-      "label": "Ontology for Biomedical Investigations",
-      "uri_base": "http://purl.obolibrary.org/obo/OBI_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "OBO Foundry ontology of biological and clinical investigations. Used here for mid-level concepts (e.g., 'independent variable' OBI:0000750) that STATO imports rather than re-defining."
-    },
-    "schema": {
-      "label": "Schema.org",
-      "uri_base": "https://schema.org/",
-      "uri_style": "direct",
-      "approximate": false,
-      "documentation": "General-purpose linked-data vocabulary. CURIE local part is the term name (e.g., 'schema:name' -> 'https://schema.org/name')."
-    },
-    "allen_ccf_v3": {
-      "label": "Allen Mouse Brain Common Coordinate Framework v3",
-      "uri_base": "",
-      "uri_style": "local",
-      "approximate": false,
-      "documentation": "Identifiers are integer region IDs from the Allen CCF v3 structure graph. No canonical web URI is defined here; consumers should resolve via the Allen SDK or equivalent."
-    },
-    "empty": {
-      "label": "Empty Ontology (Experimental Measurements, Purposes, and Treatments)",
-      "uri_base": "https://raw.githubusercontent.com/Waltham-Data-Science/empty-ontology/main/empty-base.owl#EMPTY_",
-      "uri_style": "obo_underscore",
-      "approximate": false,
-      "documentation": "Empty Ontology by Waltham Data Science \u2014 https://github.com/Waltham-Data-Science/empty-ontology. Term IDs are numeric (e.g., 'empty:0000001'). No PURL is in use yet; the canonical artefact is the GitHub-raw OWL file 'empty-base.owl' on the main branch, and CURIEs expand to a fragment within that file (matching the EMPTY_ prefix used inside the OWL). Consumer tooling (e.g., ndi-ontology-matlab) fetches the full OWL and searches by ID/label rather than dereferencing per-term URIs."
-    },
-    "placeholder": {
-      "label": "Placeholder namespace for example and in-progress data",
-      "uri_base": "",
-      "uri_style": "local",
-      "approximate": true,
-      "documentation": "Reserved placeholder for documentation examples and for values that have not yet been mapped to a real ontology. Values are not expected to resolve. Flagged approximate so tooling can warn. Distinct from the 'empty' prefix (registered above), which points at the real Empty Ontology."
-    },
-    "time": {
-      "label": "OWL-Time (W3C Time Ontology)",
-      "uri_base": "http://www.w3.org/2006/time#",
-      "uri_style": "fragment",
-      "approximate": false,
-      "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' -> 'http://www.w3.org/2006/time#intervalDuring'. Used by relative_time_reference.value.relation for Allen's thirteen interval relations. A W3C Recommendation, so terms are stable and nothing needs minting."
-    }
-  },
-  "uri_styles": {
-    "obo_underscore": "Concatenate uri_base with the CURIE local part verbatim; underscore-separated form (e.g., 'http://purl.obolibrary.org/obo/UBERON_0002436').",
-    "direct": "Concatenate uri_base with the CURIE local part verbatim (e.g., 'https://schema.org/name').",
-    "local": "No URI expansion; the CURIE is the authoritative identifier and the uri_base is empty."
-  },
-  "documentation": "This file is advisory, not enforced structurally by the meta-schema. It is consumed by tooling that needs to expand CURIEs to URIs, warn on unknown prefixes, or flag approximate namespaces. To add a prefix: add an entry under prefixes with all four metadata keys, bump format_version at least PATCH, and update V_gamma_SPEC.md's 'CURIE Registry' section."
+    "documentation": "This file is advisory, not enforced structurally by the meta-schema. It is consumed by tooling that needs to expand CURIEs to URIs, warn on unknown prefixes, or flag approximate namespaces. To add a prefix: add an entry under prefixes with all four metadata keys, bump format_version at least PATCH, and update V_gamma_SPEC.md's 'CURIE Registry' section. Each prefix may carry a `pattern` (a regular expression for the local id, from Bioregistry where it has one) so a CURIE's form can be checked; `entity.global_identifier` uses the same prefixes (V_eta_entity_composition_plan.md sec. 6)."
 }

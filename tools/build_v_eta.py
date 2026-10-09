@@ -9647,7 +9647,11 @@ def _si22(d):
             nf = json.loads(json.dumps(_mp_shape))   # a deep copy
             nf["mustBeNonEmpty"] = False
             nf["documentation"] = (
-                "The settings of the algorithm that produced this value, inline: the "
+                "The settings the method was run with, inline: an algorithm's "
+                "configuration for a calculation, the acquisition settings for an "
+                "observation (exposure time, zoom, a filter set's excitation and emission "
+                "bands), a procedure's settings for a manipulation. The technique itself "
+                "is `method`; the device is `instrument_id`. The "
                 "SAME `parameter[]` shape as the `method_parameters` document (signed "
                 "2026-08-09, built #73 item 22). Used when the settings have no name and "
                 "id of their own in the source; otherwise the statement points at a "
@@ -11097,7 +11101,7 @@ _meta3["$id"] = "https://did-schema.example.org/V_eta/did_schema_meta.json"
 _meta3["title"] = "DID/NDI Schema Meta-Schema (V_eta)"
 _meta3["description"] = (
     "Validates the structure of DID/NDI schema files for V_eta. The design rules the "
-    "schema follows are the tenets (schemas/V_eta_tenets.md, T1-T16); this file "
+    "schema follows are the tenets (schemas/V_eta_tenets.md, T1-T17); this file "
     "checks form only. Named composite types (the value cells: time, voltage, mass, "
     "pressure, ..., count, score, ontology_term) declare their sub-fields inline, "
     "so the canonical slot and the source provenance are read from the schema, not "
@@ -11322,6 +11326,92 @@ _pf["documentation"] = (
     "(`labels_from` until 2026-10-05.)")
 write(_t, "data", _d)
 
+
+
+# ---------- 12.11 statements are about any entity; `data_type` becomes `value` (2026-10-08) ----------
+# Decided by Jess Haley 2026-10-08 (V_eta_tenets.md, T2 and T17 amendments). The
+# statement family drops its `subject_` prefix -- `statement`, `assertion`,
+# `interaction`, `observation`, `manipulation`, `calculation` -- and its edge
+# `subject_id` becomes `entity_id`, which may point at ANY entity (a subject, a strain,
+# a session, ...), as a relation's ends already may. `data_type` becomes `value`: an
+# abstract parent names what each child IS (entity, statement, relation), and a
+# temperature, a term or a model fit IS a value; "data type" read as an encoding,
+# which is `datum_type`. Built last, as one rename over every built schema, so every
+# earlier pass keeps its own names. `subject_id` is renamed ON THE STATEMENT ONLY: the
+# did_v1 tombstones (element, measurement, openminds_subject, ...) and
+# method_parameters' scope edge keep it, because it is their real edge.
+_RENAME_CLASSES = (
+    ("subject_statement", "statement"),
+    ("subject_assertion", "assertion"),
+    ("subject_interaction", "interaction"),
+    ("subject_observation", "observation"),
+    ("subject_manipulation", "manipulation"),
+    ("subject_calculation", "calculation"),
+    ("data_type", "value"),
+)
+# A CLASS name, never a FIELD of that spelling: several did_v1 tombstones carry a real
+# `data_type` field (binaryseries_parameters, ngrid, image_stack_parameters,
+# daqreader_image_epochdata_ingested, acquisition_epoch's channels), which keeps its
+# v1 spelling. So a field declaration (`"name": "data_type"`) and a field path
+# (`x.data_type`, preceded by a dot) are left alone.
+_RENAME_RE = [(_re.compile(r'(?<![A-Za-z0-9_.])(?<!"name": ")' + _re.escape(_o)
+                           + r"(?![A-Za-z0-9_])"), _n)
+              for _o, _n in _RENAME_CLASSES]
+for _tier in TIERS:
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json"):
+            continue
+        _fp = os.path.join(_dir, _fn)
+        with open(_fp) as _fh:
+            _txt = _fh.read()
+        if '"name": "data_type"' in _txt:
+            # a tombstone with a real `data_type` field: its prose is about that
+            # field, so only class names and edge targets are renamed
+            def _structural(_m):
+                _v = _m.group(2)
+                for _rx, _repl in _RENAME_RE:
+                    _v = _rx.sub(_repl, _v)
+                return _m.group(1) + _v + '"'
+            _new = _re.sub(r'("(?:class_name|must_refer_to_document_class)": ")([^"]*)"',
+                           _structural, _txt)
+        else:
+            _new = _txt
+            for _rx, _repl in _RENAME_RE:
+                _new = _rx.sub(_repl, _new)
+        if _new != _txt:
+            with open(_fp, "w") as _fh:
+                _fh.write(_new)
+for _o, _n in _RENAME_CLASSES:
+    _t, _p = path_of(_o)
+    if _t is None:
+        raise SystemExit(f"statement rename: no {_o} to rename")
+    _d = load(_p)
+    if _d["document_class"]["class_name"] != _n:
+        raise SystemExit(f"statement rename: {_o}.json does not name {_n} after the text pass")
+    write(_t, _n, _d)
+    os.remove(_p)
+_t, _p = path_of("statement")
+_d = load(_p)
+_e = next(e for e in _d["depends_on"] if e["name"] == "subject_id")
+_e["name"] = "entity_id"
+_e["must_refer_to_document_class"] = "entity"
+_e["documentation"] = (
+    "The entity this statement is about: the finest entity the value directly describes "
+    "(T17). Usually a subject; any entity may be described (a strain, a session), but a "
+    "statement about a non-subject entity only says what that entity's class has no field "
+    "for (T1, T17). (`subject_id`, and subjects only, until 2026-10-08.)")
+write(_t, "statement", _d)
+for _name in ("statement", "interaction"):
+    _t, _p = path_of(_name)
+    with open(_p) as _fh:
+        _txt = _fh.read()
+    _new = _re.sub(r"(?<![A-Za-z0-9_])subject_id(?![A-Za-z0-9_])", "entity_id", _txt)
+    if _new != _txt:
+        with open(_p, "w") as _fh:
+            _fh.write(_new)
 
 # ---------- 9. regenerate index.json ----------
 
@@ -12011,12 +12101,15 @@ def _disposition(name, doc=None):
         _ancestors = set(_chain)
         for _s in _chain:
             _ancestors |= _transitive_supers(_s)
-        if "subject_calculation" in _ancestors:
+        # The index is regenerated AFTER 12.11's rename, so the chain carries the
+        # new names: `calculation` (was subject_calculation), `value` (was
+        # data_type), `statement` (was subject_statement).
+        if "calculation" in _ancestors:
             return ("persist", None)
         # ANY data_type composite, abstract or not: since #73 item 19 every
         # composite is concrete (a standalone value document is content), so
         # abstractness no longer marks the target tier.
-        if "data_type" in _ancestors and "subject_statement" not in _ancestors:
+        if "value" in _ancestors and "statement" not in _ancestors:
             return ("persist", None)
     if name in _KEEP_INFRA:
         return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)
@@ -12482,6 +12575,413 @@ if _card_bad:
     raise SystemExit("min_count/max_count on a single (non-multiple) edge: "
                      + ", ".join(_card_bad))
 
+
+# ---------- 12.12 one entity class, statements by composition, CURIE identifiers (2026-10-08) ----------
+# Built ahead of signature at Jess's request and signed by Jess the same day
+# (2026-10-08); the record is V_eta_entity_composition_plan.md, whose sections
+# 1-9 these blocks follow, each with its TEAM-SIGN-OFF line.
+def _all_class_files():
+    for _tier in TIERS:
+        _dir = os.path.join(VETA, _tier)
+        if not os.path.isdir(_dir):
+            continue
+        for _fn in sorted(os.listdir(_dir)):
+            if not _fn.endswith(".json"):
+                continue
+            _fp = os.path.join(_dir, _fn)
+            _o = load(_fp)
+            if isinstance(_o, dict) and "document_class" in _o:
+                yield _tier, _fp, _o
+
+def _save(fp, obj):
+    with open(fp, "w") as _fh:
+        json.dump(obj, _fh, indent=4)
+        _fh.write("\n")
+
+_DIRECTIONS = ("assertion", "observation", "manipulation", "calculation")
+# The calculation classes that correspond to a v1 calculator. Each stays a named
+# class whether or not it adds content, so the calculator code can name it.
+_NAMED_CALCULATORS = {
+    "tuning_curve_calculation", "contrast_tuning_calculation",
+    "orientation_direction_tuning_calculation", "spatial_frequency_tuning_calculation",
+    "temporal_frequency_tuning_calculation", "speed_tuning_calculation",
+    "contrast_sensitivity_calculation", "receptive_field_calculation"}
+
+# -- section 1: statements by composition --
+# Every `<kind>_<direction>` leaf declares nothing of its own, so it goes; the
+# document lists its value kind's chain after its own instead. A named
+# calculator stays only when it is a v1 calculator with content of its own.
+_supers = {}
+_owns = {}
+for _t, _fp, _o in _all_class_files():
+    _c = _o["document_class"]["class_name"]
+    _supers[_c] = [s["class_name"] for s in _o["document_class"].get("superclasses", [])]
+    _owns[_c] = bool(_o.get("fields")) or bool(_o.get("depends_on"))
+def _ancestors(c):
+    out = []
+    for p in _supers.get(c, []):
+        out += [p] + _ancestors(p)
+    return out
+_JOIN_LEAVES = sorted(
+    c for c in _supers
+    if c not in _DIRECTIONS and set(_ancestors(c)) & set(_DIRECTIONS)
+    # term_assertion's only content is `strain_id`, which section 5 removes
+    and (not _owns[c] or c == "term_assertion")
+    # every v1 calculator keeps its named class, content or not (Jess,
+    # 2026-10-08: the calculator code names them)
+    and c not in _NAMED_CALCULATORS)
+if len(_JOIN_LEAVES) != 39:
+    raise SystemExit(f"12.12: expected 39 join leaves, found {len(_JOIN_LEAVES)}: {_JOIN_LEAVES}")
+for _c in _JOIN_LEAVES:
+    os.remove(path_of(_c)[1])
+for _c in _DIRECTIONS:
+    _t, _p = path_of(_c)
+    _d = load(_p)
+    _d["document_class"].pop("abstract", None)
+    _d["document_class"]["value_kind"] = {"root": "value", "count": 1}
+    write(_t, _c, _d)
+_m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_m["$defs"]["document_class_header"]["properties"]["value_kind"] = {
+    "type": "object",
+    "required": ["root", "count"],
+    "additionalProperties": False,
+    "properties": {"root": {"type": "string"}, "count": {"type": "integer", "minimum": 0}},
+    "description": (
+        "Composition (V_eta_entity_composition_plan.md sec. 1): a document of this class "
+        "lists, after its own chain, the chain of `count` concrete descendants of `root` "
+        "(a value kind), minus the classes its own chain already holds. A class whose "
+        "own chain already contains a descendant of `root` (a named calculator) takes "
+        "none. Inherited by subclasses.")}
+_save(os.path.join(VETA, "stable", "did_schema_meta.json"), _m)
+
+# -- section 2: `datum_type` becomes `data_type`, needed only for bytes --
+for _t, _fp, _o in _all_class_files():
+    with open(_fp) as _fh:
+        _txt = _fh.read()
+    _new = _txt.replace("datum_type", "data_type")
+    if _new != _txt:
+        with open(_fp, "w") as _fh:
+            _fh.write(_new)
+_t, _p = path_of("value")
+_d = load(_p)
+_d["rules"] = [{
+    "name": "data_type_when_bytes", "fields": ["data_type", "data_body"],
+    "statement": ("`data_type` is present when the value has bytes the schema does not "
+                  "type: `data_body` true, or an inline value that is not a declared "
+                  "cell (a bare numeric or text array). A typed cell already says its "
+                  "type (`temperature.value.celsius` is a double), so it needs none.")}]
+for _f in _d["fields"]:
+    if _f["name"] == "data_type":
+        _f["documentation"] = (
+            "How this value's bytes are encoded -- the ONE place the encoding lives (a "
+            "body never repeats it). Needed only for bytes the schema does not type "
+            "(rule `data_type_when_bytes`). `datum_type` until 2026-10-08, renamed once "
+            "the class `data_type` became `value`; it is the v1 spelling of the same "
+            "fact (binaryseries_parameters, ngrid, ...).")
+write(_t, "value", _d)
+
+# -- section 3: `text`, a value kind --
+write("draft", "text", doc("text", ["value"], maturity="draft", fields=[
+    field("value", "structure",
+          "Text, one cell per value. What the text IS -- a given name, an email, how to "
+          "cite -- is the statement's `variable`; there are no `name` or `email` kinds, "
+          "because neither has a canonical form to normalise onto.",
+          scalar=False, sub_fields=[
+              subfield("text", "char", "The text."),
+              subfield("language", "char",
+                       "Optional: the language, a BCP 47 tag ('en', 'de-CH'). Blank "
+                       "when unknown or not applicable."),
+          ])]))
+
+# -- section 4: one `entity` class --
+_ENTITY_TYPES = [
+    ("organism", "one whole living individual"),
+    ("culture", "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture"),
+    ("tissue", "part of an organism: a slice, a biopsy, a region"),
+    ("cell", "one cell"),
+    ("group", "an entity whose members are entities, by `member_of`: a cohort, an ensemble"),
+    ("device", "an instrument or a piece of apparatus"),
+    ("material", "a non-living object or substance: an agar plate"),
+    ("strain", "a genetically defined line; its members are `instance_of` it"),
+    ("product", "something bought: a reagent, a device model; units are `instance_of` it"),
+    ("software", "a program, at a version"),
+    ("person", "a person"),
+    ("organization", "an institution, a lab, a company, a funder"),
+    ("funding", "a grant or award"),
+    ("dataset", "a published body of data, at a version"),
+    ("study", "a unit of research with its own question and design"),
+    ("publication", "an article or preprint"),
+    ("protocol", "a written procedure"),
+    ("session", "a period of work: one sitting at the rig, one day of an assay"),
+    ("epoch", "one recording: the files one acquisition system wrote for one stretch of time"),
+]
+_PHYSICAL = ["organism", "culture", "tissue", "cell", "group", "device", "material"]
+_GONE_ENTITIES = ["subject", "strain", "product", "software", "person", "organization",
+                  "funding", "web_resource", "dataset", "study", "publication",
+                  "session", "epoch"]
+_old_bindings = []           # bound fields of the deleted classes -> statement bindings
+for _c in _GONE_ENTITIES:
+    _t, _p = path_of(_c)
+    if _t is None:
+        raise SystemExit(f"12.12: no {_c} to merge into entity")
+    for _f in load(_p).get("fields", []):
+        _b = (_f.get("constraints") or {}).get("binding")
+        if _b and _f["name"] != "type":
+            _old_bindings.append((_c, _f["name"], _b))
+    os.remove(_p)
+_t, _p = path_of("entity")
+_d = load(_p)
+_d["document_class"].pop("abstract", None)
+_d["fields"] = [
+    field("type", "ontology_term",
+          "What kind of entity this is -- " + " | ".join(
+              f"{n} ({w})" for n, w in _ENTITY_TYPES) + ". Bound, required. What each "
+          "type requires is in `binding_registry_meta.json` `entity_type_bindings`. The "
+          "finer kind (species, cell type, instrument type) is an assertion.",
+          non_empty=True,
+          constraints={"binding": {
+              "root": "did_entity_type", "expansion": "value_set",
+              "values": [{"node": "", "name": n} for n, _w in _ENTITY_TYPES],
+              "strength": "required", "source": "value_set"}}),
+    field("name", "char",
+          "A display name, for people ('Assay Plate 0011', 'N2', 'Jess Haley'). Need not "
+          "be unique."),
+    field("local_identifier", "char",
+          "A handle, unique within its dataset among entities of its type. Required for "
+          "the types that `entity_type_bindings` says require it."),
+    field("description", "char", "Free text."),
+    field("global_identifier", "string",
+          "Identifiers this entity is known by outside the dataset, each a CURIE whose "
+          "prefix is registered in CURIE_lookups_meta.json ('orcid:0000-0002-1825-0097', "
+          "'doi:10.1234/abc', 'wormbase:WBStrain00000001') or, where no prefix exists, a "
+          "full IRI ('https://lab.org/haley'). The local id must match its prefix's "
+          "`pattern`. A URL is an address for this entity, so it lives here rather than "
+          "on a separate document.", scalar=False),
+]
+_d["depends_on"] = [{
+    "name": "time_reference_id", "mustBeNonEmpty": False,
+    "documentation": (
+        "Optional: when this entity existed or took place -- a worm from hatching to "
+        "death, a plate from pouring to discarding, a session from start to end, an "
+        "epoch's extent, one member per clock (the epoch's epochtable)." + _UNIQ_DOC),
+    "must_refer_to_document_class": "time_reference", "multiple": True,
+    "min_count": 0, "referent_unique_by": "value.clock", "ordered": False}]
+_d["fields"][0]["fields"] = _named_type_subfields("ontology_term")
+write(_t, "entity", _d)
+
+# every edge that pointed at a deleted entity points at `entity`
+for _t, _fp, _o in _all_class_files():
+    _changed = False
+    for _e in _o.get("depends_on", []):
+        # a comma-separated list of classes is legal here ("chemical,formulation,strain")
+        _tgt = _e.get("must_refer_to_document_class") or ""
+        _nt = []
+        for _x in _tgt.split(","):
+            _x = "entity" if _x in _GONE_ENTITIES else _x
+            if _x and _x not in _nt:
+                _nt.append(_x)
+        if ",".join(_nt) != _tgt:
+            _e["must_refer_to_document_class"] = ",".join(_nt)
+            _changed = True
+    if _changed:
+        _save(_fp, _o)
+
+# -- section 8: acquisition_system is configuration --
+_t, _p = path_of("acquisition_system")
+_d = load(_p)
+_d["document_class"]["superclasses"] = [{"class_name": "base"}]
+_d["depends_on"].append(dep(
+    "device_id", "entity",
+    "Optional: the hardware this system reads, an entity of type device (the "
+    "amplifier, the camera). The acquisition system itself is configuration -- which "
+    "software reads which files -- not a thing in the world.", non_empty=False))
+write(_t, "acquisition_system", _d)
+
+# -- section 9: method_parameters scopes to entity_id --
+_t, _p = path_of("method_parameters")
+_d = load(_p)
+for _e in _d["depends_on"]:
+    if _e["name"] == "subject_id":
+        _e["name"] = "entity_id"
+        _e["documentation"] = (
+            "OPTIONAL scope: settings that apply to ONE entity. (`subject_id` until "
+            "2026-10-08.)")
+write(_t, "method_parameters", _d)
+
+# -- registry: sections 4, 5, 7 and 8 --
+_rp = os.path.join(VETA, "stable", "binding_registry_meta.json")
+_reg = load(_rp)
+def _types(ts):
+    out = []
+    for t in ts:
+        out += _PHYSICAL if t == "subject" else [t]
+    return out
+_GONE_REL = {"stored_at", "hosted_by", "has_homepage"}
+_rows = []
+for _r in _reg["relation_bindings"]:
+    _n = _r["relation"]["name"]
+    if _n in _GONE_REL:
+        continue
+    for _k in ("child_types", "parent_types", "member_types"):
+        if _r.get(_k):
+            _r[_k] = _types(_r[_k])
+    if _n == "follows_protocol":
+        _r["parent_types"] = ["protocol"]
+        _r["parent_role"] = "the protocol"
+    elif _n == "input_data":
+        _r["parent_types"] = ["dataset"]
+    elif _n == "documented_by":
+        # software too: a dataset is documented by its analysis code (the Haley
+        # dataset's GitHub repository), which is software, not a publication
+        _r["parent_types"] = ["protocol", "publication", "software"]
+        _r["parent_role"] = "the document (a protocol, a publication, or code)"
+    elif _n == "instance_of":
+        _r["parent_types"] = ["product", "strain"]
+        _r["parent_role"] = "the product or strain it is an instance of"
+        _r["child_role"] = "the instance (a unit of a product, a member of a strain)"
+    _rows.append(_r)
+def _relrow(name, child_role, parent_role, child_types, parent_types):
+    # `_rel` is rebound to a schema patcher further up the file, so the row is spelled out
+    return {"relation": {"node": "", "name": name}, "class": "directed_relation",
+            "child_role": child_role, "parent_role": parent_role,
+            "child_types": child_types, "parent_types": parent_types,
+            "timed": False, "ordered": False}
+_rows.append(_relrow("sold_by", "the product", "the vendor", ["product"], ["organization"]))
+_rows.append(_relrow("recorded_by", "the epoch", "the acquisition system that recorded it",
+                     ["epoch"], ["acquisition_system"]))
+_reg["relation_bindings"] = _rows
+# directed_relation.relation's bound value set is the registry's directed rows,
+# so the two cannot disagree (it was copied from RELATION_VOCABULARY earlier)
+_t, _p = path_of("directed_relation")
+_d = load(_p)
+_rf = next(f for f in _d["fields"] if f["name"] == "relation")
+_rf["constraints"]["binding"]["values"] = [
+    dict(r["relation"]) for r in _rows if r["class"] == "directed_relation"]
+write(_t, "directed_relation", _d)
+for _r in _reg["subject_statement_bindings"] + _reg.get("binding_examples", []):
+    _cls = _r.get("class", "")
+    for _dir in _DIRECTIONS:
+        if _cls.endswith("_" + _dir):
+            _r["class"] = _dir
+            _r["value_kind"] = _cls[:-len(_dir) - 1]
+for _c, _fname, _b in _old_bindings:
+    _row = {"variable": {"node": "", "name": _fname.replace("_", " ")},
+            "class": "assertion", "value_kind": "term", "entity_type": _c,
+            "subject_defining": False}
+    _row.update({k: v for k, v in _b.items() if k != "strength"})
+    _reg["subject_statement_bindings"].append(_row)
+# no `strength`: tools/regen_binding_strengths.py derives it from the field
+_reg["entity_field_bindings"] = [{
+    "class": "entity", "field": "type", "vocabulary": "did", "term_set": "did_entity_type",
+    "closed": True}]
+_REQUIRES_LOCAL = set(_PHYSICAL) | {"session", "epoch"}
+_reg["entity_type_bindings"] = [
+    {"type": n, "description": w,
+     "requires": ["local_identifier"] if n in _REQUIRES_LOCAL else ["name"]}
+    for n, w in _ENTITY_TYPES]
+_save(_rp, _reg)
+
+# -- section 6: CURIE identifiers --
+# Patterns fetched from https://bioregistry.io/api/registry/<prefix> on 2026-10-08.
+# The registry's own convention is lowercase prefixes, matched case-insensitively,
+# which is also Bioregistry's normalised prefix; term nodes are normalised to it.
+_BIOREGISTRY = {
+    "orcid": ("ORCID", "https://orcid.org/", r"^\d{4}-\d{4}-\d{4}-\d{3}(\d|X)$"),
+    "doi": ("Digital Object Identifier", "https://doi.org/", r"^10.\d{2,9}/.*$"),
+    "ror": ("Research Organization Registry", "https://ror.org/", r"^0[a-hj-km-np-tv-z|0-9]{6}[0-9]{2}$"),
+    "pubmed": ("PubMed", "https://www.ncbi.nlm.nih.gov/pubmed/", r"^\d+$"),
+    "pmc": ("PubMed Central", "http://europepmc.org/articles/", r"^PMC\d+(\.\d+)?$"),
+    "rrid": ("Research Resource Identifier", "https://scicrunch.org/resolver/RRID:", r"^[a-zA-Z]+.+$"),
+    "wikidata": ("Wikidata", "http://www.wikidata.org/entity/", r"^(Q|P|E|L)\d+$"),
+    "swh": ("Software Heritage", "https://archive.softwareheritage.org/browse/swh:", r"^[1-9]:(cnt|dir|rel|rev|snp):[0-9a-f]+(;(origin|visit|anchor|path|lines)=\S+)*$"),
+    "ncbitaxon": ("NCBI Taxonomy", "http://purl.obolibrary.org/obo/NCBITaxon_", r"^(\d+)|([a-zA-Z_]+)$"),
+    "wormbase": ("WormBase", "https://www.wormbase.org/get?name=", r"^(CE[0-9]{5}|WB[A-Z][a-z]+\d+)$"),
+    "cellosaurus": ("Cellosaurus", "https://www.cellosaurus.org/CVCL_", r"^[A-Z0-9]{4}$"),
+    "addgene": ("Addgene", "http://addgene.org/", r"^[0-9]{5}(-[a-zA-Z0-9-]{0,7})?$|^[0-9]{10}$"),
+    "ncit": (None, None, r"^(C|R|P|A|NHC)\d+$"),
+    "iao": (None, None, r"^\d{7}$"),
+    "pato": (None, None, r"^\d{7}$"),
+    "uberon": (None, None, r"^\d+$"),
+    "obi": (None, None, r"^\d{7}$"),
+    "stato": (None, None, r"^\d{7}$"),
+    "emapa": (None, None, r"^\d+$"),
+    "bfo": ("Basic Formal Ontology", "http://purl.obolibrary.org/obo/BFO_", r"^\d{7}$"),
+    "ro": ("Relation Ontology", "http://purl.obolibrary.org/obo/RO_", r"^(HOM)?\d{7}$"),
+    "cl": ("Cell Ontology", "http://purl.obolibrary.org/obo/CL_", r"^\d{7}$"),
+    "chebi": ("Chemical Entities of Biological Interest", "http://purl.obolibrary.org/obo/CHEBI_", r"^\d+$"),
+    "wbls": ("C. elegans development ontology", "http://purl.obolibrary.org/obo/WBls_", r"^\d{7}$"),
+    "wbphenotype": ("C. elegans phenotype ontology", "http://purl.obolibrary.org/obo/WBPhenotype_", r"^\d{7}$"),
+    "wbbt": ("C. elegans gross anatomy ontology", "http://purl.obolibrary.org/obo/WBbt_", r"^\d{7}$"),
+}
+_cp = os.path.join(VETA, "stable", "CURIE_lookups_meta.json")
+_curie = load(_cp)
+for _px, (_label, _base, _pat) in _BIOREGISTRY.items():
+    _e = _curie["prefixes"].get(_px)
+    if _e is None:
+        _e = {"label": _label, "uri_base": _base,
+              "uri_style": "obo_underscore" if _base and "/obo/" in _base else "direct",
+              "approximate": False, "documentation": f"Bioregistry prefix `{_px}`."}
+        _curie["prefixes"][_px] = _e
+    _e["pattern"] = _pat
+    _e["pattern_source"] = f"https://bioregistry.io/api/registry/{_px} (2026-10-08)"
+_curie["prefixes"]["ndicloud"] = {
+    "label": "NDI Cloud dataset", "uri_base": "", "uri_style": "local",
+    "approximate": False, "pattern": r"^[0-9a-f]{24}$",
+    "documentation": "A dataset's id on NDI Cloud ('ndicloud:68a1...'). Ours; not in "
+                     "Bioregistry. Replaces the `stored_at` relation."}
+_curie["documentation"] = (
+    _curie["documentation"] + " Each prefix may carry a `pattern` (a regular "
+    "expression for the local id, from Bioregistry where it has one) so a CURIE's form "
+    "can be checked; `entity.global_identifier` uses the same prefixes "
+    "(V_eta_entity_composition_plan.md sec. 6).")
+_save(_cp, _curie)
+
+def _lower_prefix(_m):
+    return _m.group(1) + _m.group(2).lower() + ":"
+_NODE_RE = _re.compile(r'("(?:node|root_node)": ")([A-Za-z][A-Za-z0-9_.]*):')
+for _fp in [p for _t, p, _o in _all_class_files()] + [_rp]:
+    with open(_fp) as _fh:
+        _txt = _fh.read()
+    _new = _NODE_RE.sub(_lower_prefix, _txt)
+    if _new != _txt:
+        with open(_fp, "w") as _fh:
+            _fh.write(_new)
+
+
+
+# ---------- 12.13 `linked_session`: where a linked session lives (signed 2026-10-09) ----------
+# V_eta_linked_session_plan.md, signed by Jess Haley 2026-10-09. Built in `draft/`.
+#
+# A dataset holds its sessions INGESTED (their documents in its own database) or LINKED
+# (their documents in the session's own folder). v1's `session_in_a_dataset` recorded
+# both facts in one document; V_eta splits them. MEMBERSHIP is a fact about the
+# science -- the session `part_of` the dataset, or a study of it -- and is a
+# directed_relation for both kinds. WHERE A LINKED SESSION'S DATABASE IS is
+# configuration (signed 2026-10-08, V_eta_entity_composition_plan.md: "configuration
+# is what the software needs to read the data: its own class off `base`, with no
+# statements"), so it is this class, and never an assertion about the session: a path
+# describes a disk, changes when a folder moves, and must be readable before the
+# session's own database is open.
+write("draft", "linked_session",
+      doc("linked_session", ["base"], maturity="draft", fields=[
+          field("path", "char",
+                "Where the linked session's folder is: relative to the dataset's "
+                "folder when it is inside it (so the two can be moved together), "
+                "else absolute. Configuration -- where the software opens the "
+                "session's database -- not a fact about the session, so it is a "
+                "field here and never an assertion.",
+                non_empty=True)],
+          deps=[dep("entity_id", "entity",
+                    "The linked session: its `entity` document, of type session. "
+                    "That document lives in the session's own folder, not in the "
+                    "dataset's database, so the dataset check resolves this edge by "
+                    "opening `path`; finding it there is what shows the folder holds "
+                    "this session, and its base.session_id is the id NDI opens the "
+                    "session with (so there is no `session_id` field here, which "
+                    "would repeat base.session_id's name with another meaning). "
+                    "Membership is not recorded here: the session is "
+                    "`part_of` the dataset (or a study of it) by a directed_relation, "
+                    "as an ingested session is.")]))
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and

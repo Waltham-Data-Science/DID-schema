@@ -1,14 +1,17 @@
 {
     "document_class": {
-        "class_name": "subject_manipulation",
+        "class_name": "manipulation",
         "class_version": "2.0.0",
         "superclasses": [
             {
-                "class_name": "subject_interaction"
+                "class_name": "interaction"
             }
         ],
         "maturity_level": "stable",
-        "abstract": true
+        "value_kind": {
+            "root": "value",
+            "count": 1
+        }
     },
     "depends_on": [],
     "file": [],

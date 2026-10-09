@@ -10,7 +10,7 @@ somewhere else entirely -- in MATLAB comments, in the sibling repositories:
 
   * `pyraview.m` said the `epoch_id` edge "needs a schema increment and belongs
     with the epoch family (#60)". TEAM-SIGN-OFF [epoch] FORBIDS that edge on a
-    `subject_interaction` descendant. Acting on the comment would have built
+    `interaction` descendant. Acting on the comment would have built
     the one thing the signature rules out.
   * `pyraview.m` said the epoch-extent half was "signed and NOT YET BUILT".
     `epochMint.py`'s `epochExtentReferences` had been minting it for days.

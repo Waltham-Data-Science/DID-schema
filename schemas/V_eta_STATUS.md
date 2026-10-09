@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 224 |
-| settled (persist) | 142 |
+| target classes | 174 |
+| settled (persist) | 92 |
 | settled (retire) | 74 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
@@ -47,13 +47,13 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 191 |
+| build: migrator files inspected | 193 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 163 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 28 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 30 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 38 |
-| build: migrator lines inspected | 45743 |
+| build: migrator lines inspected | 45805 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 30674 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 15069 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 15131 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
@@ -235,7 +235,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 |---|---|---|---|---|---|---|---|---|
 | `acquisition_epoch` | epoch | (b) | 6 consuming reference(s) (1 per-document migrator, 5 batch post-pass); minted as a document class at 1 site(s) (1 per-document migrator) | 1 (1+0) | 1 (1+0) | - | 46 (29+17) | n/a -- not measured |
 | `app` | software | (b) | 5 consuming reference(s) (2 per-document migrator, 3 batch post-pass); decided target(s) built: `software` | - | 2 (1+1) | 1 (0+1) | 187 (151+36) | n/a -- not measured |
-| `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `subject_statement`, `sampled_body` | - | - | 1 (1+0) | 15 (15+0) | n/a -- not measured |
+| `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `statement`, `sampled_body` | - | - | 1 (1+0) | 15 (15+0) | n/a -- not measured |
 | `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; 2 consuming reference(s) (2 batch post-pass); decided target(s) built: `opaque_body` | - | - | 2 (0+2) | 18 (10+8) | n/a -- not measured |
 | `ensemble` | ensemble | (b) | 1 consuming reference(s) (1 per-document migrator); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | - | 25 (23+2) | n/a -- not measured |
 | `interaction_purpose` | misc singletons | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
@@ -251,10 +251,10 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 - `acquisition_epoch` (epoch) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:705 (guard)`; consumed at 5 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:2550 (guard)`, `DID-matlab:convert/epochMint.m:2551 (field_read)`, `DID-matlab:convert/epochMint.m:2552 (field_read)`, `DID-matlab:convert/epochMint.m:2555 (field_read)`, `DID-matlab:convert/epochMint.m:803 (guard)`; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:130 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:132 (field_write)`; mentioned in 29 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:665 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:39 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:168 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:100 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:102 (comment_mention)` ...; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:25 (comment_mention)`, `DID-matlab:convert/epochMint.m:2539 (comment_mention)`, `DID-matlab:convert/epochMint.m:2609 (comment_mention)`, `DID-matlab:convert/epochMint.m:27 (comment_mention)`, `DID-matlab:convert/epochMint.m:40 (comment_mention)`, `DID-matlab:convert/epochMint.m:442 (comment_mention)` ...
 - `app` (software) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:641 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:107 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1094 (named)`; mentioned in 151 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:127 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:375 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:376 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:459 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:464 (comment_mention)` ...; mentioned in 36 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:879 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1065 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1068 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1069 (comment_mention)` ...; target(s) BUILT: `software`
-- `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `subject_statement`, `sampled_body`
+- `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1049 (guard)`, `DID-matlab:convert/epochMint.m:1791 (field_read)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1080 (named)`, `DID-matlab:convert/epochMint.m:1790 (named)`; mentioned in 10 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:589 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)` ...; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1189 (comment_mention)`, `DID-matlab:convert/epochMint.m:211 (comment_mention)`, `DID-matlab:convert/epochMint.m:212 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)`, `DID-matlab:convert/epochMint.m:28 (comment_mention)`, `DID-matlab:convert/epochMint.m:287 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `ensemble` (ensemble) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:438 (guard)`; mentioned in 23 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:151 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:73 (comment_mention)`, `DID-matlab:migrators_j/private/jRecordingModality.m:240 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
-- `stimulus_presentation` (stimulus) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:898 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:899 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)`; target(s) BUILT: `item`, `item_manipulation`
+- `stimulus_presentation` (stimulus) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:898 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:899 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:874 (comment_mention)`; target(s) BUILT: `item`, `item_manipulation`
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -326,42 +326,42 @@ is why migrator work before the target closes is rework.
 
 | family | classes | targets built | decision | recorded in |
 |---|---|---|---|---|
-| **calculator mixin dropped (#73)** | 1 | no target recorded | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
+| **calculator mixin dropped (#73)** | 1 | no target recorded | `calculator` leaves every V_eta chain; calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
 | **logical_observation** | 1 | 1 of 1 | SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: the target is ONE time_observation per source document, an N x 2 array of `time` cells keyed [interval, endpoint (start/end)], anchored to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed but is still DORMANT (census only, emits nothing), and its preserved code is the rejected 1->N shape, so re-arming is a rewrite. The documents live on the v1 tombstone. logical_observation retired (#73 item 52); `logical` stays | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | 1 | 1 of 1 | epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_time_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build | `V_eta_time_reference_family_plan.md` |
-| **stimulus** | 1 | 2 of 2 | item data_type (was timed_sequence) + item_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **stimulus** | 1 | 2 of 2 | item value (was timed_sequence) + item_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
 | **confirm sheet 2026-08-17** | 5 | 11 of 11 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
-| **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
+| **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone value; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | 4 of 4 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> an `opaque_body` of the stimulator's term_manipulation (#73 item 61; `acquisition_metadata_file` retired); image one folds into the image model | `V_eta_ingested_payload_findings.md` |
 | **sync configuration** | 2 | 2 of 2 | syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership) | `V_eta_clock_alignment_cluster_plan.md` |
-| **sync mapping** | 1 | 1 of 1 | -> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_time_reference docs; syncgraph_id restored, invented epochid removed | `V_eta_clock_alignment_cluster_plan.md` |
+| **sync mapping** | 1 | 1 of 1 | -> `clock_alignment` (relation + `polynomial` value); endpoints are relative_time_reference docs; syncgraph_id restored, invented epochid removed | `V_eta_clock_alignment_cluster_plan.md` |
 | **file navigation** | 1 | 1 of 1 | filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); `directory` was not a source and is now deleted | `V_eta_daq_family_decisions.md` |
 | **openMINDS** | 1 | no target recorded | strain -> entity + recursive background_strain_#; strain_id on term_assertion | `V_eta_openminds_family_record.md` |
 | **software** | 1 | 1 of 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 | **frequency_filter** | 1 | 1 of 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 | **spike processing parameters** | 4 | 1 of 1 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | no target recorded | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
-| **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
+| **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` value + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | no target recorded | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | 2 | 10 of 10 | a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: subject_id = the specimen, instrument_id = the electrode in the instrument role (T7), variable = the modality from the element type, body = `sampled_body`; the loose `probe observes specimen` relation RETIRES in favour of the instrument_id edge, and ONLY where that edge was actually written. Guard A stands (an unmapped element type still yields a VALUED observation over a self-describing sampled_body with a queryable `modality_unresolved` flag, never a timeseries_observation or `array`). Multi-channel is ONE observation with a channel axis, not N. Specimen granularity is accepted as faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` emits this model's SHAPE while attributing it to the element rather than the specimen and writing no instrument_id | `V_eta_recording_observation_plan.md` |
 | **subject** | 1 | no target recorded | PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id PRESERVED (subject_id is the most-referenced edge in the corpus). The did_v1 template and V_eta declare the same two fields; the superclass moves base -> entity, `local_identifier` becomes REQUIRED, and `datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename rather than this migrator. No fold is owed and none should be built | `V_eta_go_forward_class_audit.md` |
 | **session** | 1 | no target recorded | `reference` -> `local_identifier`, REQUIRED, matching subject and epoch, with the now-duplicate optional slot dropped; type/date/purpose DELETED as V_zeta inventions (NDI's template declares `reference` and nothing else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first migrator, and the two NDI reads by path -- which accept BOTH spellings rather than moving, because a database may be pre- or post-migration. NDI's WRITE stays did_v1 on purpose: it validates against NDI's own template, which still declares `reference` | `V_eta_go_forward_class_audit.md` |
-| **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
+| **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 | **spatial_transcriptomics_family** | 8 | 14 of 14 | #73 review: nothing carried forward. Counts -> a count_observation over [y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 redundant); tiles -> file-series chunks; the cell list -> a label_calculation, per-cell facts -> calculations over the cell key; cell types -> term_calculation, clusters -> label_calculation; the gene list -> a standalone term; the mapping -> a directed_relation + a standalone score; fileReference -> an unheld body; geneExpression dissolves into method + variable. | `V_eta_spatial_transcriptomics_plan.md` |
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 28 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 27 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 20 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
 the sign-off is the team's own words. An unsigned name may be a fair
-paraphrase, a structural word used in passing (`data_type`, `entity`), or
+paraphrase, a structural word used in passing (`value`, `entity`), or
 a target nobody agreed to -- and only a person can tell which.
 
 It exists because on 2026-08-11 `ngrid` was filed as a dissolution,
@@ -379,7 +379,7 @@ paragraph said "Both are recorded DISPUTED in the coverage ledger,
 with both citations and no choice made", and half of that went stale
 the day it was written. The team ruled on 2026-08-11 that for
 `binaryseries_parameters` the SIGNATURE is what is intended, so its
-ledger row now records TWO decided targets -- `subject_statement` and
+ledger row now records TWO decided targets -- `statement` and
 `sampled_body`, the two mounts the axis entry can take, selected per
 document by `storage_mode`. `ngrid` is UNCHANGED and still DISPUTED:
 nothing was decided about it, and the two rows only ever shared a
@@ -391,18 +391,19 @@ it.
 
 | family | unsigned class name(s) in the one-liner | sign-off in |
 |---|---|---|
-| **logical_observation** | `epoch`, `item`, `time_observation` | `V_eta_logical_observation_plan.md` |
+| **logical_observation** | `item` | `V_eta_logical_observation_plan.md` |
 | **epochclocktimes** | `relative_time_reference` | `V_eta_time_reference_family_plan.md` |
-| **stimulus** | `item`, `item_manipulation` | `V_eta_stimulus_model_plan.md` |
-| **image / ngrid** | `data_type`, `image_stack`, `sampled_body`, `subject` | `V_eta_image_model_plan.md` |
-| **daq ingested payloads** | `item`, `opaque_body`, `term_manipulation` | `V_eta_ingested_payload_findings.md` |
-| **sync mapping** | `data_type`, `relative_time_reference` | `V_eta_clock_alignment_cluster_plan.md` |
+| **stimulus** | `item` | `V_eta_stimulus_model_plan.md` |
+| **image / ngrid** | `image_stack`, `sampled_body`, `value` | `V_eta_image_model_plan.md` |
+| **daq ingested payloads** | `item`, `opaque_body` | `V_eta_ingested_payload_findings.md` |
+| **sync mapping** | `relative_time_reference`, `value` | `V_eta_clock_alignment_cluster_plan.md` |
 | **openMINDS** | `entity` | `V_eta_openminds_family_record.md` |
 | **software** | `entity` | `V_eta_tenet_audit.md` |
+| **stimulus response** | `value` | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | `absolute_time_reference` | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | `pyraview` | `V_eta_recording_observation_plan.md` |
-| **misc singletons** | `sampled_body`, `subject_statement` | `V_eta_go_forward_class_audit.md` |
-| **spatial_transcriptomics_family** | `coordinate_system`, `count_observation`, `directed_relation`, `label_calculation`, `score`, `term`, `term_calculation` | `V_eta_spatial_transcriptomics_plan.md` |
+| **misc singletons** | `sampled_body` | `V_eta_go_forward_class_audit.md` |
+| **spatial_transcriptomics_family** | `coordinate_system`, `directed_relation`, `score`, `term` | `V_eta_spatial_transcriptomics_plan.md` |
 
 **AND: 1 document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`
 line.** An untagged line signs the document, and counts only when
@@ -417,12 +418,12 @@ visible either.
 | disposition | count |
 |---|---|
 | retire | 71 |
-| consumed by migrator (no tombstone) | 28 |
+| consumed by migrator (no tombstone) | 30 |
 | in_progress | 6 |
-| persist | 3 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |
+| persist | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 3 rows
 
@@ -447,7 +448,7 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 13 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 15 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
 - `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`

@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "entity"
+                "class_name": "base"
             }
         ],
         "maturity_level": "stable"
@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "The implementation of the acquisition system itself (v1's `daqsystem.ndi_daqsystem_class`, e.g. 'ndi.daq.system.mfdaq', became an edge rather than a string field -- the same fold `epoch_file_pattern` and `epoch_parameter_reader` make of their own class names). It is the object-reconstruction key read at +ndi/+database/+fun/ndi_document2ndi_object.m:38-42 through a CONSTRUCTED field name, so no literal grep finds the reader. Distinct from `reader_id`, which names a DIFFERENT component.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "reader_id",
@@ -36,6 +36,12 @@
             "multiple": true,
             "min_count": 0,
             "ordered": false
+        },
+        {
+            "name": "device_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the hardware this system reads, an entity of type device (the amplifier, the camera). The acquisition system itself is configuration -- which software reads which files -- not a thing in the world.",
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

@@ -93,6 +93,15 @@ def _md_row(cls):
     raise AssertionError(f"no rendered ledger row for `{cls}`")
 
 
+def _cov():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "cov_supersession", os.path.join(REPO_ROOT, "tools", "coverage.py"))
+    cov = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cov)
+    return cov
+
+
 def _built_classes():
     with open(INDEX) as fh:
         return {e["class_name"] for e in json.load(fh)["schemas"]}
@@ -127,7 +136,7 @@ PINNED_DECIDED_TARGETS = {
     # test_binaryseries_parameters_records_both_mounts_not_one for why collapsing
     # to either single class is the regression this pin exists to catch.
     "binaryseries_parameters": (
-        ["subject_statement", "sampled_body"],
+        ["statement", "sampled_body"],
         "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
@@ -332,20 +341,20 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     Why both, spelled out so a future reader can check the reasoning rather than
     trust it. The signature (`V_eta_go_forward_class_audit.md`:3) routes:
 
-        `data_type`                 -> "the statement's"        UNCONDITIONAL
+        `value`                 -> "the statement's"        UNCONDITIONAL
         `time_type` / `data_dim` /
         `samples_regular_intervals` -> an AXIS ENTRY
 
-    and the axis entry mounts on `subject_statement` when `storage_mode` is
+    and the axis entry mounts on `statement` when `storage_mode` is
     inline and on `sampled_body` when it is body -- mutually exclusive, per
     document (`V_eta_data_body_model_plan.md`:136-137). So `sampled_body` alone
     (the section heading at :459, which the team ruled does NOT govern) silently
     drops the statement mount that the signature names unconditionally, and
-    `subject_statement` alone drops the body mount entirely.
+    `statement` alone drops the body mount entirely.
     """
     row = next(r for r in _rows() if r["v1_class"] == "binaryseries_parameters")
     got = set(row["decided_targets"])
-    assert got == {"subject_statement", "sampled_body"}, (
+    assert got == {"statement", "sampled_body"}, (
         f"binaryseries_parameters records decided_targets={sorted(got)}. The signature "
         "routes to TWO mounts; recording one of them drops the other.")
 
@@ -391,8 +400,13 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     """A target nobody can find is a typo, not a plan."""
     built = _built_classes()
     rows = _rows()
+    # A name retired by the 2026-10-08 composition (signed) resolves through
+    # coverage.py's supersession table (`software` -> `entity`,
+    # `time_observation` -> `observation` + `time`); what it resolves to must exist.
+    sup = _cov().SUPERSEDED_BY_ENTITY_COMPOSITION
     bad = [(r["v1_class"], t) for r in rows
-           for t in r["decided_targets"] if t not in built]
+           for t in r["decided_targets"]
+           if not all(x in built for x in sup.get(t, [t]))]
     assert not bad, (
         f'DENOMINATOR: {len(rows)} rows, {len(built)} built classes. Decided targets naming no built class: {bad}')
 
@@ -442,7 +456,7 @@ def test_build_state_reports_schema_and_migrator_separately():
 
     The authored `flags` prose says "DECIDED AND SIGNED, BUILD NOT DONE" on
     eight rows. For `app` the schema half is DONE -- `software` is built and
-    shipping, plus an `execution_environment` block on `subject_interaction` --
+    shipping, plus an `execution_environment` block on `interaction` --
     and only the migrator is outstanding. A reader acting on the
     undifferentiated sentence re-authors schema that already exists.
     """
@@ -471,8 +485,10 @@ def test_app_schema_half_is_reported_as_built():
     """
     row = next(r for r in _rows() if r["v1_class"] == "app")
     assert row["decided_targets"] == ["software"], row["decided_targets"]
-    assert "software" in _built_classes(), (
-        "`software` is not in the built set -- re-check this test's premise "
+    # `software` is an `entity` type since 2026-10-08 (signed), so the target
+    # is built when `entity` is.
+    assert "entity" in _built_classes(), (
+        "`entity` is not in the built set -- re-check this test's premise "
         "before relaxing it")
     bs = row["build_state"]
     assert bs["schema_targets_built"] == ["software"], bs

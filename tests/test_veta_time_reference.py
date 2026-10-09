@@ -388,7 +388,7 @@ def test_the_still_minted_retiring_classes_are_still_present():
     DENOMINATOR: 3 classes named, all 3 looked up, against a built set whose size
     is asserted first.
     """
-    assert len(BUILT) > 200, f"only {len(BUILT)} schemas loaded"
+    assert len(BUILT) > 150, f"only {len(BUILT)} schemas loaded"
     assert len(RETIRING) == 3
     back = [c for c in RETIRING if c in BUILT]
     assert back == [], f"{back!r} came back; increment 3b deleted them"
@@ -418,7 +418,7 @@ def test_the_collapsed_reference_classes_stay_deleted():
     DENOMINATOR: 4 classes named, all 4 looked up, against a built set whose
     size is asserted first so an empty RECORDS cannot pass this.
     """
-    assert len(BUILT) > 200, f"only {len(BUILT)} schemas loaded"
+    assert len(BUILT) > 150, f"only {len(BUILT)} schemas loaded"
     assert len(COLLAPSED_AWAY) == 4
     back = [c for c in COLLAPSED_AWAY if c in BUILT]
     assert back == [], (

@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The recording element, promoted to a subject with its id preserved. This is the class's ONLY dependency -- the vmspikefit_id edge the old migrator read does not exist.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

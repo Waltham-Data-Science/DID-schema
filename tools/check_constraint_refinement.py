@@ -688,7 +688,7 @@ def sweep(classes, kind="fields"):
     """Every field (or depends_on edge) a class redeclares from an ancestor.
 
     Returns (rows, stats). A row is one (child, parent, name) redeclaration pair,
-    DEDUPLICATED across leaves -- `subject_statement`'s fields are inherited by
+    DEDUPLICATED across leaves -- `statement`'s fields are inherited by
     dozens of leaves and the same pair would otherwise be reported dozens of
     times. `chains` records how many leaf chains exhibit the pair, so the noise
     the redeclaration actually causes is still visible.

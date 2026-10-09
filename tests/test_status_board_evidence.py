@@ -1262,7 +1262,7 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
 # every family regardless of what was in the tree. By 2026-08-11 it was false
 # for essentially all of them -- a hand check of the target classes those
 # families name found every one already built, one of them as a block on
-# `subject_interaction` rather than a class file.
+# `interaction` rather than a class file.
 #
 # That is this project's recurring defect with the sign flipped. The usual
 # direction is prose claiming MORE progress than exists; this claimed LESS,

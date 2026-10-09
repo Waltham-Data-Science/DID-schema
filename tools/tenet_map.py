@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (16 since T16, 2026-10-03).
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (17 since T17, 2026-10-08).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 16 tenets declared, N with at least one row, and
+  1. It states its denominator: 17 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 17)]
+TENET_IDS = [f"T{i}" for i in range(1, 18)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T16
+    tenet    T1..T17
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -116,8 +116,8 @@ TENET_MAP = [
         "The tenet is doing negative work here -- it is the reason a class was "
         "kept OFF the subject spine."),
     Row("T2",
-        "`validity` was the only data_type naming a SEMANTIC rather than a kind "
-        "of value. The semantic moved onto `subject_statement.variable`, where "
+        "`validity` was the only value naming a SEMANTIC rather than a kind "
+        "of value. The semantic moved onto `statement.variable`, where "
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
         ["logical"],
@@ -134,7 +134,7 @@ TENET_MAP = [
         ["temperature", "temperature_observation", "temperature_manipulation"],
         "V_eta_tenets.md",
         "A leaf class = a direction × a data type",
-        "T3 is the factoring move: data_type x direction, so a new stance on "
+        "T3 is the factoring move: value x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
     Row("T4",
         "An ensemble's membership stops being a list inside a document and "
@@ -217,7 +217,7 @@ TENET_MAP = [
         ["oridirtuning_calc", "contrasttuning_calc",
          "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
          "speedtuning_calc", "tuningcurve_calc"],
-        ["tuning_curve_calculation", "subject_calculation"],
+        ["tuning_curve_calculation", "calculation"],
         "V_eta_tuning_model_plan.md",
         "REVERSE R2/R3's LEAF COLLAPSE",
         "The 11,448-orphan run is what this tenet is made of: id preservation "
@@ -333,7 +333,7 @@ TENET_MAP = [
         "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
         "whose order is not.",
         ["syncgraph"],
-        ["clock_alignment_policy", "subject_calculation", "item",
+        ["clock_alignment_policy", "calculation", "item",
          "relative_time_reference"],
         "V_eta_tenets.md",
         "a repeated edge repeats that one name",
@@ -352,6 +352,18 @@ TENET_MAP = [
         "`variable` names a property, `value` its state, `method` how it was done",
         "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab "
         "import_V2_decisions.md #58)."),
+    Row("T17",
+        "A video of an assay plate shows the plate, its patches and the worms. "
+        "T17 keeps it one statement, about the plate, and names the three ways a "
+        "statement reaches other subjects: `distributive` along `member_of` (true "
+        "of each member), assertions along `part_of` (true of each part), and "
+        "interactions along `contained_in` only as CONTEXT for the overlapping time.",
+        [],
+        ["statement", "directed_relation"],
+        "V_eta_tenets.md",
+        "A statement describes only its subject; the graph decides what else it holds of",
+        "Written 2026-10-08 from the Haley videos question; the reader is "
+        "NDI-matlab ndi.subject (statements, 'inherited', 'context')."),
 ]
 
 

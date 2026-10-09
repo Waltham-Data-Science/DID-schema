@@ -92,10 +92,10 @@ export function BindingRegistry({ entry }: Props) {
         </h3>
         <p className="section-note">
           Each maps a variable (and, on interactions, a method) to the concrete
-          subject_statement leaf <code>class</code> that carries the statement
+          statement leaf <code>class</code> that carries the statement
           (e.g. <code>mass_observation</code>, <code>dose_manipulation</code>,{" "}
           <code>term_assertion</code>). The leaf fixes the value type — no{" "}
-          <code>data_type</code> — and a term-valued leaf additionally pins its
+          <code>value</code> — and a term-valued leaf additionally pins its
           admissible term set (<code>values</code> or an <code>ontology</code>{" "}
           subtree). Rows flagged <span className="flag-tag">subject-defining</span>{" "}
           are the kind ingestion invariant (D9): a subject is expected to carry ≥1

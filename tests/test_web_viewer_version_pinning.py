@@ -22,7 +22,7 @@ not merely unhinted, they are reported as ILLEGAL PROPERTIES:
       ndi_mustBeNonEmpty 43 | min_count 14 | max_count 2 | referent_unique_by 3
 
 55 of the classes ALREADY IN THE TREE could not have been authored in the
-editor -- among them `subject_interaction`, `subject_observation` and `epoch`,
+editor -- among them `interaction`, `observation` and `epoch`,
 three of the spine classes a new author is most likely to imitate. The editor
 would have taught the schema's own rules wrong, and nothing would have said so.
 

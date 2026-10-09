@@ -369,7 +369,7 @@ STEPS = [
 
     # ARMED 2026-08-12. It LANDED report-only, deliberately, because it found
     # SIX live disagreements on its first run (two plan documents saying
-    # `data_type` has 38 direct subclasses, two quoting a 915-file NDI tree,
+    # `value` has 38 direct subclasses, two quoting a 915-file NDI tree,
     # two quoting a 54-document schemas/), and arming a gate onto a non-zero
     # count turns CI red for a condition nobody has triaged -- which trains
     # readers to ignore the job. That is the same call `census_digest.py`
@@ -661,7 +661,7 @@ EDGES = [
     # tree -- which is the failure the prose already has, arriving in the tool
     # that exists to find it.
     Edge("build_v_eta", "check_prose_counts", "schemas/V_eta",
-         "the V_eta file count, the distinct class names, the `data_type` "
+         "the V_eta file count, the distinct class names, the `value` "
          "direct subclasses and the bound-field count are all walked out of "
          "the BUILT tree.",
          "tools/check_prose_counts.py", r'"V_eta"'),

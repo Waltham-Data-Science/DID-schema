@@ -33,26 +33,52 @@ are subjects, with **no kind-subclasses**. Every other property is *derived from
 graph*: group-ness from incoming `member_of` edges; kind from a `term_assertion`;
 "biological" from whether that kind term sits under an organism branch. (SPEC §1)
 
-### T2 — Everything you can say about a subject is one `subject_statement` family.
+### T2 — Everything you can say about a subject is one `statement` family.
 A statement binds a **`variable`** (what — an ontology term) to a **`value`**, about a
-subject, optionally at a **time**. Identity rides on `variable`, not the class, so one
+subject (or, since 2026-10-08, any entity), optionally at a **time**. Identity rides on `variable`, not the class, so one
 query spans all statements. The family branches by *epistemic direction*:
-`subject_assertion` (timeless fact), `subject_observation` (measured from),
-`subject_manipulation` (done to), `subject_calculation` (derived/computed about). An
+`assertion` (timeless fact), `observation` (measured from),
+`manipulation` (done to), `calculation` (derived/computed about). An
 assertion has no act/series; an interaction (observation/manipulation/calculation) adds
 `method` (the verb), optional `method_parameters`, an optional `instrument_id` and
 `software_id`, and requires a `time_reference`. Its per-reading positions are the value's
 `keys`, declared on `data` (#73 item 65; the `sample_time` block retired under the signed
 data_body model, 2026-08-14, built #73 item 21). (SPEC §3–§5)
 
+**Statements about any entity; the family loses `subject_`; `data_type` becomes `value`**
+(2026-10-08, decided by Jess Haley). The family's classes are `statement`, `assertion`,
+`interaction`, `observation`, `manipulation`, `calculation` (until then `subject_statement`,
+`subject_assertion`, ...), and the edge naming what a statement is about is `entity_id`
+(was `subject_id`), which may point at any `entity`, as a relation's ends already may. A
+subject is still the usual case. A statement about a non-subject entity (a strain, a
+session) says only what that entity's class has no field for: a fact the class can hold is
+held there, never also as a statement (T17, each fact stated once). Whether an assertion
+about a strain holds of the subjects of that strain is not yet decided. The abstract parent
+of the value kinds, `data_type`, becomes `value`: a parent names what each child IS
+(`entity`, `statement`, `relation`), and a temperature, a term or a model fit IS a value;
+"data type" read as an encoding, which is `datum_type`. The leaves keep their names
+(`temperature_observation`, `term_assertion`).
+
+**One entity class; statements by composition** (2026-10-08, PROPOSAL built ahead of
+signature, `V_eta_entity_composition_plan.md`). An entity is something the science
+describes, the named periods of an experiment included; configuration (what the software
+needs to read the data) is its own class off `base`. So every entity is one `entity` class
+with a bound `type` (organism ... session, epoch, protocol): its fields are identity only
+(`name`, `local_identifier`, `description`, `global_identifier`, and when it existed as a
+`time_reference`), and what is true of it is a statement. A statement's class is its
+direction, and its value kind is a mixin listed in its `superclasses`: there are no
+`temperature_observation` or `term_assertion` classes any more, only an `observation` or an
+`assertion` whose document also lists `temperature` or `term` (T3). `datum_type` is renamed
+`data_type`. A strain is an entity, and a subject is `instance_of` it (T17).
+
 **Observation vs calculation is decided by provenance, not by whether software ran**
 (#73, 2026-09-23). A statement whose inputs are **other statements in the dataset** is a
-`subject_calculation` and records them in `input_id` (T15); a statement produced from data
+`calculation` and records them in `input_id` (T15); a statement produced from data
 held **outside** the dataset (an instrument, raw reads that are not stored) is a
-`subject_observation` and has no `input_id`. Almost every measurement is processed by
+`observation` and has no `input_id`. Almost every measurement is processed by
 some pipeline, so "computed by software" cannot be the test; whether the inputs are in the
 dataset can be read off the document. Consequences: there is no "computed observation";
-`input_id` is declared on `subject_calculation` only; a lossless re-assembly of stored
+`input_id` is declared on `calculation` only; a lossless re-assembly of stored
 statements (`oneepoch`'s concatenation) is a calculation too.
 
 **Repeated events** (2026-10-05). The time-reference rule (signed 2026-09-30) gives a
@@ -75,24 +101,34 @@ Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
 
+**AMENDED 2026-10-08 -- the product is a document, not a class** (PROPOSAL,
+`V_eta_entity_composition_plan.md` sec. 1). A statement document's class is its direction
+and its `superclasses` list the value kind's chain after its own
+(`observation` + `temperature`), so the direction × value product exists only in documents.
+A direction declares `value_kind {root: value, count: 1}`; the validator accepts exactly one
+kind. A NAMED class remains for each v1 calculator (the eight vision calculators,
+`tuning_curve_calculation` ... `receptive_field_calculation`), so the calculator code
+can name it. "A leaf is made when it is needed"
+below is therefore moot for the joins: no join is ever made.
+
 **A relation can be a leaf the same way** (#73 review item 70, 2026-09-29): relation × a
 data type, e.g. `clock_alignment ⊂ relation, polynomial`, when the relation's own value is
 its data. Like a statement leaf it holds the value inline, or points at a shared standalone
 value by `value_id` (the gene-mapping `directed_relation` → a `score`), never both.
 
 **A leaf is made when it is needed, not in advance** (team, 2026-09-25, #73 item 50).
-Every data_type stays whether or not it has a leaf (a standalone data-type document is
+Every value stays whether or not it has a leaf (a standalone data-type document is
 valid content, T6). An `_observation`, `_manipulation`, `_assertion` or `_calculation`
 leaf exists only once something needs it — a migrator or second pass writes it, or a
 decision names it as a target — and is then made by combining that direction with the
-data_type. No leaf is generated for every direction "just in case": a leaf nothing
+value. No leaf is generated for every direction "just in case": a leaf nothing
 writes reads as a supported case nobody has checked.
 
-**Undimensioned values ride a bare self-describing body (no generic numeric data_type).**
-`direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `intensity`,
+**Undimensioned values ride a bare self-describing body (no generic numeric value).**
+`direction × value` is the norm — the value carries the meaning (`voltage`, `intensity`,
 `tuning_curve`). But when a value is **raw numeric with no dimensioned meaning** (an
 unknown-modality recording), do **not** invent a generic `array` /
-`numeric` data_type — that would only duplicate `sampled_body` (T6, which is already
+`numeric` value — that would only duplicate `sampled_body` (T6, which is already
 "self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
 `sampled_body`: its `keys` live on the body, its `datum_type` on the data type (#73 item 60), and
 the `variable` carries the label.
@@ -118,7 +154,7 @@ A value is inline (in `value`), shared (the statement's `value_id` points at a s
 data-type document), or in bodies (the boolean `data_body` is true and data_body documents
 point up at it; `storage_mode` was deleted by #73 item 9). The same holds for a relation
 leaf (T3): `value_id` present ⇒ its inline value and descriptors are empty. The value's descriptors —
-`keys`, `complete`, `datum_type` — live on `data_type`, WITH THE VALUE, so a shared value
+`keys`, `complete`, `datum_type` — live on `value`, WITH THE VALUE, so a shared value
 states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
 `chunk`, `fill_value` — with `datum_type` on the data type it belongs to; `summary` dropped, #68;
@@ -163,12 +199,12 @@ authority, safe to drop and rebuild; absent ⇒ the product is authoritative (a 
 calculation). Never infer cache-ness from the presence of inputs. *(Named `is_cache` until 2026-09-24: "cache" reads as
 transient and possibly stale, and collides with NDI's in-memory `ndi.cache`; `redundant` names
 test 1 below directly, and T13 drops the `is_` prefix. Declared ONLY on `data_body` and
-`subject_calculation` — the only places a cache can exist: an observation's source is outside
+`calculation` — the only places a cache can exist: an observation's source is outside
 the dataset, and assertions, manipulations and standalone content are not derived. Most
 calculations are NOT redundant — a clustering or a fit depends on method, version and
 randomness. Nothing may cite a redundant document as a provenance input.)*
 
-**The cache-warrant test (parallel to T12's data_type-warrant).** Materializing a cache is the
+**The cache-warrant test (parallel to T12's value-warrant).** Materializing a cache is the
 *exception*; before minting one, all of the following must hold — else store only the source
 and project on read:
   1. *Losslessly derivable* — the cache adds **no information** the source lacks (else it's a
@@ -178,7 +214,7 @@ and project on read:
   3. *Marked & regenerable* — it carries `redundant` + its sources (`input_id` on a
      calculation), and a deterministic rebuild from the source exists.
   4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
-     a new data_type). No silent caches.
+     a new value). No silent caches.
 
   **For a redundant BODY** (amended, #73 audit 2 D6, 2026-09-29): its source is its owner's
   non-redundant body — no edge is needed to say so — and the recorded reason goes in the body's
@@ -187,8 +223,8 @@ and project on read:
 **A standalone data-type document is CONTENT, NOT A CLAIM** (team, 2026-09-24). This is about
 STANDALONE documents: a leaf that combines a claim with a data type (a statement leaf, or a
 relation leaf such as `clock_alignment`, T3) is a claim that carries its value inline, and
-`isa data_type` returning it is expected (#73 review item 70). A statement's
-`value_id` means "my value lives in another document", so every `data_type` composite is
+`isa value` returning it is expected (#73 review item 70). A statement's
+`value_id` means "my value lives in another document", so every `value` composite is
 concrete: a shared command waveform, a stimulus, an image or a gene list is written once as a
 standalone document, and each statement that uses it points at it by its `value_id` edge. The
 standalone document says nothing about anything until a statement references it; the statement
@@ -202,7 +238,7 @@ held outside the database is a member recorded by location and not ingested.
 
 ### T7 — Roles are edges, not subclasses.
 The measuring/manipulating device is a subject (kind asserted), linked by a typed
-`instrument_id`. `subject_id` = patient, `instrument_id` = agent, `method` = verb. No
+`instrument_id`. `entity_id` = patient, `instrument_id` = agent, `method` = verb. No
 organism/cell/instrument/medium subclasses. (SPEC §8, D2)
 
 **Worked example (instrument vs. subject).** Extracellular voltage recorded from a brain
@@ -213,9 +249,9 @@ subject of the recording.
 
 **The trap (do not fall in):** a device is its own subject, but it is **never the observed
 subject of the value it helps measure**. Ask two questions: "Whose value is this?" → the
-patient (`subject_id`); "What tool produced it?" → the instrument edge (`instrument_id`).
+patient (`entity_id`); "What tool produced it?" → the instrument edge (`instrument_id`).
 The same electrode is the *patient* only when the statement is *about the electrode itself*
-(e.g., its measured impedance is a `voltage`/`resistance` observation whose `subject_id` is
+(e.g., its measured impedance is a `voltage`/`resistance` observation whose `entity_id` is
 the electrode). This is the difference between *observing with* a device and *observing* the
 device.
 
@@ -240,15 +276,15 @@ strains are its expected later users (#73 item 59).
 
 ### T10 — The calculator motif: analysis outputs are calculations, migrated id-preserving.
 (Lepsky et al.) A calculator produces **one** output document type — a
-`subject_calculation` leaf (direction × a result composite). Migration is **1→1 with
+`calculation` leaf (direction × a result composite). Migration is **1→1 with
 `base.id` and `depends_on` preserved**, never a dissolution: dissolving a calc changes
 its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 `must_refer` is existence-only, id-preservation keeps the provenance graph intact.
 
 ### T11 — Naming grammar: one shape, one canonical name; nothing else in the name.
-- **Leaf** = `<data_type>_<direction>` (snake_case; direction ∈
+- **Leaf** = `<value>_<direction>` (snake_case; direction ∈
   `observation`/`manipulation`/`assertion`/`calculation`). **Composite** = the bare
-  `<data_type>`. **time_reference** = `absolute_time_reference` / `relative_time_reference`
+  `<value>`. **time_reference** = `absolute_time_reference` / `relative_time_reference`
   (the `<origin>_<mode>_reference` family collapsed to these two, #65; the leaves say
   "time", #73).
 - The name encodes **only the data type and the stance**. It must **never** encode:
@@ -261,7 +297,7 @@ its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 - A name that reads like a sentence fragment about *how it was made or stored* is a smell:
   the how is `method`/`app`/the `data_body` flag, the where is an edge.
 
-### T12 — When a new `data_type` is warranted (the parsimony test).
+### T12 — When a new `value` is warranted (the parsimony test).
 A new composite is the **last resort**, warranted only when the value has a **new
 measurement structure or a new quantity dimension** that no existing composite can carry.
 Before minting one, exhaust the cheaper axes — a new composite is wrong if the difference
@@ -279,7 +315,7 @@ is any of:
 3. **Same quantity, different cardinality / storage / format** → same composite; use a
    length-N `value` (or its bodies). *(a temperature series is `temperature`.)*
 4. **A role or relationship** → a typed **edge** (`directed_relation`, `*_id`), not a
-   data_type. *(donor, target region, parent group.)*
+   value. *(donor, target region, parent group.)*
 
 Mint a composite **only when 1–4 all fail** — i.e. a genuinely new **dimensioned
 quantity** (its own unit: `mass`, `charge`, `pressure`) or a genuinely new **structured
@@ -293,11 +329,11 @@ unexplained look-alike family is a T12 violation to revisit.
 
 ### T13 — Name at the concept's altitude: snake_case, wrapper-free, honestly stanced.
 T11 fixes the *grammar* of a name (which slots, what must not appear); T13 governs the
-*words and case* you actually choose — for both **class/`data_type` names and field
+*words and case* you actually choose — for both **class/`value` names and field
 names**. A good name lets a reader predict its content and scope **without a qualifier or
 a footnote**.
 
-- **Case.** Every name we author — classes, `data_type`s, fields — is **`snake_case`**,
+- **Case.** Every name we author — classes, `value`s, fields — is **`snake_case`**,
   lowercase. The *only* verbatim-cased strings are **external identifiers carried as
   values**: ontology CURIEs (`obi:0000750`), openMINDS term-set names. PascalCase/camelCase
   in a document block is a migration smell (snake-case it) unless it is such an external id.
@@ -328,7 +364,7 @@ a footnote**.
   `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,
   `stimulus_response_scalar_parameters` are v1 smells). **The spine's `data` is not a
   wrapper** (#73 review item 65): it is the parent that declares a value's keyed array
-  shape (`keys`, `complete`, `key_labels_id`) for both `data_type` and `data_body`, so
+  shape (`keys`, `complete`, `key_labels_id`) for both `value` and `data_body`, so
   the word names what those classes hold. A field holds a **role** — name the
   role: v1's generic `parameters` split into **`conditions`** (one-value facts true of
   every value — the experimental conditions, on a statement or on one body, T6) and
@@ -370,8 +406,8 @@ it is drift waiting to happen. **Anything a consumer must know in order to read 
 declared in the schema.** This is T8's *"hard-validated, not advisory"* applied one level
 down: T8 governs the vocabulary a value may take, T14 governs the value's own shape.
 
-- **One payload slot.** Every `data_type` composite exposes its payload at exactly one
-  field: **`value`**. This is what makes T3's `direction × data_type` factoring mechanical
+- **One payload slot.** Every `value` composite exposes its payload at exactly one
+  field: **`value`**. This is what makes T3's `direction × value` factoring mechanical
   — `voltage.value` means the same thing under `voltage_observation` and `voltage_calculation`,
   so one query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
@@ -417,12 +453,12 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   `individual` values, a control's) is its own named field, sized by the same keys.
 - **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
   states its positions itself (`regular` origin + spacing, `values`, or `labels`), or takes
-  them from another `data_type` document through the **`key_id`** edge, chosen by the key's
+  them from another `value` document through the **`key_id`** edge, chosen by the key's
   `positions_from`: position *k* is entry *k* of that document's value, which names it.
   A list several statements share is stated once and the others key by it -- a gene list
   (a standalone `term`), a cell list (a `label_calculation`), a worm's encounter onsets (a
   `time_calculation`). `key_id` mirrors `value_id` ("my value lives in that document" /
-  "this key's positions live in that document") and points only at a `data_type`, never at
+  "this key's positions live in that document") and points only at a `value`, never at
   a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05.)*
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
@@ -452,7 +488,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 **The failure this names is not hypothetical.** The named types shipped for most of the
 project as enum strings whose real layout lived in the meta-schema's prose and in
 `struct('celsius', …)` literals inside migrators. The result: the validator could only
-check `isstruct` inside a cell, and **26 of 35 `data_type` composites emitted no query
+check `isstruct` inside a cell, and **26 of 35 `value` composites emitted no query
 path at all** — no measured value in the corpus was indexable, silently, for as long as
 the convention went unwritten. Two composites (`image`, `contrast_sensitivity`) had also
 drifted off the one-payload-slot rule for exactly the same reason: nothing checked it.
@@ -530,14 +566,14 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 | `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |
 | `method_parameters` | `derived_from_id` | `parent_id` | | |
 | ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |
-| `subject_calculation` | `derived_from_#` | `input_id` | yes | no |
+| `calculation` | `derived_from_#` | `input_id` | yes | no |
 | ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |
-| `subject_interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
+| `interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
 | `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
 | `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |
-| `data` (items 60, 65; was `subject_statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |
+| `data` (items 60, 65; was `statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |
 | `strain` | `background_strain_#` | `background_strain_id` | yes | no |
-| `clock_alignment_configuration` (also `subject_interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
+| `clock_alignment_configuration` (also `interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
 | `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |
 | `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |
 | `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |
@@ -596,6 +632,49 @@ The transfer's value is the KIND of plate; the plate itself is the parent of the
 `contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs
 its `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its
 `method` only when the rule above admits one.
+
+### T17 — A statement describes only its subject; the graph decides what else it holds of, and what is context.
+*(Written 2026-10-08 at Jess Haley's request, from the question of whom a Haley video is about:
+the video shows the assay plate, its patches and the worms on it. It states how a statement
+reaches subjects other than its own, which the object layer (NDI-matlab `ndi.subject`)
+had been doing by rules no tenet named.)*
+
+**The subject is the finest subject that covers everything the value describes**
+(`statement.entity_id`). A video of an assay plate shows the plate, its patches and
+the worms, so its subject is the plate, not the cohort. **Each fact is stated once**: a second
+statement putting the same value on another subject (one per subject, sharing it through
+`value_id`) restates what the graph already says and can come to disagree with it. Sharing a
+value through `value_id` is for a value that really does describe each subject on its own.
+
+A statement then reaches other subjects only along the graph (T4), in three ways, and never
+upward (from a member to its group, a part to its whole, or contents to their container):
+
+| path | what reaches | how it reads |
+|---|---|---|
+| `member_of` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain |
+| `part_of`, `sample_of`, `aliquot_of`, `passage_of` | an **assertion** about the whole | **true of each part**: a plate's assertions hold of its patches. Interactions do not pass: a reading of the whole is not a reading of each part |
+| `contained_in` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 °C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm |
+
+Containment carries context, so a reader keeps it apart:
+- **Only while contained.** A container's interaction reaches its contents only when its time
+  overlaps the `contained_in` relation's time. An assertion has no time and never passes.
+- **Undecidable means excluded.** A stay or a statement whose overlap cannot be decided (no
+  time, an anchor that does not resolve, a stay with no end) does not pass, and is counted;
+  it is never assumed open-ended.
+- **Separate from what is true.** A reader returns context only when asked (NDI-matlab:
+  `'context', true`, default false) and marks each statement with how it was reached, so a
+  search for subjects with a temperature reading still means subjects that were measured.
+  `member_of` and `part_of` inheritance is truth about the subject and is on by default
+  (`'inherited'`).
+
+The reverse question, what was stated of anything inside a container, is a walk the reader
+asks for explicitly (the container's descendants, then their statements), never inheritance.
+
+**A fourth path, from a type to its instances** (2026-10-08, PROPOSAL,
+`V_eta_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
+product). What is **asserted** of the strain or the product is **true of each instance**: N2's
+genotype is each N2 worm's genotype. Like `part_of`, assertions pass and interactions do not
+(a reading of one bottle of a product is not a reading of every bottle), and never upward.
 
 ---
 

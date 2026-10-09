@@ -17,7 +17,7 @@
             "name": "subject_id",
             "mustBeNonEmpty": true,
             "documentation": "The subject whose tissue was assayed. (did_v1 edge, v1 spelling.)",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {

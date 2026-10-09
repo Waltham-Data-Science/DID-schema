@@ -1,10 +1,10 @@
 {
     "document_class": {
-        "class_name": "subject_interaction",
+        "class_name": "interaction",
         "class_version": "3.1.0",
         "superclasses": [
             {
-                "class_name": "subject_statement"
+                "class_name": "statement"
             }
         ],
         "maturity_level": "stable",
@@ -24,14 +24,14 @@
         {
             "name": "instrument_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; subject_id is the patient. Empty for hand measurements (D2).",
-            "must_refer_to_document_class": "subject"
+            "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; entity_id is the patient. Empty for hand measurements (D2).",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Empty for hand/DAQ measurements; REQUIRED on calculations (subject_calculation.require_inherited). Supersedes the v1 `app` block.",
-            "must_refer_to_document_class": "software"
+            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Empty for hand/DAQ measurements; REQUIRED on calculations (calculation.require_inherited). Supersedes the v1 `app` block.",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "method_parameters_id",
@@ -110,7 +110,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings of the algorithm that produced this value, inline: the SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both.",
+            "documentation": "The settings the method was run with, inline: an algorithm's configuration for a calculation, the acquisition settings for an observation (exposure time, zoom, a filter set's excitation and emission bands), a procedure's settings for a manipulation. The technique itself is `method`; the device is `instrument_id`. The SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both.",
             "constraints": {},
             "fields": [
                 {
@@ -338,7 +338,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Optional: irreducible human prose describing this event. Documentation, not queryable structured data. (Moved up from subject_manipulation, #73 audit 2 D9.)",
+            "documentation": "Optional: irreducible human prose describing this event. Documentation, not queryable structured data. (Moved up from manipulation, #73 audit 2 D9.)",
             "constraints": {
                 "maxLength": 4096
             }

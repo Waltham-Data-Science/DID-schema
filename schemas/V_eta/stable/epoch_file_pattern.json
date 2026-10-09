@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "The implementation that applies this rule (the v1 filenavigator class name became an edge, not a string field).",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

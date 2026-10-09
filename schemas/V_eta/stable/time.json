@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed time value -- a dimensioned scalar of TIME, neutral between an INSTANT/OFFSET and an EXTENT. The role is carried by the field name (`start` vs `duration`) or by `subject_statement.variable`, never by this type. Statement leaves that observe, assert or impose a time inherit this `value`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
+            "documentation": "A typed time value -- a dimensioned scalar of TIME, neutral between an INSTANT/OFFSET and an EXTENT. The role is carried by the field name (`start` vs `duration`) or by `statement.variable`, never by this type. Statement leaves that observe, assert or impose a time inherit this `value`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
             "constraints": {},
             "fields": [
                 {

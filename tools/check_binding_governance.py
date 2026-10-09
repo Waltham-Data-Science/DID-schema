@@ -17,8 +17,8 @@ DIFFERENT binding shapes, declared in two places, checked by almost nothing:
   SHAPE 3  term_set       `vocabulary` + `term_set`, naming an openMINDS
                           instance library catalogued in the registry
                                                                 (3 fields)
-  SHAPE 4  node_form      the three pivot fields (subject_statement.variable,
-                          subject_interaction.method,
+  SHAPE 4  node_form      the three pivot fields (statement.variable,
+                          interaction.method,
                           interaction_purpose.purpose): a LEXICAL rule on the
                           value's `node` -- must be a well-formed CURIE -- and
                           no admissible set                      (3 fields)
@@ -119,6 +119,9 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # `entity.type` requires. Normative, and carries no strength of its own.
+    "entity_type_bindings": True,
     "binding_examples": False,
 }
 
@@ -174,18 +177,18 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # B6: bound fields with no registry catalogue row (11 of 14 today: only the
 # three `dataset` openMINDS fields are catalogued).
 # 15 -> 17 (2026-09-30, jess): `study.factors` and `study.design`, bound
-# {strength: preferred, node_form: curie} exactly like `subject_statement.variable`
-# and `subject_interaction.method`, which are also uncatalogued. Cataloguing a
+# {strength: preferred, node_form: curie} exactly like `statement.variable`
+# and `interaction.method`, which are also uncatalogued. Cataloguing a
 # node_form-only binding in the registry is a separate question, open for all four.
 # 17 -> 18 (2026-09-30, jess): `directed_relation.roles`, bound inline to the CRediT
 # roles + `corresponding author` (the same inline_set shape as channels.type).
 # 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
 # subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
-# node_form: curie} like `study.factors` and `subject_statement.variable`.
+# node_form: curie} like `study.factors` and `statement.variable`.
 # 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
-# and the `variable` of keys (data, acquisition_epoch), conditions (subject_statement,
-# data_body) and method parameters (subject_interaction, method_parameters,
+# and the `variable` of keys (data, acquisition_epoch), conditions (statement,
+# data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.
 BASELINE_UNCATALOGUED_BOUND_FIELDS = 28

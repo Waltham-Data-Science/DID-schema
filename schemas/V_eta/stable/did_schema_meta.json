@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_eta/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_eta)",
-    "description": "Validates the structure of DID/NDI schema files for V_eta. The design rules the schema follows are the tenets (schemas/V_eta_tenets.md, T1-T16); this file checks form only. Named composite types (the value cells: time, voltage, mass, pressure, ..., count, score, ontology_term) declare their sub-fields inline, so the canonical slot and the source provenance are read from the schema, not from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, mmHg, degrees; #73 item 44). Every value cell is {<canonical slot>, source_value, source_unit, approximate, tolerance}, except where T14 says otherwise (a count; a date's precision).",
+    "description": "Validates the structure of DID/NDI schema files for V_eta. The design rules the schema follows are the tenets (schemas/V_eta_tenets.md, T1-T17); this file checks form only. Named composite types (the value cells: time, voltage, mass, pressure, ..., count, score, ontology_term) declare their sub-fields inline, so the canonical slot and the source provenance are read from the schema, not from this description. Canonical units are PRACTICAL SI (grams, liters, celsius, mmHg, degrees; #73 item 44). Every value cell is {<canonical slot>, source_value, source_unit, approximate, tolerance}, except where T14 says otherwise (a count; a date's precision).",
     "type": "object",
     "required": [
         "document_class",
@@ -119,6 +119,24 @@
                 "abstract": {
                     "type": "boolean",
                     "description": "If true, no document may have document_class.class_name equal to this class \u2014 only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
+                },
+                "value_kind": {
+                    "type": "object",
+                    "required": [
+                        "root",
+                        "count"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "root": {
+                            "type": "string"
+                        },
+                        "count": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Composition (V_eta_entity_composition_plan.md sec. 1): a document of this class lists, after its own chain, the chain of `count` concrete descendants of `root` (a value kind), minus the classes its own chain already holds. A class whose own chain already contains a descendant of `root` (a named calculator) takes none. Inherited by subclasses."
                 }
             }
         },

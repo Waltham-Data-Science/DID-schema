@@ -14,19 +14,19 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "Which program these settings configure.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
-            "name": "subject_id",
+            "name": "entity_id",
             "mustBeNonEmpty": false,
-            "documentation": "OPTIONAL scope: settings that apply to ONE subject (an element-subject). Precedence comes from THIS and epoch_id -- not from the self-edge.",
-            "must_refer_to_document_class": "subject"
+            "documentation": "OPTIONAL scope: settings that apply to ONE entity. (`subject_id` until 2026-10-08.)",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "OPTIONAL scope: settings that apply to ONE epoch.",
-            "must_refer_to_document_class": "epoch"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "parent_id",
@@ -60,7 +60,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `subject_interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable.",
+            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable.",
             "constraints": {},
             "fields": [
                 {

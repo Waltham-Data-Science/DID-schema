@@ -20,7 +20,7 @@
             "name": "epoch_id",
             "mustBeNonEmpty": true,
             "documentation": "The epoch these files were ingested for. Replaces the invented `epochid` edge, which was empty on all 6,921 documents.",
-            "must_refer_to_document_class": "epoch"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

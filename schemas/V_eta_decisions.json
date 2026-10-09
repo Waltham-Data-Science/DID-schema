@@ -29,7 +29,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_subject_calculation_plan.md",
-      "decision": "`calculator` leaves every V_eta chain; subject_calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough",
+      "decision": "`calculator` leaves every V_eta chain; calculation declares the required software_id + interpreter_id + operating_system_id itself; the name survives only as a retiring v1 tombstone for passthrough",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.",
@@ -103,7 +103,7 @@
         "stimulus_presentation"
       ],
       "plan": "V_eta_stimulus_model_plan.md",
-      "decision": "item data_type (was timed_sequence) + item_manipulation leaf",
+      "decision": "item value (was timed_sequence) + item_manipulation leaf",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
@@ -193,7 +193,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_image_model_plan.md",
-      "decision": "ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable",
+      "decision": "ngrid phases into sampled_body; image is a standalone value; the two image_stack tombstones are held until the subject is recoverable",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
@@ -318,7 +318,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_clock_alignment_cluster_plan.md",
-      "decision": "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_time_reference docs; syncgraph_id restored, invented epochid removed",
+      "decision": "-> `clock_alignment` (relation + `polynomial` value); endpoints are relative_time_reference docs; syncgraph_id restored, invented epochid removed",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
@@ -467,7 +467,7 @@
       ],
       "open_members": [],
       "plan": "V_eta_stimulus_response_model_plan.md",
-      "decision": "4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges",
+      "decision": "4 -> 2: `harmonic_component` value + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
@@ -517,7 +517,7 @@
       "members": [
         {
           "class_name": "subject",
-          "disposition": "persist"
+          "disposition": "(absent)"
         }
       ],
       "open_members": [],
@@ -534,7 +534,7 @@
       "members": [
         {
           "class_name": "session",
-          "disposition": "persist"
+          "disposition": "(absent)"
         }
       ],
       "open_members": [],
@@ -568,7 +568,7 @@
         "projectvar"
       ],
       "plan": "V_eta_go_forward_class_audit.md",
-      "decision": "binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+      "decision": "binaryseries_parameters -> statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
       "status": "team",
       "signed": true,
       "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
@@ -692,8 +692,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 191,
-        "lines_read": 45743,
+        "files_read": 193,
+        "lines_read": 45805,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -734,11 +734,11 @@
         },
         "files_read_by_group": {
           "per_document_migrator": 163,
-          "batch_post_pass": 28
+          "batch_post_pass": 30
         },
         "lines_read_by_group": {
           "per_document_migrator": 30674,
-          "batch_post_pass": 15069
+          "batch_post_pass": 15131
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -861,7 +861,7 @@
         "classes_queried": 8
       },
       "batch_consumers": {
-        "files_scanned": 13,
+        "files_scanned": 15,
         "by_class": {
           "generic_file": [
             "foldGenericFiles.m"
@@ -1096,7 +1096,7 @@
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/binaryseries_parameters.m`",
-          "decided target(s) built: `subject_statement`, `sampled_body`"
+          "decided target(s) built: `statement`, `sampled_body`"
         ],
         "migrator_file": "DID-matlab:migrators_j/binaryseries_parameters.m",
         "n_consuming_refs": 0,
@@ -1157,11 +1157,11 @@
           }
         },
         "decided_targets": [
-          "subject_statement",
+          "statement",
           "sampled_body"
         ],
         "decided_targets_built": [
-          "subject_statement",
+          "statement",
           "sampled_body"
         ],
         "decided_targets_missing": [],
@@ -1507,7 +1507,7 @@
         "n_comment_mentions": 41,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:874 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:898 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:899 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
@@ -1552,7 +1552,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:874 (comment_mention)"
             ]
           }
         },

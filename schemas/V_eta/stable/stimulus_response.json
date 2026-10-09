@@ -14,14 +14,14 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The element (e.g. neuron) whose response was measured. REQUIRED in NDI (\"mustbenotempty\": 1).",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {
             "name": "stimulator_id",
             "mustBeNonEmpty": true,
             "documentation": "The stimulator element that delivered the stimulus -- T7's instrument role. REQUIRED in NDI (\"mustbenotempty\": 1) and set at +ndi/+app/+stimulus/tuning_response.m:328; V_eta had DROPPED it, so a migrated response could not say what stimulated the subject.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {
