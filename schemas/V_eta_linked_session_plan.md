@@ -93,3 +93,4 @@ entity and a session `part_of` relation.
   sessions, add / convert, the self-contained step): built after this is signed.
 
 To be signed: membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a `linked_session` configuration document (path, entity_id)
+TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a linked_session configuration document (path, entity_id)
