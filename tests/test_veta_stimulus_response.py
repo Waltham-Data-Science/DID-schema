@@ -508,7 +508,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # classes deleted, `text` added (166 for an hour, until the three named
     # calculators came back). A leaf declares no fields; the entities' fields
     # carried no min/max. The INERT list below is untouched.
-    assert walked == 169, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-FIFTH MOVEMENT, re-derived not bumped: 169 -> 170 on 2026-10-09,
+    # `linked_session` proposed (V_eta_linked_session_plan.md, not signed). Its one
+    # char field, `path`, carries no min/max, so the INERT list below is untouched.
+    assert walked == 170, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

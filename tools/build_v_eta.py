@@ -12948,6 +12948,43 @@ for _fp in [p for _t, p, _o in _all_class_files()] + [_rp]:
             _fh.write(_new)
 
 
+
+# ---------- 12.13 `linked_session`: where a linked session lives (PROPOSAL, 2026-10-09) ----------
+# NOT SIGNED. V_eta_linked_session_plan.md proposes it; its "To be signed:" line has no
+# TEAM-SIGN-OFF under it. Built ahead of the signature, in `draft/`, at Jess Haley's
+# request ("yes, write the proposal").
+#
+# A dataset holds its sessions INGESTED (their documents in its own database) or LINKED
+# (their documents in the session's own folder). v1's `session_in_a_dataset` recorded
+# both facts in one document; V_eta splits them. MEMBERSHIP is a fact about the
+# science -- the session `part_of` the dataset, or a study of it -- and is a
+# directed_relation for both kinds. WHERE A LINKED SESSION'S DATABASE IS is
+# configuration (signed 2026-10-08, V_eta_entity_composition_plan.md: "configuration
+# is what the software needs to read the data: its own class off `base`, with no
+# statements"), so it is this class, and never an assertion about the session: a path
+# describes a disk, changes when a folder moves, and must be readable before the
+# session's own database is open.
+write("draft", "linked_session",
+      doc("linked_session", ["base"], maturity="draft", fields=[
+          field("path", "char",
+                "Where the linked session's folder is: relative to the dataset's "
+                "folder when it is inside it (so the two can be moved together), "
+                "else absolute. Configuration -- where the software opens the "
+                "session's database -- not a fact about the session, so it is a "
+                "field here and never an assertion.",
+                non_empty=True)],
+          deps=[dep("entity_id", "entity",
+                    "The linked session: its `entity` document, of type session. "
+                    "That document lives in the session's own folder, not in the "
+                    "dataset's database, so the dataset check resolves this edge by "
+                    "opening `path`; finding it there is what shows the folder holds "
+                    "this session, and its base.session_id is the id NDI opens the "
+                    "session with (so there is no `session_id` field here, which "
+                    "would repeat base.session_id's name with another meaning). "
+                    "Membership is not recorded here: the session is "
+                    "`part_of` the dataset (or a study of it) by a directed_relation, "
+                    "as an ingested session is.")]))
+
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
 # tested WITHOUT running a build. A property that can only be exercised by

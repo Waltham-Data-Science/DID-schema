@@ -832,3 +832,5 @@ TEAM-SIGN-OFF [dimensioned classes, batch confirmation]: jess@walthamdatascience
 RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **58 markdown files under `schemas/`** (was 57; +`V_eta_entity_composition_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
