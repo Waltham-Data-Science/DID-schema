@@ -1,9 +1,8 @@
 # V_eta: linked and ingested sessions in a dataset
 
-PROPOSAL, written 2026-10-09 at Jess Haley's request. Not signed: the section's
-"To be signed:" line has no TEAM-SIGN-OFF line under it, and only the team adds
-one (operating rule 4). The class it proposes, `linked_session`, is built in
-`draft/` ahead of the signature.
+Written 2026-10-09 at Jess Haley's request; signed by Jess Haley the same day
+(the TEAM-SIGN-OFF line at the end). The class it proposes, `linked_session`,
+is built in `draft/`.
 
 ## What v1 did
 

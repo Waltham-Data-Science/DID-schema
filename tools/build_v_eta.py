@@ -12949,10 +12949,8 @@ for _fp in [p for _t, p, _o in _all_class_files()] + [_rp]:
 
 
 
-# ---------- 12.13 `linked_session`: where a linked session lives (PROPOSAL, 2026-10-09) ----------
-# NOT SIGNED. V_eta_linked_session_plan.md proposes it; its "To be signed:" line has no
-# TEAM-SIGN-OFF under it. Built ahead of the signature, in `draft/`, at Jess Haley's
-# request ("yes, write the proposal").
+# ---------- 12.13 `linked_session`: where a linked session lives (signed 2026-10-09) ----------
+# V_eta_linked_session_plan.md, signed by Jess Haley 2026-10-09. Built in `draft/`.
 #
 # A dataset holds its sessions INGESTED (their documents in its own database) or LINKED
 # (their documents in the session's own folder). v1's `session_in_a_dataset` recorded
