@@ -262,6 +262,14 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   migrators do for a statement with no time of its own: `jSessionAnchor(preBody, 'during')`
   emits a pass-1 session anchor and `resolveSessionAnchors` re-anchors it to the session
   document -- "imaged during this session". The schema keeps min_count 1.
+  **REVISED 2026-10-14 (Jess: A).** That route does not exist on this schema: `jSessionAnchor`
+  emits `session_relative_reference` and `resolveSessionAnchors` writes `relative_reference`
+  (`:548`), both deleted 2026-09-25 (#65 increment 3b); their 29 callers quarantine in CI, and
+  pass 1 validates each document as it is made (`v1_to_v2.m:302-303`). Same meaning, new
+  route: the pyramid observation carries a transient marker, and a batch pass finds the
+  session document, mints a `relative_time_reference` (`relative_to` the session, relation
+  'during') and sets the observation's `time_reference_id`; point 5's `version` assertion
+  gets one the same way. Built in the lightsheet pass so the migrator port can reuse it.
 - **Point 4 -- store bodies and their format (DECIDED, Jess 2026-10-14).** (a) A SmartSPIM
   pyramid's `fileReference` (a folder of raw TIFF slices, stitched into level 0) is ALSO an
   unheld `opaque_body` of the pyramid observation -- no keys (not one array), not
