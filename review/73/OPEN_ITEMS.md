@@ -271,6 +271,11 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   EDAM:format_2333 binary, and a new EMPTY term for OME-Zarr (a kind of EDAM:format_3915
   Zarr). OLS search 2026-10-14 found no OME-Zarr / NGFF term in any ontology. Amends the
   data_body plan's addendum sec.2.
+- **Point 5 -- the software entity (DECIDED, Jess 2026-10-14: A).** `pipeline_version` is the
+  writer's "tag for the pyramid" (`makePyramid.m:28`), not a program name. The `software`
+  entity is named for the program that writes every v1 pyramid, NDI's lightsheet pyramid
+  builder (`ndi.fun.doc.lightsheet.makePyramid`), and `pipeline_version` is a `version`
+  `text_assertion` about it -- as `ndi.setup.V2.entityDocuments` records a version.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
