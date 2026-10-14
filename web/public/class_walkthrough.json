@@ -237,25 +237,30 @@
      {
       "pass": "foldGenericFiles",
       "path": "src/did/+did2/+convert/foldGenericFiles.m",
-      "site_count": 4,
+      "site_count": 5,
       "sites": [
        {
-        "line": 495,
+        "line": 729,
+        "spelling": "base",
+        "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
+       },
+       {
+        "line": 845,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 555,
+        "line": 905,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 576,
+        "line": 926,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 663,
+        "line": 1013,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -2271,7 +2276,35 @@
   },
   "fileReference": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "foldGenericFiles",
+      "path": "src/did/+did2/+convert/foldGenericFiles.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 603,
+        "spelling": "file_reference",
+        "text": "isRecord = strcmp(classes, 'file_reference');"
+       },
+       {
+        "line": 642,
+        "spelling": "file_reference",
+        "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
+       },
+       {
+        "line": 746,
+        "spelling": "file_reference",
+        "text": "blk = blockOf(rec, 'file_reference');"
+       },
+       {
+        "line": 748,
+        "spelling": "fileReference",
+        "text": "blk = blockOf(rec, 'fileReference');"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -2662,17 +2695,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 74,
+        "line": 84,
         "spelling": "generic_file",
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 321,
+        "line": 421,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 370,
+        "line": 470,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -3915,17 +3948,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 77,
+        "line": 87,
         "spelling": "ontologyLabel",
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 347,
+        "line": 447,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 356,
+        "line": 456,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
