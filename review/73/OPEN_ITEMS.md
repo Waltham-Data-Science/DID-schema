@@ -284,6 +284,12 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   unit, `c`'s positions named by channel, z/y/x checked against the pyramid -- then
   removes them. Each level's keys are complete on their own (item 3: a body carries the
   keys of its own array).
+- **Point 9 -- the pyramid's label, name and type (DECIDED, Jess 2026-10-14: accept).** `label`
+  (a human label, default the acquisition folder), `pyramid_name` (the OME-Zarr multiscales
+  name) and `pyramid_type` (its downsampling method, which each reduced level also records
+  as its `summary statistic`, point 7) describe the store, so they go in the store body's
+  `description`; with point 4 a SmartSPIM pyramid has one too. Cost: no structured search
+  by label. `byte_order` goes on each level's `sampled_body`, whose bytes it describes.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
