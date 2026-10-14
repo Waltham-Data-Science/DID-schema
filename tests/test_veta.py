@@ -3864,7 +3864,9 @@ def test_value_descriptors_live_with_the_value():
     ss = RECORDS["statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each
     # member -- a fact about the claim, not a value descriptor, so it stays here.
-    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions", "distributive"}
+    # `notes` (2026-10-14, Jess): prose about the claim, moved up from interaction
+    # so that an assertion can say why it holds.
+    assert {f["name"] for f in ss["fields"]} == {"variable", "conditions", "distributive", "notes"}
     assert {e["name"] for e in ss["depends_on"]} == {"entity_id", "value_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name

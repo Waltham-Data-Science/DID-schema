@@ -327,21 +327,6 @@
                     "constraints": {}
                 }
             ]
-        },
-        {
-            "name": "notes",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Optional: irreducible human prose describing this event. Documentation, not queryable structured data. (Moved up from manipulation, #73 audit 2 D9.)",
-            "constraints": {
-                "maxLength": 4096
-            }
         }
     ]
 }

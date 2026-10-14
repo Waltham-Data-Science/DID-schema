@@ -370,6 +370,21 @@
             "ontology": null,
             "documentation": "Optional; meaningful only when the subject is a group (`subject.type` group). True: this statement holds of EACH member, as well as of the group (a cohort moved to a plate: each worm was moved). Absent or false: it holds of the group as a whole and of no member by implication (a cohort's size).",
             "constraints": {}
+        },
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional: irreducible human prose about this statement -- what happened, or why it holds. Documentation, not queryable structured data. (Moved up from manipulation, #73 audit 2 D9; to the statement, so assertions carry it too, Jess 2026-10-14.)",
+            "constraints": {
+                "maxLength": 4096
+            }
         }
     ]
 }

@@ -10687,12 +10687,18 @@ _t, _sm = _a2_load("subject_manipulation")                         # (e)
 _notes = _a2_field(_sm["fields"], "notes")
 _a2_drop(_sm["fields"], "notes")
 write(_t, "subject_manipulation", _sm)
-_t, _si = _a2_load("subject_interaction")
-_notes["documentation"] = ("Optional: irreducible human prose describing this event. "
-                           "Documentation, not queryable structured data. (Moved up from "
-                           "subject_manipulation, #73 audit 2 D9.)")
+# ... and on up to the statement (Jess, 2026-10-14): an assertion has as much
+# need of a sentence of prose as an event -- why a plate was excluded, why a
+# recording was not made -- and without it a reason became a second, text-valued
+# statement linked to the first only by its subject.
+_t, _si = _a2_load("subject_statement")
+_notes["documentation"] = ("Optional: irreducible human prose about this statement -- "
+                           "what happened, or why it holds. Documentation, not queryable "
+                           "structured data. (Moved up from subject_manipulation, #73 "
+                           "audit 2 D9; to the statement, so assertions carry it too, "
+                           "Jess 2026-10-14.)")
 _si["fields"].append(_notes)
-write(_t, "subject_interaction", _si)
+write(_t, "subject_statement", _si)
 
 
 # --- D11: stimulus and receptive-field placement ---------------------------------------
