@@ -242,6 +242,12 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   `sampled_body`, not the observation: `data.keys` says a value with `data_body` true has
   each body carry its own array's keys, and every level is a different array (size, voxel
   size). L1's "keys [t, c, z, y, x] on the observation" predates that rule.
+- **Point 7 -- which level is the measurement (DECIDED, Jess 2026-10-14: accept).** By
+  `level` (level 0 = the measurement, every other level `redundant` with its reduction as
+  the body's `summary statistic`), not by `reduction_function`: NDI's `makePyramid.m`
+  stamps `'none'` only on a level SHARED by several reductions (:15-18, :293-300), so a
+  store ingested with one reduction has its full-resolution level 0 stamped `'mean'`.
+  Level 0 is the full-resolution array by OME-Zarr's convention.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
