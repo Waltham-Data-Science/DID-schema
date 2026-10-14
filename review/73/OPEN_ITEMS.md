@@ -276,6 +276,14 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   entity is named for the program that writes every v1 pyramid, NDI's lightsheet pyramid
   builder (`ndi.fun.doc.lightsheet.makePyramid`), and `pipeline_version` is a `version`
   `text_assertion` about it -- as `ndi.setup.V2.entityDocuments` records a version.
+- **Point 8 -- the levels' units and channel names (DECIDED, Jess 2026-10-14: A).** A v1 level
+  carries only `voxel_size_units` (NDI hard-codes 'micrometer', `makePyramid.m:220,353`);
+  the per-axis `axes_units` (a time unit on `t`) and `channel_names` are on the pyramid
+  only. The pyramid migrator carries both on the observation (transient), and the point-3
+  batch pass copies them onto the keys of every level body that observation owns -- `t`'s
+  unit, `c`'s positions named by channel, z/y/x checked against the pyramid -- then
+  removes them. Each level's keys are complete on their own (item 3: a body carries the
+  keys of its own array).
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
