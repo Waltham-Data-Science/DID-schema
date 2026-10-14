@@ -262,6 +262,15 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   migrators do for a statement with no time of its own: `jSessionAnchor(preBody, 'during')`
   emits a pass-1 session anchor and `resolveSessionAnchors` re-anchors it to the session
   document -- "imaged during this session". The schema keeps min_count 1.
+- **Point 4 -- store bodies and their format (DECIDED, Jess 2026-10-14).** (a) A SmartSPIM
+  pyramid's `fileReference` (a folder of raw TIFF slices, stitched into level 0) is ALSO an
+  unheld `opaque_body` of the pyramid observation -- no keys (not one array), not
+  `redundant` (it holds the unstitched slices), described as the levels' raw source. (b)
+  `data_body.format` becomes a bound `ontology_term` (EDAM format terms; EMPTY where EDAM
+  has none), replacing the IANA string: EDAM:format_3591 TIFF, EDAM:format_3997 MPEG-4,
+  EDAM:format_2333 binary, and a new EMPTY term for OME-Zarr (a kind of EDAM:format_3915
+  Zarr). OLS search 2026-10-14 found no OME-Zarr / NGFF term in any ontology. Amends the
+  data_body plan's addendum sec.2.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,

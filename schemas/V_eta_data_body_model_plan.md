@@ -778,6 +778,16 @@ one (`application/x-nbf` + `gzip`).
 **DIRECTION DECIDED, VOCABULARY NOT.** OPEN item 2 stands: the full value set needs a
 corpus sweep before either field is bound.
 
+**AMENDED 2026-10-14 (Jess, lightsheet migrator point 4; no sign-off line): `format` is a
+bound `ontology_term`, not an IANA media type.** IANA is the only registry for media types,
+so a lab format (OME-Zarr has no registration) could only ever be an `application/x-`
+string; v1 already records formats as CURIEs (`fileReference` / `generic_file`
+`format_ontology`: `EDAM:format_3620`, `EMPTY:0000253`), so those migrate as written. EDAM
+format terms first (`EDAM:format_3591` TIFF, `EDAM:format_3997` MPEG-4, `EDAM:format_2333`
+binary, `EDAM:format_3915` Zarr), an EMPTY term where EDAM has none (OME-Zarr, minted as a
+kind of `EDAM:format_3915`). Bound `{strength: preferred, node_form: curie}`, like
+`variable`; the admissible set is not enumerated. `compression` is unchanged.
+
 ## 3. `content_hash` HASHES THE BYTES AS STORED
 
 With `format` + `compression` declared, "the stored bytes" is unambiguous, and it is

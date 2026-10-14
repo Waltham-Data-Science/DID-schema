@@ -6666,12 +6666,19 @@ BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)
 # now, the first writer cements the third pattern permanently."
 data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
                 deps=[STATEMENT_REQ], fields=[
-    field("format", "char",
-          "Container format of the carried bytes as an IANA media type (e.g. "
-          "'application/pdf', 'image/tiff'; `application/x-...` for lab formats "
-          "with no registration). NOT a file extension (data_body plan sec.2). "
-          "A descriptor only.",
-          non_empty=False),
+    # AMENDED 2026-10-14 (jess, lightsheet point 4; not signed): an ontology term,
+    # not an IANA media-type string. v1 already records formats as CURIEs
+    # (`fileReference` / `generic_file` `format_ontology`: EDAM:format_3620,
+    # EMPTY:0000253), and IANA cannot register a lab format, so `x-` strings were
+    # the only option for OME-Zarr. data_body plan, addendum sec.2 amendment.
+    field("format", "ontology_term",
+          "Container format of the carried bytes, as a file-format term: EDAM "
+          "format terms (e.g. EDAM:format_3591 TIFF, EDAM:format_3997 MPEG-4, "
+          "EDAM:format_2333 binary), EMPTY where EDAM has none (OME-Zarr). NOT a "
+          "file extension and NOT a media-type string (data_body plan sec.2, "
+          "amended 2026-10-14). A descriptor only.",
+          non_empty=False,
+          constraints={"binding": {"strength": "preferred", "node_form": "curie"}}),
     # NEW. The unbuilt half of the 2.D "encoding becomes a field" decision that
     # `migrators_j/image.m` has been waiting on: v1 `image.compression` carries
     # 'lzw' beside format 'tiff' and had nowhere to land.
