@@ -223,6 +223,26 @@ migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries fo
 `fromOMEZarr`). Note for the NDI PR: the planned `chunk_index` side-field is unnecessary under
 "a missing member is an empty chunk".
 
+### Lightsheet migrator points (DID-matlab 1aece9a; walked 2026-10-14, no sign-off line)
+
+The migrator build (VH-Lab/DID-matlab#218, `lightsheet_zarr_pyramid.m` / `lightsheet_zarr_level.m`)
+took the most literal reading on 11 points; walked with Jess one at a time.
+
+- **Point 3 -- the store's file record (DECIDED, Jess 2026-10-14; build in progress).** The
+  migrator made its own empty store body and dropped `source_file_id`, so the v1
+  `fileReference` (the store's path, size, checksum) migrated linked to nothing. Per signed
+  #73 item 25 (an external file is an unheld body of the statement whose value it stores;
+  item 18 puts `fileReference` among the eight v1 classes replaced by the review's design,
+  superseding the 2026-09-22 "persists" sign-off), the `fileReference` a pyramid names
+  becomes that pyramid observation's store body (id kept, recorded by location, not
+  ingested), joined by a batch pass; the migrator makes no store body. L4 holds: the
+  record's checksum is the store's `.zattrs` MD5, so it is not `content_hash`. Other
+  `fileReference` documents (the `.gef` sources) are the same decision, a separate build.
+- **Point 2 -- keys (DECIDED, Jess 2026-10-14: accept).** Keys go on each level's
+  `sampled_body`, not the observation: `data.keys` says a value with `data_body` true has
+  each body carry its own array's keys, and every level is a different array (size, voxel
+  size). L1's "keys [t, c, z, y, x] on the observation" predates that rule.
+
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
   variable). Ontology registries were unreachable from the review container.
