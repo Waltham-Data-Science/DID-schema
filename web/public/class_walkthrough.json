@@ -240,32 +240,32 @@
       "site_count": 6,
       "sites": [
        {
-        "line": 982,
+        "line": 992,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1008,
+        "line": 1018,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1165,
+        "line": 1175,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1228,
+        "line": 1238,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1249,
+        "line": 1259,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1336,
+        "line": 1346,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -2298,12 +2298,12 @@
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1025,
+        "line": 1035,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1027,
+        "line": 1037,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }

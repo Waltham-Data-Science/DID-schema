@@ -290,6 +290,14 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   as its `summary statistic`, point 7) describe the store, so they go in the store body's
   `description`; with point 4 a SmartSPIM pyramid has one too. Cost: no structured search
   by label. `byte_order` goes on each level's `sampled_body`, whose bytes it describes.
+- **Point 10 -- terms with no CURIE (DECIDED, Jess 2026-10-14: C).** (a) Fix
+  `tools/check_empty_ontology_nodes.py`, which counts only the literal `jOntologyTerm('', ...)`
+  (`:356`) and so missed every empty node passed through `did2.build`; the gate stayed at 60.
+  (b) Fill now (OLS, 2026-10-14): units `UO:0000017` micrometer, `UO:0000010` second;
+  reductions `NCIT:C25564` maximum, `NCIT:C53319` arithmetic mean; the observation's variable
+  `NCIT:C184706` "Fluorescence Intensity" (was the name `fluorescence`, term worksheet row
+  41). The axis names (time, channel, z, y, x) and `summary statistic` stay names-only for
+  the term worksheet, as in the Haley import.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
