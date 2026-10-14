@@ -753,7 +753,11 @@
       "flags": "No migrator yet (DID-matlab follow-up once NDI-matlab#979 merged). L4's blosc self-description is to be checked on a real NDI chunk by the migrator test.",
       "decided_targets": [
         "sampled_body"
-      ]
+      ],
+      "target_completeness": {
+        "state": "carry_forward",
+        "unresolved_sites": []
+      }
     },
     "lightsheet_zarr_pyramid": {
       "targets": [],
@@ -767,7 +771,11 @@
         "intensity_observation",
         "opaque_body",
         "software"
-      ]
+      ],
+      "target_completeness": {
+        "state": "carry_forward",
+        "unresolved_sites": []
+      }
     },
     "measurement": {
       "targets": [

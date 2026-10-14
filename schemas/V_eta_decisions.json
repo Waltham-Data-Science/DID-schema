@@ -692,8 +692,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 193,
-        "lines_read": 45805,
+        "files_read": 196,
+        "lines_read": 46615,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -733,12 +733,12 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 163,
+          "per_document_migrator": 166,
           "batch_post_pass": 30
         },
         "lines_read_by_group": {
-          "per_document_migrator": 30674,
-          "batch_post_pass": 15131
+          "per_document_migrator": 31457,
+          "batch_post_pass": 15158
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -785,7 +785,7 @@
           "+migrators": 22,
           "+migrators_e": 7,
           "+migrators_i": 9,
-          "+migrators_j": 143
+          "+migrators_j": 146
         },
         "n_files_excluded_v_zeta": 38,
         "files_excluded_v_zeta": [
@@ -1507,9 +1507,9 @@
         "n_comment_mentions": 41,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:874 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:898 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:899 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:886 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:907 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:908 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)"
         ],
@@ -1532,8 +1532,8 @@
             "named_refs": [],
             "n_comment_mentions": 39,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:898 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:899 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:907 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:908 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)",
@@ -1552,7 +1552,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:874 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:886 (comment_mention)"
             ]
           }
         },

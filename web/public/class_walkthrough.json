@@ -425,7 +425,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 637,
+        "line": 648,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -3239,7 +3239,13 @@
   "lightsheetZarrLevel": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/lightsheet_zarr_level.m",
+      "spelling": "lightsheet_zarr_level"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3319,7 +3325,13 @@
   "lightsheetZarrPyramid": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/lightsheet_zarr_pyramid.m",
+      "spelling": "lightsheet_zarr_pyramid"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -7755,7 +7767,7 @@
    "migrators_i"
   ],
   "ndi_ground_truth_classes": 104,
-  "rows_with_a_per_class_migrator_file": 96,
+  "rows_with_a_per_class_migrator_file": 98,
   "rows_with_an_ndi_declaration": 104,
   "rows_without_one": 11
  },

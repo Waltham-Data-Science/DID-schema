@@ -748,14 +748,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         # eight no longer belong here. If this list grows an entry, the
         # question is which channel cannot see the emitter, not whether
         # the number needs updating.
-        # FIVE AGAIN FROM 2026-10-14, for the same reason the spatial eight were
-        # here: NDI-matlab#979 brought lightsheetZarrLevel/Pyramid to origin/main,
-        # their decided targets (intensity_observation, sampled_body, opaque_body,
-        # software) are all built, and their DID-matlab migrators are the next
-        # build. When those land the two climb out and this goes back to three.
+        # (lightsheetZarrLevel/Pyramid were here for a few hours on 2026-10-14,
+        # between their targets being built and their DID-matlab migrators,
+        # 1aece9a, landing.)
         self.assertEqual(failed, [
-            "ensemble", "lightsheetZarrLevel", "lightsheetZarrPyramid",
-            "projectvar", "stimulus_parameter_table"])
+            "ensemble", "projectvar", "stimulus_parameter_table"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "
