@@ -306,6 +306,13 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   `NCIT:C184706` "Fluorescence Intensity" (was the name `fluorescence`, term worksheet row
   41). The axis names (time, channel, z, y, x) and `summary statistic` stay names-only for
   the term worksheet, as in the Haley import.
+- **Point 11 -- the level's id (DECIDED, Jess 2026-10-14: A).** Nothing on NDI `origin/main`
+  points at a level by edge (`git grep lightsheetZarrLevel_id` finds none; `levelTable.m:51`
+  finds levels by `isa` query), and the batch orphan check guards database edges. But the
+  level body got a NEW id (`lightsheet_zarr_level.m:183`; `did2.build.sampledBody` had no `Id`
+  option), so an id held outside the database's edges (GUI state, an upload record, a
+  script) would stop resolving. The level's `sampled_body` keeps the v1 level's `base.id`,
+  as the calculator folds keep theirs.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
