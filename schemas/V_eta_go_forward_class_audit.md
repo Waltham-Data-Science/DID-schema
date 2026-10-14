@@ -834,3 +834,5 @@ RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown file
 RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **58 markdown files under `schemas/`** (was 57; +`V_eta_entity_composition_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.

@@ -594,3 +594,5 @@ RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_
 RE-DERIVED 2026-09-23 (sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 1,180 .m files (was 1,179). Re-derive with `python3 tools/check_prose_counts.py`, do not quote directly.
 
 RE-DERIVED 2026-09-25 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `0a2cdeccb`: 102 NDI templates on origin/main; 1,181 .m files (was 1,180; `git ls-tree -r origin/main | grep -c '\.m$'` = 1181). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.

@@ -2852,3 +2852,7 @@ RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_p
 RE-DERIVED 2026-10-08 (didmatlab_m_files, sibling drift, the same coupling as the 324 above): **325 .m file(s) under DID-matlab src/** on `claude/ecstatic-pascal-md91fw` once `+did2/+build/private/resolveLeaf.m` lands (a leaf name the schema spells as a direction plus a value kind; `cd DID-matlab && find src -name '*.m' | wc -l` = 325). Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175); **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
