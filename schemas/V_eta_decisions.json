@@ -692,8 +692,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 196,
-        "lines_read": 47377,
+        "files_read": 197,
+        "lines_read": 47702,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -734,11 +734,11 @@
         },
         "files_read_by_group": {
           "per_document_migrator": 166,
-          "batch_post_pass": 30
+          "batch_post_pass": 31
         },
         "lines_read_by_group": {
-          "per_document_migrator": 31536,
-          "batch_post_pass": 15841
+          "per_document_migrator": 31607,
+          "batch_post_pass": 16095
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -861,7 +861,7 @@
         "classes_queried": 8
       },
       "batch_consumers": {
-        "files_scanned": 15,
+        "files_scanned": 16,
         "by_class": {
           "generic_file": [
             "foldGenericFiles.m"

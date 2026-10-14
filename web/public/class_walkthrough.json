@@ -240,34 +240,46 @@
       "site_count": 6,
       "sites": [
        {
-        "line": 992,
+        "line": 1068,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1018,
+        "line": 1094,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1175,
+        "line": 1259,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1238,
+        "line": 1322,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1259,
+        "line": 1343,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1346,
+        "line": 1430,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "mintSessionDuring",
+      "path": "src/did/+did2/+convert/mintSessionDuring.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 153,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name) ..."
        }
       ]
      },
@@ -2288,22 +2300,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 642,
+        "line": 661,
         "spelling": "file_reference",
         "text": "isRecord = strcmp(classes, 'file_reference');"
        },
        {
-        "line": 713,
+        "line": 755,
         "spelling": "file_reference",
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1035,
+        "line": 1111,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1037,
+        "line": 1113,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
@@ -2705,12 +2717,12 @@
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 458,
+        "line": 477,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 507,
+        "line": 526,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -3958,12 +3970,12 @@
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 484,
+        "line": 503,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 493,
+        "line": 512,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
@@ -4833,6 +4845,33 @@
         "line": 669,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
+       }
+      ]
+     },
+     {
+      "pass": "mintSessionDuring",
+      "path": "src/did/+did2/+convert/mintSessionDuring.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 36,
+        "spelling": "session",
+        "text": "%   leaves it) or an `entity` whose `type` is 'session' (the V_eta form"
+       },
+       {
+        "line": 109,
+        "spelling": "session",
+        "text": "if strcmp(cls, 'session')"
+       },
+       {
+        "line": 120,
+        "spelling": "session",
+        "text": "tf = strcmpi(char(t.name), 'session');"
+       },
+       {
+        "line": 122,
+        "spelling": "session",
+        "text": "tf = strcmpi(char(t), 'session');"
        }
       ]
      },
@@ -7795,7 +7834,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 20,
+  "convert_package_files_scanned": 21,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 115,

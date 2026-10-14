@@ -47,13 +47,13 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 196 |
+| build: migrator files inspected | 197 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 166 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 30 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 31 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 38 |
-| build: migrator lines inspected | 47377 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 31536 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 15841 |
+| build: migrator lines inspected | 47702 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 31607 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 16095 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
@@ -448,7 +448,7 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 15 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 16 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
 - `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
