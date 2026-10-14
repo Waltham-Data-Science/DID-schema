@@ -256,6 +256,12 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   v1 1 -- the only v1 series classes on NDI main are `lightsheetZarrLevel`, `demoNDISeries`,
   `demoNDISeriesMixed`), and the level migrator renames `chunk.bin_k` -> `body_data_{k-1}`
   (the manifest's slots, already zero-based, do not move).
+- **Point 1 -- the pyramid's time reference (DECIDED, Jess 2026-10-14: A).** The pyramid
+  carries no time, and the migrator dropped the observation's required `time_reference_id`
+  (min_count 1, enforced by `did2.build`, not by the cache). It now does what 29 other
+  migrators do for a statement with no time of its own: `jSessionAnchor(preBody, 'during')`
+  emits a pass-1 session anchor and `resolveSessionAnchors` re-anchors it to the session
+  document -- "imaged during this session". The schema keeps min_count 1.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
