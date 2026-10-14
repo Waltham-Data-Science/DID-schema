@@ -248,6 +248,14 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   stamps `'none'` only on a level SHARED by several reductions (:15-18, :293-300), so a
   store ingested with one reduction has its full-resolution level 0 stamped `'mean'`.
   Level 0 is the full-resolution array by OME-Zarr's convention.
+- **Point 6 -- body file numbering (DECIDED, Jess 2026-10-14: keep signed item 17, 0-based).**
+  V_eta `body_data` members stay numbered from 0 (`body_data_0` = chunk 0 = manifest slot 0;
+  T14). The clash is DID's: `addFileSeries` refuses member 0 (`document.m:1034`) and
+  `seriesMemberOf` reads `NAME_1` as slot 0, because item 17's DID-matlab follow-up was never
+  built. Build it there: the series member base comes from the document's vintage (V_eta 0,
+  v1 1 -- the only v1 series classes on NDI main are `lightsheetZarrLevel`, `demoNDISeries`,
+  `demoNDISeriesMixed`), and the level migrator renames `chunk.bin_k` -> `body_data_{k-1}`
+  (the manifest's slots, already zero-based, do not move).
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
