@@ -66,7 +66,8 @@ SCHEMAS = os.path.join(REPO_ROOT, "schemas")
 LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
 LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
 
-V1_UNIVERSE = 113
+# 115: NDI-matlab#979 added lightsheetZarrPyramid + lightsheetZarrLevel (2026-10).
+V1_UNIVERSE = 115
 
 
 def _ledger():

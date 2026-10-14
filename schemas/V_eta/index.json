@@ -1044,6 +1044,30 @@
             "disposition": "persist"
         },
         {
+            "class_name": "lightsheet_zarr_level",
+            "tier": "deprecated",
+            "class_version": "2.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/deprecated/lightsheet_zarr_level.json",
+            "disposition": "retire",
+            "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
+        },
+        {
+            "class_name": "lightsheet_zarr_pyramid",
+            "tier": "deprecated",
+            "class_version": "2.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/deprecated/lightsheet_zarr_pyramid.json",
+            "disposition": "retire",
+            "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
+        },
+        {
             "class_name": "linked_session",
             "tier": "draft",
             "class_version": "1.0.0",

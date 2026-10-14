@@ -79,9 +79,11 @@ LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
 # demoNDISeriesMixed, fileReference, geneExpression, geneList, geneListMapping,
 # spatialGeneExpressionCells/Pyramid/Tiles -- and #67 added `calculator` as a
 # V_eta class whose NDI v1 name matches, so it enters the ledger by the join).
+# NDI-matlab origin/main then gained lightsheetZarrPyramid and lightsheetZarrLevel
+# (NDI-matlab#979, 2026-10), so 115.
 # A classifier whose denominator quietly shrinks is the failure every operating
 # rule in CLAUDE.md is written against.
-V1_UNIVERSE = 113
+V1_UNIVERSE = 115
 
 # The completion rungs, written out here rather than imported so a change to
 # coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
@@ -746,8 +748,14 @@ class TestTheCommittedLedger(unittest.TestCase):
         # eight no longer belong here. If this list grows an entry, the
         # question is which channel cannot see the emitter, not whether
         # the number needs updating.
+        # FIVE AGAIN FROM 2026-10-14, for the same reason the spatial eight were
+        # here: NDI-matlab#979 brought lightsheetZarrLevel/Pyramid to origin/main,
+        # their decided targets (intensity_observation, sampled_body, opaque_body,
+        # software) are all built, and their DID-matlab migrators are the next
+        # build. When those land the two climb out and this goes back to three.
         self.assertEqual(failed, [
-            "ensemble", "projectvar", "stimulus_parameter_table"])
+            "ensemble", "lightsheetZarrLevel", "lightsheetZarrPyramid",
+            "projectvar", "stimulus_parameter_table"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

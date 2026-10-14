@@ -3289,3 +3289,5 @@ RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in 
 RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **115 v1 ledger rows** in the V_eta coverage ledger (was 113); **104 NDI templates** on origin/main (was 102); **172 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 176). Re-derive with `check_prose_counts`, do not quote these directly.

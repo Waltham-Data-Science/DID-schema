@@ -462,3 +462,5 @@ the line above and decided nothing.
 
 
 RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 113 v1 ledger rows in the coverage ledger. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).
+
+RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **115 v1 ledger rows** in the V_eta coverage ledger (was 113). Re-derive with `check_prose_counts`, do not quote these directly.

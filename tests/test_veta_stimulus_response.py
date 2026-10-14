@@ -511,7 +511,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # TWENTY-FIFTH MOVEMENT, re-derived not bumped: 169 -> 170 on 2026-10-09,
     # `linked_session` proposed (V_eta_linked_session_plan.md, not signed). Its one
     # char field, `path`, carries no min/max, so the INERT list below is untouched.
-    assert walked == 170, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-SIXTH MOVEMENT, re-derived not bumped: 170 -> 172 on 2026-10-14, the
+    # lightsheet_zarr_pyramid / lightsheet_zarr_level v1 tombstones (NDI-matlab#979).
+    # Their fields carry no min/max, so the INERT list below is untouched.
+    assert walked == 172, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

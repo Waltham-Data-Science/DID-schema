@@ -3236,6 +3236,156 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "lightsheetZarrLevel": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": []
+   },
+   "migrator_reads": [],
+   "ndi": {
+    "depends_on": [
+     "lightsheetZarrPyramid_id",
+     "subject_id",
+     "source_file_id"
+    ],
+    "depends_on_required": {
+     "lightsheetZarrPyramid_id": true,
+     "source_file_id": false,
+     "subject_id": false
+    },
+    "depends_on_schema": [
+     "lightsheetZarrPyramid_id",
+     "source_file_id",
+     "subject_id"
+    ],
+    "depends_on_template": [
+     "lightsheetZarrPyramid_id",
+     "subject_id",
+     "source_file_id"
+    ],
+    "fields": [
+     "axes_order",
+     "byte_order",
+     "chunk_grid",
+     "chunk_index_origin",
+     "chunk_order",
+     "chunks",
+     "codec",
+     "codec_params",
+     "dtype",
+     "fill_value",
+     "label",
+     "level",
+     "n_chunks_stored",
+     "reduction_function",
+     "shape",
+     "translation",
+     "voxel_size",
+     "voxel_size_units"
+    ],
+    "files": [
+     "chunk.bin"
+    ],
+    "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrLevel.json @origin/main",
+    "raw_fields": [
+     "axes_order",
+     "byte_order",
+     "chunk_grid",
+     "chunk_index_origin",
+     "chunk_order",
+     "chunks",
+     "codec",
+     "codec_params",
+     "dtype",
+     "fill_value",
+     "label",
+     "level",
+     "n_chunks_stored",
+     "reduction_function",
+     "shape",
+     "translation",
+     "voxel_size",
+     "voxel_size_units"
+    ],
+    "schema_document_form": "flat",
+    "superclasses": [
+     "base"
+    ]
+   },
+   "ndi_absent_reason": null,
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "lightsheetZarrPyramid": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": []
+   },
+   "migrator_reads": [],
+   "ndi": {
+    "depends_on": [
+     "subject_id",
+     "element_id",
+     "source_file_id"
+    ],
+    "depends_on_required": {
+     "element_id": false,
+     "source_file_id": false,
+     "subject_id": true
+    },
+    "depends_on_schema": [
+     "element_id",
+     "source_file_id",
+     "subject_id"
+    ],
+    "depends_on_template": [
+     "subject_id",
+     "element_id",
+     "source_file_id"
+    ],
+    "fields": [
+     "axes_order",
+     "axes_units",
+     "byte_order",
+     "channel_names",
+     "dtype",
+     "label",
+     "n_channels",
+     "pipeline_version",
+     "pyramid_name",
+     "pyramid_type",
+     "shape_level0",
+     "translation_level0",
+     "voxel_size_level0",
+     "voxel_size_units"
+    ],
+    "files": [],
+    "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrPyramid.json @origin/main",
+    "raw_fields": [
+     "axes_order",
+     "axes_units",
+     "byte_order",
+     "channel_names",
+     "dtype",
+     "label",
+     "n_channels",
+     "pipeline_version",
+     "pyramid_name",
+     "pyramid_type",
+     "shape_level0",
+     "translation_level0",
+     "voxel_size_level0",
+     "voxel_size_units"
+    ],
+    "schema_document_form": "flat",
+    "superclasses": [
+     "base"
+    ]
+   },
+   "ndi_absent_reason": null,
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "measurement": {
    "consumers": {
     "convert_package_mentions": [
@@ -7598,15 +7748,15 @@
   "convert_package_files_scanned": 20,
   "did_matlab_available": true,
   "ledger_disagreements": [],
-  "ledger_rows_read": 113,
+  "ledger_rows_read": 115,
   "migrator_packages_searched": [
    "migrators_j",
    "migrators",
    "migrators_i"
   ],
-  "ndi_ground_truth_classes": 102,
+  "ndi_ground_truth_classes": 104,
   "rows_with_a_per_class_migrator_file": 96,
-  "rows_with_an_ndi_declaration": 102,
+  "rows_with_an_ndi_declaration": 104,
   "rows_without_one": 11
  },
  "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to (joined in the viewer against the schema index it already loads). A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",

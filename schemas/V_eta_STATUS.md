@@ -9,9 +9,9 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 174 |
+| target classes | 176 |
 | settled (persist) | 92 |
-| settled (retire) | 74 |
+| settled (retire) | 76 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
 | open **decision families** | **27** |
@@ -417,7 +417,7 @@ visible either.
 
 | disposition | count |
 |---|---|
-| retire | 71 |
+| retire | 73 |
 | consumed by migrator (no tombstone) | 30 |
 | in_progress | 6 |
 | test/demo fixture (non-production) | 2 |

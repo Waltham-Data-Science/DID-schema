@@ -11799,6 +11799,11 @@ _RET_HOLDOVER = {"measurement", "calculator"}
 _RET_SPATIAL = {"spatial_gene_expression_pyramid", "spatial_gene_expression_tiles",
                 "spatial_gene_expression_cells", "cell_type_labels", "gene_list",
                 "gene_list_mapping", "file_reference", "gene_expression"}
+# #73 lightsheet L1-L4 (review/73/OPEN_ITEMS.md, walked 2026-09-25, no sign-off line;
+# built on signed items 29, 51 and 58):
+# the two NDI lightsheet classes are v1 SOURCE tombstones (section 12.14), migrated
+# into an intensity_observation + sampled_body / opaque_body.
+_RET_LIGHTSHEET = {"lightsheet_zarr_pyramid", "lightsheet_zarr_level"}
 _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
@@ -12119,6 +12124,8 @@ def _disposition(name, doc=None):
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
     if name in _RET_SPATIAL:
         return ("retire", "#73: replaced by the spatial-transcriptomics design")
+    if name in _RET_LIGHTSHEET:
+        return ("retire", "#73 lightsheet L1-L4: -> intensity_observation + bodies")
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
     if name in _RET_CARRIERS:
@@ -12982,6 +12989,92 @@ write("draft", "linked_session",
                     "Membership is not recorded here: the session is "
                     "`part_of` the dataset (or a study of it) by a directed_relation, "
                     "as an ingested session is.")]))
+
+# ---------- 12.14 lightsheet OME-Zarr: two v1 SOURCE tombstones (#73 lightsheet L1-L4) ----------
+# NDI-matlab#979 merged into origin/main and brought two did_v1 templates,
+# `lightsheetZarrPyramid` and `lightsheetZarrLevel` (ndi_common/database_documents/
+# data/). Their V_eta design was decided in the #73 lightsheet walkthrough L1-L4
+# (review/73/OPEN_ITEMS.md, walked 2026-09-25: "jess agreed; not built, no sign-off
+# line") and rests on items 29, 51 and 58 of V_eta_spatial_transcriptomics_plan.md,
+# which TEAM-SIGN-OFF [spatial_transcriptomics_family] covers. L1-L4 themselves carry
+# no sign-off line, so the ledger reads these two rows unsigned:
+#   pyramid  -> an `intensity_observation` of its subject over keys [t, c, z, y, x]
+#               (`element_id` -> instrument_id, `pipeline_version` -> a `software`
+#               entity), the OME-Zarr store an unheld `opaque_body` of it;
+#   level    -> a `sampled_body` of that observation when it holds bytes (level 0 the
+#               measurement, reduced levels `redundant`, `summary statistic:
+#               mean|maximum` a body condition); a level holding no bytes (the
+#               writer's default, materializeChunks false) folds to nothing.
+# NO NEW V_eta CLASS: these are the v1 SOURCE classes, restated from the NDI pair so a
+# document of either validates as it arrives (a passthrough, or before its migrator
+# runs) -- property names from the template, types and required-ness from
+# schema_documents/data/<class>_schema.json. Class names are snake_cased (the standing
+# convention); dependency and file names stay in did_v1 spelling, because
+# universalRenames skips `depends_on` and `files` and they reach validation verbatim.
+# NDI writes `chunk.bin` as a 1-based FILE SERIES (`chunk.bin_1`..); declared here
+# with `series: true`. `source_file_id` names the retired `file_reference` copy.
+# Disposition: retire (_RET_LIGHTSHEET).
+_LS_TEMPLATE = "NDI-matlab origin/main, ndi_common/database_documents/data/"
+write("deprecated", "lightsheet_zarr_pyramid",
+      doc("lightsheet_zarr_pyramid", ["base"], version="2.0.0", maturity="deprecated",
+          deps=[dep("subject_id", "entity",
+                    "The subject imaged. NDI's schema: mustbenotempty 1."),
+                dep("element_id", "entity",
+                    "The imaging element (the microscope), promoted to a subject with "
+                    "its id preserved. NDI's schema: mustbenotempty 0.", non_empty=False),
+                dep("source_file_id", "file_reference",
+                    "The fileReference naming the source OME-Zarr store. NDI's schema: "
+                    "mustbenotempty 0.", non_empty=False)],
+          fields=[
+              field("label", "string", "Human-readable name for this pyramid."),
+              field("pyramid_name", "string", "The NGFF multiscales.name of the source store."),
+              field("pyramid_type", "string", "The NGFF multiscales.type, verbatim."),
+              field("axes_order", "string", "The axis order of every level (e.g. 'tczyx')."),
+              field("axes_units", "string", "Per-axis unit strings, comma-separated, in axes_order."),
+              field("channel_names", "string", "Channel names, comma-separated, in the order of the c axis."),
+              field("n_channels", "integer", "The number of channels."),
+              field("shape_level0", "matrix", "Shape of the finest array, in axes_order.", scalar=False),
+              field("voxel_size_level0", "matrix", "Per-axis voxel size at level 0.", scalar=False),
+              field("voxel_size_units", "string", "The unit of voxel_size_level0 and each level's voxel_size."),
+              field("translation_level0", "matrix", "Per-axis translation at level 0.", scalar=False),
+              field("dtype", "string", "The NGFF .zarray dtype string (e.g. '<u2'), shared by every level."),
+              field("pipeline_version", "string", "The pipeline that produced the pyramid."),
+              field("byte_order", "string", "Byte order of the level chunks: 'little' or 'big'."),
+          ]))
+_ls_level = doc("lightsheet_zarr_level", ["base"], version="2.0.0", maturity="deprecated",
+          deps=[dep("lightsheetZarrPyramid_id", "lightsheet_zarr_pyramid",
+                    "The pyramid this level belongs to. NDI's schema: mustbenotempty 1."),
+                dep("subject_id", "entity",
+                    "The subject imaged. NDI's schema: mustbenotempty 0.", non_empty=False),
+                dep("source_file_id", "file_reference",
+                    "The fileReference naming the source store. NDI's schema: "
+                    "mustbenotempty 0.", non_empty=False)],
+          fields=[
+              field("label", "string", "Human-readable name for this level."),
+              field("level", "integer", "0-based level index; 0 is the finest."),
+              field("reduction_function", "string",
+                    "How the level was made from level 0: 'none' (level 0), 'mean', 'max'."),
+              field("axes_order", "string", "Copied from the parent pyramid."),
+              field("shape", "matrix", "Per-axis size of this level's array.", scalar=False),
+              field("chunks", "matrix", "Per-axis chunk size.", scalar=False),
+              field("chunk_grid", "matrix", "Per-axis count of chunks.", scalar=False),
+              field("n_chunks_stored", "integer", "How many chunk.bin_# files were written."),
+              field("chunk_index_origin", "integer", "The first # of the chunk.bin_# series (1)."),
+              field("chunk_order", "string", "How the chunk grid is flattened to the series ('C')."),
+              field("dtype", "string", "The Zarr dtype string (e.g. '<u2')."),
+              field("fill_value", "double", "The value of a chunk elided from the series."),
+              field("byte_order", "string", "Byte order of the chunk bytes."),
+              field("codec", "string", "The chunk codec ('raw', 'blosc', 'zstd')."),
+              field("codec_params", "string", "JSON-encoded codec parameters."),
+              field("voxel_size", "matrix", "Per-axis voxel size at this level.", scalar=False),
+              field("voxel_size_units", "string", "The unit of voxel_size."),
+              field("translation", "matrix", "Per-axis translation at this level.", scalar=False),
+          ])
+_ls_level["file"] = [{"name": "chunk.bin", "series": True,
+                      "documentation": "The level's chunk bytes, a 1-based FILE SERIES "
+                                       "(chunk.bin_1, chunk.bin_2, ...); written only when "
+                                       "the writer materialized the chunks."}]
+write("deprecated", "lightsheet_zarr_level", _ls_level)
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
