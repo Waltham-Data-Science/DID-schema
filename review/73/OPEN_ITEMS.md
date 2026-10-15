@@ -314,6 +314,34 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   script) would stop resolving. The level's `sampled_body` keeps the v1 level's `base.id`,
   as the calculator folds keep theirs.
 
+### Lightsheet reader questions (NDI lightsheet readers; decided 2026-10-15, no sign-off line)
+
+Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
+
+- **R1 -- what marks a migrated pyramid (DECIDED, Jess: the method).** The observation's
+  `method` is `FBbi:00000369` "selective plane illumination fluorescence microscopy" (OLS,
+  2026-10-15), set on every pyramid, OME-Zarr and SmartSPIM alike. Readers find a migrated
+  pyramid by it. The `software` entity (point 5) stays as the record of who built the
+  pyramid; it is no longer the reader's marker.
+- **R2 -- level numbers (DECIDED, Jess: resolution identifies a level).** The level index is
+  not carried (point 11's level body keeps the id, not the number). A level with no stored
+  chunks migrates to nothing, so readers rank the levels of each reduction by resolution and
+  the numbers they show can differ from v1's. Nothing to build.
+- **R3 -- `label`, `pyramid_name`, `pyramid_type` (DECIDED, Jess).** `label` goes in the
+  observation's `notes` and stays there. `pyramid_name` (the NGFF multiscales name) stays in
+  the store body's `description`. `pyramid_type` is dropped: it repeats the levels'
+  `summary statistic`, and an earlier writer labelled mean pyramids `gaussian`.
+- **R4 -- axes with no spacing (accepted as built).** A channel axis is categorical (names),
+  and a space or time axis with no source `scale` has index positions 0..n-1 with no unit.
+  The reader's level table shows those as voxel size 1 and translation 0, which is what the
+  index positions imply.
+- **R5 -- deleting a migrated pyramid (accepted as built).** The store body is owned by the
+  pyramid's observation, so deleting the observation deletes the store record too (left, it
+  would be an orphan). The stored bytes are not touched; in v1 the fileReference survived.
+- **R6 -- a level's data type (accepted as built).** The type is on the pyramid's observation
+  (type per statement, extent per body, `V_eta_data_body_model_plan.md`); a reader gets a
+  level's type through its `owner_id`.
+
 ### Spec facts with no place (Haley import stage-2 report; decided 2026-10-15, no sign-off line)
 
 - **Software -> its maker: new `developed_by`** (software -> organization; Jess). The import's
