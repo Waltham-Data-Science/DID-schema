@@ -412,7 +412,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # assessment, experimental approach; study factors, design -- became variable-keyed
     # term-assertion rows), relation 31 -> 30 (-stored_at, -hosted_by, -has_homepage,
     # +sold_by, +recorded_by), entity_field 3 -> 1 (entity.type), + entity_type 19.
-    assert total == 65, f'registry row count moved: {total}'
+    # relation 30 -> 32 on 2026-10-15 (jess): `developed_by` (software -> its
+    # developer) and `hosted_by` again, now dataset -> its host.
+    assert total == 67, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -423,7 +425,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above)
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 30),            # 31 -> 30, 2026-10-08
+    ("relation_bindings", 32),            # 31 -> 30, 2026-10-08; 30 -> 32, 2026-10-15
     ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
     ("entity_type_bindings", 19),         # new 2026-10-08
     ("binding_examples", 4),

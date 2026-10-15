@@ -767,6 +767,40 @@
         {
             "relation": {
                 "node": "",
+                "name": "developed_by"
+            },
+            "class": "directed_relation",
+            "child_role": "the software",
+            "parent_role": "its developer",
+            "child_types": [
+                "software"
+            ],
+            "parent_types": [
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "hosted_by"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset",
+            "parent_role": "an organization hosting a copy of it",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
                 "name": "recorded_by"
             },
             "class": "directed_relation",

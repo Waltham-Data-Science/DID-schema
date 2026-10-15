@@ -12867,6 +12867,16 @@ def _relrow(name, child_role, parent_role, child_types, parent_types):
             "child_types": child_types, "parent_types": parent_types,
             "timed": False, "ordered": False}
 _rows.append(_relrow("sold_by", "the product", "the vendor", ["product"], ["organization"]))
+# Jess 2026-10-15 (the Haley import's stage-2 report: six spec facts with no place):
+# software names who makes it, as openMINDS Software's `developer` -- `sold_by` would
+# claim a sale, which free and open-source software never had.
+_rows.append(_relrow("developed_by", "the software", "its developer", ["software"],
+                     ["organization"]))
+# ... and a dataset names who hosts a copy of it. The old `hosted_by` (web_resource ->
+# organization) went with web_resource in the entity merge (`_GONE_REL` above); a
+# stored copy became one of the dataset's identifiers, so the host is the dataset's.
+_rows.append(_relrow("hosted_by", "the dataset", "an organization hosting a copy of it",
+                     ["dataset"], ["organization"]))
 _rows.append(_relrow("recorded_by", "the epoch", "the acquisition system that recorded it",
                      ["epoch"], ["acquisition_system"]))
 _reg["relation_bindings"] = _rows

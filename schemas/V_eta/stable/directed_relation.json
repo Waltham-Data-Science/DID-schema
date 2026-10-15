@@ -173,6 +173,14 @@
                         },
                         {
                             "node": "",
+                            "name": "developed_by"
+                        },
+                        {
+                            "node": "",
+                            "name": "hosted_by"
+                        },
+                        {
+                            "node": "",
                             "name": "recorded_by"
                         }
                     ],

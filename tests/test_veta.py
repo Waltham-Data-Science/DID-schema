@@ -1582,8 +1582,14 @@ def test_relation_bindings_present():
     # lowercase prefix since 2026-10-08: CURIE_lookups_meta.json's own convention
     assert vocab["part_of"]["relation"]["node"] == "bfo:0000050"
     # a URL lives in global_identifier since 2026-10-08, so these are gone
-    for gone in ("stored_at", "hosted_by", "has_homepage"):
+    for gone in ("stored_at", "has_homepage"):
         assert gone not in vocab, f"{gone} is back"
+    # `hosted_by` came back 2026-10-15 (jess) with a different child: the DATASET
+    # a host keeps a copy of, not a web_resource (which no longer exists)
+    assert vocab["hosted_by"]["child_types"] == ["dataset"]
+    assert vocab["hosted_by"]["parent_types"] == ["organization"]
+    assert vocab["developed_by"]["child_types"] == ["software"]
+    assert vocab["developed_by"]["parent_types"] == ["organization"]
     # every endpoint type is a real class or an entity `type` (2026-10-08)
     ent = RECORDS["entity"][1]
     known = {r[1]["document_class"]["class_name"] for r in RECORDS.values()} | {

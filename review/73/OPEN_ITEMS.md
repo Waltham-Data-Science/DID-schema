@@ -314,6 +314,17 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   script) would stop resolving. The level's `sampled_body` keeps the v1 level's `base.id`,
   as the calculator folds keep theirs.
 
+### Spec facts with no place (Haley import stage-2 report; decided 2026-10-15, no sign-off line)
+
+- **Software -> its maker: new `developed_by`** (software -> organization; Jess). The import's
+  spec names each program's `vendor` (StreamPix -> NorPix, WormLab -> MBF, MATLAB ->
+  MathWorks, Photoshop / Illustrator -> Adobe). `sold_by` was rejected: it claims a sale,
+  which free and open-source software never had. Matches openMINDS Software `developer`.
+- **A dataset -> who hosts a copy of it: `hosted_by` again** (dataset -> organization; Jess).
+  The old `hosted_by` (web_resource -> organization) went with web_resource in the
+  2026-10-08 entity merge; a stored copy became one of the dataset's identifiers, so the
+  host is now the dataset's (the NDI Cloud page's host `ndi_cloud`).
+
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
   variable). Ontology registries were unreachable from the review container.
