@@ -801,6 +801,23 @@
         {
             "relation": {
                 "node": "",
+                "name": "distributed_as"
+            },
+            "class": "directed_relation",
+            "child_role": "the strain",
+            "parent_role": "a product it is distributed as",
+            "child_types": [
+                "strain"
+            ],
+            "parent_types": [
+                "product"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
                 "name": "recorded_by"
             },
             "class": "directed_relation",

@@ -1590,6 +1590,8 @@ def test_relation_bindings_present():
     assert vocab["hosted_by"]["parent_types"] == ["organization"]
     assert vocab["developed_by"]["child_types"] == ["software"]
     assert vocab["developed_by"]["parent_types"] == ["organization"]
+    assert vocab["distributed_as"]["child_types"] == ["strain"]
+    assert vocab["distributed_as"]["parent_types"] == ["product"]
     # every endpoint type is a real class or an entity `type` (2026-10-08)
     ent = RECORDS["entity"][1]
     known = {r[1]["document_class"]["class_name"] for r in RECORDS.values()} | {

@@ -3295,3 +3295,5 @@ RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lights
 RE-DERIVED 2026-10-14 (`data_body.format` becomes a bound `ontology_term`, Jess, lightsheet point 4; `check_prose_counts` re-derives all nouns): **26 fields carry a binding** (was 25; +`data_body.format`, bound `{strength: preferred, node_form: curie}`). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
 
 RE-DERIVED 2026-10-15 (`developed_by` and `hosted_by`, Jess, from the Haley import's stage-2 report; `check_prose_counts` re-derives all nouns): the registry has **67** rows (was 65; relation_bindings 30 -> 32: `developed_by` software -> organization, `hosted_by` dataset -> organization). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
+
+RE-DERIVED 2026-10-15 (`distributed_as`, Jess, Haley import decision #17; `check_prose_counts` re-derives all nouns): the registry has **68** rows (was 67; relation_bindings 32 -> 33: `distributed_as` strain -> product). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.

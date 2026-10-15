@@ -12877,6 +12877,12 @@ _rows.append(_relrow("developed_by", "the software", "its developer", ["software
 # stored copy became one of the dataset's identifiers, so the host is the dataset's.
 _rows.append(_relrow("hosted_by", "the dataset", "an organization hosting a copy of it",
                      ["dataset"], ["organization"]))
+# Haley import decision #17 (Jess 2026-10-15): a strain is DISTRIBUTED AS a product (a
+# stock-centre or vendor listing: CGC's N2, a catalog number). Not `instance_of` -- a
+# strain is not a unit of a product -- and not `derived_from`, which NDI had been
+# writing for the merged schema's strain.product_id: the strain was not made from it.
+_rows.append(_relrow("distributed_as", "the strain", "a product it is distributed as",
+                     ["strain"], ["product"]))
 _rows.append(_relrow("recorded_by", "the epoch", "the acquisition system that recorded it",
                      ["epoch"], ["acquisition_system"]))
 _reg["relation_bindings"] = _rows

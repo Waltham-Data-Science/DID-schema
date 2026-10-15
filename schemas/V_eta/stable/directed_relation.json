@@ -181,6 +181,10 @@
                         },
                         {
                             "node": "",
+                            "name": "distributed_as"
+                        },
+                        {
+                            "node": "",
                             "name": "recorded_by"
                         }
                     ],

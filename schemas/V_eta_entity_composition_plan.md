@@ -92,6 +92,7 @@ become assertions (`term`, `text`, `date`) or relations:
 | `strain.species`, `.genetic_strain_type`, `.phenotype`, `.breeding_type`, `.disease_model` | term assertions |
 | `strain.laboratory_code`, `.synonym` | text assertions |
 | `strain.background_strain_id` | relation `derived_from` (strain -> strain) |
+| `strain.product_id` | relation `distributed_as` (strain -> product); added 2026-10-15 (Jess, Haley import decision #17) -- NDI had been writing `derived_from` |
 | `product.catalog_number`, `.lot_number` | text assertions |
 | `product.vendor_id` | relation `sold_by` (product -> organization) |
 | `person.given_name`, `.family_name`, `.alternate_name`, `.email` | text assertions |
