@@ -2,7 +2,7 @@
   "_comment": "GROUND TRUTH for the did_v1 side of the V_eta migration: the NDI document templates, read from origin/main. THIS FILE IS AUTHORITATIVE -- schemas/V_alpha and the V_delta conversion markdown are history, not evidence. Where a template and its WRITER disagree, the writer wins (see writer_divergence): the data follows the writer. Regenerate with tools/ndi_ground_truth.py. See V_eta_ground_truth_plan.md.",
   "ndi_ref": "origin/main",
   "summary": {
-    "ndi_classes": 102,
+    "ndi_classes": 104,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
     "migrator_suspects": 16,
@@ -10,8 +10,8 @@
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1181,
-      "dependency_call_sites": 156,
+      "m_files_scanned": 1236,
+      "dependency_call_sites": 163,
       "distinct_dependencies_written": [
         "cells_document_id",
         "daqmetadatareader_id",
@@ -23,6 +23,7 @@
         "extraction_parameters_id",
         "filenavigator_id",
         "geneList_id",
+        "lightsheetZarrPyramid_id",
         "manipulation_id",
         "neuron_id",
         "ontologyTableRow_id",
@@ -50,24 +51,24 @@
       ]
     },
     "ndi_schema_document_scan": {
-      "candidates": 104,
+      "candidates": 106,
       "unreadable": 0,
       "listing_failed": false,
-      "files": 104,
-      "flat_form": 64,
+      "files": 106,
+      "flat_form": 66,
       "json_schema_form": 5,
       "unparseable": 0
     },
     "ndi_required_dependency_scan": {
-      "ndi_classes": 102,
-      "classes_with_flat_schema_document": 97,
+      "ndi_classes": 104,
+      "classes_with_flat_schema_document": 99,
       "classes_with_json_schema_document": 5,
       "classes_with_no_schema_document": 0,
       "templates_carrying_mustbenotempty": 0,
-      "dependency_names_total": 104,
-      "dependency_names_with_a_required_statement": 95,
-      "dependency_names_required": 67,
-      "dependency_names_optional": 28,
+      "dependency_names_total": 110,
+      "dependency_names_with_a_required_statement": 101,
+      "dependency_names_required": 69,
+      "dependency_names_optional": 32,
       "dependency_names_ndi_states_nothing_about": 9
     },
     "provenance": {
@@ -3064,6 +3065,136 @@
       ],
       "depends_on_required": {
         "document_id": false
+      }
+    },
+    "lightsheetZarrLevel": {
+      "fields": [
+        "axes_order",
+        "byte_order",
+        "chunk_grid",
+        "chunk_index_origin",
+        "chunk_order",
+        "chunks",
+        "codec",
+        "codec_params",
+        "dtype",
+        "fill_value",
+        "label",
+        "level",
+        "n_chunks_stored",
+        "reduction_function",
+        "shape",
+        "translation",
+        "voxel_size",
+        "voxel_size_units"
+      ],
+      "raw_fields": [
+        "axes_order",
+        "byte_order",
+        "chunk_grid",
+        "chunk_index_origin",
+        "chunk_order",
+        "chunks",
+        "codec",
+        "codec_params",
+        "dtype",
+        "fill_value",
+        "label",
+        "level",
+        "n_chunks_stored",
+        "reduction_function",
+        "shape",
+        "translation",
+        "voxel_size",
+        "voxel_size_units"
+      ],
+      "depends_on": [
+        "lightsheetZarrPyramid_id",
+        "subject_id",
+        "source_file_id"
+      ],
+      "files": [
+        "chunk.bin"
+      ],
+      "superclasses": [
+        "base"
+      ],
+      "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrLevel.json @origin/main",
+      "depends_on_template": [
+        "lightsheetZarrPyramid_id",
+        "subject_id",
+        "source_file_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "lightsheetZarrPyramid_id",
+        "source_file_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "lightsheetZarrPyramid_id": true,
+        "source_file_id": false,
+        "subject_id": false
+      }
+    },
+    "lightsheetZarrPyramid": {
+      "fields": [
+        "axes_order",
+        "axes_units",
+        "byte_order",
+        "channel_names",
+        "dtype",
+        "label",
+        "n_channels",
+        "pipeline_version",
+        "pyramid_name",
+        "pyramid_type",
+        "shape_level0",
+        "translation_level0",
+        "voxel_size_level0",
+        "voxel_size_units"
+      ],
+      "raw_fields": [
+        "axes_order",
+        "axes_units",
+        "byte_order",
+        "channel_names",
+        "dtype",
+        "label",
+        "n_channels",
+        "pipeline_version",
+        "pyramid_name",
+        "pyramid_type",
+        "shape_level0",
+        "translation_level0",
+        "voxel_size_level0",
+        "voxel_size_units"
+      ],
+      "depends_on": [
+        "subject_id",
+        "element_id",
+        "source_file_id"
+      ],
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrPyramid.json @origin/main",
+      "depends_on_template": [
+        "subject_id",
+        "element_id",
+        "source_file_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "source_file_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "element_id": false,
+        "source_file_id": false,
+        "subject_id": true
       }
     },
     "ngrid": {

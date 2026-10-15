@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "linked_session",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "entity_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The linked session: its `entity` document, of type session. That document lives in the session's own folder, not in the dataset's database, so the dataset check resolves this edge by opening `path`; finding it there is what shows the folder holds this session, and its base.session_id is the id NDI opens the session with (so there is no `session_id` field here, which would repeat base.session_id's name with another meaning). Membership is not recorded here: the session is `part_of` the dataset (or a study of it) by a directed_relation, as an ingested session is.",
+            "must_refer_to_document_class": "entity"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "path",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Where the linked session's folder is: relative to the dataset's folder when it is inside it (so the two can be moved together), else absolute. Configuration -- where the software opens the session's database -- not a fact about the session, so it is a field here and never an assertion.",
+            "constraints": {}
+        }
+    ]
+}

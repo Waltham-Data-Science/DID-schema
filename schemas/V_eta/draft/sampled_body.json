@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in practice whenever `datum_type` is multi-byte; meaningless, and left empty, for single-byte data.",
+            "documentation": "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in practice whenever `data_type` is multi-byte; meaningless, and left empty, for single-byte data.",
             "constraints": {
                 "enum": [
                     "little",
@@ -65,7 +65,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What every position of a MISSING chunk holds, for a dense body (`complete` true) whose file series omits members: ONE value, written as a literal read according to the owner's `datum_type` (\"NaN\", \"-32768\", \"1+2j\") -- exact for every datum type, which a double is not for int64/uint64 or complex (#73 audit 2 D13).",
+            "documentation": "What every position of a MISSING chunk holds, for a dense body (`complete` true) whose file series omits members: ONE value, written as a literal read according to the owner's `data_type` (\"NaN\", \"-32768\", \"1+2j\") -- exact for every datum type, which a double is not for int64/uint64 or complex (#73 audit 2 D13).",
             "constraints": {}
         }
     ],

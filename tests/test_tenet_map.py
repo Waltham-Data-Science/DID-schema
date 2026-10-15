@@ -48,15 +48,15 @@ def _asset():
 def test_denominator_is_stated_and_every_tenet_is_accounted_for():
     a = _asset()
     d = a["denominator"]
-    assert d["tenets_declared"] == 16
-    assert len(a["tenets"]) == 16
+    assert d["tenets_declared"] == 17
+    assert len(a["tenets"]) == 17
     assert d["rows"] == len(a["rows"]) > 0
     # Reported, not asserted to be zero: the point is that the count exists and
     # the unmapped tenets are NAMED. A future table with a bare tenet must
     # still pass this -- and must still say which one.
     assert isinstance(d["tenets_with_no_substantiated_row"], list)
     assert (d["tenets_with_at_least_one_row"]
-            + len(d["tenets_with_no_substantiated_row"]) == 16)
+            + len(d["tenets_with_no_substantiated_row"]) == 17)
 
 
 def test_every_citation_resolves_in_the_document_on_disk():
@@ -89,9 +89,9 @@ def test_tenet_statements_are_quoted_from_the_north_star():
         assert f"### {t['id']} — {t['title']}" in doc
         assert t["statement"].strip(), f"{t['id']} carries an empty statement"
         checked += 1
-    assert checked == 16, (
+    assert checked == 17, (
         f"{checked} tenet statement(s) compared against the north star, "
-        "expected 16")
+        "expected 17")
 
 
 def test_plan_only_class_names_are_flagged_rather_than_rendered_plain():
@@ -168,10 +168,10 @@ def test_mutation_a_tenet_with_no_rows_is_reported_not_silently_empty():
     assert only_t1, "the table has no T1 row, so this mutation proves nothing"
     payload = tm.build(table=only_t1)
     unmapped = payload["denominator"]["tenets_with_no_substantiated_row"]
-    assert unmapped == [f"T{i}" for i in range(2, 17)]
+    assert unmapped == [f"T{i}" for i in range(2, 18)]
     assert payload["denominator"]["tenets_with_at_least_one_row"] == 1
-    # Still rendered -- all 16 tenets reach the viewer, 15 of them with no row.
-    assert len(payload["tenets"]) == 16
+    # Still rendered -- all 17 tenets reach the viewer, 16 of them with no row.
+    assert len(payload["tenets"]) == 17
 
 
 def test_the_real_table_leaves_no_tenet_unmapped_today():

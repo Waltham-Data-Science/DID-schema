@@ -226,10 +226,10 @@ function Stat({ n, label, warn }: { n: number; label: string; warn?: boolean }) 
 //
 // Classes are drawn by inheritance, starting from the tree's roots (in V_eta,
 // only `base`). A class with several superclasses -- most leaves are
-// `<direction>_observation` + `<data_type>` -- appears under EACH parent, and
+// `<direction>_observation` + `<value>` -- appears under EACH parent, and
 // says where else it sits, so no parent looks childless.
 //
-// A node's key is its path from the root ("base/data/subject_statement"),
+// A node's key is its path from the root ("base/data/statement"),
 // because the same class can be open under one parent and closed under another.
 
 const SEP = "/";

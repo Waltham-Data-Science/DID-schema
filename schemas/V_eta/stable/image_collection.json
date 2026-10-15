@@ -14,7 +14,7 @@
             "name": "subject_id",
             "mustBeNonEmpty": false,
             "documentation": "The subject the collected images depict. NDI's ONLY dependency on this class, and its schema marks it mustbenotempty: 0. NOT `element_id` -- that name comes from the V_alpha snapshot (schemas/V_alpha/imageCollection.json) and appears in no NDI template.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": false
         }
     ],

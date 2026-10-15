@@ -778,6 +778,16 @@ one (`application/x-nbf` + `gzip`).
 **DIRECTION DECIDED, VOCABULARY NOT.** OPEN item 2 stands: the full value set needs a
 corpus sweep before either field is bound.
 
+**AMENDED 2026-10-14 (Jess, lightsheet migrator point 4; no sign-off line): `format` is a
+bound `ontology_term`, not an IANA media type.** IANA is the only registry for media types,
+so a lab format (OME-Zarr has no registration) could only ever be an `application/x-`
+string; v1 already records formats as CURIEs (`fileReference` / `generic_file`
+`format_ontology`: `EDAM:format_3620`, `EMPTY:0000253`), so those migrate as written. EDAM
+format terms first (`EDAM:format_3591` TIFF, `EDAM:format_3997` MPEG-4, `EDAM:format_2333`
+binary, `EDAM:format_3915` Zarr), an EMPTY term where EDAM has none (OME-Zarr, minted as a
+kind of `EDAM:format_3915`). Bound `{strength: preferred, node_form: curie}`, like
+`variable`; the admissible set is not enumerated. `compression` is unchanged.
+
 ## 3. `content_hash` HASHES THE BYTES AS STORED
 
 With `format` + `compression` declared, "the stored bytes" is unambiguous, and it is
@@ -1164,3 +1174,13 @@ RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved unde
 RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **104 NDI templates** on origin/main (was 102); **172 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 176). Re-derive with `check_prose_counts`, do not quote these directly.

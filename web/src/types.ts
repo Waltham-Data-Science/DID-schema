@@ -350,8 +350,8 @@ export interface NodeRef {
   name: string;
 }
 
-// A subject_statement binding: variable (+ method) -> the concrete leaf `class`
-// that carries the statement. The leaf fixes the value type (no data_type); a
+// A statement binding: variable (+ method) -> the concrete leaf `class`
+// that carries the statement. The leaf fixes the value type (no value); a
 // term-valued leaf additionally pins an admissible set — `values` (each an ontology
 // term NodeRef) or an ontology subtree (ontology + root_node). `subject_defining`
 // flags the kind-defining rows (the D9 ingest invariant). Shape is intentionally

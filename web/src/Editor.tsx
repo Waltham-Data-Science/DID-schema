@@ -52,7 +52,7 @@ export function Editor({ index, version, onCancel }: EditorProps) {
   //       referent_unique_by   3
   //
   // So 55 of the classes already in the tree could not have been authored in
-  // this editor -- including `subject_interaction`, `subject_observation` and
+  // this editor -- including `interaction`, `observation` and
   // `epoch`, three of the spine classes a new author is most likely to imitate.
   // The editor would have taught the schema's own rules wrong.
   //

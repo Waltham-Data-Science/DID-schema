@@ -237,27 +237,49 @@
      {
       "pass": "foldGenericFiles",
       "path": "src/did/+did2/+convert/foldGenericFiles.m",
-      "site_count": 4,
+      "site_count": 6,
       "sites": [
        {
-        "line": 495,
+        "line": 1076,
+        "spelling": "base",
+        "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
+       },
+       {
+        "line": 1106,
+        "spelling": "base",
+        "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
+       },
+       {
+        "line": 1289,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 555,
+        "line": 1352,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 576,
+        "line": 1373,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 663,
+        "line": 1460,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "mintSessionDuring",
+      "path": "src/did/+did2/+convert/mintSessionDuring.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 153,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name) ..."
        }
       ]
      },
@@ -425,7 +447,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 689,
+        "line": 648,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -2271,7 +2293,35 @@
   },
   "fileReference": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "foldGenericFiles",
+      "path": "src/did/+did2/+convert/foldGenericFiles.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 669,
+        "spelling": "file_reference",
+        "text": "isRecord = strcmp(classes, 'file_reference');"
+       },
+       {
+        "line": 763,
+        "spelling": "file_reference",
+        "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
+       },
+       {
+        "line": 1141,
+        "spelling": "file_reference",
+        "text": "blk = blockOf(rec, 'file_reference');"
+       },
+       {
+        "line": 1143,
+        "spelling": "fileReference",
+        "text": "blk = blockOf(rec, 'fileReference');"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -2662,17 +2712,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 74,
+        "line": 84,
         "spelling": "generic_file",
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 321,
+        "line": 485,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 370,
+        "line": 534,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -3236,6 +3286,168 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "lightsheetZarrLevel": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/lightsheet_zarr_level.m",
+      "spelling": "lightsheet_zarr_level"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": {
+    "depends_on": [
+     "lightsheetZarrPyramid_id",
+     "subject_id",
+     "source_file_id"
+    ],
+    "depends_on_required": {
+     "lightsheetZarrPyramid_id": true,
+     "source_file_id": false,
+     "subject_id": false
+    },
+    "depends_on_schema": [
+     "lightsheetZarrPyramid_id",
+     "source_file_id",
+     "subject_id"
+    ],
+    "depends_on_template": [
+     "lightsheetZarrPyramid_id",
+     "subject_id",
+     "source_file_id"
+    ],
+    "fields": [
+     "axes_order",
+     "byte_order",
+     "chunk_grid",
+     "chunk_index_origin",
+     "chunk_order",
+     "chunks",
+     "codec",
+     "codec_params",
+     "dtype",
+     "fill_value",
+     "label",
+     "level",
+     "n_chunks_stored",
+     "reduction_function",
+     "shape",
+     "translation",
+     "voxel_size",
+     "voxel_size_units"
+    ],
+    "files": [
+     "chunk.bin"
+    ],
+    "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrLevel.json @origin/main",
+    "raw_fields": [
+     "axes_order",
+     "byte_order",
+     "chunk_grid",
+     "chunk_index_origin",
+     "chunk_order",
+     "chunks",
+     "codec",
+     "codec_params",
+     "dtype",
+     "fill_value",
+     "label",
+     "level",
+     "n_chunks_stored",
+     "reduction_function",
+     "shape",
+     "translation",
+     "voxel_size",
+     "voxel_size_units"
+    ],
+    "schema_document_form": "flat",
+    "superclasses": [
+     "base"
+    ]
+   },
+   "ndi_absent_reason": null,
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "lightsheetZarrPyramid": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/lightsheet_zarr_pyramid.m",
+      "spelling": "lightsheet_zarr_pyramid"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": {
+    "depends_on": [
+     "subject_id",
+     "element_id",
+     "source_file_id"
+    ],
+    "depends_on_required": {
+     "element_id": false,
+     "source_file_id": false,
+     "subject_id": true
+    },
+    "depends_on_schema": [
+     "element_id",
+     "source_file_id",
+     "subject_id"
+    ],
+    "depends_on_template": [
+     "subject_id",
+     "element_id",
+     "source_file_id"
+    ],
+    "fields": [
+     "axes_order",
+     "axes_units",
+     "byte_order",
+     "channel_names",
+     "dtype",
+     "label",
+     "n_channels",
+     "pipeline_version",
+     "pyramid_name",
+     "pyramid_type",
+     "shape_level0",
+     "translation_level0",
+     "voxel_size_level0",
+     "voxel_size_units"
+    ],
+    "files": [],
+    "path": "src/ndi/ndi_common/database_documents/data/lightsheetZarrPyramid.json @origin/main",
+    "raw_fields": [
+     "axes_order",
+     "axes_units",
+     "byte_order",
+     "channel_names",
+     "dtype",
+     "label",
+     "n_channels",
+     "pipeline_version",
+     "pyramid_name",
+     "pyramid_type",
+     "shape_level0",
+     "translation_level0",
+     "voxel_size_level0",
+     "voxel_size_units"
+    ],
+    "schema_document_form": "flat",
+    "superclasses": [
+     "base"
+    ]
+   },
+   "ndi_absent_reason": null,
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "measurement": {
    "consumers": {
     "convert_package_mentions": [
@@ -3753,17 +3965,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 77,
+        "line": 87,
         "spelling": "ontologyLabel",
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 347,
+        "line": 511,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 356,
+        "line": 520,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
@@ -4633,6 +4845,33 @@
         "line": 669,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
+       }
+      ]
+     },
+     {
+      "pass": "mintSessionDuring",
+      "path": "src/did/+did2/+convert/mintSessionDuring.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 36,
+        "spelling": "session",
+        "text": "%   leaves it) or an `entity` whose `type` is 'session' (the V_eta form"
+       },
+       {
+        "line": 109,
+        "spelling": "session",
+        "text": "if strcmp(cls, 'session')"
+       },
+       {
+        "line": 120,
+        "spelling": "session",
+        "text": "tf = strcmpi(char(t.name), 'session');"
+       },
+       {
+        "line": 122,
+        "spelling": "session",
+        "text": "tf = strcmpi(char(t), 'session');"
        }
       ]
      },
@@ -7595,18 +7834,18 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 18,
+  "convert_package_files_scanned": 21,
   "did_matlab_available": true,
   "ledger_disagreements": [],
-  "ledger_rows_read": 113,
+  "ledger_rows_read": 115,
   "migrator_packages_searched": [
    "migrators_j",
    "migrators",
    "migrators_i"
   ],
-  "ndi_ground_truth_classes": 102,
-  "rows_with_a_per_class_migrator_file": 96,
-  "rows_with_an_ndi_declaration": 102,
+  "ndi_ground_truth_classes": 104,
+  "rows_with_a_per_class_migrator_file": 98,
+  "rows_with_an_ndi_declaration": 104,
   "rows_without_one": 11
  },
  "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to (joined in the viewer against the schema index it already loads). A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",

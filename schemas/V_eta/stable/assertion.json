@@ -1,14 +1,17 @@
 {
     "document_class": {
-        "class_name": "subject_assertion",
+        "class_name": "assertion",
         "class_version": "3.0.0",
         "superclasses": [
             {
-                "class_name": "subject_statement"
+                "class_name": "statement"
             }
         ],
         "maturity_level": "stable",
-        "abstract": true
+        "value_kind": {
+            "root": "value",
+            "count": 1
+        }
     },
     "depends_on": [],
     "file": [],

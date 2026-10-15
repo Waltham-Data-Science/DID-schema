@@ -204,9 +204,9 @@ KNOWN_DIVERGENT = {
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
     # name fields that no longer exist. Deleted in the same commit that retired
     # them, which is what this file's own failure message asks for.
-    # ("subject_interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
+    # ("interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
     # statement-side `sample_time` retired too (#73 item 21), repairing the row.
-    ("subject_statement", "conditions.term.value", "ontology_term"),
+    ("statement", "conditions.term.value", "ontology_term"),
     # Lightsheet L1 (2026-09-25): data_body.conditions is a copy of the statement's
     # entry, so it inherits the same pre-existing blank shape.
     ("data_body", "conditions.term.value", "ontology_term"),
@@ -277,8 +277,8 @@ def test_scan_actually_read_something():
     """Rule 5. A zero-denominator scan reports 'clean' and means 'blind'."""
     stats, _, _ = _scan()
     print(_denominator(stats))
-    assert stats["files"] >= 200, _denominator(stats)
-    assert stats["files_with_fields"] >= 200, _denominator(stats)
+    assert stats["files"] >= 150, _denominator(stats)   # 220 -> 170 on 2026-10-08: join leaves and entity classes merged
+    assert stats["files_with_fields"] >= 150, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass
     # vacuously; it is 38 types today.

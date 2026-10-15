@@ -81,9 +81,13 @@ def test_the_target_class_exists_in_the_built_set():
         f"{TARGET} is not in the built set; the typing below has no referent")
     d = _load(entries[TARGET])
     supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    assert supers == ["entity"], (
-        f"{TARGET} is ⊂ {supers}, not ⊂ entity -- the daq configuration "
-        "sign-off says entity, so a change here is a decision, not a drift")
+    # ⊂ base since 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 8):
+    # an acquisition system is configuration, not an entity. This reverses the
+    # `acquisition_system ⊂ entity` of V_eta_daq_family_decisions.md (2026-08-05),
+    # which the plan's sec. 8 records.
+    assert supers == ["base"], (
+        f"{TARGET} is ⊂ {supers}, not ⊂ base -- the 2026-10-08 entity decision "
+        "makes it configuration, so a change here is a decision, not a drift")
     assert d["document_class"]["maturity_level"] == "stable"
 
 

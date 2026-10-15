@@ -351,15 +351,36 @@ BASELINE_MIGRATORS = 60
 # 2026-10-02), staged with empty nodes like the rest. #84 did not raise this
 # number, for the reason above: the did-schema gates run the sweep without
 # --enforce, so it surfaced only in DID-matlab's quick gate (VH-Lab/DID-matlab#215).
-BASELINE_SCHEMAS = 93
+#
+# RAISED 93 -> 95 on 2026-10-15. The entity merge (2026-10-08) replaced
+# did_subject_type 7 and did_identifier_scheme 12 with did_entity_type 19 (net
+# 0), and did_relation_directed went 25 -> 27 net: it gained developed_by,
+# hosted_by and distributed_as (Jess, 2026-10-15, Haley import), relation names
+# with no CURIE like every other row in that set, after the merge retired
+# relations of its own. Surfaced, again, only in
+# DID-matlab's quick gate (run 38744180928).
+BASELINE_SCHEMAS = 95
 
-CALL = re.compile(r"jOntologyTerm\(\s*''\s*,\s*([^)]*)\)")
+CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
+# THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that
+# builds through did2.build passes a term as PLAIN TEXT -- did2.build.key('z', ...),
+# did2.build.condition('summary statistic', ...) -- and the builder makes it
+# {node: '', name: 'z'}. Nothing in the source distinguishes those arguments from
+# any other text, so this scan cannot count them: the lightsheet migrators added
+# a dozen empty-node terms and the count stayed at 60. Rather than guess, the
+# report LISTS every migrator that builds through did2.build as NOT SWEPT, so
+# the 60 is read as "of the files this scan can see", never as the whole of it.
+# `did2.build.term('', name)` IS literal and IS counted (CALL above).
+BUILD_CALL = re.compile(r"\bdid2\.build\.(?:statement|key|condition|valueCell|"
+                        r"composite|label|parameter|directedRelation|"
+                        r"undirectedRelation|document|sampledBody|opaqueBody)\(")
 LITERAL = re.compile(r"^'((?:[^']|'')*)'\s*$")
 
 
 def sweep(did_path):
     root = os.path.join(did_path, "src", "did", "+did2", "+convert", "+migrators_j")
     rows = []
+    sweep.unswept = []
     if not os.path.isdir(root):
         return None, rows
     files = 0
@@ -371,16 +392,20 @@ def sweep(did_path):
             p = os.path.join(dirpath, n)
             rel = os.path.relpath(p, did_path)
             with open(p) as fh:
-                for i, line in enumerate(fh, 1):
-                    for m in CALL.finditer(line):
-                        arg = m.group(1).strip()
-                        lit = LITERAL.match(arg)
-                        rows.append({
-                            "migrator": n,
-                            "name": lit.group(1).replace("''", "'") if lit else "<computed>",
-                            "expression": None if lit else arg,
-                            "site": f'{rel}:{i}',
-                        })
+                lines = fh.readlines()
+            code = [ln for ln in lines if not ln.lstrip().startswith("%")]
+            if any(BUILD_CALL.search(ln) for ln in code):
+                sweep.unswept.append(rel)
+            for i, line in enumerate(lines, 1):
+                for m in CALL.finditer(line):
+                    arg = m.group(1).strip()
+                    lit = LITERAL.match(arg)
+                    rows.append({
+                        "migrator": n,
+                        "name": lit.group(1).replace("''", "'") if lit else "<computed>",
+                        "expression": None if lit else arg,
+                        "site": f'{rel}:{i}',
+                    })
     return files, rows
 
 
@@ -479,6 +504,11 @@ def main():
     print(f'  migrator files inspected      : {files}')
     print(f'  emissions with an empty node  : {len(rows)}')
     print(f'  baseline (must not increase)  : {BASELINE_MIGRATORS}')
+    unswept = getattr(sweep, "unswept", [])
+    print('  NOT SWEPT -- build terms through did2.build from plain text, which this')
+    print(f'  text scan cannot see (their empty nodes are NOT in the count above): {len(unswept)}')
+    for u in sorted(unswept):
+        print(f'      {u}')
     print()
     if files == 0:
         print("NOTHING WAS READ -- 0 migrator files. Treat this as a broken scan, "

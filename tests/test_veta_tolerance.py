@@ -19,7 +19,7 @@ NOT_VALUES = {
     "acquisition_epoch.keys",
     "data.keys",
     "data_body.conditions",
-    "subject_statement.conditions",
+    "statement.conditions",
 }
 
 

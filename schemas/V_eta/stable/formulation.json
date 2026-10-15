@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -14,7 +14,7 @@
             "name": "ingredient_id",
             "mustBeNonEmpty": false,
             "documentation": "What went in, in the order of `value.ingredients` (entry k describes edge k; the order carries no other meaning). A stock you made is a formulation; a live strain grown or suspended in it (bacteria in broth) is a `strain`.",
-            "must_refer_to_document_class": "chemical,formulation,strain",
+            "must_refer_to_document_class": "chemical,formulation,entity",
             "multiple": true,
             "ordered": true,
             "min_count": 0
@@ -23,7 +23,7 @@
             "name": "product_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the bought product/lot, for a mixture bought ready-made (PBS tablets, saline).",
-            "must_refer_to_document_class": "product"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -57,7 +57,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `subject_statement.variable`.",
+                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `statement.variable`.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",

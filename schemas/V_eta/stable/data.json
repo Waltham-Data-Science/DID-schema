@@ -14,8 +14,8 @@
         {
             "name": "key_id",
             "mustBeNonEmpty": false,
-            "documentation": "The documents a key takes its positions from, chosen by that key's `positions_from` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `data_type` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the key's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05.)",
-            "must_refer_to_document_class": "data_type",
+            "documentation": "The documents a key takes its positions from, chosen by that key's `positions_from` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `value` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the key's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05.)",
+            "must_refer_to_document_class": "value",
             "multiple": true,
             "min_count": 0,
             "ordered": true
@@ -33,7 +33,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What a value is looked up by, in array order: keys[k] IS array dimension k. EXACTLY the array's dimensions: a length-1 dimension the array has is a key, and there is never a key for a dimension it does not have (a one-value fact true of every value is a CONDITION). Time is an ordinary key. On a data_type document it describes the INLINE value (with `data_body` true, each body carries the keys of its own array); on a data_body it describes THIS body's array. Required on a sampled_body; optional on an opaque_body, where it describes the array as its `format` presents it. `chunk` is used ONLY on a sampled_body's keys.",
+            "documentation": "What a value is looked up by, in array order: keys[k] IS array dimension k. EXACTLY the array's dimensions: a length-1 dimension the array has is a key, and there is never a key for a dimension it does not have (a one-value fact true of every value is a CONDITION). Time is an ordinary key. On a value document it describes the INLINE value (with `data_body` true, each body carries the keys of its own array); on a data_body it describes THIS body's array. Required on a sampled_body; optional on an opaque_body, where it describes the array as its `format` presents it. `chunk` is used ONLY on a sampled_body's keys.",
             "constraints": {},
             "fields": [
                 {

@@ -724,7 +724,7 @@ class Analyser:
                     (("entry point is in +migrators, where a concrete fallback "
                      "migrator and a superclass block migrator are "
                      "indistinguishable -- no claim made"), _rel(path)))
-            elif self._returns_source(fns[0]) and cls in self.veta:
+            elif self._returns_source(fns[0]) and (cls in self.veta or cls in COV.KNOWN_NON_VETA):
                 names = {cls}
         return names, unresolved, not names or names == {cls}, path
 

@@ -179,7 +179,9 @@ def test_derivations_match_an_independent_recomputation():
     assert C.derive_registry_rows() == (len(reg["subject_statement_bindings"])
                                         + len(reg["binding_examples"])
                                         + len(reg["relation_bindings"])
-                                        + len(reg["entity_field_bindings"]))
+                                        + len(reg["entity_field_bindings"])
+                                        # 2026-10-08 (signed): what each entity.type requires
+                                        + len(reg["entity_type_bindings"]))
 
     md = subprocess.run(["ls", os.path.join(REPO_ROOT, "schemas")],
                         capture_output=True, text=True, check=True)
@@ -255,7 +257,7 @@ def test_demotion_does_not_reach_across_a_clause(tmp_path):
     """THE MUTATION THIS PINS: widening the demotion window.
 
     An earlier draft searched the preceding 46 characters for a cue, and
-    demoted the live `38` in "NOT `data_type` -- that is a CLASS with **38
+    demoted the live `38` in "NOT `value` -- that is a CLASS with **38
     direct subclasses**" because the `NOT` forty-one characters upstream was
     about something else entirely. A widened rule silently exempts live claims,
     which is a checker that has stopped checking."""

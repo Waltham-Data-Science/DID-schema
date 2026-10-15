@@ -20,7 +20,7 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The recording element, promoted to a subject with its id preserved.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {

@@ -7,7 +7,7 @@ This project's most expensive recurring defect is not a wrong schema. It is:
 a fact lives in code or in a generated artifact, a NUMBER ABOUT that fact lives
 in prose, and the prose drifts. On 2026-08-12 alone two hand sweeps corrected
 roughly twenty numeric claims across `CLAUDE.md` and `schemas/V_eta_OPEN_WORK.md`
--- 224 vs 241 V_eta class names, 38 vs 41 `data_type` subclasses, 34 vs 38
+-- 224 vs 241 V_eta class names, 38 vs 41 `value` subclasses, 34 vs 38
 registry rows, 8 vs 14 vs 13 bound fields, 17 vs 15 phase-8 deletions, 60 vs 67
 tombstones compared, 45 vs 46 `time_reference` sites, 915 vs 1,002 NDI files.
 Every one was found by a human or an agent reading carefully. NONE was found by
@@ -25,7 +25,7 @@ THE CENTRAL DESIGN PROBLEM -- these documents quote wrong numbers ON PURPOSE
 The house style for a correction is to write BOTH numbers:
 
     the registry is **38 rows, not 34**
-    `data_type` now has **41** direct subclasses, not 38
+    `value` now has **41** direct subclasses, not 38
     (**15 deleted** -- this line said 17 until 2026-08-10)
 
 The wrong number is load-bearing: it records what the error was and what it
@@ -180,7 +180,7 @@ def derive_data_type_subclasses():
     out = set()
     for b in blocks:
         for sup in b.get("superclasses") or []:
-            if (isinstance(sup, dict) and sup.get("class_name") == "data_type"
+            if (isinstance(sup, dict) and sup.get("class_name") == "value"
                     and isinstance(b.get("class_name"), str)):
                 out.add(b["class_name"])
     return len(out)
@@ -351,7 +351,7 @@ NOUNS = [
          derive_veta_class_names,
          [_N + r"\s+(?:distinct\s+)?V_eta class names"]),
 
-    Noun("data_type_subclasses", "direct subclasses of `data_type`",
+    Noun("data_type_subclasses", "direct subclasses of `value`",
          derive_data_type_subclasses,
          [_N + r"\s*\**\s*direct subclasses"]),
 
@@ -430,7 +430,7 @@ BY_KEY = {n.key: n for n in NOUNS}
 # punctuation, emphasis and a very small filler set. Deliberately tight: an
 # earlier draft allowed the cue anywhere in the preceding 46 characters, and
 # that demoted `**38 direct subclasses**` in the sentence
-# "NOT `data_type` -- that is a CLASS with **38 direct subclasses**", i.e. it
+# "NOT `value` -- that is a CLASS with **38 direct subclasses**", i.e. it
 # silently exempted a LIVE claim. Narrow demotion errs toward checking.
 
 _FILLER = r"[\s*_`~\"'(),.:;—–-]*"

@@ -41,7 +41,7 @@ def _final_set(per_category, excluded=()):
 
 
 def _tenets(ids=None):
-    ids = ids or [f"T{i}" for i in range(1, 17)]
+    ids = ids or [f"T{i}" for i in range(1, 18)]
     body = ["# Tenets", "", "## Thesis", "", "text", "", "## The tenets", ""]
     for t in ids:
         body += [f"### {t} — Tenet {t}.", "body", ""]

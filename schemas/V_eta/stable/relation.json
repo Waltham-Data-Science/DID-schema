@@ -14,8 +14,8 @@
         {
             "name": "value_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the standalone data_type document holding this relation's data (a gene mapping's pair table, item 24). The same role-named edge a statement uses to point at a shared value (item 30). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "data_type"
+            "documentation": "Optional: the standalone value document holding this relation's data (a gene mapping's pair table, item 24). The same role-named edge a statement uses to point at a shared value (item 30). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
+            "must_refer_to_document_class": "value"
         }
     ],
     "file": [],

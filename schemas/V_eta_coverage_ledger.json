@@ -2,7 +2,7 @@
   "title": "V_eta migration coverage ledger",
   "description": "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production templates (read from NDI-matlab `origin/main`, not a lagging feature branch) AND the vhlab app/calculator classes that appear in real corpora but ship no NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, not v1 sources, and are excluded.",
   "summary": {
-    "total": 113,
+    "total": 115,
     "batch_pass": {
       "measured": true,
       "why": null,
@@ -23,7 +23,7 @@
       "missing": [],
       "invalid": [],
       "accounting_disagreement": [],
-      "denominator_rows": 113,
+      "denominator_rows": 115,
       "credited_rung_1": [
         {
           "v1_class": "epochid",
@@ -57,6 +57,18 @@
           },
           "decided_targets": [
             "ingestion_manifest"
+          ],
+          "stage_reached": 3
+        },
+        {
+          "v1_class": "fileReference",
+          "emits": {
+            "foldGenericFiles": [
+              "opaque_body"
+            ]
+          },
+          "decided_targets": [
+            "opaque_body"
           ],
           "stage_reached": 3
         },
@@ -110,6 +122,12 @@
           "v1_class": "epochid",
           "passes": [
             "epochMint"
+          ]
+        },
+        {
+          "v1_class": "fileReference",
+          "passes": [
+            "foldGenericFiles"
           ]
         },
         {
@@ -221,26 +239,26 @@
       ]
     },
     "by_disposition": {
-      "retire": 71,
+      "retire": 73,
       "dissolved \u2192 subject": 1,
       "in_progress": 6,
-      "persist": 3,
-      "consumed by migrator (no tombstone)": 28,
+      "persist": 1,
+      "consumed by migrator (no tombstone)": 30,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2
     },
     "by_source": {
-      "ndi": 102,
+      "ndi": 104,
       "app": 11
     },
-    "with_migrator": 96,
+    "with_migrator": 98,
     "gaps": 2,
     "no_target": {
       "rows_naming_no_target": 9,
       "by_reason": {
         "dissolved": 3,
         "disputed": 1,
-        "passthrough": 4,
+        "passthrough": 2,
         "unrecorded": 3
       },
       "target_gaps": [
@@ -257,14 +275,14 @@
       "stimulus_presentation"
     ],
     "stage_rollup": {
-      "classified": 113,
+      "classified": 115,
       "unclassifiable": 0,
       "unclassifiable_rows": [],
       "headline": {
         "rung": 1,
         "name": "a migrator CONSUMES it",
-        "denominator": 113,
-        "yes": 100,
+        "denominator": 115,
+        "yes": 102,
         "no": 13,
         "n/a": 0,
         "not measured": 0
@@ -272,8 +290,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 43,
-        "3": 20,
+        "2": 44,
+        "3": 21,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -281,32 +299,32 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 100,
+          "yes": 102,
           "no": 13
         },
         "2": {
           "not measured": 45,
-          "yes": 65,
+          "yes": 67,
           "n/a": 3
         },
         "3": {
           "not measured": 45,
-          "yes": 19,
-          "no": 46,
+          "yes": 20,
+          "no": 47,
           "n/a": 3
         },
         "4": {
-          "not measured": 113
+          "not measured": 115
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 100,
-        "2": 65,
-        "3": 19,
+        "1": 102,
+        "2": 67,
+        "3": 20,
         "4": 0
       },
       "capped": {
-        "denominator": 113,
+        "denominator": 115,
         "rows": 3,
         "row_names": [
           "ensemble",
@@ -316,8 +334,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 46,
-          "3": 19,
+          "2": 47,
+          "3": 20,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -389,7 +407,7 @@
         ]
       },
       "no_target_recorded": {
-        "denominator": 113,
+        "denominator": 115,
         "rows": 48,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
@@ -505,24 +523,24 @@
         "what_would_light_it_up": "a DID-matlab corpus run's `<corpus>-summary.json` reports reachable from this repo -- pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS. Each report must carry `source_census.by_class` (per v1 SOURCE class) plus `quarantine_count`, `fragment_count`, `reference_integrity.orphan_count` and `silent_loss.empty_required_dependency`."
       },
       "governance": {
-        "denominator": 113,
+        "denominator": 115,
         "by_state": {
           "signed": 57,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 55
+          "no signature found": 57
         },
         "signed_by": {
           "derived from a signed family": 49,
           "checked transcription on the row": 8
         },
         "join": {
-          "rows_inspected": 113,
+          "rows_inspected": 115,
           "rows_matched_by_a_signed_family": 57,
           "matched_on": {
             "v1_class": 57
           },
-          "matched_on_v1_class_only": 16,
+          "matched_on_v1_class_only": 18,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
@@ -558,7 +576,7 @@
             "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 6,
             "no family names this class, and the row has no V_eta class and no target either": 4,
-            "no family in FAMILIES names this class": 45
+            "no family in FAMILIES names this class": 47
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -580,6 +598,8 @@
               "imageStack",
               "kiasort_clusters",
               "kilosort_clusters",
+              "lightsheetZarrLevel",
+              "lightsheetZarrPyramid",
               "measurement",
               "metadata_editor",
               "oneepoch",
@@ -633,14 +653,14 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 54,
+          "documents_read": 57,
           "documents_excluded_as_generated": [
             "V_eta_STATUS.md",
             "V_eta_coverage_ledger.md",
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 86,
+          "accepted_lines": 96,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -1091,7 +1111,9 @@
             ]
           },
           "untagged_documents": {
+            "V_eta_entity_composition_plan.md": 9,
             "V_eta_frequency_filter_model_plan.md": 1,
+            "V_eta_linked_session_plan.md": 1,
             "V_eta_openminds_family_record.md": 2,
             "V_eta_study_plan.md": 21
           },
@@ -1331,6 +1353,8 @@
         "imageStack",
         "kiasort_clusters",
         "kilosort_clusters",
+        "lightsheetZarrLevel",
+        "lightsheetZarrPyramid",
         "neuron_extracellular",
         "ontologyImage",
         "orientation_direction_tuning",
@@ -1745,7 +1769,7 @@
         "binaryseries_parameters"
       ],
       "decided_targets": [
-        "subject_statement",
+        "statement",
         "sampled_body"
       ],
       "decided_targets_source": "signoff_transcription",
@@ -1765,7 +1789,7 @@
         "schema_targets_named": 2,
         "schema_targets_built": [
           "sampled_body",
-          "subject_statement"
+          "statement"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -1782,8 +1806,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `data_type` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
-      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, data_type -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
+      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
+      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "decided_by_family": {
         "family": "misc singletons",
         "document": "V_eta_go_forward_class_audit.md",
@@ -1831,7 +1855,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject_statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2147,7 +2171,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term_calculation`, `label_calculation`, `directed_relation`, `dataset` are not all among what the migrator emits today (`cell_type_labels`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term_calculation`, `label_calculation`, `directed_relation`, `dataset` are not all among what the migrator emits today (`cell_type_labels`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2311,7 +2335,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -2345,7 +2369,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2414,7 +2438,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -2448,7 +2472,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2544,7 +2568,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item` are not all among what the migrator emits today (`control_designation`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item` are not all among what the migrator emits today (`control_designation`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2657,7 +2681,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `epoch_parameter_reader` are not all among what the migrator emits today (`acquisition_metadata_reader`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `epoch_parameter_reader` are not all among what the migrator emits today (`acquisition_metadata_reader`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2771,7 +2795,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`acquisition_metadata_file`), nor among what any batch post-pass declares it emits. 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`acquisition_metadata_file`), nor among what any batch post-pass declares it emits. 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2996,7 +3020,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (`relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (`relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3061,7 +3085,7 @@
       "carried": [],
       "second_pass": [],
       "how": "RETIRES by decomposition into three things that already exist: the frames and their descriptors become an `image_observation` over a `sampled_body`, and `frametimes` + `clocktype` become time references. No new class.",
-      "target_flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_time_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved. -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: camera frames are an intensity_observation.",
+      "target_flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_time_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved. -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: camera frames are an intensity_observation.",
       "decided_by_family": {
         "family": "daq ingested payloads",
         "document": "V_eta_ingested_payload_findings.md",
@@ -3112,7 +3136,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `intensity_observation`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `intensity_observation`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4123,7 +4147,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on subject_statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means \"not measured\" and mints no condition",
+      "how": "ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means \"not measured\" and mints no condition",
       "target_flags": "guarded: errors on the invented offset_voltages/voltage_units shape. Those names never existed, so the isempty guard always fired and EVERY document was carried through unconverted. The old per-channel-array model was also wrong: the writer makes one document per CSV row with a scalar offset",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -4291,7 +4315,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject`, `term_assertion`, `directed_relation`, `sampled_body`, `relative_time_reference`, `voltage_observation`, `current_observation`, `intensity_observation`, `acceleration_observation`, `temperature_observation` are not all among what the migrator emits today (`subject`, `term_assertion`, `directed_relation`, `sampled_body`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `subject`, `term_assertion`, `directed_relation`, `sampled_body`, `relative_time_reference`, `voltage_observation`, `current_observation`, `intensity_observation`, `acceleration_observation`, `temperature_observation` are not all among what the migrator emits today (`subject`, `term_assertion`, `directed_relation`, `sampled_body`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4519,7 +4543,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `subject`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4637,7 +4661,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4924,12 +4948,18 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
-        "batch_pass_emits": {},
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_consumers": [
+          "foldGenericFiles"
+        ],
+        "batch_pass_emits": {
+          "foldGenericFiles": [
+            "opaque_body"
+          ]
+        },
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4967,10 +4997,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -4987,8 +5017,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`file_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.foldGenericFiles` -> `opaque_body` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -4998,7 +5028,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -5312,7 +5342,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5538,7 +5568,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `dataset` are not all among what the migrator emits today (`gene_list`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `dataset` are not all among what the migrator emits today (`gene_list`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5654,7 +5684,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5829,7 +5859,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "1->1 fold, id- and deps-PRESERVED, into the `receptive_field_calculation` leaf (= subject_calculation + receptive_field) + session anchor. The [200 200 36 2] response volume splits into TWO `sampled_body` documents -- one STA plane, one p-value plane -- because the writer gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438), so it is not a coordinate axis. `ngrid.coordinates` segments [36,200,200] into `axes[].values`; the lag axis carries `values` rather than origin+spacing because 0 of 210 documents reproduce T exactly from -0.1 + k*0.01. `spiketimes` rides as a third, input-side body with `derived_from` the neuron, not as archival data.",
+      "how": "1->1 fold, id- and deps-PRESERVED, into the `receptive_field_calculation` leaf (= calculation + receptive_field) + session anchor. The [200 200 36 2] response volume splits into TWO `sampled_body` documents -- one STA plane, one p-value plane -- because the writer gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438), so it is not a coordinate axis. `ngrid.coordinates` segments [36,200,200] into `axes[].values`; the lag axis carries `values` rather than origin+spacing because 0 of 210 documents reproduce T exactly from -0.1 + k*0.01. `spiketimes` rides as a third, input-side body with `derived_from` the neuron, not as archival data.",
       "target_flags": "`ngrid` is NOT retired by this fold and the block still rides through: the sign-off gates retirement on BOTH consumers and `ontology_image` still consumes it (#46). THIS ROW READ `DEFERRED calculator: calcCommon passthrough, class retained` UNTIL 2026-08-18, which was true when written and stopped being true at DID-matlab 89aace1 (2026-08-17), an ancestor of the branch head -- so a signed fold that had already run green rendered on the confirm sheet as work still owed. Same shape as the stale `how` this file already records against `daqreader_ndr`. `targets` beside it was correct throughout, being GENERATED.",
       "decided_by_family": {
         "family": "receptive field fold",
@@ -5952,7 +5982,7 @@
       ],
       "second_pass": [],
       "how": "delegates ENTIRELY to migrators_j.image_stack(preBody) -- same emitted set: a body-backed image_observation + sampled_body + anchor",
-      "target_flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type's required `value` and quarantined. Consuming the v1 class removes the collision by construction -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: a brightness/fluorescence image -> intensity_observation, a mask or label map -> label_calculation, chosen from the document's `label`. The name `image` is the v1 tombstone again, so an unmigrated v1 image now validates and the migrator's name-collision refusal is no longer needed.",
+      "target_flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` value (a raster value) share not one field, so an unmigrated v1 doc met the value's required `value` and quarantined. Consuming the v1 class removes the collision by construction -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: a brightness/fluorescence image -> intensity_observation, a mask or label map -> label_calculation, chosen from the document's `label`. The name `image` is the v1 tombstone again, so an unmigrated v1 image now validates and the migrator's name-collision refusal is no longer needed.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -5985,7 +6015,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `intensity_observation`, `label_calculation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`image_observation`, `sampled_body`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `intensity_observation`, `label_calculation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`image_observation`, `sampled_body`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6164,7 +6194,7 @@
       ],
       "second_pass": [],
       "how": "file-backed pixel blob -> a body-backed image_observation (geometry inline, storage_mode body) + sampled_body (frames) + anchor",
-      "target_flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: JH's microscopy images -> intensity_observation, its masks / closest-patch maps -> label_calculation.",
+      "target_flags": "image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: JH's microscopy images -> intensity_observation, its masks / closest-patch maps -> label_calculation.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -6197,7 +6227,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `intensity_observation`, `label_calculation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`image_observation`, `sampled_body`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `intensity_observation`, `label_calculation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`image_observation`, `sampled_body`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6420,7 +6450,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `sampled_body`, `session_relative_reference`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `sampled_body`, `session_relative_reference`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6519,7 +6549,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `opaque_body`, `session_relative_reference`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `opaque_body`, `session_relative_reference`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6618,7 +6648,197 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `opaque_body`, `session_relative_reference`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `label_calculation` are not all among what the migrator emits today (`count_observation`, `opaque_body`, `session_relative_reference`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+          },
+          {
+            "stage": 4,
+            "name": "CORPUS-PROVEN",
+            "state": "not measured",
+            "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
+          }
+        ],
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 2,
+        "capped": false,
+        "nothing_built": false,
+        "nothing_satisfied": false,
+        "only_excused": false,
+        "corpus_rung_state": "not measured"
+      }
+    },
+    {
+      "v1_class": "lightsheetZarrLevel",
+      "veta_class": "lightsheet_zarr_level",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false,
+      "targets": [],
+      "decided_targets": [
+        "sampled_body"
+      ],
+      "decided_targets_source": "curated_targets_file",
+      "decided_signoff": null,
+      "target_source": "decided",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
+      "no_target_account": null,
+      "no_target_signoff": null,
+      "target_gap": false,
+      "build_state": {
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "sampled_body"
+        ],
+        "schema_targets_missing": [],
+        "migrator_emits_decided_targets": false,
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
+        "emitted_by_migrator": null,
+        "emitted_by_targets": [],
+        "emitted_by_emits_decided_targets": false
+      },
+      "carried": [],
+      "second_pass": [],
+      "how": "#73 lightsheet walkthrough L1-L4 (review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line), built on items 29, 51 and 58 of V_eta_spatial_transcriptomics_plan.md: a level that HOLDS bytes (chunk.bin_1..N) becomes a sampled_body of the pyramid's intensity_observation (chunk.bin_k -> body_data_{k-1}; chunks -> each key's chunk; fill_value; level 0 the measurement, reduced levels `redundant` with the body condition `summary statistic: mean|maximum`); codec blosc -> compression 'blosc', raw -> none, codec_params dropped (L4). A level holding NO bytes (the writer's default, materializeChunks false) folds to nothing, counted, after the migrator confirms no inbound edge.",
+      "target_flags": "No migrator yet (DID-matlab follow-up once NDI-matlab#979 merged). L4's blosc self-description is to be checked on a real NDI chunk by the migrator test.",
+      "decided_by_family": null,
+      "families_naming_this_class": [],
+      "governance_gap": "no family in FAMILIES names this class",
+      "governance": {
+        "state": "no signature found",
+        "signoff": null,
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
+      },
+      "stage": {
+        "unclassifiable": false,
+        "unclassifiable_why": null,
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
+        "ladder": [
+          {
+            "stage": 1,
+            "name": "a migrator CONSUMES it",
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
+          },
+          {
+            "stage": 2,
+            "name": "its decided target classes EXIST in the build",
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+          },
+          {
+            "stage": 3,
+            "name": "the migrator emits THE DECIDED targets",
+            "state": "no",
+            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+          },
+          {
+            "stage": 4,
+            "name": "CORPUS-PROVEN",
+            "state": "not measured",
+            "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
+          }
+        ],
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 2,
+        "capped": false,
+        "nothing_built": false,
+        "nothing_satisfied": false,
+        "only_excused": false,
+        "corpus_rung_state": "not measured"
+      }
+    },
+    {
+      "v1_class": "lightsheetZarrPyramid",
+      "veta_class": "lightsheet_zarr_pyramid",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false,
+      "targets": [],
+      "decided_targets": [
+        "intensity_observation",
+        "opaque_body",
+        "software"
+      ],
+      "decided_targets_source": "curated_targets_file",
+      "decided_signoff": null,
+      "target_source": "decided",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
+      "no_target_account": null,
+      "no_target_signoff": null,
+      "target_gap": false,
+      "build_state": {
+        "schema_targets_named": 3,
+        "schema_targets_built": [
+          "intensity_observation",
+          "opaque_body",
+          "software"
+        ],
+        "schema_targets_missing": [],
+        "migrator_emits_decided_targets": false,
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
+        "emitted_by_migrator": null,
+        "emitted_by_targets": [],
+        "emitted_by_emits_decided_targets": false
+      },
+      "carried": [
+        "subject"
+      ],
+      "second_pass": [],
+      "how": "#73 lightsheet walkthrough L1-L4 (review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line), built on items 29, 51 and 58 of V_eta_spatial_transcriptomics_plan.md: the pyramid becomes an intensity_observation of its subject over keys [t, c, z, y, x] (axes, voxel size, translation and units from the pyramid; dtype -> datum_type + byte_order), element_id -> instrument_id, pipeline_version -> a software entity; the OME-Zarr store (source_file_id's fileReference) becomes an unheld opaque_body of the observation with keys for the full-resolution array; its .zattrs MD5 does NOT go into content_hash.",
+      "target_flags": "No migrator yet (DID-matlab follow-up once NDI-matlab#979 merged).",
+      "decided_by_family": null,
+      "families_naming_this_class": [],
+      "governance_gap": "no family in FAMILIES names this class",
+      "governance": {
+        "state": "no signature found",
+        "signoff": null,
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
+      },
+      "stage": {
+        "unclassifiable": false,
+        "unclassifiable_why": null,
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
+        "ladder": [
+          {
+            "stage": 1,
+            "name": "a migrator CONSUMES it",
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
+          },
+          {
+            "stage": 2,
+            "name": "its decided target classes EXIST in the build",
+            "state": "yes",
+            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+          },
+          {
+            "stage": 3,
+            "name": "the migrator emits THE DECIDED targets",
+            "state": "no",
+            "why": "the decided target(s) `intensity_observation`, `opaque_body`, `software` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7013,7 +7233,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject`, `directed_relation`, `label_calculation`, `score_calculation`, `voltage_calculation`, `relative_time_reference`, `software` are not all among what the migrator emits today (`subject`, `directed_relation`, `score_observation`, `session_relative_reference`, `software`, `count_assertion`, `voltage_observation`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `subject`, `directed_relation`, `label_calculation`, `score_calculation`, `voltage_calculation`, `relative_time_reference`, `software` are not all among what the migrator emits today (`subject`, `directed_relation`, `score_observation`, `session_relative_reference`, `software`, `count_assertion`, `voltage_observation`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7070,7 +7290,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, data_type, data_dim, coordinates); no class change, emits no new document",
+      "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, value, data_dim, coordinates); no class change, emits no new document",
       "target_flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, and the v1 reverse_correlation tombstone that v1 hartley_calc documents validate through); the axis entry exists (keys[].values)",
       "decided_by_family": {
         "family": "image / ngrid",
@@ -7281,7 +7501,7 @@
         "ontology_image"
       ],
       "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
-      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` data_type and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
+      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes -- DECIDED 2026-09-25 (#73 review item 51, not yet built in the migrator): the V_eta `image` value and `image_observation` RETIRE; a raster goes by what its pixels measure, keyed [y, x, (channel)]: the pixels are an ordinary numeric image (NDI imageDocMaker.m: `image` is 'a numeric matrix', `ontologyNodes` 'describe the image content'), so the raster is an intensity_observation keyed [y, x] and the terms stay a term_observation. Corrected same day (jess): an earlier version of this note said each pixel names a node, which the writer does not support.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -7314,7 +7534,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `intensity_observation`, `term_observation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`term_observation`, `session_relative_reference`, `image_observation`, `sampled_body`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `intensity_observation`, `term_observation`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`term_observation`, `session_relative_reference`, `image_observation`, `sampled_body`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7800,7 +8020,7 @@
       "second_pass": [
         "interaction_purpose"
       ],
-      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on subject_interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
       "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -7893,7 +8113,7 @@
       ],
       "second_pass": [],
       "how": "bundled openMINDS controlled-term (Species/Strain/GeneticStrainType/BiologicalSex) -> ONE term_assertion on the subject (carried); timeless",
-      "target_flags": "subject_assertion is the abstract superclass, excluded",
+      "target_flags": "assertion is the abstract superclass, excluded",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -7995,7 +8215,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
@@ -8047,7 +8267,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8116,7 +8336,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -8150,7 +8370,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8345,7 +8565,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `position_observation`, `term_assertion`, `relative_time_reference` are not all among what the migrator emits today (`length_observation`, `term_assertion`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `position_observation`, `term_assertion`, `relative_time_reference` are not all among what the migrator emits today (`length_observation`, `term_assertion`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8566,7 +8786,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8641,7 +8861,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 226 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents; 217 -> 218 when the `study` entity was minted, 2026-09-30; 218 -> 220 when `humidity` and `humidity_observation` were minted, 2026-10-03; 220 -> 223 for the length, velocity and intensity calculation leaves, 2026-10-03; 223 -> 224 when timed_sequence became `item` and `item_calculation` was minted, 2026-10-04; 224 -> 226 for the time and acceleration calculation leaves, 2026-10-05), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md): the 2026-08-13 confirmation is superseded (kept under `superseded_confirmation`) and the target is now `decided_targets`. RUNG 3 READS `yes` AT THE CLASS LEVEL ONLY: the migrator already emits `sampled_body`, but it still mints its OWN `voltage_observation` as the bodies' owner, which is exactly what the signed decision removes. The ladder compares class names and cannot see ownership (the same limit CLAUDE.md records for husks), so this row is NOT at its decided shape until the migrator hangs the levels on the recording's observation (PR #76 DID-matlab / NDI second-pass checklist).",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 178 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents; 217 -> 218 when the `study` entity was minted, 2026-09-30; 218 -> 220 when `humidity` and `humidity_observation` were minted, 2026-10-03; 220 -> 223 for the length, velocity and intensity calculation leaves, 2026-10-03; 223 -> 224 when timed_sequence became `item` and `item_calculation` was minted, 2026-10-04; 224 -> 226 for the time and acceleration calculation leaves, 2026-10-05; 226 -> 172 when the join leaves and the entity classes merged, 2026-10-08, a PROPOSAL; 172 -> 175 when the three named calculators came back the same day; 175 -> 176 when `linked_session` was minted, 2026-10-09, signed the same day; 176 -> 178 for the lightsheet_zarr_pyramid / lightsheet_zarr_level v1 tombstones, 2026-10-14), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md): the 2026-08-13 confirmation is superseded (kept under `superseded_confirmation`) and the target is now `decided_targets`. RUNG 3 READS `yes` AT THE CLASS LEVEL ONLY: the migrator already emits `sampled_body`, but it still mints its OWN `voltage_observation` as the bodies' owner, which is exactly what the signed decision removes. The ladder compares class names and cannot see ownership (the same limit CLAUDE.md records for husks), so this row is NOT at its decided shape until the migrator hangs the levels on the recording's observation (PR #76 DID-matlab / NDI second-pass checklist).",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -8712,8 +8932,8 @@
     },
     {
       "v1_class": "session",
-      "veta_class": "session",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -8727,8 +8947,8 @@
       "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": "passthrough",
-      "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
       "target_gap": false,
@@ -9310,7 +9530,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `label_calculation`, `position_calculation`, `area_calculation`, `count_calculation`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `label_calculation`, `position_calculation`, `area_calculation`, `count_calculation`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9431,7 +9651,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `count_observation`, `sampled_body`, `coordinate_system`, `count_calculation`, `software` are not all among what the migrator emits today (`session_relative_reference`, `spatial_gene_expression_pyramid`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `count_observation`, `sampled_body`, `coordinate_system`, `count_calculation`, `software` are not all among what the migrator emits today (`session_relative_reference`, `spatial_gene_expression_pyramid`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9543,7 +9763,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9612,7 +9832,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9646,7 +9866,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9715,7 +9935,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9749,7 +9969,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9818,7 +10038,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9852,7 +10072,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9921,7 +10141,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -9955,7 +10175,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10692,7 +10912,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10823,7 +11043,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item`, `item_manipulation` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item`, `item_manipulation` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11041,7 +11261,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `harmonic_component_calculation` are not all among what the migrator emits today (`stimulus_response_scalar`), nor among what any batch post-pass declares it emits. 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `harmonic_component_calculation` are not all among what the migrator emits today (`stimulus_response_scalar`), nor among what any batch post-pass declares it emits. 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11366,7 +11586,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11386,8 +11606,8 @@
     },
     {
       "v1_class": "subject",
-      "veta_class": "subject",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -11401,8 +11621,8 @@
       "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": "passthrough",
-      "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
       "target_gap": false,
@@ -11629,7 +11849,7 @@
       "carried": [],
       "second_pass": [],
       "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_time_reference`) rather than a field.",
-      "target_flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed subject_observation leaf, `term_observation` for the untyped case, and an `absolute_time_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
+      "target_flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed observation leaf, `term_observation` for the untyped case, and an `absolute_time_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows.",
       "decided_by_family": {
         "family": "subject measurement",
         "document": "V_eta_go_forward_class_audit.md",
@@ -12098,7 +12318,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -12132,7 +12352,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12201,7 +12421,7 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
@@ -12235,7 +12455,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12317,7 +12537,7 @@
         "term_assertion",
         "directed_relation"
       ],
-      "how": "dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor",
+      "how": "dispatched by data structure into ONE data-type-named manipulation leaf + an optional site term_observation + session anchor",
       "target_flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
@@ -12369,7 +12589,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `temperature_manipulation`, `dose_manipulation`, `formulation`, `chemical`, `term_manipulation`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`temperature_manipulation`, `dose_manipulation`, `term_manipulation`, `term_observation`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `temperature_manipulation`, `dose_manipulation`, `formulation`, `chemical`, `term_manipulation`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`temperature_manipulation`, `dose_manipulation`, `term_manipulation`, `term_observation`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12479,7 +12699,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `dose_manipulation`, `formulation`, `chemical`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`dose_manipulation`, `term_observation`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `dose_manipulation`, `formulation`, `chemical`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`dose_manipulation`, `term_observation`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12694,7 +12914,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference`, `software`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference`, `software`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12760,7 +12980,7 @@
         "relative_time_reference"
       ],
       "how": "NO PASS-1 MIGRATOR, deliberately: the document passes through under its own tombstone (the identity migrator), which is what stops it stranding. CORRECTED 2026-09-25 (#73 item 52): an earlier version of this note said the second pass was RE-ARMED as of 2026-08-18. It was NOT: the signed amendment of that date says 'IS NOT RE-ARMED YET', and resolveValidIntervals.m at 775353d (2026-08-13, the head of both DID-matlab V_eta branches) is still 'DORMANT BY DECISION -- census only; emits nothing', its preserved code being the rejected 1->N shape. THE SIGNED TARGET (TEAM-SIGN-OFF [logical_observation amendment 1], V_eta_logical_observation_plan.md, 2026-08-18): the leaf is `time_observation`, NOT `logical_observation` (retired, #73 item 52), and THE INTERVAL TIMES ARE THE VALUE. One statement per source document carrying an N x 2 array of `time` cells keyed [interval (a bare regular index), endpoint (labels `start`, `end`)], so the pairing is DECLARED rather than positional (T14). WHY THE BOOLEAN ARRAY WAS WITHDRAWN: the v1 class declares four fields (timeref_structt0, t0, timeref_structt1, t1) and NOT ONE IS A BOOLEAN, so a boolean array would have been INVENTED on every migrated document, and for a list of VALID intervals every element of it is true by construction. Each statement is anchored by a `relative_time_reference` via `time_reference_id` (start = t0, duration = t1 - t0, clock de-encoded from clocktypestring), whose `referent_id` names the minted `epoch` DOCUMENT. A batch pass and not a migrator for the same structural reason as resolveSessionAnchors: that document's id exists only after did2.convert.epochMint has minted it corpus-wide, and a single-document migrator holds an epoch STRING it cannot map to a document id.",
-      "target_flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical_observation` was left with NO CONSUMER (valid_interval was its only one) and is RETIRED, #73 item 52 (2026-09-25); `logical` stays, like every data_type. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
+      "target_flags": "ADDS, NEVER REMOVES. The source document is KEPT under its v1 tombstone (nothing required, `element_id` optional), so a passthrough cannot trip mustBeNonEmpty or undeclaredField. SIGNED: TEAM-SIGN-OFF [logical_observation] 2026-08-12 plus TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18, which supersedes the LEAF AND THE VALUE only -- the 2026-08-12 reasoning about `variable` carrying the semantic, about `sequence` being deleted, about transitive inheritance and about the three reading states all stand. `logical_observation` was left with NO CONSUMER (valid_interval was its only one) and is RETIRED, #73 item 52 (2026-09-25); `logical` stays, like every value. `sequence` is DELETED: v1's array-append order is invisible to its only consumer (tuning_response.m:253-256 indexes identifyvalidintervals's RETURN VALUE, and markgarbage.m:178-204 accumulates every row through a set union without indexing by position). OPEN SUB-QUESTION, deliberately not pre-empted: NDI's loadvalidinterval inherits a derived element's validity from its `underlying_element` (markgarbage.m:146-155), and whether V_eta re-derives that at query time or materialises it is a team call -- both remain buildable.",
       "decided_by_family": {
         "family": "logical_observation",
         "document": "V_eta_logical_observation_plan.md",
@@ -12811,7 +13031,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `time_observation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `time_observation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12921,7 +13141,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `dose_manipulation`, `formulation`, `chemical`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`dose_manipulation`, `term_observation`, `session_relative_reference`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `dose_manipulation`, `formulation`, `chemical`, `term_observation`, `relative_time_reference` are not all among what the migrator emits today (`dose_manipulation`, `term_observation`, `session_relative_reference`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -13222,7 +13442,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`, `software`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `model_fit_calculation` are not all among what the migrator emits today (`score_observation`, `session_relative_reference`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,

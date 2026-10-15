@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "The reader program itself, as a `software` entity -- the R1 replacement for an NDI class-handle string. Same edge, same meaning and same optionality as on `epoch_parameter_reader`.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],

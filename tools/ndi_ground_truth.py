@@ -766,7 +766,7 @@ def migrator_reads(truth, did_path):
         # Strip MATLAB comments and superclass/mixin cell literals before matching.
         # Both produced false positives on the first pass: `image_stack` was flagged
         # for `image_format` occurring only in a comment, and `treatment_drug` for
-        # `{'dose'}` -- which is a V_eta data_type mixin passed to jStartInteraction,
+        # `{'dose'}` -- which is a V_eta value mixin passed to jStartInteraction,
         # not a did_v1 field read at all.
         src = "\n".join(re.sub(r"(?<!\.)%.*$", "", ln) for ln in src.splitlines())
         src = re.sub(r"\{\s*'[a-z0-9_']*(?:'\s*,\s*'[a-z0-9_]*)*'\s*\}", " ", src)

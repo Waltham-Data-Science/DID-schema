@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "data_type",
+        "class_name": "value",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "file": [],
     "fields": [
         {
-            "name": "datum_type",
+            "name": "data_type",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How this value is encoded -- the ONE place the value type lives (a body never repeats it). REQUIRED in practice whenever the value has a byte representation (`data_body` true, or an inline numeric payload); absent for a term or an inline composite with no numeric payload.",
+            "documentation": "How this value's bytes are encoded -- the ONE place the encoding lives (a body never repeats it). Needed only for bytes the schema does not type (rule `data_type_when_bytes`). `datum_type` until 2026-10-08, renamed once the class `data_type` became `value`; it is the v1 spelling of the same fact (binaryseries_parameters, ngrid, ...).",
             "constraints": {
                 "enum": [
                     "uint8",
@@ -45,7 +45,7 @@
             }
         },
         {
-            "name": "source_datum_type",
+            "name": "source_data_type",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -73,12 +73,12 @@
     ],
     "rules": [
         {
-            "name": "datum_type_when_bytes",
+            "name": "data_type_when_bytes",
             "fields": [
-                "datum_type",
+                "data_type",
                 "data_body"
             ],
-            "statement": "`datum_type` is present whenever the value has bytes: an inline numeric or text array, or `data_body` true."
+            "statement": "`data_type` is present when the value has bytes the schema does not type: `data_body` true, or an inline value that is not a declared cell (a bare numeric or text array). A typed cell already says its type (`temperature.value.celsius` is a double), so it needs none."
         }
     ]
 }
