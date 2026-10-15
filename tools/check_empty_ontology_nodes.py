@@ -351,7 +351,15 @@ BASELINE_MIGRATORS = 60
 # 2026-10-02), staged with empty nodes like the rest. #84 did not raise this
 # number, for the reason above: the did-schema gates run the sweep without
 # --enforce, so it surfaced only in DID-matlab's quick gate (VH-Lab/DID-matlab#215).
-BASELINE_SCHEMAS = 93
+#
+# RAISED 93 -> 95 on 2026-10-15. The entity merge (2026-10-08) replaced
+# did_subject_type 7 and did_identifier_scheme 12 with did_entity_type 19 (net
+# 0), and did_relation_directed went 25 -> 27 net: it gained developed_by,
+# hosted_by and distributed_as (Jess, 2026-10-15, Haley import), relation names
+# with no CURIE like every other row in that set, after the merge retired
+# relations of its own. Surfaced, again, only in
+# DID-matlab's quick gate (run 38744180928).
+BASELINE_SCHEMAS = 95
 
 CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
 # THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that
