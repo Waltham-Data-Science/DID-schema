@@ -334,7 +334,9 @@ Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
 - **R4 -- axes with no spacing (accepted as built).** A channel axis is categorical (names),
   and a space or time axis with no source `scale` has index positions 0..n-1 with no unit.
   The reader's level table shows those as voxel size 1 and translation 0, which is what the
-  index positions imply.
+  index positions imply. AMENDED (Jess, same day): a space or time axis with no `scale` is
+  written `regular: true`, `origin` 0, `spacing` 1, no unit, instead of listing the indices;
+  the channel axis stays categorical.
 - **R5 -- deleting a migrated pyramid (accepted as built).** The store body is owned by the
   pyramid's observation, so deleting the observation deletes the store record too (left, it
   would be an orphan). The stored bytes are not touched; in v1 the fileReference survived.
