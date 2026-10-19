@@ -451,6 +451,16 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   15). A further reading of the same quantity (another trial, another stimulus level) is a
   position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial
   `individual` values, a control's) is its own named field, sized by the same keys.
+- **Readings that differ only by a label are one statement** (Jess, 2026-10-19). Values
+  with the same subject, variable, method, method parameters, inputs, conditions and keys,
+  differing only in one categorical fact (which body part, channel, sensor, period), are
+  one statement with that fact as a `labels` key. A condition is a fact true of every
+  value; it never tells apart sibling statements that would otherwise be identical. They
+  stay separate only when something else differs: another statistic, other inputs, or
+  keys with different positions. *(A worm's head, midpoint and tail speed are one
+  [frame x body part] statement; its median speed during and after each encounter is one
+  [encounter x encounter period] statement; its median speed before the first encounter
+  has no encounter key, so it stays its own.)*
 - **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
   states its positions itself (`regular` origin + spacing, `values`, or `labels`), or takes
   them from another `value` document through the **`key_id`** edge, chosen by the key's
