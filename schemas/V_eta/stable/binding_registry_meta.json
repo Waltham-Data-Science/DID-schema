@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. the openMINDS ProductAccessibility/EthicsAssessment/ExperimentalApproach terms on dataset; the referenced instance libraries are pinned once in controlled_vocabularies, not copied inline). subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no value; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
+    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. an entity's `type`). subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no value; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
     "subject_statement_bindings": [
         {
             "variable": {
@@ -69,15 +69,14 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "ncit:C175887",
                 "name": "accessibility"
             },
             "class": "assertion",
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "vocabulary": "openMINDS",
-            "term_set": "ProductAccessibility"
+            "node_form": "curie"
         },
         {
             "variable": {
@@ -88,8 +87,7 @@
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "vocabulary": "openMINDS",
-            "term_set": "EthicsAssessment"
+            "node_form": "curie"
         },
         {
             "variable": {
@@ -100,8 +98,7 @@
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "vocabulary": "openMINDS",
-            "term_set": "ExperimentalApproach"
+            "node_form": "curie"
         },
         {
             "variable": {

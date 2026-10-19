@@ -12932,6 +12932,26 @@ for _c, _fname, _b in _old_bindings:
             "subject_defining": False}
     _row.update({k: v for k, v in _b.items() if k != "strength"})
     _reg["subject_statement_bindings"].append(_row)
+# Jess 2026-10-19 (the Haley import's term pass): a dataset's accessibility, ethics
+# assessment and experimental approach take ontology terms like every other
+# assertion, not openMINDS instance IRIs. openMINDS is an export target: a converter
+# maps these terms onto its controlled terms (V_eta_openminds_crosswalk.json), so the
+# record does not follow openMINDS's versions (v6 replaces ProductAccessibility with a
+# structured Accessibility and EthicsAssessment with ethicsJurisdiction).
+_TERM_REBIND = {"accessibility": "NCIT:C175887",   # Open or Controlled Data Access Indicator
+                "ethics assessment": "",
+                "experimental approach": ""}
+for _row in _reg["subject_statement_bindings"]:
+    _vn = _row["variable"]["name"]
+    if _row.get("entity_type") == "dataset" and _vn in _TERM_REBIND:
+        _row.pop("vocabulary", None)
+        _row.pop("term_set", None)
+        _row["variable"]["node"] = _TERM_REBIND[_vn]
+        _row["node_form"] = "curie"
+_reg["description"] = _reg["description"].replace(
+    "e.g. the openMINDS ProductAccessibility/EthicsAssessment/ExperimentalApproach "
+    "terms on dataset; the referenced instance libraries are pinned once in "
+    "controlled_vocabularies, not copied inline", "e.g. an entity's `type`")
 # no `strength`: tools/regen_binding_strengths.py derives it from the field
 _reg["entity_field_bindings"] = [{
     "class": "entity", "field": "type", "vocabulary": "did", "term_set": "did_entity_type",

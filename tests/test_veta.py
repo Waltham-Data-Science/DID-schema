@@ -1027,27 +1027,30 @@ def test_binding_is_formalized_in_meta_schema():
                                                   "enum": ["curie"]}
 
 
-def test_openminds_controlled_term_fields_bound():
-    """openMINDS controlled-term facts about a dataset (accessibility / ethics
-    assessment / experimental approach) are term ASSERTIONS about the dataset
-    entity since 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4).
-    The term set moves from the old field's inline binding onto a statement
-    binding keyed by the variable, and the instance library is still pinned once
-    in controlled_vocabularies -- never copied inline as `values`."""
+def test_dataset_controlled_term_assertions_take_ontology_terms():
+    """A dataset's accessibility / ethics assessment / experimental approach are
+    term ASSERTIONS about the dataset entity since 2026-10-08 (signed,
+    V_eta_entity_composition_plan.md sec. 4). Since 2026-10-19 (Jess) they take
+    ontology terms (CURIE nodes) like every other assertion, not openMINDS instance
+    IRIs: openMINDS is an export target, reached through the crosswalk, and its
+    term sets change between versions (v6 drops ProductAccessibility and
+    EthicsAssessment)."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    assert reg["controlled_vocabularies"]["openMINDS"]["iri_base"]
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]
             if r.get("entity_type") == "dataset"}
     expected = {
-        "accessibility": "ProductAccessibility",
-        "ethics assessment": "EthicsAssessment",
-        "experimental approach": "ExperimentalApproach",
+        # lower-case prefix: nodes are normalised to Bioregistry's prefix (section 6)
+        "accessibility": "ncit:C175887",
+        "ethics assessment": "",
+        "experimental approach": "",
     }
-    for name, term_set in expected.items():
+    assert set(expected) <= set(rows), sorted(rows)
+    for name, node in expected.items():
         r = rows[name]
         assert r["class"] == "assertion" and r["value_kind"] == "term", r
-        assert r["vocabulary"] == "openMINDS" and r["term_set"] == term_set
-        assert "values" not in r   # named directly, not copied
+        assert r["node_form"] == "curie" and r["variable"]["node"] == node, r
+        assert "vocabulary" not in r and "term_set" not in r, r
+        assert "values" not in r
     # the field bindings that remain are the entity's own: its type
     assert [(r["class"], r["field"]) for r in reg["entity_field_bindings"]] == [
         ("entity", "type")]
