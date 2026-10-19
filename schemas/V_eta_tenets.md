@@ -624,6 +624,18 @@ Every statement must read as one sentence:
 - **Only the exception is asserted.** A `logical` statement is written where it says
   something: the 8 excluded plates carry `inclusion in analysis` = `false`, and the included
   plates carry nothing. A query for exclusions looks for `false`.
+- **A summary of a general quantity is stated as that quantity, not as a term of its
+  own.** "Median speed on patch" is `speed`, with the statistic as its `method` (`median`).
+  The stretch it summarises -- a body part, an encounter period, a time window -- is a key
+  when sibling values differ only there (T14), and a condition when the statement stands
+  alone. A window is two numbers from an anchor: `analysis window start` and `analysis
+  window end` as quantity conditions, with the anchor as a `reference time point`
+  condition. A rule that is not a named statistic (a peak found by a lab's procedure) is a
+  method term of its own. A measure gets its own variable only when it cannot be split
+  this way (`time to slow down`), and the source's own name for it goes in `notes`.
+  *(Added 2026-10-19 at Jess Haley's request, from the Haley import's term pass: the four
+  v1 encounter terms that each combined a quantity, a statistic and a window were
+  obsoleted for this.)*
 - **`method` is how it was done — the technique — and is recorded only when it adds
   something** the variable and value do not already say, and only when it is known. "Heating"
   or "cooling" on a move into a 4 °C cold room adds nothing; `refrigeration`, `incubation` and
