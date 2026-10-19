@@ -3299,3 +3299,5 @@ RE-DERIVED 2026-10-15 (`developed_by` and `hosted_by`, Jess, from the Haley impo
 RE-DERIVED 2026-10-15 (`distributed_as`, Jess, Haley import decision #17; `check_prose_counts` re-derives all nouns): the registry has **68** rows (was 67; relation_bindings 32 -> 33: `distributed_as` strain -> product). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
 
 RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
