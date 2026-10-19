@@ -1,6 +1,6 @@
 # V_eta prefix spelling -- write a CURIE's prefix the way it is cited
 
-**Status: PROPOSAL, 2026-10-19. Not signed, not built.** Asked for by Jess
+**Status: PROPOSAL, 2026-10-19. Not built.** Ready to sign: the "To be signed:" line is at the end of section 4. Asked for by Jess
 (Haley import identifier review, 2026-10-19: "I'd rather store identifiers as
 people cite them"; option B, each identifier's own registry decides the
 spelling).
@@ -183,8 +183,9 @@ had `OM`), and DOI stays lowercase `doi`.
 
 - **Q1:** a CURIE, not a URL: `ORCID:0000-0001-6282-7124`, likewise `ROR:`. The
   issuer's display URL is rebuilt from the entry's `uri_base`; the `pattern`
-  check keeps working; one identifier has one shape. **DOI's spelling is still
-  to be checked** against the DOI Handbook before signing.
+  check keeps working; one identifier has one shape. **DOI is written `doi:`**
+  (lowercase), as the DOI Handbook's presentation formats give it
+  ("doi:10.1006/jmbi.1998.2354"); checked 2026-10-19, accepted by Jess the same day.
 - **Q2:** `PMID:` and `PMCID:`. The registry keys stay `pubmed` / `pmc`; only
   the written spelling changes.
 - **Q3:** RRID. A Cellosaurus line is written `RRID:CVCL_0030` and an Addgene
@@ -196,6 +197,8 @@ had `OM`), and DOI stays lowercase `doi`.
   (option (b)), and add the missing entries.
 - **Q5:** yes; EDAM's `format:1929` is written `EDAM:format_1929` and the old
   form read by rewrite.
+
+To be signed: a CURIE's prefix is written as its issuer cites it (the registry entry's `spelling`, e.g. `ORCID:`, `ROR:`, `PMID:`, `PMCID:`, `RRID:`, `doi:`, `WormBase:`, `EDAM:format_`), for identifiers and term nodes alike; readers match a prefix by key, spelling or synonym, ignoring case; the registry keys stay the lowercase Bioregistry prefixes.
 
 ## 4a. The questions as first posed
 
