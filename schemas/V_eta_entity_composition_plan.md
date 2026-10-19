@@ -158,13 +158,16 @@ A URL is an address for the thing it names, so it goes in that thing's
 To be signed: web_resource and the has_homepage / stored_at relations retire; protocol is an entity type
 TEAM-SIGN-OFF: jess / 2026-10-08 -- web_resource and the has_homepage / stored_at / hosted_by relations retire; protocol is an entity type
 
-**AMENDED 2026-10-15 (Jess; no sign-off line): `hosted_by` is back, with the DATASET as its
+**AMENDED 2026-10-15 (Jess; signed below): `hosted_by` is back, with the DATASET as its
 child** (dataset -> organization, "an organization hosting a copy of it"). It retired above
 only because its child, `web_resource`, did; the host itself was never meant to go
 unrecorded, and the Haley import then listed the NDI Cloud copy's host as having no place.
 The stored copy stays one of the dataset's identifiers, as section 7 says; `stored_at` and
 `has_homepage` stay retired. Built in `tools/build_v_eta.py` (relation rows, beside
 `developed_by`, software -> organization, added the same day); see `review/73/OPEN_ITEMS.md`.
+
+To be signed: hosted_by returns with the dataset as its child; developed_by and distributed_as are added
+TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19 -- hosted_by returns (dataset -> organization); developed_by (software -> organization) and distributed_as (strain -> product) are added
 
 ## 8. `acquisition_system` is configuration
 

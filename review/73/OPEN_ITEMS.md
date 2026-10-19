@@ -223,7 +223,7 @@ migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries fo
 `fromOMEZarr`). Note for the NDI PR: the planned `chunk_index` side-field is unnecessary under
 "a missing member is an empty chunk".
 
-### Lightsheet migrator points (DID-matlab 1aece9a; walked 2026-10-14, no sign-off line)
+### Lightsheet migrator points (DID-matlab 1aece9a; walked 2026-10-14, signed below)
 
 The migrator build (VH-Lab/DID-matlab#218, `lightsheet_zarr_pyramid.m` / `lightsheet_zarr_level.m`)
 took the most literal reading on 11 points; walked with Jess one at a time.
@@ -314,7 +314,9 @@ took the most literal reading on 11 points; walked with Jess one at a time.
   script) would stop resolving. The level's `sampled_body` keeps the v1 level's `base.id`,
   as the calculator folds keep theirs.
 
-### Lightsheet reader questions (NDI lightsheet readers; decided 2026-10-15, no sign-off line)
+TEAM-SIGN-OFF [lightsheet migrator points 1-11]: jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.
+
+### Lightsheet reader questions (NDI lightsheet readers; decided 2026-10-15, signed below)
 
 Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
 
@@ -344,7 +346,9 @@ Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
   (type per statement, extent per body, `V_eta_data_body_model_plan.md`); a reader gets a
   level's type through its `owner_id`.
 
-### Spec facts with no place (Haley import stage-2 report; decided 2026-10-15, no sign-off line)
+TEAM-SIGN-OFF [lightsheet reader questions R1-R6]: jess@walthamdatascience.com / 2026-10-19 -- R1-R6 as recorded above: a migrated pyramid is marked by its method FBbi:00000369; levels are identified by resolution, not number; label in the observation's notes, the multiscales name on the store body, pyramid_type dropped; a no-scale axis is regular (origin 0, spacing 1, no unit); deleting a pyramid deletes its store record, not its bytes; a level's data type is on its pyramid.
+
+### Spec facts with no place (Haley import stage-2 report; decided 2026-10-15, signed below)
 
 - **Software -> its maker: new `developed_by`** (software -> organization; Jess). The import's
   spec names each program's `vendor` (StreamPix -> NorPix, WormLab -> MBF, MATLAB ->
@@ -354,6 +358,8 @@ Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
   The old `hosted_by` (web_resource -> organization) went with web_resource in the
   2026-10-08 entity merge; a stored copy became one of the dataset's identifiers, so the
   host is now the dataset's (the NDI Cloud page's host `ndi_cloud`).
+
+TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]: jess@walthamdatascience.com / 2026-10-19 -- software is developed_by its maker (software -> organization, not sold_by); a dataset is hosted_by the organization hosting a copy of it (dataset -> organization); a strain is distributed_as its stock product (strain -> product), replacing derived_from.
 
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
