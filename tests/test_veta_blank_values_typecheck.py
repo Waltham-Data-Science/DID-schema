@@ -206,10 +206,9 @@ KNOWN_DIVERGENT = {
     # them, which is what this file's own failure message asks for.
     # ("interaction", "sample_time.dt", "time") REMOVED 2026-09-25: the
     # statement-side `sample_time` retired too (#73 item 21), repairing the row.
-    ("statement", "conditions.term.value", "ontology_term"),
-    # Lightsheet L1 (2026-09-25): data_body.conditions is a copy of the statement's
-    # entry, so it inherits the same pre-existing blank shape.
-    ("data_body", "conditions.term.value", "ontology_term"),
+    # ("statement"/"data_body", "conditions.term.value") REMOVED 2026-10-19: data_body
+    # AMENDMENT 3 flattened `term.value` to a scalar `term`, whose blank is the
+    # ontology_term struct, repairing both rows.
     ("time_reference", "clock_tolerance", "time"),
     ("voltage", "value", "voltage"),
     ("volume", "value", "volume"),

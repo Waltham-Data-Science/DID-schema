@@ -1,5 +1,11 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
+> **AMENDMENT, 2026-10-19 (decided with Jess, NOT signed):** a parameter entry is now the
+> SAME entry as a condition -- {variable, unit, source_unit, approximate} plus ONE of
+> `term`, `quantity` {value, source_value}, `count` or `text`. `value` is renamed
+> `quantity`, and `count` and `approximate` are added. `source_value` stays text,
+> verbatim. See `V_eta_data_body_model_plan.md` AMENDMENT 3.
+>
 > **AMENDMENT, 2026-09-25 (#73 review item 62; agreed with jess, NOT signed):** the
 > document's `other` field (the undeclared long tail) is DELETED. A knob with no
 > ontology term is a `method_parameters[]` entry whose `variable` is a label (`{name}`,

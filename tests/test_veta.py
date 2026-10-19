@@ -455,10 +455,10 @@ def test_storage_mode_on_statement():
 
 def test_conditions_on_statement():
     """statement carries a `conditions` list (D10 qualifiers, renamed from
-    `parameters`) of typed {variable, value} entries — each with a variable plus
-    nested term/count/quantity data-type blocks (exactly-one is an ingest validator,
-    provisional). A per-reading array value is the independent-variable axis; a
-    length-1 value is a held-fixed covariate."""
+    `parameters`). Since 2026-10-19 each entry is the ONE single-value entry shared
+    with `method_parameters`: {variable, unit, source_unit, approximate} plus exactly
+    one value form -- `term`, `quantity` {value, source_value}, `count` or `text`.
+    A condition holds ONE value, so every form is scalar."""
     ft = _flat_field_types("statement")
     assert ft.get("conditions") == "structure"
     assert ft.get("parameters") is None, "old `parameters` name must be gone"
@@ -467,13 +467,32 @@ def test_conditions_on_statement():
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
+    assert len(sub) == 8, f"read {len(sub)} entry field(s): {sorted(sub)}"
     assert sub["variable"]["type"] == "ontology_term"
-    # the three nested typed value blocks, each holding an array `value`
-    for block in ("term", "count", "quantity"):
-        assert block in sub, f"conditions missing {block} block"
-        val = next(f for f in sub[block]["fields"] if f["name"] == "value")
-        assert val["mustBeScalar"] is False, f"{block}.value must be an array"
-    assert sub["term"]["fields"][0]["type"] == "ontology_term"
+    assert sub["term"]["type"] == "ontology_term"
+    assert sub["count"]["type"] == "integer" and sub["text"]["type"] == "char"
+    assert {f["name"] for f in sub["quantity"]["fields"]} == {"value", "source_value"}
+    for form in ("term", "quantity", "count", "text"):
+        assert sub[form]["mustBeScalar"] is True, f"a condition holds ONE {form}"
+
+
+def test_conditions_and_method_parameters_are_one_entry():
+    """2026-10-19 (Jess): conditions and method parameters are the SAME entry, at
+    every mount, and a key is that entry holding n positions (`term`, `quantity`)."""
+    shapes = {}
+    for cls, fld in (("statement", "conditions"), ("data_body", "conditions"),
+                     ("interaction", "method_parameters"),
+                     ("method_parameters", "method_parameters"),
+                     ("clock_alignment_configuration", "method_parameters")):
+        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == fld)
+        shapes[(cls, fld)] = [(x["name"], x["type"]) for x in f["fields"]]
+    assert len(shapes) == 5
+    assert len({tuple(v) for v in shapes.values()}) == 1, shapes
+    keys = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "keys")
+    ks = {x["name"]: x for x in keys["fields"]}
+    assert "labels" not in ks and "values" not in ks
+    assert ks["term"]["mustBeScalar"] is False
+    assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
 
 
 def test_session_bounded_reference():
@@ -1300,7 +1319,7 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     entry = next(f for f in d["fields"] if f["name"] == "method_parameters")
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
-    assert {"variable", "value", "term", "text"} <= subs
+    assert {"variable", "quantity", "term", "count", "text"} <= subs
     # identity is the bound variable; no value field. `unit` IS declared since
     # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
     # did for keys): the canonical value is in it.
@@ -2719,15 +2738,15 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     assert len(sub) >= 4, (
         f"only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude "
         "anything about a coordinate slot")
-    assert "values" in sub, (
-        f"`sampled_body.axes[]` declares {sub!r} with no `values`. The signed axis "
+    assert "quantity" in sub, (
+        f"`sampled_body.axes[]` declares {sub!r} with no `quantity`. The signed axis "
         "entry carries the coordinates for an irregular axis; without it the ngrid "
         "carry has nowhere to land and jNgridBody's refusal becomes permanent.")
     # and the slot has to be able to hold BOTH halves of a coordinate array
-    vals = [f for f in axes[0]["fields"] if f["name"] == "values"]
+    vals = [f for f in axes[0]["fields"] if f["name"] == "quantity"]
     got = sorted(x["name"] for x in vals[0].get("fields", []))
-    assert got == ["source_values", "values"], (
-        f"`axes[].values` declares {got!r}; the canonical + as-recorded pair is what "
+    assert got == ["source_value", "value"], (
+        f"`axes[].quantity` declares {got!r}; the canonical + as-recorded pair is what "
         "lets a fold carry coordinates without silently normalising them")
 
 
@@ -3769,9 +3788,11 @@ def test_inline_method_parameters_has_the_document_shape():
         return strip(f)
     inline, document = shape("interaction"), shape("method_parameters")
     assert inline == document
-    # #73 audit 2 D4: the key / condition entry's shape.
+    # #73 audit 2 D4, then 2026-10-19: the one single-value entry, shared with
+    # `conditions` (data_body AMENDMENT 3).
     assert [s["name"] for s in inline["fields"]] == [
-        "variable", "unit", "source_unit", "value", "term", "text"]
+        "variable", "unit", "source_unit", "approximate",
+        "term", "quantity", "count", "text"]
     assert inline["mustBeScalar"] is False
     assert inline == shape("clock_alignment_configuration")
 
@@ -3785,10 +3806,9 @@ def test_conditions_have_amendment_2_shape():
     names = [x["name"] for x in f["fields"]]
     assert names[:4] == ["variable", "unit", "source_unit", "approximate"]
     sub = {x["name"]: x for x in f["fields"]}
-    assert [x["name"] for x in sub["count"]["fields"]] == ["value"]
-    assert sub["count"]["fields"][0]["type"] == "integer"
-    q = sub["quantity"]["fields"][0]
-    assert [x["name"] for x in q["fields"]] == ["value", "source_value"]
+    # AMENDMENT 3 (2026-10-19): the value forms flatten to one value each.
+    assert sub["count"]["type"] == "integer" and "fields" not in sub["count"]
+    assert [x["name"] for x in sub["quantity"]["fields"]] == ["value", "source_value"]
 
 
 def test_bodies_split_by_who_lays_out_the_bytes():

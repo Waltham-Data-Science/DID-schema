@@ -17,6 +17,7 @@
 > | `ADDENDUM — the storage-mode walkthrough` | closes OPEN items 3, 4 and 7; a body is emitted only when bytes are attached; axes live with the thing whose extent they describe |
 > | `AMENDMENT 1 — the axis carries its own unit` | **REVERSES** `THERE IS NO \`unit\` FIELD`; angles are radians; #32 and #115 leave the critical path |
 > | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
+> | `AMENDMENT 3 — one entry for keys, conditions and method parameters` | renames the value forms: a key's `labels`/`values` become `term`/`quantity`; a condition's `term.value`/`count.value` flatten (2026-10-19, decided with Jess; built) |
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
@@ -1186,3 +1187,45 @@ RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **104 NDI templates** on origin/main (was 102); **172 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 176). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
+
+
+# AMENDMENT 3 — one entry for keys, conditions and method parameters. Jess, 2026-10-19.
+
+Decided with Jess Haley in the Haley import's term pass. **This is a recorded decision,
+not a `TEAM-SIGN-OFF` line** (Operating Rule 4: Claude does not write one).
+
+AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
+apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was
+"modelled on the `axis` entry"), the three lists still spelled each value form
+differently:
+
+| | key | condition | method parameter |
+|---|---|---|---|
+| category | `labels` | `term.value` | `term` |
+| number | `values.values` / `.source_values` | `quantity.value.value` / `.source_value` | `value.value` / `.source_value` |
+| integer | -- | `count.value` | -- |
+| free text | -- | -- | `text` |
+| `approximate` | yes | yes | no |
+
+AMENDMENT 2's own argument -- *"three placements for one concept is the disease, not the
+cure"* -- applies to the value forms as it did to the unit. So every entry is now
+
+```
+variable, unit, source_unit, approximate
++ ONE value form:  term | quantity {value, source_value} | count | text
+```
+
+- **A condition and a method parameter are the SAME entry, holding ONE value** (every
+  form scalar). `quantity.source_value` is TEXT, kept verbatim, as the method-parameters
+  plan already required (v1 writes a threshold as the string `"0.030"`).
+- **A key is that entry holding n positions.** Its `term` is an array of n terms (was
+  `labels`) and its `quantity` is `{value, source_value}` as two arrays of n (was
+  `values {values, source_values}`). A key's positions are terms or quantities only, and
+  a key's `source_value` stays NUMERIC: an irregular time key can hold thousands of
+  positions. `regular` keys (`origin` + `spacing`) are unchanged.
+- **The axis/condition split stands.** A key INDEXES a value; a condition QUALIFIES it.
+  This amendment shares their spelling, not their job.
+
+Built in `tools/build_v_eta.py` section 12.15 (2 key lists, 2 `conditions` mounts, 3
+`method_parameters` mounts). Writers and readers follow in DID-matlab (`did2.build`, the
+validator, the migrators) and NDI-matlab (the Haley import, `ndi.value`).

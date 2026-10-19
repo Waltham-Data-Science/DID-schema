@@ -13155,6 +13155,148 @@ _ls_level["file"] = [{"name": "chunk.bin", "series": True,
                                        "the writer materialized the chunks."}]
 write("deprecated", "lightsheet_zarr_level", _ls_level)
 
+# ---------- 12.15 one entry shape for keys, conditions and method parameters (2026-10-19) ----------
+# Decided with Jess Haley 2026-10-19 (Haley term pass; NOT a TEAM-SIGN-OFF line --
+# recorded in V_eta_data_body_model_plan.md AMENDMENT 3 and
+# V_eta_method_parameters_plan.md). The three variable-keyed lists had the same four
+# descriptors (data_body AMENDMENT 2 aligned keys and conditions) but three spellings
+# of each value form: a category was `labels` / `term.value` / `term`, a number
+# `values.values` / `quantity.value.value` / `value.value`; `count` existed only on a
+# condition, `text` only on a parameter, `approximate` was missing from a parameter.
+# Now every entry is
+#     variable, unit, source_unit, approximate
+#     + ONE value form: term | quantity {value, source_value} | count | text
+# A condition or a method parameter holds exactly ONE value (scalar forms); a key holds
+# n positions, so its `term` is an array of n terms and its `quantity` is
+# {value, source_value} as two arrays of n (columnar, as `values` was). A key's
+# positions are terms or quantities only. `source_value` is TEXT on a single-value
+# entry (kept verbatim -- v1 writes a threshold as "0.030") and NUMERIC on a key
+# (an irregular time key can hold thousands of positions).
+def _entry_subs(var, where):
+    """The single-value entry: a condition or a method parameter."""
+    _nn = [dict(x, constraints={}) for x in var["fields"]]   # node, name
+
+    def _ot(name, doc):
+        x = subfield(name, "ontology_term", doc)
+        x["fields"] = json.loads(json.dumps(_nn))
+        return x
+    return [
+        var,
+        _ot("unit", f"Canonical unit of `quantity.value`, for the whole {where}. "
+                    "Absent for a non-numeric value or a unitless number."),
+        subfield("source_unit", "char",
+                 "The unit as the source gave it. Omitted when already canonical."),
+        subfield("approximate", "boolean", f"Applies to the whole {where}.", blank=False),
+        _ot("term", "A categorical value: one term ({node, name}), or a LABEL "
+                    "({name}, no node) when no term exists."),
+        subfield("quantity", "structure",
+                 "A numeric value, in `unit`, plus what the source wrote.",
+                 sub_fields=[
+                     subfield("value", "double", "Canonical value, in `unit`.", blank=0.0),
+                     subfield("source_value", "char",
+                              "As-recorded value, VERBATIM in `source_unit` (v1 writes a "
+                              "threshold as the string \"0.030\", and the string is "
+                              "kept).")]),
+        subfield("count", "integer", "An integer value.", blank=0),
+        subfield("text", "char", "A free-text value."),
+    ]
+
+
+_ENTRY_ONE_FORM = (" Each entry is {variable, unit, source_unit, approximate} plus "
+                   "exactly ONE value form -- `term`, `quantity` {value, source_value}, "
+                   "`count` or `text` -- the same entry as a key's, holding one value "
+                   "where a key holds n (2026-10-19).")
+
+
+def _rekey_entry(subs):
+    """A key: `labels` -> `term`, `values {values, source_values}` -> `quantity
+    {value, source_value}`; descriptors and position fields untouched."""
+    out = []
+    for x in subs:
+        if x["name"] == "labels":
+            x = dict(x, name="term")
+            x["documentation"] = (
+                "Categorical positions, n of them: each a TERM ({node, name}) or a LABEL "
+                "({name}, no node: meaningful only locally, e.g. a cluster number). XOR "
+                "with `quantity` and `positions_from`. (`labels` until 2026-10-19.)")
+        elif x["name"] == "values":
+            x = dict(x, name="quantity")
+            x["documentation"] = (
+                "Numeric positions, n of them, in `unit`: `value` the canonical numbers "
+                "and `source_value` what the source wrote (both arrays of n). REQUIRED "
+                "iff NOT `regular` and numeric. XOR with `term` and `positions_from`. "
+                "(`values {values, source_values}` until 2026-10-19.)")
+            ren = {"values": "value", "source_values": "source_value"}
+            x["fields"] = [dict(y, name=ren.get(y["name"], y["name"]))
+                           for y in x["fields"]]
+        out.append(x)
+    return out
+
+
+_KEY_DOC_FIX = (("`origin`/`spacing`/`values`", "`origin`/`spacing`/`quantity`"),
+                ("which uses `labels`", "which uses `term`"),
+                ("stored, in `values`, `labels` or `positions_from`",
+                 "stored, in `quantity`, `term` or `positions_from`"),
+                ("XOR with `labels`/`values`", "XOR with `term`/`quantity`"),
+                ("one of `values`, `labels`, `positions_from`",
+                 "one of `quantity`, `term`, `positions_from`"),
+                ("categorical levels as `labels`", "categorical levels as `term`"))
+
+_n_keys = _n_cond = _n_mp = 0
+for _tier in TIERS:
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json"):
+            continue
+        _d = load(os.path.join(_dir, _fn))
+        _changed = False
+
+        def _walk(fields):
+            global _n_keys, _n_cond, _n_mp
+            nonlocal_changed = False
+            for f in fields:
+                subs = f.get("fields") or []
+                names = {x["name"] for x in subs}
+                if f["name"] == "keys" and {"n", "variable"} <= names:
+                    f["fields"] = _rekey_entry(subs)
+                    _n_keys += 1
+                    nonlocal_changed = True
+                elif f["name"] in ("conditions", "method_parameters") and "variable" in names:
+                    var = next(x for x in subs if x["name"] == "variable")
+                    where = "condition" if f["name"] == "conditions" else "setting"
+                    f["fields"] = _entry_subs(var, where)
+                    _doc, _k = _re.subn(
+                        r" A list of entries, each \{variable, unit, source_unit, "
+                        r"approximate\} plus ONE value form\. Each entry names its "
+                        r"`variable`.*?Cardinality exactly 1\.",
+                        _ENTRY_ONE_FORM.replace("\\", "\\\\"), f["documentation"])
+                    f["documentation"] = _doc if _k else (
+                        f["documentation"].rstrip() + _ENTRY_ONE_FORM)
+                    if f["name"] == "conditions":
+                        _n_cond += 1
+                    else:
+                        _n_mp += 1
+                    nonlocal_changed = True
+                else:
+                    nonlocal_changed |= _walk(subs)
+            return nonlocal_changed
+
+        _changed = _walk(_d.get("fields", []))
+        _txt = json.dumps(_d)
+        _new = _txt
+        for _a, _b in _KEY_DOC_FIX:
+            _new = _new.replace(_a, _b)
+        if _new != _txt:
+            _d = json.loads(_new)
+            _changed = True
+        if _changed:
+            write(_tier, _fn[:-5], _d)
+print(f"12.15 one entry shape: {_n_keys} key list(s), {_n_cond} conditions, "
+      f"{_n_mp} method_parameters mount(s) rewritten")
+
+
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
 # tested WITHOUT running a build. A property that can only be exercised by

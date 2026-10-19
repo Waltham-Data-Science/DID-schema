@@ -104,7 +104,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`values`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical key, which uses `labels`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical key, which uses `term`.",
                     "constraints": {},
                     "fields": [
                         {
@@ -184,7 +184,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `values`, `labels` or `positions_from`.",
+                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `quantity`, `term` or `positions_from`.",
                     "constraints": {}
                 },
                 {
@@ -270,7 +270,7 @@
                     ]
                 },
                 {
-                    "name": "values",
+                    "name": "quantity",
                     "type": "structure",
                     "blank_value": {},
                     "default_value": {},
@@ -279,11 +279,11 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The coordinates themselves. REQUIRED iff NOT `regular` and numeric. XOR with `labels`.",
+                    "documentation": "Numeric positions, n of them, in `unit`: `value` the canonical numbers and `source_value` what the source wrote (both arrays of n). REQUIRED iff NOT `regular` and numeric. XOR with `term` and `positions_from`. (`values {values, source_values}` until 2026-10-19.)",
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "values",
+                            "name": "value",
                             "type": "matrix",
                             "blank_value": [],
                             "default_value": [],
@@ -296,7 +296,7 @@
                             "constraints": {}
                         },
                         {
-                            "name": "source_values",
+                            "name": "source_value",
                             "type": "matrix",
                             "blank_value": [],
                             "default_value": [],
@@ -311,7 +311,7 @@
                     ]
                 },
                 {
-                    "name": "labels",
+                    "name": "term",
                     "type": "ontology_term",
                     "blank_value": {
                         "node": "",
@@ -326,7 +326,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical positions. Each entry is a TERM ({node, name}) or a LABEL ({name} with no node: meaningful only locally, e.g. a cluster number). XOR with `values` and `positions_from`.",
+                    "documentation": "Categorical positions, n of them: each a TERM ({node, name}) or a LABEL ({name}, no node: meaningful only locally, e.g. a cluster number). XOR with `quantity` and `positions_from`. (`labels` until 2026-10-19.)",
                     "constraints": {},
                     "fields": [
                         {
@@ -367,7 +367,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this key's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along this key is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). `n` must equal the number of entries. -1 (the blank) = not used. XOR with `labels`/`values`. (`labels_from` until 2026-10-05.)",
+                    "documentation": "Take this key's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along this key is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). `n` must equal the number of entries. -1 (the blank) = not used. XOR with `term`/`quantity`. (`labels_from` until 2026-10-05.)",
                     "constraints": {}
                 },
                 {
@@ -429,7 +429,7 @@
                 "keys.labels",
                 "keys.positions_from"
             ],
-            "statement": "A key that is not `regular` carries exactly one of `values`, `labels`, `positions_from`; a regular key carries none of them."
+            "statement": "A key that is not `regular` carries exactly one of `quantity`, `term`, `positions_from`; a regular key carries none of them."
         },
         {
             "name": "key_chunk_sampled_only",

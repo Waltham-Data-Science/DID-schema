@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A response tuning curve. The stimulus dimensions it is tabulated over (direction, contrast, spatial/temporal frequency, ...) are the value's `keys` -- one key each, categorical levels as `labels` -- so which family a curve belongs to is its keys' `variable`s, not a subclass. Statistics of the response are separate named fields (T14: another reading of the same quantity is a key, a different statistic of it is its own field). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`. (#73 audit 2 D3: `independent_variables[]` dropped -- it restated the keys.)",
+            "documentation": "A response tuning curve. The stimulus dimensions it is tabulated over (direction, contrast, spatial/temporal frequency, ...) are the value's `keys` -- one key each, categorical levels as `term` -- so which family a curve belongs to is its keys' `variable`s, not a subclass. Statistics of the response are separate named fields (T14: another reading of the same quantity is a key, a different statistic of it is its own field). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`. (#73 audit 2 D3: `independent_variables[]` dropped -- it restated the keys.)",
             "constraints": {},
             "fields": [
                 {

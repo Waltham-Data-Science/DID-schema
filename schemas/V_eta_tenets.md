@@ -454,7 +454,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 - **Readings that differ only by a label are one statement** (Jess, 2026-10-19). Values
   with the same subject, variable, method, method parameters, inputs, conditions and keys,
   differing only in one categorical fact (which body part, channel, sensor, period), are
-  one statement with that fact as a `labels` key. A condition is a fact true of every
+  one statement with that fact as a categorical (`term`) key. A condition is a fact true of every
   value; it never tells apart sibling statements that would otherwise be identical. They
   stay separate only when something else differs: another statistic, other inputs, or
   keys with different positions. *(A worm's head, midpoint and tail speed are one
@@ -462,7 +462,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   [encounter x encounter period] statement; its median speed before the first encounter
   has no encounter key, so it stays its own.)*
 - **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
-  states its positions itself (`regular` origin + spacing, `values`, or `labels`), or takes
+  states its positions itself (`regular` origin + spacing, `quantity`, or `term`), or takes
   them from another `value` document through the **`key_id`** edge, chosen by the key's
   `positions_from`: position *k* is entry *k* of that document's value, which names it.
   A list several statements share is stated once and the others key by it -- a gene list

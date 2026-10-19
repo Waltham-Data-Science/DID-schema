@@ -20,6 +20,11 @@ NOT_VALUES = {
     "data.keys",
     "data_body.conditions",
     "statement.conditions",
+    # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,
+    # so it takes the condition's `approximate` and, like it, no tolerance.
+    "clock_alignment_configuration.method_parameters",
+    "interaction.method_parameters",
+    "method_parameters.method_parameters",
 }
 
 

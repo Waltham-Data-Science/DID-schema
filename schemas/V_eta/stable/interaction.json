@@ -110,7 +110,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings the method was run with, inline: an algorithm's configuration for a calculation, the acquisition settings for an observation (exposure time, zoom, a filter set's excitation and emission bands), a procedure's settings for a manipulation. The technique itself is `method`; the device is `instrument_id`. The SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both.",
+            "documentation": "The settings the method was run with, inline: an algorithm's configuration for a calculation, the acquisition settings for an observation (exposure time, zoom, a filter set's excitation and emission bands), a procedure's settings for a manipulation. The technique itself is `method`; the device is `instrument_id`. The SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count` or `text` -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
             "constraints": {},
             "fields": [
                 {
@@ -181,7 +181,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `value.value`, for a numeric knob (#73 audit 2 D4, amending the signed 'no unit field'). Unbound until the unit vocabulary is chosen (OPEN_ITEMS 24). Absent for a unitless or non-numeric knob.",
+                    "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number.",
                     "constraints": {},
                     "fields": [
                         {
@@ -226,45 +226,17 @@
                     "constraints": {}
                 },
                 {
-                    "name": "value",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Numeric knobs: the canonical value, in `unit`, plus what the source wrote.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical value, in `unit`.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept.",
-                            "constraints": {}
-                        }
-                    ]
+                    "documentation": "Applies to the whole setting.",
+                    "constraints": {}
                 },
                 {
                     "name": "term",
@@ -282,7 +254,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical knobs (e.g. a threshold method).",
+                    "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists.",
                     "constraints": {},
                     "fields": [
                         {
@@ -314,6 +286,60 @@
                     ]
                 },
                 {
+                    "name": "quantity",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A numeric value, in `unit`, plus what the source wrote.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value, in `unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "count",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "An integer value.",
+                    "constraints": {}
+                },
+                {
                     "name": "text",
                     "type": "char",
                     "blank_value": "",
@@ -323,7 +349,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Free-string knobs.",
+                    "documentation": "A free-text value.",
                     "constraints": {}
                 }
             ]
