@@ -332,3 +332,44 @@ TEAM-SIGN-OFF: jess / 2026-10-04 -- subject_calculation.interpreter_id is option
 TEAM-SIGN-OFF: jess / 2026-10-05 -- key_labels_id becomes key_id and labels_from becomes positions_from; key_id points only at a data_type document; T14 bullet on where a key's positions come from
 TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on repeated events: one-off statement; recurring event = list statement of onsets plus statements keyed by it through key_id; scheduled protocol = item
 TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calculation leaves
+
+## Role nodes (PROPOSAL, 2026-10-19; not signed)
+
+- Asked for by Jess in the Haley import's term pass (2026-10-19). The `roles` binding
+  signed 2026-09-30 names its 15 values but leaves every node empty. This proposal fills
+  the nodes; the names are unchanged.
+- **The 14 CRediT roles take NISO's own identifiers** (option A, Jess): Bioregistry's
+  `credit` prefix, whose local id is the role's slug, e.g. `credit:conceptualization`,
+  resolving to https://credit.niso.org/contributor-roles/conceptualization/. That is the
+  identifier of the standard itself (ANSI/NISO Z39.104-2022).
+  - Rejected (option B): the Contributor Role Ontology's numbering, `CREDIT:00000001` ...
+    `CREDIT:00000014` (http://purl.org/credit/ontology#CREDIT_0000000N). OLS indexes it,
+    but it comes from an older non-NISO version, and Bioregistry's `credit` pattern
+    (slugs) does not admit it.
+- **`corresponding author` takes `NCIT:C164481` "Corresponding Author indicator"**
+  ("An indication that the specific author is considered the corresponding author").
+  CRediT has no such role. NCIT files the term as an indicator rather than a role, but
+  its meaning is exactly this, and the LinkML `valuesets` collection maps its
+  `CORRESPONDING_AUTHOR` to it.
+- `credit` joins the prefix registry, with Bioregistry's pattern (the 14 slugs).
+- `ndi.ontology` resolves both prefixes: `credit:` from a built-in table of the 14 roles,
+  since no service indexes NISO's identifiers (it also accepts CRO's numbers as
+  aliases; Waltham-Data-Science/ndi-ontology-matlab#10), and `NCIT:` through OLS.
+
+| role | node |
+|---|---|
+| conceptualization | `credit:conceptualization` |
+| data curation | `credit:data-curation` |
+| formal analysis | `credit:formal-analysis` |
+| funding acquisition | `credit:funding-acquisition` |
+| investigation | `credit:investigation` |
+| methodology | `credit:methodology` |
+| project administration | `credit:project-administration` |
+| resources | `credit:resources` |
+| software | `credit:software` |
+| supervision | `credit:supervision` |
+| validation | `credit:validation` |
+| visualization | `credit:visualization` |
+| writing - original draft | `credit:writing-original-draft` |
+| writing - review & editing | `credit:writing-review-editing` |
+| corresponding author | `NCIT:C164481` |

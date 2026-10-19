@@ -257,63 +257,63 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "",
+                            "node": "credit:conceptualization",
                             "name": "conceptualization"
                         },
                         {
-                            "node": "",
+                            "node": "credit:data-curation",
                             "name": "data curation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:formal-analysis",
                             "name": "formal analysis"
                         },
                         {
-                            "node": "",
+                            "node": "credit:funding-acquisition",
                             "name": "funding acquisition"
                         },
                         {
-                            "node": "",
+                            "node": "credit:investigation",
                             "name": "investigation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:methodology",
                             "name": "methodology"
                         },
                         {
-                            "node": "",
+                            "node": "credit:project-administration",
                             "name": "project administration"
                         },
                         {
-                            "node": "",
+                            "node": "credit:resources",
                             "name": "resources"
                         },
                         {
-                            "node": "",
+                            "node": "credit:software",
                             "name": "software"
                         },
                         {
-                            "node": "",
+                            "node": "credit:supervision",
                             "name": "supervision"
                         },
                         {
-                            "node": "",
+                            "node": "credit:validation",
                             "name": "validation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:visualization",
                             "name": "visualization"
                         },
                         {
-                            "node": "",
+                            "node": "credit:writing-original-draft",
                             "name": "writing - original draft"
                         },
                         {
-                            "node": "",
+                            "node": "credit:writing-review-editing",
                             "name": "writing - review & editing"
                         },
                         {
-                            "node": "",
+                            "node": "ncit:C164481",
                             "name": "corresponding author"
                         }
                     ],

@@ -10471,13 +10471,39 @@ _CREDIT_ROLES = (
 _t, _d = _a2_load("directed_relation")
 if any(f["name"] == "roles" for f in _d["fields"]):
     raise SystemExit("directed_relation already declares roles")
+# Nodes (2026-10-19, PROPOSAL awaiting sign-off, V_eta_study_plan.md "Role nodes"):
+# each CRediT role by NISO's own identifier, Bioregistry's `credit:<slug>` (the
+# standard's citation form, https://credit.niso.org/contributor-roles/<slug>/), and
+# `corresponding author` by NCIT:C164481 "Corresponding Author indicator", since
+# CRediT has no such role. Names are unchanged.
+_CREDIT_ROLE_NODES = {
+    "conceptualization": "credit:conceptualization",
+    "data curation": "credit:data-curation",
+    "formal analysis": "credit:formal-analysis",
+    "funding acquisition": "credit:funding-acquisition",
+    "investigation": "credit:investigation",
+    "methodology": "credit:methodology",
+    "project administration": "credit:project-administration",
+    "resources": "credit:resources",
+    "software": "credit:software",
+    "supervision": "credit:supervision",
+    "validation": "credit:validation",
+    "visualization": "credit:visualization",
+    "writing - original draft": "credit:writing-original-draft",
+    "writing - review & editing": "credit:writing-review-editing",
+    "corresponding author": "NCIT:C164481"}
+if set(_CREDIT_ROLE_NODES) != set(_CREDIT_ROLES):
+    raise SystemExit("every contributor role needs exactly one node")
+_roles_binding = _a2_term_binding("did_contributor_role", _CREDIT_ROLES)
+for _v in _roles_binding["binding"]["values"]:
+    _v["node"] = _CREDIT_ROLE_NODES[_v["name"]]
 _d["fields"].append(field(
     "roles", "ontology_term",
     "Optional: the child's roles in this relation, for a contribution edge "
     "(`has_author`, `contributed_by`): the 14 CRediT contributor roles plus "
     "`corresponding author`. Bound, preferred.",
     non_empty=False, scalar=False,
-    constraints=_a2_term_binding("did_contributor_role", _CREDIT_ROLES)))
+    constraints=_roles_binding))
 write(_t, "directed_relation", _d)
 
 
@@ -12929,6 +12955,8 @@ _BIOREGISTRY = {
     "pmc": ("PubMed Central", "http://europepmc.org/articles/", r"^PMC\d+(\.\d+)?$"),
     "rrid": ("Research Resource Identifier", "https://scicrunch.org/resolver/RRID:", r"^[a-zA-Z]+.+$"),
     "wikidata": ("Wikidata", "http://www.wikidata.org/entity/", r"^(Q|P|E|L)\d+$"),
+    "credit": ("Contributor Roles Taxonomy (CRediT)", "https://credit.niso.org/contributor-roles/",
+               r"^(conceptualization|data-curation|formal-analysis|funding-acquisition|investigation|methodology|project-administration|resources|software|supervision|validation|visualization|writing-original-draft|writing-review-editing)$"),
     "swh": ("Software Heritage", "https://archive.softwareheritage.org/browse/swh:", r"^[1-9]:(cnt|dir|rel|rev|snp):[0-9a-f]+(;(origin|visit|anchor|path|lines)=\S+)*$"),
     "ncbitaxon": ("NCBI Taxonomy", "http://purl.obolibrary.org/obo/NCBITaxon_", r"^(\d+)|([a-zA-Z_]+)$"),
     "wormbase": ("WormBase", "https://www.wormbase.org/get?name=", r"^(CE[0-9]{5}|WB[A-Z][a-z]+\d+)$"),
@@ -12960,6 +12988,8 @@ for _px, (_label, _base, _pat) in _BIOREGISTRY.items():
         _curie["prefixes"][_px] = _e
     _e["pattern"] = _pat
     _e["pattern_source"] = f"https://bioregistry.io/api/registry/{_px} (2026-10-08)"
+_curie["prefixes"]["credit"]["pattern_source"] = (
+    "https://bioregistry.io/api/registry/credit (2026-10-19)")
 _curie["prefixes"]["ndicloud"] = {
     "label": "NDI Cloud dataset", "uri_base": "", "uri_style": "local",
     "approximate": False, "pattern": r"^[0-9a-f]{24}$",

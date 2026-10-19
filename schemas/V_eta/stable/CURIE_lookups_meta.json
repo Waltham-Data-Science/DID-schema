@@ -166,6 +166,15 @@
             "pattern": "^(Q|P|E|L)\\d+$",
             "pattern_source": "https://bioregistry.io/api/registry/wikidata (2026-10-08)"
         },
+        "credit": {
+            "label": "Contributor Roles Taxonomy (CRediT)",
+            "uri_base": "https://credit.niso.org/contributor-roles/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `credit`.",
+            "pattern": "^(conceptualization|data-curation|formal-analysis|funding-acquisition|investigation|methodology|project-administration|resources|software|supervision|validation|visualization|writing-original-draft|writing-review-editing)$",
+            "pattern_source": "https://bioregistry.io/api/registry/credit (2026-10-19)"
+        },
         "swh": {
             "label": "Software Heritage",
             "uri_base": "https://archive.softwareheritage.org/browse/swh:",
