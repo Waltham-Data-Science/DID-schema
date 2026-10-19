@@ -13293,6 +13293,13 @@ for _tier in TIERS:
             _changed = True
         if _changed:
             write(_tier, _fn[:-5], _d)
+# The rule that names a key's position forms names the fields by path.
+_t, _d = path_of("data")
+_d = load(_d)
+for _r in _d.get("rules", []):
+    _r["fields"] = [{"keys.values": "keys.quantity", "keys.labels": "keys.term"}.get(x, x)
+                    for x in _r["fields"]]
+write(_t, "data", _d)
 print(f"12.15 one entry shape: {_n_keys} key list(s), {_n_cond} conditions, "
       f"{_n_mp} method_parameters mount(s) rewritten")
 

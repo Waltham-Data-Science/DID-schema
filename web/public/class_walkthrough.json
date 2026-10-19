@@ -240,32 +240,32 @@
       "site_count": 6,
       "sites": [
        {
-        "line": 1076,
+        "line": 1137,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1106,
+        "line": 1176,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1289,
+        "line": 1390,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1352,
+        "line": 1453,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1373,
+        "line": 1474,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1460,
+        "line": 1561,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -277,7 +277,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 153,
+        "line": 178,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name) ..."
        }
@@ -2300,22 +2300,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 669,
+        "line": 675,
         "spelling": "file_reference",
         "text": "isRecord = strcmp(classes, 'file_reference');"
        },
        {
-        "line": 763,
+        "line": 769,
         "spelling": "file_reference",
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1141,
+        "line": 1215,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1143,
+        "line": 1217,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
@@ -4859,17 +4859,17 @@
         "text": "%   leaves it) or an `entity` whose `type` is 'session' (the V_eta form"
        },
        {
-        "line": 109,
+        "line": 118,
         "spelling": "session",
         "text": "if strcmp(cls, 'session')"
        },
        {
-        "line": 120,
+        "line": 129,
         "spelling": "session",
         "text": "tf = strcmpi(char(t.name), 'session');"
        },
        {
-        "line": 122,
+        "line": 131,
         "spelling": "session",
         "text": "tf = strcmpi(char(t), 'session');"
        }

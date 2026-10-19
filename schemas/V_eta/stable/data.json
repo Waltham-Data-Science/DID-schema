@@ -425,8 +425,8 @@
         {
             "name": "key_positions_one_form",
             "fields": [
-                "keys.values",
-                "keys.labels",
+                "keys.quantity",
+                "keys.term",
                 "keys.positions_from"
             ],
             "statement": "A key that is not `regular` carries exactly one of `quantity`, `term`, `positions_from`; a regular key carries none of them."
