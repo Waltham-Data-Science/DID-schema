@@ -2870,3 +2870,5 @@ RE-DERIVED 2026-10-14 (didmatlab_m_files, sibling drift; `check_prose_counts`): 
 RE-DERIVED 2026-10-15 (`developed_by` and `hosted_by`, Jess, from the Haley import's stage-2 report; `check_prose_counts` re-derives all nouns): the registry has **67** rows (was 65; relation_bindings 30 -> 32: `developed_by` software -> organization, `hosted_by` dataset -> organization). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
 
 RE-DERIVED 2026-10-15 (`distributed_as`, Jess, Haley import decision #17; `check_prose_counts` re-derives all nouns): the registry has **68** rows (was 67; relation_bindings 32 -> 33: `distributed_as` strain -> product). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
+
+RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
