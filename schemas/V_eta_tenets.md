@@ -603,6 +603,17 @@ Every statement must read as one sentence:
   fails the sentence ("the cohort's plate transfer was set to assay plate").
 - **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an
   amount, a term. It never names the act either.
+- **A yes/no property takes a `logical` value; a property with named states takes a term.**
+  When the only answers are true and false, with no third state and no name of its own for
+  either, the value is `logical` and nothing is minted for it: the plate's `inclusion in
+  analysis` is `false`, not the term "excluded". When the states have names in a vocabulary,
+  even if a dataset uses only one or two of them, the value is a term, so other datasets'
+  states sit under the same variable: `food availability` is `fasting` (ZECO also has limited,
+  unlimited and increased food availability), not `fasting` = `true`.
+  *(Added 2026-10-19 at Jess Haley's request, from the Haley import's term pass.)*
+- **Only the exception is asserted.** A `logical` statement is written where it says
+  something: the 8 excluded plates carry `inclusion in analysis` = `false`, and the included
+  plates carry nothing. A query for exclusions looks for `false`.
 - **`method` is how it was done — the technique — and is recorded only when it adds
   something** the variable and value do not already say, and only when it is known. "Heating"
   or "cooling" on a move into a 4 °C cold room adds nothing; `refrigeration`, `incubation` and
@@ -626,7 +637,9 @@ Every statement must read as one sentence:
 | onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 °C |
 | into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 °C |
 | move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |
-| take food away | `term_manipulation` | — | food availability | none |
+| take food away | `term_manipulation` | — | food availability | fasting |
+| exclude a plate from analysis | assertion + `logical` | — | inclusion in analysis | `false` |
+| a plate never filmed | assertion + `logical` | — | video recording | `false` |
 
 The transfer's value is the KIND of plate; the plate itself is the parent of the
 `contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs
