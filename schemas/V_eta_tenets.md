@@ -33,6 +33,19 @@ are subjects, with **no kind-subclasses**. Every other property is *derived from
 graph*: group-ness from incoming `member_of` edges; kind from a `term_assertion`;
 "biological" from whether that kind term sits under an organism branch. (SPEC §1)
 
+*Amended 2026-10-20 (PROPOSAL, from the Haley tenet audit, T-4; Jess Haley agreed; not
+signed). Since the one-entity merge (signed 2026-10-08) the subject is an `entity`, and two
+sentences above no longer describe it:*
+- **Kind.** An entity's **coarse kind** is `entity.type`, a bound, required field (the 19
+  types of `entity_type_bindings`: organism, culture, tissue, cell, group, device,
+  material, session, dataset, …). Its **finer kind** (a species, a cell type, a plate kind,
+  a bacterial patch) is one `term_assertion` (Sample Type for samples and materials,
+  species for organisms, and the like): never a new class, never a free-text field.
+- **Edges.** An entity's own edges are the optional `time_reference_id` (when it existed)
+  and, like every document since 2026-10-20, the required `session_id` it inherits from
+  `base` (where it is stored, never what it is part of). Everything ABOUT it is still a
+  statement or a relation pointing in.
+
 ### T2 — Everything you can say about a subject is one `statement` family.
 A statement binds a **`variable`** (what — an ontology term) to a **`value`**, about a
 subject (or, since 2026-10-08, any entity), optionally at a **time**. Identity rides on `variable`, not the class, so one
@@ -148,6 +161,21 @@ A structure a value is **attributed to** becomes its own subject + `part_of` (th
 interaction's subject is the part); a structure merely **located** stays a
 `term_observation` value (a spatial-relation `variable` + an atlas term). A brain region
 is normally an *address* (a value), not a subject. (SPEC §4)
+
+*Amended 2026-10-20 (PROPOSAL, from the Haley tenet audit, T-2; Jess Haley agreed; not
+signed). `part_of` was the only relation this tenet named, and that is how the Haley import
+first made a bacterial patch `part_of` its plate (#52) before finding it must be
+`contained_in` it (#107).* **Pick the relation by what the child is:**
+- a **portion of the parent's own material** (a slice of a brain, a punch of a culture)
+  → `part_of`;
+- a **separate thing located in or on it** for a while (a patch on a plate, a worm on a
+  patch, a plate in an incubator) → `contained_in`, timed;
+- **one of a group** (a worm of a cohort, a neuron of an ensemble) → `member_of`;
+- a **record filed under a record** (a session under a study, a study under a dataset)
+  → `included_in`.
+
+**Then read the relation's `passes`** (T17): every assertion that would reach the child
+must be true of it, or the relation is wrong.
 
 ### T6 — Storage is orthogonal to meaning; there are exactly two data bodies.
 A value is inline (in `value`), shared (the statement's `value_id` points at a standalone
@@ -703,6 +731,14 @@ version or licence. (The study plan of 2026-09-30 had widened `part_of` to recor
 every study and session read the dataset's assertions as its own.)
 **Choosing a relation is choosing what passes along it**: check that every assertion that
 would reach the child is true of it, or pick another relation.
+
+**An assertion about a container stays on the container** (2026-10-20, PROPOSAL, the
+Haley tenet audit's T-3; Jess Haley agreed; not signed). A plate excluded from analysis
+(`inclusion in analysis` = false) does not make its worms excluded: `contained_in` passes
+interactions as context, never assertions, and stating the exclusion again on each worm,
+track or encounter would state one fact many times. An analysis that drops whatever was on
+an excluded plate asks the containers, and a reader offers that as one call rather than a
+hand-written walk.
 
 Containment carries context, so a reader keeps it apart:
 - **Only while contained.** A container's interaction reaches its contents only when its time

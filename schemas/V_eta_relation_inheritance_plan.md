@@ -88,9 +88,16 @@ pointed at. Nothing in v1 refers to a session document by its `base.id`.
   filters or indexes on `base.session_id`, a V2 upload needs a server change or
   an upload step that adds the field back for the server. To ask before
   publishing a V2 dataset.
-- **T-3** (should a plate's exclusion reach its worms?) is now a question about
-  `contained_in`'s `passes`, not a reader special case. Open.
-- **T5** (choosing between `part_of`, `contained_in`, `member_of` and
-  `included_in`): wording to follow, with the other tenet decisions.
+## Decided with it (Jess Haley, 2026-10-20; tenet text added as PROPOSALS)
+
+- **T5:** pick the relation by what the child is (a portion of the parent's
+  material → `part_of`; a separate thing in or on it → `contained_in`; one of a
+  group → `member_of`; a record under a record → `included_in`), then check that
+  everything its `passes` sends down is true of the child.
+- **T-3:** an assertion about a container stays on the container. A plate's
+  exclusion does not pass to its worms; `contained_in` keeps `passes: context`.
+  An analysis asks the containers, and NDI's reader offers that as one call.
+- **T1:** coarse kind is `entity.type`, finer kind one `term_assertion`; an
+  entity's own edges are `time_reference_id` and `session_id`.
 
 To be signed: every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id
