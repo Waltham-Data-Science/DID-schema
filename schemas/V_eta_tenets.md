@@ -30,7 +30,7 @@ then rebuilds the subject side around it.
 A `subject` is an id + optional `local_identifier` + `description`, and **no
 `depends_on`**. Organism, slice, neuron, brain region, group, or recording device — all
 are subjects, with **no kind-subclasses**. Every other property is *derived from the
-graph*: group-ness from incoming `member_of` edges; kind from a `term_assertion`;
+graph*: group-ness from incoming `member_of` edges; kind from a `term` assertion;
 "biological" from whether that kind term sits under an organism branch. (SPEC §1)
 
 *Amended 2026-10-20 (PROPOSAL, from the Haley tenet audit, T-4; Jess Haley agreed; not
@@ -39,7 +39,7 @@ sentences above no longer describe it:*
 - **Kind.** An entity's **coarse kind** is `entity.type`, a bound, required field (the 19
   types of `entity_type_bindings`: organism, culture, tissue, cell, group, device,
   material, session, dataset, …). Its **finer kind** (a species, a cell type, a plate kind,
-  a bacterial patch) is one `term_assertion` (Sample Type for samples and materials,
+  a bacterial patch) is one `term` assertion (Sample Type for samples and materials,
   species for organisms, and the like): never a new class, never a free-text field.
 - **Edges.** An entity's own edges are the optional `time_reference_id` (when it existed)
   and, like every document since 2026-10-20, the required `session_id` it inherits from
@@ -113,6 +113,9 @@ Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`
 `dose_manipulation`, `term_assertion`, `timed_sequence_manipulation`,
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
+*Since 2026-10-08 (statements by composition) there are no leaf classes: a leaf named here
+is written as its direction plus its value kind (`observation` listing `mass`). Read every
+`<kind>_<direction>` name in these tenets that way.*
 
 **AMENDED 2026-10-08 -- the product is a document, not a class** (PROPOSAL,
 `V_eta_entity_composition_plan.md` sec. 1). A statement document's class is its direction
@@ -217,6 +220,13 @@ are the source of truth; an ensemble's combined (time, neuron) marked-point-proc
 derived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
+
+*Amended 2026-10-20 (PROPOSAL, the Haley tenet audit's T-8; Jess Haley agreed; not signed).*
+**Derivable means rebuildable from what is stored, including every choice the derivation
+makes** (a reference, a floor, a model's settings). When a choice lives only in someone's
+code, the derived value is stored too, with those choices as its method parameters (the
+Haley import's relative density, decision #99: its reference and its floor are in no
+stored document, so the density is stored beside the estimates).
 
 **The cache marker (required).** A calculation's `input_id` edges (T15; `derived_from_#`
 before it) are overloaded — T10 uses them for *authoritative* analysis outputs (a calculation
@@ -331,8 +341,8 @@ measurement structure or a new quantity dimension** that no existing composite c
 Before minting one, exhaust the cheaper axes — a new composite is wrong if the difference
 is any of:
 1. **Same shape, different meaning** → keep the composite, change the **`variable`**
-   (and/or `method`). *(species vs strain are both `term_assertion`; two different
-   scores are both `score_observation` with different `variable`.)*
+   (and/or `method`). *(species vs strain are both `term` assertions; two different
+   scores are both `score` observations with different `variable`.)*
 2. **A controlled term** → `term_*` + a **binding** to a value_set. Never a class per
    vocabulary entry. **A term is anything with a namespace and an id** (`CL:0000617`,
    `ENSEMBL:ENSMODG00000020019`); when none exists, mint one. **A value meaningful only
@@ -404,9 +414,9 @@ a footnote**.
   ambiguity — and note that a longer word is not automatically clearer: `application` is
   *worse* than both, because in a neuroscience corpus it collides with "applying" a
   stimulus or drug. Pick the term that is shortest **among those that are unambiguous**.
-- **The stance word must be TRUE, not convenient.** The direction suffix —
-  `_observation` (measured *from*), `_manipulation` (done *to*), `_assertion` (declared),
-  `_calculation` (computed) — carries meaning, so a wrong one lies. Choose the suffix that
+- **The stance word must be TRUE, not convenient.** The direction —
+  `observation` (measured *from*), `manipulation` (done *to*), `assertion` (declared),
+  `calculation` (computed) — carries meaning, so a wrong one lies. Choose the suffix that
   matches the actual epistemic act; likewise a field's noun must match its semantics.
 
 **Litmus:** could a reader who does not know this project's history *predict what the doc
@@ -436,7 +446,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 
 - **One payload slot.** Every `value` composite exposes its payload at exactly one
   field: **`value`**. This is what makes T3's `direction × value` factoring mechanical
-  — `voltage.value` means the same thing under `voltage_observation` and `voltage_calculation`,
+  — `voltage.value` means the same thing in a `voltage` observation and a `voltage` calculation,
   so one query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
   carries `source_unit` next to `source_value`; by the same rule an inline raster carries
@@ -468,7 +478,10 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   canonical slot optional. A cell drops `source_value`/`source_unit` only when no conversion to
   the canonical slot exists (a count). A cell whose value can be stated at a coarser
   granularity than it is stored adds a declared `precision` (a date) — precision is
-  granularity, `approximate` is certainty, and a date carries both. **`tolerance {minus,
+  granularity, `approximate` is certainty, and a date carries both. *`precision` belongs to
+  calendar dates only (2026-10-20, PROPOSAL, the Haley tenet audit's T-7; Jess Haley agreed;
+  not signed): an instant or a quantity written at a coarser granularity (a time to the
+  minute) takes a `tolerance` that covers it.* **`tolerance {minus,
   plus}`** is the stated bound, both ≥ 0 in the canonical unit, the true value lying in
   [value − minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not
   a statistic; absent means none stated, `{0, 0}` means exact as given. Every dimensioned cell
@@ -494,8 +507,8 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   them from another `value` document through the **`key_id`** edge, chosen by the key's
   `positions_from`: position *k* is entry *k* of that document's value, which names it.
   A list several statements share is stated once and the others key by it -- a gene list
-  (a standalone `term`), a cell list (a `label_calculation`), a worm's encounter onsets (a
-  `time_calculation`). `key_id` mirrors `value_id` ("my value lives in that document" /
+  (a standalone `term`), a cell list (a `label` calculation), a worm's encounter onsets (a
+  `time` calculation). `key_id` mirrors `value_id` ("my value lives in that document" /
   "this key's positions live in that document") and points only at a `value`, never at
   a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05.)*
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
@@ -703,20 +716,20 @@ Every statement must read as one sentence:
 
 **Worked example** (the Haley import's stage 8; terms are names until the ontology lookup):
 
-| manipulation | leaf | method | variable | value |
+| manipulation | direction + value kind | method | variable | value |
 |---|---|---|---|---|
-| pour a plate | `dose_manipulation` | pouring | NGM agar | 25 mL (+ `formulation_id`) |
-| seed a patch | `dose_manipulation` | seeding | the strain (OP50) | 0.5 µL (+ `formulation_id`) |
-| into the cold room | `temperature_manipulation` | refrigeration | ambient temperature | 4 °C |
-| onto the bench | `temperature_manipulation` | ambient exposure | ambient temperature | 20 °C |
-| into the incubator | `temperature_manipulation` | incubation | ambient temperature | 20 °C |
-| move worms to a plate | `term_manipulation` | worm picking / agar plug transfer / eyelash picking | location | assay plate |
-| take food away | `term_manipulation` | — | food availability | fasting |
+| pour a plate | `manipulation` + `dose` | pouring | NGM agar | 25 mL (+ `formulation_id`) |
+| seed a patch | `manipulation` + `dose` | seeding | the strain (OP50) | 0.5 µL (+ `formulation_id`) |
+| into the cold room | `manipulation` + `temperature` | refrigeration | ambient temperature | 4 °C |
+| onto the bench | `manipulation` + `temperature` | ambient exposure | ambient temperature | 20 °C |
+| into the incubator | `manipulation` + `temperature` | incubation | ambient temperature | 20 °C |
+| move worms to a plate | `manipulation` + `term` | worm picking / agar plug transfer / eyelash picking | location | assay plate |
+| take food away | `manipulation` + `term` | — | food availability | fasting |
 | exclude a plate from analysis | assertion + `logical` | — | inclusion in analysis | `false` |
 | a plate never filmed | assertion + `logical` | — | video recording | `false` |
 
 The transfer's value is the KIND of plate; the plate itself is the parent of the
-`contained_in` relation stated at the same time (T4). A `term_manipulation` therefore needs
+`contained_in` relation stated at the same time (T4). A `term` manipulation therefore needs
 its `variable` (the key its value is bound by, T8) and its `value` (`mustBeNonEmpty`); its
 `method` only when the rule above admits one.
 

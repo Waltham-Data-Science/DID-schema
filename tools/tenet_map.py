@@ -131,7 +131,7 @@ TENET_MAP = [
         "needs it (#73 item 50), so the other directions of `temperature` do "
         "not exist until a use appears.",
         ["treatment"],
-        ["temperature", "temperature_observation", "temperature_manipulation"],
+        ["temperature", "observation", "manipulation"],
         "V_eta_tenets.md",
         "A leaf class = a direction × a data type",
         "T3 is the factoring move: value x direction, so a new stance on "
@@ -347,7 +347,7 @@ TENET_MAP = [
         "state, the method how it was done -- so a transfer is `location` = the "
         "plate kind, and the method tells the incubator from the bench.",
         ["treatment_transfer"],
-        ["term_manipulation", "temperature_manipulation", "dose_manipulation"],
+        ["manipulation", "term", "temperature", "dose"],
         "V_eta_tenets.md",
         "`variable` names a property, `value` its state, `method` how it was done",
         "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab "
