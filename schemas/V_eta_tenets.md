@@ -887,6 +887,14 @@ the document states elsewhere.**
   relations or edges already state: `arena mask`, not `C. elegans behavioral assay: arena
   mask`; "the subjects", not "the animals" or "C. elegans". A qualifier stays when it says
   something nothing else does (`seeding volume`: what was done).
+  *Clarified 2026-10-20 (PROPOSAL, Jess Haley; not signed):* this holds for a term whose
+  meaning is general. **A term's name matches the specificity of its definition**: when the
+  meaning genuinely depends on a species, a lab's model or a protocol, the name says so,
+  because a general name over a narrow definition would invite reuse it cannot bear. Prefer
+  the general meaning where one exists, and keep the narrow parts (thresholds, models) as
+  method parameters: the Haley encounter types are defined as behavioural categories ("patch
+  sampling encounter"), and the posterior thresholds that assign them are the
+  classification's parameters, not part of each term.
 - **A condition's or parameter's term is complete on its own.** Conditions and method
   parameters are a flat list of independent facts. A qualifier that only makes sense attached
   to another entry belongs inside that entry's term, not beside it: `reference point` =
