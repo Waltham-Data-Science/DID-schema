@@ -546,11 +546,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "Fraction",
-      "node": "NCIT:C25514",
-      "definition": "A part, a fragment of a whole.",
+      "name": "Proportion",
+      "node": "NCIT:C49159",
+      "definition": "A part, fraction, share, or number considered in relation to the whole amount or number.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20",
+      "decided": "Jess Haley, 2026-10-20 (Haley term audit X-3: NCIT Fraction means a fragment)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
@@ -970,11 +970,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "Pixel",
-      "node": "NCIT:C48367",
-      "definition": "The smallest resolvable rectangular area of an image, either on a screen or stored in memory.",
+      "name": "pixel",
+      "node": "om:pixel",
+      "definition": "A unit of count of picture elements: the pixel count unit of the Ontology of units of Measure.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20",
+      "decided": "Jess Haley, 2026-10-20 (Haley term audit X-2: NCIT Pixel names an image element, not a unit)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
@@ -1167,6 +1167,14 @@
       "definition": "The second is a unit of time defined as the duration of 9 192 631 770 periods of the radiation corresponding to the transition between the two hyperfine levels of the ground state of the cesium 133 atom.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-19",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "time",
+      "node": "om:Time",
+      "definition": "Time is a base quantity in the International System of Units and other systems of units. It is measured by numbers of repetitions of cyclical events.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-20 (Haley term audit X-1: a recording's time key had no node)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
