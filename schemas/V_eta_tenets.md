@@ -765,6 +765,16 @@ T13 sets the altitude of the names we author; T19 sets it for the ontology terms
 **Choose the most general term that means exactly what is stated, and name nothing in it that
 the document states elsewhere.**
 
+- **Look in this order, and stop at the first that has the meaning** (Jess Haley,
+  2026-10-20):
+  1. **a term already used in another NDI dataset** (the term registry): the next dataset's
+     mean is the registered `mean`, not another ontology's *average value*, because two terms
+     for one meaning split the data as surely as two ontologies do;
+  2. **a term in an existing ontology**, chosen by the rules below;
+  3. **only when no term exists, a new one minted in our own ontology (EMPTY)**.
+
+  A term reached at step 2 or 3 is registered before it is used, so the next dataset finds
+  it at step 1.
 - **Same meaning: the general ontology.** When a general ontology (UBERON, NCIT, OBI, STATO,
   OM, PATO) has a term with the same meaning as a species- or domain-specific one (WBbt, ZFA,
   FMA), use the general term. The species is the subject's (T17), so the specific term adds
