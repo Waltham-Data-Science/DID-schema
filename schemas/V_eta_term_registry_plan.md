@@ -75,6 +75,10 @@ needs.
   clock): that list already governs it;
 - a statement's own value (`term.value`, a chemical's `substance`): that is
   what the data says, not the vocabulary it is said in;
+- a model fit's coefficient names (`model_fit ... coefficients.variable`): a
+  coefficient is named by its symbol in the model's equation (`a`, `b`), which
+  tells the fit's coefficients apart; its node (STATO regression coefficient)
+  still says what kind of coefficient it is;
 - a migration: `did2.convert.v1_to_v2` and `foldGenericFiles` disarm the
   check, because a migrator transcribes the v1 source's own terms.
 
