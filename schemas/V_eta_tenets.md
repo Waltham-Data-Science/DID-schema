@@ -711,6 +711,51 @@ product). What is **asserted** of the strain or the product is **true of each in
 genotype is each N2 worm's genotype. Like `part_of`, assertions pass and interactions do not
 (a reading of one bottle of a product is not a reading of every bottle), and never upward.
 
+### T18 — `same_as` joins two records of one thing; it never joins two things of one kind.
+*(Written 2026-10-14 at Jess Haley's request and signed 2026-10-19,
+`V_eta_duplicate_entities_plan.md`: a session made on its own joins a dataset and brings its
+own entity for something the dataset already records, its own N2 strain, its own record of a
+person, its own record of the microscope.)*
+
+Two entity documents are `same_as` (an `undirected_relation`, member types `entity`) only when
+they describe the very same thing: the same strain, the same person, the same physical
+instrument, the same animal. Two different things that are alike are not the same thing, and
+are never `same_as`:
+
+- **a second instance of a kind is its own entity, `instance_of` the kind** (T17's fourth
+  path): a second microscope of one model is `instance_of` the same `product`; a second N2
+  worm is `instance_of` the same strain. They share the kind through that relation and need
+  nothing between them;
+- **two records of the KIND itself are the duplicate**: two N2 strain entities are one strain,
+  so they are `same_as`.
+
+**It is written only on evidence that names the thing itself**, and the identifier must sit
+on the entity it identifies:
+
+| evidence | names | joins |
+|---|---|---|
+| the same identifier CURIE (`wormbase:WBStrain00000001`, `orcid:…`, `rrid:…`) on two entities of the same type | that strain, person or resource | the two entities |
+| the same serial number (and manufacturer) on two devices | one instrument | the two devices |
+| the same catalog / model number on two products | one product | the two products |
+
+Never on a shared kind (two devices of one model are two instruments until something names
+each one) and never on a shared name alone (two entities called "N2" with no identifier may be
+two stocks: they are listed for a person to confirm, and the confirmation writes the
+`same_as`). A model number recorded on a device would make every device of that model look
+like one, which is why it belongs on the `product`.
+
+**Stored in the dataset, and no id is deleted or rewritten to join them.** That two sessions'
+records are one thing is a fact about the dataset that holds both, so the relation lives in the
+dataset's database, beside the `part_of` relations that make a session a member; a linked
+session's folder is not written to. Both documents stay, with their ids, so every reference to
+either still resolves, and the join is undone by deleting the relation.
+
+**A reader treats a `same_as` group as one entity:** a search finding either record finds the
+group's instances; what is asserted of either record holds of the group (and, through
+`instance_of`, of each instance). Where the records disagree on a value, the reader reports the
+disagreement and does not pick one. A physical merge (keep one record, repoint every edge at
+it) is not decided; if ever wanted, it must leave a redirect from each removed id.
+
 ---
 
 ## The meta-principle

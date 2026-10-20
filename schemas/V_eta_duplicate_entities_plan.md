@@ -1,7 +1,13 @@
 # V_eta: one thing recorded twice (`same_as`)
 
 SIGNED 2026-10-19 (the `TEAM-SIGN-OFF [same_as]` line is under the "To be signed:"
-line). Written 2026-10-14 at Jess Haley's request. Not built yet.
+line). Written 2026-10-14 at Jess Haley's request. BUILT 2026-10-20, not yet run in
+MATLAB: tenet T18 in `V_eta_tenets.md`; the schema needed no change (`same_as` was
+already bound, member types `entity`); the reader and the join are in NDI-matlab
+(`ndi.entity` search and statements follow a `same_as` group, `ndi.entity/sameAs`
+and `/disagreements`, `ndi.v2.sameAs`, `ndi.v2.sameAsMatches`, and
+`ndi.dataset/add_linked_session` / `add_ingested_session` with `same_as_report`;
+test `TestSameAs`). The physical merge is not built (not decided).
 
 ## The question
 

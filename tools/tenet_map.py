@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (17 since T17, 2026-10-08).
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (18 since T18, 2026-10-19).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 17 tenets declared, N with at least one row, and
+  1. It states its denominator: 18 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 18)]
+TENET_IDS = [f"T{i}" for i in range(1, 19)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T17
+    tenet    T1..T18
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -364,6 +364,18 @@ TENET_MAP = [
         "A statement describes only its subject; the graph decides what else it holds of",
         "Written 2026-10-08 from the Haley videos question; the reader is "
         "NDI-matlab ndi.subject (statements, 'inherited', 'context')."),
+    Row("T18",
+        "A session made on its own joins a dataset and brings its own entity for "
+        "something the dataset already records. T18 joins the two records with an "
+        "`undirected_relation` `same_as`, written in the dataset only on an identifier "
+        "that names the thing itself, and deletes or rewrites no id; a second thing "
+        "of one kind is `instance_of` the kind instead.",
+        [],
+        ["undirected_relation", "directed_relation"],
+        "V_eta_tenets.md",
+        "`same_as` joins two records of one thing; it never joins two things of one kind",
+        "Signed 2026-10-19 (V_eta_duplicate_entities_plan.md); the reader is "
+        "NDI-matlab ndi.entity (search and assertions follow a same_as group)."),
 ]
 
 
