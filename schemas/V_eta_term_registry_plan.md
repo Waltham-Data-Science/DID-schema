@@ -59,6 +59,29 @@ taken through a microscope (the E. coli plates); and NCIT:C210102 Sample Type
 is registered as the variable that says what kind of thing a subject is (a
 patch's `bacterial patch`). So 204 terms: 178 decided, 26 staged.
 
+The 26 staged terms were then given nodes by T19's order (Jess, 2026-10-20; NDI
+Haley decision #106), and none is staged now:
+- **11 existing ontology terms**, each registered under the ontology's label:
+  Diluent, Catalog Number, E-mail Address, Keyword, License, Abbreviation
+  (`short name`) from NCIT; family name, given name, version number, author
+  list from IAO; study design independent variable (`factors`) from OBI.
+- **15 new EMPTY terms**, EMPTY:0000331-0000347 (Waltham-Data-Science/
+  empty-ontology#22): the procedures seeding, pouring, incubation,
+  refrigeration, ambient exposure, agar plug transfer and worm picking; the
+  transfer setting `cleaning step`; the four encounter classification
+  thresholds (under STATO cutoff); publication date and release date (under
+  NCIT Date); and genetic strain type.
+- **Two terms the census never saw**, because the fixture does not reach their
+  code: `eyelash picking` (the multi-density transfer) and the transfer setting
+  `droplet`, found by reading the import's spec and code, and minted the same
+  way (EMPTY:0000338, 0000340).
+- The procedures' parents are COB's process classes (OBI's moved there), so
+  `cob` joins the CURIE registry.
+
+So 206 terms, all decided. The census is only as wide as the fixture: a term
+written only on a path the fixture does not take is found by reading the code,
+as these two were.
+
 **The gate**, `tools/check_term_registry.py` (a step of `tools/gates.py`),
 fails on: two entries for one node (prefix read by key, spelling or synonym)
 or one name (ignoring case); a status that disagrees with its node; a prefix the
@@ -98,10 +121,9 @@ needs.
 2. **The migrators' terms.** A migrated dataset is an NDI dataset too, so by
    T19 its terms belong here. Registering them, then arming the check for
    migration, is a follow-up.
-3. **The Haley import's lab labels.** Terms it writes with no node (thresholds,
-   reasons, manipulation keys) are registered as `staged` once the import's
-   own census lists them (NDI-matlab, `did2.build.unregisteredTerms`), then
-   given nodes by T19's order.
+3. **The Haley import's lab labels.** DONE 2026-10-20: every staged term has a
+   node (above). The mechanism stays for the next import: a term the census
+   lists is registered as `staged`, then given a node by T19's order.
 4. **Labels as of registration.** That a node's name is its ontology's label is
    checked when the term is decided, not on every run. An online re-check
    (OLS, OM's file) is not built.

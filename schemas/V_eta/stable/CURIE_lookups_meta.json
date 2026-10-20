@@ -656,6 +656,18 @@
             "spelling": "ZECO",
             "spelling_source": "OBO PURL: the ID space as written in uri_base",
             "synonyms": []
+        },
+        "cob": {
+            "label": "Core Ontology for Biology and Biomedicine",
+            "uri_base": "http://purl.obolibrary.org/obo/COB_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `cob`.",
+            "pattern_source": "https://bioregistry.io/api/registry/cob (2026-10-19)",
+            "pattern": "^\\d{7}$",
+            "spelling": "COB",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
         }
     },
     "uri_styles": {

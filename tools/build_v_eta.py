@@ -13110,6 +13110,7 @@ _PREFIX_SPELLING = {
              "`ndi.ontology` writes `NCIm`")),
     "ndic": ("NDIC", "ours: `ndi.ontology` writes `NDIC`"),
     "mco": ("MCO", _OBO), "micro": ("MICRO", _OBO), "zeco": ("ZECO", _OBO),
+    "cob": ("COB", _OBO),
     "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", ("ours: the ontology writes its own ids `EMPTY:0000276` "
               "(its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess "
               "2026-10-20")),
@@ -13187,6 +13188,12 @@ _NEW_PREFIXES = {
               "http://purl.obolibrary.org/obo/MICRO_", "obo_underscore", r"^\d{7}$"),
     "zeco": ("Zebrafish Experimental Conditions Ontology",
              "http://purl.obolibrary.org/obo/ZECO_", "obo_underscore", r"^\d{7}$"),
+    # the parents of EMPTY's new procedure terms: OBI's general process classes
+    # moved to COB (COB:0000035 completely executed planned process,
+    # COB:0000110 material processing); Bioregistry, fetched 2026-10-20 (Jess,
+    # 2026-10-20, Haley import decision #106)
+    "cob": ("Core Ontology for Biology and Biomedicine",
+            "http://purl.obolibrary.org/obo/COB_", "obo_underscore", r"^\d{7}$"),
 }
 for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
     _e = {"label": _label, "uri_base": _base, "uri_style": _style, "approximate": False}
