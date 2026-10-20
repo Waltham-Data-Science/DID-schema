@@ -72,3 +72,13 @@ def test_the_real_registry_passes_and_is_built():
     terms, _, failures = ctr.check(src, built, curies)
     assert failures == []
     assert len(terms) > 0
+
+
+def test_an_empty_term_must_carry_the_ontologys_label_and_definition():
+    terms = [{"name": "target seeding OD600", "node": "EMPTY:0000105",
+              "definition": "planned", "status": "decided"}]
+    assert ctr.check_empty(terms, {"0000105": ("target seeding OD600", "planned")}) == []
+    bad = ctr.check_empty(terms, {"0000105": ("bacterial OD600", "planned, in units")})
+    assert len(bad) == 2 and all(b.startswith("R7 EMPTY:0000105") for b in bad)
+    assert ctr.check_empty(terms, {}) == [
+        "R7 EMPTY:0000105 (target seeding OD600): not in empty-ontology"]

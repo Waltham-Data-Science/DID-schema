@@ -15,6 +15,10 @@ per meaning, so this checks, and fails on any of:
   R5  a term we mint (EMPTY) or a staged term with no definition
   R6  the built schemas/V_eta/stable/term_registry_meta.json listing other
       terms than the source (run tools/build_v_eta.py)
+  R7  an EMPTY term whose name or definition is not the ontology's own label
+      or definition, read from an empty-ontology checkout ($EMPTY_ONTOLOGY,
+      else a sibling `empty-ontology` folder). Without a checkout R7 is
+      reported NOT CHECKED, never passed.
 
 It prints its denominator first and checks NOTHING against an ontology over
 the network: that a node's label is the ontology's label is recorded when the
@@ -24,6 +28,7 @@ Usage: python3 tools/check_term_registry.py
 """
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -91,6 +96,41 @@ def check(source, built, curies):
     return terms, staged, failures
 
 
+def empty_ontology_terms():
+    """{local id: (label, definition)} from an empty-ontology checkout, or None."""
+    cands = [os.environ.get("EMPTY_ONTOLOGY", ""),
+             os.path.join(os.path.dirname(ROOT), "empty-ontology"),
+             "/home/user/empty-ontology"]
+    for c in cands:
+        f = os.path.join(c, "src", "ontology", "empty-edit.owl") if c else ""
+        if f and os.path.exists(f):
+            with open(f) as fh:
+                owl = fh.read()
+            labels = dict(re.findall(r'rdfs:label obo:EMPTY_(\d+) "([^"]*)"@en', owl))
+            defs = dict(re.findall(r'IAO_0000115 obo:EMPTY_(\d+) "([^"]*)"', owl))
+            return {k: (labels.get(k), defs.get(k)) for k in set(labels) | set(defs)}, f
+    return None, None
+
+
+def check_empty(terms, owl):
+    """R7: every EMPTY term is named and defined as the ontology names and defines it."""
+    out = []
+    for t in terms:
+        node = t.get("node") or ""
+        if not node.upper().startswith("EMPTY:"):
+            continue
+        k = node.split(":", 1)[1]
+        if k not in owl:
+            out.append(f"R7 {node} ({t.get('name')}): not in empty-ontology")
+            continue
+        label, definition = owl[k]
+        if label != t.get("name"):
+            out.append(f"R7 {node}: name {t.get('name')!r}, the ontology's label {label!r}")
+        if definition != t.get("definition"):
+            out.append(f"R7 {node} ({t.get('name')}): definition differs from the ontology's")
+    return out
+
+
 def _load(path):
     with open(path) as f:
         return json.load(f)
@@ -103,6 +143,14 @@ def main():
     terms, staged, failures = check(source, built, curies)
     print(f"DENOMINATOR: {len(terms)} term(s) read from schemas/V_eta_term_registry.json "
           f"({len(terms) - staged} decided, {staged} staged)")
+    owl, owl_path = empty_ontology_terms()
+    n_empty = sum(1 for t in terms if (t.get("node") or "").upper().startswith("EMPTY:"))
+    if owl is None:
+        print(f"R7 NOT CHECKED: no empty-ontology checkout ({n_empty} EMPTY term(s) unread "
+              f"against it; set EMPTY_ONTOLOGY)")
+    else:
+        print(f"R7: {n_empty} EMPTY term(s) compared with {owl_path}")
+        failures = failures + check_empty(terms, owl)
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

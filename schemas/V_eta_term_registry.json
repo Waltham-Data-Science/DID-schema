@@ -20,7 +20,7 @@
     {
       "name": "after the encounter",
       "node": "EMPTY:0000280",
-      "definition": "The period from an encounter's end to the next encounter's onset, or to the end of the record.",
+      "definition": "The period from the end of an encounter to the start of the subject's next one, or to the end of its record.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -92,7 +92,7 @@
     {
       "name": "bacteria growth duration after seeding",
       "node": "EMPTY:0000119",
-      "definition": "The total duration for which bacterial patch(s) on agar plates were allowed to grow at room temperature starting at the time seeded and ending at the beginning of the assay. Unit: hours.",
+      "definition": "The time from when a bacterial patch was seeded on an agar plate to the start of the assay, during which the bacteria grew.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-19",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -156,7 +156,7 @@
     {
       "name": "bacterial patch volume",
       "node": "EMPTY:0000120",
-      "definition": "The volume of bacterial solution pipetted to create an individual patch on an agar plate. Note: Volumes under 1 µL are approximate due to the difficulty of pipetting liquids at this scale. Unit: microliters (µL).",
+      "definition": "The volume of bacterial solution pipetted to create an individual patch on an agar plate.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-19",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -172,7 +172,7 @@
     {
       "name": "before the first encounter",
       "node": "EMPTY:0000278",
-      "definition": "The period from the start of the record to a subject's first encounter.",
+      "definition": "The period from the start of a subject's record to the start of its first encounter.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -396,7 +396,7 @@
     {
       "name": "during the encounter",
       "node": "EMPTY:0000279",
-      "definition": "The period from an encounter's onset to its end.",
+      "definition": "The period from the start to the end of an encounter, including any frames in which the subject is partly out of contact.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -420,7 +420,7 @@
     {
       "name": "encounter detection",
       "node": "EMPTY:0000303",
-      "definition": "A method that finds the periods in which a subject is in contact with another entity.",
+      "definition": "A data transformation that finds the periods in which a subject is in contact with another entity, from its position relative to that entity over time.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -436,7 +436,7 @@
     {
       "name": "encounter period",
       "node": "EMPTY:0000277",
-      "definition": "The period of an encounter a value is computed over: before the first encounter, during an encounter, or after it.",
+      "definition": "The period of a subject's record a value is computed over, relative to its encounters: before its first encounter, during an encounter, or after an encounter.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -452,7 +452,7 @@
     {
       "name": "encountered entity",
       "node": "EMPTY:0000328",
-      "definition": "The kind of entity whose encounters an encounter detection method finds.",
+      "definition": "A parameter of an encounter detection method: the kind of entity whose encounters it finds.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
