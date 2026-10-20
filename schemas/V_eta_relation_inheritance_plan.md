@@ -99,5 +99,12 @@ pointed at. Nothing in v1 refers to a session document by its `base.id`.
   An analysis asks the containers, and NDI's reader offers that as one call.
 - **T1:** coarse kind is `entity.type`, finer kind one `term_assertion`; an
   entity's own edges are `time_reference_id` and `session_id`.
+- **A dataset folder's own record is the dataset entity** (Jess Haley,
+  2026-10-20). A dataset folder is opened like a session and has its own
+  session id; on this shape the dataset entity's `base.id` is that id, and
+  no separate session-type record is written beside it. The folder's
+  reference (`.ndi/reference.txt`) is housekeeping and is NOT written into the
+  dataset entity's `local_identifier`, so nothing about the disk enters the
+  published record.
 
 To be signed: every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id
