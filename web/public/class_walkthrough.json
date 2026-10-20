@@ -240,32 +240,32 @@
       "site_count": 6,
       "sites": [
        {
-        "line": 1143,
+        "line": 1076,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1182,
+        "line": 1106,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1396,
+        "line": 1289,
         "spelling": "base",
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1459,
+        "line": 1352,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1480,
+        "line": 1373,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1567,
+        "line": 1460,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -277,7 +277,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 178,
+        "line": 153,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name) ..."
        }
@@ -447,7 +447,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 654,
+        "line": 648,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -2300,22 +2300,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 681,
+        "line": 669,
         "spelling": "file_reference",
         "text": "isRecord = strcmp(classes, 'file_reference');"
        },
        {
-        "line": 775,
+        "line": 763,
         "spelling": "file_reference",
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1221,
+        "line": 1141,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1223,
+        "line": 1143,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
@@ -2717,12 +2717,12 @@
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 491,
+        "line": 485,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 540,
+        "line": 534,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -3970,12 +3970,12 @@
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 517,
+        "line": 511,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 526,
+        "line": 520,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
@@ -4859,17 +4859,17 @@
         "text": "%   leaves it) or an `entity` whose `type` is 'session' (the V_eta form"
        },
        {
-        "line": 118,
+        "line": 109,
         "spelling": "session",
         "text": "if strcmp(cls, 'session')"
        },
        {
-        "line": 129,
+        "line": 120,
         "spelling": "session",
         "text": "tf = strcmpi(char(t.name), 'session');"
        },
        {
-        "line": 131,
+        "line": 122,
         "spelling": "session",
         "text": "tf = strcmpi(char(t), 'session');"
        }

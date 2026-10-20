@@ -109,6 +109,14 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "Sample Type",
+            "node": "NCIT:C210102",
+            "definition": "A characterization or classification of the sample.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "bacterial patch",
             "node": "EMPTY:0000325",
             "definition": "A discrete area of bacteria grown on a solid medium from a pipetted suspension.",
