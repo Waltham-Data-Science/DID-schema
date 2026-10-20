@@ -399,6 +399,24 @@
             ]
         },
         {
+            "name": "datum_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "'C' | 'F' -- the order of the values of the array `keys` describes: C is row-major (last key fastest), F is column-major (first key fastest, MATLAB's native layout). Like `keys`, it describes the INLINE value on a value document and THIS body's array on a data body. Empty means F. Meaningless for one key or none; a writer with more than one key states it. (Declared on `sampled_body` only until 2026-10-20, so an inline multi-key value stated its order in prose.)",
+            "constraints": {
+                "enum": [
+                    "C",
+                    "F"
+                ]
+            }
+        },
+        {
             "name": "complete",
             "type": "boolean",
             "blank_value": true,

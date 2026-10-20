@@ -3824,7 +3824,9 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     sb = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
     ob = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
     assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
-    assert sb == {"byte_order", "datum_order", "fill_value"}, sb
+    # `datum_order` moved up to `data`, beside `keys`, 2026-10-20 (Haley audit D-5)
+    assert sb == {"byte_order", "fill_value"}, sb
+    assert "datum_order" in db
     assert ob == set(), ob
     # the key-positions edge follows `keys` up, so an opaque body's keys can use it
     assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
@@ -3893,7 +3895,10 @@ def test_value_descriptors_live_with_the_value():
     # `datum_type` became `data_type` 2026-10-08 (signed, composition plan sec. 2)
     assert dt == {"data_type", "source_data_type", "data_body"}
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
-    assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "complete"}
+    # `datum_order` joined `keys` here 2026-10-20 (Haley audit D-5): it describes the
+    # same array, inline or in a body
+    assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "datum_order",
+                                                                  "complete"}
     assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each

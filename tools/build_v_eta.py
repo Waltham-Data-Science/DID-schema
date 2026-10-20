@@ -13697,6 +13697,34 @@ print(f"12.16 relations: {len(_rows)} row(s) declare `passes`; part_of physical,
       f"included_in added; base.session_id -> the session_id edge")
 
 
+# ---------- 12.17 `datum_order` is declared wherever keys are (2026-10-20) ----------
+# Jess Haley, 2026-10-20 (Haley document audit D-5): an inline value with more than one
+# key (the Haley median speeds, [encounter x encounter period]) is a flat list whose
+# order was stated only in `notes`. `sampled_body` declared it as `datum_order`; an
+# inline value could not. The field moves up to `data`, beside `keys`, so it describes
+# whichever array the keys do: the inline value, or a body's own array.
+_t, _p = path_of("sampled_body")
+_sb = load(_p)
+_do = next(f for f in _sb["fields"] if f["name"] == "datum_order")
+_sb["fields"] = [f for f in _sb["fields"] if f["name"] != "datum_order"]
+write(_t, "sampled_body", _sb)
+_t, _p = path_of("data")
+_d = load(_p)
+if any(f["name"] == "datum_order" for f in _d["fields"]):
+    raise SystemExit("build_v_eta 12.17: `data` already declares datum_order")
+_do["documentation"] = (
+    "'C' | 'F' -- the order of the values of the array `keys` describes: C is row-major "
+    "(last key fastest), F is column-major (first key fastest, MATLAB's native layout). "
+    "Like `keys`, it describes the INLINE value on a value document and THIS body's "
+    "array on a data body. Empty means F. Meaningless for one key or none; a writer "
+    "with more than one key states it. (Declared on `sampled_body` only until "
+    "2026-10-20, so an inline multi-key value stated its order in prose.)")
+_d["fields"].insert(next(i for i, f in enumerate(_d["fields"]) if f["name"] == "keys") + 1,
+                    _do)
+write(_t, "data", _d)
+print("12.17 datum_order: moved from sampled_body to data, beside keys")
+
+
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
 # tested WITHOUT running a build. A property that can only be exercised by

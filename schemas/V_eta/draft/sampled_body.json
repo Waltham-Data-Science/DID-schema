@@ -38,24 +38,6 @@
             }
         },
         {
-            "name": "datum_order",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "'C' | 'F' -- the order of DATA within the array: C is row-major (last key fastest), F is column-major (first key fastest, MATLAB's native layout). REQUIRED in practice whenever there is more than one key; meaningless, and left empty, for a 1-D body.",
-            "constraints": {
-                "enum": [
-                    "C",
-                    "F"
-                ]
-            }
-        },
-        {
             "name": "fill_value",
             "type": "char",
             "blank_value": "",

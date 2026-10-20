@@ -575,7 +575,7 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
         "rule (addendum sec.7: axes live with the thing whose extent they "
         "describe). Without it, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"keys", "complete"}
+    assert names == {"keys", "datum_order", "complete"}  # datum_order: 2026-10-20, D-5
     assert {f["name"] for f in BUILT["value"][1]["fields"]} == {
         "data_type", "source_data_type", "data_body"}   # datum_type renamed 2026-10-08
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
