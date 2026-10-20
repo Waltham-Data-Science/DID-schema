@@ -1,6 +1,6 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
-> **AMENDMENT, 2026-10-19 (decided with Jess, NOT signed):** a parameter entry is now the
+> **AMENDMENT, 2026-10-19 (signed as data_body amendment 3, `V_eta_data_body_model_plan.md`):** a parameter entry is now the
 > SAME entry as a condition -- {variable, unit, source_unit, approximate} plus ONE of
 > `term`, `quantity` {value, source_value}, `count` or `text`. `value` is renamed
 > `quantity`, and `count` and `approximate` are added. `source_value` stays text,

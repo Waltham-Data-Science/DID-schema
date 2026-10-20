@@ -660,7 +660,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 97,
+          "accepted_lines": 101,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -695,9 +695,11 @@
             "calculator mixin dropped (#73)",
             "confirm sheet 2026-08-17",
             "confirm sheet 2026-08-22",
+            "contributor role nodes",
             "daq configuration",
             "daq ingested payloads",
             "data_body",
+            "data_body amendment 3",
             "dataseries_channel_map",
             "date dtype",
             "dimensioned classes, batch confirmation",
@@ -716,10 +718,12 @@
             "onsets on the sequence, #73 audit 2 D11",
             "orientation_direction_tuning.json location",
             "parameter unit, #73 audit 2 D4",
+            "prefix spelling",
             "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation",
             "raw recording observation",
             "receptive field fold",
             "receptive field naming",
+            "same_as",
             "session",
             "software",
             "spatial_transcriptomics_family",
@@ -789,6 +793,12 @@
                 "line": 719
               }
             ],
+            "contributor role nodes": [
+              {
+                "document": "V_eta_study_plan.md",
+                "line": 377
+              }
+            ],
             "daq configuration": [
               {
                 "document": "V_eta_daq_family_decisions.md",
@@ -813,6 +823,12 @@
               {
                 "document": "V_eta_data_body_model_plan.md",
                 "line": 671
+              }
+            ],
+            "data_body amendment 3": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1233
               }
             ],
             "dataseries_channel_map": [
@@ -931,6 +947,12 @@
                 "line": 854
               }
             ],
+            "prefix spelling": [
+              {
+                "document": "V_eta_prefix_spelling_plan.md",
+                "line": 202
+              }
+            ],
             "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation": [
               {
                 "document": "V_eta_recording_observation_plan.md",
@@ -957,6 +979,12 @@
               {
                 "document": "V_eta_ngrid_family_findings.md",
                 "line": 381
+              }
+            ],
+            "same_as": [
+              {
+                "document": "V_eta_duplicate_entities_plan.md",
+                "line": 89
               }
             ],
             "session": [
@@ -1179,10 +1207,22 @@
                 "line": 719
               }
             ],
+            "contributor role nodes": [
+              {
+                "document": "V_eta_study_plan.md",
+                "line": 377
+              }
+            ],
             "data_body": [
               {
                 "document": "V_eta_data_body_model_plan.md",
                 "line": 671
+              }
+            ],
+            "data_body amendment 3": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1233
               }
             ],
             "dataseries_channel_map": [
@@ -1251,6 +1291,12 @@
                 "line": 854
               }
             ],
+            "prefix spelling": [
+              {
+                "document": "V_eta_prefix_spelling_plan.md",
+                "line": 202
+              }
+            ],
             "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation": [
               {
                 "document": "V_eta_recording_observation_plan.md",
@@ -1261,6 +1307,12 @@
               {
                 "document": "V_eta_ngrid_family_findings.md",
                 "line": 381
+              }
+            ],
+            "same_as": [
+              {
+                "document": "V_eta_duplicate_entities_plan.md",
+                "line": 89
               }
             ],
             "spike train leaf": [

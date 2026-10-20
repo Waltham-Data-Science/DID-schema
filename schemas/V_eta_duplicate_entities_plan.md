@@ -1,8 +1,7 @@
 # V_eta: one thing recorded twice (`same_as`)
 
-PROPOSAL, written 2026-10-14 at Jess Haley's request. Not signed: the section's
-"To be signed:" line has no TEAM-SIGN-OFF line under it, and only the team adds
-one (operating rule 4). Nothing is built for it.
+SIGNED 2026-10-19 (the `TEAM-SIGN-OFF [same_as]` line is under the "To be signed:"
+line). Written 2026-10-14 at Jess Haley's request. Not built yet.
 
 ## The question
 

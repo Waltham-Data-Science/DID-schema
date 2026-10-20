@@ -1191,8 +1191,8 @@ RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 # AMENDMENT 3 — one entry for keys, conditions and method parameters. Jess, 2026-10-19.
 
-Decided with Jess Haley in the Haley import's term pass. **This is a recorded decision,
-not a `TEAM-SIGN-OFF` line** (Operating Rule 4: Claude does not write one).
+Decided with Jess Haley in the Haley import's term pass. **SIGNED 2026-10-19** -- the
+`TEAM-SIGN-OFF [data_body amendment 3]` line is at the end of this section.
 
 AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
 apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was

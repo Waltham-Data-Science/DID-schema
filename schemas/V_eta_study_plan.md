@@ -333,7 +333,7 @@ TEAM-SIGN-OFF: jess / 2026-10-05 -- key_labels_id becomes key_id and labels_from
 TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on repeated events: one-off statement; recurring event = list statement of onsets plus statements keyed by it through key_id; scheduled protocol = item
 TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calculation leaves
 
-## Role nodes (PROPOSAL, 2026-10-19; not signed)
+## Role nodes (signed 2026-10-19; `TEAM-SIGN-OFF [contributor role nodes]` at the end of this section)
 
 - Asked for by Jess in the Haley import's term pass (2026-10-19). The `roles` binding
   signed 2026-09-30 names its 15 values but leaves every node empty. This proposal fills
