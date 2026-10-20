@@ -681,14 +681,28 @@ statement putting the same value on another subject (one per subject, sharing it
 `value_id`) restates what the graph already says and can come to disagree with it. Sharing a
 value through `value_id` is for a value that really does describe each subject on its own.
 
-A statement then reaches other subjects only along the graph (T4), in three ways, and never
-upward (from a member to its group, a part to its whole, or contents to their container):
+A statement then reaches other subjects only along the graph (T4), and never upward (from a
+member to its group, a part to its whole, or contents to their container). **What passes
+along a relation is declared by the relation, not by this tenet's prose:** every row of
+`binding_registry_meta.json` `relation_bindings` carries `passes`, one of four values, and a
+row without one stops the build (2026-10-20, PROPOSAL, `V_eta_relation_inheritance_plan.md`;
+until then the paths were named here and hard-coded in the reader, and one of them misfired):
 
-| path | what reaches | how it reads |
-|---|---|---|
-| `member_of` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain |
-| `part_of`, `sample_of`, `aliquot_of`, `passage_of` | an **assertion** about the whole | **true of each part**: a plate's assertions hold of its patches. Interactions do not pass: a reading of the whole is not a reading of each part |
-| `contained_in` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 °C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm |
+| `passes` | what reaches | how it reads | rows today |
+|---|---|---|---|
+| `distributive` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain | `member_of` |
+| `assertions` | an **assertion** about the parent | **true of the child**: an animal's assertions hold of its slices. Interactions do not pass: a reading of the whole is not a reading of each part | `part_of`, `sample_of`, `aliquot_of`, `passage_of`, `instance_of` |
+| `context` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 °C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm | `contained_in` |
+| `nothing` | nothing | the relation is a fact about the two, not a channel | every other row, among them `included_in` |
+
+**`part_of` is physical; records use `included_in`.** `part_of` relates a portion of a
+physical thing to the thing (organism, culture, tissue, cell, group, device, material).
+A session or a study is filed under a study or a dataset by `included_in`
+(`schema:isPartOf`), which passes nothing: a study does not take its dataset's short name,
+version or licence. (The study plan of 2026-09-30 had widened `part_of` to records, so
+every study and session read the dataset's assertions as its own.)
+**Choosing a relation is choosing what passes along it**: check that every assertion that
+would reach the child is true of it, or pick another relation.
 
 Containment carries context, so a reader keeps it apart:
 - **Only while contained.** A container's interaction reaches its contents only when its time
@@ -699,8 +713,8 @@ Containment carries context, so a reader keeps it apart:
 - **Separate from what is true.** A reader returns context only when asked (NDI-matlab:
   `'context', true`, default false) and marks each statement with how it was reached, so a
   search for subjects with a temperature reading still means subjects that were measured.
-  `member_of` and `part_of` inheritance is truth about the subject and is on by default
-  (`'inherited'`).
+  `distributive` and `assertions` inheritance is truth about the subject and is on by
+  default (`'inherited'`).
 
 The reverse question, what was stated of anything inside a container, is a walk the reader
 asks for explicitly (the container's descendants, then their statements), never inheritance.
@@ -708,7 +722,7 @@ asks for explicitly (the container's descendants, then their statements), never 
 **A fourth path, from a type to its instances** (2026-10-08, PROPOSAL,
 `V_eta_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
 product). What is **asserted** of the strain or the product is **true of each instance**: N2's
-genotype is each N2 worm's genotype. Like `part_of`, assertions pass and interactions do not
+genotype is each N2 worm's genotype. Its row passes `assertions`: interactions do not pass
 (a reading of one bottle of a product is not a reading of every bottle), and never upward.
 
 ### T18 — `same_as` joins two records of one thing; it never joins two things of one kind.
@@ -746,7 +760,7 @@ like one, which is why it belongs on the `product`.
 
 **Stored in the dataset, and no id is deleted or rewritten to join them.** That two sessions'
 records are one thing is a fact about the dataset that holds both, so the relation lives in the
-dataset's database, beside the `part_of` relations that make a session a member; a linked
+dataset's database, beside the `included_in` relations that make a session a member; a linked
 session's folder is not written to. Both documents stay, with their ids, so every reference to
 either still resolves, and the join is undone by deleting the relation.
 

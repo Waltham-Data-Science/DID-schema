@@ -415,7 +415,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # relation 30 -> 32 on 2026-10-15 (jess): `developed_by` (software -> its
     # developer) and `hosted_by` again, now dataset -> its host; 32 -> 33 the same
     # day: `distributed_as` (a strain -> the product it is distributed as).
-    assert total == 68, f'registry row count moved: {total}'
+    # 33 -> 34 on 2026-10-20 (V_eta_relation_inheritance_plan.md, a proposal built
+    # ahead of signature): `included_in`, a record filed under a record.
+    assert total == 69, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -426,7 +428,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above)
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 33),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15
+    ("relation_bindings", 34),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20
     ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
     ("entity_type_bindings", 19),         # new 2026-10-08
     ("binding_examples", 4),

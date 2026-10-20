@@ -615,6 +615,10 @@ def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():
     # an epoch is an `entity` of type epoch since 2026-10-08 (signed)
     epoch = BUILT["entity"][1]
     assert "session_id" not in {x["name"] for x in epoch["depends_on"]}
+    # 2026-10-20 (V_eta_relation_inheritance_plan.md): `base.session_id` is no
+    # longer a field but the required `session_id` edge on `base`, to the session
+    # entity, whose base.id is the session id.
     base = BUILT["base"][1]
-    sid = next(f for f in base["fields"] if f["name"] == "session_id")
+    assert "session_id" not in {f["name"] for f in base["fields"]}
+    sid = next(x for x in base["depends_on"] if x["name"] == "session_id")
     assert sid["mustBeNonEmpty"] is True

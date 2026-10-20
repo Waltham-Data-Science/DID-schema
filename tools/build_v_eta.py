@@ -13579,6 +13579,124 @@ print(f"12.15 one entry shape: {_n_keys} key list(s), {_n_cond} conditions, "
       f"{_n_mp} method_parameters mount(s) rewritten")
 
 
+# ---------- 12.16 what a relation passes; records' own relation; session_id an edge (2026-10-20) ----------
+# V_eta_relation_inheritance_plan.md (PROPOSAL, built ahead of signature at Jess
+# Haley's request, 2026-10-20). Three changes:
+#
+# (a) `part_of` meant two things: a portion of a physical thing, and a record filed
+#     under another (session -> study -> dataset, widened 2026-09-30). T17 passes an
+#     assertion about the whole to each part, which is right for the first and wrong
+#     for the second: every study and session read the dataset's short name, version
+#     and licence. Records get their own relation, `included_in`, which passes
+#     nothing, and `part_of` is physical again.
+# (b) What passes along a relation was written in T17's prose and hard-coded in
+#     NDI's reader. Every relation_bindings row now declares it in `passes`, and a
+#     row without one stops the build: no default, because either default is wrong
+#     somewhere.
+# (c) `base.session_id` was the one link in V_eta that was not an edge, and it named
+#     the session by an id that was not the session document's. It becomes the
+#     required `session_id` edge on every document, to the session or dataset
+#     entity it is stored with; a session or dataset entity's base.id is its
+#     session id, so it points at itself.
+_PASSES = {
+    # an assertion about the parent is true of the child
+    "part_of": "assertions", "sample_of": "assertions", "aliquot_of": "assertions",
+    "passage_of": "assertions", "instance_of": "assertions",
+    # only what is marked distributive on the group is true of each member
+    "member_of": "distributive",
+    # the container's timed interactions overlapping the stay, as context
+    "contained_in": "context",
+}
+_PASSES_NOTHING = {
+    "included_in", "derived_from", "encountered", "measured_distance_to", "has_author",
+    "cites", "funded_by", "issued_by", "affiliated_with", "documented_by",
+    "has_custodian", "contributed_by", "copyright_holder", "alternative_of",
+    "input_data", "follows_protocol", "suborganization_of", "awarded_to",
+    "orthologous gene mapping", "gene alias mapping", "sold_by", "developed_by",
+    "hosted_by", "distributed_as", "recorded_by", "paired_with",
+    # same_as joins two records of ONE thing into one entity (T18); that is
+    # identity, which the reader applies before any relation is walked, not
+    # something passed from one entity to another
+    "same_as",
+}
+_reg = load(_rp)
+_rows = []
+for _r in _reg["relation_bindings"]:
+    _n = _r["relation"]["name"]
+    if _n == "part_of":
+        _r["child_types"] = list(_PHYSICAL)
+        _r["parent_types"] = list(_PHYSICAL)
+        _r["child_role"] = "the part (a portion of the whole's own material)"
+    _rows.append(_r)
+    if _n == "part_of":
+        _rows.append({
+            "relation": {"node": "schema:isPartOf", "name": "included_in"},
+            "class": "directed_relation",
+            "child_role": "the record (a session, a study)",
+            "parent_role": "the record it is filed under (a study, a dataset)",
+            "child_types": ["session", "study"], "parent_types": ["study", "dataset"],
+            "timed": False, "ordered": False})
+for _r in _rows:
+    _n = _r["relation"]["name"]
+    if _n in _PASSES:
+        _r["passes"] = _PASSES[_n]
+    elif _n in _PASSES_NOTHING:
+        _r["passes"] = "nothing"
+    else:
+        raise SystemExit(
+            f"build_v_eta 12.16: relation `{_n}` declares no `passes`. Add it to "
+            f"_PASSES or _PASSES_NOTHING: there is no default, because a relation's "
+            f"inheritance is chosen when the relation is, not later.")
+_reg["relation_bindings"] = _rows
+_reg["documentation"] = _reg.get("documentation", "") + (
+    " Every relation_bindings row declares `passes`, what reaches the child from "
+    "the parent along it (tenet T17): `assertions` (an assertion about the parent "
+    "is true of the child), `distributive` (only a statement or relation marked "
+    "distributive on the group is true of each member), `context` (the parent's "
+    "interactions overlapping the stay, as context, never fact) or `nothing`.")
+_save(_rp, _reg)
+_t, _p = path_of("directed_relation")
+_d = load(_p)
+_rf = next(f for f in _d["fields"] if f["name"] == "relation")
+_rf["constraints"]["binding"]["values"] = [
+    dict(r["relation"]) for r in _rows if r["class"] == "directed_relation"]
+write(_t, "directed_relation", _d)
+
+# (c) base.session_id -> the session_id edge
+_t, _p = path_of("base")
+_d = load(_p)
+_before = len(_d["fields"])
+_d["fields"] = [f for f in _d["fields"] if f["name"] != "session_id"]
+if len(_d["fields"]) != _before - 1:
+    raise SystemExit("build_v_eta 12.16: expected exactly one `session_id` field on base")
+_d["depends_on"] = [dep(
+    "session_id", "entity",
+    "The session or dataset this document is stored with: the `entity` document of "
+    "type session or dataset. A session or dataset entity points at itself, because "
+    "its base.id IS its session id. Storage scope, never membership: a session is "
+    "in a study or a dataset by an `included_in` relation. (A field, "
+    "`base.session_id`, until 2026-10-20: the one link that was not an edge, and it "
+    "named the session by an id that was not the session document's.)")]
+write(_t, "base", _d)
+
+# linked_session's entity_id documentation named base.session_id and part_of
+_t, _p = path_of("linked_session")
+_d = load(_p)
+for _e in _d["depends_on"]:
+    if _e["name"] == "entity_id":
+        _e["documentation"] = (
+            "The linked session: its `entity` document, of type session. That "
+            "document lives in the session's own folder, not in the dataset's "
+            "database, so the dataset check resolves this edge by opening `path`; "
+            "finding it there is what shows the folder holds this session. Its "
+            "base.id is the session id NDI opens the session with. Membership is "
+            "not recorded here: the session is `included_in` the dataset (or a study "
+            "of it) by a directed_relation, as an ingested session is.")
+write(_t, "linked_session", _d)
+print(f"12.16 relations: {len(_rows)} row(s) declare `passes`; part_of physical, "
+      f"included_in added; base.session_id -> the session_id edge")
+
+
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
 # The logic lives in tools/ndi_required_stamp.py so it can be imported and
 # tested WITHOUT running a build. A property that can only be exercised by

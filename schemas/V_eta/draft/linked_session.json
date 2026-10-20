@@ -13,7 +13,7 @@
         {
             "name": "entity_id",
             "mustBeNonEmpty": true,
-            "documentation": "The linked session: its `entity` document, of type session. That document lives in the session's own folder, not in the dataset's database, so the dataset check resolves this edge by opening `path`; finding it there is what shows the folder holds this session, and its base.session_id is the id NDI opens the session with (so there is no `session_id` field here, which would repeat base.session_id's name with another meaning). Membership is not recorded here: the session is `part_of` the dataset (or a study of it) by a directed_relation, as an ingested session is.",
+            "documentation": "The linked session: its `entity` document, of type session. That document lives in the session's own folder, not in the dataset's database, so the dataset check resolves this edge by opening `path`; finding it there is what shows the folder holds this session. Its base.id is the session id NDI opens the session with. Membership is not recorded here: the session is `included_in` the dataset (or a study of it) by a directed_relation, as an ingested session is.",
             "must_refer_to_document_class": "entity"
         }
     ],

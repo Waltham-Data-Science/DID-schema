@@ -68,6 +68,10 @@
                             "name": "part_of"
                         },
                         {
+                            "node": "schema:isPartOf",
+                            "name": "included_in"
+                        },
+                        {
                             "node": "RO:0001018",
                             "name": "contained_in"
                         },

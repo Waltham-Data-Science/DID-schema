@@ -188,7 +188,7 @@
                 "name": "part_of"
             },
             "class": "directed_relation",
-            "child_role": "the part",
+            "child_role": "the part (a portion of the whole's own material)",
             "parent_role": "the whole",
             "child_types": [
                 "organism",
@@ -197,9 +197,7 @@
                 "cell",
                 "group",
                 "device",
-                "material",
-                "session",
-                "study"
+                "material"
             ],
             "parent_types": [
                 "organism",
@@ -208,12 +206,31 @@
                 "cell",
                 "group",
                 "device",
-                "material",
-                "dataset",
-                "study"
+                "material"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "assertions"
+        },
+        {
+            "relation": {
+                "node": "schema:isPartOf",
+                "name": "included_in"
+            },
+            "class": "directed_relation",
+            "child_role": "the record (a session, a study)",
+            "parent_role": "the record it is filed under (a study, a dataset)",
+            "child_types": [
+                "session",
+                "study"
+            ],
+            "parent_types": [
+                "study",
+                "dataset"
+            ],
+            "timed": false,
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -226,7 +243,8 @@
             "child_types": [],
             "parent_types": [],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "context"
         },
         {
             "relation": {
@@ -255,7 +273,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": true
+            "ordered": true,
+            "passes": "distributive"
         },
         {
             "relation": {
@@ -268,7 +287,8 @@
             "child_types": [],
             "parent_types": [],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -297,7 +317,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "assertions"
         },
         {
             "relation": {
@@ -326,7 +347,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "assertions"
         },
         {
             "relation": {
@@ -355,7 +377,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "assertions"
         },
         {
             "relation": {
@@ -384,7 +407,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -413,7 +437,8 @@
                 "material"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -430,7 +455,8 @@
                 "person"
             ],
             "timed": false,
-            "ordered": true
+            "ordered": true,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -447,7 +473,8 @@
                 "publication"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -464,7 +491,8 @@
                 "funding"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -481,7 +509,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -498,7 +527,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -518,7 +548,8 @@
                 "software"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -536,7 +567,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -554,7 +586,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -572,7 +605,8 @@
                 "person"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -589,7 +623,8 @@
                 "dataset"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -606,7 +641,8 @@
                 "dataset"
             ],
             "timed": true,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -623,7 +659,8 @@
                 "protocol"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -640,7 +677,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -664,7 +702,8 @@
                 "strain"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "assertions"
         },
         {
             "relation": {
@@ -682,7 +721,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -699,7 +739,8 @@
                 "term"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -716,7 +757,8 @@
                 "term"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -729,7 +771,8 @@
                 "entity"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -742,7 +785,8 @@
                 "entity"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -759,7 +803,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -776,7 +821,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -793,7 +839,8 @@
                 "organization"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -810,7 +857,8 @@
                 "product"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         },
         {
             "relation": {
@@ -827,7 +875,8 @@
                 "acquisition_system"
             ],
             "timed": false,
-            "ordered": false
+            "ordered": false,
+            "passes": "nothing"
         }
     ],
     "controlled_vocabularies": {
@@ -982,5 +1031,6 @@
                 "local_identifier"
             ]
         }
-    ]
+    ],
+    "documentation": " Every relation_bindings row declares `passes`, what reaches the child from the parent along it (tenet T17): `assertions` (an assertion about the parent is true of the child), `distributive` (only a statement or relation marked distributive on the group is true of each member), `context` (the parent's interactions overlapping the stay, as context, never fact) or `nothing`."
 }

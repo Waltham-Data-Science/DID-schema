@@ -5,7 +5,14 @@
         "superclasses": [],
         "maturity_level": "stable"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The session or dataset this document is stored with: the `entity` document of type session or dataset. A session or dataset entity points at itself, because its base.id IS its session id. Storage scope, never membership: a session is in a study or a dataset by an `included_in` relation. (A field, `base.session_id`, until 2026-10-20: the one link that was not an edge, and it named the session by an id that was not the session document's.)",
+            "must_refer_to_document_class": "entity"
+        }
+    ],
     "file": [],
     "fields": [
         {
@@ -22,22 +29,6 @@
                 "name": "centrally registered identifier"
             },
             "documentation": "Unique identifier for this document instance.",
-            "constraints": {}
-        },
-        {
-            "name": "session_id",
-            "type": "did_uid",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "NCIT:C169028",
-                "name": "Study Unique Identifier"
-            },
-            "documentation": "Unique identifier of the session this document belongs to.",
             "constraints": {}
         },
         {
