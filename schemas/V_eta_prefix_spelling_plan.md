@@ -157,7 +157,7 @@ them can be pattern-checked or turned into a web address. From Bioregistry
 | `ndic` | -- (ours) | **NDIC** | to fill from ndi-ontology-matlab | to fill | | NDI's own vocabulary; `ndi.ontology` writes `NDIC`; one V_eta conversion example writes `ndic:` |
 | `fbdv` | FBdv | FBdv | `http://purl.obolibrary.org/obo/FBdv_` | `^\d{8}$` | | one V_eta conversion example (`ontology_table_row.md`) |
 
-`EMPTY` is already the `empty` entry (case only). The Haley spec's `URL` and
+`EMPTY` is already the `empty` entry (case only). **Decided with Jess 2026-10-20 (at build time): the `empty` entry's spelling is `EMPTY`**, as the ontology writes its own ids (`EMPTY:0000276`; IRIs `EMPTY_`), replacing "unchanged" in the table above. Also decided then: `credit` stays Bioregistry's `credit`; `mco`, `micro` and `zeco` (used by the Haley import's terms) get entries spelled `MCO`, `MICRO`, `ZECO` (OBO PURLs). The Haley spec's `URL` and
 `AwardNumber` are identifier scheme words, not prefixes; `curie.m` already
 writes a URL as-is and an award number as a local id, and they need no entry.
 

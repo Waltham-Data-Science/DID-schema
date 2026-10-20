@@ -135,9 +135,9 @@
             "uri_base": "https://raw.githubusercontent.com/Waltham-Data-Science/empty-ontology/main/empty-base.owl#EMPTY_",
             "uri_style": "obo_underscore",
             "approximate": false,
-            "documentation": "Empty Ontology by Waltham Data Science \u2014 https://github.com/Waltham-Data-Science/empty-ontology. Term IDs are numeric (e.g., 'empty:0000001'). No PURL is in use yet; the canonical artefact is the GitHub-raw OWL file 'empty-base.owl' on the main branch, and CURIEs expand to a fragment within that file (matching the EMPTY_ prefix used inside the OWL). Consumer tooling (e.g., ndi-ontology-matlab) fetches the full OWL and searches by ID/label rather than dereferencing per-term URIs.",
-            "spelling": "empty",
-            "spelling_source": "ours",
+            "documentation": "Empty Ontology by Waltham Data Science \u2014 https://github.com/Waltham-Data-Science/empty-ontology. Term IDs are numeric (e.g., 'EMPTY:0000001'). No PURL is in use yet; the canonical artefact is the GitHub-raw OWL file 'empty-base.owl' on the main branch, and CURIEs expand to a fragment within that file (matching the EMPTY_ prefix used inside the OWL). Consumer tooling (e.g., ndi-ontology-matlab) fetches the full OWL and searches by ID/label rather than dereferencing per-term URIs.",
+            "spelling": "EMPTY",
+            "spelling_source": "ours: the ontology writes its own ids `EMPTY:0000276` (its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess 2026-10-20",
             "synonyms": []
         },
         "placeholder": {
@@ -269,7 +269,7 @@
             "pattern": "^(conceptualization|data-curation|formal-analysis|funding-acquisition|investigation|methodology|project-administration|resources|software|supervision|validation|visualization|writing-original-draft|writing-review-editing)$",
             "pattern_source": "https://bioregistry.io/api/registry/credit (2026-10-19)",
             "spelling": "credit",
-            "spelling_source": "Bioregistry preferred_prefix (2026-10-19); not in the plan's table, so not checked with the issuer",
+            "spelling_source": "Bioregistry preferred_prefix (2026-10-19); not in the plan's table; confirmed by Jess 2026-10-20 (CRediT itself cites roles by name and URL, not by prefix)",
             "synonyms": []
         },
         "swh": {
@@ -620,6 +620,42 @@
             "synonyms": [
                 "FBdv"
             ]
+        },
+        "mco": {
+            "label": "Microbial Conditions Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/MCO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `mco`.",
+            "pattern_source": "https://bioregistry.io/api/registry/mco (2026-10-19)",
+            "pattern": "^\\d+$",
+            "spelling": "MCO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
+        },
+        "micro": {
+            "label": "Ontology of Prokaryotic Phenotypic and Metabolic Characters",
+            "uri_base": "http://purl.obolibrary.org/obo/MICRO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `micro`.",
+            "pattern_source": "https://bioregistry.io/api/registry/micro (2026-10-19)",
+            "pattern": "^\\d{7}$",
+            "spelling": "MICRO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
+        },
+        "zeco": {
+            "label": "Zebrafish Experimental Conditions Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/ZECO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `zeco`.",
+            "pattern_source": "https://bioregistry.io/api/registry/zeco (2026-10-19)",
+            "pattern": "^\\d{7}$",
+            "spelling": "ZECO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
         }
     },
     "uri_styles": {

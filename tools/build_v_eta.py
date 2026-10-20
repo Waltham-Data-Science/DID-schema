@@ -13052,8 +13052,8 @@ _PREFIX_SPELLING = {
     "swh": ("swh", "the SWHID itself begins `swh:`"),
     "wikidata": ("wikidata", "Bioregistry (Wikidata states no CURIE form)"),
     "wormbase": ("WormBase", _BR),
-    "credit": ("credit", _BR + "; not in the plan's table, so not checked with the "
-               "issuer"),
+    "credit": ("credit", _BR + "; not in the plan's table; confirmed by Jess "
+               "2026-10-20 (CRediT itself cites roles by name and URL, not by prefix)"),
     "rrid": ("RRID", "SciCrunch record `properCitation`, e.g. "
              "`RRID:WB-STRAIN:WBStrain00004246` (checked 2026-10-19)"),
     "pubmed": ("PMID", "NCBI's name for the id (PMC FAQ: \"The PMID is a unique "
@@ -13083,7 +13083,10 @@ _PREFIX_SPELLING = {
     "ncim": ("NCIm", "NCI's EVS: \"The NCI Metathesaurus (NCIm) includes ...\"; "
              "`ndi.ontology` writes `NCIm`"),
     "ndic": ("NDIC", "ours: `ndi.ontology` writes `NDIC`"),
-    "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("empty", "ours"),
+    "mco": ("MCO", _OBO), "micro": ("MICRO", _OBO), "zeco": ("ZECO", _OBO),
+    "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", "ours: the ontology writes its own ids `EMPTY:0000276` "
+              "(its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess "
+              "2026-10-20"),
     "placeholder": ("placeholder", "ours"), "ndicloud": ("ndicloud", "ours"),
 }
 # Bioregistry's `synonyms` for each key, all of them (plan sec. 3a (i)), fetched from
@@ -13150,6 +13153,14 @@ _NEW_PREFIXES = {
     "ndic": ("NDI controlled vocabulary (NDIC)", "", "local", r"^\d+$"),
     "fbdv": ("Drosophila development ontology", "http://purl.obolibrary.org/obo/FBdv_",
              "obo_underscore", r"^\d{8}$"),
+    # used by the Haley import's terms (LB medium MCO:0000030, fasting ZECO:0000113);
+    # Bioregistry, fetched 2026-10-20 (Jess, 2026-10-20)
+    "mco": ("Microbial Conditions Ontology", "http://purl.obolibrary.org/obo/MCO_",
+            "obo_underscore", r"^\d+$"),
+    "micro": ("Ontology of Prokaryotic Phenotypic and Metabolic Characters",
+              "http://purl.obolibrary.org/obo/MICRO_", "obo_underscore", r"^\d{7}$"),
+    "zeco": ("Zebrafish Experimental Conditions Ontology",
+             "http://purl.obolibrary.org/obo/ZECO_", "obo_underscore", r"^\d{7}$"),
 }
 for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
     _e = {"label": _label, "uri_base": _base, "uri_style": _style, "approximate": False}
