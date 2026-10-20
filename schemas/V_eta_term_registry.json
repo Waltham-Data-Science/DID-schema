@@ -98,9 +98,9 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "bacterial OD600 (target) at seeding",
+      "name": "target seeding OD600",
       "node": "EMPTY:0000105",
-      "definition": "The intended or nominal optical density at 600 nm (OD 600) to which the bacterial solution was diluted for creating bacterial patches on agar plates. Unit: dimensionless.",
+      "definition": "The OD600 a bacterial suspension was prepared to have when it was seeded: the planned value, as distinct from a measured one.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-19",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"

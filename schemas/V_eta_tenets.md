@@ -895,6 +895,17 @@ the document states elsewhere.**
   (T14). What generalises is the frame (`distance`, `reference point`); a landmark is specific
   by nature.
 
+**A planned value is said by its term, and a condition carries no qualifiers**
+(2026-10-20, PROPOSAL, the Haley tenet audit's T-9; Jess Haley agreed; not signed). A
+condition, a method parameter and a method are each one term that says everything it
+means: no `basis` field, no anchor shared between conditions, no qualifier on an entry.
+So a value that was **planned** rather than measured is named so by its term ("target
+seeding OD600", EMPTY:0000105, under MCO's OD600) **only where the data also holds a
+measured form of that quantity** (the measured OD600 of the seeding stock); a quantity only
+ever planned (a patch volume of 0.5 µL) keeps its plain term. A statement's OWN value that
+was planned keeps the ordinary condition `value basis` = target (a statement has one value,
+so the condition is not ambiguous), and its variable stays general (`diameter`).
+
 ---
 
 ## The meta-principle
