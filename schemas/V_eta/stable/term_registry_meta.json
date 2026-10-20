@@ -229,6 +229,14 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "oblique illumination imaging",
+            "node": "EMPTY:0000348",
+            "definition": "Imaging a specimen lit from one side at a low angle, so that its edges and surface relief show as differences in brightness.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (NDI Haley decision #108)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "calcium chloride dihydrate",
             "node": "CHEBI:86158",
             "definition": "A hydrate that is the dihydrate form of calcium chloride.",

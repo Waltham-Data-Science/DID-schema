@@ -80,7 +80,7 @@ Haley decision #106), and none is staged now:
 - The procedures' parents are COB's process classes (OBI's moved there), so
   `cob` joins the CURIE registry.
 
-So 206 terms, all decided; then NCIT:C96141 Petri Dish, an E. coli plate's sample type (NDI Haley decision #107), makes 207. The census is only as wide as the fixture: a term
+So 206 terms, all decided; then NCIT:C96141 Petri Dish, an E. coli plate's sample type (NDI Haley decision #107), makes 207, and EMPTY:0000348 oblique illumination imaging, the patch contrast videos' method (#108), 208. The census is only as wide as the fixture: a term
 written only on a path the fixture does not take is found by reading the code,
 as these two were.
 
