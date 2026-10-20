@@ -90,6 +90,7 @@
                         "volume_fraction": 0.0,
                         "particles_per_liter": 0.0,
                         "osmolar": 0.0,
+                        "od600": 0.0,
                         "source_unit": "",
                         "source_value": 0.0,
                         "approximate": false,
@@ -170,6 +171,19 @@
                         },
                         {
                             "name": "osmolar",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "od600",
                             "type": "double",
                             "blank_value": 0.0,
                             "default_value": 0.0,

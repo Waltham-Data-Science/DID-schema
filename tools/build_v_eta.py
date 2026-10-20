@@ -11508,8 +11508,15 @@ _DIM_CANON = {
     # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
     # whichever the source unit is computable into.
     # `osmolar` (osmoles per liter) added by #73 item 7 for formulation.osmolarity.
+    # `od600` (optical density at 600 nm) added 2026-10-20, DECIDED by jess in the
+    # Haley import walkthrough: "let's add OD600 to this list of canonical concentration
+    # units". OD600 is how a bacterial suspension's density is measured, and it has an
+    # expected conversion to cells per liter (particles_per_liter) only through a
+    # calibration for the organism and spectrophotometer, so it is a canonical of its
+    # own, filled directly. Its users: a seeding suspension's measured OD600, and the
+    # Haley relative bacterial density, which is in OD600 equivalents (NDI decision #99).
     "concentration": ["molar", "grams_per_liter", "mass_fraction", "volume_fraction",
-                      "particles_per_liter", "osmolar"],
+                      "particles_per_liter", "osmolar", "od600"],
     # --- J §7 pre-seeded set: canonical named from the documented SI unit ---
     "velocity": ["meters_per_second"], "acceleration": ["meters_per_second_squared"],
     # angle is DEGREES (#73 review item 44, jess 2026-09-25): practical SI, as for
