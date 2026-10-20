@@ -18,7 +18,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000578",
+                "node": "IAO:0000578",
                 "name": "centrally registered identifier"
             },
             "documentation": "Unique identifier for this document instance.",
@@ -34,7 +34,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
-                "node": "ncit:C169028",
+                "node": "NCIT:C169028",
                 "name": "Study Unique Identifier"
             },
             "documentation": "Unique identifier of the session this document belongs to.",

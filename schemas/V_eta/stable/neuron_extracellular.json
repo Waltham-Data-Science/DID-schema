@@ -40,7 +40,7 @@
             "mustNotHaveNaN": true,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000578",
+                "node": "IAO:0000578",
                 "name": "centrally registered identifier"
             },
             "documentation": "The cluster index assigned to this neuron by a spike sorter.",

@@ -64,19 +64,19 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "bfo:0000050",
+                            "node": "BFO:0000050",
                             "name": "part_of"
                         },
                         {
-                            "node": "ro:0001018",
+                            "node": "RO:0001018",
                             "name": "contained_in"
                         },
                         {
-                            "node": "ro:0002350",
+                            "node": "RO:0002350",
                             "name": "member_of"
                         },
                         {
-                            "node": "ro:0001000",
+                            "node": "RO:0001000",
                             "name": "derived_from"
                         },
                         {
@@ -313,7 +313,7 @@
                             "name": "writing - review & editing"
                         },
                         {
-                            "node": "ncit:C164481",
+                            "node": "NCIT:C164481",
                             "name": "corresponding author"
                         }
                     ],

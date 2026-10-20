@@ -1058,8 +1058,9 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]
             if r.get("entity_type") == "dataset"}
     expected = {
-        # lower-case prefix: nodes are normalised to Bioregistry's prefix (section 6)
-        "accessibility": "ncit:C175887",
+        # the registry entry's `spelling` since 2026-10-19 (signed,
+        # V_eta_prefix_spelling_plan.md); lowercase 2026-10-08 to 2026-10-19
+        "accessibility": "NCIT:C175887",
         "ethics assessment": "",
         "experimental approach": "",
     }
@@ -1601,8 +1602,9 @@ def test_relation_bindings_present():
         "paired_with", "same_as"}
     assert all("member_types" not in r for r in vocab.values()
                if r["class"] == "directed_relation")
-    # lowercase prefix since 2026-10-08: CURIE_lookups_meta.json's own convention
-    assert vocab["part_of"]["relation"]["node"] == "bfo:0000050"
+    # written as the registry entry's `spelling` since 2026-10-19 (signed,
+    # V_eta_prefix_spelling_plan.md); it was lowercase from 2026-10-08
+    assert vocab["part_of"]["relation"]["node"] == "BFO:0000050"
     # a URL lives in global_identifier since 2026-10-08, so these are gone
     for gone in ("stored_at", "has_homepage"):
         assert gone not in vocab, f"{gone} is back"

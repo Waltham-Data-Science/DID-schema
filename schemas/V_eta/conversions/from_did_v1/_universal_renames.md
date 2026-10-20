@@ -172,7 +172,7 @@ V_gamma collapsed this to a two-key CURIE-based shape:
 
 ```json
 "ontology": {
-    "node": "iao:0000219",
+    "node": "IAO:0000219",
     "name": "denotes"
 }
 ```

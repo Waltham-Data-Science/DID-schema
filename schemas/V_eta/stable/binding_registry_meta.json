@@ -11,7 +11,7 @@
             },
             "class": "assertion",
             "ontology": "NCBITaxon",
-            "root_node": "ncbitaxon:1",
+            "root_node": "NCBITaxon:1",
             "subject_defining": true,
             "value_kind": "term"
         },
@@ -22,7 +22,7 @@
             },
             "class": "assertion",
             "ontology": "OBI",
-            "root_node": "obi:0000968",
+            "root_node": "OBI:0000968",
             "subject_defining": true,
             "value_kind": "term"
         },
@@ -33,7 +33,7 @@
             },
             "class": "assertion",
             "ontology": "CL",
-            "root_node": "cl:0000000",
+            "root_node": "CL:0000000",
             "subject_defining": true,
             "value_kind": "term"
         },
@@ -44,7 +44,7 @@
             },
             "class": "assertion",
             "ontology": "CHEBI",
-            "root_node": "chebi:24431",
+            "root_node": "CHEBI:24431",
             "subject_defining": true,
             "value_kind": "term"
         },
@@ -55,13 +55,13 @@
             },
             "class": "assertion",
             "ontology": "UBERON",
-            "root_node": "uberon:0000105",
+            "root_node": "UBERON:0000105",
             "subject_defining": true,
             "value_kind": "term"
         },
         {
             "variable": {
-                "node": "ncit:C16608",
+                "node": "NCIT:C16608",
                 "name": "gene expression"
             },
             "class": "spatial_gene_expression_pyramid",
@@ -69,7 +69,7 @@
         },
         {
             "variable": {
-                "node": "ncit:C175887",
+                "node": "NCIT:C175887",
                 "name": "accessibility"
             },
             "class": "assertion",
@@ -131,27 +131,27 @@
             },
             "class": "observation",
             "ontology": "UBERON",
-            "root_node": "uberon:0000955",
+            "root_node": "UBERON:0000955",
             "notes": "term leaf + subtree: a located structure is a term_observation whose value resolves against the UBERON brain subtree",
             "value_kind": "term"
         },
         {
             "variable": {
-                "node": "pato:0000047",
+                "node": "PATO:0000047",
                 "name": "biological sex"
             },
             "class": "assertion",
             "values": [
                 {
-                    "node": "pato:0000384",
+                    "node": "PATO:0000384",
                     "name": "male"
                 },
                 {
-                    "node": "pato:0000383",
+                    "node": "PATO:0000383",
                     "name": "female"
                 },
                 {
-                    "node": "pato:0001340",
+                    "node": "PATO:0001340",
                     "name": "hermaphrodite"
                 }
             ],
@@ -184,7 +184,7 @@
     "relation_bindings": [
         {
             "relation": {
-                "node": "bfo:0000050",
+                "node": "BFO:0000050",
                 "name": "part_of"
             },
             "class": "directed_relation",
@@ -217,7 +217,7 @@
         },
         {
             "relation": {
-                "node": "ro:0001018",
+                "node": "RO:0001018",
                 "name": "contained_in"
             },
             "class": "directed_relation",
@@ -230,7 +230,7 @@
         },
         {
             "relation": {
-                "node": "ro:0002350",
+                "node": "RO:0002350",
                 "name": "member_of"
             },
             "class": "directed_relation",
@@ -259,7 +259,7 @@
         },
         {
             "relation": {
-                "node": "ro:0001000",
+                "node": "RO:0001000",
                 "name": "derived_from"
             },
             "class": "directed_relation",

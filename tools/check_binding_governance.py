@@ -201,8 +201,10 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 28
 # in fact and uncatalogued by this measure. Raised by the number of fields added.
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
-# does not register, matched CASE-INSENSITIVELY (the generous reading).
-# NCBITaxon, CL, CHEBI (registry root_nodes) + BFO, RO (relation nodes).
+# does not register, matched CASE-INSENSITIVELY by key, spelling or synonym (the
+# reading signed 2026-10-19, V_eta_prefix_spelling_plan.md). The 5 it was set to
+# (NCBITaxon, CL, CHEBI, BFO, RO) were all registered by section 6 on
+# 2026-10-08; it reads 0 today and the ceiling is left where it was.
 BASELINE_UNREGISTERED_PREFIXES = 5
 
 # B9: bindings an ontology-aware validator would have nothing to resolve
@@ -627,7 +629,19 @@ def run(veta=VETA):
 
     # -- B8 -----------------------------------------------------------------
     prefixes = set(curie.get("prefixes", {}))
-    lower = {p.lower() for p in prefixes}
+    # A reader recognises a prefix by the entry's key, its `spelling` or any of
+    # its `synonyms`, ignoring case (signed 2026-10-19,
+    # V_eta_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
+    # its key. `written_as` entries are spelled through another entry, so their
+    # spelling names that entry, not them.
+    entries = curie.get("prefixes", {})
+    spelled = {e.get("spelling", k) for k, e in entries.items()
+               if "written_as" not in e}
+    lower = {p.lower() for p in prefixes} | {s.lower() for s in spelled}
+    for k, e in entries.items():
+        lower |= {s.lower() for s in e.get("synonyms", [])}
+        if "legacy_rewrite" in e:
+            lower.add(e["legacy_rewrite"]["legacy_prefix"].lower())
     seen = {}
     scopes = [("field bindings", [row["binding"] for row in rows])]
     for k, norm in REGISTRY_LISTS.items():
@@ -641,12 +655,14 @@ def run(veta=VETA):
             seen[pfx]["scopes"].add(scope)
     unreg_ci = sorted(p for p in seen if p.lower() not in lower)
     unreg_cs = sorted(p for p in seen if p not in prefixes)
+    not_spelled = sorted(p for p in seen if p.lower() in lower and p not in spelled)
     r["findings"]["B8_unregistered_curie_prefixes"] = {
         "count": len(unreg_ci),
         "prefixes_seen": sorted(seen),
         "registered": sorted(prefixes),
         "unregistered_case_insensitive": unreg_ci,
         "unregistered_case_sensitive": unreg_cs,
+        "registered_but_not_written_as_spelling": not_spelled,
         "detail": {p: {"tokens": sorted(seen[p]["tokens"]),
                        "scopes": sorted(seen[p]["scopes"])}
                    for p in unreg_cs},

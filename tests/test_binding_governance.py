@@ -300,9 +300,37 @@ def test_synthetic_b8_unregistered_prefix(synthetic):
     assert "UBERON" in f["prefixes_seen"] and "ZZZ" in f["prefixes_seen"], f
     assert f["unregistered_case_insensitive"] == ["ZZZ"], f
     assert "UBERON" in f["unregistered_case_sensitive"], (
-        "the registered prefix is lowercase `uberon` and the CURIE is `UBERON:` "
-        "-- whether the lookup is case-sensitive is undecided, so BOTH readings "
-        "must be reported")
+        "the registered key is lowercase `uberon` and the CURIE is `UBERON:`; "
+        "the case-sensitive reading is still reported beside the signed one")
+    # the synthetic entry has no `spelling`, so it is spelled `uberon` and
+    # `UBERON:` is registered but not written the way the registry spells it
+    assert f["registered_but_not_written_as_spelling"] == ["UBERON"], f
+
+
+def test_b8_reads_spelling_and_synonyms(tmp_path):
+    """Signed 2026-10-19 (V_eta_prefix_spelling_plan.md): a reader matches a
+    prefix by key, spelling or synonym, ignoring case. `PMID:` is registered
+    (a synonym and the spelling of `pubmed`), `WBStrain:` is registered (the
+    legacy rewrite on `wormbase`), and only `ZZZ:` is not."""
+    root = tmp_path / "V_eta"
+    for tier in ("stable", "draft", "deprecated"):
+        (root / tier).mkdir(parents=True)
+    (root / "stable" / "did_schema_meta.json").write_text(json.dumps({"$defs": {
+        "field_definition": {"properties": {"constraints": {"properties": {}}}}}}))
+    (root / "stable" / "CURIE_lookups_meta.json").write_text(json.dumps({"prefixes": {
+        "pubmed": {"uri_base": "x", "spelling": "PMID", "synonyms": ["pmid"]},
+        "wormbase": {"uri_base": "y", "spelling": "WormBase", "synonyms": [],
+                     "legacy_rewrite": {"legacy_prefix": "WBStrain",
+                                        "id_prefix": "WBStrain"}}}}))
+    (root / "stable" / "binding_registry_meta.json").write_text(json.dumps({
+        "subject_statement_bindings": [
+            {"variable": {"node": "", "name": n}, "class": "term_assertion",
+             "root_node": node}
+            for n, node in (("a", "PMID:1"), ("b", "WBStrain:00004246"),
+                            ("c", "wormbase:WBStrain1"), ("d", "ZZZ:1"))]}))
+    f = TOOL.run(root)["findings"]["B8_unregistered_curie_prefixes"]
+    assert f["unregistered_case_insensitive"] == ["ZZZ"], f
+    assert f["registered_but_not_written_as_spelling"] == ["WBStrain", "wormbase"], f
 
 
 def test_synthetic_b9_counts_what_a_validator_could_not_resolve(synthetic):

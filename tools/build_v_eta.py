@@ -12798,9 +12798,12 @@ _d["fields"] = [
     field("description", "char", "Free text."),
     field("global_identifier", "string",
           "Identifiers this entity is known by outside the dataset, each a CURIE whose "
-          "prefix is registered in CURIE_lookups_meta.json ('orcid:0000-0002-1825-0097', "
-          "'doi:10.1234/abc', 'wormbase:WBStrain00000001') or, where no prefix exists, a "
-          "full IRI ('https://lab.org/haley'). The local id must match its prefix's "
+          "prefix is registered in CURIE_lookups_meta.json and written as that entry's "
+          "`spelling`, the way the identifier's issuer cites it "
+          "('ORCID:0000-0002-1825-0097', 'doi:10.1234/abc', "
+          "'WormBase:WBStrain00000001'), or, where no prefix exists, a full IRI "
+          "('https://lab.org/haley'). A reader matches the prefix by the entry's key, "
+          "spelling or synonyms, ignoring case. The local id must match its prefix's "
           "`pattern`. A URL is an address for this entity, so it lives here rather than "
           "on a separate document.", scalar=False),
 ]
@@ -13020,15 +13023,243 @@ _curie["documentation"] = (
     "expression for the local id, from Bioregistry where it has one) so a CURIE's form "
     "can be checked; `entity.global_identifier` uses the same prefixes "
     "(V_eta_entity_composition_plan.md sec. 6).")
+
+# -- section 6b: write a prefix the way its issuer cites it (signed 2026-10-19) --
+# V_eta_prefix_spelling_plan.md, TEAM-SIGN-OFF [prefix spelling]: "a CURIE's prefix
+# is written as its issuer cites it (the registry entry's spelling: ORCID:, ROR:,
+# PMID:, PMCID:, RRID:, doi:, WormBase:, EDAM:format_), for identifiers and term
+# nodes alike; readers match a prefix by key, spelling or synonym, ignoring case;
+# registry keys stay the lowercase Bioregistry prefixes."
+#
+# Every entry gains `spelling` (the prefix as written in documents),
+# `spelling_source` (where that spelling comes from) and `synonyms` (other names a
+# reader accepts). The keys do not change, so nothing that looks a prefix up by key
+# changes. Spellings are the plan's section 3 table; "OBO PURL" means the
+# capitalisation of the ID space in the entry's own `uri_base`, which
+# tests/test_veta_prefix_spelling.py checks mechanically.
+_OBO = "OBO PURL: the ID space as written in uri_base"
+_BR = "Bioregistry preferred_prefix (2026-10-19)"
+_PREFIX_SPELLING = {
+    "iao": ("IAO", _OBO), "uberon": ("UBERON", _OBO), "pato": ("PATO", _OBO),
+    "emapa": ("EMAPA", _OBO), "ncit": ("NCIT", _OBO), "stato": ("STATO", _OBO),
+    "obi": ("OBI", _OBO), "bfo": ("BFO", _OBO), "ro": ("RO", _OBO), "cl": ("CL", _OBO),
+    "chebi": ("CHEBI", _OBO), "wbls": ("WBls", _OBO),
+    "wbphenotype": ("WBPhenotype", _OBO), "wbbt": ("WBbt", _OBO),
+    "ncbitaxon": ("NCBITaxon", _OBO), "efo": ("EFO", "EFO's own PURL, uri_base `EFO_`"),
+    "fbdv": ("FBdv", _OBO),
+    "schema": ("schema", "schema.org"),
+    "time": ("time", "W3C OWL-Time"),
+    "swh": ("swh", "the SWHID itself begins `swh:`"),
+    "wikidata": ("wikidata", "Bioregistry (Wikidata states no CURIE form)"),
+    "wormbase": ("WormBase", _BR),
+    "credit": ("credit", _BR + "; not in the plan's table, so not checked with the "
+               "issuer"),
+    "rrid": ("RRID", "SciCrunch record `properCitation`, e.g. "
+             "`RRID:WB-STRAIN:WBStrain00004246` (checked 2026-10-19)"),
+    "pubmed": ("PMID", "NCBI's name for the id (PMC FAQ: \"The PMID is a unique "
+               "reference number for PubMed citations\"); Q2, Jess"),
+    "pmc": ("PMCID", "NCBI's name for the id (PMC FAQ: \"The PMCID is a unique "
+            "reference number or identifier that is assigned to every article that "
+            "is accepted into PMC\"); Q2, Jess"),
+    "orcid": ("ORCID", "the issuer gives no CURIE (its API returns a `uri` and a bare "
+              "`path`), so the issuer's name for the id; Q1, Jess"),
+    "ror": ("ROR", "the issuer gives no CURIE (\"The preferred form of the ROR ID is "
+            "the full URL\"), so the issuer's name for the id; Q1, Jess"),
+    "doi": ("doi", "the CURIE form Crossref recommended until 2017 "
+            "(`doi:10.NNNN/doisuffix`) and the DOI Handbook's presentation form "
+            "(\"doi:10.1006/jmbi.1998.2354\"); Q1, Jess"),
+    "cellosaurus": ("RRID", "SciCrunch record for HeLa: `curie: RRID:CVCL_0030`; "
+                    "Q3, Jess"),
+    "addgene": ("RRID", "SciCrunch record: `properCitation: RRID:Addgene_12345`; "
+                "Q3, Jess"),
+    "om": ("om", "the OM README: \"Namespace prefix: `om`\" (`om:metre`)"),
+    "edam": ("EDAM", "`EDAM_dev.owl` declares idspace `EDAM` -> "
+             "http://edamontology.org/"),
+    "pubchem.compound": ("PubChem", "the issuer gives no CURIE (its API labels the id "
+                         "`CID`), so the issuer's name; `ndi.ontology` writes `PubChem`"),
+    "snomedct": ("SNOMEDCT", "NOT CHECKED with the issuer (snomed.org could not be "
+                 "read); the issuer's name, by the plan's rule for an issuer with no "
+                 "CURIE form"),
+    "ncim": ("NCIm", "NCI's EVS: \"The NCI Metathesaurus (NCIm) includes ...\"; "
+             "`ndi.ontology` writes `NCIm`"),
+    "ndic": ("NDIC", "ours: `ndi.ontology` writes `NDIC`"),
+    "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("empty", "ours"),
+    "placeholder": ("placeholder", "ours"), "ndicloud": ("ndicloud", "ours"),
+}
+# Bioregistry's `synonyms` for each key, all of them (plan sec. 3a (i)), fetched from
+# https://bioregistry.io/api/registry/<key> on 2026-10-20. Keys Bioregistry lists no
+# synonyms for are absent. NCBIT is ours: Bioregistry does not list it and
+# `ndi.ontology` uses it (`NCBIT -> NCBITaxon`).
+_PREFIX_SYNONYMS = {
+    "cellosaurus": ["CVCL"],
+    "chebi": ["CHEBI", "CHEBIID", "ChEBI"],
+    "emapa": ["EMAPA_RETIRED"],
+    "fbdv": ["FBdv"],
+    "ncbitaxon": ["NCBI Taxonomy", "NCBITaxon", "NCBITaxonomyID", "NCBI_Taxon_ID",
+                  "NCBI_taxid", "TAX", "TaxonomyID", "ncbiTaxUID", "taxid", "taxon",
+                  "taxonomy", "uniprot.taxonomy", "NCBIT"],
+    "ncit": ["NCI", "NCI2004_11_17", "NCIT", "NCIT_Thesaurus", "NCIThesaurus", "NCITm",
+             "NCITt", "NCI_Thesaurus", "NCIt", "NCit", "ncithesaurus"],
+    "orcid": ["ORCID", "ORCiD"],
+    "pmc": ["PMC", "PMCID"],
+    "pubchem.compound": ["CID", "DSSTox_CID", "PUBCHEM_CID", "PubChem_Compound_CID",
+                         "Pubchem", "pubchem_id"],
+    "pubmed": ["MEDLINE", "PMID", "PubMed", "PubMed ID", "pmid"],
+    "ro": ["RO_proposed_relation", "obo_rel", "oborel"],
+    "schema": ["schemaorg", "sdo"],
+    "snomedct": ["SCTID", "SCTID_2010_1_31", "SNOMECT", "SNOMED", "SNOMEDCT",
+                 "SNOMEDCTCT", "SNOMEDCTCT_2018_03_01", "SNOMEDCTCT_2019_03_01",
+                 "SNOMEDCT_2005_07_31", "SNOMEDCT_2010_1_31", "SNOMEDCT_2020_03_01",
+                 "SNOMEDCT_US", "SNOMEDCT_US_2015_03_01", "SNOMEDCT_US_2016_03_01",
+                 "SNOMEDCT_US_2018_03_01", "SNOMEDCT_US_2018_09_01",
+                 "SNOMEDCT_US_2019_03_01", "SNOMEDCT_US_2019_09_01",
+                 "SNOMEDCT_US_2020_03_01", "SNOMEDCT_US_2020_09_01",
+                 "SNOMEDCT_US_2021_03_01", "SNOMEDCT_US_2021_07_31",
+                 "SNOMEDCT_US_2021_09_01", "SNOMEDCT_US_2022_07_31",
+                 "SNOMEDCT_US_2022_09_01", "SNOMEDCT_US_2022_12_31",
+                 "SNOMEDCT_US_2023_02_28", "SNOMEDCT_US_2023_03_01",
+                 "SNOMEDCT_US_2023_09_01", "SNOMEDCT_US_2023_10_01",
+                 "SNOMEDCT_US_2023_11_01", "SNOMEDCT_US_2024_03_01",
+                 "SNOMEDCT_US_2025_09_01", "SNOMEDCT_US_2026_03_01", "SNOMED_CT",
+                 "SNOMED_CT_US_2018_03_01", "SNOWMEDCT", "SNOWMEDCT_US",
+                 "SNOWMEDCT_US_2018_03_01"],
+    "uberon": ["UBERON", "Uber-anatomy ontology", "Uberon"],
+    "wbbt": ["WBbt"],
+    "wbls": ["WBls"],
+    "wbphenotype": ["WBPhenotype"],
+    "wikidata": ["WD_Entity", "wd", "wdeschema"],
+    "wormbase": ["WB", "WB_REF", "wb", "wormbase"],
+}
+# Eight prefixes in use with no entry (plan sec. 3a (iii)): seven `ndi.ontology`
+# accepts, plus `fbdv` from a conversion example. Bioregistry (fetched 2026-10-19 and
+# re-read 2026-10-20) unless noted.
+_NEW_PREFIXES = {
+    "om": ("Ontology of units of Measure",
+           "http://www.ontology-of-units-of-measure.org/resource/om-2/", "direct", None),
+    "edam": ("EDAM", "http://edamontology.org/", "direct",
+             r"^(data|topic|operation|format)_\d{4}$"),
+    "efo": ("Experimental Factor Ontology", "http://www.ebi.ac.uk/efo/EFO_",
+            "obo_underscore", r"^\d{7}$"),
+    "pubchem.compound": ("PubChem Compound", "https://pubchem.ncbi.nlm.nih.gov/compound/",
+                         "direct", r"^\d+$"),
+    "snomedct": ("SNOMED CT", "http://purl.bioontology.org/ontology/SNOMEDCT/", "direct",
+                 r"^(\w+)?\d+$"),
+    "ncim": ("NCI Metathesaurus",
+             "http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?"
+             "dictionary=NCI%20MetaThesaurus&code=", "direct", r"^C\d+$"),
+    "ndic": ("NDI controlled vocabulary (NDIC)", "", "local", r"^\d+$"),
+    "fbdv": ("Drosophila development ontology", "http://purl.obolibrary.org/obo/FBdv_",
+             "obo_underscore", r"^\d{8}$"),
+}
+for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
+    _e = {"label": _label, "uri_base": _base, "uri_style": _style, "approximate": False}
+    if _px == "ndic":
+        _e["documentation"] = (
+            "NDI's own controlled vocabulary, the NDIC.txt file in ndi-ontology-matlab "
+            "(src/ndi/ndi_common/controlled_vocabulary/NDIC.txt), whose identifiers "
+            "are integers ('NDIC:4'). Ours; not in Bioregistry. It has no web address, "
+            "so the CURIE is the identifier.")
+        _e["pattern_source"] = "NDIC.txt, ndi-ontology-matlab 9d8fc03 (2026-10-20)"
+    else:
+        _e["documentation"] = f"Bioregistry prefix `{_px}`."
+        if _pat is not None:
+            _e["pattern_source"] = f"https://bioregistry.io/api/registry/{_px} (2026-10-19)"
+    if _pat is not None:
+        _e["pattern"] = _pat
+    _curie["prefixes"][_px] = _e
+for _px, _e in _curie["prefixes"].items():
+    _sp, _src = _PREFIX_SPELLING[_px]   # KeyError: a new entry needs a spelling
+    _e["spelling"] = _sp
+    _e["spelling_source"] = _src
+    _e["synonyms"] = list(_PREFIX_SYNONYMS.get(_px, []))
+    # the entry's own examples are written the way a document writes them
+    if "documentation" in _e and _sp != _px:
+        _e["documentation"] = _e["documentation"].replace(f"'{_px}:", f"'{_sp}:")
+# Two prefixes split one identifier differently from their entry, so they cannot be
+# plain synonyms (plan sec. 3a (ii)): `WBStrain:00004246` is `WormBase:WBStrain00004246`
+# and EDAM's `format:1929` is `EDAM:format_1929` (Q5, Jess). A reader that meets the
+# old prefix REWRITES it: drop the old prefix, put `id_prefix` in front of the local
+# id, and write the entry's spelling.
+_curie["prefixes"]["wormbase"]["legacy_rewrite"] = {
+    "legacy_prefix": "WBStrain", "id_prefix": "WBStrain"}
+_curie["prefixes"]["edam"]["legacy_rewrite"] = {
+    "legacy_prefix": "format", "id_prefix": "format_"}
+# A Cellosaurus line and an Addgene plasmid are cited through RRID (Q3, Jess): the
+# entries stay so a scheme name still resolves, but a writer given either one writes
+# `RRID:` with the local id prefixed, `RRID:CVCL_0030` and `RRID:Addgene_12345`.
+_curie["prefixes"]["cellosaurus"]["written_as"] = {"prefix": "rrid", "id_prefix": "CVCL_"}
+_curie["prefixes"]["addgene"]["written_as"] = {"prefix": "rrid", "id_prefix": "Addgene_"}
+_curie["description"] = _curie["description"].replace(
+    "Consumer tooling uses this file to expand a CURIE such as 'uberon:0002436' ",
+    "Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' ").replace(
+    "Prefixes are matched case-insensitively; by convention prefixes are written in "
+    "lowercase inside documents and annotations.",
+    "Prefixes are matched case-insensitively and written as each entry's `spelling`, "
+    "the form the identifier's issuer cites.")
+_curie["documentation"] = (
+    _curie["documentation"] + " Each entry carries `spelling` (the prefix as written in "
+    "documents; a writer emits it), `spelling_source` and `synonyms`. A reader "
+    "recognises a prefix by the entry's key, its `spelling` or any of its `synonyms`, "
+    "ignoring case; no two entries share one. `legacy_rewrite` names an older prefix "
+    "that splits the identifier differently (`WBStrain:00004246` is read as "
+    "`WormBase:WBStrain00004246`), and `written_as` names the entry an identifier is "
+    "cited through (`cellosaurus` and `addgene` are written `RRID:CVCL_...` and "
+    "`RRID:Addgene_...`). V_eta_prefix_spelling_plan.md.")
+_curie["format_version"] = "1.1.0"
 _save(_cp, _curie)
 
-def _lower_prefix(_m):
-    return _m.group(1) + _m.group(2).lower() + ":"
-_NODE_RE = _re.compile(r'("(?:node|root_node)": ")([A-Za-z][A-Za-z0-9_.]*):')
-for _fp in [p for _t, p, _o in _all_class_files()] + [_rp]:
+
+def _prefix_index(_prefixes):
+    """Every name a reader accepts for a prefix, lowercased, -> its registry key."""
+    _ix = {}
+    for _k, _e in _prefixes.items():
+        _names = [_k] + list(_e.get("synonyms", []))
+        if "written_as" not in _e:
+            _names.append(_e["spelling"])
+        for _n in _names:
+            _old = _ix.setdefault(_n.lower(), _k)
+            assert _old == _k, f"prefix name {_n!r} names both {_old!r} and {_k!r}"
+    return _ix
+
+
+_PFX_IX = _prefix_index(_curie["prefixes"])
+_PFX_LEGACY = {_e["legacy_rewrite"]["legacy_prefix"].lower(): (_k, _e["legacy_rewrite"])
+               for _k, _e in _curie["prefixes"].items() if "legacy_rewrite" in _e}
+
+
+def _spell_curie(_c):
+    """Rewrite one CURIE to its registry entry's spelling (signed 2026-10-19). An
+    unregistered prefix stops the build: every node in the schema must be spellable."""
+    _p, _local = _c.split(":", 1)
+    if _p.lower() in _PFX_LEGACY:
+        _k, _rw = _PFX_LEGACY[_p.lower()]
+        return _curie["prefixes"][_k]["spelling"] + ":" + _rw["id_prefix"] + _local
+    _k = _PFX_IX.get(_p.lower())
+    if _k is None:
+        raise SystemExit(f"build_v_eta: node {_c!r} has a prefix CURIE_lookups_meta.json "
+                         "does not register; add an entry with a `spelling`")
+    _e = _curie["prefixes"][_k]
+    if "written_as" in _e:
+        _wa = _e["written_as"]
+        return _curie["prefixes"][_wa["prefix"]]["spelling"] + ":" + _wa["id_prefix"] + _local
+    return _e["spelling"] + ":" + _local
+
+
+def _spell_node(_m):
+    return _m.group(1) + _spell_curie(_m.group(2)) + '"'
+
+
+# The term nodes of the schema's own class files and binding registry. This replaces
+# the lowercasing done here on 2026-10-08 (V_eta_entity_composition_plan.md sec. 6),
+# which the prefix-spelling sign-off amends: one spelling per prefix, nodes and
+# identifiers alike. The conversion notes' worked examples are rewritten too, so an
+# example shows a node the way a migrated document writes it.
+_NODE_RE = _re.compile(r'("(?:node|root_node)": ")([A-Za-z][A-Za-z0-9_.]*:[^"]*)"')
+for _fp in ([p for _t, p, _o in _all_class_files()] + [_rp]
+            + sorted(glob.glob(os.path.join(CONV, "*.md")))):
     with open(_fp) as _fh:
         _txt = _fh.read()
-    _new = _NODE_RE.sub(_lower_prefix, _txt)
+    _new = _NODE_RE.sub(_spell_node, _txt)
     if _new != _txt:
         with open(_fp, "w") as _fh:
             _fh.write(_new)

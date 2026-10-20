@@ -204,7 +204,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Identifiers this entity is known by outside the dataset, each a CURIE whose prefix is registered in CURIE_lookups_meta.json ('orcid:0000-0002-1825-0097', 'doi:10.1234/abc', 'wormbase:WBStrain00000001') or, where no prefix exists, a full IRI ('https://lab.org/haley'). The local id must match its prefix's `pattern`. A URL is an address for this entity, so it lives here rather than on a separate document.",
+            "documentation": "Identifiers this entity is known by outside the dataset, each a CURIE whose prefix is registered in CURIE_lookups_meta.json and written as that entry's `spelling`, the way the identifier's issuer cites it ('ORCID:0000-0002-1825-0097', 'doi:10.1234/abc', 'WormBase:WBStrain00000001'), or, where no prefix exists, a full IRI ('https://lab.org/haley'). A reader matches the prefix by the entry's key, spelling or synonyms, ignoring case. The local id must match its prefix's `pattern`. A URL is an address for this entity, so it lives here rather than on a separate document.",
             "constraints": {}
         }
     ]
