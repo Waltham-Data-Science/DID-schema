@@ -756,6 +756,41 @@ group's instances; what is asserted of either record holds of the group (and, th
 disagreement and does not pick one. A physical merge (keep one record, repoint every edge at
 it) is not decided; if ever wanted, it must leave a redirect from each removed id.
 
+### T19 — A term is as general as its meaning allows; the document carries the rest.
+*(Written 2026-10-20 at Jess Haley's request, from the Haley import's term review: `head` from
+UBERON or WBbt, labels that began "C. elegans behavioral assay:", and STATO's *average value*
+for a mean. Not signed.)*
+
+T13 sets the altitude of the names we author; T19 sets it for the ontology terms we choose.
+**Choose the most general term that means exactly what is stated, and name nothing in it that
+the document states elsewhere.**
+
+- **Same meaning: the general ontology.** When a general ontology (UBERON, NCIT, OBI, STATO,
+  OM, PATO) has a term with the same meaning as a species- or domain-specific one (WBbt, ZFA,
+  FMA), use the general term. The species is the subject's (T17), so the specific term adds
+  nothing true and splits the same data across vocabularies: `head` is UBERON:0000033, not
+  WBbt:0005739.
+- **Different meaning: the specific term.** When only a specific ontology has the meaning, use
+  it rather than stretch a general one: `L4 larva` is WBls:0000038, because no general term
+  means the fourth larval stage of a nematode.
+- **Never narrower than true, never broader.** A term claims neither more nor less than the
+  value supports: NCIT *Buffer* is too broad for a potassium phosphate buffer, and WBbt
+  *midbody* (a region) is not the point halfway along the body. When nothing fits, mint the
+  term in our own ontology (EMPTY) at the right level rather than borrow one at the wrong
+  level.
+- **A term we mint names nothing the document already carries.** Its label and definition
+  leave out the subject, species, place or partner that the statement's entity, keys,
+  relations or edges already state: `arena mask`, not `C. elegans behavioral assay: arena
+  mask`; "the subjects", not "the animals" or "C. elegans". A qualifier stays when it says
+  something nothing else does (`seeding volume`: what was done).
+- **A condition's or parameter's term is complete on its own.** Conditions and method
+  parameters are a flat list of independent facts. A qualifier that only makes sense attached
+  to another entry belongs inside that entry's term, not beside it: `reference point` =
+  `nearest bacterial patch edge`, not `reference point` = `edge` plus `reference region` =
+  `bacterial patch`, because nothing in the document says the second qualifies the first
+  (T14). What generalises is the frame (`distance`, `reference point`); a landmark is specific
+  by nature.
+
 ---
 
 ## The meta-principle

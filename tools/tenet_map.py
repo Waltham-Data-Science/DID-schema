@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (18 since T18, 2026-10-19).
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (19 since T19, 2026-10-20).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 18 tenets declared, N with at least one row, and
+  1. It states its denominator: 19 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 19)]
+TENET_IDS = [f"T{i}" for i in range(1, 20)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T18
+    tenet    T1..T19
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -376,6 +376,18 @@ TENET_MAP = [
         "`same_as` joins two records of one thing; it never joins two things of one kind",
         "Signed 2026-10-19 (V_eta_duplicate_entities_plan.md); the reader is "
         "NDI-matlab ndi.entity (search and assertions follow a same_as group)."),
+    Row("T19",
+        "The Haley import's terms named what the document already said (`C. elegans "
+        "head`, `C. elegans behavioral assay: arena mask`) or took a species ontology "
+        "for a general meaning. T19 picks the most general term that means exactly "
+        "what is stated, names nothing the document carries elsewhere, and keeps each "
+        "condition's term complete on its own.",
+        [],
+        ["statement", "interaction"],
+        "V_eta_tenets.md",
+        "A term is as general as its meaning allows; the document carries the rest",
+        "Written 2026-10-20 at Jess Haley's request; not signed. The terms are "
+        "the Haley import's (NDI-matlab haleyTerm)."),
 ]
 
 

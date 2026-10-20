@@ -23,6 +23,7 @@
   "imageStack",
   "intensity",
   "intensity_observation",
+  "interaction",
   "item",
   "label_calculation",
   "logical",
@@ -64,7 +65,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 30,
+  "classes_in_the_built_set": 31,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -85,7 +86,7 @@
    "voltage_observation",
    "zarr"
   ],
-  "distinct_classes_named": 62,
+  "distinct_classes_named": 63,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
   "plan_documents_cited": [
    "schemas/V_eta_daq_family_decisions.md",
@@ -101,9 +102,9 @@
    "schemas/V_eta_tenets.md",
    "schemas/V_eta_tuning_model_plan.md"
   ],
-  "rows": 25,
-  "tenets_declared": 18,
-  "tenets_with_at_least_one_row": 18,
+  "rows": 26,
+  "tenets_declared": 19,
+  "tenets_with_at_least_one_row": 19,
   "tenets_with_no_substantiated_row": []
  },
  "description": "A CURATED map: the link from a tenet to a class exists only in prose (353 T-references across schemas/*.md; 0 of 245 built schema files name a tenet), so every row carries the plan document and the verbatim line that substantiates it. A row that could not be substantiated was dropped, not softened.",
@@ -1156,6 +1157,38 @@
    "note": "Signed 2026-10-19 (V_eta_duplicate_entities_plan.md); the reader is NDI-matlab ndi.entity (search and assertions follow a same_as group).",
    "plan_only_classes": [],
    "tenet": "T18"
+  },
+  {
+   "after": [
+    "statement",
+    "interaction"
+   ],
+   "after_built": [
+    "statement",
+    "interaction"
+   ],
+   "after_not_built": [],
+   "before": [],
+   "change": "The Haley import's terms named what the document already said (`C. elegans head`, `C. elegans behavioral assay: arena mask`) or took a species ontology for a general meaning. T19 picks the most general term that means exactly what is stated, names nothing the document carries elsewhere, and keeps each condition's term complete on its own.",
+   "citation": {
+    "anchor": "A term is as general as its meaning allows; the document carries the rest",
+    "doc": "schemas/V_eta_tenets.md",
+    "line": 759,
+    "quote": "### T19 \u2014 A term is as general as its meaning allows; the document carries the rest."
+   },
+   "class_registers": {
+    "interaction": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "statement": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "Written 2026-10-20 at Jess Haley's request; not signed. The terms are the Haley import's (NDI-matlab haleyTerm).",
+   "plan_only_classes": [],
+   "tenet": "T19"
   }
  ],
  "tenets": [
@@ -1264,8 +1297,14 @@
   {
    "id": "T18",
    "line": 714,
-   "statement": "*(Written 2026-10-14 at Jess Haley's request and signed 2026-10-19,\n`V_eta_duplicate_entities_plan.md`: a session made on its own joins a dataset and brings its\nown entity for something the dataset already records, its own N2 strain, its own record of a\nperson, its own record of the microscope.)*\n\nTwo entity documents are `same_as` (an `undirected_relation`, member types `entity`) only when\nthey describe the very same thing: the same strain, the same person, the same physical\ninstrument, the same animal. Two different things that are alike are not the same thing, and\nare never `same_as`:\n\n- **a second instance of a kind is its own entity, `instance_of` the kind** (T17's fourth\n  path): a second microscope of one model is `instance_of` the same `product`; a second N2\n  worm is `instance_of` the same strain. They share the kind through that relation and need\n  nothing between them;\n- **two records of the KIND itself are the duplicate**: two N2 strain entities are one strain,\n  so they are `same_as`.\n\n**It is written only on evidence that names the thing itself**, and the identifier must sit\non the entity it identifies:\n\n| evidence | names | joins |\n|---|---|---|\n| the same identifier CURIE (`wormbase:WBStrain00000001`, `orcid:\u2026`, `rrid:\u2026`) on two entities of the same type | that strain, person or resource | the two entities |\n| the same serial number (and manufacturer) on two devices | one instrument | the two devices |\n| the same catalog / model number on two products | one product | the two products |\n\nNever on a shared kind (two devices of one model are two instruments until something names\neach one) and never on a shared name alone (two entities called \"N2\" with no identifier may be\ntwo stocks: they are listed for a person to confirm, and the confirmation writes the\n`same_as`). A model number recorded on a device would make every device of that model look\nlike one, which is why it belongs on the `product`.\n\n**Stored in the dataset, and no id is deleted or rewritten to join them.** That two sessions'\nrecords are one thing is a fact about the dataset that holds both, so the relation lives in the\ndataset's database, beside the `part_of` relations that make a session a member; a linked\nsession's folder is not written to. Both documents stay, with their ids, so every reference to\neither still resolves, and the join is undone by deleting the relation.\n\n**A reader treats a `same_as` group as one entity:** a search finding either record finds the\ngroup's instances; what is asserted of either record holds of the group (and, through\n`instance_of`, of each instance). Where the records disagree on a value, the reader reports the\ndisagreement and does not pick one. A physical merge (keep one record, repoint every edge at\nit) is not decided; if ever wanted, it must leave a redirect from each removed id.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "statement": "*(Written 2026-10-14 at Jess Haley's request and signed 2026-10-19,\n`V_eta_duplicate_entities_plan.md`: a session made on its own joins a dataset and brings its\nown entity for something the dataset already records, its own N2 strain, its own record of a\nperson, its own record of the microscope.)*\n\nTwo entity documents are `same_as` (an `undirected_relation`, member types `entity`) only when\nthey describe the very same thing: the same strain, the same person, the same physical\ninstrument, the same animal. Two different things that are alike are not the same thing, and\nare never `same_as`:\n\n- **a second instance of a kind is its own entity, `instance_of` the kind** (T17's fourth\n  path): a second microscope of one model is `instance_of` the same `product`; a second N2\n  worm is `instance_of` the same strain. They share the kind through that relation and need\n  nothing between them;\n- **two records of the KIND itself are the duplicate**: two N2 strain entities are one strain,\n  so they are `same_as`.\n\n**It is written only on evidence that names the thing itself**, and the identifier must sit\non the entity it identifies:\n\n| evidence | names | joins |\n|---|---|---|\n| the same identifier CURIE (`wormbase:WBStrain00000001`, `orcid:\u2026`, `rrid:\u2026`) on two entities of the same type | that strain, person or resource | the two entities |\n| the same serial number (and manufacturer) on two devices | one instrument | the two devices |\n| the same catalog / model number on two products | one product | the two products |\n\nNever on a shared kind (two devices of one model are two instruments until something names\neach one) and never on a shared name alone (two entities called \"N2\" with no identifier may be\ntwo stocks: they are listed for a person to confirm, and the confirmation writes the\n`same_as`). A model number recorded on a device would make every device of that model look\nlike one, which is why it belongs on the `product`.\n\n**Stored in the dataset, and no id is deleted or rewritten to join them.** That two sessions'\nrecords are one thing is a fact about the dataset that holds both, so the relation lives in the\ndataset's database, beside the `part_of` relations that make a session a member; a linked\nsession's folder is not written to. Both documents stay, with their ids, so every reference to\neither still resolves, and the join is undone by deleting the relation.\n\n**A reader treats a `same_as` group as one entity:** a search finding either record finds the\ngroup's instances; what is asserted of either record holds of the group (and, through\n`instance_of`, of each instance). Where the records disagree on a value, the reader reports the\ndisagreement and does not pick one. A physical merge (keep one record, repoint every edge at\nit) is not decided; if ever wanted, it must leave a redirect from each removed id.",
    "title": "`same_as` joins two records of one thing; it never joins two things of one kind."
+  },
+  {
+   "id": "T19",
+   "line": 759,
+   "statement": "*(Written 2026-10-20 at Jess Haley's request, from the Haley import's term review: `head` from\nUBERON or WBbt, labels that began \"C. elegans behavioral assay:\", and STATO's *average value*\nfor a mean. Not signed.)*\n\nT13 sets the altitude of the names we author; T19 sets it for the ontology terms we choose.\n**Choose the most general term that means exactly what is stated, and name nothing in it that\nthe document states elsewhere.**\n\n- **Same meaning: the general ontology.** When a general ontology (UBERON, NCIT, OBI, STATO,\n  OM, PATO) has a term with the same meaning as a species- or domain-specific one (WBbt, ZFA,\n  FMA), use the general term. The species is the subject's (T17), so the specific term adds\n  nothing true and splits the same data across vocabularies: `head` is UBERON:0000033, not\n  WBbt:0005739.\n- **Different meaning: the specific term.** When only a specific ontology has the meaning, use\n  it rather than stretch a general one: `L4 larva` is WBls:0000038, because no general term\n  means the fourth larval stage of a nematode.\n- **Never narrower than true, never broader.** A term claims neither more nor less than the\n  value supports: NCIT *Buffer* is too broad for a potassium phosphate buffer, and WBbt\n  *midbody* (a region) is not the point halfway along the body. When nothing fits, mint the\n  term in our own ontology (EMPTY) at the right level rather than borrow one at the wrong\n  level.\n- **A term we mint names nothing the document already carries.** Its label and definition\n  leave out the subject, species, place or partner that the statement's entity, keys,\n  relations or edges already state: `arena mask`, not `C. elegans behavioral assay: arena\n  mask`; \"the subjects\", not \"the animals\" or \"C. elegans\". A qualifier stays when it says\n  something nothing else does (`seeding volume`: what was done).\n- **A condition's or parameter's term is complete on its own.** Conditions and method\n  parameters are a flat list of independent facts. A qualifier that only makes sense attached\n  to another entry belongs inside that entry's term, not beside it: `reference point` =\n  `nearest bacterial patch edge`, not `reference point` = `edge` plus `reference region` =\n  `bacterial patch`, because nothing in the document says the second qualifies the first\n  (T14). What generalises is the frame (`distance`, `reference point`); a landmark is specific\n  by nature.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, the `data_body` flag, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "title": "A term is as general as its meaning allows; the document carries the rest."
   }
  ],
  "tenets_document": "schemas/V_eta_tenets.md",
