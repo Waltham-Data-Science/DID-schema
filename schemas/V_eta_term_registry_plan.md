@@ -1,6 +1,6 @@
 # V_eta term registry: one term per meaning, across every NDI dataset
 
-**Status: DECIDED BY JESS HALEY, 2026-10-20, AND BUILT. Not signed by the team.**
+**Status: SIGNED 2026-10-20 (the `TEAM-SIGN-OFF [term registry]` line is at the end of "Decisions"), AND BUILT.**
 Tenet T19 (`V_eta_tenets.md`) is the rule; this document is the mechanism.
 
 ## The problem
@@ -27,6 +27,8 @@ a method, a unit or a statistic:
    another NDI dataset (this registry), then a term in an existing ontology,
    and only when no term exists a new one minted in EMPTY. A term found at the
    second or third step is registered before it is used.
+
+TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com / 2026-10-20 -- tenet T19 (a term already used in an NDI dataset first, then an existing ontology term, and only then a new EMPTY term; the general term when the meaning is the same; never narrower or broader than true; a minted term names nothing the document already carries; each condition's term is complete on its own) and its mechanism: the term list lives in DID-schema (schemas/V_eta_term_registry.json, checked by tools/check_term_registry.py), and did2.build refuses a term the registry does not hold.
 
 ## What was built
 
