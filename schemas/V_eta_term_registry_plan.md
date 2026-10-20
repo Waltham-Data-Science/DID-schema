@@ -43,8 +43,14 @@ where DID-matlab's schema cache loads it. Each entry:
 | `decided` | who decided it, and when |
 | `first_used_in` | the dataset that first used it |
 
-It starts with the 169 terms of the Haley import, reviewed on 2026-10-19 and
-2026-10-20.
+It starts with the Haley import's terms: the 169 reviewed on 2026-10-19 and
+2026-10-20, then the 33 its census listed (NDI-matlab TestTermRegistry, which
+runs the fixture import and collects every term the registry lacks): 7
+existing-ontology terms decided earlier (four EDAM formats, PATO biological
+sex, the OP50 and OP50-GFP strains a seeding dose names) and 26 lab labels
+registered as `staged` (entity fields such as `version` and `email`, procedure
+methods such as `pouring`, the encounter classification thresholds). The staged
+terms are open item 3 below.
 
 **The gate**, `tools/check_term_registry.py` (a step of `tools/gates.py`),
 fails on: two entries for one node (prefix read by key, spelling or synonym)

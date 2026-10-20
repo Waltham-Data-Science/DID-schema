@@ -1355,6 +1355,270 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-19",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Binary format",
+            "node": "EDAM:format_2333",
+            "definition": "Binary format.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-14 (Haley import decision #84); registered 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "MPEG-4",
+            "node": "EDAM:format_3997",
+            "definition": "A digital multimedia container format most commonly used to store video and audio.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-14 (Haley import decision #84); registered 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "TIFF",
+            "node": "EDAM:format_3591",
+            "definition": "A versatile bitmap format.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-14 (Haley import decision #84); registered 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "PNG",
+            "node": "EDAM:format_3603",
+            "definition": "PNG is a file format for image compression.",
+            "status": "decided",
+            "decided": "registered 2026-10-20 beside the other EDAM image formats",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "biological sex",
+            "node": "PATO:0000047",
+            "definition": "An organismal quality inhering in a bearer by virtue of the bearer's ability to undergo sexual reproduction in order to differentiate the individuals or types involved.",
+            "status": "decided",
+            "decided": "Jess Haley (Haley import stage 7); registered 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "OP50",
+            "node": "WormBase:WBStrain00041969",
+            "definition": "Escherichia coli OP50, the uracil-requiring strain used as C. elegans food.",
+            "status": "decided",
+            "decided": "Jess Haley (Haley import decision #88); registered 2026-10-20: a seeding dose's variable names the strain seeded",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "OP50-GFP",
+            "node": "WormBase:WBStrain00041972",
+            "definition": "Escherichia coli OP50 expressing GFP.",
+            "status": "decided",
+            "decided": "Jess Haley (Haley import decision #88); registered 2026-10-20: a seeding dose's variable names the strain seeded",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "diluent",
+            "node": "",
+            "definition": "The liquid a suspension is diluted in; as a seeding dose's variable, a patch seeded with the diluent alone.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "agar plug transfer",
+            "node": "",
+            "definition": "Moving animals from one plate to another on a plug of agar cut from the first.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "ambient exposure",
+            "node": "",
+            "definition": "Holding a plate at the room's temperature and humidity.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "incubation",
+            "node": "",
+            "definition": "Holding a plate in an incubator at a set temperature.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "pouring",
+            "node": "",
+            "definition": "Making an agar plate by pouring molten medium into a dish.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "refrigeration",
+            "node": "",
+            "definition": "Holding a plate in a cold room or refrigerator.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "seeding",
+            "node": "",
+            "definition": "Pipetting a bacterial suspension onto an agar plate to grow a patch.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "worm picking",
+            "node": "",
+            "definition": "Moving animals one at a time with a wire pick.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "cleaning step",
+            "node": "",
+            "definition": "A parameter of a transfer: how animals were cleaned of bacteria before being placed on the next plate.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "exploit: minimum probability of exploitation",
+            "node": "",
+            "definition": "A parameter of encounter classification: the smallest posterior probability of exploitation for which an encounter is classed exploit.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "sample: minimum probability of sensing",
+            "node": "",
+            "definition": "A parameter of encounter classification: the smallest posterior probability of sensing for which an encounter is classed sample.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "search off patch: probability of sensing below",
+            "node": "",
+            "definition": "A parameter of encounter classification: an encounter whose posterior probability of sensing is below this is classed search off patch, together with the distance rule.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "search off patch: maximum distance into the patch",
+            "node": "",
+            "definition": "A parameter of encounter classification: an encounter that reaches no further into the patch than this is classed search off patch.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "authors",
+            "node": "",
+            "definition": "The people who made a dataset or publication, in order.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "catalog number",
+            "node": "",
+            "definition": "The identifier a vendor or stock centre lists a product under.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "email",
+            "node": "",
+            "definition": "An email address of a person or organization.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "factors",
+            "node": "",
+            "definition": "The variables a study varies between its conditions.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "family name",
+            "node": "",
+            "definition": "A person's family name.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "genetic strain type",
+            "node": "",
+            "definition": "Whether a strain is wild type, mutant or transgenic.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "given name",
+            "node": "",
+            "definition": "A person's given name.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "keyword",
+            "node": "",
+            "definition": "A word or phrase that describes what a dataset is about.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "license",
+            "node": "",
+            "definition": "The licence under which a dataset may be used.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "publication date",
+            "node": "",
+            "definition": "The date a publication was published.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "release date",
+            "node": "",
+            "definition": "The date a dataset was released.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "short name",
+            "node": "",
+            "definition": "A short name for an entity, such as a dataset's or an organization's abbreviation.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "version",
+            "node": "",
+            "definition": "The version of a software, dataset or document.",
+            "status": "staged",
+            "decided": "registered 2026-10-20 from the Haley import's census (TestTermRegistry); its node is to be found or minted by tenet T19's order",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         }
     ]
 }
