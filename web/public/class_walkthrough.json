@@ -215,7 +215,7 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 3,
+      "site_count": 4,
       "sites": [
        {
         "line": 2393,
@@ -231,6 +231,11 @@
         "line": 2667,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       },
+       {
+        "line": 2693,
+        "spelling": "base",
+        "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
       ]
      },
@@ -286,12 +291,17 @@
      {
       "pass": "resolveClockAlignment",
       "path": "src/did/+did2/+convert/resolveClockAlignment.m",
-      "site_count": 1,
+      "site_count": 2,
       "sites": [
        {
         "line": 295,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 340,
+        "spelling": "base",
+        "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
       ]
      },
@@ -447,7 +457,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 654,
+        "line": 685,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
