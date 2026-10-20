@@ -693,7 +693,7 @@
         ],
         "packages_missing": [],
         "files_read": 197,
-        "lines_read": 48059,
+        "lines_read": 48264,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -737,8 +737,8 @@
           "batch_post_pass": 31
         },
         "lines_read_by_group": {
-          "per_document_migrator": 31772,
-          "batch_post_pass": 16287
+          "per_document_migrator": 31827,
+          "batch_post_pass": 16437
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1507,9 +1507,9 @@
         "n_comment_mentions": 41,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:892 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:908 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:994 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:909 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:910 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)"
         ],
@@ -1532,8 +1532,8 @@
             "named_refs": [],
             "n_comment_mentions": 39,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:908 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:909 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:910 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)",
@@ -1552,7 +1552,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:892 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:994 (comment_mention)"
             ]
           }
         },
