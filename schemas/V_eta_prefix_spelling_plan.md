@@ -1,6 +1,6 @@
 # V_eta prefix spelling -- write a CURIE's prefix the way it is cited
 
-**Status: SIGNED 2026-10-19 (the `TEAM-SIGN-OFF [prefix spelling]` line is at the end of section 4). Not built yet.** Asked for by Jess
+**Status: SIGNED 2026-10-19 (the `TEAM-SIGN-OFF [prefix spelling]` line is at the end of section 4). BUILT 2026-10-20** (DID-schema 437beee: registry `spelling`/`spelling_source`/`synonyms`, `_spell_curie`; DID-matlab 5d5aa44: `curieKey`/`curieSpelling`; NDI-matlab f38c91dd: `ndi.v2.curie*`, Haley strains `WormBase:WBStrain…`). Not yet run in MATLAB CI. Asked for by Jess
 (Haley import identifier review, 2026-10-19: "I'd rather store identifiers as
 people cite them"; option B, each identifier's own registry decides the
 spelling).
