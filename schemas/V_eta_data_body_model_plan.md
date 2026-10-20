@@ -1229,3 +1229,5 @@ variable, unit, source_unit, approximate
 Built in `tools/build_v_eta.py` section 12.15 (2 key lists, 2 `conditions` mounts, 3
 `method_parameters` mounts). Writers and readers follow in DID-matlab (`did2.build`, the
 validator, the migrators) and NDI-matlab (the Haley import, `ndi.value`).
+
+TEAM-SIGN-OFF [data_body amendment 3]: jess@walthamdatascience.com / 2026-10-19 -- conditions and method parameters are one entry {variable, unit, source_unit, approximate} plus one of term, quantity {value, source_value as text}, count or text; a key is that entry holding n positions (term, quantity {value, source_value numeric}), labels and values renamed.

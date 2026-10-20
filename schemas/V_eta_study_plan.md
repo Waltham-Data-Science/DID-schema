@@ -373,3 +373,5 @@ TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calcul
 | writing - original draft | `credit:writing-original-draft` |
 | writing - review & editing | `credit:writing-review-editing` |
 | corresponding author | `NCIT:C164481` |
+
+TEAM-SIGN-OFF [contributor role nodes]: jess@walthamdatascience.com / 2026-10-19 -- each CRediT role in directed_relation.roles takes Bioregistry's credit:<slug> node and corresponding author takes NCIT:C164481.

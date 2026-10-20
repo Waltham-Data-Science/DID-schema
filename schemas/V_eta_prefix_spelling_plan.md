@@ -199,6 +199,7 @@ had `OM`), and DOI stays lowercase `doi`.
   form read by rewrite.
 
 To be signed: a CURIE's prefix is written as its issuer cites it (the registry entry's `spelling`, e.g. `ORCID:`, `ROR:`, `PMID:`, `PMCID:`, `RRID:`, `doi:`, `WormBase:`, `EDAM:format_`), for identifiers and term nodes alike; readers match a prefix by key, spelling or synonym, ignoring case; the registry keys stay the lowercase Bioregistry prefixes.
+TEAM-SIGN-OFF [prefix spelling]: jess@walthamdatascience.com / 2026-10-19 -- a CURIE's prefix is written as its issuer cites it (the registry entry's spelling: ORCID:, ROR:, PMID:, PMCID:, RRID:, doi:, WormBase:, EDAM:format_), for identifiers and term nodes alike; readers match a prefix by key, spelling or synonym, ignoring case; registry keys stay the lowercase Bioregistry prefixes.
 
 ## 4a. The questions as first posed
 

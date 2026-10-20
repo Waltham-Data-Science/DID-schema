@@ -87,3 +87,4 @@ not written to.
   removed id to the one kept, so old references still resolve. A later decision.
 
 To be signed: same_as joins two records of one thing and never two instances of one kind (tenet T18); it is written only on an identifier that names the thing itself, stored in the dataset, and no id is deleted or rewritten
+TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com / 2026-10-19 -- as the To be signed line above states.
