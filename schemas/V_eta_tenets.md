@@ -676,6 +676,13 @@ Every statement must read as one sentence:
   A manipulation and an observation of the same property share one variable, so one query
   finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and
   fails the sentence ("the cohort's plate transfer was set to assay plate").
+  *Two clarifications (2026-10-20, PROPOSAL, the Haley tenet audit's T-11; Jess Haley agreed;
+  not signed).* **An activity may be the variable when a `logical` value says whether it
+  happened to the subject**: "the plate's video recording: false" is a fact about the
+  plate's history, and the act, when it is done, is still the `method` of the statement it
+  produced. **A variable never names how the value is stored**: a mask's pixels say where a
+  region is, so its variable is the region (`Imaging Region of Interest`), not `binary
+  mask`, which is the encoding the schema already declares (`label`, `bool`; T14).
 - **`value` is the property's state**, typed by the leaf's data type (T3): a temperature, an
   amount, a term. It never names the act either.
 - **A yes/no property takes a `logical` value; a property with named states takes a term.**
