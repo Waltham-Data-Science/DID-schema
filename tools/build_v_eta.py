@@ -33,7 +33,7 @@ VZETA = os.path.join(ROOT, "schemas", "V_zeta")
 VETA = os.path.join(ROOT, "schemas", "V_eta")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
-              "binding_registry_meta.json"}
+              "binding_registry_meta.json", "term_registry_meta.json"}
 
 DIMS = ["mass", "length", "volume", "time", "temperature", "pressure",
         "frequency", "voltage", "current", "concentration", "count", "score"]
@@ -8400,6 +8400,25 @@ binding_registry = {
 }
 with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
     json.dump(binding_registry, f, indent=4)
+    f.write("\n")
+
+
+# ---------- 13b. the term registry (tenet T19; V_eta_term_registry_plan.md) ----------
+# AUTHORED in schemas/V_eta_term_registry.json (Jess Haley, 2026-10-20: the term
+# list lives in did-schema, and an unregistered term is an error). Copied here
+# with a header so did2.build finds it beside the other meta files and checks
+# every term it writes in a vocabulary slot (strictMode 'TermRegistry').
+# tools/check_term_registry.py gates the source.
+_term_source = load(os.path.join(ROOT, "schemas", "V_eta_term_registry.json"))
+term_registry = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/term_registry_meta.json",
+    "title": "Term registry for DID/NDI V_eta",
+    "description": _term_source["description"],
+    "terms": _term_source["terms"],
+}
+with open(os.path.join(VETA, "stable", "term_registry_meta.json"), "w") as f:
+    json.dump(term_registry, f, indent=4, ensure_ascii=False)
     f.write("\n")
 
 

@@ -838,3 +838,5 @@ RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `V
 RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`, Jess Haley's decision: the term list lives in did-schema and an unregistered term is an error). Re-derive with `ls schemas/*.md | wc -l`, do not quote.

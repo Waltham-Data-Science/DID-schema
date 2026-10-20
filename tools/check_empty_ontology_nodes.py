@@ -72,7 +72,8 @@ REPO = os.path.dirname(HERE)
 VETA = os.path.join(REPO, "schemas", "V_eta")
 TIERS = ("stable", "draft", "deprecated")
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
-              "ndi_reserved_keys.json", "binding_registry_meta.json"}
+              "ndi_reserved_keys.json", "binding_registry_meta.json",
+              "term_registry_meta.json"}
 
 # The count at the time the gate was introduced (2026-08-09). It may FALL freely;
 # an increase fails under --enforce. Lower it when terms are minted -- that is the

@@ -340,6 +340,12 @@ STEPS = [
          _t("check_binding_governance.py", "--enforce"), "gate",
          r"V_eta document_class files walked\s+: (\d+)", "class files walked"),
 
+    # Tenet T19 (V_eta_term_registry_plan.md): did2.build refuses a term the
+    # registry does not hold, so the registry itself must hold ONE term per
+    # meaning -- no node or name twice, every prefix known and spelled.
+    Step("check_term_registry", _t("check_term_registry.py"), "gate",
+         r"^term registry terms read: (\d+)", "registered terms"),
+
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",
          r"V_eta schema files inspected\s+: (\d+)", "schema files inspected",
          requires=["DID-matlab"]),
@@ -729,6 +735,12 @@ EDGES = [
          "deletion of a field every passed-through document carries.",
          "tools/check_constraint_refinement.py",
          r"V_eta_ndi_ground_truth\.json"),
+
+    Edge("build_v_eta", "check_term_registry",
+         "schemas/V_eta/stable/term_registry_meta.json",
+         "R6 compares the built copy against the authored source; check it "
+         "before the build and a source edit reads as a stale copy.",
+         "tools/check_term_registry.py", r"term_registry_meta\.json"),
 
     Edge("build_v_eta", "check_binding_governance", "schemas/V_eta",
          "the binding registry it audits is written by the build.",

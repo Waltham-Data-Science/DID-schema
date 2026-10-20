@@ -1231,3 +1231,5 @@ Built in `tools/build_v_eta.py` section 12.15 (2 key lists, 2 `conditions` mount
 validator, the migrators) and NDI-matlab (the Haley import, `ndi.value`).
 
 TEAM-SIGN-OFF [data_body amendment 3]: jess@walthamdatascience.com / 2026-10-19 -- conditions and method parameters are one entry {variable, unit, source_unit, approximate} plus one of term, quantity {value, source_value as text}, count or text; a key is that entry holding n positions (term, quantity {value, source_value numeric}), labels and values renamed.
+
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.

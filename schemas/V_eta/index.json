@@ -54,6 +54,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "term_registry_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_eta/stable/term_registry_meta.json",
+            "is_meta": true,
+            "disposition": "persist"
+        },
+        {
             "class_name": "absolute_time_reference",
             "tier": "stable",
             "class_version": "3.1.0",
