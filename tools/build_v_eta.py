@@ -13054,39 +13054,39 @@ _PREFIX_SPELLING = {
     "wormbase": ("WormBase", _BR),
     "credit": ("credit", _BR + "; not in the plan's table; confirmed by Jess "
                "2026-10-20 (CRediT itself cites roles by name and URL, not by prefix)"),
-    "rrid": ("RRID", "SciCrunch record `properCitation`, e.g. "
-             "`RRID:WB-STRAIN:WBStrain00004246` (checked 2026-10-19)"),
-    "pubmed": ("PMID", "NCBI's name for the id (PMC FAQ: \"The PMID is a unique "
-               "reference number for PubMed citations\"); Q2, Jess"),
-    "pmc": ("PMCID", "NCBI's name for the id (PMC FAQ: \"The PMCID is a unique "
+    "rrid": ("RRID", ("SciCrunch record `properCitation`, e.g. "
+             "`RRID:WB-STRAIN:WBStrain00004246` (checked 2026-10-19)")),
+    "pubmed": ("PMID", ("NCBI's name for the id (PMC FAQ: \"The PMID is a unique "
+               "reference number for PubMed citations\"); Q2, Jess")),
+    "pmc": ("PMCID", ("NCBI's name for the id (PMC FAQ: \"The PMCID is a unique "
             "reference number or identifier that is assigned to every article that "
-            "is accepted into PMC\"); Q2, Jess"),
-    "orcid": ("ORCID", "the issuer gives no CURIE (its API returns a `uri` and a bare "
-              "`path`), so the issuer's name for the id; Q1, Jess"),
-    "ror": ("ROR", "the issuer gives no CURIE (\"The preferred form of the ROR ID is "
-            "the full URL\"), so the issuer's name for the id; Q1, Jess"),
-    "doi": ("doi", "the CURIE form Crossref recommended until 2017 "
+            "is accepted into PMC\"); Q2, Jess")),
+    "orcid": ("ORCID", ("the issuer gives no CURIE (its API returns a `uri` and a bare "
+              "`path`), so the issuer's name for the id; Q1, Jess")),
+    "ror": ("ROR", ("the issuer gives no CURIE (\"The preferred form of the ROR ID is "
+            "the full URL\"), so the issuer's name for the id; Q1, Jess")),
+    "doi": ("doi", ("the CURIE form Crossref recommended until 2017 "
             "(`doi:10.NNNN/doisuffix`) and the DOI Handbook's presentation form "
-            "(\"doi:10.1006/jmbi.1998.2354\"); Q1, Jess"),
-    "cellosaurus": ("RRID", "SciCrunch record for HeLa: `curie: RRID:CVCL_0030`; "
-                    "Q3, Jess"),
-    "addgene": ("RRID", "SciCrunch record: `properCitation: RRID:Addgene_12345`; "
-                "Q3, Jess"),
+            "(\"doi:10.1006/jmbi.1998.2354\"); Q1, Jess")),
+    "cellosaurus": ("RRID", ("SciCrunch record for HeLa: `curie: RRID:CVCL_0030`; "
+                    "Q3, Jess")),
+    "addgene": ("RRID", ("SciCrunch record: `properCitation: RRID:Addgene_12345`; "
+                "Q3, Jess")),
     "om": ("om", "the OM README: \"Namespace prefix: `om`\" (`om:metre`)"),
-    "edam": ("EDAM", "`EDAM_dev.owl` declares idspace `EDAM` -> "
-             "http://edamontology.org/"),
-    "pubchem.compound": ("PubChem", "the issuer gives no CURIE (its API labels the id "
-                         "`CID`), so the issuer's name; `ndi.ontology` writes `PubChem`"),
-    "snomedct": ("SNOMEDCT", "NOT CHECKED with the issuer (snomed.org could not be "
+    "edam": ("EDAM", ("`EDAM_dev.owl` declares idspace `EDAM` -> "
+             "http://edamontology.org/")),
+    "pubchem.compound": ("PubChem", ("the issuer gives no CURIE (its API labels the id "
+                         "`CID`), so the issuer's name; `ndi.ontology` writes `PubChem`")),
+    "snomedct": ("SNOMEDCT", ("NOT CHECKED with the issuer (snomed.org could not be "
                  "read); the issuer's name, by the plan's rule for an issuer with no "
-                 "CURIE form"),
-    "ncim": ("NCIm", "NCI's EVS: \"The NCI Metathesaurus (NCIm) includes ...\"; "
-             "`ndi.ontology` writes `NCIm`"),
+                 "CURIE form")),
+    "ncim": ("NCIm", ("NCI's EVS: \"The NCI Metathesaurus (NCIm) includes ...\"; "
+             "`ndi.ontology` writes `NCIm`")),
     "ndic": ("NDIC", "ours: `ndi.ontology` writes `NDIC`"),
     "mco": ("MCO", _OBO), "micro": ("MICRO", _OBO), "zeco": ("ZECO", _OBO),
-    "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", "ours: the ontology writes its own ids `EMPTY:0000276` "
+    "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", ("ours: the ontology writes its own ids `EMPTY:0000276` "
               "(its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess "
-              "2026-10-20"),
+              "2026-10-20")),
     "placeholder": ("placeholder", "ours"), "ndicloud": ("ndicloud", "ours"),
 }
 # Bioregistry's `synonyms` for each key, all of them (plan sec. 3a (i)), fetched from
@@ -13148,8 +13148,8 @@ _NEW_PREFIXES = {
     "snomedct": ("SNOMED CT", "http://purl.bioontology.org/ontology/SNOMEDCT/", "direct",
                  r"^(\w+)?\d+$"),
     "ncim": ("NCI Metathesaurus",
-             "http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?"
-             "dictionary=NCI%20MetaThesaurus&code=", "direct", r"^C\d+$"),
+             ("http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?"
+             "dictionary=NCI%20MetaThesaurus&code="), "direct", r"^C\d+$"),
     "ndic": ("NDI controlled vocabulary (NDIC)", "", "local", r"^\d+$"),
     "fbdv": ("Drosophila development ontology", "http://purl.obolibrary.org/obo/FBdv_",
              "obo_underscore", r"^\d{8}$"),
