@@ -114,6 +114,14 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
+      "name": "Petri Dish",
+      "node": "NCIT:C96141",
+      "definition": "A shallow dish with a lid used to culture cells.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-20 (NDI Haley decision #107)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
       "name": "bacterial patch",
       "node": "EMPTY:0000325",
       "definition": "A discrete area of bacteria grown on a solid medium from a pipetted suspension.",
