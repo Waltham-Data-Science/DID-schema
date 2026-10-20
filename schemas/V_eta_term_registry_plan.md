@@ -52,6 +52,12 @@ registered as `staged` (entity fields such as `version` and `email`, procedure
 methods such as `pouring`, the encounter classification thresholds). The staged
 terms are open item 3 below.
 
+Two changes Jess decided later the same day: EMPTY:0000322 is renamed
+`relative cell density` (nothing in the quantity is specific to bacteria), and
+NCIT:C19827 Brightfield Microscopy is registered for the brightfield images
+taken through a microscope (the E. coli plates), so 203 terms: 177 decided,
+26 staged.
+
 **The gate**, `tools/check_term_registry.py` (a step of `tools/gates.py`),
 fails on: two entries for one node (prefix read by key, spelling or synonym)
 or one name (ignoring case); a status that disagrees with its node; a prefix the

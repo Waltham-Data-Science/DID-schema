@@ -11533,7 +11533,7 @@ _DIM_CANON = {
     # expected conversion to cells per liter (particles_per_liter) only through a
     # calibration for the organism and spectrophotometer, so it is a canonical of its
     # own, filled directly. Its users: a seeding suspension's measured OD600, and the
-    # Haley relative bacterial density, which is in OD600 equivalents (NDI decision #99).
+    # Haley relative cell density, which is in OD600 equivalents (NDI decision #99).
     "concentration": ["molar", "grams_per_liter", "mass_fraction", "volume_fraction",
                       "particles_per_liter", "osmolar", "od600"],
     # --- J §7 pre-seeded set: canonical named from the documented SI unit ---

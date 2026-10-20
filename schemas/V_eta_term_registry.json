@@ -498,6 +498,14 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
+      "name": "Brightfield Microscopy",
+      "node": "NCIT:C19827",
+      "definition": "Brightfield microscopy is a type of light microscopy in which objects are seen against a bright background.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-20",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
       "name": "food availability",
       "node": "ZECO:0000113",
       "definition": "Experimental condition in which the availability of food is manipulated.",
@@ -1074,11 +1082,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "relative bacterial density",
+      "name": "relative cell density",
       "node": "EMPTY:0000322",
-      "definition": "The density of the bacteria in a bacterial patch, in OD600 equivalents: the patch's fluorescence border amplitude divided by the mean border amplitude of reference patches seeded at a known OD600, times that OD600.",
+      "definition": "The density of cells in a sample relative to reference samples of known density: the sample's measured signal divided by the mean signal of the reference samples, times their density. Stated in the reference samples' units, such as OD600 equivalents.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-19",
+      "decided": "Jess Haley, 2026-10-19; renamed from \"relative bacterial density\" 2026-10-20",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
