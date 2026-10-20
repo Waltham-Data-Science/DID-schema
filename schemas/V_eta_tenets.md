@@ -535,6 +535,30 @@ drifted off the one-payload-slot rule for exactly the same reason: nothing check
 indexer, a third-party reader — get the value out and know what it means, from the schema
 alone? If it needs prose, an example, or our source, the structure is not declared.
 
+**Missing is not a value** (2026-10-20, PROPOSAL, the Haley tenet audit's T-5; Jess Haley
+agreed; not signed). A value that was not measured is **absent**, never a number:
+- **not attempted** (not filmed, not seeded, nothing taken): **no statement**;
+- **attempted, not obtained**: in an array, NaN (or the body's `fill_value`) at that
+  position; a categorical value takes the term **Cannot Be Determined** (NCIT:C179711);
+  either way the reason is in `notes`;
+- **a measured or designed zero is zero**;
+- **no transform turns a missing value into a number**: a floor, a default or a `max()`
+  applies to measured values only. (The Haley import keeps a NaN density estimate NaN where
+  the lab's `max(x, 0.01)` makes it 0.01, decision #99; the same rule as "no times, no time
+  reference" in the time plan.)
+
+**A correction is named and travels with the value** (2026-10-20, PROPOSAL, T-6; Jess Haley
+agreed; not signed). An import that corrects its source states each correction once,
+outside the code (the Haley import's spec `corrections`): what, where, the value written
+(`was`), the value used and why. It is **applied only while the source still reads `was`**
+(a source fixed upstream is not corrected twice) and **reported** by the run, and the
+document carries it in `notes` in one form: "Corrected from <was>: <reason> (correction
+<key>)". **`source_value` is not the place**: it is the source's own representation of the
+value USED (its unit, its spelling), so putting the rejected value there would make one slot
+mean both "the same quantity, as written" and "a different value, refused". **When the
+evidence allows two readings, store the one that claims less** (fewer entities, wider
+bounds, no link) and note the other.
+
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
 *(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the
 `_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every
