@@ -13808,19 +13808,40 @@ _old_params = next(f for f in _ix["fields"] if f["name"] == "method_parameters")
 if _old_term["type"] != "ontology_term" or _old_params["type"] != "structure":
     raise SystemExit("build_v_eta 12.20: interaction's method / method_parameters "
                      "are not the term + entry list this section reshapes")
-_PARAMS_TEMPLATE = copy.deepcopy(_old_params)
+# ONE SOURCE for the block's two sub-fields at every site (Jess Haley, 2026-10-21:
+# the inline and standalone blocks must never drift). Taken once, from the
+# interaction's old term and list; every site gets a deep copy and may set only the
+# documentation. A site's OLD list must match this template in everything but its
+# documentation, or the build stops: copying the template over a list that had
+# diverged would silently drop what made it different.
+_TERM_SHAPE = copy.deepcopy(_old_term)
+_TERM_SHAPE["name"] = "term"
+_TERM_SHAPE["constraints"] = {"binding": {"strength": "preferred", "node_form": "curie"}}
+_PARAMS_SHAPE = copy.deepcopy(_old_params)
+_PARAMS_SHAPE["name"] = "parameters"
+_ENTRY_TAIL = " Each entry is " + _PARAMS_SHAPE["documentation"].split(" Each entry is ", 1)[1]
 
 
-def _method_block(term_src, params_src, doc_text, term_doc=_TERM_DOC, params_doc=None):
-    _term = copy.deepcopy(term_src)
-    _term["name"] = "term"
+def _shape_only(x):
+    if isinstance(x, dict):
+        return {k: _shape_only(v) for k, v in x.items() if k != "documentation"}
+    if isinstance(x, list):
+        return [_shape_only(v) for v in x]
+    return x
+
+
+def _check_same_list(site, old_list):
+    if _shape_only(dict(old_list, name="parameters")) != _shape_only(_PARAMS_SHAPE):
+        raise SystemExit(f"build_v_eta 12.20: {site}'s settings list differs from the "
+                         f"interaction's in more than documentation; the one `method` "
+                         f"shape would drop the difference")
+
+
+def _method_block(doc_text, term_doc=_TERM_DOC, params_doc=None):
+    _term = copy.deepcopy(_TERM_SHAPE)
     _term["documentation"] = term_doc
-    _term["constraints"] = {"binding": {"strength": "preferred", "node_form": "curie"}}
-    _par = copy.deepcopy(params_src)
-    _par["name"] = "parameters"
-    _one = _par["documentation"].split(" Each entry is ", 1)
-    _par["documentation"] = (params_doc or _PARAMS_DOC_FIX) + (
-        " Each entry is " + _one[1] if len(_one) == 2 else "")
+    _par = copy.deepcopy(_PARAMS_SHAPE)
+    _par["documentation"] = (params_doc or _PARAMS_DOC_FIX) + _ENTRY_TAIL
     return field("method", "structure", doc_text, non_empty=False, scalar=True,
                  sub_fields=[_term, _par])
 
@@ -13834,7 +13855,6 @@ def _replace_fields(obj, drop, block):
 _method_sites = []
 # (1) interaction: the term + the inline list -> one block
 _replace_fields(_ix, {"method", "method_parameters"}, _method_block(
-    _old_term, _old_params,
     _METHOD_DOC + " Used when the method and its settings have no name and id of "
     "their own in the source; otherwise the statement points at a `method` document "
     "by `method_id`. NEVER BOTH (team, 2026-08-09): one fact, one place."))
@@ -13859,8 +13879,11 @@ _method_sites.append("interaction.method (term + method_parameters -> {term, par
 _t, _p = path_of("relation")
 _rel = load(_p)
 _rel_term = next(f for f in _rel["fields"] if f["name"] == "method")
+if _shape_only(dict(_rel_term, name="term", constraints=_TERM_SHAPE["constraints"])) \
+        != _shape_only(_TERM_SHAPE):
+    raise SystemExit("build_v_eta 12.20: relation's method term differs from the "
+                     "interaction's in more than documentation")
 _replace_fields(_rel, {"method"}, _method_block(
-    _rel_term, _PARAMS_TEMPLATE,
     "Optional: the procedure that produced the relation -- `term` its technique "
     "(surgical dissection, biological reproduction, an orthology-inference tool) and "
     "`parameters` its settings -- the same block as an interaction's `method` (T16), "
@@ -13877,9 +13900,9 @@ _method_sites.append("relation.method (term -> {term, parameters})")
 # (3) clock_alignment_configuration: the list alone -> the block
 _t, _p = path_of("clock_alignment_configuration")
 _cac = load(_p)
-_cac_params = next(f for f in _cac["fields"] if f["name"] == "method_parameters")
+_check_same_list("clock_alignment_configuration",
+                 next(f for f in _cac["fields"] if f["name"] == "method_parameters"))
 _replace_fields(_cac, {"method_parameters"}, _method_block(
-    _old_term, _cac_params,
     "HOW the rule runs: `term` the technique (usually blank: the implementation is "
     "`software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: "
     "`clock`, the `acquisition_channels_id` edges and `software_id` stay first-class. "
@@ -13900,9 +13923,10 @@ _method_sites.append("clock_alignment_configuration.method (method_parameters ->
 # inline block does.
 _t, _p = path_of("method_parameters")
 _md = load(_p)
-_md_params = next(f for f in _md["fields"] if f["name"] == "method_parameters")
+_check_same_list("method_parameters",
+                 next(f for f in _md["fields"] if f["name"] == "method_parameters"))
 _md_block = _method_block(
-    _old_term, _md_params, "",
+    "",
     term_doc="The technique or stimulus kind, as a term (a spike-sorting algorithm, "
              "\"drifting sinusoidal grating\"). Blank when the source names only the "
              "settings. The same field as an interaction's inline `method.term`.",
