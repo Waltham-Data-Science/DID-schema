@@ -74,7 +74,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Per-trial individual response values: the value's keys plus ONE trailing trial dimension. Responses may be normalized or control-subtracted.",
+                    "documentation": "Per-trial individual response values: the value's keys plus ONE trailing trial dimension. When the response is complex (`response_type` F1 or F2), one more trailing component dimension of size 2 follows the trial dimension: [real, imaginary], so both parts of NDI's complex response are kept. `mean`/`stddev`/`stderr` are unchanged: NDI computes them from the complex trials, and `mean` is the magnitude (Jess Haley, 2026-10-21 [complex trial responses]). Responses may be normalized or control-subtracted.",
                     "constraints": {}
                 },
                 {
@@ -87,7 +87,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "OPTIONAL: unprocessed per-trial responses BEFORE control subtraction or normalization; the value's keys plus ONE trailing trial dimension.",
+                    "documentation": "OPTIONAL: unprocessed per-trial responses BEFORE control subtraction or normalization; the value's keys plus ONE trailing trial dimension. When the response is complex (`response_type` F1 or F2), one more trailing component dimension of size 2 follows the trial dimension: [real, imaginary], so both parts of NDI's complex response are kept. `mean`/`stddev`/`stderr` are unchanged: NDI computes them from the complex trials, and `mean` is the magnitude (Jess Haley, 2026-10-21 [complex trial responses]).",
                     "constraints": {}
                 },
                 {
@@ -152,7 +152,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Per-trial individual control response values; ONE trial dimension.",
+                            "documentation": "Per-trial individual control response values; ONE trial dimension. When the response is complex (`response_type` F1 or F2), one more trailing component dimension of size 2 follows the trial dimension: [real, imaginary], so both parts of NDI's complex response are kept. `mean`/`stddev`/`stderr` are unchanged: NDI computes them from the complex trials, and `mean` is the magnitude (Jess Haley, 2026-10-21 [complex trial responses]).",
                             "constraints": {}
                         }
                     ]

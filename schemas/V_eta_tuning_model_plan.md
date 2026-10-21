@@ -244,3 +244,12 @@ The decisions are in `review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
   `response_type` becomes a bound term (mean | peak | F0 | F1 | F2).
 
 TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: `model_fit[].coefficients` is the shared named list `{variable, value}` and `goodness` gains `sse_per_point` (D2); `independent_variables[]` is dropped and the stimulus dimensions are the value's `keys`, with a trailing trial dimension on the per-trial arrays (D3); `response_type` is a bound term (mean | peak | F0 | F1 | F2).
+
+## 2026-10-21 — complex per-trial responses
+
+Decided by Jess Haley, 2026-10-21 [complex trial responses]: a tuning curve's per-trial responses keep both parts of NDI's complex response, as a trailing [real, imaginary] dimension after the trial dimension when the response is F1 or F2; migration is lossless.
+
+Documented on `tuning_curve.value.individual`, `.raw_individual` and
+`.control.individual` (no type changed). `mean` / `stddev` / `stderr` are
+unchanged: NDI computes them from the complex trials, and `mean` is the
+magnitude. `contrast_sensitivity` declares no per-trial field, so it is unchanged.

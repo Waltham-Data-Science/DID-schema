@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 144 decision line(s) accepted, 2 rejected; 40 cited by a class, 104 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 145 decision line(s) accepted, 2 rejected; 40 cited by a class, 105 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -472,6 +472,7 @@ field). If one decides a class's disposition, that class should cite it.
 - time_reference tolerance amendment 1. "TEAM-SIGN-OFF [time_reference tolerance amendment 1]" (V_eta_time_reference_model_plan.md:861).
 - tuning_curve composite + tuning_curve_calculation leaf, restructure. "TEAM-SIGN-OFF [tuning_curve composite +" (V_eta_tuning_model_plan.md:144).
 - tuning shape, #73 audit 2 amendment. "TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]" (V_eta_tuning_model_plan.md:246).
+- complex trial responses. "Decided by Jess Haley, 2026-10-21 [complex trial" (V_eta_tuning_model_plan.md:250).
 - lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
 - developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
 

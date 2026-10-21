@@ -615,9 +615,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 144,
+          "accepted_lines": 145,
           "accepted_lines_by_kind": {
-            "Decided by": 28,
+            "Decided by": 29,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1460,6 +1460,14 @@
               "tag": "tuning shape, #73 audit 2 amendment",
               "date": "2026-09-29",
               "anchor": "TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]"
+            },
+            {
+              "document": "V_eta_tuning_model_plan.md",
+              "line": 250,
+              "kind": "Decided by",
+              "tag": "complex trial responses",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [complex trial"
             },
             {
               "document": "review/73/OPEN_ITEMS.md",
