@@ -11,8 +11,11 @@ that document holds an accepted
 
     TEAM-SIGN-OFF [tag]: ...                     (named by its tag), or
     TEAM-SIGN-OFF: ... <date> ...                (untagged: named by its date), or
-    Decided by Jess Haley, <date>: ...           (named by its date)
-    Decided by Jess Haley, <date> [tag]: ...     (named by its date or its tag)
+    Decided by <team member>, <date> [tag]: ...  (named by its tag; the tag
+                                                  is required and unique among
+                                                  the document's Decided-by
+                                                  lines, and the name must be
+                                                  in the TEAM)
 
 Anything else is "proposed (not decided)".
 
@@ -66,8 +69,11 @@ def _gov():
 
 TEMPLATE_SLOTS = ("<family>", "<tag>", "<who/when>", "<what was decided>")
 _DATE = re.compile(r"\b(\d{4}-\d{2}-\d{2})\b")
+# THE TEAM, written here from CLAUDE.md Operating Rule 4 -- not imported, so a
+# change to the tool's list is a disagreement this file reports.
+TEAM = {"Jess Haley", "Steve Van Hooser"}
 _DECIDED_BY = re.compile(
-    r"^(?:[-*>]\s+)?(?:\*\*)?Decided by Jess Haley,\s*(\d{4}-\d{2}-\d{2})"
+    r"^(?:[-*>]\s+)?(?:\*\*)?Decided by ([^,]+?),\s*(\d{4}-\d{2}-\d{2})"
     r"\s*(?:\[([^\]]+)\])?\s*(?:\*\*)?\s*:\s*(.*)$")
 
 
@@ -91,10 +97,13 @@ def _scan_text(text):
             superseded.add(m.group(1).strip())
             continue
         d = _DECIDED_BY.match(line)
+        decided_by = bool(d)
         if d:
-            tag, rest = d.group(2), d.group(3)
-            keys = [d.group(1)] + ([tag.strip()] if tag else [])
+            who, tag, rest = d.group(1).strip(), d.group(3), d.group(4)
             tag = tag.strip() if tag else None
+            # An untagged line, or one by someone outside the team, is not
+            # a decision: it is named by nothing.
+            keys = [tag] if (tag and who in TEAM) else []
         elif line.startswith("TEAM-SIGN-OFF"):
             rest = line[len("TEAM-SIGN-OFF"):].strip()
             tag = None
@@ -120,8 +129,14 @@ def _scan_text(text):
         if ok and tag is not None and tag in superseded:
             superseded.discard(tag)
             ok = False
-        out.append((n, keys, ok))
-    return out
+        out.append((n, keys, ok, decided_by))
+    # A Decided-by tag on two lines names neither.
+    dup = {}
+    for n, keys, ok, dec in out:
+        if ok and dec and keys:
+            dup[keys[0]] = dup.get(keys[0], 0) + 1
+    return [(n, keys, ok and not (dec and keys and dup.get(keys[0], 0) > 1))
+            for n, keys, ok, dec in out]
 
 
 def _resolve(document, tag):
@@ -374,20 +389,96 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
             fh.write(text)
         return name
 
-    def test_a_decided_by_jess_line_decides_by_its_date(self):
-        d = self._doc("a.md", "intro\n\nDecided by Jess Haley, 2026-10-21: "
-                              "the foo class folds into bar.\n")
-        r = dc.resolve(d, "2026-10-21")
+    def _read(self, name):
+        with open(os.path.join(self.tmp, name)) as fh:
+            return fh.read()
+
+    def test_a_tagged_team_line_decides_by_its_tag(self):
+        d = self._doc("a.md", "intro\n\nDecided by Jess Haley, 2026-10-21 "
+                              "[foo fold]: the foo class folds into bar.\n")
+        r = dc.resolve(d, "foo fold")
         self.assertTrue(r["resolved"], r)
         self.assertEqual((r["line"], r["kind"]), (3, dc.KIND_DECIDED_BY))
-        self.assertEqual(dc.decision_for(["foo"], {"foo": [(d, "2026-10-21")]})
+        self.assertEqual(dc.decision_for(["foo"], {"foo": [(d, "foo fold")]})
                          ["state"], dc.DECIDED)
+        # Named by its tag only: the date names every decision of the day.
+        self.assertFalse(dc.resolve(d, "2026-10-21")["resolved"])
 
-    def test_a_decided_by_jess_line_may_carry_a_tag(self):
-        d = self._doc("b.md", "- **Decided by Jess Haley, 2026-10-21 [foo fold]:** "
-                              "foo folds into bar.\n")
+    def test_every_team_member_decides(self):
+        d = self._doc("b.md",
+                      "- **Decided by Jess Haley, 2026-10-21 [foo fold]:** "
+                      "foo folds into bar.\n"
+                      "Decided by Steve Van Hooser, 2026-10-22 [baz fold]: "
+                      "baz folds into qux.\n")
         self.assertTrue(dc.resolve(d, "foo fold")["resolved"])
-        self.assertTrue(dc.resolve(d, "2026-10-21")["resolved"])
+        r = dc.resolve(d, "baz fold")
+        self.assertTrue(r["resolved"], r)
+        self.assertEqual(r["line"], 2)
+
+    def test_the_team_is_kept_in_one_place(self):
+        self.assertEqual(set(dc.TEAM), TEAM)
+        self.assertTrue(dc.is_team_member("Steve  Van Hooser"))
+        self.assertFalse(dc.is_team_member("jess"))
+
+    def test_a_non_team_name_does_not_count(self):
+        d = self._doc("n.md", "Decided by Claude, 2026-10-21 [foo fold]: "
+                              "foo folds into bar.\n"
+                              "Decided by jess, 2026-10-21 [bar fold]: "
+                              "bar folds into baz.\n")
+        for tag in ("foo fold", "bar fold"):
+            r = dc.resolve(d, tag)
+            self.assertFalse(r["resolved"], tag)
+            self.assertIn("NOT A TEAM MEMBER", r["why"])
+        # Reported, not dropped: both lines are in the census as rejected.
+        rej = [e for e in dc.scan_decision_lines(self._read(d))
+               if not e["accepted"]]
+        self.assertEqual([e["line"] for e in rej], [1, 2])
+
+    def test_an_untagged_decided_by_line_is_flagged_not_counted(self):
+        d = self._doc("u.md", "Decided by Jess Haley, 2026-10-21: "
+                              "the foo class folds into bar.\n")
+        entries = dc.scan_decision_lines(self._read(d))
+        self.assertEqual(len(entries), 1)
+        self.assertFalse(entries[0]["accepted"])
+        self.assertIn("UNTAGGED", entries[0]["rejected_because"])
+        self.assertEqual(entries[0]["keys"], [])
+        self.assertFalse(dc.resolve(d, "2026-10-21")["resolved"])
+        # The census reports it among the rejected lines.
+        census = dc.decision_census(schemas_dir=self.tmp, table={})
+        self.assertEqual([(r["document"], r["line"]) for r in
+                          census["rejected_lines"]], [(d, 1)])
+        self.assertEqual(census["accepted_lines"], 0)
+
+    def test_tagged_lines_resolve_uniquely(self):
+        d = self._doc("t.md",
+                      "Decided by Jess Haley, 2026-10-21 [one]: first decision.\n"
+                      "Decided by Jess Haley, 2026-10-21 [two]: second decision.\n"
+                      "Decided by Steve Van Hooser, 2026-10-22 [dup]: a decision.\n"
+                      "Decided by Jess Haley, 2026-10-23 [dup]: another decision.\n")
+        self.assertEqual(dc.resolve(d, "one")["line"], 1)
+        self.assertEqual(dc.resolve(d, "two")["line"], 2)
+        self.assertEqual(dc.resolve(d, "one")["matches"], 1)
+        r = dc.resolve(d, "dup")
+        self.assertFalse(r["resolved"])
+        self.assertIn("TAG NOT UNIQUE", r["why"])
+
+    def test_every_real_decided_by_line_is_tagged_unique_and_by_the_team(self):
+        """The record itself: no `Decided by` line under schemas/ or review/
+        is rejected for its name, a missing tag or a shared tag."""
+        bad = []
+        for root in (SCHEMAS, os.path.join(REPO_ROOT, "review")):
+            for dirpath, _dirs, files in os.walk(root):
+                for f in files:
+                    if not f.endswith(".md") or f in dc.GENERATED_MARKDOWN:
+                        continue
+                    with open(os.path.join(dirpath, f), encoding="utf-8") as fh:
+                        for e in dc.scan_decision_lines(fh.read()):
+                            if (e["kind"] == dc.KIND_DECIDED_BY
+                                    and not e["accepted"]
+                                    and e["rejected_because"].startswith(
+                                        ("NOT A TEAM", "UNTAGGED", "TAG NOT UNIQUE"))):
+                                bad.append((f, e["line"], e["rejected_because"]))
+        self.assertEqual(bad, [])
 
     def test_a_team_signoff_line_still_decides(self):
         d = self._doc("c.md", "TEAM-SIGN-OFF [foo]: jess, 2026-08-01 -- foo is bar.\n"
@@ -399,7 +490,7 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
 
     def test_what_is_not_a_decision(self):
         d = self._doc("d.md", (
-            "Decided by jess, 2026-10-21: the old unsigned style.\n"
+            "Decided by jess, 2026-10-21 [jess]: not a team member's name.\n"
             "Decided by Jess Haley, <date>: <what was decided>\n"
             "```\n"
             "Decided by Jess Haley, 2026-10-22: a quotation.\n"
@@ -411,7 +502,7 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
             "TEAM-SIGN-OFF [tiny]: x\n"
             "Proposed (not decided): foo folds into bar.\n"))
         for tag in ("2026-10-21", "2026-10-22", "2026-10-23", "quoted", "old",
-                    "tiny", "<date>"):
+                    "tiny", "<date>", "jess"):
             self.assertFalse(dc.resolve(d, tag)["resolved"], tag)
         dec = dc.decision_for(["foo"], {"foo": [(d, "old"), (d, "2026-10-21")]})
         self.assertEqual(dec["state"], dc.PROPOSED)

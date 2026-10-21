@@ -724,11 +724,11 @@ TEAM-SIGN-OFF [confirm sheet 2026-08-17]: jess@walthamdatascience.com / 2026-08-
 
 TEAM-SIGN-OFF [confirm sheet 2026-08-22]: jess@walthamdatascience.com / 2026-08-22 -- `stimulus_bath` migrates to a `dose_manipulation` (the delivered substance, a subject_manipulation leaf) + a `session_relative_reference` 'during' anchor + a CONDITIONAL `term_observation` (only when the source names a location), and that emitted set IS the intended end state. Deferred in pass 1 (`did2:convert:needsSessionContext`) by design, assembled by the `resolveDeferredBaths` batch pass. Strict-J D8 disposition -- the `bath`/`pharmacological_manipulation` family is retired -- matching the treatment family (`treatment_drug` / `virus_injection` also -> `dose_manipulation`). Answered against the generated confirm sheet and bar2_gap's Dab UNDECIDED flag (1,605 docs).
 
-Decided by Jess Haley, 2026-10-21: A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.
+Decided by Jess Haley, 2026-10-21 [bath is a manipulation]: A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.
 
-Decided by Jess Haley, 2026-10-21: A subject immersed in a formulation (bath, perfusion, the Haley assay droplet) is a manipulation valued by the formulation; a subject given a quantity is a dose, and an unrecorded amount is stated as unknown, never left empty.
+Decided by Jess Haley, 2026-10-21 [immersion or dose]: A subject immersed in a formulation (bath, perfusion, the Haley assay droplet) is a manipulation valued by the formulation; a subject given a quantity is a dose, and an unrecorded amount is stated as unknown, never left empty.
 
-Decided by Jess Haley, 2026-10-21: An unrecorded amount is written as NaN in its quantity (e.g. a dose's volume.liters: NaN), and V2 stores NaN the way V1 does.
+Decided by Jess Haley, 2026-10-21 [unrecorded amount is NaN]: An unrecorded amount is written as NaN in its quantity (e.g. a dose's volume.liters: NaN), and V2 stores NaN the way V1 does.
 
 This changes the `dose_manipulation` half of the 2026-08-22 line above; the
 anchor and the conditional location `term_observation` are unchanged. Why it
@@ -765,7 +765,7 @@ value under `value_inline_or_body` (a number is not a blank). Which doses get
 NaN, and in which quantity, is decided case by case; no migrator or import
 writes it yet.
 
-Decided by Jess Haley, 2026-10-21: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
+Decided by Jess Haley, 2026-10-21 [prepared material recipe]: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
 
 The Haley V2 import wrote the daily seeding suspension (an entity of type
 material) as a `dose` manipulation with no amount, which the value rule
@@ -777,7 +777,7 @@ recipe. So it becomes an `assertion` about the suspension whose value kind is
 allows only a `product` or `strain` parent, and `formulation` is a value, not
 an entity. The suspension's OD600 and CFU observations are unchanged.
 
-Decided by Jess Haley, 2026-10-21: "The seeding solution's preparation day goes on the solution entity's own time_reference_id (when it existed, from its preparation); the composition assertion stays timeless. A dilution is linked to the stock solution it was made from by a `derived_from` relation (dilution -> that day's stock)."
+Decided by Jess Haley, 2026-10-21 [seeding solution preparation day]: "The seeding solution's preparation day goes on the solution entity's own time_reference_id (when it existed, from its preparation); the composition assertion stays timeless. A dilution is linked to the stock solution it was made from by a `derived_from` relation (dilution -> that day's stock)."
 
 The first line's assertion was built at first with the time the dose had
 carried, and `did2.build` refused it: an assertion is a timeless fact
@@ -790,7 +790,7 @@ solution as parent; the registry's `derived_from` row leaves `child_types`
 and `parent_types` empty (unconstrained), so material to material needs no
 registry change.
 
-Decided by Jess Haley, 2026-10-21: "The v1 treatment migrators decide by the recorded location: a bath location makes the treatment an immersion (a manipulation valued by its formulation through value_id); a body site (intraperitoneal, a brain area, ...) makes it a dose, with the source's amount when it has one and otherwise NaN in the quantity; virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation; a generic treatment with no location stays a dose with NaN and is listed in the migration report as route unknown."
+Decided by Jess Haley, 2026-10-21 [treatment routes by location]: "The v1 treatment migrators decide by the recorded location: a bath location makes the treatment an immersion (a manipulation valued by its formulation through value_id); a body site (intraperitoneal, a brain area, ...) makes it a dose, with the source's amount when it has one and otherwise NaN in the quantity; virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation; a generic treatment with no location stays a dose with NaN and is listed in the migration report as route unknown."
 
 This applies the immersion-vs-dose line above to `treatment` (its substance
 branch), `treatment_drug` and `virus_injection`, and settles how an unrecorded
@@ -805,7 +805,7 @@ otherwise the dose carries `value.volume.liters` = NaN. A treatment with no
 location is counted in `summary.migration_notes.route_unknown`. Whether NaN
 survives a did2 write and read is DID-matlab #218's work, not this one's.
 
-Decided by Jess Haley, 2026-10-21: "Any statement about an anatomical region of a subject — manipulation or observation — targets that region's part entity (one per subject and region, shared, type tissue, `part_of` the subject). A statement about the whole subject (a whole-prep or whole-slice bath, i.e. the generic 'bath' location NCIm:C0179246) targets the subject. This replaces D3's located-by-default."
+Decided by Jess Haley, 2026-10-21 [region parts]: "Any statement about an anatomical region of a subject — manipulation or observation — targets that region's part entity (one per subject and region, shared, type tissue, `part_of` the subject). A statement about the whole subject (a whole-prep or whole-slice bath, i.e. the generic 'bath' location NCIm:C0179246) targets the subject. This replaces D3's located-by-default."
 
 The located-by-default policy it replaces (D3, `V_eta_discovery_notes.md` and
 `V_eta_migration_plan.md` D3) was a first-pass cost call with no sign-off: a

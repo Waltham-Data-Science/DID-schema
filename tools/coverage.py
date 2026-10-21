@@ -30,7 +30,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-# ONE PARSER FOR DECISION LINES (`TEAM-SIGN-OFF` and `Decided by Jess Haley`),
+# ONE PARSER FOR DECISION LINES (`TEAM-SIGN-OFF` and `Decided by <team member>`),
 # and ONE definition of "this class is decided": tools/decision_citations.py,
 # shared with status_board.py. Each class cites the line that decided it; the
 # decision-family join that stood here until 2026-10-21 is gone. A second copy
@@ -1153,7 +1153,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
 }
 
 
-DECIDED_BY = "Decided by Jess Haley"
+DECIDED_BY = dc.KIND_DECIDED_BY   # "Decided by"
 
 
 def _signoff_lines(plan):
@@ -1204,17 +1204,22 @@ def _signoff_lines(plan):
         if m_sup and not in_fence:
             superseded.add(m_sup.group(1).strip())
             continue
-        # A decision Jess makes in conversation is recorded as a line
-        # "Decided by Jess Haley, <date>: ..." (CLAUDE.md Operating Rule 4,
-        # 2026-10-21), and a tool reading decision state reads either form. The
-        # form is matched by decision_citations' own pattern, so the two
-        # readers cannot disagree about what counts as one.
-        m_dec = dc._DECIDED_BY_RE.match(s)
+        # A decision a team member makes in conversation is recorded as a line
+        # "Decided by <name>, <date> [<tag>]: ..." (CLAUDE.md Operating Rule 4),
+        # and a tool reading decision state reads either form. The form is
+        # parsed by decision_citations' own parser, so the two readers cannot
+        # disagree about what counts as one: a line by someone outside the
+        # TEAM, or with no [tag], is not a decision here either.
+        m_dec = dc.match_decided_by(s)
+        if m_dec and not (m_dec["team"] and m_dec["tag"]):
+            continue
         if not (s.startswith("TEAM-SIGN-OFF") or m_dec) or in_fence:
             continue
-        m_tag = (re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s) if not m_dec
-                 else (m_dec if m_dec.group(2) else None))
-        _tg = (m_tag.group(2) if m_dec else m_tag.group(1)) if m_tag else None
+        if m_dec:
+            _tg = m_dec["tag"]
+        else:
+            m_tag = re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s)
+            _tg = m_tag.group(1) if m_tag else None
         if _tg and _tg.strip() in superseded:
             superseded.discard(_tg.strip())
             continue
@@ -1320,7 +1325,7 @@ def check_decision_citations():
 # A ledger row is DECIDED when the row's class CITES a decision line that
 # exists (tools/decision_citations.py): `CITATIONS[<v1 name or V_eta name>]`
 # names a document and a tag, and that document holds an accepted
-# `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:` line the tag
+# `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line the tag
 # names. Re-derived on every build; nothing here is transcribed.
 #
 # This REPLACED the decision-FAMILY join on 2026-10-21. The family join went
@@ -1987,7 +1992,7 @@ def governance_state(row):
     NONE OF THESE FOUR STATES IS AN ACHIEVEMENT AND NONE OF THEM IS A STAGE.
     `decided` says the decision line is findable, not that anything was built;
     `proposed (not decided)` says no citation of this class resolves -- which
-    is what Operating Rule 4 calls anything Jess has not decided.
+    is what Operating Rule 4 calls anything the team has not decided.
 
     Two independent sources, in this order:
       1. a CHECKED TRANSCRIPTION on the row (`DECIDED_TARGETS_BY_SIGNOFF` /
@@ -3233,7 +3238,7 @@ def _governance_md(g):
         "does not resolve**, **{none} proposed (not decided)** -- no decision "
         "line is cited for the class (`tools/decision_citations.py`). A class "
         "is decided only when it cites a `TEAM-SIGN-OFF [tag]` line or a "
-        "`Decided by Jess Haley, <date>:` line that exists.".format(
+        "`Decided by <team member>, <date> [<tag>]:` line that exists.".format(
             d=g["denominator"], signed=st[G_SIGNED], disputed=st[G_DISPUTED],
             unsigned=st[G_UNSIGNED], none=st[G_NOT_FOUND],
             by=", ".join(f"{v} {k}" for k, v in sorted(g["signed_by"].items()))
@@ -3314,7 +3319,7 @@ def _governance_md(g):
         out += [
             "⚠ **{n} rejected line(s) carry a tag and read as a real decision**: "
             "{lst}. The direction is safe (less decided than reality, never "
-            "more); changing which lines count is Jess's call.".format(
+            "more); changing which lines count is the team's call.".format(
                 n=len(quiet),
                 lst="; ".join("`{}` ({}:{}, cited by {})".format(
                     r["tag"], r["document"], r["line"],

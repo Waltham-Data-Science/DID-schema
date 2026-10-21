@@ -617,7 +617,7 @@
           "markers_inside_excluded_documents": 0,
           "accepted_lines": 128,
           "accepted_lines_by_kind": {
-            "Decided by Jess Haley": 12,
+            "Decided by": 12,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -643,7 +643,7 @@
           "classes_citing": 73,
           "citations_total": 81,
           "citations_unresolved": [],
-          "lines_cited": 47,
+          "lines_cited": 40,
           "uncited_lines": [
             {
               "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -680,10 +680,10 @@
             {
               "document": "V_eta_data_body_model_plan.md",
               "line": 1337,
-              "kind": "Decided by Jess Haley",
-              "tag": null,
+              "kind": "Decided by",
+              "tag": "data_type only for plain arrays",
               "date": "2026-10-21",
-              "anchor": "Decided by Jess Haley, 2026-10-21"
+              "anchor": "Decided by Jess Haley, 2026-10-21 [data_type only for plain"
             },
             {
               "document": "V_eta_data_body_model_plan.md",
@@ -807,6 +807,62 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
+              "line": 729,
+              "kind": "Decided by",
+              "tag": "immersion or dose",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [immersion or dose]: A"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 731,
+              "kind": "Decided by",
+              "tag": "unrecorded amount is NaN",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [unrecorded amount is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 768,
+              "kind": "Decided by",
+              "tag": "prepared material recipe",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [prepared material"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 780,
+              "kind": "Decided by",
+              "tag": "seeding solution preparation day",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [seeding solution"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 793,
+              "kind": "Decided by",
+              "tag": "treatment routes by location",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [treatment routes by"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 808,
+              "kind": "Decided by",
+              "tag": "region parts",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [region parts]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 840,
+              "kind": "Decided by",
+              "tag": "babu-media",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [babu-media]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
               "line": 924,
               "kind": "TEAM-SIGN-OFF",
               "tag": "orientation_direction_tuning.json location",
@@ -872,18 +928,18 @@
             {
               "document": "V_eta_openminds_family_record.md",
               "line": 1329,
-              "kind": "Decided by Jess Haley",
-              "tag": null,
+              "kind": "Decided by",
+              "tag": "subject keeps only its own strain",
               "date": "2026-10-21",
-              "anchor": "Decided by Jess Haley, 2026-10-21"
+              "anchor": "Decided by Jess Haley, 2026-10-21 [subject keeps only its"
             },
             {
               "document": "V_eta_openminds_family_record.md",
               "line": 1333,
-              "kind": "Decided by Jess Haley",
-              "tag": null,
+              "kind": "Decided by",
+              "tag": "shared entities at dataset level",
               "date": "2026-10-21",
-              "anchor": "Decided by Jess Haley, 2026-10-21"
+              "anchor": "Decided by Jess Haley, 2026-10-21 [shared entities at"
             },
             {
               "document": "V_eta_prefix_spelling_plan.md",
@@ -3113,12 +3169,12 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "daqreader_epochdata_ingested",
@@ -3262,12 +3318,12 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "daqreader_image_epochdata_ingested",
@@ -3377,12 +3433,12 @@
       "target_flags": "in-place class rename",
       "decided_by_citation": {
         "document": "V_eta_recording_observation_plan.md",
-        "tag": "2026-10-21",
+        "tag": "epoch files as data bodies",
         "resolved": true,
         "line": 115,
-        "kind": "Decided by Jess Haley",
+        "kind": "Decided by",
         "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-        "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+        "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
         "matches": 1,
         "why": null,
         "matched_name": "daqreader_mfdaq_epochdata_ingested",
@@ -3391,12 +3447,12 @@
       "decision_citations": [
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "daqreader_mfdaq_epochdata_ingested",
@@ -3408,18 +3464,18 @@
         "state": "decided",
         "signoff": {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "daqreader_mfdaq_epochdata_ingested",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_recording_observation_plan.md` [2026-10-21] (as `daqreader_mfdaq_epochdata_ingested`), which resolves to the Decided by Jess Haley line at `V_eta_recording_observation_plan.md`:115. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_recording_observation_plan.md` [epoch files as data bodies] (as `daqreader_mfdaq_epochdata_ingested`), which resolves to the Decided by line at `V_eta_recording_observation_plan.md`:115. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -4552,12 +4608,12 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "element",
@@ -5136,12 +5192,12 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: Migrated recordings link",
+          "anchor": "Decided by Jess Haley, 2026-10-21 [epoch files as data",
           "matches": 1,
           "why": null,
           "matched_name": "epochfiles_ingested",
@@ -11949,13 +12005,13 @@
       "target_flags": "pass-1 migrator always errors (intentional deferral); until 2026-10-21 the bath was a `dose_manipulation` with an empty `dose.value`, which the value rule (`value_inline_or_body`, data_body AMENDMENT 5) refuses; the pinned pre-#73 NDI stimulusBathToBath still writes the old dose shape; REGION PARTS (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md: a statement about an anatomical region of a subject targets that region's part entity, one per subject and region, `part_of` the subject; replaces D3's located-by-default): an anatomical bath location (a Marder compartment, UBERON:8910017-22 / 8910010) gets an `anatomical location` term_observation co-anchored with the bath, which the NDI second pass promotes to the compartment's part and moves the bath onto; the generic bath (NCIm:C0179246 or 'bath': every Dabrowska bath, Marder's 'bath') gets none and stays on the subject (resolveDeferredBaths and NDI stimulusBathToBath both).",
       "decided_by_citation": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "2026-10-21",
+        "tag": "bath is a manipulation",
         "resolved": true,
         "line": 727,
-        "kind": "Decided by Jess Haley",
+        "kind": "Decided by",
         "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
-        "anchor": "Decided by Jess Haley, 2026-10-21: A bath is a manipulation",
-        "matches": 8,
+        "anchor": "Decided by Jess Haley, 2026-10-21 [bath is a manipulation]",
+        "matches": 1,
         "why": null,
         "matched_name": "stimulus_bath",
         "matched_on": "v1_class"
@@ -11963,13 +12019,13 @@
       "decision_citations": [
         {
           "document": "V_eta_go_forward_class_audit.md",
-          "tag": "2026-10-21",
+          "tag": "bath is a manipulation",
           "resolved": true,
           "line": 727,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
-          "anchor": "Decided by Jess Haley, 2026-10-21: A bath is a manipulation",
-          "matches": 8,
+          "anchor": "Decided by Jess Haley, 2026-10-21 [bath is a manipulation]",
+          "matches": 1,
           "why": null,
           "matched_name": "stimulus_bath",
           "matched_on": "v1_class"

@@ -17,7 +17,7 @@ THE ONE PIECE OF JUDGEMENT, MADE EXPLICIT
 -----------------------------------------
 Which classes are DECIDED is not judged here. A class is decided if and only if
 it CITES a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a
-`Decided by Jess Haley, <date>:` line in the cited document. The citations and
+`Decided by <team member>, <date> [<tag>]:` line in the cited document. The citations and
 the resolver live in `tools/decision_citations.py`, which replaced the decision
 FAMILIES table on 2026-10-21. Every open class is listed by name, decided or
 not, so none can be silently dropped from the count, and a citation that does
@@ -114,7 +114,7 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 
 # DECISIONS. A class is DECIDED if and only if it CITES a decision line that
-# exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:`
+# exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:`
 # line in the cited document. The citations, the scanner and the resolver live
 # in tools/decision_citations.py, which REPLACED the decision FAMILIES table that
 # stood here until 2026-10-21 (Jess Haley: "nothing wrongly reported"). A class
@@ -2018,7 +2018,7 @@ def build(ocs=None, didm=None, log=None):
     p("for each model; this board owns *how much is left and what exactly*.")
     p("")
     p("**A class is DECIDED only when it cites a decision line that exists**: a")
-    p("`TEAM-SIGN-OFF [tag]` line, or a `Decided by Jess Haley, <date>:` line, in")
+    p("`TEAM-SIGN-OFF [tag]` line, or a `Decided by <team member>, <date> [<tag>]:` line, in")
     p("the document its citation names (`tools/decision_citations.py`). Anything")
     p("else is **Proposed (not decided)**, whatever any prose says.")
     p("")
@@ -2305,7 +2305,7 @@ def decisions_doc(ocs=None):
             "Regenerate with `python3 tools/status_board.py`. The human-readable "
             "twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it "
             "cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line "
-            "or a `Decided by Jess Haley, <date>:` line in the cited document "
+            "or a `Decided by <team member>, <date> [<tag>]:` line in the cited document "
             "(tools/decision_citations.py). Everything else is proposed (not "
             "decided).",
         "summary": {

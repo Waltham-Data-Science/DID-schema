@@ -1334,7 +1334,7 @@ document itself is inline or in bodies. So the check passes when `value` is fill
 `data_body` is true, OR a non-empty `value_id` edge is present. This follows from the
 existing `value_id` decision and is not a new decision.
 
-Decided by Jess Haley, 2026-10-21: "`data_type` is required only when a value's bytes are a plain array -- a `sampled_body`, or an untyped inline array; when its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed."
+Decided by Jess Haley, 2026-10-21 [data_type only for plain arrays]: "`data_type` is required only when a value's bytes are a plain array -- a `sampled_body`, or an untyped inline array; when its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed."
 
 Why it came up: with this amendment a value with no inline `value` must say
 `data_body: true`, and `data_type_when_bytes` then demanded a `data_type` for every such

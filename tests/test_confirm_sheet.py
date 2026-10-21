@@ -22,6 +22,7 @@ So the invariants are about COVERAGE and RESTRAINT, not about the prose:
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import typing
@@ -173,7 +174,8 @@ class ItRefusesToEnterTheRecord(unittest.TestCase):
             body = fh.read()
         self.assertNotIn("TEAM-SIGN-OFF", body)
         # The lighter Rule 4 form (2026-10-21) is a decision line too.
-        self.assertNotIn("Decided by Jess Haley", body)
+        self.assertIsNone(re.search(
+            r"Decided by (?:Jess Haley|Steve Van Hooser), \d{4}", body))
         with open(os.path.join(REPO_ROOT, "tools", "confirm_sheet.py")) as fh:
             src = fh.read()
         self.assertNotIn('"TEAM-SIGN-OFF:"', src)

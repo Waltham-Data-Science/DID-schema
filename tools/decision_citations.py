@@ -1,7 +1,7 @@
 """Which classes are DECIDED, and the line that decided each one.
 
-THE RULE (Operating Rule 4, CLAUDE.md; Jess Haley, 2026-10-21)
---------------------------------------------------------------
+THE RULE (Operating Rule 4, CLAUDE.md: THE TEAM DECIDES; CLAUDE PROPOSES)
+--------------------------------------------------------------------------
 A class is DECIDED if and only if it CITES a decision line that exists. A
 citation is a document and a tag:
 
@@ -11,12 +11,20 @@ and it RESOLVES when that document holds an accepted decision line the tag
 names. Two forms of decision line are read:
 
     TEAM-SIGN-OFF [<tag>]: <who/when> -- <what was decided>
-    Decided by Jess Haley, <YYYY-MM-DD>: <what was decided>
+    Decided by <name>, <YYYY-MM-DD> [<tag>]: <what was decided>
 
-A `TEAM-SIGN-OFF` line with a `[tag]` is named by that tag. A line with no tag
-(an untagged `TEAM-SIGN-OFF`, or a `Decided by Jess Haley` line) is named by
-its DATE, so a citation of it reads ("<document>", "2026-10-21"). A `Decided by
-Jess Haley, <date> [<tag>]:` line is named by its date and by its tag.
+A `TEAM-SIGN-OFF` line with a `[tag]` is named by that tag; an untagged one
+(the older form, still valid) is named by its DATE.
+
+A `Decided by` line counts ONLY when (2026-10-21, Jess Haley):
+  * <name> is a member of TEAM (below -- the one place the team is listed);
+  * it carries a `[tag]`. An untagged `Decided by` line is REPORTED (a
+    rejected line in the census, with the reason), never counted: a date names
+    every decision made that day, so it cannot name one;
+  * its tag is UNIQUE among the document's `Decided by` lines. Two lines with
+    one tag are both reported and neither counts, so a citation always names
+    exactly one line.
+It is named by its tag only.
 
 Anything else renders "Proposed (not decided)": a class with no citation, and a
 class whose every citation fails to resolve. A citation that fails to resolve
@@ -40,8 +48,9 @@ from the repository root (`review/73/OPEN_ITEMS.md`). The generated markdown
 files (GENERATED_MARKDOWN) are never read: they quote decisions, they do not
 hold them.
 
-Claude may add or correct a CITATION (it points at a line Jess wrote). Claude
-never writes a `TEAM-SIGN-OFF` or `Decided by Jess Haley` line itself.
+Claude may add or correct a CITATION (it points at a line a team member's
+decision is recorded on). Claude records a `Decided by` line only for what a
+team member said, and never writes a `TEAM-SIGN-OFF` line.
 """
 
 import os
@@ -52,7 +61,17 @@ SCHEMAS = os.path.join(REPO, "schemas")
 
 SIGNOFF = "TEAM-SIGN-OFF:"
 KIND_SIGNOFF = "TEAM-SIGN-OFF"
-KIND_DECIDED_BY = "Decided by Jess Haley"
+KIND_DECIDED_BY = "Decided by"
+
+# THE TEAM -- the people whose decisions count (CLAUDE.md Operating Rule 4).
+# The one place this list is kept; every reader of `Decided by` lines asks
+# is_team_member() rather than carrying its own copy.
+TEAM = ("Jess Haley", "Steve Van Hooser")
+
+
+def is_team_member(name):
+    """True when `name` is exactly a TEAM member's name (whitespace-normalised)."""
+    return " ".join((name or "").split()) in TEAM
 
 DECIDED = "decided"
 PROPOSED = "proposed (not decided)"
@@ -64,10 +83,27 @@ GENERATED_MARKDOWN = ("V_eta_STATUS.md", "V_eta_coverage_ledger.md",
 
 _DATE_RE = re.compile(r"\b(\d{4}-\d{2}-\d{2})\b")
 # Line-initial, after an optional list marker or bold opener. The date must be
-# a real YYYY-MM-DD, so the template's `<date>` never matches.
+# a real YYYY-MM-DD, so the template's `<date>` never matches. The NAME is
+# captured whoever it is, so a line by someone outside TEAM is REPORTED rather
+# than silently ignored; whether it counts is decided in scan_decision_lines.
 _DECIDED_BY_RE = re.compile(
-    r"^(?:[-*>]\s+)?(?:\*\*)?Decided by Jess Haley,\s*(\d{4}-\d{2}-\d{2})"
-    r"\s*(?:\[([^\]]+)\])?\s*(?:\*\*)?\s*:\s*(.*)$")
+    r"^(?:[-*>]\s+)?(?:\*\*)?Decided by\s+(?P<name>[^,\[\]:\n]+?),\s*"
+    r"(?P<date>\d{4}-\d{2}-\d{2})"
+    r"\s*(?:\[(?P<tag>[^\]]+)\])?\s*(?:\*\*)?\s*:\s*(?P<rest>.*)$")
+
+
+def match_decided_by(line):
+    """A `Decided by <name>, <date> [<tag>]: ...` line, parsed, or None.
+
+    Returns {name, date, tag (or None), rest, team (bool)}. The ONE parser of
+    this form: coverage.py reads it through here too."""
+    m = _DECIDED_BY_RE.match(line)
+    if not m:
+        return None
+    tag = m.group("tag").strip() if m.group("tag") else None
+    name = " ".join(m.group("name").split())
+    return {"name": name, "date": m.group("date"), "tag": tag,
+            "rest": m.group("rest").strip(), "team": is_team_member(name)}
 
 
 # ---------------------------------------------------------------------------
@@ -83,11 +119,12 @@ _ST = "V_eta_spatial_transcriptomics_plan.md"
 _ST_REVIEW = (_ST, "spatial_transcriptomics_family")   # signs #73 review items 1-71
 _ST_AUDIT2 = (_ST, "#73 audit 2, D1-D13")              # signs audit 2 D1-D13
 _GFA = "V_eta_go_forward_class_audit.md"
-# "Decided by Jess Haley, 2026-10-21: Migrated recordings link their epoch files
-# as data bodies ..." -- names one observation per element per epoch, the
-# `epochfiles_ingested` caches (non-ingested files) and the
-# `daqreader_*_epochdata_ingested` archives (ingested files).
-_REC_2026_10_21 = ("V_eta_recording_observation_plan.md", "2026-10-21")
+# "Decided by Jess Haley, 2026-10-21 [epoch files as data bodies]: Migrated
+# recordings link their epoch files as data bodies ..." -- names one
+# observation per element per epoch, the `epochfiles_ingested` caches
+# (non-ingested files) and the `daqreader_*_epochdata_ingested` archives
+# (ingested files).
+_REC_2026_10_21 = ("V_eta_recording_observation_plan.md", "epoch files as data bodies")
 
 CITATIONS = {
     # -- migrated from the families ---------------------------------------
@@ -196,7 +233,7 @@ CITATIONS = {
     # ADDED 2026-10-21 (later the same day): Jess's two "Decided by Jess Haley"
     # lines of that date. The bath line: "A bath is a manipulation whose value
     # is the formulation (pointed at through `value_id`), not a dose".
-    "stimulus_bath": [(_GFA, "2026-10-21")],
+    "stimulus_bath": [(_GFA, "bath is a manipulation")],
     # The recording line names `daqreader_*_epochdata_ingested`; the mfdaq
     # subtype is one of them and was cited by nothing before.
     "daqreader_mfdaq_epochdata_ingested": [_REC_2026_10_21],
@@ -244,12 +281,14 @@ def scan_decision_lines(text):
         if m_sup and not in_fence:
             superseded[m_sup.group(1).strip()] = m_sup.group(2).strip()
             continue
-        m_dec = _DECIDED_BY_RE.match(line)
+        m_dec = match_decided_by(line)
+        who = None
         if m_dec:
             kind = KIND_DECIDED_BY
-            date = m_dec.group(1)
-            tagged = m_dec.group(2).strip() if m_dec.group(2) else None
-            rest = m_dec.group(3).strip()
+            date = m_dec["date"]
+            tagged = m_dec["tag"]
+            rest = m_dec["rest"]
+            who = m_dec["name"]
         elif line.startswith(marker):
             kind = KIND_SIGNOFF
             rest = line[len(marker):].strip()
@@ -288,13 +327,35 @@ def scan_decision_lines(text):
                    "decision" % _hit[0])
         elif len(rest) < 10:
             why = "under 10 characters after the marker -- not a decision"
+        elif kind == KIND_DECIDED_BY and not is_team_member(who):
+            why = ("NOT A TEAM MEMBER -- %r is not in TEAM %s; only the team "
+                   "decides" % (who, list(TEAM)))
+        elif kind == KIND_DECIDED_BY and not tagged:
+            why = ("UNTAGGED -- a `Decided by` line must carry a [tag] "
+                   "(`Decided by <name>, <date> [<tag>]: ...`); a date names "
+                   "every decision of that day, so it cannot name this one")
         if kind == KIND_DECIDED_BY:
-            keys = [date] + ([tagged] if tagged else [])
+            keys = [tagged] if tagged else []
         else:
             keys = [tagged] if tagged is not None else ([date] if date else [])
         out.append({"line": n, "kind": kind, "tag": tagged, "date": date,
-                    "keys": keys, "content": rest, "anchor": anchor_text(line),
+                    "who": who, "keys": keys, "content": rest,
+                    "anchor": anchor_text(line),
                     "accepted": why is None, "rejected_because": why})
+    # A `Decided by` tag must name ONE line: every accepted `Decided by` line
+    # sharing its tag with another is reported, and none of them counts.
+    seen = {}
+    for e in out:
+        if e["accepted"] and e["kind"] == KIND_DECIDED_BY:
+            seen.setdefault(e["tag"], []).append(e)
+    for tag, group in seen.items():
+        if len(group) > 1:
+            where = ", ".join(str(e["line"]) for e in group)
+            for e in group:
+                e["accepted"] = False
+                e["rejected_because"] = (
+                    "TAG NOT UNIQUE -- [%s] is on %d `Decided by` lines "
+                    "(lines %s); a tag must name exactly one" % (tag, len(group), where))
     return out
 
 
@@ -372,7 +433,8 @@ def resolve(document, tag):
         rec["why"] = ("a line with this tag exists and is REJECTED: "
                       + rejected[0]["rejected_because"]) if rejected else (
                       "no accepted TEAM-SIGN-OFF or Decided-by line in the "
-                      "document carries this tag (or, untagged, this date)")
+                      "document carries this tag (or, for an untagged "
+                      "TEAM-SIGN-OFF, this date)")
         return rec
     first = hits[0]
     rec.update(resolved=True, line=first["line"], kind=first["kind"],

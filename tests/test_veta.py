@@ -2155,8 +2155,9 @@ def test_decided_is_never_asserted_without_a_decision_line():
             assert where and where["document"] and where["line"], name
             text = _decision_line_at(where["document"], where["line"])
             assert (text.startswith("TEAM-SIGN-OFF")
-                    or re.match(r"(?:[-*>]\s+)?(?:\*\*)?Decided by Jess Haley, "
-                                r"\d{4}-\d{2}-\d{2}", text)), (
+                    or re.match(r"(?:[-*>]\s+)?(?:\*\*)?Decided by "
+                                r"(?:Jess Haley|Steve Van Hooser), "
+                                r"\d{4}-\d{2}-\d{2} \[[^\]]+\]", text)), (
                 f"{name} is marked decided at {where['document']}:{where['line']}, "
                 f"which is not a decision line: {text[:80]!r}")
             assert rec["decision"], f"{name} is decided with no decision text"

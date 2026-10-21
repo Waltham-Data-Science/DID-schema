@@ -34,23 +34,33 @@ pasted, the sentence is not written.
 EVIDENCE. Never absence.** Not finding something is not evidence it is not
 there.
 
-**4. ONLY JESS DECIDES; CLAUDE PROPOSES.** *(Rewritten 2026-10-21 at Jess Haley's
-request: the decision itself, not a separate sign-off ritual, is what counts.)*
-- **A decision is what Jess says.** When Jess decides something in conversation ("yes,
-  do (a)"), Claude records it in the plan document, in the same commit as the build:
+**4. THE TEAM DECIDES; CLAUDE PROPOSES.** The team is Jess Haley and Steve Van
+Hooser. *(Rewritten 2026-10-21 at Jess Haley's request: the decision itself, not
+a separate sign-off ritual, is what counts; and it is the team's, not one
+person's.)*
+- **A decision is what a team member says in conversation or review.** When a
+  team member decides something ("yes, do (a)"), Claude records it in the plan
+  document, in the same commit as the build:
 
-        Decided by Jess Haley, <date>: <what was decided, in her words where possible>
+        Decided by <name>, <YYYY-MM-DD> [<tag>]: <what was decided, in their words where possible>
 
-- **Never upgrade a proposal.** Anything Jess has not explicitly decided is written as
-  "Proposed (not decided)". Claude never writes "Decided by Jess", "approved" or
-  "signed" for something she did not say — not from a summary, an agent's report, an
-  inference, or a "she would agree". If unsure, ask.
-- **The merge is the ratification.** Every "Decided by Jess" line reaches `main` only
-  through a PR she reviews and merges, so a mis-attributed decision is caught in the
-  diff.
-- **Existing `TEAM-SIGN-OFF` lines stay valid** as the record of earlier decisions; no
-  new ones are needed. A tool that reports decision state reads either form and cites
-  the document; it never reports "no signature" for a decision that is recorded.
+  `<name>` is a team member's full name. `<tag>` is short and unique among that
+  document's `Decided by` lines; a class cites the decision by document and tag.
+  `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
+  kept) and reports, without counting, a line by anyone else or a line with no
+  tag.
+- **Never upgrade a proposal.** Anything the team has not explicitly decided is
+  written as "Proposed (not decided)". Claude never writes "Decided by",
+  "approved" or "signed" for something a team member did not say — not from a
+  summary, an agent's report, an inference, or a "they would agree". If unsure,
+  ask.
+- **The PR merge is the ratification.** Every `Decided by` line reaches `main`
+  only through a PR the team reviews and merges, so a mis-attributed decision is
+  caught in the diff.
+- **Existing `TEAM-SIGN-OFF` lines stay valid** as the record of earlier
+  decisions; no new ones are needed. A tool that reports decision state reads
+  either form and cites the document; it never reports "no signature" for a
+  decision that is recorded.
 
 **5. AN INSTRUMENT MUST REPORT ITS DENOMINATOR.** Any counter, census or report
 states how many things it inspected, first and unconditionally. A count without
@@ -60,16 +70,22 @@ a denominator is not evidence. "Not measured" is a third state; it is never
 **Scope: do exactly what was asked, and stop.** "Look at X if you like" is not
 authorisation to change X. Ambiguity is resolved by asking, not by doing more.
 
-### Bar-1 and Bar-2 are different claims
+### Integrity is a gate; done is the goal
 
-- **Bar-1:** every document migrates and validates. A green corpus run shows
-  this and nothing more: 0 quarantined, 0 orphans, 0 fragments.
-- **Bar-2:** every document is at its decided final V_eta shape (no husks, no
-  preserved raw bridges, no passed-through v1 tombstones, no superseded
-  emissions), and that is corpus-proven.
-- A green corpus run is Bar-1. Never report it as Bar-2.
-- Bar-2 is per corpus: only the classes that corpus contains count.
-- Every time you report a bar, say which bar and give the number and the run.
+*(2026-10-21, Jess Haley: "Bar-2 means done. Bar-1 is just a step to get to
+Bar-2." The words "Bar-1" and "Bar-2" are retired. Records written before this
+date, including dated corpus measurements in the plan documents, use the old
+names: "Bar-1" there means integrity, "Bar-2" means done.)*
+
+- **Integrity check:** nothing quarantined, orphaned or fragmented. It is a CI
+  gate, never reported as progress. A green corpus run shows integrity and
+  nothing more.
+- **Done, per corpus:** integrity, AND every class that corpus contains at its
+  decided final V_eta shape (no husks, no preserved raw bridges, no
+  passed-through v1 tombstones, no superseded emissions), AND corpus-proven.
+  Only the classes that corpus contains count.
+- Report each corpus as **done** or **not done**, with the list of what is
+  missing, the number and the run. Never report integrity as done.
 - Every corpus figure recorded so far was measured on the pre-#73 shape (the
   migrators still emit it). It says nothing about the shape on PR #88.
 
@@ -293,7 +309,7 @@ Other signed plans to point at: `V_eta_time_reference_model_plan.md`,
 the tenets or a signed plan, those win.
 
 **A plan document's state is its decision lines, not its header.** Decisions
-("Decided by Jess Haley, <date>", or an older `TEAM-SIGN-OFF` line) are often
+("Decided by <name>, <date> [<tag>]", or an older `TEAM-SIGN-OFF` line) are often
 appended far below a summary that still says "proposed". Read the decision lines,
 or the status board.
 

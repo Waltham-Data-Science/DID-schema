@@ -1,6 +1,6 @@
 {
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
-  "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
+  "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
     "classes": 73,
     "classes_citing": 73,
@@ -261,10 +261,10 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -293,10 +293,10 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -309,18 +309,18 @@
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
         "document": "V_eta_recording_observation_plan.md",
-        "tag": "2026-10-21",
+        "tag": "epoch files as data bodies",
         "line": 115,
-        "kind": "Decided by Jess Haley"
+        "kind": "Decided by"
       },
       "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
       "citations": [
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -397,10 +397,10 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -509,10 +509,10 @@
         },
         {
           "document": "V_eta_recording_observation_plan.md",
-          "tag": "2026-10-21",
+          "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -1405,18 +1405,18 @@
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "2026-10-21",
+        "tag": "bath is a manipulation",
         "line": 727,
-        "kind": "Decided by Jess Haley"
+        "kind": "Decided by"
       },
       "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
       "citations": [
         {
           "document": "V_eta_go_forward_class_audit.md",
-          "tag": "2026-10-21",
+          "tag": "bath is a manipulation",
           "resolved": true,
           "line": 727,
-          "kind": "Decided by Jess Haley",
+          "kind": "Decided by",
           "why": null
         }
       ]
