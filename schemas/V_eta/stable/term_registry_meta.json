@@ -325,14 +325,6 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "coefficient of determination",
-            "node": "STATO:0000564",
-            "definition": "The coefficient of determination is a data item measuring the proportion of the variance in the dependent variable that is predictable from the independent variable(s).\nIn the case of a linear regression mode, the coefficient of determination r2 is the quotient of the variances of the fitted values and observed values of the dependent variable.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
             "name": "Coordinate",
             "node": "NCIT:C44465",
             "definition": "A number or other designation that identifies a position relative to an axis or grid.",
@@ -816,22 +808,6 @@
             "name": "metre",
             "node": "om:metre",
             "definition": "The metre is a unit of length defined as the length of the path travelled by light in vacuum during a time interval of 1/299 792 458 of a second.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
-            "name": "metre per second",
-            "node": "om:metrePerSecond-Time",
-            "definition": "Metre per second is a unit of speed defined as metre divided by second.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
-            "name": "metre per second squared",
-            "node": "om:metrePerSecond-TimeSquared",
-            "definition": "Metre per second squared is a unit of acceleration defined as metre divided by second squared.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-20",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -1762,6 +1738,30 @@
             "definition": "A unit of optical density expressed as the absorbance of light transmitted through the medium on the logarithmic scale.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-21 (the unit of an OD600 reading; V_eta_source_unit_plan.md amendment 1)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Caenorhabditis elegans",
+            "node": "NCBITaxon:6239",
+            "definition": "",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Escherichia coli",
+            "node": "NCBITaxon:562",
+            "definition": "",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "hermaphrodite",
+            "node": "PATO:0001340",
+            "definition": "A biological sex quality inhering in an organism or a population with both male and female sexual organs in one individual.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         }
     ]

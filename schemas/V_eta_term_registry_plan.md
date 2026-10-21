@@ -120,6 +120,15 @@ needs.
    type: `exploit`, `sample`) or data (a species, a strain, a substance). The
    check leaves all of them out; whether vocabulary values should be checked,
    and how to tell them apart, is open.
+   Jess Haley decided 2026-10-20 (#75) that value terms are registered too,
+   vocabulary and data alike. The Haley import's ontology value terms are now
+   all in the registry: the haleyTerm table's values and the spec's substances,
+   formulation types, strain types, study factors and accessibility were
+   already here, and the last three were added (NCBITaxon:6239 Caenorhabditis
+   elegans, NCBITaxon:562 Escherichia coli, PATO:0001340 hermaphrodite). Still
+   pending: the DID-matlab check of a statement's term values against the
+   registry, and the values the import writes with no node (the dataset's
+   keywords and license, written as plain labels).
 2. **The migrators' terms.** A migrated dataset is an NDI dataset too, so by
    T19 its terms belong here. Registering them, then arming the check for
    migration, is a follow-up.
