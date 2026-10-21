@@ -724,6 +724,20 @@ TEAM-SIGN-OFF [confirm sheet 2026-08-17]: jess@walthamdatascience.com / 2026-08-
 
 TEAM-SIGN-OFF [confirm sheet 2026-08-22]: jess@walthamdatascience.com / 2026-08-22 -- `stimulus_bath` migrates to a `dose_manipulation` (the delivered substance, a subject_manipulation leaf) + a `session_relative_reference` 'during' anchor + a CONDITIONAL `term_observation` (only when the source names a location), and that emitted set IS the intended end state. Deferred in pass 1 (`did2:convert:needsSessionContext`) by design, assembled by the `resolveDeferredBaths` batch pass. Strict-J D8 disposition -- the `bath`/`pharmacological_manipulation` family is retired -- matching the treatment family (`treatment_drug` / `virus_injection` also -> `dose_manipulation`). Answered against the generated confirm sheet and bar2_gap's Dab UNDECIDED flag (1,605 docs).
 
+Decided by Jess Haley, 2026-10-21: A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.
+
+This changes the `dose_manipulation` half of the 2026-08-22 line above; the
+anchor and the conditional location `term_observation` are unchanged. Why it
+came up: a bath gives no amount, so the bath dose was written with an empty
+`dose.value`, and the value rule (`value_inline_or_body`,
+`V_eta_data_body_model_plan.md` AMENDMENT 5, with Jess's `value_id`
+clarification) refuses a value that is neither inline, in bodies, nor taken
+through `value_id`. `formulation` is a value kind (its superclass is `value`),
+so the bath becomes a `manipulation` listing `formulation` as its value kind,
+with an empty `value` and a `value_id` edge to the bath's `formulation`
+document (the one listing the mixture's ingredients). `dose.json` no longer
+says a dose may be empty for a bath.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,

@@ -257,9 +257,17 @@ def check_every_signed_row_cites_a_real_signoff(rows):
                 "be on the row's OWN identity")
         else:
             frag = cite.get("signoff_fragment")
-            assert any(frag in c for _n, _t, c in lines), (
-                f"{r['v1_class']}: no TEAM-SIGN-OFF line in {doc} contains "
-                f"{frag!r}")
+            # A decision Jess makes in conversation is recorded as a line
+            # beginning "Decided by Jess Haley" (CLAUDE.md Operating Rule 4,
+            # 2026-10-21); it cites as a sign-off does. Read here, not through
+            # the tool's parser.
+            with open(path) as fh:
+                decided = [ln.strip() for ln in fh.read().splitlines()
+                           if ln.lstrip().startswith("Decided by Jess Haley")]
+            assert (any(frag in c for _n, _t, c in lines)
+                    or any(frag in d for d in decided)), (
+                f"{r['v1_class']}: no TEAM-SIGN-OFF or Decided-by line in {doc} "
+                f"contains {frag!r}")
 
 
 def check_only_signed_families_reach_a_row(rows):

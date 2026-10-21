@@ -1477,11 +1477,12 @@
       "targets": [],
       "carried": [],
       "second_pass": [
-        "dose_manipulation",
+        "manipulation",
+        "formulation",
         "relative_time_reference"
       ],
-      "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local) into a dose_manipulation once the stimulator element's subject + epoch anchor resolve",
-      "flags": "pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)",
+      "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local), once the stimulator element's subject + epoch anchor resolve, into a `manipulation` whose value kind is `formulation`: its `value` is empty and its `value_id` edge names the bath's `formulation` document (ingredient_id -> one `chemical` per mixture row). A bath is not a dose: a dose always has an amount (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md).",
+      "flags": "pass-1 migrator always errors (intentional deferral); until 2026-10-21 the bath was a `dose_manipulation` with an empty `dose.value`, which the value rule (`value_inline_or_body`, data_body AMENDMENT 5) refuses; the pinned pre-#73 NDI stimulusBathToBath still writes the old dose shape",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []

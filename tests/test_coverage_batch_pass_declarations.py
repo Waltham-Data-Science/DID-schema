@@ -346,12 +346,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         # declares it emits `method_parameters` against the pinned pre-#73
         # schema, so the channel no longer credits it. It returns when the pass
         # moves with the rest of #73.
+        # TWO since later on 2026-10-21: stimulus_bath LEFT. Its decided target
+        # is now `manipulation` + `formulation` (Jess Haley: a bath is a
+        # manipulation whose value is the formulation, through `value_id`, not
+        # a dose; V_eta_go_forward_class_audit.md), while the sibling's
+        # resolveDeferredBaths still declares `dose_manipulation`. It returns
+        # when the sibling branch CI reads declares the new emission (DID-matlab
+        # claude/port-88 does).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "fileReference", "stimulus_bath"])
+            ["epochfiles_ingested", "fileReference"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}

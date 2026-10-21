@@ -71,20 +71,6 @@
             "opaque_body"
           ],
           "stage_reached": 3
-        },
-        {
-          "v1_class": "stimulus_bath",
-          "emits": {
-            "resolveDeferredBaths": [
-              "session_relative_reference",
-              "dose_manipulation",
-              "term_observation"
-            ]
-          },
-          "decided_targets": [
-            "dose_manipulation"
-          ],
-          "stage_reached": 3
         }
       ],
       "rows_naming_a_pass": [
@@ -278,8 +264,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 49,
-        "3": 16,
+        "2": 50,
+        "3": 15,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -297,8 +283,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 15,
-          "no": 52,
+          "yes": 14,
+          "no": 53,
           "n/a": 3
         },
         "4": {
@@ -308,7 +294,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 15,
+        "3": 14,
         "4": 0
       },
       "capped": {
@@ -322,8 +308,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 52,
-          "3": 15,
+          "2": 53,
+          "3": 14,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -652,7 +638,7 @@
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 804,
+              "line": 818,
               "tag": "spatial_transcriptomics_family",
               "why": "SUPERSEDED -- jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.",
               "excerpt": "Steve Van Hooser 2026-09-22 --",
@@ -857,7 +843,7 @@
             "dimensioned classes, batch confirmation": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 836
+                "line": 850
               }
             ],
             "ensemble": [
@@ -955,7 +941,7 @@
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 798
+                "line": 812
               }
             ],
             "parameter unit, #73 audit 2 D4": [
@@ -1055,7 +1041,7 @@
             "spike-sorter output, amends the 2026-08-17 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 832
+                "line": 846
               }
             ],
             "stimulus": [
@@ -1151,7 +1137,7 @@
             "time anchors, amends the 2026-08-22 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 834
+                "line": 848
               }
             ],
             "time dtype": [
@@ -1317,7 +1303,7 @@
             "dimensioned classes, batch confirmation": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 836
+                "line": 850
               }
             ],
             "epoch and session wall-clock time": [
@@ -1365,7 +1351,7 @@
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 798
+                "line": 812
               }
             ],
             "parameter unit, #73 audit 2 D4": [
@@ -1425,7 +1411,7 @@
             "spike-sorter output, amends the 2026-08-17 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 832
+                "line": 846
               }
             ],
             "stimulus -- visual_grating_manipulation reconciliation": [
@@ -1473,7 +1459,7 @@
             "time anchors, amends the 2026-08-22 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 834
+                "line": 848
               }
             ],
             "time dtype": [
@@ -10792,14 +10778,15 @@
       "gap": false,
       "targets": [],
       "decided_targets": [
-        "dose_manipulation"
+        "manipulation",
+        "formulation"
       ],
       "decided_targets_source": "signoff_transcription",
       "decided_signoff": {
         "document": "V_eta_go_forward_class_audit.md",
-        "signoff_fragment": "migrates to a `dose_manipulation`",
-        "mapping_fragment": "migrates to a `dose_manipulation`",
-        "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `dose_manipulation` subject_manipulation leaf + a session anchor + a conditional `term_observation`; the bath/pharmacological_manipulation family is retired (D8)."
+        "signoff_fragment": "A bath is a manipulation whose value is the formulation",
+        "mapping_fragment": "A bath is a manipulation whose value is the formulation",
+        "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `manipulation` with value kind `formulation` and a `value_id` edge to the bath's `formulation` document, + a session anchor + a conditional `term_observation`; not a dose, since a dose always has an amount (Jess Haley, 2026-10-21)."
       },
       "target_source": "emitted",
       "no_target_reason": null,
@@ -10808,9 +10795,10 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 1,
+        "schema_targets_named": 2,
         "schema_targets_built": [
-          "dose_manipulation"
+          "formulation",
+          "manipulation"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -10825,21 +10813,22 @@
             "term_observation"
           ]
         },
-        "batch_pass_emits_decided_targets": true,
+        "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": true,
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [
-        "dose_manipulation",
+        "manipulation",
+        "formulation",
         "relative_time_reference"
       ],
-      "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local) into a dose_manipulation once the stimulator element's subject + epoch anchor resolve",
-      "target_flags": "pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)",
+      "how": "DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local), once the stimulator element's subject + epoch anchor resolve, into a `manipulation` whose value kind is `formulation`: its `value` is empty and its `value_id` edge names the bath's `formulation` document (ingredient_id -> one `chemical` per mixture row). A bath is not a dose: a dose always has an amount (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md).",
+      "target_flags": "pass-1 migrator always errors (intentional deferral); until 2026-10-21 the bath was a `dose_manipulation` with an empty `dose.value`, which the value rule (`value_inline_or_body`, data_body AMENDMENT 5) refuses; the pinned pre-#73 NDI stimulusBathToBath still writes the old dose shape",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": null,
@@ -10847,19 +10836,19 @@
         "state": "signed",
         "signoff": {
           "document": "V_eta_go_forward_class_audit.md",
-          "signoff_fragment": "migrates to a `dose_manipulation`",
-          "mapping_fragment": "migrates to a `dose_manipulation`",
-          "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `dose_manipulation` subject_manipulation leaf + a session anchor + a conditional `term_observation`; the bath/pharmacological_manipulation family is retired (D8)."
+          "signoff_fragment": "A bath is a manipulation whose value is the formulation",
+          "mapping_fragment": "A bath is a manipulation whose value is the formulation",
+          "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `manipulation` with value kind `formulation` and a `value_id` edge to the bath's `formulation` document, + a session anchor + a conditional `term_observation`; not a dose, since a dose always has an amount (Jess Haley, 2026-10-21)."
         },
         "why": "a TEAM-SIGN-OFF line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -10871,13 +10860,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveDeferredBaths` -> `dose_manipulation`, `session_relative_reference`, `term_observation` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
+            "state": "no",
+            "why": "the decided target(s) `manipulation`, `formulation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10887,7 +10876,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

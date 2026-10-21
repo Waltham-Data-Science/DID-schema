@@ -1063,19 +1063,22 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "not a fixed class set and are not listed.")),
 
     # stimulus_bath is DEFERRED in pass 1 (needsSessionContext, by design) and
-    # assembled by the resolveDeferredBaths batch pass into a `dose_manipulation`
-    # (+ a session_relative_reference 'during' anchor + a conditional
-    # term_observation). The decided target CLASS the sign-off line names is
-    # `dose_manipulation`; the anchor is shared infra and the term_observation is
-    # conditional, so neither is listed as the shape-defining decided target.
+    # assembled by the resolveDeferredBaths batch pass. The 2026-08-22 TEAM-SIGN-OFF
+    # named a `dose_manipulation`; Jess Haley changed that on 2026-10-21 (the
+    # "Decided by" line under it in the same document): a bath is a `manipulation`
+    # whose value kind is `formulation`, its value taken through `value_id` from
+    # the bath's `formulation` document, because a dose always has an amount and a
+    # bath gives none. The anchor is shared infra and the location
+    # term_observation is conditional, so neither is listed.
     "stimulus_bath": (
-        ["dose_manipulation"], "V_eta_go_forward_class_audit.md",
-        "migrates to a `dose_manipulation`",
-        "migrates to a `dose_manipulation`",
+        ["manipulation", "formulation"], "V_eta_go_forward_class_audit.md",
+        "A bath is a manipulation whose value is the formulation",
+        "A bath is a manipulation whose value is the formulation",
         ("Deferred in pass 1 (needsSessionContext), assembled by "
-        "resolveDeferredBaths into a `dose_manipulation` subject_manipulation "
-        "leaf + a session anchor + a conditional `term_observation`; the "
-        "bath/pharmacological_manipulation family is retired (D8).")),
+        "resolveDeferredBaths into a `manipulation` with value kind "
+        "`formulation` and a `value_id` edge to the bath's `formulation` "
+        "document, + a session anchor + a conditional `term_observation`; not "
+        "a dose, since a dose always has an amount (Jess Haley, 2026-10-21).")),
 
     # RESOLVED 2026-08-11, and it moved OUT of NO_TARGET_BY_DECISION to get
     # here. It sat as DISPUTED because `V_eta_go_forward_class_audit.md` says two
@@ -1151,6 +1154,9 @@ DECIDED_TARGETS_BY_SIGNOFF = {
 }
 
 
+DECIDED_BY = "Decided by Jess Haley"
+
+
 def _signoff_lines(plan):
     """(line_number, joined_text) for every TEAM-SIGN-OFF paragraph in a plan.
 
@@ -1199,7 +1205,10 @@ def _signoff_lines(plan):
         if m_sup and not in_fence:
             superseded.add(m_sup.group(1).strip())
             continue
-        if not s.startswith("TEAM-SIGN-OFF") or in_fence:
+        # A decision Jess makes in conversation is recorded as a line beginning
+        # "Decided by Jess Haley" (CLAUDE.md Operating Rule 4, 2026-10-21), and a
+        # tool reading decision state reads either form.
+        if not s.startswith(("TEAM-SIGN-OFF", DECIDED_BY)) or in_fence:
             continue
         m_tag = re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s)
         if m_tag and m_tag.group(1).strip() in superseded:
@@ -1212,7 +1221,7 @@ def _signoff_lines(plan):
             stripped = cont.strip()
             if not stripped:
                 break
-            if stripped.startswith("TEAM-SIGN-OFF"):
+            if stripped.startswith(("TEAM-SIGN-OFF", DECIDED_BY)):
                 break
             if stripped[0] in "|#-*":
                 break

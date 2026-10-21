@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How much of the formulation was given. Empty when the source gives no amount (a bath).",
+            "documentation": "How much of the formulation was given. A dose always has an amount: fill at least one of the slots below. A bath gives no amount and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md).",
             "constraints": {},
             "fields": [
                 {
