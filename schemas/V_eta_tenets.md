@@ -572,8 +572,8 @@ mean both "the same quantity, as written" and "a different value, refused". **Wh
 evidence allows two readings, store the one that claims less** (fewer entities, wider
 bounds, no link) and note the other.
 
-**A time with no anchor of its own counts from its time reference** (2026-10-20, PROPOSAL,
-the Haley document audit's D-2; Jess Haley agreed; not signed). A time value or time key
+**A time with no anchor of its own counts from its time reference** (2026-10-20,
+the Haley document audit's D-2; Jess Haley agreed; signed by her 2026-10-21). A time value or time key
 with no anchor of its own counts from the start of its statement's time reference.
 
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
