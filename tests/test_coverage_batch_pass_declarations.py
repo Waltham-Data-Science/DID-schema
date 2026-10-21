@@ -158,11 +158,14 @@ class TestTheLiveScan(unittest.TestCase):
         self.assertEqual([e["pass"] for e in idx["generic_file"]],
                          ["foldGenericFiles"])
         self.assertEqual(idx["generic_file"][0]["form"], "document")
-        # shape (3), an INLINE field block rather than a minted document
+        # was shape (3), an INLINE field block. Since DID-matlab #218 18e864d
+        # (Jess Haley, 2026-10-21 [response parameters as a shared method]) the
+        # pass converts each parameters document IN PLACE into one shared
+        # `method` document, so it now declares a minted document.
         k = "stimulus_response_scalar_parameters_basic"
         self.assertIn(k, idx)
-        self.assertEqual(idx[k][0]["form"], "inline")
-        self.assertEqual(idx[k][0]["targets"], ["method_parameters"])
+        self.assertEqual(idx[k][0]["form"], "document")
+        self.assertEqual(idx[k][0]["targets"], ["method"])
         # the honesty case: declared, dormant, emitting nothing
         self.assertEqual(idx["valid_interval"][0]["form"], "nothing")
         self.assertTrue(idx["valid_interval"][0]["reason"])
@@ -356,12 +359,17 @@ class TestTheCommittedLedger(unittest.TestCase):
         # THREE again since DID-matlab #218 8e2ef6d (2026-10-21): stimulus_bath
         # RETURNED, as predicted above -- resolveDeferredBaths now declares
         # `manipulation+formulation`, which matches its decided target.
+        # FOUR since DID-matlab #218 18e864d (2026-10-21):
+        # stimulus_response_scalar_parameters_basic RETURNED, as predicted above:
+        # resolveResponseParameters now declares `-> document: method`, its
+        # decided target ([response parameters as a shared method]).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "fileReference", "stimulus_bath"])
+            ["epochfiles_ingested", "fileReference", "stimulus_bath",
+             "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}

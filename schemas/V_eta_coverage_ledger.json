@@ -90,6 +90,18 @@
             "formulation"
           ],
           "stage_reached": 3
+        },
+        {
+          "v1_class": "stimulus_response_scalar_parameters_basic",
+          "emits": {
+            "resolveResponseParameters": [
+              "method"
+            ]
+          },
+          "decided_targets": [
+            "method"
+          ],
+          "stage_reached": 3
         }
       ],
       "rows_naming_a_pass": [
@@ -298,8 +310,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 25,
-        "3": 40,
+        "2": 22,
+        "3": 43,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -317,8 +329,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 39,
-          "no": 28,
+          "yes": 42,
+          "no": 25,
           "n/a": 3
         },
         "4": {
@@ -328,7 +340,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 39,
+        "3": 42,
         "4": 0
       },
       "capped": {
@@ -342,8 +354,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 28,
-          "3": 39,
+          "2": 25,
+          "3": 42,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -8788,7 +8800,9 @@
       "gap": false,
       "targets": [
         "observation + term",
-        "relative_time_reference"
+        "relative_time_reference",
+        "observation + intensity",
+        "sampled_body"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -8813,7 +8827,7 @@
           "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -8882,10 +8896,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -8902,8 +8916,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `observation + term`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`observation + term`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -8913,7 +8927,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -12943,7 +12957,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "stimulus_response_scalar"
+        "assertion + text",
+        "calculation + harmonic_component",
+        "entity",
+        "relative_time_reference"
       ],
       "decided_targets": [
         "calculation + harmonic_component"
@@ -12962,7 +12979,7 @@
           "calculation + harmonic_component"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [
           "epochMint"
@@ -13029,10 +13046,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -13049,8 +13066,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `calculation + harmonic_component` are not all among what the migrator emits today (`stimulus_response_scalar`), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -13060,7 +13077,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -13223,13 +13240,13 @@
         ],
         "batch_pass_emits": {
           "resolveResponseParameters": [
-            "method_parameters"
+            "method"
           ]
         },
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -13287,10 +13304,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -13307,8 +13324,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `method` are not all among what the migrator emits today (`stimulus_response_scalar_parameters_basic`), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveResponseParameters` -> `method` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -13318,7 +13335,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

@@ -880,7 +880,9 @@
     "ontology_image": {
       "targets": [
         "observation + term",
-        "relative_time_reference"
+        "relative_time_reference",
+        "observation + intensity",
+        "sampled_body"
       ],
       "carried": [
         "entity (subject)"
@@ -1544,7 +1546,10 @@
     },
     "stimulus_response_scalar": {
       "targets": [
-        "stimulus_response_scalar"
+        "assertion + text",
+        "calculation + harmonic_component",
+        "entity",
+        "relative_time_reference"
       ],
       "carried": [],
       "second_pass": [],
@@ -1554,7 +1559,7 @@
         "calculation + harmonic_component"
       ],
       "target_completeness": {
-        "state": "carry_forward",
+        "state": "full",
         "unresolved_sites": []
       }
     },
