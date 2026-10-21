@@ -50,8 +50,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 177 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 34 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 49168 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 31031 |
+| build: migrator lines inspected | 49196 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 31059 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 18137 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
@@ -142,7 +142,7 @@ is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.
 | 1 | `b.document_class = struct('class_name', '<class>', ...)` | 21 | 18 | 3 |
 | 2 | `b.document_class = classBlock('<class>', {supers})` | 4 | 4 | 0 |
 | 3 | `b.document_class.class_name = '<class>';` | 5 | 5 | 0 |
-| 4 | *unrecognised* | 59 | 31 | 28 |
+| 4 | *unrecognised* | 60 | 32 | 28 |
 | 5 | *unrecognised* | 45 | 45 | 0 |
 | - | class name is a VARIABLE -- unresolved here | 8 | 5 | 3 |
 

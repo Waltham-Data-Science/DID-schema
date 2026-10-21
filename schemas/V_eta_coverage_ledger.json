@@ -14686,7 +14686,8 @@
       "targets": [
         "manipulation + term",
         "directed_relation",
-        "relative_time_reference"
+        "relative_time_reference",
+        "absolute_time_reference"
       ],
       "decided_targets": [],
       "decided_targets_source": null,
