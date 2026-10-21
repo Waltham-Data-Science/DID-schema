@@ -1944,6 +1944,22 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (her rule for this build: an existing term where one matches; the seed variable)",
       "first_used_in": "NDI V2 noise-stimulus method documents (vhlab NewStim stochastic grid stimuli; data_body AMENDMENT 4)"
+    },
+    {
+      "name": "optogenetic tetanus stimulation",
+      "node": "EMPTY:0000358",
+      "definition": "Stimulation of neurons that express a light-gated ion channel with a train of light pulses at high frequency (a tetanus), delivered to a target location to drive sustained activity there.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (Dab slice tetanus pass: no existing term at the method's specificity, OLS4 search recorded on the EMPTY term)",
+      "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.migrate.internal.sliceTetanus)"
+    },
+    {
+      "name": "hertz",
+      "node": "om:hertz",
+      "definition": "The hertz is a unit of frequency defined as 1 divided by second.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (Dab slice tetanus pass: the unit of the TLS frequency parameter)",
+      "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.migrate.internal.sliceTetanus)"
     }
   ]
 }
