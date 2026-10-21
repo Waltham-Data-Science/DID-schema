@@ -648,7 +648,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 112,
+          "accepted_lines": 113,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -689,6 +689,7 @@
             "data_body",
             "data_body amendment 3",
             "data_body amendment 4",
+            "data_body amendment 5",
             "dataseries_channel_map",
             "date dtype",
             "dimensioned classes, batch confirmation",
@@ -833,6 +834,12 @@
               {
                 "document": "V_eta_data_body_model_plan.md",
                 "line": 1281
+              }
+            ],
+            "data_body amendment 5": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1371
               }
             ],
             "dataseries_channel_map": [
@@ -1287,6 +1294,12 @@
               {
                 "document": "V_eta_data_body_model_plan.md",
                 "line": 1281
+              }
+            ],
+            "data_body amendment 5": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1371
               }
             ],
             "dataseries_channel_map": [
