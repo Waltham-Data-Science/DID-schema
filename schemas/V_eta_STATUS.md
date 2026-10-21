@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 166 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 31 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 48298 |
+| build: migrator lines inspected | 48299 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 31889 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 16409 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 16410 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
@@ -185,7 +185,7 @@ artifact are therefore a FLOOR.
 | unresolved `document_class` write | class name expression |
 |---|---|
 | `DID-matlab:convert/+entities/entityDoc.m:58` | `className` |
-| `DID-matlab:convert/resolveEpochProbemap.m:646` | `entry.class` |
+| `DID-matlab:convert/resolveEpochProbemap.m:647` | `entry.class` |
 | `DID-matlab:convert/resolveLawnPlateSubjects.m:1333` | `leafClass` |
 | `DID-matlab:convert/universalRenames.m:240` | `v2ClassName;` |
 | `DID-matlab:migrators_j/dataset_remote.m:70` | `className` |
