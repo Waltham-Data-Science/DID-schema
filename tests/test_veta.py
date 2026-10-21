@@ -3522,9 +3522,13 @@ def test_logical_is_a_boolean_valued_statement_leaf():
         "would encode a boolean as a vocabulary (T13) and would make the "
         "invalid half unreachable the same way the CLASS NAME did in v1")
     assert val["mustBeScalar"] is False and val["blank_value"] == []
-    assert val["mustBeNonEmpty"] is True, (
-        "a logical statement with no value says nothing at all -- exactly the "
-        "hollow document silentLoss and isFragment exist to catch")
+    # A logical with no value still says nothing at all -- the hollow document
+    # silentLoss and isFragment exist to catch. Since data_body AMENDMENT 5
+    # (2026-10-21, decided, not signed) the parent `value` rule
+    # `value_inline_or_body` refuses it, not a per-class required field, so a
+    # body-backed logical is legal.
+    assert val["mustBeNonEmpty"] is False
+    assert "value_inline_or_body" in {r["name"] for r in RECORDS["value"][1]["rules"]}
     assert "fields" not in val, (
         "`logical.value` grew a nested cell again. `value.value` is a wrapper "
         "around nothing; provenance is what earns a cell and a boolean has none")

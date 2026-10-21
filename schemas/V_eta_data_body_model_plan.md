@@ -19,6 +19,7 @@
 > | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
 > | `AMENDMENT 3 — one entry for keys, conditions and method parameters` | renames the value forms: a key's `labels`/`values` become `term`/`quantity`; a condition's `term.value`/`count.value` flatten (2026-10-19, decided with Jess; built) |
 > | `AMENDMENT 4 — a \`matrix\` value form` | a condition or method parameter may hold one numeric N-D array (`matrix`); noise colours are `NCIT:C75765` Arbitrary Unit plus a bit-depth count (2026-10-21, Jess; PROPOSAL built ahead of signature) |
+> | `AMENDMENT 5 — a value is inline or in bodies, never neither` | ONE rule on `value` (`value_inline_or_body`) replaces the required inline `value` of nine classes; a `receptive_field` can now be body-backed (2026-10-21, Jess; DECIDED, NOT SIGNED; built) |
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
@@ -1320,3 +1321,49 @@ TEAM-SIGN-OFF [data_body amendment 3]: jess@walthamdatascience.com / 2026-10-19 
 RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+# AMENDMENT 5 — a value is inline or in bodies, never neither. Jess, 2026-10-21.
+
+**DECIDED by Jess Haley, 2026-10-21. NOT SIGNED** -- there is no signature line for this
+amendment; the "To be signed:" line below is what a signature would cover. Built in
+did-schema ahead of the signature.
+
+## THE RULE
+
+A value is either **inline** (its `value` field filled) or **in data bodies**
+(`data_body: true`, the bytes in `sampled_body` / `opaque_body` documents pointing at it
+through `owner_id`), **never neither**. It is ONE rule on the parent `value` class,
+`value_inline_or_body`, declared beside `data_type_when_bytes` in the same rules format.
+It does not say whether a value may be both; that is not decided here.
+
+## WHAT IT REPLACES
+
+Nine value classes made their inline `value` required (`mustBeNonEmpty: true`): `term`,
+`date`, `logical`, `polynomial`, `model_fit`, `tuning_curve`, `contrast_sensitivity`,
+`harmonic_component`, `receptive_field`. A required inline value refuses every
+body-backed document of that class, which this plan's storage-mode walkthrough already
+allows for every value. All nine are now `mustBeNonEmpty: false`; the rule on `value`
+carries the requirement for them and for the other 36 direct subclasses of `value`, whose
+inline `value` was already optional (their field declarations are unchanged).
+
+## WHAT PROMPTED IT
+
+`receptive_field.value` was a REQUIRED structure with NO sub-fields: #73 item 57 moved the
+method to the statement and audit 2 D11 moved the plane labels to body conditions, so
+nothing was left inline and no document could satisfy it. DID-matlab's `hartley_calc`
+migrator therefore passes all 210 20211116 documents through (guard `foldExpressible()`,
+ab02782 on DID-matlab `claude/port-88`, `hartley_calc.m:259,687`), while the signed `[receptive field fold]`
+(`V_eta_ngrid_family_findings.md`) keeps the payload in two `sampled_body` documents. With
+this rule a `receptive_field` document is `data_body: true` with an empty `value`, and
+the fold can emit it.
+
+## WHERE IT IS CHECKED
+
+- did-schema: `tools/validate_v_eta.py` rule R16 checks that `value` declares the rule and
+  that no class under `value` makes its inline `value` required; its
+  `value_inline_or_body(doc)` is the reference statement of the document check, pinned by
+  `tests/test_validate_v_eta.py`.
+- DID-matlab: the `did2` validator enforces it on documents; `hartley_calc` drops its
+  `foldExpressible()` passthrough. Follows separately.
+
+To be signed: a value is inline (its `value` field filled) or in data bodies (`data_body: true`), never neither -- one rule `value_inline_or_body` on the parent `value` class, replacing `mustBeNonEmpty: true` on the `value` field of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field.

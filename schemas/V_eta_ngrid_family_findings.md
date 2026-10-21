@@ -380,6 +380,15 @@ is the calculator's input and is recorded as such.
 
 TEAM-SIGN-OFF [receptive field naming]: jess@walthamdatascience.com / 2026-08-17 -- the result composite is `receptive_field` and the leaf is `receptive_field_calculation`.
 
+**2026-10-21, DECIDED BY JESS HALEY, NOT SIGNED: the fold above can now be emitted.**
+`receptive_field.value` had become a required structure with no sub-fields (#73 item 57
+moved the method to the statement, audit 2 D11 moved the plane labels to body
+conditions), so no document could satisfy it and DID-matlab's `hartley_calc` passed all
+210 20211116 documents through (`foldExpressible()`, ab02782 on `claude/port-88`). Rule `value_inline_or_body`
+on `value` now replaces the required inline `value`: a `receptive_field` is
+`data_body: true` with its volume in the two `sampled_body` documents this fold already
+signed, and an empty `value`. See `V_eta_data_body_model_plan.md` AMENDMENT 5.
+
 Adjudicated against the tenets rather than asserted. T11: composite = the bare
 `<data_type>`, leaf = `<data_type>_<direction>` with direction `calculation`;
 the name encodes no cardinality, storage, device subtype or instrument. That

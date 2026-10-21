@@ -158,3 +158,73 @@ def test_a_row_that_is_not_term_valued_names_no_set(tree):
     _edit(tree / "stable" / "binding_registry_meta.json", plant)
     rc, out = _run(tree)
     assert rc == 1 and "is term_valued false but names an admissible set" in out, out
+
+
+# ------------------------------------------- rule value_inline_or_body (R16)
+# data_body AMENDMENT 5 (Jess Haley, 2026-10-21; decided, not signed): a value
+# is inline (`value` filled) or in data bodies (`data_body: true`), never
+# neither. One rule on `value` replaces the per-class required `value` of the
+# nine classes that set it.
+
+NINE = ("term", "date", "logical", "polynomial", "model_fit", "tuning_curve",
+        "contrast_sensitivity", "harmonic_component", "receptive_field")
+
+
+def _value_field(name):
+    for tier in ("stable", "draft", "deprecated"):
+        p = os.path.join(VETA, tier, name + ".json")
+        if os.path.exists(p):
+            with open(p) as f:
+                d = json.load(f)
+            return next(x for x in d["fields"] if x["name"] == "value")
+    raise AssertionError(name)
+
+
+def test_value_declares_the_rule_and_the_nine_no_longer_require_value():
+    with open(os.path.join(VETA, "stable", "value.json")) as f:
+        rules = {r["name"]: r for r in json.load(f)["rules"]}
+    assert set(rules["value_inline_or_body"]["fields"]) == {"value", "data_body"}
+    assert "data_type_when_bytes" in rules
+    for name in NINE:
+        assert _value_field(name)["mustBeNonEmpty"] is False, name
+
+
+def test_a_document_with_neither_inline_value_nor_data_body_is_refused():
+    for doc in ({}, {"value": {}, "data_body": False}, {"value": [], "data_body": False},
+                {"value": {"node": "", "name": ""}}):
+        assert V.value_inline_or_body(doc), doc
+
+
+def test_a_receptive_field_in_bodies_with_no_inline_value_passes():
+    # receptive_field.value declares no sub-fields: it can only be body-backed
+    assert not _value_field("receptive_field").get("fields")
+    doc = {"document_class": {"class_name": "receptive_field"},
+           "value": {}, "data_body": True}
+    assert V.value_inline_or_body(doc) == []
+
+
+def test_a_term_with_no_inline_value_and_no_data_body_is_refused():
+    doc = {"document_class": {"class_name": "term"},
+           "value": {"node": "", "name": ""}}
+    out = V.value_inline_or_body(doc)
+    assert out and "value_inline_or_body" in out[0], out
+    # and the inline-filled term passes, as does a false boolean (a value, not a blank)
+    assert V.value_inline_or_body(dict(doc, value={"node": "NCBITaxon:10090",
+                                                   "name": "Mus musculus"})) == []
+    assert V.value_inline_or_body({"value": [False]}) == []
+
+
+def test_a_required_inline_value_is_refused(tree):
+    def fn(d):
+        next(x for x in d["fields"] if x["name"] == "value")["mustBeNonEmpty"] = True
+    _edit(tree / "stable" / "term.json", fn)
+    rc, out = _run(tree)
+    assert rc == 1 and "term.value is mustBeNonEmpty" in out, out
+
+
+def test_the_rule_missing_from_value_is_refused(tree):
+    _edit(tree / "stable" / "value.json",
+          lambda d: d.__setitem__("rules", [r for r in d["rules"]
+                                            if r["name"] != "value_inline_or_body"]))
+    rc, out = _run(tree)
+    assert rc == 1 and "value declares no rule 'value_inline_or_body'" in out, out

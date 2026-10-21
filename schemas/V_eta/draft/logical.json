@@ -17,7 +17,7 @@
             "type": "boolean",
             "blank_value": [],
             "default_value": [],
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,

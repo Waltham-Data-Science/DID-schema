@@ -23,7 +23,7 @@
                 "node": "",
                 "name": ""
             },
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,

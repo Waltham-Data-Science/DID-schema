@@ -11,7 +11,7 @@ its `index.json` entry's `disposition` if the class is new, then run
 
 TWO KINDS OF THING
 ------------------
-RULES (R1-R15) are checks only. A failure names the file and what is wrong;
+RULES (R1-R16) are checks only. A failure names the file and what is wrong;
 the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D4) are copies of a fact held elsewhere, so they are
@@ -493,6 +493,66 @@ def r15_value_sets(reg):
     return n, bad
 
 
+VALUE_RULE = "value_inline_or_body"
+
+
+def _is_blank(x):
+    """Nothing filled: None, empty text, an empty list or structure, or a
+    structure / list whose every leaf is blank ({node: '', name: ''} is a blank
+    term). False and 0 are values, not blanks."""
+    if x is None:
+        return True
+    if isinstance(x, str):
+        return x == ""
+    if isinstance(x, dict):
+        return all(_is_blank(v) for v in x.values())
+    if isinstance(x, list):
+        return all(_is_blank(v) for v in x)
+    return False
+
+
+def value_inline_or_body(doc):
+    """THE DOCUMENT CHECK for rule `value_inline_or_body` (Jess Haley,
+    2026-10-21; decided, not signed; data_body AMENDMENT 5): a value document is
+    inline (its `value` filled) or in data bodies (`data_body` true), never
+    neither. DOC is the document's properties as a dict; `value` and
+    `data_body` are read at the top level. Returns a list of failures (empty
+    when the document passes). The enforcing validator is DID-matlab's; this is
+    the reference statement of the rule that the tests pin."""
+    if doc.get("data_body") is True:
+        return []
+    if _is_blank(doc.get("value")):
+        return [(f"rule {VALUE_RULE}: `value` is empty and `data_body` is not true "
+                 "-- the value is neither inline nor in data bodies")]
+    return []
+
+
+def r16_value_inline_or_body(t):
+    """data_body AMENDMENT 5 (2026-10-21): `value` declares the rule
+    `value_inline_or_body` over `value` and `data_body`, and NO class under
+    `value` makes its inline `value` required -- the rule replaces the
+    per-class `mustBeNonEmpty`, and a required inline value would refuse every
+    body-backed document of that class."""
+    bad = []
+    rules = {r["name"]: r for r in t.doc("value").get("rules", [])}
+    r = rules.get(VALUE_RULE)
+    if r is None:
+        bad.append(f"value declares no rule {VALUE_RULE!r}")
+    elif sorted(r["fields"]) != ["data_body", "value"]:
+        bad.append(f"rule {VALUE_RULE} covers {r['fields']}, expected value + data_body")
+    n = 1
+    for cn, (_, _, d) in t.classes.items():
+        if cn == "value" or "value" not in t.chain(cn):
+            continue
+        for f in d.get("fields", []):
+            if f["name"] == "value":
+                n += 1
+                if f.get("mustBeNonEmpty"):
+                    bad.append(f"{cn}.value is mustBeNonEmpty; rule {VALUE_RULE} on `value` "
+                               "replaces it (set it false)")
+    return n, bad
+
+
 RULES = [
     ("R1 canonical JSON layout", lambda c: r1_format(c["tree"])),
     ("R2 one class per name, named as its file", lambda c: r2_identity(c["tree"])),
@@ -509,6 +569,8 @@ RULES = [
     ("R13 one method shape, one entry", lambda c: r13_one_shape(c["tree"])),
     ("R14 one `value` per value class", lambda c: r14_values(c["tree"])),
     ("R15 closed value sets are registered terms", lambda c: r15_value_sets(c["reg"])),
+    ("R16 a value is inline or in bodies (value_inline_or_body)",
+     lambda c: r16_value_inline_or_body(c["tree"])),
 ]
 
 

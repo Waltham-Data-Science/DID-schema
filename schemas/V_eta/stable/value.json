@@ -67,7 +67,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`, or absent. A document marked true with no body pointing at it has lost its data -- the batch check (item 60).",
+            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`. Never neither (rule `value_inline_or_body`): a value with no inline `value` must say `data_body: true`. A document marked true with no body pointing at it has lost its data -- the batch check (item 60).",
             "constraints": {}
         }
     ],
@@ -79,6 +79,14 @@
                 "data_body"
             ],
             "statement": "`data_type` is present when the value has bytes the schema does not type: `data_body` true, or an inline value that is not a declared cell (a bare numeric or text array). A typed cell already says its type (`temperature.value.celsius` is a double), so it needs none."
+        },
+        {
+            "name": "value_inline_or_body",
+            "fields": [
+                "value",
+                "data_body"
+            ],
+            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither. This one rule replaces a per-class required `value`, so a body-backed value of any class may leave `value` empty (Jess Haley, 2026-10-21; decided, not signed: V_eta_data_body_model_plan.md AMENDMENT 5)."
         }
     ]
 }
