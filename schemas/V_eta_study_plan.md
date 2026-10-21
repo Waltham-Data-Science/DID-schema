@@ -25,6 +25,7 @@ Proposed 2026-10-21 (Jess): drop design; not signed. The `study design`
 else used the term; no study in any import wrote a design), and NDI's
 `entityDocuments` stops mapping a `design` field. The signed line above is
 left as it was; this note amends it until the team signs or rejects it.
+TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21 -- drop the study design field (OBI:0500000): its binding row, its term, and NDI's design mapping; factors stay
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of relation (subject -> product) instead of a subject.product_id field
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the awarded_to relation (funding -> person/organization)
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add directed_relation.roles, bound to the 14 CRediT roles plus corresponding author

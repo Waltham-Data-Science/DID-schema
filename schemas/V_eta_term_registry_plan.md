@@ -148,6 +148,8 @@ The `study design` (OBI:0500000) row is dropped (`V_eta_study_plan.md`,
 proposed 2026-10-21, not signed). `study design independent variable`
 (OBI:0000750) stays "any registered term".
 
+TEAM-SIGN-OFF [term registry closed value sets]: jess@walthamdatascience.com / 2026-10-21 -- binding rows may carry a closed values list; material type (4), culture type (1), data access (2), ethics jurisdiction (206, Wikidata, replacing ethics assessment) and experimental approach (40, openMINDS) are closed; Gene Expression is not term-valued
+
 ## Open
 
 1. **A statement's term values.** A term value can be vocabulary (an encounter
