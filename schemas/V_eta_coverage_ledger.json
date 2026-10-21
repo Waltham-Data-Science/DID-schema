@@ -2195,7 +2195,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2551,7 +2551,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`cell_type_labels`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`cell_type_labels`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2986,7 +2986,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item` are not all among what the migrator emits today (`control_stimulus_ids`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item` are not all among what the migrator emits today (`control_stimulus_ids`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3254,7 +3254,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`acquisition_metadata_file`), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`acquisition_metadata_file`), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3682,7 +3682,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + intensity`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4973,7 +4973,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `assertion + term`, `directed_relation`, `sampled_body`, `relative_time_reference`, `observation + voltage`, `observation + current`, `observation + intensity`, `observation + acceleration`, `observation + temperature` are not all among what the migrator emits today (`assertion + term`, `directed_relation`, `entity`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `entity (subject)`, `assertion + term`, `directed_relation`, `sampled_body`, `relative_time_reference`, `observation + voltage`, `observation + current`, `observation + intensity`, `observation + acceleration`, `observation + temperature` are not all among what the migrator emits today (`assertion + term`, `directed_relation`, `entity`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5247,7 +5247,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5398,7 +5398,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6489,7 +6489,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`gene_list`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`gene_list`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6625,7 +6625,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7034,7 +7034,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7304,7 +7304,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7581,7 +7581,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `assertion + text`, `entity`, `opaque_body`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `assertion + text`, `entity`, `opaque_body`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7719,7 +7719,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7857,7 +7857,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8130,7 +8130,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `opaque_body`, `entity (software)` are not all among what the migrator emits today (`assertion + text`, `entity`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + intensity`, `opaque_body`, `entity (software)` are not all among what the migrator emits today (`assertion + text`, `entity`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8562,7 +8562,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `calculation + label`, `calculation + score`, `calculation + voltage`, `relative_time_reference`, `entity (software)` are not all among what the migrator emits today (`directed_relation`, `observation + score`, `assertion + count`, `observation + voltage`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `calculation + label`, `calculation + score`, `calculation + voltage`, `relative_time_reference`, `entity (software)` are not all among what the migrator emits today (`directed_relation`, `observation + score`, `assertion + count`, `observation + voltage`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10028,7 +10028,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + position`, `assertion + term`, `relative_time_reference` are not all among what the migrator emits today (`observation + length`, `assertion + term`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + position`, `assertion + term`, `relative_time_reference` are not all among what the migrator emits today (`observation + length`, `assertion + term`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10289,7 +10289,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11129,7 +11129,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11269,7 +11269,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (`spatial_gene_expression_pyramid`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (`spatial_gene_expression_pyramid`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11401,7 +11401,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12663,7 +12663,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12810,7 +12810,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -15060,7 +15060,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + time` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + time` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
