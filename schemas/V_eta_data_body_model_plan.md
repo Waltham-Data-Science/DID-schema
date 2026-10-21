@@ -19,7 +19,7 @@
 > | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
 > | `AMENDMENT 3 — one entry for keys, conditions and method parameters` | renames the value forms: a key's `labels`/`values` become `term`/`quantity`; a condition's `term.value`/`count.value` flatten (2026-10-19, decided with Jess; built) |
 > | `AMENDMENT 4 — a \`matrix\` value form` | a condition or method parameter may hold one numeric N-D array (`matrix`); noise colours are `NCIT:C75765` Arbitrary Unit plus a bit-depth count (2026-10-21, Jess; PROPOSAL built ahead of signature) |
-> | `AMENDMENT 5 — a value is inline or in bodies, never neither` | ONE rule on `value` (`value_inline_or_body`) replaces the required inline `value` of nine classes; a `receptive_field` can now be body-backed (2026-10-21, Jess; DECIDED, NOT SIGNED; built) |
+> | `AMENDMENT 5 — a value is inline or in bodies, never neither` | ONE rule on `value` (`value_inline_or_body`) replaces the required inline `value` of nine classes; a `receptive_field` can now be body-backed; a statement may also take its value through `value_id` (2026-10-21, Jess; signed; built) |
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
@@ -1324,9 +1324,17 @@ RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOS
 
 # AMENDMENT 5 — a value is inline or in bodies, never neither. Jess, 2026-10-21.
 
-**DECIDED by Jess Haley, 2026-10-21. NOT SIGNED** -- there is no signature line for this
-amendment; the "To be signed:" line below is what a signature would cover. Built in
-did-schema ahead of the signature.
+**DECIDED by Jess Haley, 2026-10-21, and SIGNED the same day** -- the
+`TEAM-SIGN-OFF [data_body amendment 5]` line is at the end of this section, followed by a
+
+Clarification (Jess Haley, 2026-10-21): a statement may also take its value from a shared
+value document through `value_id` (`statement.json`: "When present, this statement's own
+value and value descriptors are empty: the shared document states them"); the shared
+document itself is inline or in bodies. So the check passes when `value` is filled, OR
+`data_body` is true, OR a non-empty `value_id` edge is present. This follows from the
+existing `value_id` decision and is not a new decision.
+dated clarification about `value_id`. (Until c8260da this paragraph read "NOT SIGNED";
+HISTORICAL-SIGNOFF-CLAIM.)
 
 ## THE RULE
 
@@ -1363,8 +1371,9 @@ the fold can emit it.
   that no class under `value` makes its inline `value` required; its
   `value_inline_or_body(doc)` is the reference statement of the document check, pinned by
   `tests/test_validate_v_eta.py`.
-- DID-matlab: the `did2` validator enforces it on documents; `hartley_calc` drops its
-  `foldExpressible()` passthrough. Follows separately.
+- DID-matlab: `did2.build` checks it by name (`+did2/+build/private/checkRules.m`, case
+  `value_inline_or_body`, pinned by `testBuild.testValueInlineOrBody`); the `did2` validator
+  and `hartley_calc` (dropping its `foldExpressible()` passthrough) follow separately.
 
 To be signed: a value is inline (its `value` field filled) or in data bodies (`data_body: true`), never neither -- one rule `value_inline_or_body` on the parent `value` class, replacing `mustBeNonEmpty: true` on the `value` field of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field.
 

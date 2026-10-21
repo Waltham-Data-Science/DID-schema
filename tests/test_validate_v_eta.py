@@ -161,10 +161,11 @@ def test_a_row_that_is_not_term_valued_names_no_set(tree):
 
 
 # ------------------------------------------- rule value_inline_or_body (R16)
-# data_body AMENDMENT 5 (Jess Haley, 2026-10-21; decided, not signed): a value
-# is inline (`value` filled) or in data bodies (`data_body: true`), never
-# neither. One rule on `value` replaces the per-class required `value` of the
-# nine classes that set it.
+# data_body AMENDMENT 5 (Jess Haley, 2026-10-21, signed): a value is inline
+# (`value` filled) or in data bodies (`data_body: true`), never neither; by its
+# clarification a statement may instead name a shared value document through
+# `value_id`. One rule on `value` replaces the per-class required `value` of
+# the nine classes that set it.
 
 NINE = ("term", "date", "logical", "polynomial", "model_fit", "tuning_curve",
         "contrast_sensitivity", "harmonic_component", "receptive_field")
@@ -183,7 +184,7 @@ def _value_field(name):
 def test_value_declares_the_rule_and_the_nine_no_longer_require_value():
     with open(os.path.join(VETA, "stable", "value.json")) as f:
         rules = {r["name"]: r for r in json.load(f)["rules"]}
-    assert set(rules["value_inline_or_body"]["fields"]) == {"value", "data_body"}
+    assert set(rules["value_inline_or_body"]["fields"]) == {"value", "data_body", "value_id"}
     assert "data_type_when_bytes" in rules
     for name in NINE:
         assert _value_field(name)["mustBeNonEmpty"] is False, name
@@ -228,3 +229,14 @@ def test_the_rule_missing_from_value_is_refused(tree):
                                             if r["name"] != "value_inline_or_body"]))
     rc, out = _run(tree)
     assert rc == 1 and "value declares no rule 'value_inline_or_body'" in out, out
+
+
+def test_a_statement_with_a_shared_value_document_passes():
+    doc = {"document_class": {"class_name": "voltage_observation"}, "value": {},
+           "depends_on": [{"name": "value_id", "document_id": "4126f0b8c2a1d3e5_c0ffee"}]}
+    assert V.value_inline_or_body(doc) == []
+    # an EMPTY value_id edge is no value at all
+    doc["depends_on"][0]["document_id"] = ""
+    assert V.value_inline_or_body(doc)
+    # the v1-shaped edge {name, value} reads the same
+    assert V.value_inline_or_body({"depends_on": [{"name": "value_id", "value": "x"}]}) == []

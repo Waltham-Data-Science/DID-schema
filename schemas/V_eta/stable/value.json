@@ -84,9 +84,10 @@
             "name": "value_inline_or_body",
             "fields": [
                 "value",
-                "data_body"
+                "data_body",
+                "value_id"
             ],
-            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither. This one rule replaces a per-class required `value`, so a body-backed value of any class may leave `value` empty (Jess Haley, 2026-10-21; decided, not signed: V_eta_data_body_model_plan.md AMENDMENT 5)."
+            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: V_eta_data_body_model_plan.md AMENDMENT 5 and its clarification)."
         }
     ]
 }

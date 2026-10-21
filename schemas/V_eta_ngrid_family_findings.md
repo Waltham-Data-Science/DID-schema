@@ -380,7 +380,7 @@ is the calculator's input and is recorded as such.
 
 TEAM-SIGN-OFF [receptive field naming]: jess@walthamdatascience.com / 2026-08-17 -- the result composite is `receptive_field` and the leaf is `receptive_field_calculation`.
 
-**2026-10-21, DECIDED BY JESS HALEY, NOT SIGNED: the fold above can now be emitted.**
+**2026-10-21, DECIDED AND SIGNED BY JESS HALEY (data_body AMENDMENT 5; this line read "NOT SIGNED" until c8260da, HISTORICAL-SIGNOFF-CLAIM): the fold above can now be emitted.**
 `receptive_field.value` had become a required structure with no sub-fields (#73 item 57
 moved the method to the statement, audit 2 D11 moved the plane labels to body
 conditions), so no document could satisfy it and DID-matlab's `hartley_calc` passed all

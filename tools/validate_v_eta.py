@@ -511,25 +511,35 @@ def _is_blank(x):
     return False
 
 
+def _has_edge(doc, name):
+    for e in doc.get("depends_on") or []:
+        if e.get("name") == name and not _is_blank(e.get("document_id", e.get("value"))):
+            return True
+    return False
+
+
 def value_inline_or_body(doc):
     """THE DOCUMENT CHECK for rule `value_inline_or_body` (Jess Haley,
-    2026-10-21; decided, not signed; data_body AMENDMENT 5): a value document is
-    inline (its `value` filled) or in data bodies (`data_body` true), never
-    neither. DOC is the document's properties as a dict; `value` and
-    `data_body` are read at the top level. Returns a list of failures (empty
-    when the document passes). The enforcing validator is DID-matlab's; this is
-    the reference statement of the rule that the tests pin."""
-    if doc.get("data_body") is True:
+    2026-10-21, signed; data_body AMENDMENT 5 and its clarification): a value
+    document is inline (its `value` filled) or in data bodies (`data_body`
+    true), never neither -- or, for a statement, takes its value from a shared
+    value document through a non-empty `value_id` edge. DOC is the document's
+    properties as a dict; `value` and `data_body` are read at the top level,
+    edges from `depends_on` ({name, document_id} or {name, value}). Returns a
+    list of failures (empty when the document passes). The enforcing
+    validator is DID-matlab's; this is the reference statement of the rule
+    that the tests pin."""
+    if doc.get("data_body") is True or _has_edge(doc, "value_id"):
         return []
     if _is_blank(doc.get("value")):
-        return [(f"rule {VALUE_RULE}: `value` is empty and `data_body` is not true "
-                 "-- the value is neither inline nor in data bodies")]
+        return [(f"rule {VALUE_RULE}: `value` is empty, `data_body` is not true and "
+                 "there is no `value_id` edge -- the value is nowhere")]
     return []
 
 
 def r16_value_inline_or_body(t):
     """data_body AMENDMENT 5 (2026-10-21): `value` declares the rule
-    `value_inline_or_body` over `value` and `data_body`, and NO class under
+    `value_inline_or_body` over `value`, `data_body` and `value_id`, and NO class under
     `value` makes its inline `value` required -- the rule replaces the
     per-class `mustBeNonEmpty`, and a required inline value would refuse every
     body-backed document of that class."""
@@ -538,8 +548,8 @@ def r16_value_inline_or_body(t):
     r = rules.get(VALUE_RULE)
     if r is None:
         bad.append(f"value declares no rule {VALUE_RULE!r}")
-    elif sorted(r["fields"]) != ["data_body", "value"]:
-        bad.append(f"rule {VALUE_RULE} covers {r['fields']}, expected value + data_body")
+    elif sorted(r["fields"]) != ["data_body", "value", "value_id"]:
+        bad.append(f"rule {VALUE_RULE} covers {r['fields']}, expected value, data_body, value_id")
     n = 1
     for cn, (_, _, d) in t.classes.items():
         if cn == "value" or "value" not in t.chain(cn):
