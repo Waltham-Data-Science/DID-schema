@@ -265,7 +265,7 @@ export default function App() {
               setEditing(false);
             }}
             aria-pressed={panel?.kind === "veta"}
-            title="The go-forward V_eta class set by category, plus tenets T1-T19 -- read from schemas/ at build time"
+            title="The go-forward V_eta class set by category, plus tenets T1-T20 -- read from schemas/ at build time"
           >
             ◈ V_eta shape
           </button>

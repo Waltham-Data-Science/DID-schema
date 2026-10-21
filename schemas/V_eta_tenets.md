@@ -954,6 +954,31 @@ so the condition is not ambiguous), and its variable stays general (`diameter`).
 
 ---
 
+### T20 — A set referred to as a unit is a group entity.
+*(Proposed 2026-10-21 at Jess Haley's request, not signed. Three decisions that day — the
+stimulus cohort, the T17 standing-group amendment and the software pipeline of NDI-matlab
+#820 — each had to argue from first principles when a set becomes a group. T1 says
+group-ness comes from incoming `member_of` edges and T5 when a child is `member_of`; neither
+says when to make the group.)*
+
+- **When.** When the same set of entities is referred to together — as the subject,
+  instrument or software of statements, or as an end of a relation — the set is ONE entity
+  of `type` group, with its finer kind as a term (cohort, ensemble, software pipeline,
+  electrode array, …), and each member is linked to it by `member_of`. Statements point at
+  the group once; they never list its members.
+- **Standing, not per statement.** A group exists apart from the statements that use it and
+  is reused by all of them; it is never minted per statement (T17).
+- **Order lives on the membership.** When members have an order (a pipeline's steps, an
+  array's channel order), each `member_of` relation carries the member's position in
+  `directed_relation.order`, the field author order already uses (named `sequence` until
+  the rename that ships with the pipeline work; Jess Haley, 2026-10-21). Order is never
+  encoded in ids, in edge-family numbering, or as a list of ids on the referencing
+  statement. An unordered group (a cohort) leaves `order` empty.
+- **What a group's statements mean for its members** is decided by the statement
+  (`distributive`, T17), never by the group.
+- **Boundary.** A sequence that IS the data — the order stimuli were shown, an `item` — is
+  a value, not a group. Make a group only when the set is a thing reused as a unit.
+
 ## The meta-principle
 
 **Meaning migrates from the class name into the graph + ontology.** The class set should
