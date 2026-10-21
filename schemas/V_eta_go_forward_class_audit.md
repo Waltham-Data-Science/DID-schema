@@ -897,6 +897,8 @@ or builder check, not a per-document one.
 
 Decided by Jess Haley, 2026-10-21 [multiple amount rows]: when a v1 treatment carries more than one amount row, the migrator puts each amount in its matching dose slot (volume, mass, substance_amount, count, or an ingredient's amount_per_body_mass), instead of taking an amount only when exactly one row exists.
 
+Decided by Jess Haley, 2026-10-21 [named-chemical amount on the ingredient]: a v1 treatment amount row in mass or substance-amount units that names a chemical goes into that chemical's dose ingredient entry (value.ingredients[k], paired with its ingredient_id edge), because it is the amount of that chemical delivered, not of the whole formulation; the dose's top-level mass is used only for a row that names no chemical. The formulation keeps the recipe (added amounts or final concentrations), not what one animal received.
+
 Decided by Jess Haley, 2026-10-21 [generic treatment number]: a generic v1 treatment's numeric_value is never read as an amount of an ingredient or of the dose; it is carried as the value the treatment's term says it is (the vhlab grating stimulation row's number is a duration in hours), and kept as an unlabelled number only when the term does not say.
 
 Decided by Jess Haley, 2026-10-21 [treatment onset]: a migrated treatment manipulation is anchored at the v1 administration_onset_time when one is recorded, and at "during the session" only when none is.
