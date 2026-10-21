@@ -370,3 +370,23 @@ it a family of its own would make TWO families claim `stimulus_presentation`,
 which `status_board.py --check` fails on by design.
 
 TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: per-trial onsets are the `timed_sequence`'s own time key (irregular; inline or in a body the sequence owns), per-trial offsets are its `offset` field, and a `timed_sequence_manipulation` only points at the sequence (`value_id`).
+
+## Who received a presentation: decisions of 2026-10-21 (Jess Haley, in conversation; not a TEAM-SIGN-OFF line)
+
+These came out of the NDI second pass that folds `stimulus_presentation` (NDI-matlab #1021:
+`f9eb2d474` stimulator route, `59f8069fb` grating guard). They are recorded here because
+they hold for every migrated dataset, not for one.
+
+1. **The animal is found in the presentation's own session, from the lab's records, strongest
+   first:** a stimulus response that names the presentation, then the elements recorded in
+   the presentation's epoch, then the animal the lab's probe map assigns the stimulator to.
+   The stimulator route never leaves the session, because an epoch belongs to one session.
+2. **Several animals in one session get one manipulation on the session's cohort, marked
+   `distributive`, never N copies.** The cohort is a standing group (the animals recorded
+   together in that session), reused by every presentation in it. This is the proposed T17
+   amendment in `V_eta_tenets.md` (not signed). Its build is part of the migrator port
+   (OPEN_WORK #79).
+3. **A blank counts as a blank whatever its stimulus class** (`isblank` = 1). A blank shows
+   nothing, so its class does not change what the animal saw.
+4. **Stimulator links that lead to different animals are refused and listed**, not resolved
+   through the cohort: conflicting records are not a shared event.
