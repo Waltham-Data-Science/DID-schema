@@ -353,12 +353,15 @@ class TestTheCommittedLedger(unittest.TestCase):
         # resolveDeferredBaths still declares `dose_manipulation`. It returns
         # when the sibling branch CI reads declares the new emission (DID-matlab
         # claude/port-88 does).
+        # THREE again since DID-matlab #218 8e2ef6d (2026-10-21): stimulus_bath
+        # RETURNED, as predicted above -- resolveDeferredBaths now declares
+        # `manipulation+formulation`, which matches its decided target.
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "fileReference"])
+            ["epochfiles_ingested", "fileReference", "stimulus_bath"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}

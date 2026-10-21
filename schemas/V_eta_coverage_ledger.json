@@ -73,6 +73,23 @@
             "opaque_body"
           ],
           "stage_reached": 3
+        },
+        {
+          "v1_class": "stimulus_bath",
+          "emits": {
+            "resolveDeferredBaths": [
+              "relative_time_reference",
+              "manipulation + formulation",
+              "formulation",
+              "chemical",
+              "observation + term"
+            ]
+          },
+          "decided_targets": [
+            "manipulation + formulation",
+            "formulation"
+          ],
+          "stage_reached": 3
         }
       ],
       "rows_naming_a_pass": [
@@ -281,8 +298,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 26,
-        "3": 39,
+        "2": 25,
+        "3": 40,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -300,8 +317,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 38,
-          "no": 29,
+          "yes": 39,
+          "no": 28,
           "n/a": 3
         },
         "4": {
@@ -311,7 +328,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 38,
+        "3": 39,
         "4": 0
       },
       "capped": {
@@ -325,8 +342,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 29,
-          "3": 38,
+          "2": 28,
+          "3": 39,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -12289,16 +12306,16 @@
         "batch_pass_emits": {
           "resolveDeferredBaths": [
             "relative_time_reference",
-            "manipulation",
+            "manipulation + formulation",
             "formulation",
             "chemical",
             "observation + term"
           ]
         },
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -12353,10 +12370,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -12373,8 +12390,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `manipulation + formulation`, `formulation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 67 shared helper(s) declare; 1 MINT a document while declaring nothing (jAcquisitionChannels), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveDeferredBaths` -> `chemical`, `formulation`, `manipulation + formulation`, `observation + term`, `relative_time_reference` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -12384,7 +12401,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
