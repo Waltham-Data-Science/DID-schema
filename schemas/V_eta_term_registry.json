@@ -1746,14 +1746,6 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "study design",
-      "node": "OBI:0500000",
-      "definition": "A plan specification comprised of protocols (which may specify how and what kinds of data will be gathered) that are executed as part of an investigation and is realized during a study design execution.",
-      "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (binding variables)",
-      "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
-    },
-    {
       "name": "Gene Expression",
       "node": "NCIT:C16608",
       "definition": "Typically involves transcription of genetically encoded information into an intermediary message (messenger RNA) and subsequent translation into a functional protein.",
@@ -1792,14 +1784,6 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (Haley V2 import: a patch's kind)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-    },
-    {
-      "name": "ethics assessment",
-      "node": "EMPTY:0000355",
-      "definition": "Whether the work recorded in a dataset required an ethics review and, if so, the outcome of that review.",
-      "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (binding variables)",
-      "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
     },
     {
       "name": "experimental approach",
@@ -1960,6 +1944,1998 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (Dab slice tetanus pass: the unit of the TLS frequency parameter)",
       "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.migrate.internal.sliceTetanus)"
+    },
+    {
+      "name": "Under Embargo",
+      "node": "NCIT:C183345",
+      "definition": "Information that will not be published until a predetermined condition is met.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (closed value set of Open or Controlled Data Access Indicator)",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "ethics jurisdiction",
+      "node": "EMPTY:0000359",
+      "definition": "The jurisdiction, a sovereign state or a supranational body, under which the ethics assessment of the work recorded in a dataset was conducted.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (replaces ethics assessment, EMPTY:0000355; openMINDS v6+ ethicsJurisdiction)",
+      "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "number of organisms per arena",
+      "node": "EMPTY:0000365",
+      "definition": "The number of organisms placed together in one arena for an assay.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (a factor of the Haley single-patch assays)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "anatomy",
+      "node": "ILX:0739411",
+      "definition": "Any experimental approach focused on the bodily structure of living organisms.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "behavior",
+      "node": "ILX:0739413",
+      "definition": "Any experimental approach focused on the mechanical activity or cognitive processes underlying mechanical activity of living organisms often in response to external sensory stimuli.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "biophysics",
+      "node": "ILX:0793772",
+      "definition": "Any experimental approach that is traditionally used in physics, but applied and modified to study biological phenomena. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Biophysics)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "cell biology",
+      "node": "ILX:0739391",
+      "definition": "Any experimental approach focused on structure, function, multiplication, pathology, and life history of biological cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "cell morphology",
+      "node": "ILX:0739394",
+      "definition": "Any experimental approach focused on the shape and structure of individual cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "cell population characterization",
+      "node": "ILX:0739408",
+      "definition": "Any experimental approach focused on biochemical, molecular and/or physiological characteristics of populations of cells as opposed to individual cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "cell population imaging",
+      "node": "ILX:0739402",
+      "definition": "Any experimental approach focused on imaging biochemical, molecular, or physiological characteristics of populations of cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "cell population manipulation",
+      "node": "ILX:0739398",
+      "definition": "Any experimental approach focused on manipulation of biochemical, molecular, or physiological characteristics of populations of cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "chemogenetics",
+      "node": "EMPTY:0000360",
+      "definition": "Any experimental approach focused on using genetically encoded chemically sensitive proteins in combination with a specific agonist delivered systemically in order to manipulate the behavior of populations of cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "clinical research",
+      "node": "ILX:0739401",
+      "definition": "Any experimental approach focused on medical observation, treatment, or testing of patients.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "computational modeling",
+      "node": "ILX:0739414",
+      "definition": "Any experimental approach focused on creating or characterizing computational models or simulations of experimentally observed phenomena.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "developmental biology",
+      "node": "ILX:0739412",
+      "definition": "Any experimental approach focused on life cycle, development, or developmental history of an organism.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "ecology",
+      "node": "ILX:0739389",
+      "definition": "Any experimental approach focused on interrelationship of organisms and their environments, including causes and consequences.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "electrophysiology",
+      "node": "ILX:0741202",
+      "definition": "Any experimental approach focused on electrical phenomena associated with living systems, most notably the nervous system, cardiac system, and musculoskeletal system.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "epidemiology",
+      "node": "ILX:0739400",
+      "definition": "Any experimental approach focused on incidence, distribution, and possible control of diseases and other factors relating to health.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "epigenomics",
+      "node": "ILX:0741207",
+      "definition": "Any experimental approach focused on processes that modulate transcription but that do not directly alter the primary sequences of an organism's DNA.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "ethology",
+      "node": "ILX:0739388",
+      "definition": "Any experimental approach focused on natural unmanipulated human or animal behavior and social organization from a biological, life history, and often evolutionary perspective.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "evolutionary biology",
+      "node": "ILX:0739392",
+      "definition": "Any experimental approach focused on heritable characteristics of biological populations and their variation through the modification of developmental process to produce new forms and species.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "expression",
+      "node": "ILX:0739397",
+      "definition": "Any experimental approach focused on driving or detecting expression of genes in cells or tissues.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "expression characterization",
+      "node": "ILX:0739409",
+      "definition": "Any experimental approach focused on the cellular, anatomical, or morphological distribution of gene expression.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "genetics",
+      "node": "EMPTY:0000361",
+      "definition": "Any experimental approach that measures or manipulates some aspect of the genetic material of an organism.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "genomics",
+      "node": "ILX:0741204",
+      "definition": "Any experimental approach focused on structure, function, evolution, and mapping of genomes, the entiretiy of the genetic material of a single organism.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "histology",
+      "node": "ILX:0739399",
+      "definition": "Any experimental approach focused on structure of biological tissue.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "informatics",
+      "node": "EMPTY:0000362",
+      "definition": "Any experimental approach focused on collection, classification, storage, retrieval, analysis, visualization, and dissemination of recorded knowledge in computational systems.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "metabolomics",
+      "node": "ILX:0741203",
+      "definition": "Any experimental approach focused on chemical processes involving metabolites, the small molecule substrates, intermediates and products of cell metabolism.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "microscopy",
+      "node": "ILX:0739404",
+      "definition": "Any experimental approach focused on using differential contrast of microscopic structures to form an image.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "morphology",
+      "node": "ILX:0739403",
+      "definition": "Any experimental approach focused on the shape and structure of living organisms or their parts.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "multimodal research",
+      "node": "ILX:0739395",
+      "definition": "Any experimental approach that employs multiple experimental approaches in significant ways.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "multiomics",
+      "node": "ILX:0739407",
+      "definition": "Any experimental approach that employs multiple omics approaches in significant ways.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "neural connectivity",
+      "node": "ILX:0739393",
+      "definition": "Any experimental approach focused on functional or anatomical connections between single neurons or populations of neurons in defined anatomical regions.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "neuroimaging",
+      "node": "ILX:0741206",
+      "definition": "Any experimental approach focused on the non-invasive direct or indirect imaging of the structure, function, or pharmacology of the nervous system.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "omics",
+      "node": "ILX:0739405",
+      "definition": "Any experimental approach focused on characterization and quantification of biological molecules that give rise to the structure, function, and dynamics of organisms or their parts.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "optogenetics",
+      "node": "EMPTY:0000363",
+      "definition": "Any experimental approach focused on using genetically encoded light-sensitive proteins in combination with targeted delivery of light in order to manipulate the behavior of populations of cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "pathology",
+      "node": "EMPTY:0000364",
+      "definition": "Any experimental approach that aims to identify or classify the causes and effects of diseases, disorders, injuries, or other abnormal biology.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "pharmacology",
+      "node": "EDAM:topic_0202",
+      "definition": "Any experimental approach in which the composition, properties, functions, sources, synthesis and design of drugs (any artificial, natural, or endogenous molecule) and their biochemical or physiological effect (normal or abnormal) on a cell, tissue, organ, or organism are studied. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Pharmacology)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "physiology",
+      "node": "ILX:0739410",
+      "definition": "Any experimental approach focused on normal functions of living organisms and their parts.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "proteomics",
+      "node": "ILX:0741205",
+      "definition": "Any experimental approach focused on the composition, structure, and activity of an entire set of proteins in organisms or their parts.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "radiology",
+      "node": "ILX:0739390",
+      "definition": "Any experimental approach focused on using non-invasive techniques that use intrinsic or induced contrast to form images. Also covers purely clinical domains such as nuclear medicine.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "spatial transcriptomics",
+      "node": "ILX:0739396",
+      "definition": "Any experimental approach focused on mapping the spatial location of gene activity in biological tissue.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "transcriptomics",
+      "node": "ILX:0739406",
+      "definition": "Any experimental approach focused on the transcriptome (all RNA transcripts) of one or more cells, tissues, or organisms.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Afghanistan",
+      "node": "wikidata:Q889",
+      "definition": "Country in Central and South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Albania",
+      "node": "wikidata:Q222",
+      "definition": "Country in southeastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Algeria",
+      "node": "wikidata:Q262",
+      "definition": "Country in North Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Andorra",
+      "node": "wikidata:Q228",
+      "definition": "Sovereign microstate between France and Spain, in Western Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Angola",
+      "node": "wikidata:Q916",
+      "definition": "Country on the west coast of Southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Antigua and Barbuda",
+      "node": "wikidata:Q781",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Argentina",
+      "node": "wikidata:Q414",
+      "definition": "Country in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Armenia",
+      "node": "wikidata:Q399",
+      "definition": "Sovereign state in the South Caucasus region of Eurasia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Australia",
+      "node": "wikidata:Q408",
+      "definition": "Country in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Austria",
+      "node": "wikidata:Q40",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Azerbaijan",
+      "node": "wikidata:Q227",
+      "definition": "Country in the Caucasus in Eastern Europe and Western Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bahrain",
+      "node": "wikidata:Q398",
+      "definition": "Country in the Persian Gulf.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bangladesh",
+      "node": "wikidata:Q902",
+      "definition": "Country in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Barbados",
+      "node": "wikidata:Q244",
+      "definition": "Island nation in the Caribbean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Belarus",
+      "node": "wikidata:Q184",
+      "definition": "Country in Eastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Belgium",
+      "node": "wikidata:Q31",
+      "definition": "Country in western Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Belize",
+      "node": "wikidata:Q242",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Benin",
+      "node": "wikidata:Q962",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bhutan",
+      "node": "wikidata:Q917",
+      "definition": "Sovereign state in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bolivia",
+      "node": "wikidata:Q750",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bosnia and Herzegovina",
+      "node": "wikidata:Q225",
+      "definition": "Country in Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Botswana",
+      "node": "wikidata:Q963",
+      "definition": "Sovereign state in Southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Brazil",
+      "node": "wikidata:Q155",
+      "definition": "Country in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Brunei",
+      "node": "wikidata:Q921",
+      "definition": "Sovereign country and sultanate on the island of Borneo in south-east Asia, member of the Commonwealth of Nations.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Bulgaria",
+      "node": "wikidata:Q219",
+      "definition": "Country in Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Burkina Faso",
+      "node": "wikidata:Q965",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Burundi",
+      "node": "wikidata:Q967",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Cambodia",
+      "node": "wikidata:Q424",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Cameroon",
+      "node": "wikidata:Q1009",
+      "definition": "Sovereign state in West-Central Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Canada",
+      "node": "wikidata:Q16",
+      "definition": "Country in North America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Cape Verde",
+      "node": "wikidata:Q1011",
+      "definition": "Sovereign state comprising ten islands off the Western coast of Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Central African Republic",
+      "node": "wikidata:Q929",
+      "definition": "Country in Central Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Chad",
+      "node": "wikidata:Q657",
+      "definition": "Sovereign state in central Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Chile",
+      "node": "wikidata:Q298",
+      "definition": "Country in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Colombia",
+      "node": "wikidata:Q739",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Comoros",
+      "node": "wikidata:Q970",
+      "definition": "Sovereign state situated on an archipelago in the Indian Ocean off the eastern coast of Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Costa Rica",
+      "node": "wikidata:Q800",
+      "definition": "Country in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Croatia",
+      "node": "wikidata:Q224",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Cuba",
+      "node": "wikidata:Q241",
+      "definition": "Sovereign state situated on an island in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Cyprus",
+      "node": "wikidata:Q229",
+      "definition": "Mediterranean island country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Czech Republic",
+      "node": "wikidata:Q213",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Democratic Republic of the Congo",
+      "node": "wikidata:Q974",
+      "definition": "Country in Central Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Djibouti",
+      "node": "wikidata:Q977",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Dominica",
+      "node": "wikidata:Q784",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Dominican Republic",
+      "node": "wikidata:Q786",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ecuador",
+      "node": "wikidata:Q736",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Egypt",
+      "node": "wikidata:Q79",
+      "definition": "Country in Northeast Africa and Southwest Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "El Salvador",
+      "node": "wikidata:Q792",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Equatorial Guinea",
+      "node": "wikidata:Q983",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Eritrea",
+      "node": "wikidata:Q986",
+      "definition": "Country in the Horn of Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Estonia",
+      "node": "wikidata:Q191",
+      "definition": "Country in Northern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Eswatini",
+      "node": "wikidata:Q1050",
+      "definition": "Sovereign state in southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ethiopia",
+      "node": "wikidata:Q115",
+      "definition": "Country in the Horn of Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Federated States of Micronesia",
+      "node": "wikidata:Q702",
+      "definition": "Island sovereign state in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Fiji",
+      "node": "wikidata:Q712",
+      "definition": "Island sovereign state in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Finland",
+      "node": "wikidata:Q33",
+      "definition": "Country in Northern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "France",
+      "node": "wikidata:Q142",
+      "definition": "Country in Western Europe and other continents (through its overseas territories in America, Africa and Oceania).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Gabon",
+      "node": "wikidata:Q1000",
+      "definition": "Country on the Atlantic coast of Central Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Georgia",
+      "node": "wikidata:Q230",
+      "definition": "Country in the Caucasus region of Europe and Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Germany",
+      "node": "wikidata:Q183",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ghana",
+      "node": "wikidata:Q117",
+      "definition": "Country in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Greece",
+      "node": "wikidata:Q41",
+      "definition": "Country in Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Grenada",
+      "node": "wikidata:Q769",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Guatemala",
+      "node": "wikidata:Q774",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Guinea",
+      "node": "wikidata:Q1006",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Guinea-Bissau",
+      "node": "wikidata:Q1007",
+      "definition": "Sovereign state in Western Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Guyana",
+      "node": "wikidata:Q734",
+      "definition": "Country in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Haiti",
+      "node": "wikidata:Q790",
+      "definition": "Country in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Honduras",
+      "node": "wikidata:Q783",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Hungary",
+      "node": "wikidata:Q28",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Iceland",
+      "node": "wikidata:Q189",
+      "definition": "Nordic island country in the North Atlantic Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "India",
+      "node": "wikidata:Q668",
+      "definition": "Country in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Indonesia",
+      "node": "wikidata:Q252",
+      "definition": "Island country in Southeast Asia and Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Iran",
+      "node": "wikidata:Q794",
+      "definition": "Country in Western Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Iraq",
+      "node": "wikidata:Q796",
+      "definition": "Sovereign state in Western Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ireland",
+      "node": "wikidata:Q27",
+      "definition": "Country in Northwestern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Israel",
+      "node": "wikidata:Q801",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Italy",
+      "node": "wikidata:Q38",
+      "definition": "Country in Southern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ivory Coast",
+      "node": "wikidata:Q1008",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Jamaica",
+      "node": "wikidata:Q766",
+      "definition": "Island state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Japan",
+      "node": "wikidata:Q17",
+      "definition": "Island country in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Jordan",
+      "node": "wikidata:Q810",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kazakhstan",
+      "node": "wikidata:Q232",
+      "definition": "Sovereign state in Eastern Europe and Central Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kenya",
+      "node": "wikidata:Q114",
+      "definition": "Country in Eastern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kingdom of Denmark",
+      "node": "wikidata:Q756617",
+      "definition": "Transcontinental sovereign state and constitutional monarchy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kingdom of the Netherlands",
+      "node": "wikidata:Q29999",
+      "definition": "Transcontinental sovereign state and constitutional monarchy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kiribati",
+      "node": "wikidata:Q710",
+      "definition": "Island sovereign state in the central Pacific Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kuwait",
+      "node": "wikidata:Q817",
+      "definition": "Sovereign state in Western Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Kyrgyzstan",
+      "node": "wikidata:Q813",
+      "definition": "Sovereign state in Central Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Laos",
+      "node": "wikidata:Q819",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Latvia",
+      "node": "wikidata:Q211",
+      "definition": "Sovereign state in northeastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Lebanon",
+      "node": "wikidata:Q822",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Lesotho",
+      "node": "wikidata:Q1013",
+      "definition": "Sovereign state in southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Liberia",
+      "node": "wikidata:Q1014",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Libya",
+      "node": "wikidata:Q1016",
+      "definition": "Sovereign state in North Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Liechtenstein",
+      "node": "wikidata:Q347",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Lithuania",
+      "node": "wikidata:Q37",
+      "definition": "Country in northeastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Luxembourg",
+      "node": "wikidata:Q32",
+      "definition": "Country in Western Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Madagascar",
+      "node": "wikidata:Q1019",
+      "definition": "Island sovereign state off the coast of Southeast Africa, in the Indian Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Malawi",
+      "node": "wikidata:Q1020",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Malaysia",
+      "node": "wikidata:Q833",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Maldives",
+      "node": "wikidata:Q826",
+      "definition": "Sovereign state in South Asia, situated on an archipelago in the Arabian Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mali",
+      "node": "wikidata:Q912",
+      "definition": "Country in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Malta",
+      "node": "wikidata:Q233",
+      "definition": "Country in Southern Europe situated on an archipelago in the Mediterranean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Marshall Islands",
+      "node": "wikidata:Q709",
+      "definition": "Country near the equator in the Pacific Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mauritania",
+      "node": "wikidata:Q1025",
+      "definition": "Sovereign state in West Africa and North Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mauritius",
+      "node": "wikidata:Q1027",
+      "definition": "Island sovereign state off of East Africa in the Indian Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mexico",
+      "node": "wikidata:Q96",
+      "definition": "Country in North America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Moldova",
+      "node": "wikidata:Q217",
+      "definition": "Country in Eastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Monaco",
+      "node": "wikidata:Q235",
+      "definition": "Microstate in Western Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mongolia",
+      "node": "wikidata:Q711",
+      "definition": "Country in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Montenegro",
+      "node": "wikidata:Q236",
+      "definition": "Country in southeastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Morocco",
+      "node": "wikidata:Q1028",
+      "definition": "Sovereign state in North Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Mozambique",
+      "node": "wikidata:Q1029",
+      "definition": "Country in Southeastern Africa; the current form of Mozambique since 1975.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Myanmar",
+      "node": "wikidata:Q836",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Namibia",
+      "node": "wikidata:Q1030",
+      "definition": "Country in Southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Nauru",
+      "node": "wikidata:Q697",
+      "definition": "Country in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Nepal",
+      "node": "wikidata:Q837",
+      "definition": "Country in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "New Zealand",
+      "node": "wikidata:Q664",
+      "definition": "Island country in the southwest Pacific Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Nicaragua",
+      "node": "wikidata:Q811",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Niger",
+      "node": "wikidata:Q1032",
+      "definition": "Sovereign state in western Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Nigeria",
+      "node": "wikidata:Q1033",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "North Korea",
+      "node": "wikidata:Q423",
+      "definition": "Sovereign state in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "North Macedonia",
+      "node": "wikidata:Q221",
+      "definition": "Country in southeastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Norway",
+      "node": "wikidata:Q20",
+      "definition": "Country in Northern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Oman",
+      "node": "wikidata:Q842",
+      "definition": "Sovereign state in western Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Pakistan",
+      "node": "wikidata:Q843",
+      "definition": "Sovereign state in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Palau",
+      "node": "wikidata:Q695",
+      "definition": "Island sovereign state in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Panama",
+      "node": "wikidata:Q804",
+      "definition": "Sovereign state in Central America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Papua New Guinea",
+      "node": "wikidata:Q691",
+      "definition": "Country in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Paraguay",
+      "node": "wikidata:Q733",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "People's Republic of China",
+      "node": "wikidata:Q148",
+      "definition": "Country in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Peru",
+      "node": "wikidata:Q419",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Philippines",
+      "node": "wikidata:Q928",
+      "definition": "Archipelagic country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Poland",
+      "node": "wikidata:Q36",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Portugal",
+      "node": "wikidata:Q45",
+      "definition": "Country in Southwestern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Qatar",
+      "node": "wikidata:Q846",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Republic of the Congo",
+      "node": "wikidata:Q971",
+      "definition": "Country in Central Africa, capital Brazzaville.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Romania",
+      "node": "wikidata:Q218",
+      "definition": "Country in Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Russia",
+      "node": "wikidata:Q159",
+      "definition": "Country in Eastern Europe and Northern Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Rwanda",
+      "node": "wikidata:Q1037",
+      "definition": "Country in East Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Saint Kitts and Nevis",
+      "node": "wikidata:Q763",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Saint Lucia",
+      "node": "wikidata:Q760",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Saint Vincent and the Grenadines",
+      "node": "wikidata:Q757",
+      "definition": "Island sovereign state in the Caribbean Sea.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Samoa",
+      "node": "wikidata:Q683",
+      "definition": "Sovereign state made up of six islands in the Pacific Ocean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "San Marino",
+      "node": "wikidata:Q238",
+      "definition": "Sovereign state in southern Europe, enclaved within Italy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sao Tome and Principe",
+      "node": "wikidata:Q1039",
+      "definition": "Island sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Saudi Arabia",
+      "node": "wikidata:Q851",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sauk-Suiattle Indian Tribe",
+      "node": "wikidata:Q1718707",
+      "definition": "Federally recognized Native American tribe in Washington state, USA.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Senegal",
+      "node": "wikidata:Q1041",
+      "definition": "Country on the coast of West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Serbia",
+      "node": "wikidata:Q403",
+      "definition": "Country in Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Seychelles",
+      "node": "wikidata:Q1042",
+      "definition": "Island sovereign state off the eastern coast of Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sierra Leone",
+      "node": "wikidata:Q1044",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Singapore",
+      "node": "wikidata:Q334",
+      "definition": "Sovereign island country and city-state in maritime Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Slovakia",
+      "node": "wikidata:Q214",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Slovenia",
+      "node": "wikidata:Q215",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Solomon Islands",
+      "node": "wikidata:Q685",
+      "definition": "Island sovereign state in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Somalia",
+      "node": "wikidata:Q1045",
+      "definition": "Sovereign state in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "South Africa",
+      "node": "wikidata:Q258",
+      "definition": "Country in southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "South Korea",
+      "node": "wikidata:Q884",
+      "definition": "Country in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "South Sudan",
+      "node": "wikidata:Q958",
+      "definition": "Country in East Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Spain",
+      "node": "wikidata:Q29",
+      "definition": "Country in southwestern Europe with territories in Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sri Lanka",
+      "node": "wikidata:Q854",
+      "definition": "Island country in South Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "State of Palestine",
+      "node": "wikidata:Q219060",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sudan",
+      "node": "wikidata:Q1049",
+      "definition": "Country in Northeast Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Suriname",
+      "node": "wikidata:Q730",
+      "definition": "Country in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Sweden",
+      "node": "wikidata:Q34",
+      "definition": "Country in Northern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Switzerland",
+      "node": "wikidata:Q39",
+      "definition": "Country in Central Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Syria",
+      "node": "wikidata:Q858",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Taiwan",
+      "node": "wikidata:Q865",
+      "definition": "Country in East Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Tajikistan",
+      "node": "wikidata:Q863",
+      "definition": "Sovereign state in Central Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Tanzania",
+      "node": "wikidata:Q924",
+      "definition": "Country in East Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Thailand",
+      "node": "wikidata:Q869",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "The Bahamas",
+      "node": "wikidata:Q778",
+      "definition": "Island sovereign state in the West Indies.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "The Gambia",
+      "node": "wikidata:Q1005",
+      "definition": "Sovereign state in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Timor-Leste",
+      "node": "wikidata:Q574",
+      "definition": "Sovereign state situated on several islands in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Togo",
+      "node": "wikidata:Q945",
+      "definition": "Country in West Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Tonga",
+      "node": "wikidata:Q678",
+      "definition": "Sovereign state in Oceania, situated on an archipelago.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Trinidad and Tobago",
+      "node": "wikidata:Q754",
+      "definition": "Island sovereign state in the Caribbean.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Tunisia",
+      "node": "wikidata:Q948",
+      "definition": "Country in North Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Turkey",
+      "node": "wikidata:Q43",
+      "definition": "Country in West Asia and Southeast Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Turkmenistan",
+      "node": "wikidata:Q874",
+      "definition": "Country in Central Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Tuvalu",
+      "node": "wikidata:Q672",
+      "definition": "Country in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Uganda",
+      "node": "wikidata:Q1036",
+      "definition": "Country in east Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Ukraine",
+      "node": "wikidata:Q212",
+      "definition": "Country in Eastern Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "United Arab Emirates",
+      "node": "wikidata:Q878",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "United Kingdom",
+      "node": "wikidata:Q145",
+      "definition": "Country in north-west Europe.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "United States",
+      "node": "wikidata:Q30",
+      "definition": "Country located primarily in North America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Uruguay",
+      "node": "wikidata:Q77",
+      "definition": "Sovereign state in South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Uzbekistan",
+      "node": "wikidata:Q265",
+      "definition": "Sovereign state in Central Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Vanuatu",
+      "node": "wikidata:Q686",
+      "definition": "Island country in Oceania.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Vatican City",
+      "node": "wikidata:Q237",
+      "definition": "Holy See's independent state, an enclave within Rome, Italy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Venezuela",
+      "node": "wikidata:Q717",
+      "definition": "Sovereign state in northern South America.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Vietnam",
+      "node": "wikidata:Q881",
+      "definition": "Country in Southeast Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Yemen",
+      "node": "wikidata:Q805",
+      "definition": "Country in West Asia.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Zambia",
+      "node": "wikidata:Q953",
+      "definition": "Country at the crossroads of Central and Southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Zimbabwe",
+      "node": "wikidata:Q954",
+      "definition": "Sovereign state in southern Africa.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Arab Maghreb Union",
+      "node": "wikidata:Q370862",
+      "definition": "Trade agreement among Arab countries.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "COVAX",
+      "node": "wikidata:Q99360983",
+      "definition": "Global vaccine alliance regarding the COVID-19 pandemic.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "European Economic Area",
+      "node": "wikidata:Q8932",
+      "definition": "Area of the European Union's internal market and some of EFTA states established in 1994.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "European Union",
+      "node": "wikidata:Q458",
+      "definition": "Political and economic union of 27 European states.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Nordic Council",
+      "node": "wikidata:Q146165",
+      "definition": "Geo-political inter-parliamentary forum for co-operation between the Nordic countries.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Provisional World Government",
+      "node": "wikidata:Q119439372",
+      "definition": "World Government in Provisional stage.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "The Mahdi Servants Union",
+      "node": "wikidata:Q96979217",
+      "definition": "International non-governmental organization.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "Union State",
+      "node": "wikidata:Q166110",
+      "definition": "Supranational entity consisting of the Russian Federation and the Republic of Belarus.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "West African Examinations Council",
+      "node": "wikidata:Q2993835",
+      "definition": "Is an examination board established in the public interest to conduct exams and award certificates in English-speaking West African countries. [adapted from [Wikipedia](https://en.wikipedia.org/wiki/West_African_Examinations_Council)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
     }
   ]
 }

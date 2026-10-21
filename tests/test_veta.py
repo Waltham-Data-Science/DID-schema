@@ -1077,16 +1077,19 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
         # NCIT's label, and ethics assessment / experimental approach took minted
         # EMPTY terms (they had no node until then).
         "Open or Controlled Data Access Indicator": "NCIT:C175887",
-        "ethics assessment": "EMPTY:0000355",
+        # ethics jurisdiction replaces ethics assessment, and each of the three
+        # carries a CLOSED list of registered value terms (Jess Haley, 2026-10-21)
+        "ethics jurisdiction": "EMPTY:0000359",
         "experimental approach": "EMPTY:0000356",
     }
     assert set(expected) <= set(rows), sorted(rows)
+    assert "ethics assessment" not in rows
     for name, node in expected.items():
         r = rows[name]
         assert r["class"] == "assertion" and r["value_kind"] == "term", r
         assert r["node_form"] == "curie" and r["variable"]["node"] == node, r
         assert "vocabulary" not in r and "term_set" not in r, r
-        assert "values" not in r
+        assert isinstance(r["values"], list) and r["values"], r
     # the field bindings that remain are the entity's own: its type
     assert [(r["class"], r["field"]) for r in reg["entity_field_bindings"]] == [
         ("entity", "type")]

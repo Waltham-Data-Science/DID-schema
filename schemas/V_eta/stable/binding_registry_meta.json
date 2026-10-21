@@ -45,7 +45,25 @@
             "class": "assertion",
             "node_form": "curie",
             "subject_defining": true,
-            "value_kind": "term"
+            "value_kind": "term",
+            "values": [
+                {
+                    "node": "EMPTY:0000321",
+                    "name": "assay plate"
+                },
+                {
+                    "node": "EMPTY:0000319",
+                    "name": "acclimation plate"
+                },
+                {
+                    "node": "EMPTY:0000320",
+                    "name": "food deprivation plate"
+                },
+                {
+                    "node": "NCIT:C96141",
+                    "name": "Petri Dish"
+                }
+            ]
         },
         {
             "variable": {
@@ -55,7 +73,13 @@
             "class": "assertion",
             "node_form": "curie",
             "subject_defining": true,
-            "value_kind": "term"
+            "value_kind": "term",
+            "values": [
+                {
+                    "node": "EMPTY:0000325",
+                    "name": "bacterial patch"
+                }
+            ]
         },
         {
             "variable": {
@@ -74,7 +98,8 @@
                 "name": "Gene Expression"
             },
             "class": "spatial_gene_expression_pyramid",
-            "subject_defining": false
+            "subject_defining": false,
+            "term_valued": false
         },
         {
             "variable": {
@@ -85,18 +110,854 @@
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "node_form": "curie"
+            "node_form": "curie",
+            "values": [
+                {
+                    "node": "NCIT:C183346",
+                    "name": "Unrestricted Access"
+                },
+                {
+                    "node": "NCIT:C183345",
+                    "name": "Under Embargo"
+                }
+            ]
         },
         {
             "variable": {
-                "node": "EMPTY:0000355",
-                "name": "ethics assessment"
+                "node": "EMPTY:0000359",
+                "name": "ethics jurisdiction"
             },
             "class": "assertion",
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "node_form": "curie"
+            "node_form": "curie",
+            "values": [
+                {
+                    "node": "wikidata:Q889",
+                    "name": "Afghanistan"
+                },
+                {
+                    "node": "wikidata:Q222",
+                    "name": "Albania"
+                },
+                {
+                    "node": "wikidata:Q262",
+                    "name": "Algeria"
+                },
+                {
+                    "node": "wikidata:Q228",
+                    "name": "Andorra"
+                },
+                {
+                    "node": "wikidata:Q916",
+                    "name": "Angola"
+                },
+                {
+                    "node": "wikidata:Q781",
+                    "name": "Antigua and Barbuda"
+                },
+                {
+                    "node": "wikidata:Q414",
+                    "name": "Argentina"
+                },
+                {
+                    "node": "wikidata:Q399",
+                    "name": "Armenia"
+                },
+                {
+                    "node": "wikidata:Q408",
+                    "name": "Australia"
+                },
+                {
+                    "node": "wikidata:Q40",
+                    "name": "Austria"
+                },
+                {
+                    "node": "wikidata:Q227",
+                    "name": "Azerbaijan"
+                },
+                {
+                    "node": "wikidata:Q398",
+                    "name": "Bahrain"
+                },
+                {
+                    "node": "wikidata:Q902",
+                    "name": "Bangladesh"
+                },
+                {
+                    "node": "wikidata:Q244",
+                    "name": "Barbados"
+                },
+                {
+                    "node": "wikidata:Q184",
+                    "name": "Belarus"
+                },
+                {
+                    "node": "wikidata:Q31",
+                    "name": "Belgium"
+                },
+                {
+                    "node": "wikidata:Q242",
+                    "name": "Belize"
+                },
+                {
+                    "node": "wikidata:Q962",
+                    "name": "Benin"
+                },
+                {
+                    "node": "wikidata:Q917",
+                    "name": "Bhutan"
+                },
+                {
+                    "node": "wikidata:Q750",
+                    "name": "Bolivia"
+                },
+                {
+                    "node": "wikidata:Q225",
+                    "name": "Bosnia and Herzegovina"
+                },
+                {
+                    "node": "wikidata:Q963",
+                    "name": "Botswana"
+                },
+                {
+                    "node": "wikidata:Q155",
+                    "name": "Brazil"
+                },
+                {
+                    "node": "wikidata:Q921",
+                    "name": "Brunei"
+                },
+                {
+                    "node": "wikidata:Q219",
+                    "name": "Bulgaria"
+                },
+                {
+                    "node": "wikidata:Q965",
+                    "name": "Burkina Faso"
+                },
+                {
+                    "node": "wikidata:Q967",
+                    "name": "Burundi"
+                },
+                {
+                    "node": "wikidata:Q424",
+                    "name": "Cambodia"
+                },
+                {
+                    "node": "wikidata:Q1009",
+                    "name": "Cameroon"
+                },
+                {
+                    "node": "wikidata:Q16",
+                    "name": "Canada"
+                },
+                {
+                    "node": "wikidata:Q1011",
+                    "name": "Cape Verde"
+                },
+                {
+                    "node": "wikidata:Q929",
+                    "name": "Central African Republic"
+                },
+                {
+                    "node": "wikidata:Q657",
+                    "name": "Chad"
+                },
+                {
+                    "node": "wikidata:Q298",
+                    "name": "Chile"
+                },
+                {
+                    "node": "wikidata:Q739",
+                    "name": "Colombia"
+                },
+                {
+                    "node": "wikidata:Q970",
+                    "name": "Comoros"
+                },
+                {
+                    "node": "wikidata:Q800",
+                    "name": "Costa Rica"
+                },
+                {
+                    "node": "wikidata:Q224",
+                    "name": "Croatia"
+                },
+                {
+                    "node": "wikidata:Q241",
+                    "name": "Cuba"
+                },
+                {
+                    "node": "wikidata:Q229",
+                    "name": "Cyprus"
+                },
+                {
+                    "node": "wikidata:Q213",
+                    "name": "Czech Republic"
+                },
+                {
+                    "node": "wikidata:Q974",
+                    "name": "Democratic Republic of the Congo"
+                },
+                {
+                    "node": "wikidata:Q977",
+                    "name": "Djibouti"
+                },
+                {
+                    "node": "wikidata:Q784",
+                    "name": "Dominica"
+                },
+                {
+                    "node": "wikidata:Q786",
+                    "name": "Dominican Republic"
+                },
+                {
+                    "node": "wikidata:Q736",
+                    "name": "Ecuador"
+                },
+                {
+                    "node": "wikidata:Q79",
+                    "name": "Egypt"
+                },
+                {
+                    "node": "wikidata:Q792",
+                    "name": "El Salvador"
+                },
+                {
+                    "node": "wikidata:Q983",
+                    "name": "Equatorial Guinea"
+                },
+                {
+                    "node": "wikidata:Q986",
+                    "name": "Eritrea"
+                },
+                {
+                    "node": "wikidata:Q191",
+                    "name": "Estonia"
+                },
+                {
+                    "node": "wikidata:Q1050",
+                    "name": "Eswatini"
+                },
+                {
+                    "node": "wikidata:Q115",
+                    "name": "Ethiopia"
+                },
+                {
+                    "node": "wikidata:Q702",
+                    "name": "Federated States of Micronesia"
+                },
+                {
+                    "node": "wikidata:Q712",
+                    "name": "Fiji"
+                },
+                {
+                    "node": "wikidata:Q33",
+                    "name": "Finland"
+                },
+                {
+                    "node": "wikidata:Q142",
+                    "name": "France"
+                },
+                {
+                    "node": "wikidata:Q1000",
+                    "name": "Gabon"
+                },
+                {
+                    "node": "wikidata:Q230",
+                    "name": "Georgia"
+                },
+                {
+                    "node": "wikidata:Q183",
+                    "name": "Germany"
+                },
+                {
+                    "node": "wikidata:Q117",
+                    "name": "Ghana"
+                },
+                {
+                    "node": "wikidata:Q41",
+                    "name": "Greece"
+                },
+                {
+                    "node": "wikidata:Q769",
+                    "name": "Grenada"
+                },
+                {
+                    "node": "wikidata:Q774",
+                    "name": "Guatemala"
+                },
+                {
+                    "node": "wikidata:Q1006",
+                    "name": "Guinea"
+                },
+                {
+                    "node": "wikidata:Q1007",
+                    "name": "Guinea-Bissau"
+                },
+                {
+                    "node": "wikidata:Q734",
+                    "name": "Guyana"
+                },
+                {
+                    "node": "wikidata:Q790",
+                    "name": "Haiti"
+                },
+                {
+                    "node": "wikidata:Q783",
+                    "name": "Honduras"
+                },
+                {
+                    "node": "wikidata:Q28",
+                    "name": "Hungary"
+                },
+                {
+                    "node": "wikidata:Q189",
+                    "name": "Iceland"
+                },
+                {
+                    "node": "wikidata:Q668",
+                    "name": "India"
+                },
+                {
+                    "node": "wikidata:Q252",
+                    "name": "Indonesia"
+                },
+                {
+                    "node": "wikidata:Q794",
+                    "name": "Iran"
+                },
+                {
+                    "node": "wikidata:Q796",
+                    "name": "Iraq"
+                },
+                {
+                    "node": "wikidata:Q27",
+                    "name": "Ireland"
+                },
+                {
+                    "node": "wikidata:Q801",
+                    "name": "Israel"
+                },
+                {
+                    "node": "wikidata:Q38",
+                    "name": "Italy"
+                },
+                {
+                    "node": "wikidata:Q1008",
+                    "name": "Ivory Coast"
+                },
+                {
+                    "node": "wikidata:Q766",
+                    "name": "Jamaica"
+                },
+                {
+                    "node": "wikidata:Q17",
+                    "name": "Japan"
+                },
+                {
+                    "node": "wikidata:Q810",
+                    "name": "Jordan"
+                },
+                {
+                    "node": "wikidata:Q232",
+                    "name": "Kazakhstan"
+                },
+                {
+                    "node": "wikidata:Q114",
+                    "name": "Kenya"
+                },
+                {
+                    "node": "wikidata:Q756617",
+                    "name": "Kingdom of Denmark"
+                },
+                {
+                    "node": "wikidata:Q29999",
+                    "name": "Kingdom of the Netherlands"
+                },
+                {
+                    "node": "wikidata:Q710",
+                    "name": "Kiribati"
+                },
+                {
+                    "node": "wikidata:Q817",
+                    "name": "Kuwait"
+                },
+                {
+                    "node": "wikidata:Q813",
+                    "name": "Kyrgyzstan"
+                },
+                {
+                    "node": "wikidata:Q819",
+                    "name": "Laos"
+                },
+                {
+                    "node": "wikidata:Q211",
+                    "name": "Latvia"
+                },
+                {
+                    "node": "wikidata:Q822",
+                    "name": "Lebanon"
+                },
+                {
+                    "node": "wikidata:Q1013",
+                    "name": "Lesotho"
+                },
+                {
+                    "node": "wikidata:Q1014",
+                    "name": "Liberia"
+                },
+                {
+                    "node": "wikidata:Q1016",
+                    "name": "Libya"
+                },
+                {
+                    "node": "wikidata:Q347",
+                    "name": "Liechtenstein"
+                },
+                {
+                    "node": "wikidata:Q37",
+                    "name": "Lithuania"
+                },
+                {
+                    "node": "wikidata:Q32",
+                    "name": "Luxembourg"
+                },
+                {
+                    "node": "wikidata:Q1019",
+                    "name": "Madagascar"
+                },
+                {
+                    "node": "wikidata:Q1020",
+                    "name": "Malawi"
+                },
+                {
+                    "node": "wikidata:Q833",
+                    "name": "Malaysia"
+                },
+                {
+                    "node": "wikidata:Q826",
+                    "name": "Maldives"
+                },
+                {
+                    "node": "wikidata:Q912",
+                    "name": "Mali"
+                },
+                {
+                    "node": "wikidata:Q233",
+                    "name": "Malta"
+                },
+                {
+                    "node": "wikidata:Q709",
+                    "name": "Marshall Islands"
+                },
+                {
+                    "node": "wikidata:Q1025",
+                    "name": "Mauritania"
+                },
+                {
+                    "node": "wikidata:Q1027",
+                    "name": "Mauritius"
+                },
+                {
+                    "node": "wikidata:Q96",
+                    "name": "Mexico"
+                },
+                {
+                    "node": "wikidata:Q217",
+                    "name": "Moldova"
+                },
+                {
+                    "node": "wikidata:Q235",
+                    "name": "Monaco"
+                },
+                {
+                    "node": "wikidata:Q711",
+                    "name": "Mongolia"
+                },
+                {
+                    "node": "wikidata:Q236",
+                    "name": "Montenegro"
+                },
+                {
+                    "node": "wikidata:Q1028",
+                    "name": "Morocco"
+                },
+                {
+                    "node": "wikidata:Q1029",
+                    "name": "Mozambique"
+                },
+                {
+                    "node": "wikidata:Q836",
+                    "name": "Myanmar"
+                },
+                {
+                    "node": "wikidata:Q1030",
+                    "name": "Namibia"
+                },
+                {
+                    "node": "wikidata:Q697",
+                    "name": "Nauru"
+                },
+                {
+                    "node": "wikidata:Q837",
+                    "name": "Nepal"
+                },
+                {
+                    "node": "wikidata:Q664",
+                    "name": "New Zealand"
+                },
+                {
+                    "node": "wikidata:Q811",
+                    "name": "Nicaragua"
+                },
+                {
+                    "node": "wikidata:Q1032",
+                    "name": "Niger"
+                },
+                {
+                    "node": "wikidata:Q1033",
+                    "name": "Nigeria"
+                },
+                {
+                    "node": "wikidata:Q423",
+                    "name": "North Korea"
+                },
+                {
+                    "node": "wikidata:Q221",
+                    "name": "North Macedonia"
+                },
+                {
+                    "node": "wikidata:Q20",
+                    "name": "Norway"
+                },
+                {
+                    "node": "wikidata:Q842",
+                    "name": "Oman"
+                },
+                {
+                    "node": "wikidata:Q843",
+                    "name": "Pakistan"
+                },
+                {
+                    "node": "wikidata:Q695",
+                    "name": "Palau"
+                },
+                {
+                    "node": "wikidata:Q804",
+                    "name": "Panama"
+                },
+                {
+                    "node": "wikidata:Q691",
+                    "name": "Papua New Guinea"
+                },
+                {
+                    "node": "wikidata:Q733",
+                    "name": "Paraguay"
+                },
+                {
+                    "node": "wikidata:Q148",
+                    "name": "People's Republic of China"
+                },
+                {
+                    "node": "wikidata:Q419",
+                    "name": "Peru"
+                },
+                {
+                    "node": "wikidata:Q928",
+                    "name": "Philippines"
+                },
+                {
+                    "node": "wikidata:Q36",
+                    "name": "Poland"
+                },
+                {
+                    "node": "wikidata:Q45",
+                    "name": "Portugal"
+                },
+                {
+                    "node": "wikidata:Q846",
+                    "name": "Qatar"
+                },
+                {
+                    "node": "wikidata:Q971",
+                    "name": "Republic of the Congo"
+                },
+                {
+                    "node": "wikidata:Q218",
+                    "name": "Romania"
+                },
+                {
+                    "node": "wikidata:Q159",
+                    "name": "Russia"
+                },
+                {
+                    "node": "wikidata:Q1037",
+                    "name": "Rwanda"
+                },
+                {
+                    "node": "wikidata:Q763",
+                    "name": "Saint Kitts and Nevis"
+                },
+                {
+                    "node": "wikidata:Q760",
+                    "name": "Saint Lucia"
+                },
+                {
+                    "node": "wikidata:Q757",
+                    "name": "Saint Vincent and the Grenadines"
+                },
+                {
+                    "node": "wikidata:Q683",
+                    "name": "Samoa"
+                },
+                {
+                    "node": "wikidata:Q238",
+                    "name": "San Marino"
+                },
+                {
+                    "node": "wikidata:Q1039",
+                    "name": "Sao Tome and Principe"
+                },
+                {
+                    "node": "wikidata:Q851",
+                    "name": "Saudi Arabia"
+                },
+                {
+                    "node": "wikidata:Q1718707",
+                    "name": "Sauk-Suiattle Indian Tribe"
+                },
+                {
+                    "node": "wikidata:Q1041",
+                    "name": "Senegal"
+                },
+                {
+                    "node": "wikidata:Q403",
+                    "name": "Serbia"
+                },
+                {
+                    "node": "wikidata:Q1042",
+                    "name": "Seychelles"
+                },
+                {
+                    "node": "wikidata:Q1044",
+                    "name": "Sierra Leone"
+                },
+                {
+                    "node": "wikidata:Q334",
+                    "name": "Singapore"
+                },
+                {
+                    "node": "wikidata:Q214",
+                    "name": "Slovakia"
+                },
+                {
+                    "node": "wikidata:Q215",
+                    "name": "Slovenia"
+                },
+                {
+                    "node": "wikidata:Q685",
+                    "name": "Solomon Islands"
+                },
+                {
+                    "node": "wikidata:Q1045",
+                    "name": "Somalia"
+                },
+                {
+                    "node": "wikidata:Q258",
+                    "name": "South Africa"
+                },
+                {
+                    "node": "wikidata:Q884",
+                    "name": "South Korea"
+                },
+                {
+                    "node": "wikidata:Q958",
+                    "name": "South Sudan"
+                },
+                {
+                    "node": "wikidata:Q29",
+                    "name": "Spain"
+                },
+                {
+                    "node": "wikidata:Q854",
+                    "name": "Sri Lanka"
+                },
+                {
+                    "node": "wikidata:Q219060",
+                    "name": "State of Palestine"
+                },
+                {
+                    "node": "wikidata:Q1049",
+                    "name": "Sudan"
+                },
+                {
+                    "node": "wikidata:Q730",
+                    "name": "Suriname"
+                },
+                {
+                    "node": "wikidata:Q34",
+                    "name": "Sweden"
+                },
+                {
+                    "node": "wikidata:Q39",
+                    "name": "Switzerland"
+                },
+                {
+                    "node": "wikidata:Q858",
+                    "name": "Syria"
+                },
+                {
+                    "node": "wikidata:Q865",
+                    "name": "Taiwan"
+                },
+                {
+                    "node": "wikidata:Q863",
+                    "name": "Tajikistan"
+                },
+                {
+                    "node": "wikidata:Q924",
+                    "name": "Tanzania"
+                },
+                {
+                    "node": "wikidata:Q869",
+                    "name": "Thailand"
+                },
+                {
+                    "node": "wikidata:Q778",
+                    "name": "The Bahamas"
+                },
+                {
+                    "node": "wikidata:Q1005",
+                    "name": "The Gambia"
+                },
+                {
+                    "node": "wikidata:Q574",
+                    "name": "Timor-Leste"
+                },
+                {
+                    "node": "wikidata:Q945",
+                    "name": "Togo"
+                },
+                {
+                    "node": "wikidata:Q678",
+                    "name": "Tonga"
+                },
+                {
+                    "node": "wikidata:Q754",
+                    "name": "Trinidad and Tobago"
+                },
+                {
+                    "node": "wikidata:Q948",
+                    "name": "Tunisia"
+                },
+                {
+                    "node": "wikidata:Q43",
+                    "name": "Turkey"
+                },
+                {
+                    "node": "wikidata:Q874",
+                    "name": "Turkmenistan"
+                },
+                {
+                    "node": "wikidata:Q672",
+                    "name": "Tuvalu"
+                },
+                {
+                    "node": "wikidata:Q1036",
+                    "name": "Uganda"
+                },
+                {
+                    "node": "wikidata:Q212",
+                    "name": "Ukraine"
+                },
+                {
+                    "node": "wikidata:Q878",
+                    "name": "United Arab Emirates"
+                },
+                {
+                    "node": "wikidata:Q145",
+                    "name": "United Kingdom"
+                },
+                {
+                    "node": "wikidata:Q30",
+                    "name": "United States"
+                },
+                {
+                    "node": "wikidata:Q77",
+                    "name": "Uruguay"
+                },
+                {
+                    "node": "wikidata:Q265",
+                    "name": "Uzbekistan"
+                },
+                {
+                    "node": "wikidata:Q686",
+                    "name": "Vanuatu"
+                },
+                {
+                    "node": "wikidata:Q237",
+                    "name": "Vatican City"
+                },
+                {
+                    "node": "wikidata:Q717",
+                    "name": "Venezuela"
+                },
+                {
+                    "node": "wikidata:Q881",
+                    "name": "Vietnam"
+                },
+                {
+                    "node": "wikidata:Q805",
+                    "name": "Yemen"
+                },
+                {
+                    "node": "wikidata:Q953",
+                    "name": "Zambia"
+                },
+                {
+                    "node": "wikidata:Q954",
+                    "name": "Zimbabwe"
+                },
+                {
+                    "node": "wikidata:Q370862",
+                    "name": "Arab Maghreb Union"
+                },
+                {
+                    "node": "wikidata:Q99360983",
+                    "name": "COVAX"
+                },
+                {
+                    "node": "wikidata:Q8932",
+                    "name": "European Economic Area"
+                },
+                {
+                    "node": "wikidata:Q458",
+                    "name": "European Union"
+                },
+                {
+                    "node": "wikidata:Q146165",
+                    "name": "Nordic Council"
+                },
+                {
+                    "node": "wikidata:Q119439372",
+                    "name": "Provisional World Government"
+                },
+                {
+                    "node": "wikidata:Q96979217",
+                    "name": "The Mahdi Servants Union"
+                },
+                {
+                    "node": "wikidata:Q166110",
+                    "name": "Union State"
+                },
+                {
+                    "node": "wikidata:Q2993835",
+                    "name": "West African Examinations Council"
+                }
+            ]
         },
         {
             "variable": {
@@ -107,23 +968,174 @@
             "value_kind": "term",
             "entity_type": "dataset",
             "subject_defining": false,
-            "node_form": "curie"
+            "node_form": "curie",
+            "values": [
+                {
+                    "node": "ILX:0739411",
+                    "name": "anatomy"
+                },
+                {
+                    "node": "ILX:0739413",
+                    "name": "behavior"
+                },
+                {
+                    "node": "ILX:0793772",
+                    "name": "biophysics"
+                },
+                {
+                    "node": "ILX:0739391",
+                    "name": "cell biology"
+                },
+                {
+                    "node": "ILX:0739394",
+                    "name": "cell morphology"
+                },
+                {
+                    "node": "ILX:0739408",
+                    "name": "cell population characterization"
+                },
+                {
+                    "node": "ILX:0739402",
+                    "name": "cell population imaging"
+                },
+                {
+                    "node": "ILX:0739398",
+                    "name": "cell population manipulation"
+                },
+                {
+                    "node": "EMPTY:0000360",
+                    "name": "chemogenetics"
+                },
+                {
+                    "node": "ILX:0739401",
+                    "name": "clinical research"
+                },
+                {
+                    "node": "ILX:0739414",
+                    "name": "computational modeling"
+                },
+                {
+                    "node": "ILX:0739412",
+                    "name": "developmental biology"
+                },
+                {
+                    "node": "ILX:0739389",
+                    "name": "ecology"
+                },
+                {
+                    "node": "ILX:0741202",
+                    "name": "electrophysiology"
+                },
+                {
+                    "node": "ILX:0739400",
+                    "name": "epidemiology"
+                },
+                {
+                    "node": "ILX:0741207",
+                    "name": "epigenomics"
+                },
+                {
+                    "node": "ILX:0739388",
+                    "name": "ethology"
+                },
+                {
+                    "node": "ILX:0739392",
+                    "name": "evolutionary biology"
+                },
+                {
+                    "node": "ILX:0739397",
+                    "name": "expression"
+                },
+                {
+                    "node": "ILX:0739409",
+                    "name": "expression characterization"
+                },
+                {
+                    "node": "EMPTY:0000361",
+                    "name": "genetics"
+                },
+                {
+                    "node": "ILX:0741204",
+                    "name": "genomics"
+                },
+                {
+                    "node": "ILX:0739399",
+                    "name": "histology"
+                },
+                {
+                    "node": "EMPTY:0000362",
+                    "name": "informatics"
+                },
+                {
+                    "node": "ILX:0741203",
+                    "name": "metabolomics"
+                },
+                {
+                    "node": "ILX:0739404",
+                    "name": "microscopy"
+                },
+                {
+                    "node": "ILX:0739403",
+                    "name": "morphology"
+                },
+                {
+                    "node": "ILX:0739395",
+                    "name": "multimodal research"
+                },
+                {
+                    "node": "ILX:0739407",
+                    "name": "multiomics"
+                },
+                {
+                    "node": "ILX:0739393",
+                    "name": "neural connectivity"
+                },
+                {
+                    "node": "ILX:0741206",
+                    "name": "neuroimaging"
+                },
+                {
+                    "node": "ILX:0739405",
+                    "name": "omics"
+                },
+                {
+                    "node": "EMPTY:0000363",
+                    "name": "optogenetics"
+                },
+                {
+                    "node": "EMPTY:0000364",
+                    "name": "pathology"
+                },
+                {
+                    "node": "EDAM:topic_0202",
+                    "name": "pharmacology"
+                },
+                {
+                    "node": "ILX:0739410",
+                    "name": "physiology"
+                },
+                {
+                    "node": "ILX:0741205",
+                    "name": "proteomics"
+                },
+                {
+                    "node": "ILX:0739390",
+                    "name": "radiology"
+                },
+                {
+                    "node": "ILX:0739396",
+                    "name": "spatial transcriptomics"
+                },
+                {
+                    "node": "ILX:0739406",
+                    "name": "transcriptomics"
+                }
+            ]
         },
         {
             "variable": {
                 "node": "OBI:0000750",
                 "name": "study design independent variable"
-            },
-            "class": "assertion",
-            "value_kind": "term",
-            "entity_type": "study",
-            "subject_defining": false,
-            "node_form": "curie"
-        },
-        {
-            "variable": {
-                "node": "OBI:0500000",
-                "name": "study design"
             },
             "class": "assertion",
             "value_kind": "term",
@@ -983,5 +1995,5 @@
             ]
         }
     ],
-    "documentation": " Every relation_bindings row declares `passes`, what reaches the child from the parent along it (tenet T17): `assertions` (an assertion about the parent is true of the child), `distributive` (only a statement or relation marked distributive on the group is true of each member), `context` (the parent's interactions overlapping the stay, as context, never fact) or `nothing`."
+    "documentation": " Every relation_bindings row declares `passes`, what reaches the child from the parent along it (tenet T17): `assertions` (an assertion about the parent is true of the child), `distributive` (only a statement or relation marked distributive on the group is true of each member), `context` (the parent's interactions overlapping the stay, as context, never fact) or `nothing`. A subject_statement_bindings row may carry `values`, a CLOSED list of the value terms the variable admits, each a {node, name} term that must be in the term registry (schemas/V_eta_term_registry.json; tools/validate_v_eta.py R15, tools/check_term_registry.py R9); did2.build refuses a value outside it. An empty `values` list is legal and admits nothing yet: a value is added through review. A row whose statement value is data rather than a term (Gene Expression: the value is a body) says so with `term_valued: false` and carries no admissible set. (Jess Haley, 2026-10-21; recorded, not signed.)"
 }

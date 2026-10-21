@@ -23,6 +23,13 @@ per meaning, so this checks, and fails on any of:
       with no node while the registry holds a term of that name (the builder
       filled it until 2026-10-21; the JSON is the source now, so write it there). Variables the registry does
       not hold are LISTED, not failed: naming them is a decision.
+  R9  a binding row's closed `values` list (Jess Haley, 2026-10-21) naming a
+      term the registry does not hold, or holds under another name. An empty
+      list is legal (nothing admitted yet). Each row is reported with its
+      admissible set: a closed list (and its size), an ontology subtree,
+      any registered term (node_form curie), or NOT TERM-VALUED
+      (`term_valued: false`, the value is data, e.g. Gene Expression) --
+      the last is not a gap.
 
 It prints its denominator first and checks NOTHING against an ontology over
 the network: that a node's label is the ontology's label is recorded when the
@@ -156,6 +163,36 @@ def check_bindings(terms, bindings):
     return failures, report
 
 
+def check_value_sets(terms, bindings):
+    """R9. Returns (failures, report lines, number of listed values)."""
+    by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
+    failures, report, n = [], [], 0
+    for row in bindings.get("subject_statement_bindings", []):
+        name = (row.get("variable") or {}).get("name", "")
+        if row.get("term_valued") is False:
+            report.append(f"R9   {name!r}: NOT TERM-VALUED (the value is data)")
+            continue
+        if "values" in row:
+            vals = row["values"] or []
+            report.append(f"R9   {name!r}: closed list of {len(vals)} value(s)")
+            for v in vals:
+                n += 1
+                node = (v.get("node") or "") if isinstance(v, dict) else ""
+                t = by_node.get(node.lower())
+                if t is None:
+                    failures.append(f"R9 binding {name!r}: value {v!r} is not in the term registry")
+                elif t["name"] != v.get("name"):
+                    failures.append(f"R9 binding {name!r}: value {node} is named "
+                                    f"{v.get('name')!r}, registered as {t['name']!r}")
+        elif row.get("root_node"):
+            report.append(f"R9   {name!r}: subtree {row.get('ontology')} {row['root_node']}")
+        elif row.get("node_form") == "curie":
+            report.append(f"R9   {name!r}: any registered term (node_form curie)")
+        else:
+            report.append(f"R9   {name!r}: NO ADMISSIBLE SET STATED")
+    return failures, report, n
+
+
 def _load(path):
     with open(path) as f:
         return json.load(f)
@@ -186,6 +223,11 @@ def main():
         for line in breport:
             print("  " + line)
         failures = failures + bfail
+        vfail, vreport, nvals = check_value_sets(terms, bindings)
+        print(f"R9: {n_var} binding row(s), {nvals} closed-list value(s) compared with the registry")
+        for line in vreport:
+            print("  " + line)
+        failures = failures + vfail
     else:
         print("R8 NOT CHECKED: no built binding_registry_meta.json")
     for f in failures:

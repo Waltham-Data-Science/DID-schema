@@ -110,13 +110,12 @@ def test_the_built_bindings_take_their_nodes_from_the_registry():
 # registered term's label and carries that term's node.
 DECIDED_BINDING_VARIABLES = {
     "study design independent variable": "OBI:0000750",   # was `factors`
-    "study design": "OBI:0500000",                        # was `design`
     "Gene Expression": "NCIT:C16608",                     # was `gene expression`
     "cell type": "EFO:0000324",
     "Equipment Type": "NCIT:C178920",                     # was `instrument type`
     "material type": "EMPTY:0000354",
     "culture type": "EMPTY:0000357",                     # Jess Haley, 2026-10-21
-    "ethics assessment": "EMPTY:0000355",
+    "ethics jurisdiction": "EMPTY:0000359",               # replaces ethics assessment, 2026-10-21
     "experimental approach": "EMPTY:0000356",
     "Open or Controlled Data Access Indicator": "NCIT:C175887",  # was `accessibility`
 }
@@ -129,7 +128,8 @@ def test_the_decided_binding_variables_carry_their_registered_term():
              for r in reg["subject_statement_bindings"]}
     for name, node in DECIDED_BINDING_VARIABLES.items():
         assert nodes.get(name) == node, (name, nodes.get(name))
-    for old in ("factors", "design", "gene expression", "instrument type", "accessibility"):
+    for old in ("factors", "design", "gene expression", "instrument type", "accessibility",
+                "study design", "ethics assessment"):
         assert old not in nodes, old
     registered = {t["node"]: t["name"] for t in ctr._load(ctr.SOURCE)["terms"] if t.get("node")}
     for name, node in DECIDED_BINDING_VARIABLES.items():
@@ -143,3 +143,55 @@ def test_no_binding_variable_is_unregistered():
     failures, report = ctr.check_bindings(terms, built)
     assert failures == []
     assert not [r for r in report if "NOT in the term registry" in r], report
+
+
+# Jess Haley, 2026-10-21 (value sets): a binding row may carry a CLOSED list of
+# value terms, each registered; an empty list is legal; Gene Expression is not
+# term-valued.
+
+def test_a_closed_value_list_must_hold_registered_terms():
+    terms = [term("assay plate", "EMPTY:0000321"), term("Petri Dish", "NCIT:C96141")]
+    ok = {"subject_statement_bindings": [
+        {"variable": {"node": "EMPTY:0000354", "name": "material type"},
+         "values": [{"node": "EMPTY:0000321", "name": "assay plate"},
+                    {"node": "NCIT:C96141", "name": "Petri Dish"}]},
+        {"variable": {"node": "EMPTY:9", "name": "empty for now"}, "values": []}]}
+    failures, report, n = ctr.check_value_sets(terms, ok)
+    assert failures == [] and n == 2
+    assert any("closed list of 0 value(s)" in r for r in report)
+    bad = {"subject_statement_bindings": [
+        {"variable": {"node": "EMPTY:0000354", "name": "material type"},
+         "values": [{"node": "EMPTY:0000999", "name": "made up"},
+                    {"node": "NCIT:C96141", "name": "petri dish"}]}]}
+    failures, _, _ = ctr.check_value_sets(terms, bad)
+    assert len(failures) == 2 and all(f.startswith("R9") for f in failures)
+
+
+def test_a_row_that_is_not_term_valued_is_not_a_gap():
+    rows = {"subject_statement_bindings": [
+        {"variable": {"node": "NCIT:C16608", "name": "Gene Expression"}, "term_valued": False}]}
+    failures, report, _ = ctr.check_value_sets([], rows)
+    assert failures == [] and report == ["R9   'Gene Expression': NOT TERM-VALUED (the value is data)"]
+
+
+def test_the_decided_closed_value_lists():
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+                                 "binding_registry_meta.json"))
+    rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]}
+
+    def nodes(name):
+        return [v["node"] for v in rows[name]["values"]]
+
+    assert nodes("material type") == ["EMPTY:0000321", "EMPTY:0000319", "EMPTY:0000320", "NCIT:C96141"]
+    assert nodes("culture type") == ["EMPTY:0000325"]
+    assert nodes("Open or Controlled Data Access Indicator") == ["NCIT:C183346", "NCIT:C183345"]
+    # openMINDS (latest): 197 sovereignState + 9 supranationalBody; 40 experimentalApproach
+    assert len(nodes("ethics jurisdiction")) == 206
+    assert all(n.startswith("wikidata:Q") for n in nodes("ethics jurisdiction"))
+    assert "wikidata:Q30" in nodes("ethics jurisdiction")       # United States
+    ea = nodes("experimental approach")
+    assert len(ea) == 40 and "ILX:0739413" in ea and "EDAM:topic_0202" in ea
+    assert rows["Gene Expression"]["term_valued"] is False
+    assert "study design" not in rows and "ethics assessment" not in rows
+    failures, _, n = ctr.check_value_sets(ctr._load(ctr.SOURCE)["terms"], reg)
+    assert failures == [] and n == 4 + 1 + 2 + 206 + 40

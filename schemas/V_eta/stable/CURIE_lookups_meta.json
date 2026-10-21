@@ -694,6 +694,20 @@
             "spelling": "spdx",
             "spelling_source": "Bioregistry's preferred prefix (fetched 2026-10-21); SPDX itself writes the bare licence identifier (`CC-BY-4.0`) and has no CURIE form",
             "synonyms": []
+        },
+        "interlex": {
+            "label": "InterLex",
+            "uri_base": "http://uri.interlex.org/base/ilx_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `interlex` (InterLex, the SciCrunch lexicon of biomedical terms). Bioregistry's browser URL is https://scicrunch.org/scicrunch/interlex/view/ilx_$1; uri_base is the IRI InterLex itself and openMINDS write (http://uri.interlex.org/base/ilx_0739413). Added for the openMINDS experimentalApproach value set (Jess Haley, 2026-10-21). Bioregistry lists `ILX` as a synonym.",
+            "pattern": "^\\d+$",
+            "pattern_source": "https://bioregistry.io/api/registry/interlex (2026-10-21)",
+            "spelling": "ILX",
+            "spelling_source": "InterLex's own JSON-LD context (http://uri.interlex.org/base/ilx_0739413.jsonld, 2026-10-21) declares `ILX` -> http://uri.interlex.org/base/ilx_, so `ILX:0739413`",
+            "synonyms": [
+                "ILX"
+            ]
         }
     },
     "uri_styles": {

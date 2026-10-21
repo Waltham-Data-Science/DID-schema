@@ -11,7 +11,7 @@ its `index.json` entry's `disposition` if the class is new, then run
 
 TWO KINDS OF THING
 ------------------
-RULES (R1-R17) are checks only. A failure names the file and what is wrong;
+RULES (R1-R15) are checks only. A failure names the file and what is wrong;
 the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D4) are copies of a fact held elsewhere, so they are
@@ -454,6 +454,45 @@ def r14_values(t):
     return n, bad
 
 
+def r15_value_sets(reg):
+    """A binding row's closed `values` list (Jess Haley, 2026-10-21): a list of
+    {node, name} terms, each the one the term registry holds under that node
+    and name; an empty list is legal (nothing admitted yet). A row marked
+    `term_valued: false` (its value is data, not a term) names no admissible
+    set at all."""
+    src = load(TERM_SOURCE)
+    by_node = {(t.get("node") or "").lower(): t for t in src.get("terms", []) if t.get("node")}
+    bad, n = [], 0
+    for r in reg.get("subject_statement_bindings", []):
+        var = (r.get("variable") or {}).get("name", "?")
+        if r.get("term_valued") is False:
+            sets = [k for k in ("values", "ontology", "root_node", "node_form") if k in r]
+            if sets:
+                bad.append(f"binding `{var}` is term_valued false but names an admissible set: {sets}")
+            continue
+        if "values" not in r:
+            continue
+        if not isinstance(r["values"], list):
+            bad.append(f"binding `{var}` values is not a list")
+            continue
+        seen = set()
+        for v in r["values"]:
+            n += 1
+            if not (isinstance(v, dict) and {"node", "name"} <= set(v)):
+                bad.append(f"binding `{var}` value {v!r} is not a {{node, name}} term")
+                continue
+            t = by_node.get(v["node"].lower())
+            if t is None:
+                bad.append(f"binding `{var}` value {v['node']} is not in the term registry")
+            elif t["name"] != v["name"]:
+                bad.append(f"binding `{var}` value {v['node']} is named {v['name']!r}, "
+                           f"registered as {t['name']!r}")
+            if v["node"].lower() in seen:
+                bad.append(f"binding `{var}` lists {v['node']} twice")
+            seen.add(v["node"].lower())
+    return n, bad
+
+
 RULES = [
     ("R1 canonical JSON layout", lambda c: r1_format(c["tree"])),
     ("R2 one class per name, named as its file", lambda c: r2_identity(c["tree"])),
@@ -469,6 +508,7 @@ RULES = [
     ("R12 source_unit and variable are bound terms", lambda c: r12_vocabulary_slots(c["tree"])),
     ("R13 one method shape, one entry", lambda c: r13_one_shape(c["tree"])),
     ("R14 one `value` per value class", lambda c: r14_values(c["tree"])),
+    ("R15 closed value sets are registered terms", lambda c: r15_value_sets(c["reg"])),
 ]
 
 

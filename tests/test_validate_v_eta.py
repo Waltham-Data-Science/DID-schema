@@ -127,3 +127,34 @@ def test_a_hand_layout_is_refused(tree):
     p.write_text(json.dumps(json.loads(p.read_text()), indent=2) + "\n")
     rc, out = _run(tree)
     assert rc == 1 and "statement.json is not indent-4" in out, out
+
+
+def test_a_closed_value_list_naming_an_unregistered_term_is_refused(tree):
+    def plant(d):
+        row = next(r for r in d["subject_statement_bindings"]
+                   if r["variable"]["name"] == "material type")
+        row["values"].append({"node": "EMPTY:0009999", "name": "a plate nobody registered"})
+    _edit(tree / "stable" / "binding_registry_meta.json", plant)
+    rc, out = _run(tree)
+    assert rc == 1 and "EMPTY:0009999 is not in the term registry" in out, out
+
+
+def test_an_empty_closed_value_list_is_legal(tree):
+    def plant(d):
+        row = next(r for r in d["subject_statement_bindings"]
+                   if r["variable"]["name"] == "culture type")
+        row["values"] = []
+    _edit(tree / "stable" / "binding_registry_meta.json", plant)
+    rc, out = _run(tree)
+    assert "R15 closed value sets are registered terms" in out
+    assert rc == 0 and "FAIL R15" not in out, out
+
+
+def test_a_row_that_is_not_term_valued_names_no_set(tree):
+    def plant(d):
+        row = next(r for r in d["subject_statement_bindings"]
+                   if r["variable"]["name"] == "Gene Expression")
+        row["values"] = []
+    _edit(tree / "stable" / "binding_registry_meta.json", plant)
+    rc, out = _run(tree)
+    assert rc == 1 and "is term_valued false but names an admissible set" in out, out

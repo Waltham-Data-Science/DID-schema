@@ -19,6 +19,12 @@ built in did-schema PR #78.
   plus `corresponding author`, on a `has_author` / `contributed_by` edge.
 
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity (name, short_name, description, factors, design) and widen part_of to session->study, study->dataset, study->study
+
+Proposed 2026-10-21 (Jess): drop design; not signed. The `study design`
+(OBI:0500000) binding row and its term-registry entry are removed (nothing
+else used the term; no study in any import wrote a design), and NDI's
+`entityDocuments` stops mapping a `design` field. The signed line above is
+left as it was; this note amends it until the team signs or rejects it.
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of relation (subject -> product) instead of a subject.product_id field
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add the awarded_to relation (funding -> person/organization)
 TEAM-SIGN-OFF: jess / 2026-09-30 -- add directed_relation.roles, bound to the 14 CRediT roles plus corresponding author

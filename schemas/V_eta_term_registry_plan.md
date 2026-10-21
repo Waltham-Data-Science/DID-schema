@@ -114,6 +114,40 @@ needs.
 - a migration: `did2.convert.v1_to_v2` and `foldGenericFiles` disarm the
   check, because a migrator transcribes the v1 source's own terms.
 
+## Closed value sets (Jess Haley, 2026-10-21; recorded, not signed)
+
+A `subject_statement_bindings` row in `binding_registry_meta.json` could name
+its admissible values only as an ontology subtree (`ontology` + `root_node`)
+or as "any registered term" (`node_form: curie`). A row may now also carry
+**`values`**, a CLOSED list of `{node, name}` terms: the value of a statement
+with that variable must be one of them.
+
+- Every listed term must be in this registry, under the same name
+  (`tools/validate_v_eta.py` R15, `tools/check_term_registry.py` R9).
+- An **empty list is legal** and admits nothing yet: a value is added through
+  review.
+- `did2.build` refuses a statement whose value is outside its variable's list
+  (DID-matlab, `did2:build:valueOutsideSet`, under the same
+  `strictMode('TermRegistry')`).
+- A row whose statement value is data rather than a term says so with
+  **`term_valued: false`** and names no admissible set; the gates report it as
+  NOT TERM-VALUED, not as a gap. Gene Expression (NCIT:C16608) is the one such
+  row: its value is a gene-expression body.
+
+The lists set on 2026-10-21:
+
+| variable | values |
+|---|---|
+| material type (EMPTY:0000354) | assay plate, acclimation plate, food deprivation plate (EMPTY:0000321 / 0000319 / 0000320), Petri Dish (NCIT:C96141): the plate kinds the Haley import writes |
+| culture type (EMPTY:0000357) | bacterial patch (EMPTY:0000325) |
+| Open or Controlled Data Access Indicator (NCIT:C175887) | Unrestricted Access (NCIT:C183346), Under Embargo (NCIT:C183345, registered here) |
+| ethics jurisdiction (EMPTY:0000359; replaces ethics assessment, EMPTY:0000355, now obsolete) | all 206 openMINDS (latest) `sovereignState` (197) and `supranationalBody` (9) terms, each by its `preferredCrossReference` Wikidata entity (`wikidata:Qnnn`) |
+| experimental approach (EMPTY:0000356) | all 40 openMINDS (latest) `experimentalApproach` terms by their `preferredOntologyIdentifier`: 34 InterLex (`ILX:nnnnnnn`; the `interlex` prefix joins the CURIE registry, spelled `ILX` as InterLex's own JSON-LD context writes it), EDAM `pharmacology` (EDAM:topic_0202), and EMPTY:0000360-0000364 minted for the 5 with no identifier (chemogenetics, genetics, informatics, optogenetics, pathology) |
+
+The `study design` (OBI:0500000) row is dropped (`V_eta_study_plan.md`,
+proposed 2026-10-21, not signed). `study design independent variable`
+(OBI:0000750) stays "any registered term".
+
 ## Open
 
 1. **A statement's term values.** A term value can be vocabulary (an encounter
