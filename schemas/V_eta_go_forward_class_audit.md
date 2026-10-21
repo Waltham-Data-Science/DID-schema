@@ -811,6 +811,8 @@ Decided by Jess Haley, 2026-10-21 [laterality on the part]: when a probe records
 
 Decided by Jess Haley, 2026-10-21 [laterality variable]: that assertion's variable is NCIT:C25185 "Laterality", and its value is the hemisphere term as the source wrote it (e.g. UBERON:0002812 left cerebral hemisphere).
 
+Decided by Jess Haley, 2026-10-21 [one part per side]: region parts are one per animal, area and side, so an animal recorded in left and right V1 has two parts, each with its own Laterality assertion.
+
 Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a region within a brain slice points at a region part entity that is a part of the slice, which is itself a part of the animal (animal -> slice -> region), so the bath on the slice and the recording share one chain.
 
 Decided by Jess Haley, 2026-10-21 [region anatomy is UBERON]: a region part entity's anatomy term is UBERON; the migrator flags and counts any non-UBERON anatomy term it meets rather than mapping it.
