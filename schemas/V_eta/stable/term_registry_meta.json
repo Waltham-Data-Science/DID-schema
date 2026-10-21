@@ -1685,14 +1685,6 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "droplet",
-            "node": "EMPTY:0000340",
-            "definition": "A parameter of a transfer: the drop of liquid the organisms were released into.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (T19 node pass, NDI Haley decision #106)",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
             "name": "millimetre",
             "node": "om:millimetre",
             "definition": "The millimetre is a unit of length defined as 1.0e-3 metre.",
