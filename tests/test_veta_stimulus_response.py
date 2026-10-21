@@ -154,7 +154,9 @@ def test_harmonic_component_calculation_is_restored():
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
     """The migrator writes the entity edge, time_reference_1, instrument_id,
-    derived_from_1, derived_from_2 and method_parameters_id. Each must be
+    derived_from_1, derived_from_2 and method_parameters_id (named `method_id`
+    since 2026-10-21, V_eta_method_plan.md; the pinned migrator still writes the
+    old name until it moves with #73). Each must be
     declared SOMEWHERE in the ancestor chain, or the fold is writing edges the
     schema does not know about. (The entity edge is `entity_id` since
     2026-10-08; the migrator, validated against the pinned pre-#73 schema,
@@ -164,7 +166,7 @@ def test_the_leaf_inherits_every_edge_the_fold_writes():
     for cls in chain:
         declared |= _dep_names(BUILT[cls][1])
     assert {"entity_id", "time_reference_id", "instrument_id",
-            "method_parameters_id", "input_id"} <= declared
+            "method_id", "input_id"} <= declared
     # input_id REPEATS (T15), so the fold may write two input_id entries.
     # #63 has not put a maximum on it; assert there is none, so a future cap
     # cannot land silently under a fold that emits two.
@@ -514,7 +516,12 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # TWENTY-SIXTH MOVEMENT, re-derived not bumped: 170 -> 172 on 2026-10-14, the
     # lightsheet_zarr_pyramid / lightsheet_zarr_level v1 tombstones (NDI-matlab#979).
     # Their fields carry no min/max, so the INERT list below is untouched.
-    assert walked == 172, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-SEVENTH MOVEMENT, re-derived not bumped: 172 -> 170 on 2026-10-21,
+    # `visual_grating` and `spatial_frequency` deleted and `method_parameters`
+    # renamed `method` (V_eta_method_plan.md). The grating's cells and the
+    # spatial-frequency cell carried only the shared tolerance minima the other
+    # cells carry; the INERT list below is checked, not assumed.
+    assert walked == 170, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

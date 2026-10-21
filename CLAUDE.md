@@ -328,6 +328,26 @@ on TWO things that have since changed, and one instrument BUG:
     protocol, not a hollow default. **Dabrowska is visual physiology in BNST/SON COMBINED with
     optogenetics + bath pharmacology.**
 
+    **CORRECTED 2026-10-21 (Jess Haley, "yes, correct both lines") -- the 1011 are NOT all
+    gratings: about 200 are not.** A per-class census of the NewStim parameters (DID-schema
+    session scratch report `stimulus_census.md`) found the old guard accepts any stimulus
+    with an `angle` field, so Dab's 171 flashed-bar presentations (periodicstim imageType 0)
+    and 37 shape-movie presentations (shapemoviestim with an `angle` label) fold to
+    visual_grating today. Of the 1,011, about 811 hold a grating. The grating-guard fix (a
+    NewStim class recogniser, Jess 2026-10-21) is being built in NDI #1021.
+
+    **CORRECTED 2026-10-21 -- the visual sessions are NOT Dabrowska data.** The Dab corpus zip
+    is TWO datasets: Dabrowska's (1 session, `Dabrowska_Electrophysiology`, 14,641 docs, plus
+    the `dabrowska_2025` dataset session: bath pharmacology + optogenetics + ephys, no visual
+    stimuli) and the WHOLE of corpus B, the Fitzpatrick-lab tree-shrew dataset
+    `2013_treeshrew_LGNctx` (13 sessions dated 2008, subjects `ts08xx@fitzpatrick_duke`, 12,917
+    docs). All 1,242 stimulus_presentation documents are in those 13 tree-shrew sessions.
+    Measured: all 12,917 B document files are also in Dab.zip, and 14,644 are Dab-only
+    (`python3 -I` zip listing of both corpora). So the earlier reading of the Dabrowska
+    importer (no visual path) was right after all, and the "over-correction" lesson below
+    holds in a different form: the corpus is a bundle, so check which session/dataset a
+    document belongs to before attributing it to a lab.
+
   - **A CORRECTION OF MY OWN, RECORDED PER THIS FILE'S DOCTRINE.** Mid-investigation I read the
     Dabrowska importer (`+setup/+conv/+dabrowska/doImport.m`), saw it authors only bath / opto
     treatment / ephys probes / behavioral EPM+FPS (its one stimulator probe is `bath`), and
@@ -2886,3 +2906,5 @@ RE-DERIVED 2026-10-20 (didmatlab_m_files, `check_prose_counts`): **339 .m file(s
 RE-DERIVED 2026-10-20 (the relation inheritance proposal, `V_eta_relation_inheritance_plan.md`, built ahead of signature: every relation declares `passes`, records use the new `included_in`, `base.session_id` becomes the `session_id` edge; `check_prose_counts` re-derives all nouns): **63 markdown files under `schemas/`** (was 62; +`V_eta_relation_inheritance_plan.md`); the registry has **69** rows (was 68; relation_bindings 33 -> 34: `included_in`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-21 (`source_unit` becomes a bound term, a PROPOSAL built ahead of signature at Jess's request, `V_eta_source_unit_plan.md`; `check_prose_counts` re-derives all nouns): **94 fields carry a binding** (was 26; +68, every `source_unit` declaration, bound `{strength: preferred, node_form: curie}`); **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature at Jess's request, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172; -`visual_grating`, -`spatial_frequency`; `method_parameters` renamed `method`); **177 json file(s) under `schemas/V_eta/`** (was 179); **45 direct subclasses** of `value` (was 47); **88 fields carry a binding** (was 94: -10 `source_unit` cells of the two deleted classes, +4 for the `method.term` / `method.parameters` entries on `relation`, `clock_alignment_configuration` and `method`); **65 markdown files under `schemas/`** (was 64; +`V_eta_method_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.

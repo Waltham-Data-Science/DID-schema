@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "method_parameters",
+        "class_name": "method",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -13,7 +13,7 @@
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
-            "documentation": "Which program these settings configure.",
+            "documentation": "Which program this method runs in, or configures.",
             "must_refer_to_document_class": "entity"
         },
         {
@@ -32,7 +32,7 @@
             "name": "parent_id",
             "mustBeNonEmpty": false,
             "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Named for its role (T15: `parent_id`, the generic lineage edge).",
-            "must_refer_to_document_class": "method_parameters"
+            "must_refer_to_document_class": "method"
         }
     ],
     "file": [],
@@ -51,7 +51,59 @@
             "constraints": {}
         },
         {
-            "name": "method_parameters",
+            "name": "term",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The technique or stimulus kind, as a term (a spike-sorting algorithm, \"drifting sinusoidal grating\"). Blank when the source names only the settings. The same field as an interaction's inline `method.term`.",
+            "constraints": {
+                "binding": {
+                    "strength": "preferred",
+                    "node_form": "curie"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "parameters",
             "type": "structure",
             "blank_value": [],
             "default_value": [],
@@ -60,7 +112,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `interaction`, deliberately: one list means one thing in both mount points, exactly as `keys` mounts on several classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, keys, method_parameters) that must not be confusable. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count` or `text` -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
+            "documentation": "The settings themselves -- the same list as an interaction's inline `method.parameters`. A stimulus given as a recipe carries its settings here (orientation, spatial frequency, temporal frequency, contrast ...). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count` or `text` -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
             "constraints": {},
             "fields": [
                 {

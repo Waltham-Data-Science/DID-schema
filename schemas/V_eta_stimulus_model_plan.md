@@ -15,6 +15,23 @@ the control stimulus); control trials are the playlist positions equal to it. v1
 per-trial pairing is dropped: nothing reads it since NDI#912 reduced it back to "which
 stimulus is the blank" (`tuning_response.m:293-298`). The signed text is left as signed.
 
+**AMENDMENT (2026-10-21, Jess Haley, `V_eta_method_plan.md`; a PROPOSAL built ahead of
+signature, not signed). Distinct stimuli are `method` documents, not `visual_grating` /
+`image` documents.** The model below keeps its shape -- a presentation becomes an `item`
+(the deduplicated, ordered list of distinct stimuli plus the index-array playlist; it was
+`timed_sequence` until 2026-10-04) on an `item_manipulation` -- but WHAT the playlist
+points at changes. A stimulus given as a RECIPE (a grating, a bar, a sparse-noise frame, a
+blank) is one standalone `method` document per distinct stimulus: a method `term`
+("drifting sinusoidal grating") plus its `parameters` (orientation, spatial frequency,
+temporal frequency, contrast, waveform ...). A stimulus given as WHAT WAS DELIVERED (a
+movie's frames, a current trace) is the value for that quantity. So the "`visual_grating`
+/ `image` / ..." standalone documents named below, the deduplicated `visual_grating`
+documents in the 2026-08-17 reconciliation, and the Hartley worked example's gratings
+are all `method` documents under this amendment; `visual_grating` and `spatial_frequency`
+are deleted from the schema. Why: a playlist mixes stimulus kinds, so the manipulation's
+one method cannot name each, and a class per stimulus kind does not generalise beyond
+visual neuroscience. The signed text and its sign-offs are left as signed.
+
 ## The model (final)
 
 A stimulus presentation is an **ordered, timed list of referenced stimulus values shown to a

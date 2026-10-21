@@ -56,8 +56,9 @@ def test_coverage_citation_reader_applies_the_same_two_rules():
                         if ln.startswith("TEAM-SIGN-OFF [spatial_transcriptomics_family]"))
     assert sup_line not in gf
     mp = [n for n, _ in cv._signoff_lines("V_eta_method_parameters_plan.md")]
-    # The real signature at :24 is accepted and the fenced QUOTATION at :700 is not.
-    # (:18 and :694 until the 2026-10-19 amendment note was added at the top.)
+    # The real signature at :32 is accepted and the fenced QUOTATION at :708 is not.
+    # (:18 and :694 until the 2026-10-19 amendment note was added at the top; :24
+    # and :700 until the 2026-10-21 `method` amendment note, V_eta_method_plan.md.)
     # Asserted as membership, not `== [18]`: a later genuine signature appended to
     # the document (the #73 audit 2 D4 amendment) must not break this test.
-    assert 24 in mp and 700 not in mp
+    assert 32 in mp and 708 not in mp

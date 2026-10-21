@@ -183,7 +183,7 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 OVERRIDES = {
     ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (V_eta_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("method_parameters", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (V_eta_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
 }
 
 

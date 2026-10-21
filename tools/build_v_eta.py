@@ -934,8 +934,8 @@ write("stable", "calculator",
 # subject_calculation: the COMPUTED statement direction (Lepsky et al., the
 # calculator-motif paper). A calculator produces ONE output document type; in V_eta
 # that output is a subject_calculation LEAF pairing this direction with a result
-# composite data_type -- exactly as visual_grating_manipulation pairs
-# subject_manipulation with visual_grating. It inherits from subject_interaction the
+# composite data_type -- exactly as dose_manipulation pairs
+# subject_manipulation with dose. It inherits from subject_interaction the
 # algorithm identity (`method`), the calculator input_parameters
 # (`method_parameters`, Fig 3E), `sample_time`, the required `time_reference`, and the
 # generating-software provenance (`software_id` -> `software` entity + the optional
@@ -2878,78 +2878,10 @@ write("stable", "dose_manipulation",
 write("stable", "formulation_manipulation",
       doc("formulation_manipulation", ["subject_manipulation", "formulation"]))
 
-# visual_grating: a presented visual GRATING (periodic pattern; static or
-# drifting) as a STRUCTURED multi-parameter value. Unlike a single-quantity leaf, a grating
-# is inherently multi-parameter (orientation + spatial/temporal frequency + contrast
-# + size), so it is its own data_type composite. A `stimulus_presentation` becomes a
-# body-backed `visual_grating_manipulation` on the animal (the second pass resolves
-# the animal; the time-varying stimulus rides in a sampled_body via storage_mode:body,
-# the fixed parameters inline). NDI/vhlab source param names noted in ().
-# REBUILT WITH TYPED CELLS (#73 review item 44, jess 2026-09-25). Every number is a
-# named quantity cell -- canonical + source_value + source_unit + approximate (T14) --
-# instead of a bare double whose unit lived only in prose. The degrees the lab's
-# NewStim software records are now also the canonical unit (angle is degrees).
-# `source_geometry` (team 2026-08-17: "we definitely shouldn't be dropping fields")
-# FOLDS INTO THE CELLS: a Hartley stimulus's pixel-domain value is exactly a cell's
-# source (spatial_frequency.source_value = sqrt(kx^2+ky^2)/M, source_unit
-# 'cycles/pixel'), with the canonical left unset until the rig calibration is known.
-# Only the calibration itself, `pixels_per_degree`, stays a field.
-GRATING_SUBS = [
-    subfield("angle", "angle", "Orientation/direction of the grating (NDI 'angle').", blank={}),
-    subfield("spatial_frequency", "spatial_frequency",
-             "Spatial frequency (NDI 'sFrequency'). For a Hartley basis function the "
-             "source is sqrt(kx^2+ky^2)/M in 'cycles/pixel' and the canonical is unset "
-             "until `pixels_per_degree` is known.", blank={}),
-    subfield("temporal_frequency", "frequency",
-             "Temporal (drift) frequency (NDI 'tFrequency').", blank={}),
-    subfield("contrast", "score",
-             "Contrast, with `scale` naming the definition (e.g. Michelson contrast, "
-             "scale_min 0, scale_max 1) (NDI 'contrast').", blank={}),
-    subfield("size", "angle", "Stimulus size / aperture, in visual angle (NDI 'size').", blank={}),
-    subfield("position", "structure",
-             "Screen position of the stimulus centre, in visual angle.", sub_fields=[
-                 subfield("x", "angle", "Horizontal position.", blank={}),
-                 subfield("y", "angle", "Vertical position.", blank={})]),
-    subfield("duration", "time", "Presentation duration.", blank={}),
-    # `blank`, not `is_blank` (T13, team 2026-09-24: no `is_` prefix on booleans).
-    # NDI's second-pass assemblers still write `is_blank` -- lockstep follow-up, PR #76.
-    subfield("blank", "boolean",
-             "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
-    # PHASE ADDED, team, 2026-08-17: "Add phase." It distinguishes half the Hartley
-    # basis: `hartleyrange.m` returns each (kx,ky) twice, s=-1 and s=+1, and the sign
-    # is a 180-degree phase flip (cas = cos + sin). Measured on 20211116: 1680
-    # distinct (kx,ky) pairs x 2 signs = 3360 distinct stimuli. Without it they fold
-    # into 1680 indistinguishable pairs.
-    subfield("phase", "angle", "Spatial phase of the grating. For a Hartley basis "
-             "function the sign s=-1 is +180 degrees relative to s=+1 "
-             "(cas = cos + sin, a 45-degree-offset cosine).", blank={}),
-    subfield("pixels_per_degree", "double",
-             "Rig calibration converting the screen-geometry sources (pixels, "
-             "cycles/pixel) into visual angle: NewStimGlobals `pixels_per_cm` x "
-             "distance x tan(1 deg). Left unset by migration -- no did_v1 document "
-             "records it (a sweep of all 1,220 documents in 20211116 across 229 "
-             "field names found none)."),
-]
-# ABSTRACT REMOVED, team, 2026-08-17: "Making visual_grating abstract false."
-# Same flag, same reason, same day as `timed_sequence`. The signed stimulus
-# model requires N STANDALONE `visual_grating` documents that a
-# `timed_sequence`'s `presented_id` can point at -- and
-# `+did2/+schema/cache.m` raises `did2:validation:abstractInstantiation` for any
-# document naming an abstract class, so the model's central case was forbidden
-# by its own target class.
-#
-# THE MEASUREMENT THAT MADE THIS URGENT, over the built set:
-#     41 direct subclasses of `data_type`; 40 abstract, 1 concrete
-# The single concrete one was `timed_sequence`, made so yesterday. So
-# `presented_id -> data_type` -- a deliberately BROAD edge, meant to accept any
-# presented stimulus -- had essentially nothing it could legally reference.
-# Whether the other 39 should also be reconsidered is NOT decided here; this
-# changes the one class the team named.
-write("stable", "visual_grating",
-      doc("visual_grating", ["base"], fields=[field(
-          "value", "structure",
-          "A presented visual grating (static or drifting) and its "
-          "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
+# visual_grating (a structured grating composite, #73 items 44/45) was DELETED
+# 2026-10-21 with `spatial_frequency` (V_eta_method_plan.md, Jess Haley, built ahead
+# of signature): a stimulus given as a recipe is a `method` document -- a method
+# term plus its parameters -- not a class per stimulus kind.
 # ---------- tuning restructure (#67, TEAM-SIGN-OFF 2026-09-21): 1:1 calc leaves ----
 # Reverses R2/R3's LEAF collapse and preserves the R2 SHAPE collapse
 # (V_eta_tuning_model_plan.md, TEAM-SIGN-OFF 2026-09-21; Lepsky et al. 2026 §3.2 /
@@ -3927,9 +3859,6 @@ _hc["depends_on"] = [
 ]
 write(_hc_t, "hartley_calc", _hc)
 
-write("stable", "visual_grating_manipulation",
-      doc("visual_grating_manipulation",
-          ["subject_manipulation", "visual_grating"]))
 # term_manipulation: the imposed act/agent — a procedure (craniotomy), a regime (dark
 # rearing), or a transferred material. Payload-free acts live here; there is NO generic
 # escape hatch (D8). Value now inherited from the `term` composite (finding B).
@@ -6974,17 +6903,6 @@ for name, unit in NUMERIC_SEED:
 # intensity is also imposable (e.g. a stimulus a.u. level)
 write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
-# spatial_frequency (#73 review item 45, jess 2026-09-25): cycles per degree of
-# visual angle, the fineness of a pattern. NOT `frequency` (per unit time, hertz):
-# a different dimension. Composite only, in draft -- no leaves until a statement
-# needs one (T12); its first use is `visual_grating.value.spatial_frequency` and the
-# unit of a spatial-frequency tuning key.
-write("draft", "spatial_frequency",
-      doc("spatial_frequency", ["base"], abstract=True, maturity="draft", fields=[field(
-          "value", "spatial_frequency",
-          "A spatial frequency value cell, cycles per degree of visual angle "
-          "(canonical + lossless source). Series-as-cardinality: an array of the cell.",
-          non_empty=True, scalar=False, blank=[], default=[CELL])]))
 # humidity (jess, 2026-10-03, the Haley import's stage 9): the moisture of the air.
 # Relative humidity is a dimensionless ratio with no SI unit; its practical unit is the
 # percent relative humidity every room sensor reports, so that is the canonical slot
@@ -7110,8 +7028,6 @@ for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
 # invents a month, a day and a time.
 if "date" not in type_enum:
     type_enum.append("date")
-if "spatial_frequency" not in type_enum:     # #73 review item 45
-    type_enum.append("spatial_frequency")
 if "humidity" not in type_enum:              # the Haley import, 2026-10-03
     type_enum.append("humidity")
 
@@ -8966,13 +8882,12 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_grating", "spatial_frequency",
-    # humidity (2026-10-04): written ⊂ base like spatial_frequency above, and left
+    # humidity (2026-10-04): written ⊂ base, in draft/, and left
     # out of this list by PR #86, so it shipped abstract and outside data_type
     # until the tenet audit of 2026-10-04 found it (test_value_bearing_classes_are_data_types).
     "humidity"]
 for name in DATA_TYPES:
-    # path_of, not a stable/ literal: spatial_frequency (item 45) is in draft/.
+    # path_of, not a stable/ literal: humidity is in draft/.
     _dt_tier, p = path_of(name)
     if not p:
         continue
@@ -10797,17 +10712,6 @@ _v["fields"].insert(1, subfield(
     "Per-trial offset (end) times on the same clock as the onset key, where the source "
     "has them. <- v1 `presentation_time.offset`.", scalar=False))
 write(_t, "timed_sequence", _d)
-_t, _d = _a2_load("visual_grating")                                 # (c) + (d)
-_v = _a2_field(_d["fields"], "value")
-_a2_field(_v["fields"], "blank")["documentation"] = (
-    "True when this stimulus presents nothing (NDI `isblank`). Whether it serves as a "
-    "sequence's control is `timed_sequence.value.control_item` (#73 audit 2 D11).")
-_pos = _a2_field(_v["fields"], "position")
-_pos["name"] = "center"
-_pos["documentation"] = ("Screen position of the stimulus centre, in visual angle "
-                         "(renamed from `position`, which named the `position` type; "
-                         "#73 audit 2 D11).")
-write(_t, "visual_grating", _d)
 
 
 # --- D13 -------------------------------------------------------------------------------
@@ -11338,16 +11242,6 @@ os.remove(_p)
 write("draft", "item_calculation",
       doc("item_calculation", ["subject_calculation", "item"], maturity="draft"))
 
-_t, _p = path_of("visual_grating")
-_d = load(_p)
-_vg = next(f for f in _d["fields"] if f["name"] == "value")
-for _f in _vg["fields"]:
-    if _f["name"] == "blank":
-        _f["documentation"] = (
-            "True when this stimulus presents nothing (NDI `isblank`). Whether it serves "
-            "as a sequence's control is the presenting `item`'s `value.control_item` "
-            "(#73 audit 2 D11).")
-write(_t, "visual_grating", _d)
 
 
 # ---------- 12.10 `key_labels_id` becomes `key_id` (2026-10-05) ----------
@@ -11563,9 +11457,6 @@ _DIM_CANON = {
     # SI "amount of substance"; renamed from `amount` (#73 item 7, 2026-09-25) --
     # `amount` read as "how much" in general, which is how dose.amount misused it.
     "substance_amount": ["moles"],
-    # spatial_frequency (#73 review item 45, 2026-09-25): cycles per degree of visual
-    # angle -- a different DIMENSION from `frequency` (per unit time, hertz).
-    "spatial_frequency": ["cycles_per_degree"],
     # dimensionless: nothing to canonicalise, but the cell keeps the family shape so the
     # set stays uniform (source_unit carries the a.u. label / pH scale note).
     "intensity": ["arbitrary_units"], "ph": ["ph"],
@@ -11760,18 +11651,6 @@ for _tier in TIERS:
             write(_tier, _fn[:-5], _obj)
 print(f"audit2 D10 defaults: {_a2_def_fixed} field default(s) regenerated in "
       f"{_a2_def_files} schema(s)")
-
-# #73 audit 2 mechanical B28: the `score` cell's own wording (a body-condition rubric)
-# read wrongly under a grating's contrast. Overridden per use, after the expansion
-# that declares the cell's sub-fields.
-_t, _d = _a2_load("visual_grating")                                     # B28
-_c = _a2_field(_a2_field(_d["fields"], "value")["fields"], "contrast")
-for _sf in _c["fields"]:
-    if _sf["name"] == "score":
-        _sf["documentation"] = "The contrast, on `scale` (e.g. Michelson, 0 to 1)."
-    if _sf["name"] == "scale":
-        _sf["documentation"] = "The contrast definition (e.g. Michelson contrast)."
-write(_t, "visual_grating", _d)
 
 # the meta-schema's `fields` description predates this use ("structure type fields")
 _m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
@@ -12580,7 +12459,7 @@ _DELETE_UNUSED_LEAVES = {
     "voltage_assertion", "volume_assertion",
     "concentration_manipulation", "current_manipulation", "force_manipulation",
     "formulation_manipulation", "frequency_manipulation", "image_manipulation",
-    "intensity_manipulation", "pressure_manipulation", "visual_grating_manipulation",
+    "intensity_manipulation", "pressure_manipulation",
     "voltage_manipulation",
     "substance_amount_observation", "angle_observation", "angular_velocity_observation",
     "area_observation", "capacitance_observation", "charge_observation",
@@ -12594,7 +12473,10 @@ _DELETE_UNUSED_LEAVES = {
     # DORMANT path. `logical` itself stays.
     "logical_observation",
 }
-assert len(_DELETE_UNUSED_LEAVES) == 52, len(_DELETE_UNUSED_LEAVES)
+# 51, not 52, since 2026-10-21: `visual_grating_manipulation` is no longer written at
+# all (its value class, visual_grating, was deleted; V_eta_method_plan.md), so there
+# is nothing left to delete under its name.
+assert len(_DELETE_UNUSED_LEAVES) == 51, len(_DELETE_UNUSED_LEAVES)
 _deleted_unused = []
 _deleted = []
 _deleted_invented = []
@@ -13882,6 +13764,199 @@ if _n_su == 0:
     raise SystemExit("build_v_eta 12.19: no `source_unit` declaration found")
 print(f"12.19 source_unit: {_n_su} declaration(s) in {_n_su_files} class file(s) "
       f"became bound terms")
+
+
+# ---------- 12.20 one `method` shape, inline and standalone (2026-10-21) ----------
+# Jess Haley, 2026-10-21 ("ok, build the new method document and drop visual
+# grating"), built ahead of signature; the record is V_eta_method_plan.md. Three
+# spellings of one idea become one:
+#   * an interaction carried a `method` TERM and, beside it, a `method_parameters`
+#     entry list; a relation carried only the term; clock_alignment_configuration
+#     only the list; the standalone `method_parameters` document only the list, so
+#     its settings were separated from the method they configure.
+# Now every one carries ONE block, `method: {term, parameters}`:
+#   term        the technique, an ontology_term bound as the old `method` term was
+#   parameters  the settings, the entry list of data_body AMENDMENT 3, unchanged
+# The standalone class is renamed `method` (a stimulus given as a recipe is one:
+# a term "drifting sinusoidal grating" plus its orientation, spatial frequency,
+# ...), and the interaction's edge `method_parameters_id` becomes `method_id`.
+# `parameters` is the one place that word is allowed (T13 amendment, proposed):
+# inside `method`, where its owner names it.
+_METHOD_DOC = (
+    "HOW it was done: `term` the technique and `parameters` the settings it ran with. "
+    "The same block inline (here) and on a standalone `method` document "
+    "(V_eta_method_plan.md, 2026-10-21; `method` was a bare term and the settings a "
+    "separate `method_parameters` list until then).")
+_TERM_DOC = (
+    "The technique, as a term (refrigeration, whole-cell patch clamp, drifting "
+    "sinusoidal grating) -- recorded only when it adds something the variable and "
+    "value do not already say, and only when known (T16). Never a generic word that "
+    "restates the direction ('measurement', 'manipulation'); an unknown method is "
+    "blank. The device that did it is `instrument_id`, not the method (T7). (The "
+    "whole of `method` until 2026-10-21.)")
+_PARAMS_DOC_FIX = (
+    "The settings the method ran with: an algorithm's configuration for a calculation, "
+    "the acquisition settings for an observation (exposure time, zoom, a filter set's "
+    "bands), a procedure's or stimulus's settings for a manipulation (a grating's "
+    "orientation, spatial and temporal frequency, contrast). `method_parameters` "
+    "until 2026-10-21.")
+
+_t, _p = path_of("interaction")
+_ix = load(_p)
+_old_term = next(f for f in _ix["fields"] if f["name"] == "method")
+_old_params = next(f for f in _ix["fields"] if f["name"] == "method_parameters")
+if _old_term["type"] != "ontology_term" or _old_params["type"] != "structure":
+    raise SystemExit("build_v_eta 12.20: interaction's method / method_parameters "
+                     "are not the term + entry list this section reshapes")
+_PARAMS_TEMPLATE = copy.deepcopy(_old_params)
+
+
+def _method_block(term_src, params_src, doc_text, term_doc=_TERM_DOC, params_doc=None):
+    _term = copy.deepcopy(term_src)
+    _term["name"] = "term"
+    _term["documentation"] = term_doc
+    _term["constraints"] = {"binding": {"strength": "preferred", "node_form": "curie"}}
+    _par = copy.deepcopy(params_src)
+    _par["name"] = "parameters"
+    _one = _par["documentation"].split(" Each entry is ", 1)
+    _par["documentation"] = (params_doc or _PARAMS_DOC_FIX) + (
+        " Each entry is " + _one[1] if len(_one) == 2 else "")
+    return field("method", "structure", doc_text, non_empty=False, scalar=True,
+                 sub_fields=[_term, _par])
+
+
+def _replace_fields(obj, drop, block):
+    _i = next(i for i, f in enumerate(obj["fields"]) if f["name"] in drop)
+    obj["fields"] = [f for f in obj["fields"] if f["name"] not in drop]
+    obj["fields"].insert(_i, block)
+
+
+_method_sites = []
+# (1) interaction: the term + the inline list -> one block
+_replace_fields(_ix, {"method", "method_parameters"}, _method_block(
+    _old_term, _old_params,
+    _METHOD_DOC + " Used when the method and its settings have no name and id of "
+    "their own in the source; otherwise the statement points at a `method` document "
+    "by `method_id`. NEVER BOTH (team, 2026-08-09): one fact, one place."))
+for _e in _ix["depends_on"]:
+    if _e["name"] == "method_parameters_id":
+        _e["name"] = "method_id"
+        _e["must_refer_to_document_class"] = "method"
+        _e["documentation"] = (
+            "OPTIONAL: a named, shared `method` document this run used -- a protocol, "
+            "a spike sorter's settings, a stimulus given as a recipe. A statement "
+            "carries the inline `method` block OR this edge, NEVER BOTH (team, "
+            "2026-08-09) -- one fact, one place, so a reader never has to know which "
+            "wins. (`method_parameters_id` -> `method_parameters` until 2026-10-21.)")
+        break
+else:
+    raise SystemExit("build_v_eta 12.20: interaction declares no method_parameters_id")
+write(_t, "interaction", _ix)
+_method_sites.append("interaction.method (term + method_parameters -> {term, parameters}); "
+                     "edge method_parameters_id -> method_id")
+
+# (2) relation: the term alone -> the block (parameters empty unless the source has them)
+_t, _p = path_of("relation")
+_rel = load(_p)
+_rel_term = next(f for f in _rel["fields"] if f["name"] == "method")
+_replace_fields(_rel, {"method"}, _method_block(
+    _rel_term, _PARAMS_TEMPLATE,
+    "Optional: the procedure that produced the relation -- `term` its technique "
+    "(surgical dissection, biological reproduction, an orthology-inference tool) and "
+    "`parameters` its settings -- the same block as an interaction's `method` (T16), "
+    "bound the same way. Declared on `relation` so undirected relations have it too "
+    "(item 24). A timed `derived_from` with a `method` and a `time_reference` IS the "
+    "creation event. (A bare term until 2026-10-21.)",
+    term_doc="The procedure's technique, as a term (bound like an interaction's "
+             "`method.term`). (The whole of `method` until 2026-10-21.)",
+    params_doc="The procedure's settings, where the source records them. Usually "
+               "empty."))
+write(_t, "relation", _rel)
+_method_sites.append("relation.method (term -> {term, parameters})")
+
+# (3) clock_alignment_configuration: the list alone -> the block
+_t, _p = path_of("clock_alignment_configuration")
+_cac = load(_p)
+_cac_params = next(f for f in _cac["fields"] if f["name"] == "method_parameters")
+_replace_fields(_cac, {"method_parameters"}, _method_block(
+    _old_term, _cac_params,
+    "HOW the rule runs: `term` the technique (usually blank: the implementation is "
+    "`software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: "
+    "`clock`, the `acquisition_channels_id` edges and `software_id` stay first-class. "
+    "(`method_parameters`, the list alone, until 2026-10-21.)",
+    term_doc="The alignment technique, as a term, when one is known; usually blank.",
+    params_doc="The rule's settings. v1 sources: `number_fullpath_matches`, "
+               "`syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry "
+               "each, present only when the source carries it. The v1 device NAMES "
+               "(`daqsystem1_name`...) and channel strings are the channel edges, not "
+               "entries. `method_parameters` until 2026-10-21."))
+write(_t, "clock_alignment_configuration", _cac)
+_method_sites.append("clock_alignment_configuration.method (method_parameters -> "
+                     "{term, parameters})")
+
+# (4) the standalone document: method_parameters -> method. The class's own block
+# IS the method, so `term` and `parameters` sit directly in it beside `name`: a
+# document reads `method.term` / `method.parameters`, exactly as an interaction's
+# inline block does.
+_t, _p = path_of("method_parameters")
+_md = load(_p)
+_md_params = next(f for f in _md["fields"] if f["name"] == "method_parameters")
+_md_block = _method_block(
+    _old_term, _md_params, "",
+    term_doc="The technique or stimulus kind, as a term (a spike-sorting algorithm, "
+             "\"drifting sinusoidal grating\"). Blank when the source names only the "
+             "settings. The same field as an interaction's inline `method.term`.",
+    params_doc="The settings themselves -- the same list as an interaction's inline "
+               "`method.parameters`. A stimulus given as a recipe carries its settings "
+               "here (orientation, spatial frequency, temporal frequency, contrast ...). "
+               "`method_parameters` until 2026-10-21.")
+_i = next(i for i, f in enumerate(_md["fields"]) if f["name"] == "method_parameters")
+_md["fields"][_i:_i + 1] = _md_block["fields"]
+_md["document_class"]["class_name"] = "method"
+for _f in _md["fields"]:
+    if _f["name"] == "name":
+        _f["documentation"] = _f["documentation"].replace(
+            "`method_parameters` inherits `base`", "`method` (`method_parameters` until "
+            "2026-10-21) inherits `base`")
+for _e in _md["depends_on"]:
+    if _e.get("must_refer_to_document_class") == "method_parameters":
+        _e["must_refer_to_document_class"] = "method"
+    if _e["name"] == "software_id":
+        _e["documentation"] = "Which program this method runs in, or configures."
+os.remove(_p)
+write(_t, "method", _md)
+_method_sites.append("method_parameters (class) -> method; its field method_parameters -> "
+                     "method.term + method.parameters; parent_id -> method")
+
+# (5) item: a stimulus given as a recipe is a `method` document
+_t, _p = path_of("item")
+_it = load(_p)
+for _e in _it["depends_on"]:
+    if _e["name"] == "item_id":
+        _e["documentation"] = (
+            "The DISTINCT documents the value names, deduplicated, in order: any "
+            "document. Value k names the k-th entry (0-based, T14). A stimulus given as "
+            "a RECIPE is a `method` document, one per distinct stimulus (term "
+            "\"drifting sinusoidal grating\", parameters orientation / spatial frequency "
+            "/ temporal frequency / contrast / waveform ...; a blank is its own `method` "
+            "document). A stimulus given as WHAT WAS DELIVERED (a movie's frames, a "
+            "current trace) is the value for that quantity. A subject, for a track's "
+            "nearest patch. (V_eta_method_plan.md, 2026-10-21: a stimulus is no longer "
+            "a class per kind, such as the deleted `visual_grating`.)")
+write(_t, "item", _it)
+
+# nothing may still name the old class or edge
+for _tier, _fp, _o in _all_class_files():
+    _s = json.dumps(_o)
+    for _gone in ('"method_parameters_id"',
+                  '"must_refer_to_document_class": "method_parameters"',
+                  '"class_name": "method_parameters"',
+                  '"name": "method_parameters"', '"visual_grating"',
+                  '"spatial_frequency"'):
+        if _gone in _s:
+            raise SystemExit(f"build_v_eta 12.20: {_fp} still declares {_gone}")
+print(f"12.20 one method shape: {len(_method_sites)} site(s) -- "
+      + "; ".join(_method_sites))
 
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------

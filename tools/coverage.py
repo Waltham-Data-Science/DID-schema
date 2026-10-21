@@ -849,7 +849,15 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # classes merge into one `entity` with a bound `type`. The pinned
                   # pre-#73 migrators and NDI's second pass still mint these names;
                   # remove them when the migrators move (PR #76 checklist).
-                  *SUPERSEDED_BY_ENTITY_COMPOSITION}
+                  *SUPERSEDED_BY_ENTITY_COMPOSITION,
+                  # 2026-10-21 (Jess Haley, V_eta_method_plan.md, built ahead of
+                  # signature): `method_parameters` is renamed `method` and
+                  # `visual_grating` is deleted (a stimulus given as a recipe is a
+                  # `method` document). DID-matlab's jMethodParameters.m and NDI's
+                  # second pass (stimulusPresentationToTimedSequence.m,
+                  # hartleyBasisGratings.m) still mint the old names against the
+                  # pinned pre-#73 schema; remove both when the migrators move.
+                  "method_parameters", "visual_grating"}
 
 
 def _target_built(name, veta):

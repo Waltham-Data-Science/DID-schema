@@ -464,8 +464,10 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     `node_form: curie` is the part of "a resolvable term reference" that needs
     no ontology; MEMBERSHIP still does, and is out of scope (NDIC.txt moved to
     VH-Lab/ndi-ontology-matlab, 2c19bf24c)."""
+    # `interaction.method` became the block `method: {term, parameters}` on
+    # 2026-10-21 (V_eta_method_plan.md); the bound term is now `method.term`.
     want = {("statement", "variable"),
-            ("interaction", "method"),
+            ("interaction", "method.term"),
             ("interaction_purpose", "purpose")}
     got = {(i["class"], i["field"]): i for i in LIVE["inventory"]}
     assert want <= set(got), sorted(got)

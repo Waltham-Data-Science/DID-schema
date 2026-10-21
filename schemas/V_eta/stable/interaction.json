@@ -34,10 +34,10 @@
             "must_refer_to_document_class": "entity"
         },
         {
-            "name": "method_parameters_id",
+            "name": "method_id",
             "mustBeNonEmpty": false,
-            "documentation": "OPTIONAL: named, shared settings this run used. A statement carries the inline `method_parameters` field OR this edge, NEVER BOTH (team, 2026-08-09) -- one fact, one place, so a reader never has to know which wins.",
-            "must_refer_to_document_class": "method_parameters"
+            "documentation": "OPTIONAL: a named, shared `method` document this run used -- a protocol, a spike sorter's settings, a stimulus given as a recipe. A statement carries the inline `method` block OR this edge, NEVER BOTH (team, 2026-08-09) -- one fact, one place, so a reader never has to know which wins. (`method_parameters_id` -> `method_parameters` until 2026-10-21.)",
+            "must_refer_to_document_class": "method"
         },
         {
             "name": "acquisition_channels_id",
@@ -50,233 +50,17 @@
     "fields": [
         {
             "name": "method",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional: HOW it was done -- the technique (refrigeration, eyelash picking, whole-cell patch clamp) -- recorded only when it adds something the variable and value do not already say, and only when known (T16). Never a generic word that restates the statement's direction ('measurement', 'manipulation', 'transfer'); an unknown method is absent. The device that did it is `instrument_id`, not the method (T7).",
-            "constraints": {
-                "binding": {
-                    "strength": "preferred",
-                    "node_form": "curie"
-                }
-            },
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
-        },
-        {
-            "name": "method_parameters",
-            "type": "structure",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The settings the method was run with, inline: an algorithm's configuration for a calculation, the acquisition settings for an observation (exposure time, zoom, a filter set's excitation and emission bands), a procedure's settings for a manipulation. The technique itself is `method`; the device is `instrument_id`. The SAME `parameter[]` shape as the `method_parameters` document (signed 2026-08-09, built #73 item 22). Used when the settings have no name and id of their own in the source; otherwise the statement points at a `method_parameters` document by `method_parameters_id`. Never both. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count` or `text` -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
+            "documentation": "HOW it was done: `term` the technique and `parameters` the settings it ran with. The same block inline (here) and on a standalone `method` document (V_eta_method_plan.md, 2026-10-21; `method` was a bare term and the settings a separate `method_parameters` list until then). Used when the method and its settings have no name and id of their own in the source; otherwise the statement points at a `method` document by `method_id`. NEVER BOTH (team, 2026-08-09): one fact, one place.",
             "constraints": {},
             "fields": [
-                {
-                    "name": "variable",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
-                    "constraints": {
-                        "binding": {
-                            "strength": "preferred",
-                            "node_form": "curie"
-                        }
-                    },
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "unit",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "source_unit",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
-                    "constraints": {
-                        "binding": {
-                            "strength": "preferred",
-                            "node_form": "curie"
-                        }
-                    },
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "approximate",
-                    "type": "boolean",
-                    "blank_value": false,
-                    "default_value": false,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Applies to the whole setting.",
-                    "constraints": {}
-                },
                 {
                     "name": "term",
                     "type": "ontology_term",
@@ -293,8 +77,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists.",
-                    "constraints": {},
+                    "documentation": "The technique, as a term (refrigeration, whole-cell patch clamp, drifting sinusoidal grating) -- recorded only when it adds something the variable and value do not already say, and only when known (T16). Never a generic word that restates the direction ('measurement', 'manipulation'); an unknown method is blank. The device that did it is `instrument_id`, not the method (T7). (The whole of `method` until 2026-10-21.)",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -325,33 +114,285 @@
                     ]
                 },
                 {
-                    "name": "quantity",
+                    "name": "parameters",
                     "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "blank_value": [],
+                    "default_value": [],
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
+                    "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "A numeric value, in `unit`, plus what the source wrote.",
+                    "documentation": "The settings the method ran with: an algorithm's configuration for a calculation, the acquisition settings for an observation (exposure time, zoom, a filter set's bands), a procedure's or stimulus's settings for a manipulation (a grating's orientation, spatial and temporal frequency, contrast). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count` or `text` -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
+                            "name": "variable",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical value, in `unit`.",
+                            "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Applies to the whole setting.",
                             "constraints": {}
                         },
                         {
-                            "name": "source_value",
+                            "name": "term",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "quantity",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "A numeric value, in `unit`, plus what the source wrote.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Canonical value, in `unit`.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_value",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "count",
+                            "type": "integer",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "An integer value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "text",
                             "type": "char",
                             "blank_value": "",
                             "default_value": "",
@@ -360,36 +401,10 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
+                            "documentation": "A free-text value.",
                             "constraints": {}
                         }
                     ]
-                },
-                {
-                    "name": "count",
-                    "type": "integer",
-                    "blank_value": 0,
-                    "default_value": 0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "An integer value.",
-                    "constraints": {}
-                },
-                {
-                    "name": "text",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "A free-text value.",
-                    "constraints": {}
                 }
             ]
         }

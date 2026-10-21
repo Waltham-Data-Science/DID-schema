@@ -209,7 +209,9 @@ def test_spine_composes_onto_every_interaction():
         assert "entity_id" in deps, f"{name} missing entity_id"
         assert "time_reference_id" in deps, f"{name} missing time_reference"
         assert ft.get("variable") == "ontology_term", f"{name} missing variable"
-        assert ft.get("method") == "ontology_term", f"{name} missing method"
+        # `method` is the block {term, parameters} since 2026-10-21
+        # (V_eta_method_plan.md); the technique is its bound `term`.
+        assert ft.get("method") == "structure", f"{name} missing method"
         # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
         assert "sample_time" not in ft, f"{name} still carries sample_time"
         # #73 item 60: `keys` lives on value (with the value), so only leaves --
@@ -358,7 +360,7 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
               "software", "strain"):
         assert req[t] == ["name"], t
     # each configuration class with a name declares `name`; base.name is did_v1-only
-    for e in ("entity", "acquisition_system", "method_parameters"):
+    for e in ("entity", "acquisition_system", "method"):
         names = [f["name"] for f in RECORDS[e][1]["fields"]]
         assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
         assert not {"full_name", "title", "label"} & set(names), names
@@ -479,15 +481,21 @@ def test_conditions_on_statement():
 
 def test_conditions_and_method_parameters_are_one_entry():
     """2026-10-19 (Jess): conditions and method parameters are the SAME entry, at
-    every mount, and a key is that entry holding n positions (`term`, `quantity`)."""
+    every mount, and a key is that entry holding n positions (`term`, `quantity`).
+    Since 2026-10-21 the method parameters are `method.parameters` (one `method`
+    block, V_eta_method_plan.md), and `relation` carries them too."""
     shapes = {}
     for cls, fld in (("statement", "conditions"), ("data_body", "conditions"),
-                     ("interaction", "method_parameters"),
-                     ("method_parameters", "method_parameters"),
-                     ("clock_alignment_configuration", "method_parameters")):
-        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == fld)
+                     ("interaction", "method.parameters"),
+                     ("method", "parameters"),
+                     ("relation", "method.parameters"),
+                     ("clock_alignment_configuration", "method.parameters")):
+        fields = RECORDS[cls][1]["fields"]
+        for part in fld.split("."):
+            f = next(x for x in fields if x["name"] == part)
+            fields = f.get("fields", [])
         shapes[(cls, fld)] = [(x["name"], x["type"]) for x in f["fields"]]
-    assert len(shapes) == 5
+    assert len(shapes) == 6
     assert len({tuple(v) for v in shapes.values()}) == 1, shapes
     keys = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "keys")
     ks = {x["name"]: x for x in keys["fields"]}
@@ -1307,22 +1315,28 @@ def test_writer_set_dependencies_are_reported():
         assert r["writer_sites"], "a row with no call site is not evidence"
 
 
-def test_method_parameters_is_the_inline_field_plus_an_identity():
-    """#74: the settings document carries the SAME field name as the inline field,
+def test_method_is_the_inline_block_plus_an_identity():
+    """#74, as reshaped 2026-10-21 (V_eta_method_plan.md, Jess Haley, built ahead of
+    signature): the standalone document's own block IS the method -- `term` and
+    `parameters` beside `name`, so a document reads `method.term` /
+    `method.parameters` exactly as an interaction's inline `method` block does --
     and no domain-specific fields at all.
 
-    Three class names were rejected before this one, each for promising generality
-    a domain-specific class cannot deliver. The resolution was that the typed knobs
-    never belonged on a class -- they belong in the settings SHAPE, whose identity
-    is a bound `variable`, exactly as the `axis` entry solves the same problem."""
-    assert "method_parameters" in RECORDS
-    d = RECORDS["method_parameters"][1]
+    The class was `method_parameters` (the settings alone) until 2026-10-21: its
+    settings were separated from the method they configure, so it is renamed
+    `method` and carries the term beside them. The typed knobs still belong in the
+    settings SHAPE, whose identity is a bound `variable`."""
+    assert "method_parameters" not in RECORDS
+    d = RECORDS["method"][1]
     names = {f["name"] for f in d["fields"]}
-    # the same name in both mount points -- `parameters` was vacated when the
-    # statement's field became `conditions`
-    assert "method_parameters" in names
-    assert "parameters" not in names
-    entry = next(f for f in d["fields"] if f["name"] == "method_parameters")
+    # `parameters` exists only inside a `method` block (T13 amendment, proposed)
+    assert {"name", "term", "parameters"} <= names
+    assert "method_parameters" not in names and "method" not in names
+    sub = {x["name"]: x for x in d["fields"]}
+    assert sub["term"]["type"] == "ontology_term"
+    assert sub["term"]["constraints"]["binding"] == {"strength": "preferred",
+                                                      "node_form": "curie"}
+    entry = sub["parameters"]
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
     assert {"variable", "quantity", "term", "count", "text"} <= subs
@@ -1338,21 +1352,25 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     # `subject_id` became `entity_id` 2026-10-08 (V_eta_entity_composition_plan.md sec. 9)
     assert set(deps) == {"software_id", "entity_id", "epoch_id", "parent_id"}
     # the self-edge is lineage, and points at its own class
-    assert deps["parent_id"]["must_refer_to_document_class"] == "method_parameters"
+    assert deps["parent_id"]["must_refer_to_document_class"] == "method"
     assert deps["parent_id"]["mustBeNonEmpty"] is False
 
 
 def test_settings_edge_is_on_the_interaction_branch_only():
     """#74: only `interaction` gets the edge. The assertion branch is
     timeless and methodless -- "this animal is of strain PR811" has no algorithm --
-    so 30 assertion leaves must NOT inherit it."""
-    assert "method_parameters_id" in _flat_dep_names("interaction")
-    assert "method_parameters_id" in _flat_dep_names("observation")
-    assert "method_parameters_id" not in _flat_dep_names("assertion")
-    # and it stays optional: a run with unnamed knobs uses the inline field
+    so 30 assertion leaves must NOT inherit it. Named `method_id` -> `method` since
+    2026-10-21 (`method_parameters_id` until then; V_eta_method_plan.md)."""
+    assert "method_id" in _flat_dep_names("interaction")
+    assert "method_id" in _flat_dep_names("observation")
+    assert "method_id" not in _flat_dep_names("assertion")
+    assert "method_parameters_id" not in _flat_dep_names("interaction")
+    # and it stays optional: a run with unnamed settings uses the inline block
     dep = next(x for x in RECORDS["interaction"][1]["depends_on"]
-               if x["name"] == "method_parameters_id")
+               if x["name"] == "method_id")
     assert dep["mustBeNonEmpty"] is False
+    assert dep["must_refer_to_document_class"] == "method"
+    assert "NEVER BOTH" in dep["documentation"]
 
 
 def test_strain_is_an_entity_with_a_recursive_pedigree():
@@ -1466,19 +1484,20 @@ def test_no_revived_classes_in_migrators():
     assert not new, f"migrators emit classes absent from the V_eta schema: {new}"
 
 
-def test_visual_grating_composite():
-    """A grating is a structured multi-parameter `visual_grating` composite (orientation
-    + spatial/temporal freq + contrast at once, so not a single-quantity leaf). It is
-    presented as an ITEM of an item_manipulation (timed_sequence_manipulation until 2026-10-04); its own manipulation leaf was
-    deleted with the other unused leaves (#73 item 50)."""
-    comp = RECORDS["visual_grating"][1]
-    assert "value" in _chain("visual_grating")
-    val = next(f for f in comp["fields"] if f["name"] == "value")
-    subs = {s["name"] for s in val["fields"]}
-    assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
-            "size", "center", "duration", "blank"} <= subs   # position -> center, audit 2 D11
+def test_a_stimulus_recipe_is_a_method_document():
+    """INVERTED 2026-10-21 (V_eta_method_plan.md, Jess Haley, built ahead of
+    signature). This pinned a `visual_grating` composite (orientation + spatial /
+    temporal frequency + contrast). A class per stimulus kind does not generalise
+    beyond visual neuroscience, and a playlist mixes kinds, so a stimulus given as a
+    recipe is now a `method` document -- a term plus its parameters -- that an
+    `item` names. `visual_grating` and `spatial_frequency` (which existed only for
+    it) are deleted."""
+    assert "visual_grating" not in RECORDS
+    assert "spatial_frequency" not in RECORDS
     assert "visual_grating_manipulation" not in RECORDS
     assert "item" in RECORDS and "item_manipulation" not in RECORDS   # a mixin since 2026-10-08
+    item_id = next(e for e in RECORDS["item"][1]["depends_on"] if e["name"] == "item_id")
+    assert "`method` document" in item_id["documentation"]
 
 
 def test_openminds_import_is_absent():
@@ -1750,7 +1769,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # AMENDMENT 2 was built (#73 item 23), with the same hoisted descriptors.
     # `method_parameters` (the parameter entry) joined with #73 audit 2 D4: it now has
     # the key / condition entry's shape, unit + source_unit at the top of the entry.
-    hoisted_field_names = {"keys", "conditions", "method_parameters"}
+    # Renamed `parameters` on 2026-10-21 (inside the one `method` block,
+    # V_eta_method_plan.md); on the standalone `method` class it is a top-level field.
+    hoisted_field_names = {"keys", "conditions", "parameters"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         if name in exempt_classes:
@@ -2282,9 +2303,21 @@ def test_uncurated_stays_at_zero():
 
 _PIVOT_BINDINGS = [
     ("statement", "variable"),
-    ("interaction", "method"),
+    # the bound term inside the `method` block since 2026-10-21 (V_eta_method_plan.md)
+    ("interaction", "method.term"),
     ("interaction_purpose", "purpose"),
 ]
+
+
+def _pivot_field(d, dotted):
+    """The field at a dotted path (`method.term`), or None."""
+    fields, hit = d["fields"], None
+    for part in dotted.split("."):
+        hit = next((f for f in fields if f["name"] == part), None)
+        if hit is None:
+            return None
+        fields = hit.get("fields") or []
+    return hit
 
 
 def test_the_three_pivot_fields_are_bound_at_preferred():
@@ -2293,9 +2326,9 @@ def test_the_three_pivot_fields_are_bound_at_preferred():
     `constraints = {}` until this landed."""
     for cls, fname in _PIVOT_BINDINGS:
         _tier, d = RECORDS[cls]
-        hit = [f for f in d["fields"] if f["name"] == fname]
+        hit = _pivot_field(d, fname)
         assert hit, f"{cls} declares no field {fname!r}"
-        b = (hit[0].get("constraints") or {}).get("binding")
+        b = (hit.get("constraints") or {}).get("binding")
         assert b, f"{cls}.{fname} carries no binding"
         assert b["strength"] == "preferred", (
             f"{cls}.{fname} is {b['strength']!r}. `required` is the INTENDED end "
@@ -2334,7 +2367,7 @@ def test_the_pivot_bindings_name_no_admissible_set_yet():
                  "vocabulary", "root", "source"}
     for cls, fname in _PIVOT_BINDINGS:
         _tier, d = RECORDS[cls]
-        fld = next(f for f in d["fields"] if f["name"] == fname)
+        fld = _pivot_field(d, fname)
         b = fld["constraints"]["binding"]
         assert set(b) == {"strength", "node_form"}, (
             f"{cls}.{fname} binding grew keys {sorted(set(b) - {'strength', 'node_form'})}. "
@@ -3782,7 +3815,10 @@ def test_leaves_exist_only_when_needed():
         build = fh.read()
     body = build.split("_DELETE_UNUSED_LEAVES = {", 1)[1].split("}", 1)[0]
     gone = set(re.findall(r'"([a-z_]+)"', body))
-    assert len(gone) == 52   # 51 in item 50, + logical_observation in item 52
+    # 51 in item 50, + logical_observation in item 52, - visual_grating_manipulation
+    # on 2026-10-21: its value class was deleted (V_eta_method_plan.md), so the leaf
+    # is no longer written and has nothing to delete.
+    assert len(gone) == 51
     for leaf in gone:
         assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
         composite = leaf.rsplit("_", 1)[0]
@@ -3799,13 +3835,19 @@ def test_leaves_exist_only_when_needed():
     assert "A leaf is made when it is needed, not in advance" in tenets
 
 
-def test_inline_method_parameters_has_the_document_shape():
+def test_inline_method_has_the_document_shape():
     """Signed [spike processing parameters] 2026-08-09, built #73 item 22: the inline
-    `interaction.method_parameters` keeps the SAME name and shape as the
-    `method_parameters` document's settings, a `parameter[]` entry. Pinned equal
-    (documentation and required-ness aside) so the two mount points cannot drift."""
+    settings keep the SAME name and shape as the standalone document's. Since
+    2026-10-21 (V_eta_method_plan.md) that is the whole `method` block,
+    {term, parameters}, on interaction, relation, clock_alignment_configuration and
+    the `method` document. Pinned equal (documentation and required-ness aside) so
+    the mount points cannot drift."""
     def shape(cls):
-        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == "method_parameters")
+        if cls == "method":     # the class's own block is the method
+            f = {"fields": [x for x in RECORDS[cls][1]["fields"]
+                            if x["name"] in ("term", "parameters")]}
+        else:
+            f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == "method")
         def strip(x):
             if isinstance(x, dict):
                 return {k: strip(v) for k, v in x.items()
@@ -3814,15 +3856,18 @@ def test_inline_method_parameters_has_the_document_shape():
                 return [strip(v) for v in x]
             return x
         return strip(f)
-    inline, document = shape("interaction"), shape("method_parameters")
-    assert inline == document
+    inline, document = shape("interaction"), shape("method")
+    assert inline["fields"] == document["fields"]
+    assert [s["name"] for s in inline["fields"]] == ["term", "parameters"]
+    params = inline["fields"][1]
     # #73 audit 2 D4, then 2026-10-19: the one single-value entry, shared with
     # `conditions` (data_body AMENDMENT 3).
-    assert [s["name"] for s in inline["fields"]] == [
+    assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
         "term", "quantity", "count", "text"]
-    assert inline["mustBeScalar"] is False
+    assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
+    assert inline == shape("relation")
 
 
 def test_conditions_have_amendment_2_shape():

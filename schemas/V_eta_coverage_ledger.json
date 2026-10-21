@@ -85,18 +85,6 @@
             "dose_manipulation"
           ],
           "stage_reached": 3
-        },
-        {
-          "v1_class": "stimulus_response_scalar_parameters_basic",
-          "emits": {
-            "resolveResponseParameters": [
-              "method_parameters"
-            ]
-          },
-          "decided_targets": [
-            "method_parameters"
-          ],
-          "stage_reached": 3
         }
       ],
       "rows_naming_a_pass": [
@@ -290,8 +278,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 44,
-        "3": 21,
+        "2": 49,
+        "3": 16,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -309,8 +297,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 20,
-          "no": 47,
+          "yes": 15,
+          "no": 52,
           "n/a": 3
         },
         "4": {
@@ -320,7 +308,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 20,
+        "3": 15,
         "4": 0
       },
       "capped": {
@@ -334,8 +322,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 47,
-          "3": 20,
+          "2": 52,
+          "3": 15,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -653,7 +641,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 61,
+          "documents_read": 62,
           "documents_excluded_as_generated": [
             "V_eta_STATUS.md",
             "V_eta_coverage_ledger.md",
@@ -678,7 +666,7 @@
             },
             {
               "document": "V_eta_method_parameters_plan.md",
-              "line": 700,
+              "line": 708,
               "tag": "epoch",
               "why": "inside a fenced code block -- a quotation, not a signature",
               "excerpt": "... MINT `epoch` as an entity (one per epoch id, local_identifier",
@@ -937,7 +925,7 @@
             "onsets on the sequence, #73 audit 2 D11": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 355
+                "line": 372
               }
             ],
             "orientation_direction_tuning.json location": [
@@ -949,7 +937,7 @@
             "parameter unit, #73 audit 2 D4": [
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 854
+                "line": 862
               }
             ],
             "prefix spelling": [
@@ -1031,7 +1019,7 @@
             "spike processing parameters": [
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 24
+                "line": 32
               }
             ],
             "spike train leaf": [
@@ -1049,13 +1037,13 @@
             "stimulus": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 241
+                "line": 258
               }
             ],
             "stimulus -- visual_grating_manipulation reconciliation": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 287
+                "line": 304
               }
             ],
             "stimulus parameters": [
@@ -1109,7 +1097,7 @@
             "tenet amendments 2026-10-20": [
               {
                 "document": "V_eta_tenets.md",
-                "line": 937
+                "line": 959
               }
             ],
             "term registry": [
@@ -1311,7 +1299,7 @@
             "onsets on the sequence, #73 audit 2 D11": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 355
+                "line": 372
               }
             ],
             "orientation_direction_tuning.json location": [
@@ -1323,7 +1311,7 @@
             "parameter unit, #73 audit 2 D4": [
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 854
+                "line": 862
               }
             ],
             "prefix spelling": [
@@ -1383,7 +1371,7 @@
             "stimulus -- visual_grating_manipulation reconciliation": [
               {
                 "document": "V_eta_stimulus_model_plan.md",
-                "line": 287
+                "line": 304
               }
             ],
             "sync configuration amendment 1": [
@@ -1395,7 +1383,7 @@
             "tenet amendments 2026-10-20": [
               {
                 "document": "V_eta_tenets.md",
-                "line": 937
+                "line": 959
               }
             ],
             "term registry": [
@@ -8978,7 +8966,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 179 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents; 217 -> 218 when the `study` entity was minted, 2026-09-30; 218 -> 220 when `humidity` and `humidity_observation` were minted, 2026-10-03; 220 -> 223 for the length, velocity and intensity calculation leaves, 2026-10-03; 223 -> 224 when timed_sequence became `item` and `item_calculation` was minted, 2026-10-04; 224 -> 226 for the time and acceleration calculation leaves, 2026-10-05; 226 -> 172 when the join leaves and the entity classes merged, 2026-10-08, a PROPOSAL; 172 -> 175 when the three named calculators came back the same day; 175 -> 176 when `linked_session` was minted, 2026-10-09, signed the same day; 176 -> 178 for the lightsheet_zarr_pyramid / lightsheet_zarr_level v1 tombstones, 2026-10-14; 178 -> 179 when term_registry_meta.json was added, 2026-10-20), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md): the 2026-08-13 confirmation is superseded (kept under `superseded_confirmation`) and the target is now `decided_targets`. RUNG 3 READS `yes` AT THE CLASS LEVEL ONLY: the migrator already emits `sampled_body`, but it still mints its OWN `voltage_observation` as the bodies' owner, which is exactly what the signed decision removes. The ladder compares class names and cannot see ownership (the same limit CLAUDE.md records for husks), so this row is NOT at its decided shape until the migrator hangs the levels on the recording's observation (PR #76 DID-matlab / NDI second-pass checklist).",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 177 json file(s) under schemas/V_eta declare it (268 -> 262 when #73 removed 6 net; 262 -> 273 when the #73 review build added 11 classes; 273 -> 270 when #65 increment 3b deleted 3 reference leaves; 270 -> 271 for spatial_frequency; 271 -> 272 for voltage_calculation; 272 -> 221 when #73 item 50 deleted 51 unused leaves; 221 -> 220 when item 51 retired image_observation; 220 -> 219 when item 52 retired logical_observation; 219 -> 218 when item 53 split the run environment; 218 -> 219 when item 59 minted `product`; 219 -> 218 when item 61 retired acquisition_metadata_file; 218 -> 217 when #73 review item 67 deleted `control_designation`; 217 -> 219 when #73 review item 68 minted `model_fit` + `model_fit_calculation`; 219 -> 217 when #73 audit 2 C9 dropped the two V_zeta example documents; 217 -> 218 when the `study` entity was minted, 2026-09-30; 218 -> 220 when `humidity` and `humidity_observation` were minted, 2026-10-03; 220 -> 223 for the length, velocity and intensity calculation leaves, 2026-10-03; 223 -> 224 when timed_sequence became `item` and `item_calculation` was minted, 2026-10-04; 224 -> 226 for the time and acceleration calculation leaves, 2026-10-05; 226 -> 172 when the join leaves and the entity classes merged, 2026-10-08, a PROPOSAL; 172 -> 175 when the three named calculators came back the same day; 175 -> 176 when `linked_session` was minted, 2026-10-09, signed the same day; 176 -> 178 for the lightsheet_zarr_pyramid / lightsheet_zarr_level v1 tombstones, 2026-10-14; 178 -> 179 when term_registry_meta.json was added, 2026-10-20; 179 -> 177 when visual_grating and spatial_frequency were deleted and method_parameters was renamed method, 2026-10-21, a PROPOSAL), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected. DECIDED (#73 audit 2 D7, jess 2026-09-29; not signed): the levels are `redundant` sampled_bodies OWNED BY THE RECORDING'S observation (a second-pass join), not a second voltage_observation. SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md): the 2026-08-13 confirmation is superseded (kept under `superseded_confirmation`) and the target is now `decided_targets`. RUNG 3 READS `yes` AT THE CLASS LEVEL ONLY: the migrator already emits `sampled_body`, but it still mints its OWN `voltage_observation` as the bodies' owner, which is exactly what the signed decision removes. The ladder compares class names and cannot see ownership (the same limit CLAUDE.md records for husks), so this row is NOT at its decided shape until the migrator hangs the levels on the recording's observation (PR #76 DID-matlab / NDI second-pass checklist).",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -9445,7 +9433,7 @@
         "software"
       ],
       "decided_targets": [
-        "method_parameters"
+        "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -9458,10 +9446,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "method_parameters"
+          "method"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -9480,7 +9468,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 24,
+        "line": 32,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "sorting_parameters",
@@ -9495,21 +9483,21 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 24,
+          "line": 32,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "sorting_parameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `sorting_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:24. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `sorting_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:32. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9526,8 +9514,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `method` are not all among what the migrator emits today (`method_parameters`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9537,7 +9525,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10413,7 +10401,7 @@
         "software"
       ],
       "decided_targets": [
-        "method_parameters"
+        "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -10426,10 +10414,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "method_parameters"
+          "method"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10448,7 +10436,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 24,
+        "line": 32,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "spike_extraction_parameters",
@@ -10463,21 +10451,21 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 24,
+          "line": 32,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "spike_extraction_parameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:24. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:32. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -10494,8 +10482,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `method` are not all among what the migrator emits today (`method_parameters`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10505,7 +10493,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10526,7 +10514,7 @@
         "software"
       ],
       "decided_targets": [
-        "method_parameters"
+        "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -10539,10 +10527,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "method_parameters"
+          "method"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10561,7 +10549,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 24,
+        "line": 32,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "spike_extraction_parameters_modification",
@@ -10576,21 +10564,21 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 24,
+          "line": 32,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "spike_extraction_parameters_modification",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters_modification` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:24. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `spike_extraction_parameters_modification` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:32. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -10607,8 +10595,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `method` are not all among what the migrator emits today (`method_parameters`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10618,7 +10606,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -11116,7 +11104,7 @@
       "decided_by_family": {
         "family": "stimulus",
         "document": "V_eta_stimulus_model_plan.md",
-        "line": 241,
+        "line": 258,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_presentation",
@@ -11512,7 +11500,7 @@
         "stimulus_response_scalar_parameters_basic"
       ],
       "decided_targets": [
-        "method_parameters"
+        "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -11525,7 +11513,7 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "method_parameters"
+          "method"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -11538,10 +11526,10 @@
             "method_parameters"
           ]
         },
-        "batch_pass_emits_decided_targets": true,
+        "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": true,
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -11579,10 +11567,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -11599,8 +11587,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveResponseParameters` -> `method_parameters` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
+            "state": "no",
+            "why": "the decided target(s) `method` are not all among what the migrator emits today (`stimulus_response_scalar_parameters_basic`), nor among what any batch post-pass declares it emits. 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11610,7 +11598,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -13379,7 +13367,7 @@
         "software"
       ],
       "decided_targets": [
-        "method_parameters"
+        "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -13392,10 +13380,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "method_parameters"
+          "method"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -13414,7 +13402,7 @@
       "decided_by_family": {
         "family": "spike processing parameters",
         "document": "V_eta_method_parameters_plan.md",
-        "line": 24,
+        "line": 32,
         "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
         "matched_on": "v1_class",
         "matched_name": "vmspikefilteringparameters",
@@ -13429,21 +13417,21 @@
         "signoff": {
           "family": "spike processing parameters",
           "document": "V_eta_method_parameters_plan.md",
-          "line": 24,
+          "line": 32,
           "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
           "matched_on": "v1_class",
           "matched_name": "vmspikefilteringparameters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `vmspikefilteringparameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:24. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `spike processing parameters` names this class as `vmspikefilteringparameters` (v1_class), and that family is signed at `V_eta_method_parameters_plan.md`:32. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -13460,8 +13448,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `method` are not all among what the migrator emits today (`method_parameters`, `software`). 1 of 56 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -13471,7 +13459,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

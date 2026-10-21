@@ -13,7 +13,7 @@
         {
             "name": "item_id",
             "mustBeNonEmpty": false,
-            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document (a stimulus value, a subject). Value k names the k-th entry (0-based, T14).",
+            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document. Value k names the k-th entry (0-based, T14). A stimulus given as a RECIPE is a `method` document, one per distinct stimulus (term \"drifting sinusoidal grating\", parameters orientation / spatial frequency / temporal frequency / contrast / waveform ...; a blank is its own `method` document). A stimulus given as WHAT WAS DELIVERED (a movie's frames, a current trace) is the value for that quantity. A subject, for a track's nearest patch. (V_eta_method_plan.md, 2026-10-21: a stimulus is no longer a class per kind, such as the deleted `visual_grating`.)",
             "must_refer_to_document_class": "base",
             "multiple": true,
             "min_count": 0,

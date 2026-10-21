@@ -53,7 +53,10 @@ query spans all statements. The family branches by *epistemic direction*:
 `assertion` (timeless fact), `observation` (measured from),
 `manipulation` (done to), `calculation` (derived/computed about). An
 assertion has no act/series; an interaction (observation/manipulation/calculation) adds
-`method` (the verb), optional `method_parameters`, an optional `instrument_id` and
+`method` (the verb: `{term, parameters}`, the technique and the settings it ran with,
+inline or by `method_id` to a standalone `method` document -- proposed 2026-10-21,
+`V_eta_method_plan.md`, not signed; `method` was a bare term beside a separate
+`method_parameters` list until then), an optional `instrument_id` and
 `software_id`, and requires a `time_reference`. Its per-reading positions are the value's
 `keys`, declared on `data` (#73 item 65; the `sample_time` block retired under the signed
 data_body model, 2026-08-14, built #73 item 21). (SPEC §3–§5)
@@ -357,7 +360,17 @@ is any of:
 
 Mint a composite **only when 1–4 all fail** — i.e. a genuinely new **dimensioned
 quantity** (its own unit: `mass`, `charge`, `pressure`) or a genuinely new **structured
-object** (several co-varying fields that form one unit: a tuning curve, a grating spec).
+object** (several co-varying fields that form one unit: a tuning curve, a dose).
+
+**Proposed amendment (2026-10-21, `V_eta_method_plan.md`, built ahead of signature at Jess
+Haley's request; not signed): a stimulus given as a RECIPE is a method, not a composite.**
+A grating, a bar, a sparse-noise frame or an odour pulse protocol is a `method` document:
+a method `term` ("drifting sinusoidal grating") plus its `parameters` (orientation, spatial
+frequency, temporal frequency, contrast, waveform ...). The kind of stimulus is vocabulary
+(rule 2), never a class per generator — the deleted `visual_grating` was one, and it did
+not generalise beyond visual neuroscience. A stimulus given as WHAT WAS DELIVERED (a
+movie's frames, a current trace, a measured light intensity) uses the value for that
+quantity (`intensity`, `current`, ...) under rule 3.
 When several near-identical structures differ only by an independent variable or a fit
 form, **prefer one parameterized composite** (a single `tuning_curve` whose independent
 variable is a field/`variable`) over a family of look-alike composites — **unless** a
@@ -386,13 +399,16 @@ a footnote**.
   `is_unsupervised`, `has_score`, `has_planar_contour`, `isspike`, `do_filter` stay as
   v1 wrote them). `time_reference.is_approximate` is not renamed because the signed time
   model already deletes it (`V_eta_time_reference_model_plan.md`, "both go").
-- **Right altitude — the `visual_grating` rule.** Pitch the name at the level a domain
-  expert names the thing. Two failure modes, both detectable by their tell:
+- **Right altitude — the rescue-qualifier rule** (the `visual_grating` rule until the
+  proposed amendment of 2026-10-21, which deleted that class: a stimulus recipe is a
+  `method` document, T12). Pitch the name at the level a domain expert names the thing.
+  Two failure modes, both detectable by their tell:
   - **Too generic → needs a rescue qualifier.** If a base name only becomes usable with a
     bolted-on `_<type>` (`stimulus_parameters_grating`, `stimulus_parameters_bar`), the
-    base was under-specified. Name the concept directly: **`visual_grating`**, not
-    `stimulus_parameters_visual_grating`. A `_<qualifier>` added to make a vague base
-    specific is the signal you named the *container*, not the *content*.
+    base was under-specified. Name the concept directly: **`tuning_curve`**, not
+    `stimulus_response_tuning_curve_data`. A `_<qualifier>` added to make a vague base
+    specific is the signal you named the *container*, not the *content*. (The lesson the
+    old example taught still stands; the grating itself is now a method term, not a name.)
   - **Too specific → near-duplicate fragmentation.** If you would mint a separate class per
     minor variant, lift to the shared concept and push the variant onto a `variable`/field
     (T12). "As simple as possible, but no simpler": the shortest name that stays
@@ -406,8 +422,13 @@ a footnote**.
   the word names what those classes hold. A field holds a **role** — name the
   role: v1's generic `parameters` split into **`conditions`** (one-value facts true of
   every value — the experimental conditions, on a statement or on one body, T6) and
-  **`method_parameters`** (the algorithm config on an interaction);
+  the settings of a **`method`** (the algorithm config on an interaction);
   a per-stimulus mean is `response_mean`, not `value`.
+  **Proposed amendment (2026-10-21, `V_eta_method_plan.md`, not signed): `parameters` is
+  allowed in exactly ONE place, inside `method` (`method.parameters`), where its owner
+  names it** — the same reason `method_parameters` was accepted as a field name: the word
+  is not a bare container when the field beside it (`method.term`) says whose parameters
+  they are. Anywhere else it is still the container smell.
 - **Abbreviate only when the short form is the *more* recognizable one.** `id`, `url`,
   `daq` earn it — the expansion is rarely spoken and the short form is unambiguous. `app`
   does not: prefer the clear full word (`software`). Expand whenever the full word removes
@@ -591,7 +612,8 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
 - **A name's meaning is fixed by its class, and stays within one sense across classes.**
   `input_id` is "what goes in" on a calculation (its sources) and on a clock alignment (the
   timeline fed to the polynomial); `parent_id` is the upper end of a typed relation on
-  `directed_relation` and the protocol a variant came from on `method_parameters`. A reader who
+  `directed_relation` and the protocol a variant came from on `method` (`method_parameters`
+  until 2026-10-21). A reader who
   needs the exact meaning reads the class — the name never has to carry it alone.
 - **A repeated edge repeats its name; it is never numbered.** A calculation with three inputs
   carries three `input_id` entries, with one input it carries one, and it is never

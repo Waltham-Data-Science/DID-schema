@@ -340,13 +340,18 @@ class TestTheCommittedLedger(unittest.TestCase):
         # increment 3), and, since the confirm sheet 2026-08-22, stimulus_bath
         # (resolveDeferredBaths -> dose_manipulation), and, since lightsheet
         # point 3 (2026-10-14), fileReference (foldGenericFiles -> opaque_body).
+        # THREE since 2026-10-21: stimulus_response_scalar_parameters_basic LEFT.
+        # Its decided target is now `method` (the class `method_parameters` was
+        # renamed, V_eta_method_plan.md) while resolveResponseParameters still
+        # declares it emits `method_parameters` against the pinned pre-#73
+        # schema, so the channel no longer credits it. It returns when the pass
+        # moves with the rest of #73.
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "fileReference", "stimulus_bath",
-             "stimulus_response_scalar_parameters_basic"])
+            ["epochfiles_ingested", "fileReference", "stimulus_bath"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}
@@ -366,8 +371,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         for name in ("epochid", "generic_file"):
             why = rows[name]["stage"]["ladder"][0]["why"]
             self.assertIn("BATCH POST-PASS", why, name)
-        for name in ("stimulus_response_scalar_parameters_basic",
-                     "epochfiles_ingested"):
+        for name in ("epochfiles_ingested",):
             why3 = rows[name]["stage"]["ladder"][2]["why"]
             self.assertIn("BATCH POST-PASS", why3, name)
 

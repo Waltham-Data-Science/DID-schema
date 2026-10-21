@@ -320,7 +320,7 @@ TENET_MAP = [
         "composites emitted no query path at all. Declaring the cell inline is "
         "what made the values indexable.",
         ["stimulus_tuningcurve"],
-        ["tuning_curve", "voltage", "visual_grating"],
+        ["tuning_curve", "voltage", "dose"],
         "V_eta_tenet_audit.md",
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "
