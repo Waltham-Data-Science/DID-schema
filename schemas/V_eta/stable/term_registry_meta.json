@@ -3957,6 +3957,14 @@
             "first_used_in": "v1 spike-sorted neuron migration (V_eta_recording_observation_plan.md [spike train variable])"
         },
         {
+            "name": "Laterality",
+            "node": "NCIT:C25185",
+            "definition": "Dominant use or manifestations of one side of the body versus the other; referring to a side of the body or of a structure.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21",
+            "first_used_in": "NDI-matlab ndi.migrate.internal.pathSPromotion (laterality of a region part; Soph / 20211116 probe_location)"
+        },
+        {
             "name": "directory of files",
             "node": "EMPTY:0000315",
             "definition": "A data format that is a folder of files rather than a single file, with no layout of its contents specified by this term; the program that wrote it, or the record that holds it, says how to read it.",

@@ -809,6 +809,8 @@ Decided by Jess Haley, 2026-10-21 [region parts]: "Any statement about an anatom
 
 Decided by Jess Haley, 2026-10-21 [laterality on the part]: when a probe records an area plus a hemisphere, the migrator makes one part entity for the area and states the hemisphere on it as a term assertion, not a second part entity.
 
+Decided by Jess Haley, 2026-10-21 [laterality variable]: that assertion's variable is NCIT:C25185 "Laterality", and its value is the hemisphere term as the source wrote it (e.g. UBERON:0002812 left cerebral hemisphere).
+
 Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a region within a brain slice points at a region part entity that is a part of the slice, which is itself a part of the animal (animal -> slice -> region), so the bath on the slice and the recording share one chain.
 
 Decided by Jess Haley, 2026-10-21 [region anatomy is UBERON]: a region part entity's anatomy term is UBERON; the migrator flags and counts any non-UBERON anatomy term it meets rather than mapping it.
