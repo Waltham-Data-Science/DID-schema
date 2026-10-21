@@ -615,9 +615,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 154,
+          "accepted_lines": 155,
           "accepted_lines_by_kind": {
-            "Decided by": 38,
+            "Decided by": 39,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1188,6 +1188,14 @@
               "tag": "presentation with no subject",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [presentation with no"
+            },
+            {
+              "document": "V_eta_stimulus_response_model_plan.md",
+              "line": 604,
+              "kind": "Decided by",
+              "tag": "response parameters as a shared method",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [response parameters as a"
             },
             {
               "document": "V_eta_study_plan.md",
