@@ -126,6 +126,8 @@ Decided by Jess Haley, 2026-10-21 [ingested epochs use the archive]: for an inge
 
 Decided by Jess Haley, 2026-10-21 [pyraview levels per epoch]: each pyraview level is a data body owned by that epoch's recording observation, alongside the raw file bodies.
 
+Decided by Jess Haley, 2026-10-21 [pyraview leftovers]: when pyraview levels move onto the epoch's recording observation, the retired pyraview observation's data type goes onto each level's sampled_body as its data_type, and its time anchor is dropped when it equals the epoch the recording observation already points to; otherwise the anchor is kept on the level body and counted.
+
 What it means for the migration, and why:
 
 - **The native shape it matches** is NDI `ndi.setup.V2.recordingDocuments` (NDI-matlab

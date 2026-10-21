@@ -793,7 +793,7 @@
         "state": "partial",
         "unresolved_sites": [
           {
-            "why": "class-name argument to `jStatement` is an expression (`[leaf '_observation']`)",
+            "why": "value kind `leaf` passed to `jStatement` is not a literal",
             "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:78"
           }
         ],
@@ -951,15 +951,23 @@
         "state": "partial",
         "unresolved_sites": [
           {
-            "why": "class-name `leafClass` passed to `makeNumericObservation` is not a literal",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:574"
-          },
-          {
             "why": "class-name argument to `makeEncObs` is an expression (`measures{i, 2}`)",
             "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:233"
           },
           {
             "why": "class-name argument to `makeEncObs` is an expression (`measures{i, 2}`)",
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:379"
+          },
+          {
+            "why": "value-kind `shapeClass` passed to `makeNumericObservation` is not a literal",
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:574"
+          },
+          {
+            "why": "value-kind argument to `makeEncObs` is an expression (`measures{i, 3}`)",
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:233"
+          },
+          {
+            "why": "value-kind argument to `makeEncObs` is an expression (`measures{i, 3}`)",
             "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:379"
           }
         ],
@@ -1647,7 +1655,7 @@
         "state": "partial",
         "unresolved_sites": [
           {
-            "why": "class-name argument to `jStatement` is an expression (`[leaf '_observation']`)",
+            "why": "value kind `leaf` passed to `jStatement` is not a literal",
             "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:78"
           }
         ],
