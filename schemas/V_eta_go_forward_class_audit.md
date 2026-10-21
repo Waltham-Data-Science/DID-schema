@@ -837,6 +837,19 @@ location (the Soph and 20211116 probes carry both `primary visual cortex` and a
 cerebral hemisphere), a recording already moved onto a Dabrowska slice (a region
 part of a slice), and a bath with no time reference to anchor its site on.
 
+Decided by Jess Haley, 2026-10-21 [babu-media]: "In the v1 migration, Babu treatments located at agar plate medium (MICRO:0000480) or ambient air (XCO:0000918) are exposures of the worms: a manipulation of the worm subject valued by the formulation through value_id, not a dose, with no anatomical-location observation; a heat row (OM:Heat, 37 °C) is a temperature manipulation of the worms at each training time. Plates are not minted in the migration; they are minted in a proper Babu V2 import from source."
+
+This settles the Babu case the location rule above did not fit: NDI's
+`+babu/TreatmentCreator.m` writes its chemical, odour and OP50 rows as
+`treatment_drug` documents located at agar plate medium or ambient air
+(`+babu/treatments.json` `agar`, `air`), and the literal rule made them doses
+with a NaN amount and an "anatomical location" of agar or air. Built on
+DID-matlab `claude/port-88` (`47d0f4fa`): `jTreatmentRoute` routes the two
+media to the immersion shape, and `treatment_drug` turns a mixture whose
+every row is `OM:Heat` into a `temperature_manipulation` (`celsius` filled
+from the NCIT:C42559 "Degree Celsius" unit). Babu writes one heat document per
+training time, so each migrates to its own temperature manipulation.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,

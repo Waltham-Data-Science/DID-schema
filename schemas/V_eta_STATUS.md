@@ -319,9 +319,9 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `imageStack` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
 | `imageStack_parameters` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
 | `interaction_purpose` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
-| `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:945). |
-| `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:945). |
-| `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:945). |
+| `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:958). |
+| `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:958). |
+| `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:958). |
 | `lightsheetZarrLevel` | retire | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
 | `lightsheetZarrPyramid` | retire | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
 | `neuron_extracellular` | retire | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 127 decision line(s) accepted, 2 rejected; 46 cited by a class, 81 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 128 decision line(s) accepted, 2 rejected; 47 cited by a class, 81 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -390,9 +390,9 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:195).
 - dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).
 - confirm sheet 2026-08-22. "TEAM-SIGN-OFF [confirm sheet 2026-08-22]" (V_eta_go_forward_class_audit.md:725).
-- orientation_direction_tuning.json location. "TEAM-SIGN-OFF [orientation_direction_tuning.json location]" (V_eta_go_forward_class_audit.md:911).
-- time anchors, amends the 2026-08-22 confirm sheet. "TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm" (V_eta_go_forward_class_audit.md:947).
-- dimensioned classes, batch confirmation. "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]" (V_eta_go_forward_class_audit.md:949).
+- orientation_direction_tuning.json location. "TEAM-SIGN-OFF [orientation_direction_tuning.json location]" (V_eta_go_forward_class_audit.md:924).
+- time anchors, amends the 2026-08-22 confirm sheet. "TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm" (V_eta_go_forward_class_audit.md:960).
+- dimensioned classes, batch confirmation. "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]" (V_eta_go_forward_class_audit.md:962).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
