@@ -17,8 +17,8 @@
         },
         {
             "variable": {
-                "node": "",
-                "name": "instrument type"
+                "node": "NCIT:C178920",
+                "name": "Equipment Type"
             },
             "class": "assertion",
             "ontology": "OBI",
@@ -28,7 +28,7 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "EFO:0000324",
                 "name": "cell type"
             },
             "class": "assertion",
@@ -39,7 +39,7 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "EMPTY:0000354",
                 "name": "material type"
             },
             "class": "assertion",
@@ -62,7 +62,7 @@
         {
             "variable": {
                 "node": "NCIT:C16608",
-                "name": "gene expression"
+                "name": "Gene Expression"
             },
             "class": "spatial_gene_expression_pyramid",
             "subject_defining": false
@@ -70,7 +70,7 @@
         {
             "variable": {
                 "node": "NCIT:C175887",
-                "name": "accessibility"
+                "name": "Open or Controlled Data Access Indicator"
             },
             "class": "assertion",
             "value_kind": "term",
@@ -80,7 +80,7 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "EMPTY:0000355",
                 "name": "ethics assessment"
             },
             "class": "assertion",
@@ -91,7 +91,7 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "EMPTY:0000356",
                 "name": "experimental approach"
             },
             "class": "assertion",
@@ -102,8 +102,8 @@
         },
         {
             "variable": {
-                "node": "",
-                "name": "factors"
+                "node": "OBI:0000750",
+                "name": "study design independent variable"
             },
             "class": "assertion",
             "value_kind": "term",
@@ -113,8 +113,8 @@
         },
         {
             "variable": {
-                "node": "",
-                "name": "design"
+                "node": "OBI:0500000",
+                "name": "study design"
             },
             "class": "assertion",
             "value_kind": "term",

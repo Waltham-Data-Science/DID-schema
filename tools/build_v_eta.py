@@ -13673,15 +13673,61 @@ _save(_rp, _reg)
 # two vocabularies cannot name one variable two ways. A variable the registry does
 # not hold keeps its row as authored: choosing a term for it is a decision, not a
 # build step (tools/check_term_registry.py R8 lists them).
+#
+# Jess Haley, 2026-10-21 (binding variables): the term for each of the variables
+# below is DECIDED, and each row takes that term's node AND its registry label as
+# the variable's name (T19: the registry stores the ontology's own label). The
+# research behind each choice is OLS-quoted; every node here is registered in
+# schemas/V_eta_term_registry.json, and the build stops if one is not, so a row
+# cannot carry a node the registry does not name. Keyed by the row's name as the
+# build authors it above (the `_sdef` rows, the gene-expression row and the
+# dataset / study rows from `_old_bindings`).
+_BINDING_VARIABLE_TERMS = {
+    # study: the plan's independent variables (already written by NDI's Haley import)
+    "factors": ("OBI:0000750", "study design independent variable"),
+    # study: the plan itself; OBI's study-design subclasses are the values
+    "design": ("OBI:0500000", "study design"),
+    # spatial_gene_expression_pyramid: chosen 2026-09-22 (#120, option A), now registered
+    "gene expression": ("NCIT:C16608", "Gene Expression"),
+    # subject-defining; EFO's experimental-factor term for the property
+    "cell type": ("EFO:0000324", "cell type"),
+    # subject-defining; NCIT Type's child, the sibling of the registered Sample Type
+    "instrument type": ("NCIT:C178920", "Equipment Type"),
+    # subject-defining; no ontology term fits, minted. Its value set (CHEBI chemical
+    # entity, while the `material` entity type is "an agar plate") is NOT decided.
+    "material type": ("EMPTY:0000354", "material type"),
+    # dataset; no ontology term fits, minted
+    "ethics assessment": ("EMPTY:0000355", "ethics assessment"),
+    # dataset; no ontology term fits, minted
+    "experimental approach": ("EMPTY:0000356", "experimental approach"),
+    # dataset; already NCIT:C175887 (_TERM_REBIND), renamed to its registered label
+    "accessibility": ("NCIT:C175887", "Open or Controlled Data Access Indicator"),
+}
 _term_by_name = {}
+_term_label_by_node = {}
 for _tm in _term_source["terms"]:
     if _tm.get("node"):
         _term_by_name.setdefault(_tm["name"].lower(), _tm["node"])
+        _term_label_by_node[_tm["node"].lower()] = _tm["name"]
 _reg = load(_rp)
+_decided_seen = set()
 for _row in _reg["subject_statement_bindings"]:
     _var = _row.get("variable") or {}
-    if not _var.get("node") and _var.get("name", "").lower() in _term_by_name:
-        _var["node"] = _term_by_name[_var["name"].lower()]
+    _vn = _var.get("name", "")
+    if _vn in _BINDING_VARIABLE_TERMS:
+        _node, _label = _BINDING_VARIABLE_TERMS[_vn]
+        if _term_label_by_node.get(_node.lower()) != _label:
+            raise SystemExit(
+                f"build_v_eta 12.18: binding variable {_vn!r} -> {_node} {_label!r}, but the "
+                f"term registry names {_node} "
+                f"{_term_label_by_node.get(_node.lower())!r}")
+        _var["node"], _var["name"] = _node, _label
+        _decided_seen.add(_vn)
+    elif not _var.get("node") and _vn.lower() in _term_by_name:
+        _var["node"] = _term_by_name[_vn.lower()]
+if _decided_seen != set(_BINDING_VARIABLE_TERMS):
+    raise SystemExit("build_v_eta 12.18: no binding row named "
+                     f"{sorted(set(_BINDING_VARIABLE_TERMS) - _decided_seen)}")
 _save(_rp, _reg)
 _t, _p = path_of("directed_relation")
 _d = load(_p)

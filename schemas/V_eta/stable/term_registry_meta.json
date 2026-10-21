@@ -1755,6 +1755,62 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "study design",
+            "node": "OBI:0500000",
+            "definition": "A plan specification comprised of protocols (which may specify how and what kinds of data will be gathered) that are executed as part of an investigation and is realized during a study design execution.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "Gene Expression",
+            "node": "NCIT:C16608",
+            "definition": "Typically involves transcription of genetically encoded information into an intermediary message (messenger RNA) and subsequent translation into a functional protein.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "cell type",
+            "node": "EFO:0000324",
+            "definition": "A cell type is a distinct morphological or functional form of cell.  Examples are epithelial, glial etc.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "Equipment Type",
+            "node": "NCIT:C178920",
+            "definition": "The type of equipment used.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "material type",
+            "node": "EMPTY:0000354",
+            "definition": "The kind of non-living object or substance that a subject is.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "ethics assessment",
+            "node": "EMPTY:0000355",
+            "definition": "Whether the work recorded in a dataset required an ethics review and, if so, the outcome of that review.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+        },
+        {
+            "name": "experimental approach",
+            "node": "EMPTY:0000356",
+            "definition": "The general kind of scientific approach used to produce the data, such as electrophysiology, imaging or behavior.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (binding variables)",
+            "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
         }
     ]
 }

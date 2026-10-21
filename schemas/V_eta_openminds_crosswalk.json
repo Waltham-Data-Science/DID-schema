@@ -51,7 +51,7 @@
         },
         "accessibility": {
           "target_kind": "assertion",
-          "ndi_target": "accessibility",
+          "ndi_target": "Open or Controlled Data Access Indicator",
           "term_set": "ProductAccessibility",
           "value_kind": "term"
         },

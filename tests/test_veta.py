@@ -1060,10 +1060,14 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
             if r.get("entity_type") == "dataset"}
     expected = {
         # the registry entry's `spelling` since 2026-10-19 (signed,
-        # V_eta_prefix_spelling_plan.md); lowercase 2026-10-08 to 2026-10-19
-        "accessibility": "NCIT:C175887",
-        "ethics assessment": "",
-        "experimental approach": "",
+        # V_eta_prefix_spelling_plan.md); lowercase 2026-10-08 to 2026-10-19.
+        # Since 2026-10-21 (Jess Haley, binding variables) each row is named by
+        # its registered term's label and carries its node: `accessibility` became
+        # NCIT's label, and ethics assessment / experimental approach took minted
+        # EMPTY terms (they had no node until then).
+        "Open or Controlled Data Access Indicator": "NCIT:C175887",
+        "ethics assessment": "EMPTY:0000355",
+        "experimental approach": "EMPTY:0000356",
     }
     assert set(expected) <= set(rows), sorted(rows)
     for name, node in expected.items():
@@ -1518,7 +1522,9 @@ def test_binding_registry_meta_present():
     ssb = reg["subject_statement_bindings"]
     defining = [b for b in ssb if b.get("subject_defining")]
     names = {b["variable"]["name"] for b in defining}
-    assert {"species", "instrument type", "cell type"} <= names
+    # `instrument type` is named by its registered term, NCIT Equipment Type,
+    # since 2026-10-21 (Jess Haley, binding variables)
+    assert {"species", "Equipment Type", "cell type", "material type"} <= names
     # each subject_defining row is a term assertion drawing from an ontology subtree
     for b in defining:
         assert (b["class"], b.get("value_kind")) == ("assertion", "term")
@@ -2359,13 +2365,25 @@ def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fai
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     rows = reg["subject_statement_bindings"]
     assert rows, "no rows -- this test would verify nothing"
-    without_node = [r for r in rows if not r["variable"].get("node")]
-    assert without_node, (
-        f"0 of {len(rows)} registry variable rows still carry an empty node. "
-        "Every pivot variable now resolves to a real CURIE -- the evidence "
-        "that `required` node_form would reject the registry file itself is "
-        "gone. Re-examine the strength (and this test's premise) before "
-        "changing anything, and measure the change on a corpus.")
+    # THE TRIPWIRE FIRED ON 2026-10-21. Jess Haley's binding-variable decision
+    # gave the last eight rows a registered term, so every row now carries a
+    # real CURIE and the evidence above ("`required` would reject the registry
+    # file itself") is gone. Re-examining the strength is a TEAM decision that
+    # has not been made, and it needs a corpus measurement first, so this test
+    # now pins the two facts side by side instead of failing: every row has a
+    # node, AND the strength is still `preferred`. Whoever changes either one
+    # changes this test and says why.
+    without_node = [r["variable"].get("name") for r in rows
+                    if not r["variable"].get("node")]
+    assert without_node == [], (
+        f"{len(without_node)} binding variable row(s) lost their node: {without_node}")
+    stmt = _load(os.path.join(VETA, "stable", "statement.json"))
+    var = next(f for f in stmt["fields"] if f["name"] == "variable")
+    binding = var["constraints"]["binding"]
+    assert binding.get("strength") == "preferred", (
+        "statement.variable's strength moved from `preferred`: the premise above is "
+        "gone (every row has a node), but the move to `required` is a team decision "
+        "measured on a corpus. Record it here.")
 
 
 def test_field_and_registry_strengths_agree():

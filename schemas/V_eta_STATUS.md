@@ -51,9 +51,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 166 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 31 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 38 |
-| build: migrator lines inspected | 48264 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 31827 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 16437 |
+| build: migrator lines inspected | 48304 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 31846 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 16458 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |

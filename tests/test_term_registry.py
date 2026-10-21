@@ -104,3 +104,41 @@ def test_the_built_bindings_take_their_nodes_from_the_registry():
              for r in reg["subject_statement_bindings"]}
     assert nodes["species"] == "NCIT:C45293"
     assert nodes["developmental stage"] == "NCIT:C43531"
+
+
+# Jess Haley, 2026-10-21 (binding variables): each decided row is named by its
+# registered term's label and carries that term's node.
+DECIDED_BINDING_VARIABLES = {
+    "study design independent variable": "OBI:0000750",   # was `factors`
+    "study design": "OBI:0500000",                        # was `design`
+    "Gene Expression": "NCIT:C16608",                     # was `gene expression`
+    "cell type": "EFO:0000324",
+    "Equipment Type": "NCIT:C178920",                     # was `instrument type`
+    "material type": "EMPTY:0000354",
+    "ethics assessment": "EMPTY:0000355",
+    "experimental approach": "EMPTY:0000356",
+    "Open or Controlled Data Access Indicator": "NCIT:C175887",  # was `accessibility`
+}
+
+
+def test_the_decided_binding_variables_carry_their_registered_term():
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+                                 "binding_registry_meta.json"))
+    nodes = {r["variable"]["name"]: r["variable"]["node"]
+             for r in reg["subject_statement_bindings"]}
+    for name, node in DECIDED_BINDING_VARIABLES.items():
+        assert nodes.get(name) == node, (name, nodes.get(name))
+    for old in ("factors", "design", "gene expression", "instrument type", "accessibility"):
+        assert old not in nodes, old
+    registered = {t["node"]: t["name"] for t in ctr._load(ctr.SOURCE)["terms"] if t.get("node")}
+    for name, node in DECIDED_BINDING_VARIABLES.items():
+        assert registered.get(node) == name, (node, registered.get(node))
+
+
+def test_no_binding_variable_is_unregistered():
+    terms = [t for t in ctr._load(ctr.SOURCE)["terms"]]
+    built = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+                                   "binding_registry_meta.json"))
+    failures, report = ctr.check_bindings(terms, built)
+    assert failures == []
+    assert not [r for r in report if "NOT in the term registry" in r], report
