@@ -1849,11 +1849,11 @@
         ],
         "packages_missing": [],
         "files_read": 211,
-        "lines_read": 49824,
+        "lines_read": 49951,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
-          "DID-matlab:convert/resolveEpochProbemap.m:1143 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1209 (entry.class)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
@@ -1892,8 +1892,8 @@
           "batch_post_pass": 34
         },
         "lines_read_by_group": {
-          "per_document_migrator": 31371,
-          "batch_post_pass": 18453
+          "per_document_migrator": 31408,
+          "batch_post_pass": 18543
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1925,7 +1925,7 @@
             "DID-matlab:migrators_j/treatment.m:100 (manipulation + kind)"
           ],
           "batch_post_pass": [
-            "DID-matlab:convert/resolveEpochProbemap.m:1143 (entry.class)",
+            "DID-matlab:convert/resolveEpochProbemap.m:1209 (entry.class)",
             "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
@@ -2036,7 +2036,7 @@
           "DID-matlab:convert/epochMint.m:2910 (field_read)",
           "DID-matlab:convert/epochMint.m:2913 (field_read)",
           "DID-matlab:convert/epochMint.m:829 (guard)",
-          "DID-matlab:convert/resolveEpochProbemap.m:339 (guard)"
+          "DID-matlab:convert/resolveEpochProbemap.m:344 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -2094,7 +2094,7 @@
               "DID-matlab:convert/epochMint.m:2910 (field_read)",
               "DID-matlab:convert/epochMint.m:2913 (field_read)",
               "DID-matlab:convert/epochMint.m:829 (guard)",
-              "DID-matlab:convert/resolveEpochProbemap.m:339 (guard)"
+              "DID-matlab:convert/resolveEpochProbemap.m:344 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -2154,11 +2154,11 @@
         "named_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:1119 (named)"
         ],
-        "n_comment_mentions": 172,
+        "n_comment_mentions": 176,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-          "DID-matlab:convert/resolveEpochProbemap.m:887 (comment_mention)",
+          "DID-matlab:convert/resolveEpochProbemap.m:921 (comment_mention)",
           "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"
@@ -2178,7 +2178,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 133,
+            "n_comment_mentions": 137,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:127 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:143 (comment_mention)",
@@ -2209,7 +2209,7 @@
             "comment_mentions": [
               "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
               "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-              "DID-matlab:convert/resolveEpochProbemap.m:887 (comment_mention)",
+              "DID-matlab:convert/resolveEpochProbemap.m:921 (comment_mention)",
               "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"

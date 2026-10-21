@@ -670,11 +670,11 @@
     },
     "jrclust_clusters": {
       "targets": [
-        "observation + count",
         "assertion + text",
         "entity",
         "opaque_body",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "carried": [
         "entity (subject)"
@@ -692,11 +692,11 @@
     },
     "kiasort_clusters": {
       "targets": [
-        "observation + count",
         "opaque_body",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "carried": [
         "entity (subject)"
@@ -714,11 +714,11 @@
     },
     "kilosort_clusters": {
       "targets": [
-        "observation + count",
         "opaque_body",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "carried": [
         "entity (subject)"

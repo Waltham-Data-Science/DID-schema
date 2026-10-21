@@ -310,8 +310,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 22,
-        "3": 43,
+        "2": 19,
+        "3": 46,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -329,8 +329,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 42,
-          "no": 25,
+          "yes": 45,
+          "no": 22,
           "n/a": 3
         },
         "4": {
@@ -340,7 +340,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 42,
+        "3": 45,
         "4": 0
       },
       "capped": {
@@ -354,8 +354,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 25,
-          "3": 42,
+          "2": 22,
+          "3": 45,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -7521,11 +7521,11 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "observation + count",
         "assertion + text",
         "entity",
         "opaque_body",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "decided_targets": [
         "calculation + label"
@@ -7544,7 +7544,7 @@
           "calculation + label"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7624,10 +7624,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7644,8 +7644,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `assertion + text`, `entity`, `opaque_body`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7655,7 +7655,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -7672,11 +7672,11 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "observation + count",
         "opaque_body",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "decided_targets": [
         "calculation + label"
@@ -7695,7 +7695,7 @@
           "calculation + label"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7762,10 +7762,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7782,8 +7782,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7793,7 +7793,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -7810,11 +7810,11 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "observation + count",
         "opaque_body",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label"
       ],
       "decided_targets": [
         "calculation + label"
@@ -7833,7 +7833,7 @@
           "calculation + label"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7900,10 +7900,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7920,8 +7920,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `calculation + label` are not all among what the migrator emits today (`observation + count`, `opaque_body`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7931,7 +7931,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
