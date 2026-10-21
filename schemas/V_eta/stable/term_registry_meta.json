@@ -349,6 +349,14 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "composition",
+            "node": "PATO:0000025",
+            "definition": "A single physical entity inhering in an bearer by virtue of the bearer's quantities or relative ratios of subparts.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (a material made to a recipe is asserted to have that formulation as its composition; node by T19: an existing PATO term)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "Developmental Stage",
             "node": "NCIT:C43531",
             "definition": "A general term that usually refers to named landmark events during development of an organism.",

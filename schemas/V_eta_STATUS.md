@@ -318,9 +318,9 @@ DENOMINATOR: 71 class(es) cite 75 decision line(s); 0 citation(s) do not resolve
 | `imageStack` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
 | `imageStack_parameters` | retire | no target recorded | `V_eta_image_model_plan.md`:154 `[image / ngrid]` |
 | `interaction_purpose` | in_progress | no target recorded | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` |
-| `jrclust_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]`; `V_eta_go_forward_class_audit.md`:858 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
-| `kiasort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:858 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
-| `kilosort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:858 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
+| `jrclust_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]`; `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
+| `kiasort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
+| `kilosort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
 | `lightsheetZarrLevel` | retire | 1 of 1 | `review/73/OPEN_ITEMS.md`:317 `[lightsheet migrator points 1-11]` |
 | `lightsheetZarrPyramid` | retire | 3 of 3 | `review/73/OPEN_ITEMS.md`:317 `[lightsheet migrator points 1-11]` |
 | `neuron_extracellular` | retire | 7 of 7 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 122 decision line(s) accepted, 2 rejected; 38 cited by a class, 84 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 123 decision line(s) accepted, 2 rejected; 38 cited by a class, 85 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -390,9 +390,10 @@ field). If one decides a class's disposition, that class should cite it.
 - `V_eta_go_forward_class_audit.md`:725 `[confirm sheet 2026-08-22]`
 - `V_eta_go_forward_class_audit.md`:727 (Decided by Jess Haley, 2026-10-21)
 - `V_eta_go_forward_class_audit.md`:729 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_go_forward_class_audit.md`:824 `[orientation_direction_tuning.json location]`
-- `V_eta_go_forward_class_audit.md`:860 `[time anchors, amends the 2026-08-22 confirm sheet]`
-- `V_eta_go_forward_class_audit.md`:862 `[dimensioned classes, batch confirmation]`
+- `V_eta_go_forward_class_audit.md`:753 (Decided by Jess Haley, 2026-10-21)
+- `V_eta_go_forward_class_audit.md`:837 `[orientation_direction_tuning.json location]`
+- `V_eta_go_forward_class_audit.md`:873 `[time anchors, amends the 2026-08-22 confirm sheet]`
+- `V_eta_go_forward_class_audit.md`:875 `[dimensioned classes, batch confirmation]`
 - `V_eta_linked_session_plan.md`:95 (TEAM-SIGN-OFF, 2026-10-09)
 - `V_eta_method_parameters_plan.md`:862 `[parameter unit, #73 audit 2 D4]`
 - `V_eta_method_plan.md`:188 `[method]`

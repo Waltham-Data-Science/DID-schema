@@ -750,6 +750,19 @@ so the droplet is a transitory bath, not a dose. A dose whose amount the source
 does not record states the amount as unknown rather than leaving `dose.value`
 empty. HOW unknown is written is NOT decided yet, and nothing builds it.
 
+Decided by Jess Haley, 2026-10-21: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
+
+The Haley V2 import wrote the daily seeding suspension (an entity of type
+material) as a `dose` manipulation with no amount, which the value rule
+(AMENDMENT 5) refuses. Nothing was given to the suspension; it was made to a
+recipe. So it becomes an `assertion` about the suspension whose value kind is
+`formulation`, with an empty `value` and a `value_id` edge to the recipe's
+`formulation` document, `variable` = composition (PATO:0000025, registered in
+`V_eta_term_registry.json`), and the time reference the dose carried (when it
+was prepared). `instance_of` does not fit: its registry row allows only a
+`product` or `strain` parent, and `formulation` is a value, not an entity.
+The suspension's OD600 and CFU observations are unchanged.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
