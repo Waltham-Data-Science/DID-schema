@@ -13111,6 +13111,9 @@ _PREFIX_SPELLING = {
     "ndic": ("NDIC", "ours: `ndi.ontology` writes `NDIC`"),
     "mco": ("MCO", _OBO), "micro": ("MICRO", _OBO), "zeco": ("ZECO", _OBO),
     "cob": ("COB", _OBO),
+    "bao": ("BAO", ("the ontology's IRIs end `bao#BAO_0000089` and OLS gives "
+            "`obo_id` `BAO:0000089` (checked 2026-10-20); Bioregistry lists `BAO` as a "
+            "synonym")),
     "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", ("ours: the ontology writes its own ids `EMPTY:0000276` "
               "(its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess "
               "2026-10-20")),
@@ -13121,6 +13124,7 @@ _PREFIX_SPELLING = {
 # synonyms for are absent. NCBIT is ours: Bioregistry does not list it and
 # `ndi.ontology` uses it (`NCBIT -> NCBITaxon`).
 _PREFIX_SYNONYMS = {
+    "bao": ["BAO"],
     "cellosaurus": ["CVCL"],
     "chebi": ["CHEBI", "CHEBIID", "ChEBI"],
     "emapa": ["EMAPA_RETIRED"],
@@ -13194,6 +13198,10 @@ _NEW_PREFIXES = {
     # 2026-10-20, Haley import decision #106)
     "cob": ("Core Ontology for Biology and Biomedicine",
             "http://purl.obolibrary.org/obo/COB_", "obo_underscore", r"^\d{7}$"),
+    # BAO wild type (BAO:0000089), the Haley strains' genetic strain type value;
+    # Bioregistry, fetched 2026-10-20 (Jess, 2026-10-20, Haley import audit)
+    "bao": ("BioAssay Ontology", "http://www.bioassayontology.org/bao#BAO_",
+            "obo_underscore", r"^\d{7}$"),
 }
 for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
     _e = {"label": _label, "uri_base": _base, "uri_style": _style, "approximate": False}

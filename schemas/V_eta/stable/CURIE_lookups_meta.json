@@ -668,6 +668,20 @@
             "spelling": "COB",
             "spelling_source": "OBO PURL: the ID space as written in uri_base",
             "synonyms": []
+        },
+        "bao": {
+            "label": "BioAssay Ontology",
+            "uri_base": "http://www.bioassayontology.org/bao#BAO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `bao`.",
+            "pattern_source": "https://bioregistry.io/api/registry/bao (2026-10-19)",
+            "pattern": "^\\d{7}$",
+            "spelling": "BAO",
+            "spelling_source": "the ontology's IRIs end `bao#BAO_0000089` and OLS gives `obo_id` `BAO:0000089` (checked 2026-10-20); Bioregistry lists `BAO` as a synonym",
+            "synonyms": [
+                "BAO"
+            ]
         }
     },
     "uri_styles": {

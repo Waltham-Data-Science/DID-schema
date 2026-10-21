@@ -101,6 +101,14 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "target bacteria growth duration after seeding",
+            "node": "EMPTY:0000351",
+            "definition": "The planned time from when a bacterial patch was seeded to the start of the assay: the growth group an assay was prepared for, as distinct from the measured time.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "target seeding OD600",
             "node": "EMPTY:0000105",
             "definition": "The OD600 a bacterial suspension was prepared to have when it was seeded: the planned value, as distinct from a measured one.",
@@ -213,6 +221,22 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "anterior end point",
+            "node": "EMPTY:0000352",
+            "definition": "The most anterior point of a subject's body along its midline (the leading point of a tracked body spline).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "posterior end point",
+            "node": "EMPTY:0000353",
+            "definition": "The most posterior point of a subject's body along its midline (the trailing point of a tracked body spline).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "Body Part",
             "node": "NCIT:C32221",
             "definition": "Any part of an organism.",
@@ -302,10 +326,10 @@
         },
         {
             "name": "Classification",
-            "node": "NCIT:C25161",
-            "definition": "A method of generalization, the systematic arrangement of entities into classes or groups based on mutual similarity and certain differing characteristics.",
+            "node": "EDAM:operation_2990",
+            "definition": "Assign molecular sequences, structures or other biological data to a specific group or category according to qualities it shares with that group or category.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -378,6 +402,14 @@
             "definition": "A quality that is the extent of space between two entities.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-19",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "signed distance from the nearest bacterial patch edge",
+            "node": "EMPTY:0000350",
+            "definition": "The distance from a subject's point to the nearest edge of a bacterial patch, positive inside the patch and negative outside it.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -485,11 +517,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "exploit",
+            "name": "patch exploitation encounter",
             "node": "EMPTY:0000293",
-            "definition": "An encounter type: the animal exploited the patch (probability of exploitation at least 0.5).",
+            "definition": "A patch encounter in which the animal stays on the food and feeds from it.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -829,6 +861,14 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "peak amplitude",
+            "node": "EMPTY:0000349",
+            "definition": "The height of a profile's peak above its value at a reference point.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "minimum speed after an event",
             "node": "EMPTY:0000273",
             "definition": "A data transformation that finds an animal's lowest speed after an event: the minimum speed within a window after the event, but no lower than the minimum speed over the whole of the event, so that slowing after the event has ended is not counted. The window is a parameter of each use.",
@@ -925,6 +965,38 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
+            "name": "Optical Density Measurement",
+            "node": "NCIT:C85776",
+            "definition": "A quantification of the amount of light that is absorbed by or transmitted through a substance.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Cell Density",
+            "node": "NCIT:C120538",
+            "definition": "A measurement of the number of cells per unit volume or area.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Colony Forming Unit per Milliliter",
+            "node": "NCIT:C68902",
+            "definition": "A derived unit of viable cell concentration defined as the number of colony forming units in one milliliter of substance.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Viable Cell Count",
+            "node": "NCIT:C130166",
+            "definition": "The determination of the number of viable cells in a sample.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
             "name": "Open or Controlled Data Access Indicator",
             "node": "NCIT:C175887",
             "definition": "Specifies whether the data in a repository is open access or controlled access.",
@@ -946,6 +1018,14 @@
             "definition": "A population or type of organisms that is genetically different from others of the same species and possessing a set of defined characteristics.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-20",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Genotype",
+            "node": "NCIT:C16631",
+            "definition": "The genetic constitution of an organism or cell, as distinct from its expressed features or phenotype.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -1141,27 +1221,27 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "sample",
+            "name": "patch sampling encounter",
             "node": "EMPTY:0000294",
-            "definition": "An encounter type: the animal sensed the patch but did not exploit it (probability of sensing at least 0.5, of exploitation below 0.5).",
+            "definition": "A patch encounter in which the animal senses the food but does not stay to feed.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "search off patch",
+            "name": "off-patch search encounter",
             "node": "EMPTY:0000296",
-            "definition": "An encounter type: the animal came near the patch without its midpoint crossing the edge, and neither sensed nor exploited it (probability of sensing below 0.05, of exploitation below 0.5).",
+            "definition": "A patch encounter in which the animal comes near the patch without crossing onto it, and neither senses the food nor stays to feed.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "search on patch",
+            "name": "on-patch search encounter",
             "node": "EMPTY:0000295",
-            "definition": "An encounter type: the animal crossed onto the patch without sensing or exploiting it (probabilities of sensing and of exploitation both below 0.5).",
+            "definition": "A patch encounter in which the animal crosses onto the patch but neither senses the food nor stays to feed.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -1333,11 +1413,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "Wild Type",
-            "node": "NCIT:C62195",
-            "definition": "The naturally-occurring, normal, non-mutated version of a gene or genome.",
+            "name": "wild type",
+            "node": "BAO:0000089",
+            "definition": "The phenotype of an organism that is most common in nature and was unmodified.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
@@ -1525,35 +1605,35 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "exploit: minimum probability of exploitation",
+            "name": "patch exploitation encounter: minimum probability of exploitation",
             "node": "EMPTY:0000341",
-            "definition": "The smallest posterior probability of exploitation at which an encounter is classed exploit.",
+            "definition": "The smallest posterior probability of exploitation at which an encounter is classed a patch exploitation encounter.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (T19 node pass, NDI Haley decision #106)",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "sample: minimum probability of sensing",
+            "name": "patch sampling encounter: minimum probability of sensing",
             "node": "EMPTY:0000342",
-            "definition": "The smallest posterior probability of sensing at which an encounter is classed sample.",
+            "definition": "The smallest posterior probability of sensing at which an encounter is classed a patch sampling encounter.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (T19 node pass, NDI Haley decision #106)",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "search off patch: probability of sensing below",
+            "name": "off-patch search encounter: probability of sensing below",
             "node": "EMPTY:0000343",
-            "definition": "The posterior probability of sensing below which an encounter is classed search off patch, together with the distance rule.",
+            "definition": "The posterior probability of sensing below which an encounter is classed an off-patch search encounter, together with the distance rule.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (T19 node pass, NDI Haley decision #106)",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "search off patch: maximum distance into the patch",
+            "name": "off-patch search encounter: maximum distance into the patch",
             "node": "EMPTY:0000344",
-            "definition": "The greatest distance into the patch an encounter can reach and still be classed search off patch.",
+            "definition": "The greatest distance into the patch an encounter can reach and still be classed an off-patch search encounter.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (T19 node pass, NDI Haley decision #106)",
+            "decided": "Jess Haley, 2026-10-20 (Haley import audit)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
