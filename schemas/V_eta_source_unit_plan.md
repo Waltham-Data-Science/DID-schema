@@ -80,3 +80,5 @@ wavelength (600 nm) is said by the variable and method, not the unit. UO:0000269
 registered prefix. om:one leaves the term registry.
 
 To be signed: amendment 1 -- OD600's unit is NCIT:C73686 Absorbance Unit, not om:one
+
+TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21 -- OD600's unit is NCIT:C73686 Absorbance Unit, not om:one
