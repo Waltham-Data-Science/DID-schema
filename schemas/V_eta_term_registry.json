@@ -3944,6 +3944,14 @@
       "status": "decided",
       "decided": "adopted from openMINDS (latest) sovereignState/supranationalBody, Jess Haley 2026-10-21",
       "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "action potential",
+      "node": "GO:0001508",
+      "definition": "A process in which membrane potential cycles through a depolarizing spike, triggered in response to depolarization above some threshold, followed by repolarization. This cycle is driven by the flux of ions through various voltage-gated channels with different thresholds and ion specificities.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21",
+      "first_used_in": "v1 spike-sorted neuron migration (V_eta_recording_observation_plan.md [spike train variable])"
     }
   ]
 }

@@ -708,6 +708,18 @@
             "synonyms": [
                 "ILX"
             ]
+        },
+        "go": {
+            "label": "Gene Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/GO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `go`. Biological processes, e.g. GO:0001508 action potential (the variable of a spike train observation).",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/go (2026-10-21)",
+            "spelling": "GO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
         }
     },
     "uri_styles": {

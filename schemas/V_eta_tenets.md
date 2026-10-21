@@ -656,7 +656,8 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 `epoch_parameter_reader_id` (item 65); item 53 removed `runtime_environment_id` and added
 `interpreter_id` and `operating_system_id` → `software`; item 59 added `ingredient_id`
 (repeated, **ordered**), `formulation_id`, `product_id` and `vendor_id`; audit 2 D9 added
-`strain.product_id`.
+`strain.product_id`; 2026-10-21 [dose per ingredient] added `dose.ingredient_id` (repeated,
+**ordered**, paired with `value.ingredients` like the formulation's).
 
 | class | today | T15 | repeats | ordered |
 |---|---|---|:-:|:-:|

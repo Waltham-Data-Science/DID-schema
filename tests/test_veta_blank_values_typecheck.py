@@ -182,6 +182,9 @@ KNOWN_DIVERGENT = {
     ("current", "value", "current"),
     ("dose", "value.mass", "mass"),   # #73 item 59: the inline formulation became an edge
     ("dose", "value.volume", "volume"),
+    # 2026-10-21 [dose per ingredient]: the per-ingredient entries reuse the same cells
+    ("dose", "value.ingredients.mass", "mass"),
+    ("dose", "value.ingredients.volume", "volume"),
     ("time", "value", "time"),
     # #73 item 59: chemicals[] -> ingredients[] (how much added / final concentration)
     ("formulation", "value.ingredients.concentration", "concentration"),

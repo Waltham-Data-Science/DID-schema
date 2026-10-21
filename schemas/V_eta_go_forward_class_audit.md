@@ -807,6 +807,12 @@ survives a did2 write and read is DID-matlab #218's work, not this one's.
 
 Decided by Jess Haley, 2026-10-21 [region parts]: "Any statement about an anatomical region of a subject — manipulation or observation — targets that region's part entity (one per subject and region, shared, type tissue, `part_of` the subject). A statement about the whole subject (a whole-prep or whole-slice bath, i.e. the generic 'bath' location NCIm:C0179246) targets the subject. This replaces D3's located-by-default."
 
+Decided by Jess Haley, 2026-10-21 [laterality on the part]: when a probe records an area plus a hemisphere, the migrator makes one part entity for the area and states the hemisphere on it as a term assertion, not a second part entity.
+
+Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a region within a brain slice points at a region part entity that is a part of the slice, which is itself a part of the animal (animal -> slice -> region), so the bath on the slice and the recording share one chain.
+
+Decided by Jess Haley, 2026-10-21 [region anatomy is UBERON]: a region part entity's anatomy term is UBERON; the migrator flags and counts any non-UBERON anatomy term it meets rather than mapping it.
+
 The located-by-default policy it replaces (D3, `V_eta_discovery_notes.md` and
 `V_eta_migration_plan.md` D3) was a first-pass cost call with no sign-off: a
 site was a bare `anatomical location` value on the animal, and a part entity
@@ -876,6 +882,24 @@ the NaN goes in that quantity with the unit as `source_unit`. No NDI writer on
 mg/kg; the Birren and Babu rows are concentrations), so a constructed test
 covers it. A kind known only from a paper or a team case is not in the source
 and is decided case by case, as the line says; nothing builds it generally.
+
+Decided by Jess Haley, 2026-10-21 [dose per ingredient]: "A dose states the amount of the whole formulation in its top-level quantities, and the amount of any specific ingredient in `value.ingredients`, each entry paired by order with a repeated `ingredient_id` edge on the dose itself (0-based, the same convention as the formulation: exactly one entry per ingredient_id edge, same order); each ingredient_id on a dose must be one of the ingredients of the dose's formulation."
+
+The motivating case is Hunsberger's alprazolam "1 mg/kg": an amount of the
+active chemical per body mass, not of the injected solution (alprazolam in
+saline). Built in `schemas/V_eta/stable/dose.json`: a repeated, ordered,
+optional `ingredient_id` edge declared like the formulation's, and
+`value.ingredients` (entries `mass`, `volume`, `substance_amount`, `count`,
+`amount_per_body_mass`). Two named rules: `ingredients_match_edges` (one entry
+per edge, same order) is checkable on the dose alone;
+`ingredient_in_formulation` needs the formulation document, so it is a batch
+or builder check, not a per-document one.
+
+Decided by Jess Haley, 2026-10-21 [multiple amount rows]: when a v1 treatment carries more than one amount row, the migrator puts each amount in its matching dose slot (volume, mass, substance_amount, count, or an ingredient's amount_per_body_mass), instead of taking an amount only when exactly one row exists.
+
+Decided by Jess Haley, 2026-10-21 [generic treatment number]: a generic v1 treatment's numeric_value is never read as an amount of an ingredient or of the dose; it is carried as the value the treatment's term says it is (the vhlab grating stimulation row's number is a duration in hours), and kept as an unlabelled number only when the term does not say.
+
+Decided by Jess Haley, 2026-10-21 [treatment onset]: a migrated treatment manipulation is anchored at the v1 administration_onset_time when one is recorded, and at "during the session" only when none is.
 
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131

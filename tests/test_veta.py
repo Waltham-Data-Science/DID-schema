@@ -3806,6 +3806,7 @@ def test_t15_ordered_flags_match_the_table():
     assert ordered == [
         ("clock_alignment_policy", "clock_alignment_configuration_id"),
         ("data", "key_id"),
+        ("dose", "ingredient_id"),   # 2026-10-21 [dose per ingredient]
         ("formulation", "ingredient_id"),
         ("item", "item_id"),
     ], ordered
@@ -3972,7 +3973,19 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     assert ing["multiple"] and ing["ordered"] and ing["min_count"] == 0
     assert "ingredients_or_product" in {r["name"] for r in RECORDS["formulation"][1]["rules"]}
     d = subs("dose")
-    assert set(d) == {"mass", "volume", "substance_amount", "count", "amount_per_body_mass"}
+    # `ingredients` since 2026-10-21 (Jess Haley, [dose per ingredient]): the amount of
+    # one ingredient, paired by order with a repeated `ingredient_id` edge on the dose.
+    assert set(d) == {"mass", "volume", "substance_amount", "count", "amount_per_body_mass",
+                      "ingredients"}
+    assert {s["name"] for s in d["ingredients"]["fields"]} == {
+        "mass", "volume", "substance_amount", "count", "amount_per_body_mass"}
+    assert d["ingredients"]["mustBeScalar"] is False and d["ingredients"]["blank_value"] == []
+    di = edges("dose")["ingredient_id"]
+    assert di["must_refer_to_document_class"] == ing["must_refer_to_document_class"]
+    assert di["multiple"] and di["ordered"] and di["min_count"] == 0
+    assert di["mustBeNonEmpty"] is False
+    assert {r["name"] for r in RECORDS["dose"][1]["rules"]} == {
+        "ingredients_match_edges", "ingredient_in_formulation"}
     assert "route" not in d and "formulation" not in d
     assert {s["name"] for s in d["amount_per_body_mass"]["fields"]} >= {
         "grams_per_gram", "liters_per_gram", "moles_per_gram"}

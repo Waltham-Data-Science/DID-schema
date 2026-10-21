@@ -114,6 +114,18 @@ TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmat
 
 Decided by Jess Haley, 2026-10-21 [epoch files as data bodies]: Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.
 
+Decided by Jess Haley, 2026-10-21 [spike trains as epoch bodies]: a spike-sorted neuron gets one observation per epoch, with that epoch's epoch_binary_data.vhsb file as its opaque_body data body, the same pattern as raw recordings.
+
+Decided by Jess Haley, 2026-10-21 [spike train variable]: a spike train observation's variable is GO:0001508 "action potential"; its value is the action-potential times of the neuron in that epoch.
+
+Decided by Jess Haley, 2026-10-21 [ingested epoch documents retired]: a v1 daqreader_*_epochdata_ingested document is retired once every file it holds is owned by a new per-epoch data body, so each file is referenced once; a document with any unowned file is kept and counted.
+
+Decided by Jess Haley, 2026-10-21 [archive compression]: a migrated data body whose file name ends in .tgz or .gz (the ingested .nbf.tgz segments) has compression 'gzip'; otherwise compression is left empty.
+
+Decided by Jess Haley, 2026-10-21 [ingested epochs use the archive]: for an ingested epoch, only NDI's archive segments become data bodies; the raw acquisition file paths listed in the epoch cache are not recorded as bodies.
+
+Decided by Jess Haley, 2026-10-21 [pyraview levels per epoch]: each pyraview level is a data body owned by that epoch's recording observation, alongside the raw file bodies.
+
 What it means for the migration, and why:
 
 - **The native shape it matches** is NDI `ndi.setup.V2.recordingDocuments` (NDI-matlab
