@@ -805,6 +805,38 @@ otherwise the dose carries `value.volume.liters` = NaN. A treatment with no
 location is counted in `summary.migration_notes.route_unknown`. Whether NaN
 survives a did2 write and read is DID-matlab #218's work, not this one's.
 
+Decided by Jess Haley, 2026-10-21: "Any statement about an anatomical region of a subject — manipulation or observation — targets that region's part entity (one per subject and region, shared, type tissue, `part_of` the subject). A statement about the whole subject (a whole-prep or whole-slice bath, i.e. the generic 'bath' location NCIm:C0179246) targets the subject. This replaces D3's located-by-default."
+
+The located-by-default policy it replaces (D3, `V_eta_discovery_notes.md` and
+`V_eta_migration_plan.md` D3) was a first-pass cost call with no sign-off: a
+site was a bare `anatomical location` value on the animal, and a part entity
+was minted only where an intervention was co-anchored with it. Now every
+statement about a region is about that region's part, an `entity` of type
+`tissue` with a term assertion of its anatomical kind and a `part_of` relation
+to the subject. There is one part per (subject, region), so an injection into a
+region and a recording from it are about the same entity. What it means for
+each source, as agreed in the same conversation:
+
+- A bath at an anatomical location (Marder `marder_bathtargets.json`: `upper`
+  UBERON:8910017-22, `lower` UBERON:8910010) targets the compartment's part.
+  The generic bath (`NCIm:C0179246`, every Dabrowska bath and Marder's `bath`)
+  targets the whole slice or prep, so NDI's `sliceTetanus` matching is
+  unaffected.
+- `treatment`, `treatment_drug` and `virus_injection` into a region already
+  target the part (NDI `pathSPromotion`).
+- A recording from a region (a probe with a `probe_location`, or a label naming
+  a region from `ontology_label`) becomes an observation of the region's part,
+  the same entity an injection into that region targets.
+
+Built on NDI-matlab `claude/second-pass-88-regions`
+(`+ndi/+migrate/+internal/pathSPromotion.m`, `stimulusBathToBath.m`,
+`local.m`) and DID-matlab `claude/port-88` (`resolveDeferredBaths.m`: no
+location observation for the generic bath). Not settled by this line and left
+as they were, with counts in the pass's report: a probe with more than one
+location (the Soph and 20211116 probes carry both `primary visual cortex` and a
+cerebral hemisphere), a recording already moved onto a Dabrowska slice (a region
+part of a slice), and a bath with no time reference to anchor its site on.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
