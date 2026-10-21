@@ -693,9 +693,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 169,
+          "accepted_lines": 171,
           "accepted_lines_by_kind": {
-            "Decided by": 53,
+            "Decided by": 55,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1276,6 +1276,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-21 [pyraview leftovers"
             },
             {
+              "document": "V_eta_recording_observation_plan.md",
+              "line": 165,
+              "kind": "Decided by",
+              "tag": "preview attribution without epoch files",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [preview attribution"
+            },
+            {
               "document": "V_eta_relation_inheritance_plan.md",
               "line": 113,
               "kind": "TEAM-SIGN-OFF",
@@ -1378,6 +1386,14 @@
               "tag": "empty response settings",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [empty response"
+            },
+            {
+              "document": "V_eta_stimulus_response_model_plan.md",
+              "line": 610,
+              "kind": "Decided by",
+              "tag": "control record is a calculation",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [control record is a"
             },
             {
               "document": "V_eta_study_plan.md",

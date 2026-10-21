@@ -363,7 +363,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 169 decision line(s) accepted, 2 rejected; 40 cited by a class, 129 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 171 decision line(s) accepted, 2 rejected; 40 cited by a class, 131 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -438,6 +438,7 @@ field). If one decides a class's disposition, that class should cite it.
 - pyraview levels per epoch. "Decided by Jess Haley, 2026-10-21 [pyraview levels per" (V_eta_recording_observation_plan.md:127).
 - pyraview leftovers. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]" (V_eta_recording_observation_plan.md:129).
 - pyraview leftovers, schema form. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers" (V_eta_recording_observation_plan.md:131).
+- preview attribution without epoch files. "Decided by Jess Haley, 2026-10-21 [preview attribution" (V_eta_recording_observation_plan.md:165).
 - relation inheritance. "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21" (V_eta_relation_inheritance_plan.md:113).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
@@ -451,6 +452,7 @@ field). If one decides a class's disposition, that class should cite it.
 - response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (V_eta_stimulus_response_model_plan.md:604).
 - control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (V_eta_stimulus_response_model_plan.md:606).
 - empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:608).
+- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (V_eta_stimulus_response_model_plan.md:610).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).

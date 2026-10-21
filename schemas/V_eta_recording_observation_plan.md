@@ -161,3 +161,5 @@ What it means for the migration, and why:
   by location; only `size_bytes` and `content_hash` are omitted, both of which are optional
   on `data_body` (an `opaque_body` requires only `format`). A corpus test reports such
   files as a known property of its data, not a failure.
+
+Decided by Jess Haley, 2026-10-21 [preview attribution without epoch files]: when a corpus has no epoch files (so no per-epoch recording observation exists to take the specimen from), a pyraview's observation takes its specimen from the element's own v1 `observes` relation (the probe observes the organism), which the migration keeps. (Answer "Yes" to the proposed option (a).)
