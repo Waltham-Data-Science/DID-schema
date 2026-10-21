@@ -456,10 +456,15 @@
      {
       "pass": "v1_to_v2",
       "path": "src/did/+did2/+convert/v1_to_v2.m",
-      "site_count": 1,
+      "site_count": 2,
       "sites": [
        {
-        "line": 679,
+        "line": 573,
+        "spelling": "base",
+        "text": "if isstruct(body) && isscalar(body) && isfield(body, 'base') ..."
+       },
+       {
+        "line": 695,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
