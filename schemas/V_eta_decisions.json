@@ -1849,12 +1849,12 @@
         ],
         "packages_missing": [],
         "files_read": 197,
-        "lines_read": 48298,
+        "lines_read": 48299,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
-          "DID-matlab:convert/resolveEpochProbemap.m:646 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:647 (entry.class)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1333 (leafClass)",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/dataset_remote.m:70 (className)",
@@ -1894,7 +1894,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 31889,
-          "batch_post_pass": 16409
+          "batch_post_pass": 16410
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1927,7 +1927,7 @@
           ],
           "batch_post_pass": [
             "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
-            "DID-matlab:convert/resolveEpochProbemap.m:646 (entry.class)",
+            "DID-matlab:convert/resolveEpochProbemap.m:647 (entry.class)",
             "DID-matlab:convert/resolveLawnPlateSubjects.m:1333 (leafClass)",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
