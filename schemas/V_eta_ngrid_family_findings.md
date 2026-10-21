@@ -413,3 +413,7 @@ decisions are the team's; the transcription and the scope limits above are
 Claude's, and the scope limits are deliberately narrower than the instruction's
 wording, because "the ngrid findings" as a whole includes items nobody
 discussed.
+
+## 2026-10-21 — the Hartley method is implied by the calculator
+
+Decided by Jess Haley, 2026-10-21 [hartley method implied]: hartley_calc's reverse_correlation.method 'Hartley' is not carried on receptive_field_calculation, because the method term (the Hartley calculator) already says it; the migrator records the drop in the migration report.

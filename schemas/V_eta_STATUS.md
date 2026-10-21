@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 145 decision line(s) accepted, 2 rejected; 40 cited by a class, 105 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 150 decision line(s) accepted, 2 rejected; 40 cited by a class, 110 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -376,18 +376,20 @@ field). If one decides a class's disposition, that class should cite it.
 - data_body amendment 3. "TEAM-SIGN-OFF [data_body amendment 3]" (V_eta_data_body_model_plan.md:1319).
 - data_type only for plain arrays. "Decided by Jess Haley, 2026-10-21 [data_type only for plain" (V_eta_data_body_model_plan.md:1337).
 - data_body amendment 5. "TEAM-SIGN-OFF [data_body amendment 5]" (V_eta_data_body_model_plan.md:1392).
+- sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (V_eta_data_body_model_plan.md:1396).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- datum_type is renamed" (V_eta_entity_composition_plan.md:61).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- add the text value kind" (V_eta_entity_composition_plan.md:70).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- one concrete entity" (V_eta_entity_composition_plan.md:116).
-- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- strain is an" (V_eta_entity_composition_plan.md:127).
-- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are" (V_eta_entity_composition_plan.md:148).
-- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- web_resource and the" (V_eta_entity_composition_plan.md:165).
-- 2026-10-19. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19" (V_eta_entity_composition_plan.md:176).
-- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is" (V_eta_entity_composition_plan.md:188).
-- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:195).
+- entity type requires, report-only. "Decided by Jess Haley, 2026-10-21 [entity type requires" (V_eta_entity_composition_plan.md:118).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- strain is an" (V_eta_entity_composition_plan.md:129).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are" (V_eta_entity_composition_plan.md:150).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- web_resource and the" (V_eta_entity_composition_plan.md:167).
+- 2026-10-19. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19" (V_eta_entity_composition_plan.md:178).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is" (V_eta_entity_composition_plan.md:190).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:197).
 - dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).
 - confirm sheet 2026-08-22. "TEAM-SIGN-OFF [confirm sheet 2026-08-22]" (V_eta_go_forward_class_audit.md:725).
 - immersion or dose. "Decided by Jess Haley, 2026-10-21 [immersion or dose]: A" (V_eta_go_forward_class_audit.md:729).
@@ -413,6 +415,7 @@ field). If one decides a class's disposition, that class should cite it.
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
+- hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (V_eta_ngrid_family_findings.md:419).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).
 - subject keeps only its own strain. "Decided by Jess Haley, 2026-10-21 [subject keeps only its" (V_eta_openminds_family_record.md:1329).
 - shared entities at dataset level. "Decided by Jess Haley, 2026-10-21 [shared entities at" (V_eta_openminds_family_record.md:1333).
@@ -430,6 +433,7 @@ field). If one decides a class's disposition, that class should cite it.
 - formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (V_eta_spatial_transcriptomics_plan.md:602).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
+- presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).
@@ -473,6 +477,7 @@ field). If one decides a class's disposition, that class should cite it.
 - tuning_curve composite + tuning_curve_calculation leaf, restructure. "TEAM-SIGN-OFF [tuning_curve composite +" (V_eta_tuning_model_plan.md:144).
 - tuning shape, #73 audit 2 amendment. "TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]" (V_eta_tuning_model_plan.md:246).
 - complex trial responses. "Decided by Jess Haley, 2026-10-21 [complex trial" (V_eta_tuning_model_plan.md:250).
+- pooled blank statistics. "Decided by Jess Haley, 2026-10-21 [pooled blank" (V_eta_tuning_model_plan.md:259).
 - lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
 - developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
 

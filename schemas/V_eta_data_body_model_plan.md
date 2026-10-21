@@ -1390,3 +1390,7 @@ the fold can emit it.
 To be signed: a value is inline (its `value` field filled) or in data bodies (`data_body: true`), never neither -- one rule `value_inline_or_body` on the parent `value` class, replacing `mustBeNonEmpty: true` on the `value` field of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field.
 
 TEAM-SIGN-OFF [data_body amendment 5]: jess@walthamdatascience.com / 2026-10-21 -- a value is inline (its value field filled) or in data bodies (data_body: true), never neither: one rule value_inline_or_body on the parent value class, replacing the required inline value of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field
+
+## 2026-10-21 — sorter output by location
+
+Decided by Jess Haley, 2026-10-21 [sorter output by location]: a v1 sorter output that names an external directory (kilosort/kiasort) migrates to an opaque_body whose single member records that directory by location, with the curated-output MD5 as the member's checksum and format EMPTY:0000315 "directory of files".

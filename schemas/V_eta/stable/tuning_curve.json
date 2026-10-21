@@ -154,6 +154,47 @@
                             "ontology": null,
                             "documentation": "Per-trial individual control response values; ONE trial dimension. When the response is complex (`response_type` F1 or F2), one more trailing component dimension of size 2 follows the trial dimension: [real, imaginary], so both parts of NDI's complex response are kept. `mean`/`stddev`/`stderr` are unchanged: NDI computes them from the complex trials, and `mean` is the magnitude (Jess Haley, 2026-10-21 [complex trial responses]).",
                             "constraints": {}
+                        },
+                        {
+                            "name": "pooled",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Optional: the standard deviation and standard error of the blank-trial responses pooled over trials, computed by NDIcalc-vis spatial/temporal frequency tuning from the first stimulus's control trials taken as magnitudes (v1 control_mean_stddev / control_mean_stderr). Distinct from control.stddev/stderr, which are per stimulus (Jess Haley, 2026-10-21 [pooled blank statistics]).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "stddev",
+                                    "type": "matrix",
+                                    "blank_value": [],
+                                    "default_value": [],
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": false,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Optional: the standard deviation of the blank-trial responses pooled over trials (v1 control_mean_stddev).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "stderr",
+                                    "type": "matrix",
+                                    "blank_value": [],
+                                    "default_value": [],
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": false,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Optional: the standard error of the blank-trial responses pooled over trials (v1 control_mean_stderr).",
+                                    "constraints": {}
+                                }
+                            ]
                         }
                     ]
                 },

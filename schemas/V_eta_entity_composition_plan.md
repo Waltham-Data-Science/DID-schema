@@ -115,6 +115,8 @@ session; `name` for the rest) and a description. The relation registry's
 To be signed: one concrete entity class with a bound type; the entity leaves go; per-type requirements live in a type registry
 TEAM-SIGN-OFF: jess / 2026-10-08 -- one concrete entity class with a bound type; the 13 entity classes go; per-type requirements live in a type registry
 
+Decided by Jess Haley, 2026-10-21 [entity type requires, report-only]: the fields an entity type requires (entity_type_bindings) are checked report-only first, counted per type and field in the corpus census; making the check quarantine documents waits until a corpus run has measured how many it would stop.
+
 ## 5. Strain is a relation
 
 `term_assertion.strain_id` goes. A subject is an `instance_of` its strain

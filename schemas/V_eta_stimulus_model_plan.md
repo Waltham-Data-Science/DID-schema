@@ -390,3 +390,7 @@ they hold for every migrated dataset, not for one.
    nothing, so its class does not change what the animal saw.
 4. **Stimulator links that lead to different animals are refused and listed**, not resolved
    through the cohort: conflicting records are not a shared event.
+
+## 2026-10-21 — a presentation with no subject
+
+Decided by Jess Haley, 2026-10-21 [presentation with no subject]: a stimulus presentation whose subject cannot be resolved becomes a standalone item (what was shown, in order and time) with no manipulation, rather than staying a v1 leftover.

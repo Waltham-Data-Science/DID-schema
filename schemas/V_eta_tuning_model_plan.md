@@ -253,3 +253,11 @@ Documented on `tuning_curve.value.individual`, `.raw_individual` and
 `.control.individual` (no type changed). `mean` / `stddev` / `stderr` are
 unchanged: NDI computes them from the complex trials, and `mean` is the
 magnitude. `contrast_sensitivity` declares no per-trial field, so it is unchanged.
+
+## 2026-10-21 — pooled blank statistics
+
+Decided by Jess Haley, 2026-10-21 [pooled blank statistics]: the v1 control_mean_stddev and control_mean_stderr are kept on the tuning curve as control.pooled.stddev and control.pooled.stderr, documented with how they were computed.
+
+Built as an optional `tuning_curve.value.control.pooled` structure with optional
+`stddev` and `stderr` matrices. `contrast_sensitivity` declares no `control`
+block, so it is unchanged.

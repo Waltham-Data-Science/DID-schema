@@ -615,9 +615,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 145,
+          "accepted_lines": 150,
           "accepted_lines_by_kind": {
-            "Decided by": 29,
+            "Decided by": 34,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -694,6 +694,14 @@
               "anchor": "TEAM-SIGN-OFF [data_body amendment 5]"
             },
             {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1396,
+              "kind": "Decided by",
+              "tag": "sorter output by location",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [sorter output by"
+            },
+            {
               "document": "V_eta_duplicate_entities_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -743,7 +751,15 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 127,
+              "line": 118,
+              "kind": "Decided by",
+              "tag": "entity type requires, report-only",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [entity type requires"
+            },
+            {
+              "document": "V_eta_entity_composition_plan.md",
+              "line": 129,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-08",
@@ -751,7 +767,7 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 148,
+              "line": 150,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-08",
@@ -759,7 +775,7 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 165,
+              "line": 167,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-08",
@@ -767,7 +783,7 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 176,
+              "line": 178,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-19",
@@ -775,7 +791,7 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 188,
+              "line": 190,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-08",
@@ -783,7 +799,7 @@
             },
             {
               "document": "V_eta_entity_composition_plan.md",
-              "line": 195,
+              "line": 197,
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-10-08",
@@ -990,6 +1006,14 @@
               "anchor": "TEAM-SIGN-OFF [receptive field naming]"
             },
             {
+              "document": "V_eta_ngrid_family_findings.md",
+              "line": 419,
+              "kind": "Decided by",
+              "tag": "hartley method implied",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [hartley method implied]"
+            },
+            {
               "document": "V_eta_openminds_family_record.md",
               "line": 20,
               "kind": "TEAM-SIGN-OFF",
@@ -1124,6 +1148,14 @@
               "tag": "onsets on the sequence, #73 audit 2 D11",
               "date": "2026-09-29",
               "anchor": "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]"
+            },
+            {
+              "document": "V_eta_stimulus_model_plan.md",
+              "line": 396,
+              "kind": "Decided by",
+              "tag": "presentation with no subject",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [presentation with no"
             },
             {
               "document": "V_eta_study_plan.md",
@@ -1468,6 +1500,14 @@
               "tag": "complex trial responses",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [complex trial"
+            },
+            {
+              "document": "V_eta_tuning_model_plan.md",
+              "line": 259,
+              "kind": "Decided by",
+              "tag": "pooled blank statistics",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [pooled blank"
             },
             {
               "document": "review/73/OPEN_ITEMS.md",
