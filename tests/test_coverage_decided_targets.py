@@ -42,6 +42,7 @@ here calls `coverage.py`'s own helpers to decide what the answer should be:
 import json
 import os
 import re
+import sys
 
 import pytest
 
@@ -536,82 +537,59 @@ def test_a_corrupted_signoff_citation_stops_the_ledger():
 
 
 def test_the_board_does_not_assert_what_it_never_read():
-    """The status board's unchecked-family prose must be measured.
+    """The status board's target-build claims must be measured.
 
     It used to print "No member of these families carries a `decided_targets`
     entry in the coverage ledger" about eleven families. Measured 2026-08-11
-    that was FALSE for five of them -- all four members of `spike processing
-    parameters` carry `decided_targets: [method_parameters]`, and `stimulus
-    response` carries two more. The lookup only ever touched
-    `open_class_state`, which does not cover a `retire` v1 source row, so it
-    was a claim about the ledger produced without reading the ledger.
+    that was FALSE for five of them; the lookup never touched the ledger.
+    RETARGETED 2026-10-21 to the per-class citation table that replaced the
+    families: a class reported `no target recorded` must really carry no
+    non-self decided target in the ledger.
     """
     status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
     with open(status) as fh:
         text = fh.read()
     banned = ("No member of these families carries a `decided_targets` entry "
               "in the coverage ledger")
-    assert banned not in text, (
-        "the board still asserts that no member of the unchecked families "
-        "carries a decided target -- a statement it does not measure")
-
-    # And the families it DOES report as unchecked must really be unchecked:
-    # not one of their members may carry a non-self decided target.
+    assert banned not in text
     rows = {r["v1_class"]: r for r in _rows()}
-    m = re.search(r"\*\*The other (\d+) are unchecked, NOT clean\.\*\*(.*?)\n\n"
-                  r"Only the", text, re.DOTALL)
-    assert m, "could not find the unchecked-families block in V_eta_STATUS.md"
-    named = re.findall(r"^- \*\*(.+?)\*\* \(\d+ class", m.group(2), re.MULTILINE)
-    assert len(named) == int(m.group(1)), (
-        f'the board says {m.group(1)} families are unchecked and then lists {len(named)}')
-    listed = re.findall(r"`([A-Za-z_][\w]*)`", m.group(2))
-    wrong = [c for c in listed
-             if c in rows
+    sec = text.split("## Every decision citation", 1)[1].split("\n## ", 1)[0]
+    blank = re.findall(r"^\| `([^`]+)` \| [^|]+ \| no target recorded \|",
+                       sec, re.MULTILINE)
+    assert blank, "precondition: some cited classes record no target"
+    wrong = [c for c in blank if c in rows
              and [t for t in rows[c]["decided_targets"] if t != c]]
     assert not wrong, (
-        f'DENOMINATOR: {len(listed)} class(es) named in the unchecked block, {sum(1 for c in listed if c in rows)} present in the ledger. These carry a decided target and must not be reported as contributing nothing: {wrong}')
+        f"DENOMINATOR: {len(blank)} class(es) reported `no target recorded`. "
+        f"These carry a decided target in the ledger: {wrong}")
 
 
-def test_the_family_prose_is_swept_against_the_signatures():
-    """The `ngrid` split must be looked for, not stumbled on.
+def test_the_board_quotes_the_decision_line_not_prose():
+    """REPLACES test_the_family_prose_is_swept_against_the_signatures.
 
-    Two independent readers got `ngrid` wrong on the same day, each from the
-    same document, because the FAMILIES one-liner (Claude-authored prose in a
-    tool) named a target class the signature does not. Sweeping for that shape
-    found a second instance in the first pass. A one-off correction leaves the
-    third one to be discovered the same way.
+    The family one-liner was Claude-authored prose standing beside the team's
+    words, and `ngrid` was misfiled twice because of it. The families are gone
+    (2026-10-21) and the board now prints the decision line's OWN text, so
+    there is no prose left to sweep. This asserts that: every decided open
+    class's decision cell is a prefix of the line its citation resolves to.
     """
+    sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+    import decision_citations as dc
     status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
     with open(status) as fh:
         text = fh.read()
-    heading = "## Class names the family table asserts that its sign-off does not say"
-    assert heading in text, "the family-prose sweep is not rendered in the board at all"
-
-    # SCOPE THE ASSERTIONS TO THE SWEEP'S OWN SECTION. The first draft of this
-    # test searched the WHOLE of V_eta_STATUS.md for "image / ngrid" and
-    # "sampled_body" -- both of which appear in the family table two sections
-    # up -- so a mutation that narrowed the sweep until it reported NOTHING
-    # still passed. Caught by mutating it (M13); the test agreed with the
-    # broken code because it was reading a different part of the file.
-    section = text.split(heading, 1)[1].split("\n## ", 1)[0]
-
-    m = re.search(r"DENOMINATOR: (\d+) signed families checked;.*?"
-                  r"(\d+) family/name pair\(s\) are\s+UNSIGNED", section, re.DOTALL)
-    assert m, "the sweep does not state its denominator"
-    assert int(m.group(1)) >= 15, (
-        f"the sweep claims to have checked only {m.group(1)} families -- too few to be the "
-        "real set")
-    assert int(m.group(2)) > 0, (
-        "the sweep reports 0 unsigned family/name pairs. Two are known and "
-        "documented (`ngrid` and `binaryseries_parameters`, both naming "
-        "`sampled_body`), so a zero here means the sweep was narrowed, not that "
-        "the record was fixed.")
-    # The rows it exists for must be in ITS OWN table.
-    assert "| **image / ngrid** |" in section, (
-        "the sweep no longer reports the family it was built from")
-    assert "`sampled_body`" in section, (
-        "`sampled_body` -- the unsigned class name in BOTH contested rows -- is "
-        "not reported by the sweep")
+    assert "## Class names the family table asserts" not in text
+    sec = text.split("## Decided, awaiting build -- the open classes", 1)[1]
+    sec = sec.split("\n## ", 1)[0]
+    rows = re.findall(r"^\| `([^`]+)` \| [^|]+ \| [^|]+ \| (.+) \|$", sec,
+                      re.MULTILINE)
+    assert rows, "the decided open-class table is empty or reworded"
+    for cls, cell in rows:
+        dec = dc.decision_for([cls])
+        assert dec["decided_by"], cls
+        line = " ".join(dec["decided_by"]["decision"].split())
+        shown = cell.removesuffix("...")
+        assert line.startswith(shown.rstrip()), (cls, shown[:60], line[:60])
 
 
 def test_a_row_whose_migrator_emits_its_decided_target_says_so():

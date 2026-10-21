@@ -55,8 +55,8 @@ BARE_ROW = {
     "v1_class": "fixture_class", "veta_class": "fixture_class", "targets": [],
     "decided_targets": [], "second_pass": [], "no_target_reason": None,
     "decided_signoff": None, "no_target_signoff": None,
-    "decided_targets_source": None, "decided_by_family": None,
-    "governance_gap": None, "families_naming_this_class": [],
+    "decided_targets_source": None, "decided_by_citation": None,
+    "governance_gap": None, "decision_citations": [],
     "build_state": {
         "schema_targets_named": 0, "schema_targets_built": [],
         "schema_targets_missing": [], "migrator_emits_decided_targets": False,

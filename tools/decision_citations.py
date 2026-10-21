@@ -1,0 +1,457 @@
+"""Which classes are DECIDED, and the line that decided each one.
+
+THE RULE (Operating Rule 4, CLAUDE.md; Jess Haley, 2026-10-21)
+--------------------------------------------------------------
+A class is DECIDED if and only if it CITES a decision line that exists. A
+citation is a document and a tag:
+
+    ("V_eta_epoch_plan.md", "epoch")
+
+and it RESOLVES when that document holds an accepted decision line the tag
+names. Two forms of decision line are read:
+
+    TEAM-SIGN-OFF [<tag>]: <who/when> -- <what was decided>
+    Decided by Jess Haley, <YYYY-MM-DD>: <what was decided>
+
+A `TEAM-SIGN-OFF` line with a `[tag]` is named by that tag. A line with no tag
+(an untagged `TEAM-SIGN-OFF`, or a `Decided by Jess Haley` line) is named by
+its DATE, so a citation of it reads ("<document>", "2026-10-21"). A `Decided by
+Jess Haley, <date> [<tag>]:` line is named by its date and by its tag.
+
+Anything else renders "Proposed (not decided)": a class with no citation, and a
+class whose every citation fails to resolve. A citation that fails to resolve
+is also an ERROR the board reports and fails on, because it is a record that
+points nowhere -- a typo, or a decision that was superseded.
+
+WHAT THIS REPLACES
+------------------
+Until 2026-10-21 `tools/status_board.py` grouped classes into decision
+FAMILIES, and a class was decided when its family's tag matched a sign-off in
+the family's document. That was one indirection too many: a signature whose tag
+named no family reached nothing (47 such lines on the day it was removed), and
+the family's one-line summary was Claude-authored prose standing beside the
+team's words. Each class now cites the line itself, and the board shows that
+line's own text.
+
+WHERE A CITATION MAY POINT
+--------------------------
+A document is a file name under `schemas/` (`V_eta_epoch_plan.md`) or a path
+from the repository root (`review/73/OPEN_ITEMS.md`). The generated markdown
+files (GENERATED_MARKDOWN) are never read: they quote decisions, they do not
+hold them.
+
+Claude may add or correct a CITATION (it points at a line Jess wrote). Claude
+never writes a `TEAM-SIGN-OFF` or `Decided by Jess Haley` line itself.
+"""
+
+import os
+import re
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCHEMAS = os.path.join(REPO, "schemas")
+
+SIGNOFF = "TEAM-SIGN-OFF:"
+KIND_SIGNOFF = "TEAM-SIGN-OFF"
+KIND_DECIDED_BY = "Decided by Jess Haley"
+
+DECIDED = "decided"
+PROPOSED = "proposed (not decided)"
+
+# GENERATED MARKDOWN IS NOT A RECORD OF ANYTHING; it is a copy of one. Checked
+# in tests against the `.md` files `tools/gates.py` declares its steps write.
+GENERATED_MARKDOWN = ("V_eta_STATUS.md", "V_eta_coverage_ledger.md",
+                      "V_eta_final_class_set.md")
+
+_DATE_RE = re.compile(r"\b(\d{4}-\d{2}-\d{2})\b")
+# Line-initial, after an optional list marker or bold opener. The date must be
+# a real YYYY-MM-DD, so the template's `<date>` never matches.
+_DECIDED_BY_RE = re.compile(
+    r"^(?:[-*>]\s+)?(?:\*\*)?Decided by Jess Haley,\s*(\d{4}-\d{2}-\d{2})"
+    r"\s*(?:\[([^\]]+)\])?\s*(?:\*\*)?\s*:\s*(.*)$")
+
+
+# ---------------------------------------------------------------------------
+# THE CITATIONS -- one entry per class, keyed by the v1 (ledger) name or the
+# V_eta class name, matched EXACTLY (no lowercasing, no underscore stripping).
+#
+# Migrated 2026-10-21 from the 27 FAMILIES rows, one citation per member, so
+# every class that was decided stays decided (proved in the commit that made
+# this). The entries marked ADDED cite a signed line that names the class but
+# that no family reached; each is explained beside it.
+# ---------------------------------------------------------------------------
+_ST = "V_eta_spatial_transcriptomics_plan.md"
+_ST_REVIEW = (_ST, "spatial_transcriptomics_family")   # signs #73 review items 1-71
+_ST_AUDIT2 = (_ST, "#73 audit 2, D1-D13")              # signs audit 2 D1-D13
+_GFA = "V_eta_go_forward_class_audit.md"
+
+CITATIONS = {
+    # -- migrated from the families ---------------------------------------
+    "calculator": [("V_eta_subject_calculation_plan.md", "calculator mixin dropped (#73)")],
+    "generic_file": [("V_eta_OPEN_WORK.md", "stranded sources")],
+    "imageCollection": [("V_eta_OPEN_WORK.md", "stranded sources")],
+    # The second citation is the signed amendment the target map names
+    # ("TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18").
+    "valid_interval": [("V_eta_logical_observation_plan.md", "logical_observation"),
+                       ("V_eta_logical_observation_plan.md", "logical_observation amendment 1")],
+    # The second citation is the row the target map's decision_note names
+    # ("SIGNED 2026-08-13 -- see V_eta_OPEN_WORK.md row #113").
+    "epochclocktimes": [("V_eta_time_reference_family_plan.md", "epochclocktimes"),
+                        ("V_eta_OPEN_WORK.md", "epoch extent -- row #113")],
+    "stimulus_presentation": [("V_eta_stimulus_model_plan.md", "stimulus")],
+    "ensemble": [("V_eta_ensemble_plan.md", "ensemble")],
+    "hartley_calc": [("V_eta_ngrid_family_findings.md", "receptive field fold")],
+    "tuningcurve_calc": [(_GFA, "confirm sheet 2026-08-17")],
+    "oridirtuning_calc": [(_GFA, "confirm sheet 2026-08-17")],
+    "probe_location": [(_GFA, "confirm sheet 2026-08-17")],
+    "treatment": [(_GFA, "confirm sheet 2026-08-17")],
+    # ADDED: a second citation. The 2026-09-29 line amends this class's target
+    # by name: "`kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters`
+    # migrate to `label_calculation`".
+    "jrclust_clusters": [(_GFA, "confirm sheet 2026-08-17"),
+                         (_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
+    "ngrid": [("V_eta_image_model_plan.md", "image / ngrid")],
+    "imageStack_parameters": [("V_eta_image_model_plan.md", "image / ngrid")],
+    "acquisition_epoch": [("V_eta_epoch_plan.md", "epoch")],
+    "element_epoch": [("V_eta_epoch_plan.md", "epoch")],
+    "epochid": [("V_eta_epoch_plan.md", "epoch")],
+    "epochfiles_ingested": [("V_eta_epoch_plan.md", "epoch")],
+    "daqsystem": [("V_eta_daq_family_decisions.md", "daq configuration")],
+    "daqreader": [("V_eta_daq_family_decisions.md", "daq configuration")],
+    "daqmetadatareader": [("V_eta_daq_family_decisions.md", "daq configuration")],
+    "daqreader_ndr": [("V_eta_daq_family_decisions.md", "daq configuration")],
+    "daqreader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
+    "daqmetadatareader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
+    "daqreader_image_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
+    "syncgraph": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
+    "syncrule": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
+    "syncrule_mapping": [("V_eta_clock_alignment_cluster_plan.md", "sync mapping")],
+    "filenavigator": [("V_eta_daq_family_decisions.md", "file navigation")],
+    # The two UNTAGGED sign-offs, cited by date (the old family join took the
+    # document's first untagged line; these are those lines).
+    "openminds": [("V_eta_openminds_family_record.md", "2026-08-08")],
+    "filter": [("V_eta_frequency_filter_model_plan.md", "2026-07-30")],
+    "app": [("V_eta_tenet_audit.md", "software")],
+    "spike_extraction_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
+    "spike_extraction_parameters_modification": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
+    "sorting_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
+    "vmspikefilteringparameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
+    "stimulus_parameter": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
+    "stimulus_parameter_table": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
+    "stimulus_response": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar_parameters": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar_parameters_basic": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
+    "subjectmeasurement": [(_GFA, "subject measurement")],
+    "element": [("V_eta_recording_observation_plan.md", "raw recording observation")],
+    # The second citation is the signed amendment the target map names
+    # ("SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md)").
+    "pyraview": [("V_eta_recording_observation_plan.md", "raw recording observation"),
+                 ("V_eta_recording_observation_plan.md",
+                  "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation")],
+    "subject": [(_GFA, "subject")],
+    "session": [(_GFA, "session")],
+    "binaryseries_parameters": [(_GFA, "misc singletons")],
+    "interaction_purpose": [(_GFA, "misc singletons")],
+    "projectvar": [(_GFA, "misc singletons")],
+    "spatialGeneExpressionPyramid": [_ST_REVIEW],
+    "spatialGeneExpressionCells": [_ST_REVIEW],
+    "spatialGeneExpressionTiles": [_ST_REVIEW],
+    "cellTypeLabels": [_ST_REVIEW],
+    "geneListMapping": [_ST_REVIEW],
+    "fileReference": [_ST_REVIEW],
+    "geneList": [_ST_REVIEW],
+    "geneExpression": [_ST_REVIEW],
+
+    # -- ADDED 2026-10-21: signed lines that name the class, reached by no family.
+    # The [spatial_transcriptomics_family] line signs "the #73 review decisions
+    # recorded above as items 1 through 71 ... (items 50-53, 59, 61, 67 and 68
+    # as written)"; each class below is NAMED in the item cited beside it.
+    "neuron_extracellular": [_ST_REVIEW],   # item 48 names it
+    "fitcurve": [_ST_REVIEW],               # item 68: "v1 `fitcurve` ... becomes a model_fit_calculation"
+    "image": [_ST_REVIEW],                  # item 51: decided targets recorded for v1 `image`, `imageStack`, `ontologyImage`
+    "imageStack": [_ST_REVIEW],             # item 51
+    "ontologyImage": [_ST_REVIEW],          # item 51
+    "control_stimulus_ids": [_ST_REVIEW],   # item 67 names it
+    "probe_geometry": [_ST_REVIEW],         # item 50: position_observation "is now `probe_geometry`'s decided target"
+    # The [#73 audit 2, D1-D13] line signs D1-D13 of review/73/audit2_SUMMARY.md's
+    # decision log; D7 (a) reads "`vmspikefit` -> `model_fit_calculation`".
+    "vmspikefit": [_ST_AUDIT2],
+    # Named in the 2026-09-29 line: "`kilosort_clusters`, `kiasort_clusters` and
+    # `jrclust_clusters` migrate to `label_calculation`".
+    "kilosort_clusters": [(_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
+    "kiasort_clusters": [(_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
+    # Signed in review/73/OPEN_ITEMS.md: "the pyramid is an intensity observation
+    # ...; level 0 is the measurement, reduced levels redundant; ... the store ...
+    # an unheld opaque_body ...; the software entity is the builder".
+    "lightsheetZarrPyramid": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
+    "lightsheetZarrLevel": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
+}
+
+
+# ---------------------------------------------------------------------------
+# THE SCANNER
+# ---------------------------------------------------------------------------
+def scan_decision_lines(text):
+    """Every decision line in `text`, ACCEPTED or REJECTED with a reason.
+
+    THE ONE SCANNER: resolution and the census both read it, so the set of
+    lines that COUNT and the set a report describes cannot drift apart. A
+    rejected line is returned rather than dropped, so "no decision here" and
+    "a decision written in a form nothing reads" stay distinguishable.
+
+    Returns dicts: {line, kind, tag, date, keys, content, accepted,
+    rejected_because}. `keys` are the names a citation may use for the line.
+
+    Guards, each added after a real laundering path:
+      * HTML comments are stripped first: a plan document that TELLS the team
+        how to sign off carries the marker inside a comment.
+      * A line inside a fenced code block is a QUOTATION, not a decision.
+      * `SIGN-OFF SUPERSEDED [tag]: ...` retires the NEXT decision line with
+        that tag in the same document.
+      * The sign-off TEMPLATE's own slots (`<family>`, `<who/when>`, `<what was
+        decided>`) mark a placeholder, not a decision.
+      * Under 10 characters of decision text is not a decision.
+    A `TEAM-SIGN-OFF` whose tag line ends at the colon continues on the next
+    non-blank lines (multi-line sign-offs, 2026-09-22).
+    """
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
+    marker = SIGNOFF.rstrip(":")
+    out = []
+    lines = text.splitlines()
+    in_fence = False
+    superseded = {}
+    for n, raw in enumerate(lines, 1):
+        line = raw.lstrip()
+        if line.startswith("```"):
+            in_fence = not in_fence
+            continue
+        m_sup = re.match(r"SIGN-OFF SUPERSEDED\s*\[([^\]]+)\]\s*:?\s*(.*)$", line)
+        if m_sup and not in_fence:
+            superseded[m_sup.group(1).strip()] = m_sup.group(2).strip()
+            continue
+        m_dec = _DECIDED_BY_RE.match(line)
+        if m_dec:
+            kind = KIND_DECIDED_BY
+            date = m_dec.group(1)
+            tagged = m_dec.group(2).strip() if m_dec.group(2) else None
+            rest = m_dec.group(3).strip()
+        elif line.startswith(marker):
+            kind = KIND_SIGNOFF
+            rest = line[len(marker):].strip()
+            tagged = None
+            m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
+            if m:
+                tagged, rest = m.group(1).strip(), m.group(2).strip()
+            rest = rest.lstrip(":").strip()
+            if not rest:
+                _joined = []
+                for _next in lines[n:]:
+                    _stripped = _next.strip()
+                    if not _stripped or _stripped.startswith(marker):
+                        break
+                    if _stripped[0] in "|#-*" and not _joined:
+                        break
+                    _joined.append(_stripped)
+                    if len(_joined) >= 8 or ("-- " in _stripped and
+                                             sum(len(s) for s in _joined) >= 20):
+                        break
+                if _joined:
+                    rest = " ".join(_joined).lstrip(":").strip()
+            dm = _DATE_RE.search(rest)
+            date = dm.group(1) if dm else None
+        else:
+            continue
+        why = None
+        _slots = ("<family>", "<tag>", "<who/when>", "<what was decided>")
+        _hit = [s for s in _slots if s in rest]
+        if in_fence:
+            why = "inside a fenced code block -- a quotation, not a signature"
+        elif tagged is not None and tagged in superseded:
+            why = "SUPERSEDED -- " + (superseded.pop(tagged) or "marked superseded")
+        elif _hit:
+            why = ("TEMPLATE PLACEHOLDER -- carries the unfilled slot %s, not a "
+                   "decision" % _hit[0])
+        elif len(rest) < 10:
+            why = "under 10 characters after the marker -- not a decision"
+        if kind == KIND_DECIDED_BY:
+            keys = [date] + ([tagged] if tagged else [])
+        else:
+            keys = [tagged] if tagged is not None else ([date] if date else [])
+        out.append({"line": n, "kind": kind, "tag": tagged, "date": date,
+                    "keys": keys, "content": rest,
+                    "accepted": why is None, "rejected_because": why})
+    return out
+
+
+def document_path(document):
+    """A cited document: a file under schemas/, else a path from the repo root."""
+    if not document:
+        return None
+    if os.sep not in document and "/" not in document:
+        return os.path.join(SCHEMAS, document)
+    return os.path.join(REPO, document)
+
+
+_SCAN_CACHE = {}
+
+
+def _scan_document(document):
+    path = document_path(document)
+    if path is None or not os.path.exists(path):
+        return None
+    if os.path.basename(path) in GENERATED_MARKDOWN:
+        return None
+    key = (path, os.path.getmtime(path))
+    if key not in _SCAN_CACHE:
+        with open(path, encoding="utf-8") as fh:
+            _SCAN_CACHE[key] = scan_decision_lines(fh.read())
+    return _SCAN_CACHE[key]
+
+
+def resolve(document, tag):
+    """One citation, resolved: the decision line it names, or why there is none."""
+    rec = {"document": document, "tag": tag, "resolved": False,
+           "line": None, "kind": None, "decision": None, "matches": 0,
+           "why": None}
+    entries = _scan_document(document)
+    if entries is None:
+        rec["why"] = ("the document does not exist (or is a generated copy, "
+                      "which holds no decisions)")
+        return rec
+    hits = [e for e in entries if e["accepted"] and tag in e["keys"]]
+    if not hits:
+        rejected = [e for e in entries if not e["accepted"] and tag in e["keys"]]
+        rec["why"] = ("a line with this tag exists and is REJECTED: "
+                      + rejected[0]["rejected_because"]) if rejected else (
+                      "no accepted TEAM-SIGN-OFF or Decided-by line in the "
+                      "document carries this tag (or, untagged, this date)")
+        return rec
+    first = hits[0]
+    rec.update(resolved=True, line=first["line"], kind=first["kind"],
+               decision=first["content"], matches=len(hits))
+    return rec
+
+
+def citations_for(names, table=None):
+    """Every citation for a class, by any of its names, EXACT match, deduplicated.
+
+    Returns [(name_matched, document, tag)] in table order."""
+    table = CITATIONS if table is None else table
+    out, seen = [], set()
+    for name in names:
+        if not name:
+            continue
+        for doc, tag in table.get(name) or ():
+            if (doc, tag) in seen:
+                continue
+            seen.add((doc, tag))
+            out.append((name, doc, tag))
+    return out
+
+
+def decision_for(names, table=None):
+    """The decision state of one class, from its own citations.
+
+    DECIDED iff at least one citation resolves. Unresolved citations are
+    returned beside it (and are an error at the board), never silently dropped.
+    """
+    cites = []
+    for matched, doc, tag in citations_for(names, table):
+        rec = resolve(doc, tag)
+        rec["matched_name"] = matched
+        cites.append(rec)
+    resolved = [c for c in cites if c["resolved"]]
+    return {"state": DECIDED if resolved else PROPOSED,
+            "citations": cites,
+            "decided_by": resolved[0] if resolved else None,
+            "unresolved": [c for c in cites if not c["resolved"]]}
+
+
+def unresolved_citations(table=None):
+    """Every citation in the table that does not resolve: [(class, record)]."""
+    table = CITATIONS if table is None else table
+    bad = []
+    for cls in sorted(table):
+        for doc, tag in table[cls]:
+            rec = resolve(doc, tag)
+            if not rec["resolved"]:
+                bad.append((cls, rec))
+    return bad
+
+
+def decision_census(schemas_dir=None, table=None):
+    """Where every decision line is, and which of them a class cites.
+
+    RULE 5: the denominator first -- documents read, lines accepted and
+    rejected -- then the two directions of the mismatch, SEPARATELY:
+
+      uncited line          an accepted decision line no citation names. The
+                            decision exists and no class points at it. Many of
+                            these decide something that is not a class (a
+                            tenet, a naming rule); the list is for a reader.
+      unresolved citation   a citation that names no accepted line.
+    """
+    table = CITATIONS if table is None else table
+    root = schemas_dir or SCHEMAS
+    files, excluded = [], []
+    for name in sorted(os.listdir(root)):
+        if not name.endswith(".md"):
+            continue
+        (excluded if name in GENERATED_MARKDOWN else files).append(name)
+    # Documents cited from outside schemas/ are read too, and named.
+    outside = sorted({doc for v in table.values() for doc, _t in v
+                      if "/" in doc})
+    docs = files + outside
+
+    cited_by = {}
+    for cls, v in table.items():
+        for doc, tag in v:
+            cited_by.setdefault(doc, {}).setdefault(tag, []).append(cls)
+
+    lines, rejected = [], []
+    for name in docs:
+        path = os.path.join(root, name) if "/" not in name else document_path(name)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            for e in scan_decision_lines(fh.read()):
+                (lines if e["accepted"] else rejected).append(dict(e, document=name))
+    excluded_markers = 0
+    for name in excluded:
+        path = os.path.join(root, name)
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as fh:
+                excluded_markers += len(scan_decision_lines(fh.read()))
+
+    def _cited(e):
+        tags = cited_by.get(e["document"], {})
+        return sorted({c for k in e["keys"] for c in tags.get(k, [])})
+
+    uncited = [{"document": e["document"], "line": e["line"], "kind": e["kind"],
+                "tag": e["tag"], "date": e["date"]}
+               for e in lines if not _cited(e)]
+    unresolved = unresolved_citations(table)
+    by_kind = {}
+    for e in lines:
+        by_kind[e["kind"]] = by_kind.get(e["kind"], 0) + 1
+    return {
+        "documents_read": len(docs),
+        "documents_read_outside_schemas": outside,
+        "documents_excluded_as_generated": excluded,
+        "markers_inside_excluded_documents": excluded_markers,
+        "accepted_lines": len(lines),
+        "accepted_lines_by_kind": dict(sorted(by_kind.items())),
+        "rejected_lines": [
+            {"document": e["document"], "line": e["line"], "kind": e["kind"],
+             "tag": e["tag"], "why": e["rejected_because"],
+             "excerpt": e["content"][:120],
+             "cited_by_classes": _cited(e)}
+            for e in rejected],
+        "classes_citing": len(table),
+        "citations_total": sum(len(v) for v in table.values()),
+        "citations_unresolved": [
+            {"class": c, "document": r["document"], "tag": r["tag"],
+             "why": r["why"]} for c, r in unresolved],
+        "lines_cited": len(lines) - len(uncited),
+        "uncited_lines": uncited,
+    }

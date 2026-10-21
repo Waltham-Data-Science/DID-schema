@@ -172,6 +172,8 @@ class ItRefusesToEnterTheRecord(unittest.TestCase):
         with open(out) as fh:
             body = fh.read()
         self.assertNotIn("TEAM-SIGN-OFF", body)
+        # The lighter Rule 4 form (2026-10-21) is a decision line too.
+        self.assertNotIn("Decided by Jess Haley", body)
         with open(os.path.join(REPO_ROOT, "tools", "confirm_sheet.py")) as fh:
             src = fh.read()
         self.assertNotIn('"TEAM-SIGN-OFF:"', src)

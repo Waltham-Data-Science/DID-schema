@@ -186,9 +186,8 @@ jobs:
       #       also fails on a GUARD GONE or an ALLOW-LIST STALE entry.
       #   status_board --check                V_eta state used to live in 27
       #       plan documents that disagreed. The board is DERIVED, so it cannot
-      #       drift; this fails when it is stale, when an in_progress class
-      #       belongs to no decision family, or when a family cites a decision
-      #       document that does not exist.
+      #       drift; this fails when it is stale, or when a class cites a
+      #       decision line (tools/decision_citations.py) that does not exist.
       #   check_duplicate_field_declarations --enforce   #69, a RATCHET: the
       #       count may fall freely and may not grow, so the known rows stay
       #       visible instead of quietly becoming one more.

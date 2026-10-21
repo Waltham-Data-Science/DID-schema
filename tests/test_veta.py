@@ -2088,13 +2088,15 @@ def test_ndi_schema_documents_are_all_read():
 
 
 # ---------------------------------------------------------------------------
-# The decision families artifact (schemas/V_eta_decisions.json).
+# The per-class decisions artifact (schemas/V_eta_decisions.json). Until
+# 2026-10-21 it held decision FAMILIES; each class now cites its own decision
+# line (tools/decision_citations.py).
 #
 # WHY IT IS TESTED HERE. The board's own staleness check proves the file is
 # REGENERATED; these prove it is USABLE -- that the viewer's join key exists,
-# that a family cannot claim a class twice, and above all that "signed" is
-# never asserted without a sign-off line. That last one is the whole point of
-# the artifact: it now carries a `signed: true` flag into a UI, so a bug that
+# that a class has one record, and above all that "decided" is never asserted
+# without a decision line. That last one is the whole point of the artifact:
+# it carries a `decided` state into a UI, so a bug that
 # set it wrongly would launder a proposal into a decision on a screen, one step
 # further from the plan document than the board ever was.
 # ---------------------------------------------------------------------------
@@ -2113,51 +2115,70 @@ def test_decisions_artifact_exists_and_covers_every_open_class():
         idx = json.load(fh)
     open_classes = {s["class_name"] for s in idx["schemas"]
                     if s.get("disposition") == "in_progress"}
-    claimed = set(dec["by_class"])
-    missing = sorted(open_classes - claimed)
+    recs = dec["by_class"]
+    missing = sorted(c for c in open_classes if c not in recs or not recs[c]["open"])
     assert not missing, (
-        f"in_progress classes claimed by no decision family: {missing}. An open "
+        f"in_progress classes with no decision record: {missing}. An open "
         "class nobody tracks is the failure the status board exists to prevent.")
     # The denominator, asserted rather than assumed: the artifact must agree
-    # with the index it was generated from.
-    assert dec["summary"]["open_classes"] == len(open_classes)
+    # with its own records (in_progress plus retire-with-no-plan).
+    assert dec["summary"]["open_classes"] == sum(1 for r in recs.values() if r["open"])
+    assert dec["summary"]["open_classes"] >= len(open_classes)
 
 
-def test_no_class_is_claimed_by_two_families():
+def test_each_class_has_exactly_one_decision_record():
+    # REPLACES test_no_class_is_claimed_by_two_families (2026-10-21). The
+    # families are gone; a class now carries its own record, keyed by its name.
     dec = _decisions()
-    seen = {}
-    for fam in dec["families"]:
-        for m in fam["members"]:
-            name = m["class_name"]
-            assert name not in seen, (
-                f"{name} is claimed by both {seen[name]} and {fam['name']}; two "
-                "families owning one class means two places to decide it.")
-            seen[name] = fam["name"]
+    assert len(dec["by_class"]) == dec["summary"]["classes"] > 0, (
+        "no decision records, or the summary disagrees with them")
+    for name, rec in dec["by_class"].items():
+        assert rec["class_name"] == name, (name, rec["class_name"])
 
 
-def test_signed_is_never_asserted_without_a_signoff_line():
-    for fam in _decisions()["families"]:
-        if fam["signed"]:
-            assert fam["status"] == "team", (
-                f"{fam['name']} is marked signed but its status is "
-                f"{fam['status']!r} -- only a team decision can be signed.")
-            assert fam["signoff"], (
-                f"{fam['name']} claims signed with no sign-off text")
-            assert fam["state"] == "signed_awaiting_build"
+def _decision_line_at(document, line):
+    path = (os.path.join(REPO_ROOT, "schemas", document) if "/" not in document
+            else os.path.join(REPO_ROOT, document))
+    with open(path) as fh:
+        return fh.read().splitlines()[line - 1].lstrip()
+
+
+def test_decided_is_never_asserted_without_a_decision_line():
+    # INVERTS test_signed_is_never_asserted_without_a_signoff_line for the
+    # per-class record (2026-10-21). "decided" must point at a line that IS a
+    # decision line -- read here from the file, not from the tool's parser.
+    n = 0
+    for name, rec in _decisions()["by_class"].items():
+        if rec["state"] == "decided":
+            n += 1
+            where = rec["decided_in"]
+            assert where and where["document"] and where["line"], name
+            text = _decision_line_at(where["document"], where["line"])
+            assert (text.startswith("TEAM-SIGN-OFF")
+                    or re.match(r"(?:[-*>]\s+)?(?:\*\*)?Decided by Jess Haley, "
+                                r"\d{4}-\d{2}-\d{2}", text)), (
+                f"{name} is marked decided at {where['document']}:{where['line']}, "
+                f"which is not a decision line: {text[:80]!r}")
+            assert rec["decision"], f"{name} is decided with no decision text"
+            assert any(c["resolved"] for c in rec["citations"]), name
         else:
-            assert fam["state"] != "signed_awaiting_build"
-            assert not fam["signoff"]
+            assert rec["state"] == "proposed (not decided)", (name, rec["state"])
+            assert rec["decided_in"] is None and rec["decision"] is None, name
+            assert not any(c["resolved"] for c in rec["citations"]), name
+    assert n, "no class is decided -- the check above checked nothing"
 
 
-def test_every_family_plan_document_exists():
-    fams = _decisions()["families"]
-    assert fams, "no decision families -- this sweep would check nothing"
-    for fam in fams:
-        if fam["plan"]:
-            path = os.path.join(REPO_ROOT, "schemas", fam["plan"])
-            assert os.path.exists(path), (
-                f"{fam['name']} cites {fam['plan']}, which does not exist -- the "
-                "viewer renders that path as the place the decision is recorded.")
+def test_every_cited_document_exists():
+    recs = _decisions()["by_class"]
+    cites = [c for r in recs.values() for c in r["citations"]]
+    assert cites, "no citations -- this sweep would check nothing"
+    for c in cites:
+        doc = c["document"]
+        path = (os.path.join(REPO_ROOT, "schemas", doc) if "/" not in doc
+                else os.path.join(REPO_ROOT, doc))
+        assert os.path.exists(path), (
+            f"a citation names {doc}, which does not exist -- the viewer "
+            "renders that path as the place the decision is recorded.")
 
 
 def test_the_viewer_actually_syncs_the_decisions_artifact():

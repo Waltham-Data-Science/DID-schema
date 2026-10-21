@@ -873,9 +873,9 @@ EDGES = [
 
     Edge("status_board", "check_web_assets_fresh",
          "schemas/V_eta_decisions.json",
-         "web/public/decisions.json IS the decision families the board writes; "
-         "a stale copy shows a signed family as undecided, which is the exact "
-         "failure the artifact was added to remove.",
+         "web/public/decisions.json IS the per-class decision record the board "
+         "writes; a stale copy shows a decided class as undecided, which is the "
+         "exact failure the artifact was added to remove.",
          "tools/check_web_assets_fresh.py", r"V_eta_decisions\.json"),
 ]
 

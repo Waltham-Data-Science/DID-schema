@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type {
   CoverageLedger,
   CoverageRow,
-  DecisionFamily,
+  ClassDecision,
   DecisionState,
   DecisionsDoc,
 } from "./types";
@@ -54,25 +54,15 @@ const KIND_ORDER: Kind[] = [
 // nobody had thought about -- which is how a signed cluster sat unbuilt for a
 // day while two documents called it a proposal.
 const DSTATE_META: Record<DecisionState, { label: string; cls: string; tip: string }> = {
-  signed_awaiting_build: {
-    label: "decided ✓ awaiting build",
+  decided: {
+    label: "decided ✓",
     cls: "cov-dec-signed",
-    tip: "The team decided this and the plan document carries a TEAM-SIGN-OFF line. The model is settled; only the build is outstanding.",
+    tip: "The class cites a decision line that exists (a TEAM-SIGN-OFF line or a 'Decided by Jess Haley' line). The model is settled; the build may still be outstanding.",
   },
-  awaiting_signature: {
-    label: "decided — unsigned",
-    cls: "cov-dec-unsigned",
-    tip: "Decided in a walkthrough, but no TEAM-SIGN-OFF line in the plan yet. Nothing here needs re-deciding — it needs recording.",
-  },
-  proposed_unreviewed: {
-    label: "proposed — unreviewed",
+  "proposed (not decided)": {
+    label: "proposed (not decided)",
     cls: "cov-dec-proposed",
-    tip: "Written up by Claude alone. NOT a decision and never counted as one.",
-  },
-  open: {
-    label: "no proposal",
-    cls: "cov-dec-open",
-    tip: "Nobody has proposed anything for this family yet.",
+    tip: "No decision line is cited for this class. NOT a decision and never counted as one.",
   },
 };
 
@@ -108,17 +98,13 @@ export function Coverage({ onSelect, onOpenClass }: Props) {
       return next;
     });
 
-  // A ledger row is keyed by its v1 SOURCE class; families are keyed by V_eta
-  // class names. Join on the V_eta side, falling back to the v1 name for the
-  // classes that migrate 1:1 keeping their name.
+  // A ledger row is keyed by its v1 SOURCE class; a decision record may be
+  // keyed by either name. Join on the V_eta side, falling back to the v1 name.
   const famOf = useMemo(() => {
-    if (!dec) return () => undefined as DecisionFamily | undefined;
-    const byName = new Map(dec.families.map((f) => [f.name, f]));
-    return (r: CoverageRow): DecisionFamily | undefined => {
-      const key = (r.veta_class && dec.by_class[r.veta_class])
-        ?? dec.by_class[r.v1_class];
-      return key ? byName.get(key) : undefined;
-    };
+    if (!dec) return () => undefined as ClassDecision | undefined;
+    return (r: CoverageRow): ClassDecision | undefined =>
+      (r.veta_class && dec.by_class[r.veta_class]) || dec.by_class[r.v1_class]
+      || undefined;
   }, [dec]);
 
   const rows = led?.rows ?? [];
@@ -173,16 +159,13 @@ export function Coverage({ onSelect, onOpenClass }: Props) {
         </div>
         {dec && (
           <p className="cov-decision-banner">
-            <strong>{dec.summary.families} decision families</strong> cover{" "}
-            {dec.summary.open_classes} still-open classes.{" "}
-            {dec.summary.by_state.signed_awaiting_build} are decided, signed off and{" "}
+            <strong>{dec.summary.classes_citing} classes</strong> cite the
+            decision line that decided them; of the{" "}
+            {dec.summary.open_classes} still-open classes,{" "}
+            {dec.summary.open_by_state.decided} are decided and{" "}
             <strong>awaiting build</strong>
-            {dec.summary.by_state.awaiting_signature > 0 &&
-              `, ${dec.summary.by_state.awaiting_signature} await a signature`}
-            {dec.summary.by_state.proposed_unreviewed > 0 &&
-              `, ${dec.summary.by_state.proposed_unreviewed} are unreviewed proposals`}
-            {dec.summary.by_state.open > 0 &&
-              `, ${dec.summary.by_state.open} have no proposal`}
+            {dec.summary.open_by_state["proposed (not decided)"] > 0 &&
+              `, ${dec.summary.open_by_state["proposed (not decided)"]} are proposed (not decided)`}
             . A class marked <em>in progress</em> below is not necessarily
             undecided — check its <strong>decision</strong> column.
           </p>
@@ -350,18 +333,18 @@ export function Coverage({ onSelect, onOpenClass }: Props) {
   );
 }
 
-// The decision cell. Deliberately EMPTY when a class belongs to no decision
-// family: most classes are settled and need no marker, and painting every row
-// would bury the 18 that are actually in flight.
-function DecisionCell({ fam }: { fam: DecisionFamily | undefined }) {
+// The decision cell. Deliberately EMPTY when no decision record exists for the
+// class: painting every row would bury the ones that carry one.
+function DecisionCell({ fam }: { fam: ClassDecision | undefined }) {
   if (!fam) return <span className="muted">{DASH}</span>;
   const m = DSTATE_META[fam.state];
   const tip = [
-    `${fam.name}: ${fam.decision}`,
+    fam.decided_in
+      ? `${fam.decided_in.document}:${fam.decided_in.line} [${fam.decided_in.tag}]`
+      : "",
+    fam.decision ?? "",
     "",
     m.tip,
-    fam.signoff ? `\nTEAM-SIGN-OFF: ${fam.signoff}` : "",
-    fam.plan ? `\nRecorded in ${fam.plan}` : "",
   ]
     .filter(Boolean)
     .join("\n");
@@ -381,7 +364,7 @@ function TargetCell({
   onSelect,
 }: {
   row: CoverageRow;
-  fam: DecisionFamily | undefined;
+  fam: ClassDecision | undefined;
   onSelect: (c: string) => void;
 }) {
   const chip = (c: string, cls: string, marker?: string, key?: string) => (
@@ -429,15 +412,14 @@ function TargetCell({
           passes through as
         </span>{" "}
         {chip(row.targets[0], "cov-target-passthrough")}
-        {fam && (
+        {fam && fam.state === "decided" && fam.decided_in && (
           <span className="cov-passthrough-decided">
             {" "}· decided:{" "}
             <span title={
-              `${fam.state_label}` +
-              (fam.plan ? ` — recorded in ${fam.plan}` : "") +
-              (fam.signoff ? `\nTEAM-SIGN-OFF: ${fam.signoff}` : "")
+              `${fam.state_label} — ${fam.decided_in.document}:` +
+              `${fam.decided_in.line}\n${fam.decision ?? ""}`
             }>
-              {fam.decision}
+              [{fam.decided_in.tag}]
             </span>
           </span>
         )}

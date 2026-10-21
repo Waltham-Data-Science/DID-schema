@@ -15,12 +15,13 @@ board owns the answer to "how much is left, and what exactly".
 
 THE ONE PIECE OF JUDGEMENT, MADE EXPLICIT
 -----------------------------------------
-`FAMILIES` below groups the still-open classes into decision units. That mapping
-is a human call and cannot be derived, so it is written here in the open rather
-than implied across a dozen documents. It is CHECKED: every in_progress class
-must belong to exactly one family, and the generator FAILS if a class appears
-that no family claims. A new open class can therefore never be silently dropped
-from the count -- the failure this project has hit four separate times.
+Which classes are DECIDED is not judged here. A class is decided if and only if
+it CITES a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a
+`Decided by Jess Haley, <date>:` line in the cited document. The citations and
+the resolver live in `tools/decision_citations.py`, which replaced the decision
+FAMILIES table on 2026-10-21. Every open class is listed by name, decided or
+not, so none can be silently dropped from the count, and a citation that does
+not resolve FAILS the generator.
 
 `in_progress` IS A DECLARATION, NOT A MEASUREMENT -- AND THAT IS THE OTHER HALF
 ------------------------------------------------------------------------------
@@ -51,7 +52,7 @@ membership stays a team disposition (operating rule 4, and nothing here edits
 it), and the board instead DERIVES, per open class, the two facts the
 declaration cannot carry:
 
-    (a) decided, nothing built        no migrator consumes it, no migrator MINTS
+    (a) nothing built                 no migrator consumes it, no migrator MINTS
                                       it, no decided target schema exists
     (b) built, awaiting corpus proof  a migrator consumes it, MINTS it, and/or
                                       its decided target is built, but no census
@@ -98,8 +99,8 @@ LEDGER = os.path.join(REPO, "schemas", "V_eta_coverage_ledger.json")
 OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # The machine-readable twin of the board, for the schema viewer.
 #
-# WHY IT EXISTS. Until 2026-08-09 the decisions lived ONLY in the FAMILIES table
-# below and in the sign-off lines of the plan documents, so nothing downstream
+# WHY IT EXISTS. Until 2026-08-09 the decisions lived ONLY in a table in this
+# file and in the sign-off lines of the plan documents, so nothing downstream
 # could see them. The viewer rendered the coverage ledger, where a settled class
 # shows as `in_progress` with no hint that its model is decided, signed, and
 # merely awaiting a build -- which reads as UNDECIDED. That is the same
@@ -112,1085 +113,22 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # Generated, never hand-edited, and stale-checked in CI like the other four.
 DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 
-# Decision families for the still-open (in_progress) classes.
-#   name -> (members, plan-or-None, one-line call, status)
-#
-# STATUS IS THREE-VALUED, and the distinction is the point:
-#
-#   "team"     DECIDED BY THE TEAM in a walkthrough. Only RENDERS as decided if
-#              the cited plan document carries a TEAM-SIGN-OFF line (see SIGNOFF
-#              below); without one it renders as "awaiting signature" -- Claude
-#              cannot promote its own work to a decision.
-#   "proposed" WRITTEN UP BY CLAUDE ALONE, nobody has checked the reasoning.
-#              NOT a decision and must never be counted as one.
-#   "open"     nobody has proposed anything yet.
-#
-# "team without a signature" and "Claude wrote this alone" were one bucket until
-# the team pointed out they are different states: one needs a signature, the
-# other needs someone to check the reasoning. Rendered separately now.
-#
-# An earlier version had only two states, so attaching a document to a family
-# silently promoted it to "decided" -- and five families Claude wrote up alone
-# were reported to the team as settled. A status board that launders a proposal
-# into a decision is worse than no board.
-# The token a family uses to DECLARE that code exists for a model the team
-# has not agreed. Declaring it keeps `--check` green; hiding it does not.
-BUILT_AHEAD_OF_DECISION = "BUILT AHEAD OF THE DECISION"
+# DECISIONS. A class is DECIDED if and only if it CITES a decision line that
+# exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:`
+# line in the cited document. The citations, the scanner and the resolver live
+# in tools/decision_citations.py, which REPLACED the decision FAMILIES table that
+# stood here until 2026-10-21 (Jess Haley: "nothing wrongly reported"). A class
+# without a citation that resolves renders "Proposed (not decided)", whatever
+# any prose says.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import decision_citations as dc  # noqa: E402
+
+SIGNOFF = dc.SIGNOFF
+GENERATED_MARKDOWN = dc.GENERATED_MARKDOWN
+# The one scanner, re-exported under its old name for the tools and tests that
+# read it from here.
+scan_signoff_lines = dc.scan_decision_lines
 
-FAMILIES = [
-    # ADDED 2026-09-23 (#73), and the board is again what demanded it. Dropping the
-    # `calculator` MIXIN from calculation's chain left the name as a v1
-    # source tombstone restating NDI's database_documents/calculator.json
-    # (⊂ [base, app], no fields) -- `retire`, no migrator -- so it became an open
-    # class that no family claimed, and this generator refused to go green. The
-    # family points at the amendment in the calculation plan, and it reads
-    # "awaiting review" until that document carries its signature.
-    ("calculator mixin dropped (#73)", ["calculator"],
-     "V_eta_subject_calculation_plan.md",
-     ("`calculator` leaves every V_eta chain; calculation declares the "
-      "required software_id + interpreter_id + operating_system_id itself; the name survives "
-      "only as a retiring v1 tombstone for passthrough"), "team"),
-    # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
-    # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
-    # -- no V_eta schema AND no migrator, so a dataset carrying them lost them.
-    # Both now have a tombstone restated from the WRITER, so the documents
-    # survive under their own class via the identity passthrough. That closes the
-    # STRANDING and closes nothing else: where each one belongs in V_eta is
-    # undecided, and nobody has proposed a model.
-    #
-    # Status "open", NOT "proposed": a tombstone is preservation, not a proposal.
-    # Marking it "proposed" would launder "we stopped losing these" into "we know
-    # what they become", which is the exact laundering the three-valued status
-    # exists to prevent.
-    #
-    # The two questions, both for the team:
-    #   generic_file    the intended fold is opaque_body + a statement. opaque_body
-    #                   is DRAFT and has NO content_hash, so folding today drops the
-    #                   MD5 checksum -- the one field whose whole purpose is not
-    #                   being lost. And no class yet says "this subject has this
-    #                   file": generic_file's edge points at a SUBJECT,
-    #                   opaque_body's at a STATEMENT.
-    #   valid_interval  which tier? It is a curation judgement ABOUT a recording --
-    #                   neither an observation of the subject nor a manipulation of
-    #                   it. Note it has a SECOND production consumer nobody had
-    #                   recorded: +app/+stimulus/tuning_response.m:253-256 uses it
-    #                   to choose which stretch of signal to analyse, so losing it
-    #                   would silently change tuning results, not just drop an
-    #                   annotation.
-    # A THIRD MEMBER, 2026-08-11, and this board is again what demanded it.
-    # `imageCollection` was tombstoned by team decision on the same reasoning,
-    # and the moment it gained a schema its ledger disposition became `retire`,
-    # which put it in `unplanned_retire` -- retire, no migrator, no plan -- and
-    # this generator refused to go green until a family claimed it. That is the
-    # check working: a tombstone stops the stranding and leaves the modelling
-    # question open, and an open question needs an owner.
-    #
-    # SPELLED `imageCollection`, in NDI's own camelCase, and NOT `image_collection`.
-    # The two siblings are snake in NDI already, so this is the first member whose
-    # spelling could go wrong -- and it would go wrong silently, because
-    # `unclaimed` is a set difference (`open_work - claimed`): a member nobody can
-    # match simply fails to claim anything and reappears in the ERROR list, while
-    # the misspelling itself only shows up in `stale`, which is not fatal. The
-    # name here must be the ledger's `v1_class`, which is NDI's spelling.
-    #
-    #   imageCollection  the WEAKEST-EVIDENCED of the three. `generic_file` and
-    #                    `valid_interval` each have live production writers whose
-    #                    behaviour arbitrates their template; this class has NONE
-    #                    -- 0 of 1002 .m files on NDI origin/main, all three
-    #                    spellings -- so its tombstone is the template alone and
-    #                    there is nothing to check the template against. Nothing
-    #                    NDI-side has ever written, read or named one; the only
-    #                    thing pointing at the class is `image.json`'s
-    #                    `imageCollection_id` dependency. Whether it becomes an
-    #                    opaque_body attachment, a group of image_observations, or
-    #                    is retired outright is UNDECIDED, and deciding it from a
-    #                    template with no documents is the wrong-assumed-shape
-    #                    failure that produced the ~2,078 distance_metadata
-    #                    quarantines. It needs a real document first.
-    # WAS `("open", "tier and fold UNDECIDED")` UNTIL 2026-08-11, AND THAT
-    # SENTENCE WAS FALSE WHILE THE BOARD ITSELF HELD THE REFUTATION. The team
-    # decided both models in session and both are BUILT and running in all six
-    # corpora: `generic_file` -> term_observation + opaque_body
-    # (`foldGenericFiles.m`), `valid_interval` -> boolean logical_observation +
-    # relative_time_reference (`resolveValidIntervals.m`; the classes were named
-    # `validity`/`validity_observation` until the 2026-08-12 rename),
-    # `imageCollection` ->
-    # tombstone (`V_eta/stable/image_collection.json`). `batch_consumers()` --
-    # in this same file, in the same run -- returns
-    # {'generic_file': ['foldGenericFiles.m'], 'valid_interval':
-    # ['resolveValidIntervals.m']}, and nothing compared that to this row.
-    #
-    # It is `proposed`, NOT `team`: the models are built and there is no
-    # TEAM-SIGN-OFF line in any plan document, and Operating Rule 4 forbids
-    # this file's author from adding one. What is missing is a SIGNATURE, not
-    # a model -- which is a different sentence from the one that was here, and
-    # the difference is a day of work someone might have redone.
-    ("stranded sources", ["generic_file", "imageCollection"],
-     "V_eta_OPEN_WORK.md",
-     ("generic_file -> term_observation + opaque_body; "
-      "imageCollection -> tombstone. SIGNED 2026-08-11"),
-     "team"),
-
-    # SPLIT OUT OF `stranded sources` ON 2026-08-11, AND THE REASON IS THE
-    # POINT. The three were signed as one family and `valid_interval` did not
-    # belong in that signature: the team ASKED whether it should take this shape
-    # and then said "Can we skip this decision for now?" -- a question recorded
-    # as an answer. The team caught it; nothing here did.
-    #
-    # `resolveValidIntervals.m` IS BUILT AND RUNS IN ALL SIX CORPORA. That is
-    # not a reason to call the model decided; it is the more serious half of the
-    # finding, and it is declared rather than hidden -- see BUILT_AHEAD_OF_DECISION
-    # below, which lets the contradiction sweep REPORT this without failing,
-    # because a known and recorded contradiction is not the thing that sweep
-    # exists to catch. It processed 0 source documents in all six corpora (no
-    # corpus holds a `valid_interval`), so nothing has actually been transformed
-    # under an unapproved model -- which bounds the exposure but does not change
-    # the disposition.
-    #
-    # 2026-08-12: THE MODEL IS DECIDED AND IT IS NOT THE ONE THAT WAS BUILT.
-    # The team chose the ARRAY model -- ONE statement per source document
-    # holding an ARRAY of booleans against a TIME AXIS -- and chose to WAIT for
-    # `axes[]` (#45 -> #32) rather than ship the 1->N decomposition as an
-    # interim. So `resolveValidIntervals` is now DORMANT: it runs as a census
-    # and emits nothing. The one-liner KEEPS the words "BUILT AHEAD OF THE
-    # DECISION" and that is not inertia: the code in `resolveValidIntervals`
-    # was written before any decision and is still there, unsigned, which is
-    # exactly the contradiction the sweep below wants a reader to meet first.
-    # What changed is that the decision then arrived and TURNED IT OFF -- so
-    # the one-liner says "and now dormant by it" rather than pretending the
-    # contradiction was resolved by the code being harmless.
-    #
-    # THE FAMILY NOW CITES A PLAN DOCUMENT, which it did not before. That
-    # matters mechanically as well as editorially: a family with `plan=None`
-    # and `status="open"` gets NO prose checking of any kind
-    # (`family_prose_vs_signoff` requires status == "team" AND a plan), which
-    # is exactly how #99's row asserted the most while being checked the least.
-    # SIGNED 2026-08-12 -- the team dictated the line and it is at the foot of
-    # V_eta_logical_observation_plan.md. Its SCOPE IS NARROWER THAN THE FAMILY:
-    # it covers the classes, the naming, the dormancy and the four reading
-    # rules, and explicitly NOT the gap semantics between statements, the
-    # timing of axes[], or any change to markgarbage's v1 reader. Those stay
-    # open, which is why this family is not simply "done".
-    # RENAMED `valid_interval` -> `logical_observation` 2026-08-13, at the
-    # team's instruction. THE FAMILY IS RENAMED; THE MEMBER IS NOT. The member
-    # stays `valid_interval` because that is the did_v1 SOURCE class -- a real
-    # class NDI's markgarbage still writes -- while the family now carries the
-    # name of what it becomes, which is what the signature already said.
-    #
-    # WHY IT MATTERED: the signature is tagged `[logical_observation]` (the
-    # classes were renamed validity -> logical on 2026-08-12) and the family
-    # was still called `valid_interval`, so `find_signoff_line` could not reach
-    # it. The census reported the two halves of one fact as two separate
-    # defects -- an ORPHAN TAG ("a signature that exists and reaches nothing")
-    # and an UNSIGNED FAMILY -- which is exactly the pair it exists to keep
-    # distinguishable, and exactly the pair a rename resolves.
-    #
-    # `status` MOVES "open" -> "team", AND THE RENAME IS WHAT FORCED IT.
-    # I intended to leave it open, on the recorded ground that the signature's
-    # scope is narrower than the family. A gate refused:
-    #
-    #   test_signed_is_never_asserted_without_a_signoff_line
-    #   AssertionError: logical_observation is marked signed but its status is
-    #   'open' -- only a team decision can be signed.
-    #
-    # And the gate is right. `open` had been carrying two meanings at once --
-    # "no decision" and "decided, with narrower items still outstanding" --
-    # and it went unnoticed only because the name mismatch kept the signature
-    # unreachable. The moment the tag resolved, the row asserted both that a
-    # team signed it and that no team had.
-    #
-    # The decision IS the team's: a dated, tagged TEAM-SIGN-OFF at
-    # V_eta_logical_observation_plan.md:357. What is outstanding is BUILD plus
-    # three narrower items the signature names as excluded -- the gap semantics
-    # between statements, the timing of axes[], and any change to markgarbage's
-    # v1 reader. That is precisely `signed_awaiting_build`, which is what this
-    # family now renders as, and it is a better description than `open` was:
-    # the pass is DORMANT BY THE DECISION, not undecided.
-    ("logical_observation", ["valid_interval"],
-     "V_eta_logical_observation_plan.md",
-     ("SIGNED, AWAITING A REWRITE. Signed 2026-08-12, amended 2026-08-18: "
-      "the target is ONE time_observation per source document, an N x 2 "
-      "array of `time` cells keyed [interval, endpoint (start/end)], anchored "
-      "to the minted epoch. resolveValidIntervals is AUTHORISED to be re-armed "
-      "but is still DORMANT (census only, emits nothing), and its preserved "
-      "code is the rejected 1->N shape, so re-arming is a rewrite. The "
-      "documents live on the v1 tombstone. logical_observation retired "
-      "(#73 item 52); `logical` stays"),
-     "team"),
-
-    # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
-    # `epoch_relative_reference`, `event_bounded_reference`,
-    # `event_relative_reference` and `utc_reference` are DELETED from the built
-    # set, so the family may no longer claim them -- this generator fails on a
-    # family citing an absent class, which is how the omission would have been
-    # caught anyway. The signed decision is unchanged (it is still 8 classes
-    # collapsing to 2); what changed is that four of them are now executed
-    # rather than pending, on static evidence: no NDI template declares them
-    # (0 of 91, normalised), nothing mints them under any of the three idioms
-    # (0 sites across 187 +did2/+convert and 17 +ndi/+migrate files), no V_eta
-    # schema references them, and no v1-source row exists in the ledger. See
-    # `_DELETE_NO_V1_PROVENANCE` in tools/build_v_eta.py for the full evidence
-    # block, including why they are NOT in `_DELETE_PHASE8`.
-    #
-    # THE OTHER THREE CONCRETE MEMBERS STAY AND MUST STAY: they are minted
-    # today (session_relative 22 sites, session_bounded 1, epoch_bounded 1) as
-    # a deliberate pass-1 handle. The root `time_reference` stays too.
-    # `epochclocktimes` IS ITS OWN FAMILY, 2026-08-17, and the separation is
-    # deliberate rather than tidy-minded. The class is a v1 SOURCE, not a V_eta
-    # target like the four below, and its decision lives in a DIFFERENT document
-    # -- `V_eta_time_reference_family_plan.md`, which until today no family cited,
-    # so the model written there was invisible to every generated artifact and
-    # this row rendered `no signature found`.
-    #
-    # FOLDING IT INTO `time_reference` BELOW WAS TRIED FIRST AND WAS WRONG. The
-    # board takes the FIRST signature in a cited document, and that document's
-    # first is `:468`, which enumerates four changes and never mentions this
-    # class. The row came back `signed` citing a signature that does not cover it
-    # -- strictly worse than the honest `no signature found`, because it is the
-    # reassuring direction and it looks settled. A family per DOCUMENT is what
-    # keeps the join truthful.
-    ("epochclocktimes", ["epochclocktimes"],
-     "V_eta_time_reference_family_plan.md",
-     ("epochclocktimes == acquisition_epoch.clocks[], so its content becomes "
-      "relative_time_reference documents; the class does not return. EQUIVALENCE "
-      "ONLY -- Fork A (where the epoch anchor lives) is open and gates the build"),
-     "team"),
-
-    # ("time_reference", ...) CLOSED 2026-09-25, #65 increment 3b. The last three
-    # leaves (session_bounded/session_relative/epoch_bounded_reference) were deleted
-    # and `is_approximate` removed from the root, schema-first by jess's decision
-    # ("do 4 first, then add 1-3 to the checklist"); the root now persists. The
-    # emitter work is on the PR #76 DID-matlab checklist, not an open schema family.
-
-    # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
-    # control_stimulus_ids, points at timed_sequence, and the stimulus plan already
-    # covers it at line 118 ("control_stimulus_ids -> control_designation --
-    # RESOLVED"). It was never a "misc singleton".
-    # #73 item 67 (2026-09-29): control_designation DELETED; its v1 source folds into
-    # timed_sequence.value.control_item. control_stimulus_ids is NOT added here: that
-    # amendment is unsigned, and naming it in this SIGNED family would report it signed.
-    ("stimulus", ["stimulus_presentation"],
-     "V_eta_stimulus_model_plan.md",
-     "item value (was timed_sequence) + item_manipulation leaf",
-     "team"),
-
-    ("ensemble", ["ensemble"],
-     "V_eta_ensemble_plan.md",
-     "group subject + epoch-scoped member_of edges + rebuildable cache",
-     "team"),
-
-    # `imageStack_parameters` joined this family 2026-08-09, when image_stack and
-    # image_stack_parameters came back OUT of _DELETE_PHASE8 so the guarded
-    # passthrough has a schema to validate against. It is a `retire` row with no
-    # migrator of its OWN -- it is a SUPERCLASS, consumed as a block by
-    # image_stack.m -- so the board correctly flagged it as work nobody was
-    # tracking the moment it reappeared. It is tracked here, with the raster
-    # model it belongs to, rather than special-cased out of the count.
-    # THE RF FOLD IS ITS OWN FAMILY, 2026-08-17, citing the findings document
-    # rather than the image plan. `hartley_calc` is a v1 SOURCE whose decision
-    # lives in `V_eta_ngrid_family_findings.md`, a document no family cited
-    # until now -- so its whole model was invisible to every generated artifact
-    # and the row read `no signature found`.
-    #
-    # A COMMENT HERE CLAIMED "the board takes the FIRST signature in a cited
-    # document". IT IS WRONG and is corrected rather than deleted, because the
-    # wrong reason was attached to a right action and that is the shape this
-    # repository keeps paying for. `find_signoff_line` joins on an EXACT TAG
-    # MATCH (`if e["tag"] == family`); an untagged sign-off signs the document
-    # only when exactly one family cites it. POSITION IS IRRELEVANT. So a
-    # signature may be appended anywhere, and what decides whether it reaches a
-    # row is whether its TAG NAMES A FAMILY. It follows that
-    # `TEAM-SIGN-OFF [receptive field naming]` in the same document is an
-    # ORPHAN TAG: it reaches nothing. Cosmetic here -- `hartley_calc` is
-    # governed by the `[receptive field fold]` tag below -- and deliberately
-    # NOT given a family of its own, because two families claiming one class is
-    # a condition `--check` fails on.
-    #
-    # `ngrid` itself deliberately STAYS with `image / ngrid`: its retirement is
-    # gated on both consumers (F4) and is not what was signed here.
-    ("receptive field fold", ["hartley_calc"],
-     "V_eta_ngrid_family_findings.md",
-     ("hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation "
-      "leaf + receptive_field composite, payload in TWO sampled_body documents "
-      "(STA, p-value); ngrid.coordinates fold into axes[].values"),
-     "team"),
-
-    # THE CONFIRM-SHEET ANSWERS, 2026-08-17. Five classes whose migration was
-    # already RUNNING and simply unconfirmed -- the sheet's whole purpose. They
-    # share one family because they share one answer and one signature; none of
-    # them was claimed by any family before (checked: 0 collisions across the
-    # then-25 families), so this creates no double claim.
-    #
-    # `neuron_extracellular` is DELIBERATELY ABSENT. It was the sixth row and it
-    # was sent back for investigation, which found a real drop. It gets its own
-    # family when its fold is signed, not this one.
-    ("confirm sheet 2026-08-17",
-     ["tuningcurve_calc", "oridirtuning_calc", "probe_location", "treatment",
-      "jrclust_clusters"],
-     "V_eta_go_forward_class_audit.md",
-     ("each migrates today to the set the confirm sheet recorded, and that set "
-      "IS the intended end state; no further fold is owed"),
-     "team"),
-
-    ("image / ngrid", ["ngrid", "imageStack_parameters"],
-     "V_eta_image_model_plan.md",
-     ("ngrid phases into sampled_body; image is a standalone value; the two "
-     "image_stack tombstones are held until the subject is recoverable"),
-     "team"),
-
-    # DECIDED with the team 2026-08-05 ("I agree with B"); SIGNED 2026-08-08.
-    # epochid turned out NOT to be a disposal question: it is the JOIN MECHANISM
-    # for the epoch-scoped half of the database -- 15 NDI classes carry the mixin
-    # and 11+ live sites match epochid.epochid by exact_string. Third time this
-    # session a depends_on sweep missed string-match references.
-    # `epochfiles_ingested` is the v1 SOURCE tombstone that `ingestion_manifest`
-    # replaces. It is claimed here rather than deleted: the rename removed the
-    # schema file outright and 2,484 corpus-B documents then had no class to
-    # validate against. It leaves when #60's migrator consumes it.
-    # `ingestion_manifest` was ALSO listed here and has been pruned (2026-08-10).
-    # The family list enumerates OPEN classes; `ingestion_manifest` is the settled
-    # TARGET (`disposition: persist` in index.json), so listing it made the board
-    # report its own resolved output as outstanding work -- and the board's
-    # "families naming classes that are no longer open" section had been saying so.
-    # The three that remain are all `in_progress`.
-    # `element_epoch` ADDED 2026-08-17. The family always DESCRIBED its
-    # dissolution -- the summary below has said "element_epoch dissolves" since
-    # the family was written -- but the class was not in the list, so the ledger
-    # reported it as `no signature found` while the decision about it sat two
-    # lines away. It is the v1 source `acquisition_epoch` is renamed FROM, so
-    # naming both is consistent rather than a widening; the #60 scoping
-    # walkthrough (plan addendum, 2026-08-17) is what made the gap visible.
-    #
-    # EXPECT `element_epoch` TO APPEAR UNDER THE BOARD'S "Settled or removed
-    # since the family was written -- prune from `FAMILIES`" LIST, AND DO NOT
-    # PRUNE IT. That list collects classes a family names whose disposition is
-    # no longer `in_progress`, and this one's is `retire` -- so it lands there
-    # the moment it is signed, exactly as `element` and `hartley_calc` already
-    # have. Removing it to clear the list would un-join the signature and put
-    # the row straight back to `no signature found`, which is the state this
-    # entry exists to fix. The list is a prompt to look, not an instruction.
-    ("epoch",
-     ["acquisition_epoch", "element_epoch", "epochid", "epochfiles_ingested"],
-     "V_eta_epoch_plan.md",
-     ("MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
-     "dissolves; epochid DROPPED; probemap -> edges (B)"),
-     "team"),
-
-    # Split by the templates, not by the name prefix: three are a MATLAB class
-    # name (configuration), three carry real epoch data or bytes, and one is not
-    # on origin/main at all.
-    # DECIDED with the team 2026-08-05; SIGNED 2026-08-08. The earlier "not
-    # archival" proposal was WRONG and is reversed in place: daqsystem.base.name
-    # is a join key referenced BY NAME (epochprobemap devicestring, syncrule
-    # parameters), which a depends_on check cannot see.
-    # `daqreader_ndr` joined 2026-08-13. Its own signature is at
-    # V_eta_daq_family_decisions.md ([daq reader subtype]); it is a member here
-    # because it de-encodes onto the `daqreader` block and the 2026-08-08
-    # signature above already reaches its `ndr_reader_string` by name.
-    ("daq configuration",
-     ["daqsystem", "daqreader", "daqmetadatareader", "daqreader_ndr"],
-     "V_eta_daq_family_decisions.md",
-     ("acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to "
-     "software entities"),
-     "team"),
-
-    # WALKTHROUGH 2026-08-06 -> V_eta_ingested_payload_findings.md. Still "proposed":
-    # the FINDINGS are facts but the team has not adopted the model.
-    # An earlier one-liner said "no new class" -- that was WRONG. sampled_body and
-    # opaque_body both declare depends_on: statement, and a per-epoch metadata blob is
-    # not an observation of any subject, so it needs a carrier (`metadata_file`).
-    # Biggest finding: daqreader_epochdata_ingested carries THE RECORDING ITSELF as
-    # files attached under runtime-computed names (mfdaq.m:829,916,955), while BOTH the
-    # NDI template and V_eta declare an EMPTY file_list -- a migrator reading the
-    # declaration drops the only copy. Also kills R5's "<device>_epoch_cache" name.
-    ("daq ingested payloads", [
-        "daqreader_epochdata_ingested",
-        "daqmetadatareader_epochdata_ingested",
-        "daqreader_image_epochdata_ingested"],
-     "V_eta_ingested_payload_findings.md",
-     ("reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
-     "metadata one -> an `opaque_body` of the stimulator's term_manipulation (#73 item 61; "
-     "`acquisition_metadata_file` retired); image one folds into the image model"),
-     "team"),
-
-    # `dataseries_channel_map` -- FAMILY CLOSED 2026-08-09. Decided 2026-08-05
-    # (DELETE: a V_epsilon invention, never a did_v1 source, zero users) and BUILT on
-    # 2026-08-09 when the team asked "does it have any V1 provenance? If no, delete
-    # it" and the answer came back no on every check. The class is gone from the
-    # built set (`_DELETE_NO_V1_PROVENANCE` in build_v_eta.py, which records the
-    # evidence), so the family has nothing left to track.
-    #
-    # IT WAS FOUND BY A DISAGREEMENT, WHICH IS THE POINT. This board said DELETE,
-    # decided by the team; `build_v_eta.py` said "R5 proposed -> channel_assignment
-    # (awaiting review)". Two hand-maintained records, contradicting each other, and
-    # neither wins automatically -- so the class sat undeleted while the board
-    # counted it as settled. The re-verification confirmed THIS record and retired
-    # the other. Sibling to the stale "#57 remains a PROPOSAL" sentence found the
-    # same day, 474 lines above two sign-off lines saying otherwise.
-
-    # The templates split this: syncgraph/syncrule are a MATLAB class name plus
-    # parameters (runtime configuration), while syncrule_mapping carries the
-    # COMPUTED epoch-to-epoch clock relationship -- real data, and the shape the
-    # time model already covers.
-    # DECIDED with the team 2026-08-05; SIGNED 2026-08-08. The earlier "not
-    # archival" proposal was WRONG the same way the daq one was: syncrule_mapping
-    # references BOTH syncgraph_id and syncrule_id by edge, so dissolving either
-    # dangles it. A live query (syncgraph.m:404-408) also reads fields V_eta has
-    # already dropped -- see TaskList #58.
-    # REVISED 2026-08-06 with the whole cluster. PERSIST stands; the rest changed.
-    # syncrule -> `clock_alignment_configuration` (base.id + base.name preserved):
-    # `parameters` is NOT a bag but the union of four CLOSED sets, so the shared parts
-    # become EDGES (2x acquisition_channels) and DECLARED fields (clock bound to
-    # did_clocktype, 3 thresholds); errorOnFailure dropped as runtime behaviour.
-    # syncgraph -> `clock_alignment_policy`: it earns existence on MEMBERSHIP (addrule/
-    # removerule mean the in-force set is curated, not derivable from the session), and
-    # its syncrule_id_# is NOT invented -- syncgraph.m:850 writes it and the NDI SCHEMA
-    # declares it mustbenotempty:0, which V_eta wrongly tightened to required.
-    ("sync configuration", ["syncgraph", "syncrule"],
-     "V_eta_clock_alignment_cluster_plan.md",
-     ("syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become "
-     "edges); syncgraph -> `clock_alignment_policy` (earns existence on membership)"),
-     "team"),
-
-    # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
-    # the team corrected that -- they read the options and did not adopt one.
-    # What IS established is negative and evidence-backed: the old "folds into
-    # relative_time_reference" claim FAILS (two referents / two frames / an affine
-    # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
-    # DECIDED with the team 2026-08-06 ("Record the whole cluster"); SIGNED 2026-08-08.
-    # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
-    # comes from a new `polynomial` value -- NOT {slope,intercept}, because
-    # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
-    # would be LOSSY. Endpoints are relative_time_reference DOCUMENTS (each carrying epoch +
-    # clock), not clocktype terms. syncgraph_id restored; the invented required
-    # `epochid` (5,316 docs, 100% empty) removed.
-    ("sync mapping", ["syncrule_mapping"],
-     "V_eta_clock_alignment_cluster_plan.md",
-     ("-> `clock_alignment` (relation + `polynomial` value); endpoints are "
-     "relative_time_reference docs; syncgraph_id restored, invented epochid removed"),
-     "team"),
-
-    # `filter` was grouped here by a guess at its name. It is data/filter.json --
-    # label/type/algorithm/parameters, a signal-processing description -- and
-    # belongs with software/method, not with file paths.
-    # SPLIT: filenavigator is DECIDED (-> file_navigator, id preserved, patterns
-    # parsed into declared fields; see V_eta_daq_family_decisions.md). `directory`
-    # is ABSENT from NDI origin/main and needs a writer check, not a disposition.
-    # Status stays "open" because the family is not fully resolved -- the
-    # inaccuracy is deliberately in the under-reporting direction.
-    # CLOSED 2026-08-05. filenavigator was decided with the daq family; `directory`
-    # is NOT a did_v1 source (provenance V_gamma, and CLAUDE.md already lists it as a
-    # post-v1 DID class) -- it landed here by name association, the same mis-grouping
-    # that once put `filter` in this family.
-    # `directory` was the second member here until 2026-08-11, when the team
-    # DELETED the class (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
-    # measurement behind the call is recorded). It has to leave this list too:
-    # `ghosts` below exits non-zero when FAMILIES names a class that is not in
-    # the built index, which is exactly the check that stops a family from
-    # quietly tracking something that no longer exists.
-    ("file navigation", ["filenavigator"],
-     "V_eta_daq_family_decisions.md",
-     ("filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); "
-     "`directory` was not a source and is now deleted"),
-     "team"),
-
-    # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
-    # emitted it. What is left is the v1 `openminds` carrier: the UNATTACHED
-    # openMINDS objects, 8 documents, of which 3 are composite core.research.Strain.
-    # SIGNED OFF 2026-08-05: strain is an entity with a repeatable
-    # global_identifier + a recursive background_strain_# self-edge; strain_id is
-    # an optional edge on term_assertion. Build deferred, TaskList #56. The
-    # signature was TRANSCRIBED by Claude on explicit instruction -- see the note
-    # at the top of the record before trusting it.
-    ("openMINDS", ["openminds"],
-     "V_eta_openminds_family_record.md",
-     "strain -> entity + recursive background_strain_#; strain_id on term_assertion",
-     "team"),
-
-    # Split: the two classes have separate decisions and separate documents.
-    ("software", ["app"],
-     "V_eta_tenet_audit.md",
-     "app -> software entity + software_id edge + execution_environment (R1)",
-     "team"),
-
-    ("frequency_filter", ["filter"],
-     "V_eta_frequency_filter_model_plan.md",
-     "referenced document (not entity); band edges; typed gain fields; no sample_rate",
-     "team"),
-
-    # ---- families for the `retire, but nothing decided` rows -------------------
-    # These were invisible while the board counted only in_progress. Grouped by
-    # what the TEMPLATES contain, not by name prefix -- the mistake that put
-    # `filter` under file navigation and split the sync family wrongly.
-
-    # All four are algorithm configuration for spike processing, all inherit `app`,
-    # and THREE carry filter parameters of their own:
-    #   spike_extraction_parameters(_modification): filter_type/low/high/order/ripple
-    #   vmspikefilteringparameters:                 filter_algorithm, filter_algorithm_
-    #                                               parameters, rm60Hz (a 60 Hz notch)
-    # So v1 has a THIRD filter representation here, and this family cannot be
-    # decided without the frequency_filter model it should reference.
-    # vmspikefilteringparameters also mixes in `spiketimes` -- OUTPUT data sitting in
-    # a parameters class.
-    # DECIDED with the team 2026-08-05 (option C); SIGNED 2026-08-09. Four classes
-    # collapse to ONE `method_parameters` document -- named for the inline field it
-    # is the shared-cardinality form of. The canonical parts (filter, threshold,
-    # waveform window, refractory period) get TYPED; the idiosyncratic remainder is
-    # honestly a bag. The specific block list is PROPOSED, not decided.
-    ("spike processing parameters", [
-        "spike_extraction_parameters", "spike_extraction_parameters_modification",
-        "sorting_parameters", "vmspikefilteringparameters"],
-     "V_eta_method_parameters_plan.md",
-     "4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag",
-     "team"),
-
-    # The stimulus DESCRIPTION: a single ontology-keyed property, and a whole table
-    # flattened into one `string` field. Both hang off stimulus_element_id. The
-    # stimulus model plan was checked and does NOT mention either class, so "folds
-    # with the stimulus model" was an assumption, not a fact.
-    # DECIDED with the team 2026-08-06 (A + C); SIGNED 2026-08-08. stimulus_parameter
-    # DISSOLVES: it is already a J statement (element -> subject, ontology_name ->
-    # variable.node, name -> variable.name, value, epoch anchor), the leaf keyed by
-    # the CURIE through D9 -- the Marder documents land as temperature_manipulation.
-    # Direction is MANIPULATION: a parameter OF a stimulus is set, not measured.
-    # BUILD GATED ON #32 (dissolution makes D9 load-bearing for arbitrary NDIC terms
-    # and binding is unenforced). stimulus_parameter_table PASSES THROUGH -- the
-    # projectvar disposition: real did_v1, no visible writer, one untyped field, no
-    # documents to model against. Both V_eta shapes are wholly invented (not one
-    # field or edge matches NDI), so the tombstone repair is required either way --
-    # #43's held rows.
-    ("stimulus parameters", ["stimulus_parameter", "stimulus_parameter_table"],
-     "V_eta_stimulus_parameter_plan.md",
-     ("stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on "
-     "#32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired"),
-     "team"),
-
-    # NOT the same thing as stimulus parameters: this is the response to a presented
-    # stimulus, computed by ndi.app.stimulus.tuning_response -- the input the tuning
-    # calculators consumed. The two live classes sat OUTSIDE the J tier system
-    # entirely (⊂ base, no direction, no value): a V_zeta carry-over that never
-    # had a walkthrough.
-    # DECIDED with the team 2026-08-06; SIGNED 2026-08-08. 4 classes -> 2: a
-    # `harmonic_component` value (harmonic 0 = DC/mean, so v1's three
-    # response_types are ONE field at three values) + a `harmonic_component_
-    # calculation` leaf, id preserved. The parameters class FOLDS inline --
-    # at most 6 distinct value-tuples can exist yet 11,440 documents carry them.
-    # The first proposal, a `stimulus_response` value, was REJECTED by the
-    # team on naming: it names a relationship, not a value (the ground `array`
-    # was killed on). The field list is PROPOSED, not decided.
-    ("stimulus response", [
-        "stimulus_response", "stimulus_response_scalar",
-        "stimulus_response_scalar_parameters",
-        "stimulus_response_scalar_parameters_basic"],
-     "V_eta_stimulus_response_model_plan.md",
-     ("4 -> 2: `harmonic_component` value + calculation leaf (id preserved); "
-     "parameters fold inline, killing 11,440 empty required edges"),
-     "team"),
-
-    # A live NDI class with four in-tree emitters, parallel to the newer
-    # `measurement`. CLAUDE.md once recorded it as dissolved into `measurement`;
-    # that was FALSE and is corrected. {measurement, value, datestamp} on a subject.
-    # DECIDED 2026-08-05. A real did_v1 template whose shape IS a subject
-    # observation. All four in-tree emitters are TEST-session builders -- see the
-    # CLAUDE.md correction in the audit document.
-    ("subject measurement", ["subjectmeasurement"],
-     "V_eta_go_forward_class_audit.md",
-     ("route through the `measurement` fold -- no new class; `datestamp` is a TIME "
-     "ANCHOR (-> absolute_time_reference), NOT a field (corrected 2026-08-06)"),
-     "team"),
-
-    # SIGNED 2026-08-10; the FAMILY ROW is 2026-08-13, and the row is the only
-    # new thing. The signature was there all along and UNREACHABLE, because the
-    # scanner's placeholder guard rejected any line carrying a paired `<...>`
-    # and this decision's own text says `<modality>_observation`. So `element`
-    # rendered `no signature found` and reached the team on the confirm sheet
-    # as a question that had been answered three days earlier.
-    #
-    # ONE MEMBER, NOT TWO, AND THE SECOND CANDIDATE IS THE FINDING. `pyraview`
-    # emits a `voltage_observation` + `sampled_body` and so LOOKS like it
-    # implements this model. It does not:
-    #
-    #   element  (private/jRecordingObservation.m:211-212)
-    #       subject_id    = the SPECIMEN
-    #       instrument_id = the electrode          <- the signed shape
-    #   pyraview (migrators_j/pyraview.m:90,225)
-    #       subject_id    = element_id (the PROBE promoted to a subject)
-    #       instrument_id  -- 0 occurrences in the file
-    #
-    # An observation OF THE ELECTRODE with no instrument edge is precisely the
-    # pre-decision shape this signature exists to replace ("REPLACES the loose
-    # `probe observes specimen` relation + bare-body path the migrators emit
-    # today"). Naming `pyraview` a member would make the board report a model
-    # as implemented where it is not -- this file's documented failure
-    # direction. It is a REAL GAP, recorded here and NOT fixed: repointing
-    # pyraview at the specimen changes what the PRED corpus emits and is a
-    # build, not bookkeeping.
-    # `pyraview` joined 2026-08-13, and the membership is NEW rather than an
-    # oversight corrected: until that day pyraview did NOT implement this model
-    # -- it named the probe as subject and wrote no instrument edge, which is
-    # the shape the signature REPLACES -- and the family deliberately listed
-    # `element` alone on that evidence. `ndi.migrate.internal.recordingAttribution`
-    # closed the gap in the second pass, so the class now belongs here.
-    ("raw recording observation", ["element", "pyraview"],
-     "V_eta_recording_observation_plan.md",
-     ("a raw continuous recording IS a typed `<modality>_observation` of the "
-      "SPECIMEN: subject_id = the specimen, instrument_id = the electrode in "
-      "the instrument role (T7), variable = the modality from the element "
-      "type, body = `sampled_body`; the loose `probe observes specimen` "
-      "relation RETIRES in favour of the instrument_id edge, and ONLY where "
-      "that edge was actually written. Guard A stands (an unmapped element "
-      "type still yields a VALUED observation over a self-describing "
-      "sampled_body with a queryable `modality_unresolved` flag, never a "
-      "timeseries_observation or `array`). Multi-channel is ONE observation "
-      "with a channel axis, not N. Specimen granularity is accepted as "
-      "faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` "
-      "emits this model's SHAPE while attributing it to the element rather "
-      "than the specimen and writing no instrument_id"),
-     "team"),
-
-    # TWO ROWS ADDED 2026-08-13, AND NEITHER IS A DECISION -- both are the
-    # JOIN that was missing. `signature_census` had been reporting both tags as
-    # ORPHANS ("a signature that exists and reaches nothing") while `subject`
-    # and `session` rendered as `no signature found` in the coverage ledger.
-    # Two halves of one fact printed as two absences, which is exactly the
-    # failure Rule 5 exists to stop: "nobody signed this" and "nobody joined
-    # the signature to this" are different states and were indistinguishable.
-    #
-    # SIGNED 2026-08-13, both lines at the foot of the audit document. Adding a
-    # FAMILIES row records WHERE a decision lives; `signed_families()` still
-    # requires the line itself, so this cannot promote anything on its own.
-    ("subject", ["subject"],
-     "V_eta_go_forward_class_audit.md",
-     ("PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id "
-      "PRESERVED (subject_id is the most-referenced edge in the corpus). The "
-      "did_v1 template and V_eta declare the same two fields; the superclass "
-      "moves base -> entity, `local_identifier` becomes REQUIRED, and "
-      "`datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename "
-      "rather than this migrator. No fold is owed and none should be built"),
-     "team"),
-
-    ("session", ["session"],
-     "V_eta_go_forward_class_audit.md",
-     ("`reference` -> `local_identifier`, REQUIRED, matching subject and epoch, "
-      "with the now-duplicate optional slot dropped; type/date/purpose DELETED "
-      "as V_zeta inventions (NDI's template declares `reference` and nothing "
-      "else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first "
-      "migrator, and the two NDI reads by path -- which accept BOTH spellings "
-      "rather than moving, because a database may be pre- or post-migration. "
-      "NDI's WRITE stays did_v1 on purpose: it validates against NDI's own "
-      "template, which still declares `reference`"),
-     "team"),
-
-    # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta
-    # target already resolved there). interaction_purpose is a V_epsilon TARGET whose
-    # only open item is its unbound `purpose` (#32), not a disposition.
-    # THE ONE-LINER SAID `binaryseries_parameters -> sampled_body` UNTIL
-    # 2026-08-11, AND THAT WAS THE OVERRULED READING. It was taking the side of
-    # the section heading at V_eta_go_forward_class_audit.md:459 against the
-    # TEAM-SIGN-OFF line at :3 in the same document -- the disagreement that held
-    # this row in the coverage ledger's DISPUTED bucket, with the board's prose
-    # quietly settling it one way while the ledger correctly refused to. The team
-    # ruled that the SIGNATURE is what is intended, and the signature routes to
-    # TWO mounts: `value` to the STATEMENT unconditionally, and the axis
-    # entry to `statement` or `sampled_body` by `storage_mode`. Both are
-    # now recorded (tools/coverage.py DECIDED_TARGETS_BY_SIGNOFF), so this line
-    # names both -- prose and artifact agreeing by construction rather than by
-    # nobody noticing.
-    ("misc singletons", [
-        "binaryseries_parameters", "interaction_purpose", "projectvar"],
-     "V_eta_go_forward_class_audit.md",
-     "binaryseries_parameters -> statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
-     "team"),
-
-    # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
-    # NOTHING -- not even the test suite.
-    # `demo / mock` REMOVED 2026-08-06 -- the family is CLOSED, not pending. Its three
-    # classes (mock, demo_ndi, demo_ndi_mock) collapsed into ONE `demo` class carrying an
-    # is_mock flag, and `demo` is BUILT and persists, so no open class remains for a
-    # family to track. See V_eta_go_forward_class_audit.md section 3.
-
-    # The Corrected Option C decision (signed 2026-09-22, DID-schema#70) that
-    # stood here -- each class persisting as its own verbatim copy -- is
-    # SUPERSEDED by the #73 review (jess, 2026-09-24/25): none of the eight is
-    # carried forward, all are migrated into the review's design, and the copies
-    # are retired. The family now cites the review's record, which carries no
-    # TEAM-SIGN-OFF line yet (the team adds it), so the board shows it awaiting
-    # review. V1 class names are NDI's camelCase, matching the ledger.
-    ("spatial_transcriptomics_family", [
-        "spatialGeneExpressionPyramid", "spatialGeneExpressionCells",
-        "spatialGeneExpressionTiles", "cellTypeLabels", "geneListMapping",
-        "fileReference", "geneList", "geneExpression"],
-     "V_eta_spatial_transcriptomics_plan.md",
-     ("#73 review: nothing carried forward. Counts -> a count_observation over "
-      "[y, x, gene] in a coordinate_system, zoom levels as bodies (bins 2-32 "
-      "redundant); tiles -> file-series chunks; the cell list -> a "
-      "label_calculation, per-cell facts -> calculations over the cell key; "
-      "cell types -> term_calculation, clusters -> label_calculation; the gene "
-      "list -> a standalone term; the mapping -> a directed_relation + a "
-      "standalone score; fileReference -> an unheld body; geneExpression "
-      "dissolves into method + variable."),
-     "team"),
-]
-
-
-SIGNOFF = "TEAM-SIGN-OFF:"
-
-
-def has_signoff(plan, family):
-    """True when the plan document carries an explicit team sign-off line.
-
-    Thin wrapper over find_signoff so there is exactly ONE parser. The guards
-    below (HTML comments, [family] tags, template placeholders) are each there
-    because a laundering path was found and closed; a second copy of this
-    parsing for the JSON export would be a second place for them to drift.
-    """
-    return find_signoff(plan, family) is not None
-
-
-def scan_signoff_lines(text):
-    """Every line-initial TEAM-SIGN-OFF in `text`, ACCEPTED or REJECTED with a reason.
-
-    THE ONE SCANNER. `find_signoff` (which decides whether a family is signed)
-    and `signature_census` (which reports where the signatures are) both read
-    this, so the set of lines that COUNT as a signature and the set a gap report
-    describes cannot drift apart. A second copy of these guards would be a
-    second place for the two laundering paths below to reopen.
-
-    Returns a list of dicts: {line, tag, content, accepted, rejected_because}.
-    A REJECTED line is returned rather than dropped -- a census that silently
-    discards the lines it will not honour cannot tell "no signature here" from
-    "a signature written in a form nothing reads".
-    """
-    # STRIP HTML COMMENTS FIRST. The first version of this check counted any line
-    # starting with the marker -- including the <!-- ... --> block in a plan
-    # document that TELLS the team how to sign off. Claude wrote that instruction,
-    # so Claude's own document promoted itself to "decided": the exact laundering
-    # this function exists to prevent, arriving through a different door. Caught
-    # only because the count was verified instead of trusted.
-    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
-    marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
-    out = []
-    lines = text.splitlines()
-    # TWO MORE WAYS A LINE CAN CARRY THE MARKER WITHOUT BEING A LIVE SIGNATURE
-    # (#73 review, 2026-09-29, jess). Both are returned REJECTED, not dropped, so
-    # the census still shows them.
-    #  (1) Inside a fenced code block: a QUOTATION of a signature, e.g. the epoch
-    #      sign-off quoted in V_eta_method_parameters_plan.md's correction note,
-    #      which the census counted as a fourth epoch signature in the wrong
-    #      document.
-    #  (2) Superseded: a line `SIGN-OFF SUPERSEDED [tag]: who/when -- why`, placed
-    #      before a sign-off, retires the NEXT `TEAM-SIGN-OFF [tag]` in the same
-    #      document. The signed text stays as signed; the marker records that the
-    #      team replaced it (first use: the 2026-09-22 spatial sign-off, replaced
-    #      by #73 review item 18).
-    in_fence = False
-    superseded = {}
-    for n, raw in enumerate(lines, 1):
-        line = raw.lstrip()
-        if line.startswith("```"):
-            in_fence = not in_fence
-            continue
-        m_sup = re.match(r"SIGN-OFF SUPERSEDED\s*\[([^\]]+)\]\s*:?\s*(.*)$", line)
-        if m_sup and not in_fence:
-            superseded[m_sup.group(1).strip()] = m_sup.group(2).strip()
-            continue
-        if not line.startswith(marker):
-            continue
-        rest = line[len(marker):].strip()
-        tagged = None
-        m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
-        if m:
-            tagged, rest = m.group(1).strip(), m.group(2).strip()
-        rest = rest.lstrip(":").strip()
-        # MULTI-LINE SIGN-OFFS. Added 2026-09-22.
-        #
-        # A sign-off with a long tag can push the who/when clause past the
-        # right margin, and the team's own habit is then to write the tag
-        # and colon on one line and continue the decision on the next.
-        # Example, `V_eta_tuning_model_plan.md` from 2026-09-21 (#67):
-        #
-        #   TEAM-SIGN-OFF [tuning_curve composite + tuning_curve_calculation leaf, restructure]:
-        #   Steve Van Hooser 2026-09-21 -- (1) REVERSE R2/R3's ...
-        #
-        # The old parser saw an empty `rest` after the tag+colon strip and
-        # rejected the line as "under 10 characters", stranding a real signed
-        # decision. If the marker line looks like a header (nothing after the
-        # colon), pull in following non-empty lines until we have decision
-        # text -- stopping at the next blank line, the next `TEAM-SIGN-OFF`
-        # marker, or a line that looks structural (a markdown table row,
-        # heading, or list marker). Same rejection rules then apply to the
-        # joined content.
-        if not rest:
-            _joined = []
-            for _next in lines[n:]:
-                _stripped = _next.strip()
-                if not _stripped:
-                    break
-                if _stripped.startswith(marker):
-                    break
-                if _stripped[0] in "|#-*" and not _joined:
-                    break
-                _joined.append(_stripped)
-                # A sign-off is usually one paragraph. Guard against an
-                # unbounded walk into the rest of the document by stopping
-                # once we have enough text to be non-placeholder AND we have
-                # crossed the "-- " separator this template uses; the join
-                # cap of 8 lines matches the longest existing sign-off body
-                # in the tree (measured 2026-09-22).
-                if len(_joined) >= 8 or ("-- " in _stripped and
-                                         sum(len(s) for s in _joined) >= 20):
-                    break
-            if _joined:
-                rest = " ".join(_joined).lstrip(":").strip()
-        # A placeholder is not a sign-off. NARROWED TWICE, and the second
-        # narrowing is 2026-08-13.
-        #
-        # v1 rejected any line containing "<" or ">", so a sign-off saying
-        # "datestamp -> absolute_time_reference" was silently ignored.
-        # v2 rejected any PAIRED <...>, which is what this comment used to
-        # describe -- and it was still too broad, because prose legitimately
-        # names a class-name PATTERN in angle brackets. It threw away a real,
-        # dated, tagged decision:
-        #
-        #   V_eta_recording_observation_plan.md:99
-        #   TEAM-SIGN-OFF [raw recording observation]: ... 2026-08-10 -- a raw
-        #   continuous recording IS a typed `<modality>_observation` of the
-        #   SPECIMEN ...
-        #
-        # That signature is what settles `element`'s disposition, and with it
-        # discarded the class read `no signature found` in the coverage ledger
-        # and reached the team on the confirm sheet as an open question it had
-        # already answered.
-        #
-        # v3 rejects only the slot names the TEMPLATE actually uses. The
-        # template is rendered by this repository into V_eta_STATUS.md and is
-        # the only thing this guard needs to catch:
-        #
-        #   TEAM-SIGN-OFF [<family>]: <who/when> -- <what was decided>
-        #
-        # MEASURED BEFORE CHANGING IT, over all 55 schemas/*.md: exactly TWO
-        # scanned lines carry a paired <...>. STATUS.md:312 is that template
-        # (still rejected, and generated markdown the census excludes anyway);
-        # recording_observation_plan.md:99 is the real decision (now accepted).
-        # One line changes state and it is the one that should.
-        #
-        # A NOTE ON WHAT THIS DOES NOT REACH, because it looked like a risk and
-        # is not: two `TEAM-SIGN-OFF` mentions in V_eta_OPEN_WORK.md sit
-        # MID-LINE inside markdown table rows -- one of them a quotation of the
-        # epoch signature. The loop above matches only a LINE-INITIAL marker,
-        # so the scanner never saw them under any version of this rule, and
-        # narrowing it cannot promote a quotation into a decision.
-        why = None
-        _slots = ("<family>", "<who/when>", "<what was decided>")
-        _hit = [s for s in _slots if s in rest]
-        if in_fence:
-            why = "inside a fenced code block -- a quotation, not a signature"
-        elif tagged is not None and tagged in superseded:
-            why = "SUPERSEDED -- " + (superseded.pop(tagged) or "marked superseded")
-        elif _hit:
-            why = ("TEMPLATE PLACEHOLDER -- carries the unfilled slot %s, not a "
-                   "decision" % _hit[0])
-        elif len(rest) < 10:
-            why = "under 10 characters after the marker -- not a decision"
-        out.append({"line": n, "tag": tagged, "content": rest,
-                    "accepted": why is None, "rejected_because": why})
-    return out
-
-
-def find_signoff_line(plan, family):
-    """The accepted sign-off ENTRY that signs this family, or None.
-
-    Same rule as `find_signoff`, which is a thin wrapper over it; this returns
-    the whole entry so a caller can cite `document:line` instead of quoting a
-    sentence nobody can locate.
-    """
-    if not plan:
-        return None
-    path = os.path.join(REPO, "schemas", plan)
-    if not os.path.exists(path):
-        return None
-    with open(path) as fh:
-        entries = scan_signoff_lines(fh.read())
-
-    # A SIGN-OFF MUST BE UNAMBIGUOUS ABOUT WHAT IT SIGNS. Three plan documents are
-    # cited by more than one family, so a bare marker in a shared document silently
-    # signed every family citing it -- one line for `dataseries_channel_map` would
-    # also have promoted `subject measurement`, `misc singletons` and `demo / mock`.
-    # Same laundering as the HTML-comment hole above, through a different door, and
-    # caught the same way: by checking instead of trusting.
-    #
-    #   TEAM-SIGN-OFF [family]: who, when -- what     signs THAT family only
-    #   TEAM-SIGN-OFF: who, when -- what              signs the document, and counts
-    #                                                 ONLY if exactly one family cites it
-    shared = sum(1 for f in FAMILIES if f[2] == plan) > 1
-    for e in entries:
-        if not e["accepted"]:
-            continue
-        if e["tag"] is not None:
-            if e["tag"] == family:
-                return dict(e, document=plan)
-            continue
-        # Untagged: only meaningful when the document belongs to one family.
-        if not shared:
-            return dict(e, document=plan)
-    return None
-
-
-def find_signoff(plan, family):
-    """Return the sign-off line's content for this family, or None.
-
-    THE RULE THIS ENFORCES. Claude may research a family and write up a
-    proposal; it may not record that proposal as the team's decision. On
-    2026-07-29 the board had only two states, so attaching a document to a
-    family promoted it to "decided" -- five families Claude wrote up alone were
-    reported to the team as settled, along with a remaining-work count built on
-    them.
-
-    A decision now requires a line the TEAM writes, in the plan document:
-
-        TEAM-SIGN-OFF [<family>]: <who/when> -- <what was decided>
-
-    The [family] tag is REQUIRED when a document is cited by more than one
-    family; without it the line would sign all of them (see the check below).
-    An untagged line is still honoured for a document cited by exactly one.
-
-    Absent that line the family is displayed as awaiting review, no matter what
-    the FAMILIES table claims. This is deliberately not a CI failure: a false
-    RED is as useless as a false GREEN, and the honest state is simply "not
-    signed off yet".
-    """
-    hit = find_signoff_line(plan, family)
-    return hit["content"] if hit else None
-
-
-def signed_families():
-    """The families whose decision the TEAM has signed. ONE definition of it.
-
-    A family is DECIDED only when BOTH hold:
-
-      * the FAMILIES table records the decision as the team's (`status ==
-        "team"`, not `proposed` and not `open`), and
-      * the cited plan document carries a sign-off line this family's tag
-        reaches (`find_signoff_line`).
-
-    MEMBERSHIP IS NOT A SIGNATURE, and that is the whole point of the second
-    condition. Every family in the table names classes whether or not anyone
-    has signed anything; joining on membership alone would let an unsigned
-    family promote its classes to "decided" -- operating rule 4 broken by a
-    lookup rather than by a sentence. `tools/coverage.py` derives its stage-1
-    rung from THIS function for that reason, instead of from FAMILIES.
-
-    Returns {family: {plan, line, signoff, members, call}}.
-    """
-    out = {}
-    for name, members, plan, what, status in FAMILIES:
-        if status != "team":
-            continue
-        hit = find_signoff_line(plan, name)
-        if hit is None:
-            continue
-        out[name] = {"plan": plan, "line": hit["line"], "signoff": hit["content"],
-                     "tagged": hit["tag"] is not None,
-                     "members": list(members), "call": what}
-    return out
-
-
-# GENERATED MARKDOWN IS NOT A RECORD OF ANYTHING; it is a copy of one. The
-# census below excludes these and SAYS SO with its denominator, because a
-# generated file can carry the marker for two innocent reasons and both would
-# read as signatures: `V_eta_STATUS.md` prints the sign-off TEMPLATE (a paired
-# <...> slot, which the scanner rejects anyway) and any of them may quote a real
-# line while rendering it. A quotation is not a second signature.
-#
-# Kept as a literal, and checked in tests against the `.md` files
-# `tools/gates.py` declares its steps WRITE -- so a new generated document
-# cannot quietly become an input to the census.
-GENERATED_MARKDOWN = ("V_eta_STATUS.md", "V_eta_coverage_ledger.md",
-                      "V_eta_final_class_set.md")
-
-
-def signature_census(schemas_dir=None):
-    """Where every TEAM-SIGN-OFF line is, against what the FAMILIES table names.
-
-    RULE 5, and it is the reason this is a first-class output rather than a
-    debug print: "no signature for this family" and "a signature nobody joined
-    to this family" printed identically before, and the second is the state
-    four of today's tags are in. The census reports its denominator, then the
-    two directions of the mismatch SEPARATELY:
-
-      orphan tag       a signed `TEAM-SIGN-OFF [tag]` whose tag names no family
-                       in FAMILIES. The signature exists and reaches nothing.
-      unsigned family  a family with no line this tool will honour.
-
-    NEITHER IS RESOLVED HERE. Mapping a signature onto a family it does not
-    name is recording a disposition, which operating rule 4 forbids -- so the
-    pairs are printed as questions for the team, never joined.
-    """
-    root = schemas_dir or os.path.join(REPO, "schemas")
-    files, excluded = [], []
-    for name in sorted(os.listdir(root)):
-        if not name.endswith(".md"):
-            continue
-        (excluded if name in GENERATED_MARKDOWN else files).append(name)
-
-    lines, rejected = [], []
-    for name in files:
-        with open(os.path.join(root, name)) as fh:
-            for e in scan_signoff_lines(fh.read()):
-                (lines if e["accepted"] else rejected).append(dict(e, document=name))
-    # The same scan over the excluded copies, counted but never honoured, so the
-    # exclusion is visible as a number rather than as an absence.
-    excluded_markers = 0
-    for name in excluded:
-        path = os.path.join(root, name)
-        if os.path.exists(path):
-            with open(path) as fh:
-                excluded_markers += len(scan_signoff_lines(fh.read()))
-
-    tags = {}
-    for e in lines:
-        if e["tag"] is not None:
-            tags.setdefault(e["tag"], []).append((e["document"], e["line"]))
-    untagged = {}
-    for e in lines:
-        if e["tag"] is None:
-            untagged[e["document"]] = untagged.get(e["document"], 0) + 1
-
-    fam_names = [f[0] for f in FAMILIES]
-    sf = signed_families()
-    return {
-        "documents_read": len(files),
-        "documents_excluded_as_generated": excluded,
-        "signoff_markers_inside_excluded_documents": excluded_markers,
-        "accepted_lines": len(lines),
-        # A REJECTED LINE IS REPORTED WITH ITS TAG AND ITS DOCUMENT'S REACH, not
-        # just its line number. The guards above are heuristics over free text
-        # and one of them misfires today: a real, dated, tagged sign-off whose
-        # DECISION TEXT contains a paired `<...>` reads as a template slot. That
-        # is the safe direction (less signed than reality, never more) and it is
-        # invisible unless the rejection is printed, so it is printed -- with
-        # `document_cited_by_families`, which bounds what the rejection could
-        # possibly change. Widening the guard is a team call: it changes which
-        # lines count as a decision, which operating rule 4 puts out of reach
-        # here.
-        "rejected_lines": [
-            {"document": e["document"], "line": e["line"],
-             "tag": e["tag"], "why": e["rejected_because"],
-             "excerpt": e["content"][:120],
-             "document_cited_by_families": sorted(
-                 f[0] for f in FAMILIES if f[2] == e["document"])}
-            for e in rejected],
-        "distinct_tags": sorted(tags),
-        "tags": {t: [{"document": d, "line": n} for d, n in v]
-                 for t, v in sorted(tags.items())},
-        "untagged_documents": untagged,
-        "families_total": len(FAMILIES),
-        "families_signed": sorted(sf),
-        "families_unsigned": sorted(f for f in fam_names if f not in sf),
-        # A tag matching no family. NOT paired with anything here.
-        "orphan_tags": {t: [{"document": d, "line": n} for d, n in tags[t]]
-                        for t in sorted(tags) if t not in fam_names},
-    }
 
 
 def load():
@@ -1229,79 +167,6 @@ def find_repo(name, env):
         if cand and os.path.isdir(cand):
             return cand
     return None
-
-
-def family_prose_vs_signoff(built_classes):
-    """Class names the FAMILIES one-liner asserts that its sign-off never says.
-
-    WHY IT EXISTS, AND WHAT IT WOULD HAVE CAUGHT.
-    On 2026-08-11 `ngrid` was filed as a dissolution, corrected to a fold ->
-    `sampled_body`, and the correction was wrong. Both commits read one half of
-    `V_eta_image_model_plan.md`: one the R4 section heading ("`ngrid` ->
-    `sampled_body`"), the other neither. The `TEAM-SIGN-OFF [image / ngrid]`
-    line in that same document says "ngrid is DISSOLVED (deleted, not
-    migrated)", and the FAMILIES table beside it here says "ngrid phases into
-    sampled_body". Two independent readers, one document, opposite conclusions.
-
-    The FAMILIES one-liner is CLAUDE-AUTHORED PROSE in a tool. The sign-off is
-    the team's own words. Nothing kept them in agreement, and the failure mode
-    is one-directional in the dangerous way: the prose names a concrete target
-    class, which is what a reader acts on, while the signature may name only a
-    model, a set of field destinations, or a deletion.
-
-    So this sweeps for the SHAPE rather than waiting for the next instance:
-    every V_eta class name the one-liner mentions is checked against the text of
-    the sign-off that signs that family. A name the signature does not contain
-    is UNSIGNED -- which is not automatically wrong, and is never resolved here.
-
-    DELIBERATELY UNDER-FILTERED. Abstract roots (`value`, `entity`,
-    `subject`) get used as ordinary words -- "a standalone value", "->
-    entity" -- and would be the obvious things to suppress. They are NOT
-    suppressed: a filter tuned on today's eight rows is a filter that hides
-    tomorrow's real one, and eight lines across eighteen families is a
-    perfectly readable amount of human checking. Erring toward showing too much
-    is the safe direction here, and it is the direction this repository's
-    mistakes have not gone.
-
-    Returns {"families_checked", "rows": [(family, plan, [names]), ...],
-             "multi_untagged": [(plan, n)]}.
-    """
-    out = {"families_checked": 0, "rows": [], "multi_untagged": []}
-    seen_plans = set()
-    for name, _members, plan, what, status in FAMILIES:
-        if status != "team" or not plan:
-            continue
-        so = find_signoff(plan, name)
-        if so is None:
-            continue
-        out["families_checked"] += 1
-        named = {w for w in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", what)
-                 if w in built_classes}
-        missing = sorted(w for w in named if w not in so)
-        if missing:
-            out["rows"].append((name, plan, missing))
-        # A SECOND HAZARD FOUND BY THE SAME SWEEP. `find_signoff` returns the
-        # FIRST untagged sign-off line in a document cited by exactly one
-        # family. `V_eta_openminds_family_record.md` carries TWO untagged ones
-        # (2026-08-05, the strain model; 2026-08-08, Part 7), so the board
-        # displays one of them and the FAMILIES one-liner paraphrases the
-        # other. Neither is wrong; which one is being shown is simply not
-        # something a reader can tell.
-        if plan in seen_plans:
-            continue
-        seen_plans.add(plan)
-        path = os.path.join(REPO, "schemas", plan)
-        if not os.path.exists(path):
-            continue
-        with open(path) as fh:
-            text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.DOTALL)
-        untagged = [ln for ln in text.splitlines()
-                    if ln.lstrip().startswith("TEAM-SIGN-OFF")
-                    and not re.match(r"TEAM-SIGN-OFF\s*\[",
-                                     ln.lstrip())]
-        if len(untagged) > 1:
-            out["multi_untagged"].append((plan, len(untagged)))
-    return out
 
 
 def batch_evidence_line(hits):
@@ -2466,7 +1331,7 @@ STATE_C = "c_corpus_zero_survivors"
 STATE_U = "u_unmeasured"
 
 OPEN_STATE_LABEL = {
-    STATE_A: "(a) decided, nothing built",
+    STATE_A: "(a) nothing built (the decision state is a separate column)",
     STATE_B: "(b) built, awaiting corpus proof",
     STATE_C: "(c) corpus: 0 survivors in the corpora read",
     STATE_U: "(?) UNMEASURED -- no build evidence was ever taken",
@@ -2495,7 +1360,13 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
     """
     built_classes = {s["class_name"] for s in schemas}
     ledger = {r["v1_class"]: r for r in rows}
-    fam_of = {m: f[0] for f in FAMILIES for m in f[1]}
+    # The DECISION state of each open class, from its own citations
+    # (tools/decision_citations.py). Rendered beside the build evidence and never
+    # combined with it: a class can be decided and unbuilt, or built and
+    # proposed.
+    def _decision(cls):
+        names = [n for n in (cls, (ledger.get(cls) or {}).get("veta_class")) if n]
+        return dc.decision_for(names)
 
     out = []
     for cls in sorted(open_work):
@@ -2580,9 +1451,14 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         else:
             state = STATE_B
 
+        dec = _decision(cls)
         out.append({
             "class_name": cls,
-            "family": fam_of.get(cls),
+            "decision": dec["state"],
+            "decided_in": ("{}:{} [{}]".format(dec["decided_by"]["document"],
+                                               dec["decided_by"]["line"],
+                                               dec["decided_by"]["tag"])
+                           if dec["decided_by"] else None),
             "state": state,
             "state_label": OPEN_STATE_LABEL[state],
             "build_evidence": why,
@@ -2919,7 +1795,7 @@ def render_open_state(p, ocs):
     p("written `total (M+B)` -- M from a per-document migrator, B from a batch")
     p("post-pass -- so no cell in this table is an undifferentiated count.")
     p("")
-    p("| class | family | state | build evidence | minted (M+B) | field writes "
+    p("| class | decision | state | build evidence | minted (M+B) | field writes "
       "(M+B) | named (M+B) | comments (M+B) | survivors |")
     p("|---|---|---|---|---|---|---|---|---|")
 
@@ -2941,7 +1817,7 @@ def render_open_state(p, ocs):
         mint_cell = _cell(r, "n_emitted_class_refs")
         if r.get("emission_discounted") and mint_cell != "-":
             mint_cell += " discounted"
-        p("| `{}` | {} | {} | {} | {} | {} | {} | {} | {} |".format(r["class_name"], r["family"] or "-",
+        p("| `{}` | {} | {} | {} | {} | {} | {} | {} | {} |".format(r["class_name"], r.get("decision") or "-",
              OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
              mint_cell, _cell(r, "n_field_write_refs"),
              _cell(r, "n_named_refs"), _cell(r, "n_comment_mentions"),
@@ -3021,7 +1897,7 @@ def render_open_state(p, ocs):
                             % (r["survivors"],
                                ", ".join("%s %d" % kv for kv in
                                          sorted(r["survivors_by_corpus"].items()))))
-            p("- `{}` ({}) -- {}".format(r["class_name"], r["family"] or "no family",
+            p("- `{}` ({}) -- {}".format(r["class_name"], r.get("decision") or "no decision recorded",
                  "; ".join(bits) or "no evidence found"))
         p("")
 
@@ -3031,6 +1907,39 @@ def open_class_names(schemas):
     cannot disagree about what "open" means."""
     return {s["class_name"] for s in schemas
             if s.get("disposition") == "in_progress"}
+
+
+def unplanned_retire_rows(rows):
+    """`retire` rows with no migrator and no `how`: open work wearing a settled label.
+
+    Found when spike_extraction_parameters turned out to hold filter_type /
+    filter_low / filter_high / filter_order / filter_ripple -- exactly the data
+    the frequency_filter model was designed for -- while counted as settled.
+    """
+    return sorted(
+        r["v1_class"] for r in rows
+        if r["disposition"] == "retire" and not r["migrator"]
+        and not (r.get("how") or "").strip())
+
+
+def class_names_for(cls, ledger_by_class):
+    """The names a class may be cited under: itself, and its ledger row's V_eta class."""
+    row = ledger_by_class.get(cls) or {}
+    return [n for n in (cls, row.get("veta_class")) if n]
+
+
+def _short(text, n=220):
+    text = " ".join((text or "").split())
+    return text if len(text) <= n else text[:n - 3].rstrip() + "..."
+
+
+def _cite_cell(rec):
+    """`doc:line [tag]` for a resolved citation, or the reason it did not resolve."""
+    if rec is None:
+        return "-"
+    where = "`{}`{}".format(rec["document"],
+                            ":" + str(rec["line"]) if rec.get("line") else "")
+    return "{} `[{}]`".format(where, rec["tag"])
 
 
 def build(ocs=None, didm=None, log=None):
@@ -3043,47 +1952,51 @@ def build(ocs=None, didm=None, log=None):
     # would make the artifact differ between every machine that writes it.
     schemas, rows = load()
 
-    # RETIRE IS NOT ALWAYS A DECISION. A row marked retire with NO migrator and NO
-    # recorded `how` means the documents pass through untouched and nobody has
-    # decided anything -- open work wearing a settled label. The board could not
-    # see it because it counted only `in_progress`. Found when
-    # spike_extraction_parameters turned out to hold filter_type / filter_low /
-    # filter_high / filter_order / filter_ripple -- exactly the data the
-    # frequency_filter model was just designed for -- while sitting outside every
-    # decision family.
-    #
-    # Computed HERE, before anything renders: the first attempt built it down in
-    # the ledger section and the header referenced it earlier in the same
-    # function, which raised UnboundLocalError. A summary line must not depend on
-    # a number computed after it.
-    unplanned_retire = sorted(
-        r["v1_class"] for r in rows
-        if r["disposition"] == "retire" and not r["migrator"]
-        and not (r.get("how") or "").strip())
+    # Computed HERE, before anything renders: a summary line must not depend
+    # on a number computed after it.
+    unplanned_retire = unplanned_retire_rows(rows)
     by_disp = {}
     for s in schemas:
         by_disp.setdefault(s.get("disposition", "(none)"), []).append(s["class_name"])
     open_classes = set(by_disp.get("in_progress", []))
-
-    # THE CHECK: every open class must be claimed by exactly one family.
-    claimed, dupes = set(), []
-    for fam in FAMILIES:
-        members = fam[1]
-        for m in members:
-            if m in claimed:
-                dupes.append(m)
-            claimed.add(m)
-    # Open work is in_progress PLUS retire-with-no-plan. Before this, a family
-    # claiming a retire row was reported as stale and the row stayed invisible.
+    # Open work is in_progress PLUS retire-with-no-plan.
     open_work = open_classes | set(unplanned_retire)
-    unclaimed = sorted(open_work - claimed)
-    stale = sorted(claimed - open_work)
+    ledger_by_class = {r["v1_class"]: r for r in rows}
 
-    # A family may only claim to be DECIDED if the document recording that
-    # decision exists. Otherwise "decided, awaiting build" is the same kind of
-    # unbacked assertion this board replaces.
-    missing_plans = [(f[0], f[2]) for f in FAMILIES
-                     if f[2] and not os.path.exists(os.path.join(REPO, "schemas", f[2]))]
+    # A DISCOUNT MUST NAME A REAL REPLACEMENT. `RETIRED_BY_ITS_OWN_DECISION`
+    # suppresses build credit, so a typo or a since-renamed replacement would
+    # hold a class at "(a) nothing built" forever, silently. Fail loudly instead.
+    built_now = {e["class_name"] for e in schemas}
+    bad_repl = sorted((c, t) for c, t in RETIRED_BY_ITS_OWN_DECISION.items()
+                      if t not in built_now)
+    if bad_repl:
+        sys.stderr.write(
+            f'status_board: RETIRED_BY_ITS_OWN_DECISION names {len(bad_repl)} replacement class(es) that are not in the built index: {", ".join("{} -> {}".format(*cr) for cr in bad_repl)}\nEach entry discounts a migrator\'s emission, so a stale name pins its class at \'nothing built\' with no way to notice.\n')
+        sys.exit(1)
+
+    # A CITATION MUST NAME A CLASS THAT EXISTS, by its built-index name or its
+    # did_v1 ledger name (the two differ whenever NDI spells it in camelCase:
+    # `imageStack_parameters` in the ledger is `image_stack_parameters` in the
+    # index). A citation for a deleted class is a record about nothing.
+    known = built_now | set(ledger_by_class)
+    ghosts = sorted(c for c in dc.CITATIONS if c not in known)
+    if ghosts:
+        sys.stderr.write(
+            f'decision_citations.CITATIONS names {len(ghosts)} class(es) that are neither in the built index nor in the coverage ledger: {", ".join(ghosts)}\nA collapsed or deleted class must lose its citation.\n')
+        sys.exit(1)
+
+    # THE ONE DEFINITION of "this class is decided" (tools/decision_citations.py),
+    # shared with tools/coverage.py: the class cites a decision line that exists.
+    open_dec = {c: dc.decision_for(class_names_for(c, ledger_by_class))
+                for c in sorted(open_work)}
+    decided_open = [c for c in sorted(open_work) if open_dec[c]["state"] == dc.DECIDED]
+    proposed_open = [c for c in sorted(open_work) if open_dec[c]["state"] != dc.DECIDED]
+    unresolved = dc.unresolved_citations()
+
+    total = len(schemas)
+    n_open = len(open_classes)
+    n_persist = len(by_disp.get("persist", []))
+    n_retire = len(by_disp.get("retire", []))
 
     L = []
     p = L.append
@@ -3094,129 +2007,23 @@ def build(ocs=None, didm=None, log=None):
     p("State lives here. The plan documents under `schemas/` keep the RATIONALE")
     p("for each model; this board owns *how much is left and what exactly*.")
     p("")
+    p("**A class is DECIDED only when it cites a decision line that exists**: a")
+    p("`TEAM-SIGN-OFF [tag]` line, or a `Decided by Jess Haley, <date>:` line, in")
+    p("the document its citation names (`tools/decision_citations.py`). Anything")
+    p("else is **Proposed (not decided)**, whatever any prose says.")
+    p("")
 
-    if unclaimed:
-        p("## ERROR -- unclaimed open classes")
+    if unresolved:
+        p("## ERROR -- citations that do not resolve")
         p("")
-        p("These are `in_progress` but belong to no decision family in")
-        p("`tools/status_board.py`. An open class that no family claims is an open")
-        p("question nobody is tracking. Add it to `FAMILIES` before continuing:")
+        p("Each names a document and tag with no accepted decision line. The class")
+        p("renders as proposed until the citation is corrected; this fails `--check`.")
         p("")
-        for c in unclaimed:
-            p(f"- `{c}`")
+        p("| class | document | tag | why |")
+        p("|---|---|---|---|")
+        for cls, rec in unresolved:
+            p(f'| `{cls}` | `{rec["document"]}` | `{rec["tag"]}` | {rec["why"]} |')
         p("")
-
-    total = len(schemas)
-    n_open = len(open_classes)
-    n_persist = len(by_disp.get("persist", []))
-    n_retire = len(by_disp.get("retire", []))
-    # Index 2 is the plan document; index 1 is the member LIST, which is always
-    # truthy. Getting this wrong reported every family as decided and printed an
-    # empty "genuinely undecided" table -- a status board that says the work is
-    # done is worse than no status board.
-    # Tuple is (name, members, plan, question, status) -- status is index 4.
-    # Indexed [3] on the first attempt and every count rendered 0, which is how
-    # a status board lies quietly. Guarded below so an unknown status is loud.
-    # A "team" claim is only honoured when the cited document carries the
-    # sign-off line. Otherwise it is a proposal, whatever the table says.
-    # ONE DEFINITION of "this family is decided", shared with tools/coverage.py
-    # (which derives its stage-1 rung from it). Two tools asking the same
-    # question two ways is how the ledger and this board disagreed about
-    # `binaryseries_parameters` for a day.
-    _signed = signed_families()
-    decided   = [f for f in FAMILIES if f[0] in _signed]
-    unsigned  = [f for f in FAMILIES if f[4] == "team" and f[0] not in _signed]
-    proposed  = [f for f in FAMILIES if f[4] == "proposed"]
-    undecided = [f for f in FAMILIES if f[4] == "open"]
-
-    # A FAMILY MAY NOT BE RENDERED AS UNDECIDED WHILE ITS CLASSES ARE BUILT.
-    #
-    # On 2026-08-11 this board printed "stranded sources | 3 | tombstoned so
-    # they stop stranding; tier and fold UNDECIDED" while `foldGenericFiles.m`
-    # and `resolveValidIntervals.m` were live and running in all six corpora --
-    # models the TEAM had chosen, in their own words, and someone had built. It
-    # was read aloud as the one remaining open decision.
-    #
-    # The evidence was already in this file, in the same run: `batch_consumers`
-    # scans `+did2/+convert` for bare class names and finds both. It was simply
-    # never compared to the FAMILIES one-liner, which is CLAUDE-AUTHORED PROSE
-    # in a tool -- the identical hazard `family_prose_vs_signoff` exists for,
-    # except that check requires `status == "team"` AND a plan document, so an
-    # `open` family with `plan=None` got no checking of any kind. The least
-    # examined row was the one asserting the most.
-    #
-    # This is a HARD FAILURE rather than a printed warning, because the warning
-    # already existed in prose and was read and repeated anyway.
-    built_but_called_undecided = []
-    for name, members, _plan, _what, _st in undecided:
-        hits = batch_consumers(list(members), didm,
-                               snapshot_key="batch_consumers_families")
-        built = {c: v for c, v in hits["by_class"].items() if v}
-        if not built:
-            continue
-        # A DECLARED contradiction is not the thing this sweep exists to catch.
-        # It was written for the row that says UNDECIDED while a migrator quietly
-        # runs -- prose nobody had compared to the tree. A family whose own
-        # one-liner says BUILT AHEAD OF THE DECISION has already made the
-        # contradiction the first thing a reader sees, and failing on it would
-        # force exactly the wrong repair: signing a model to turn the gate green.
-        # It is REPORTED either way; only the undeclared case fails.
-        declared = BUILT_AHEAD_OF_DECISION in (_what or "").upper()
-        built_but_called_undecided.append(
-            (name, built, hits["files_scanned"], declared))
-        # STASHED, NORMALISED, for the same reason the other sweep is: without
-        # a snapshot a runner with no DID-matlab renders this section
-        # differently from a developer's machine, and the artifact is committed.
-        # Caught by tests/test_status_board_without_siblings.py the first time
-        # this sweep shipped -- the byte-identity test earning its keep on the
-        # commit that added a second caller.
-        if ocs is not None:
-            fam = ocs.setdefault("sources", {}).setdefault(
-                "batch_consumers_families", {"files_scanned": 0, "by_class": {}})
-            fam["files_scanned"] = max(fam["files_scanned"], hits["files_scanned"])
-            fam["by_class"].update(hits["by_class"])
-    # A FAMILY MUST NOT CLAIM A CLASS THAT NO LONGER EXISTS. The check below has always
-    # verified that every in_progress class belongs to a family; it never verified the
-    # converse, so when three classes collapsed into one on 2026-08-06 the board went on
-    # rendering "demo / mock | 2 | PASSTHROUGH ..." -- a stale one-liner about a
-    # superseded model, listing two ghosts, and --check passed. A generated artifact that
-    # looks current and is not is the exact failure this file exists to prevent.
-    # A family may legitimately claim a class by its did_v1 LEDGER name rather
-    # than its built-index name, and the two differ whenever NDI spells it in
-    # camelCase: `imageStack_parameters` in the ledger is `image_stack_parameters`
-    # in the index. The unclaimed-work check below draws retire-with-no-migrator
-    # rows straight from the ledger, so it demands the v1 spelling -- while this
-    # check demanded the index spelling, and no name could satisfy both. It first
-    # bit when image_stack came back out of _DELETE_PHASE8; before that every
-    # unplanned-retire row happened to be spelled identically in both places.
-    # Accept either, so a family can claim the thing the board is asking it to.
-    known = {e["class_name"] for e in schemas}
-    known |= {r["v1_class"] for r in rows}
-
-    # A DISCOUNT MUST NAME A REAL REPLACEMENT. `RETIRED_BY_ITS_OWN_DECISION`
-    # suppresses build credit, so a typo or a since-renamed replacement would
-    # hold a class at "(a) nothing built" forever, silently and in the direction
-    # this board exists to stop -- the exact shape of the ledger's "dissolved
-    # (rename/decompose)" labels. Fail loudly instead.
-    built_now = {e["class_name"] for e in schemas}
-    bad_repl = sorted((c, t) for c, t in RETIRED_BY_ITS_OWN_DECISION.items()
-                      if t not in built_now)
-    if bad_repl:
-        sys.stderr.write(
-            f'status_board: RETIRED_BY_ITS_OWN_DECISION names {len(bad_repl)} replacement class(es) that are not in the built index: {", ".join("{} -> {}".format(*cr) for cr in bad_repl)}\nEach entry discounts a migrator\'s emission, so a stale name pins its class at \'nothing built\' with no way to notice.\n')
-        sys.exit(1)
-
-    ghosts = sorted({m for f in FAMILIES for m in f[1] if m not in known})
-    if ghosts:
-        sys.stderr.write(
-            f'FAMILIES claims {len(ghosts)} class(es) that are not in the built index: {", ".join(ghosts)}\nA collapsed or deleted class must be removed from its family (or the family closed).\n')
-        sys.exit(1)
-
-    bad_status = [f[0] for f in FAMILIES
-                  if f[4] not in ("team", "proposed", "open")]
-    if len(decided) + len(unsigned) + len(proposed) + len(undecided) != len(FAMILIES):
-        raise SystemExit(
-            f'status_board: {len(FAMILIES)} families but {len(decided) + len(unsigned) + len(proposed) + len(undecided)} classified -- unclassified: {bad_status}')
 
     p("## Where V_eta stands")
     p("")
@@ -3227,11 +2034,9 @@ def build(ocs=None, didm=None, log=None):
     p(f'| settled (retire) | {n_retire} |')
     p(f'| **still open (`in_progress`)** | **{n_open}** |')
     p(f'| **`retire` with no migrator YET** | **{len(unplanned_retire)}** |')
-    p(f'| open **decision families** | **{len(FAMILIES)}** |')
-    p(f'| &nbsp;&nbsp;DECIDED and signed off, awaiting build | {len(decided)} |')
-    p(f'| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | {len(unsigned)} |')
-    p(f'| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **{len(proposed)}** |')
-    p(f'| &nbsp;&nbsp;nobody has proposed anything yet | {len(undecided)} |')
+    p(f'| **open classes in all** | **{len(open_work)}** |')
+    p(f'| &nbsp;&nbsp;decided (cites a decision line), awaiting build | {len(decided_open)} |')
+    p(f'| &nbsp;&nbsp;**proposed (not decided), awaiting review** | **{len(proposed_open)}** |')
     p("")
     if ocs:
         c = ocs["counts"]
@@ -3240,146 +2045,36 @@ def build(ocs=None, didm=None, log=None):
         for k in (STATE_A, STATE_B, STATE_C, STATE_U):
             p(f'| {OPEN_STATE_LABEL[k]} | {c.get(k, 0)} |')
         p("")
-    p(f'The class count is not the work count. {n_open} open classes are {len(FAMILIES)} decisions, because most open classes move as a family.')
-    p("")
-    p(f'**{len(unsigned) + len(proposed) + len(undecided)} of those {len(FAMILIES)} are not settled**: {len(unsigned)} awaiting a signature on a decision already taken, {len(proposed)} written up by Claude alone and unreviewed, {len(undecided)} with nothing proposed. Only {len(decided)} are signed off.')
-    p("")
 
-    # THE DERIVED HALF. Everything above this line is computed from committed
-    # artifacts and from the FAMILIES table; everything in here is measured
-    # against the migrator packages and the corpus census, or says it was not.
+    # THE DERIVED HALF: measured against the migrator packages and the corpus
+    # census, or says it was not.
     if ocs:
         render_open_state(p, ocs)
 
-    p("## AWAITING A SIGNATURE -- decided with the team, not yet recorded")
+    p("## Proposed (not decided) -- awaiting review")
     p("")
-    p("These were settled in walkthroughs. They are not built and do not render as")
-    p("decided because no document carries the sign-off line yet. Nothing here needs")
-    p("re-deciding -- it needs recording.")
+    p(f'DENOMINATOR: {len(open_work)} open class(es); {len(proposed_open)} cite no decision line that resolves.')
     p("")
-    p("| family | classes | what was decided | document |")
-    p("|---|---|---|---|")
-    for name, members, plan, what, _ in unsigned:
-        p(f'| **{name}** | {len(members)} | {what} | `{plan}` |')
-    p("")
-    for name, members, _, _, _ in unsigned:
-        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
-    p("")
-
-    p("## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning")
-    p("")
-    p("Each has template evidence and a written rationale, and **none of it has been")
-    p("reviewed**. Counted as open work.")
-    p("")
-    p("To sign one off, add a line to its document:")
-    p("")
-    p("```")
-    p(f"{SIGNOFF} [<family>] <who/when> -- <what was decided>")
-    p("```")
-    p("")
-    p("Until that line exists the family shows here regardless of what")
-    p("`tools/status_board.py` claims -- Claude cannot promote its own work.")
-    p("")
-    p("| family | classes | proposal | written up in |")
-    p("|---|---|---|---|")
-    for name, members, plan, what, _ in proposed:
-        p(f'| **{name}** | {len(members)} | {what} | `{plan}` |')
-    p("")
-    for name, members, _, _, _ in proposed:
-        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
-    p("")
-
-    if built_but_called_undecided:
-        p("## A FAMILY CALLED UNDECIDED WHOSE CLASSES ARE ALREADY BUILT")
+    if proposed_open:
+        p("| class | citations that did not resolve |")
+        p("|---|---|")
+        for c in proposed_open:
+            bad = open_dec[c]["unresolved"]
+            p("| `{}` | {} |".format(c, "; ".join(
+                f'`{r["document"]}` `[{r["tag"]}]`' for r in bad) or "none recorded"))
         p("")
-        p("Two different things land here and they are NOT the same finding.")
-        p("")
-        p("- **UNDECLARED** is a FAILURE. The table says a decision is "
-          "outstanding and the migrator tree says the model was chosen and "
-          "built, and nobody had compared the two. That is the stale-prose "
-          "case this section was written for.")
-        p("- **DECLARED** is not a failure and must not be made one. The "
-          "family's own one-liner says BUILT AHEAD OF THE DECISION, so the "
-          "contradiction is the first thing a reader meets. Failing on it "
-          "would force the wrong repair -- signing a model to turn a gate "
-          "green -- which is the precise thing Operating Rule 4 exists to "
-          "stop. Code existing ahead of a decision is a fact to carry in the "
-          "open, not to launder into agreement.")
-        p("")
-        for name, built, scanned, declared in built_but_called_undecided:
-            p("**{}** -- {}".format(
-                name, "DECLARED (reported, not failing)" if declared
-                else "UNDECLARED (this fails --check)"))
-            p(f"- **{name}** -- DENOMINATOR: {len(built)} of the family's "
-              f"classes named by a batch post-pass, over {scanned} file(s) "
-              "scanned under `+did2/+convert`")
-            for cls, files in sorted(built.items()):
-                p("    - `{}` is consumed by {}".format(
-                    cls, ", ".join(f"`{f}`" for f in files)))
-        p("")
-        p("Move the family out of `open` and say what was built. Do NOT add a "
-          "`TEAM-SIGN-OFF` line to make this pass -- an unsigned built model "
-          "is `proposed`, and the missing thing is a signature.")
+    else:
+        p("None -- every open class cites a decision line that exists.")
         p("")
 
-    p("## Nobody has proposed anything yet")
-    p("")
-    p("| family | classes | the call to make |")
-    p("|---|---|---|")
-    for name, members, _, question, _ in undecided:
-        p(f'| **{name}** | {len(members)} | {question} |')
-    p("")
-    for name, members, _, _, _ in undecided:
-        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
-    p("")
-
-    p("## DECIDED by the team, awaiting build")
-    p("")
-    # THIS SECTION USED TO ASSERT "the schema has not changed yet" AS A
-    # HARDCODED STRING, printed under every family regardless of the tree.
-    # By 2026-08-11 it was false for essentially all of them: a hand check of
-    # the 26 target classes these families name found 25 present as schema
-    # files and the 26th (`execution_environment`) present as a block on
-    # `interaction`. The sentence would have sent a reader to rebuild
-    # the entire decided set.
-    #
-    # It is the project's own recurring error wearing the opposite sign. The
-    # usual direction is a claim that reads as MORE progress than exists; this
-    # one reads as LESS, which is why it survived so long -- understating never
-    # produces a wrong build, only wasted work and a board nobody can plan
-    # from. Both are the same defect: prose in a GENERATED artifact stating a
-    # fact that the generator never checked.
-    #
-    # The join it needed already existed one layer down. `open_class_state`
-    # computes `decided_targets` / `_built` / `_missing` per class. All this
-    # does is lift that to the family and print it, so the claim moves with
-    # the tree instead of with whoever last edited the string.
+    # THE TARGET-BUILD JOIN, per decided class. `open_class_state` computes
+    # `decided_targets` / `_built` / `_missing` for open classes; a cited class
+    # that is not open (a v1 source row marked `retire` with a migrator) has no
+    # such row, so the LEDGER is read directly as the second source.
     tgt_by_class = {r["class_name"]: r for r in (ocs or {}).get("classes", [])}
-    # THE LEDGER, DIRECTLY, AS A SECOND SOURCE -- because the first one cannot
-    # see most of these families.
-    #
-    # `open_class_state` is built over `open_work`, which is the `in_progress`
-    # V_eta SCHEMA classes plus retire-with-no-plan. Five signed families are
-    # made of v1 SOURCE rows with disposition `retire` and a migrator, so they
-    # have no `open_class_state` row at all -- and `family_targets` silently
-    # skipped them (`if not row: continue`). The section below then printed
-    #
-    #     "No member of these families carries a `decided_targets` entry in the
-    #      coverage ledger"
-    #
-    # about eleven families, and MEASURED 2026-08-11 that sentence was FALSE
-    # for five of them: all four members of `spike processing parameters` carry
-    # `decided_targets: [method_parameters]`, `stimulus response` carries
-    # `harmonic_component_calculation` and `method_parameters`, and
-    # `stimulus parameters` / `misc singletons` carry self-targets. The record
-    # was there; nothing read it. An unchecked family reported as "carries no
-    # entry" is a claim about the LEDGER derived from a lookup that never
-    # touched the ledger -- absence of evidence, printed as evidence.
-    built_classes_now = {s["class_name"] for s in schemas}
-    ledger_by_class = {r["v1_class"]: r for r in rows}
 
     def _decided_of(member):
-        """(built, missing, source) for one family member, ledger as fallback.
+        """(built, missing) for one class, ledger as fallback.
 
         A decided target that IS the class is dropped, exactly as
         `open_class_state` drops it: a deliberate passthrough is not evidence
@@ -3388,227 +2083,81 @@ def build(ocs=None, didm=None, log=None):
         row = tgt_by_class.get(member)
         if row:
             return (set(row.get("decided_targets_built") or []),
-                    set(row.get("decided_targets_missing") or []),
-                    "open_class_state")
+                    set(row.get("decided_targets_missing") or []))
         led = ledger_by_class.get(member)
         if not led:
-            return set(), set(), None
+            return set(), set()
         dec = [t for t in (led.get("decided_targets") or []) if t != member]
-        return ({t for t in dec if _target_built(t, built_classes_now)},
-                {t for t in dec if not _target_built(t, built_classes_now)},
-                "coverage_ledger")
+        return ({t for t in dec if _target_built(t, built_now)},
+                {t for t in dec if not _target_built(t, built_now)})
 
-    def family_targets(members):
-        """(built, missing) decided-target class names across a family."""
-        built_t, missing_t = set(), set()
-        for m in members:
-            b, mi, _src = _decided_of(m)
-            built_t |= b
-            missing_t |= mi
-        # A target both built and missing across two members is BUILT -- the
-        # file exists; the other member simply has not been re-pointed at it.
-        return built_t, (missing_t - built_t)
+    def _targets_cell(member):
+        if not ocs:
+            return "not measured"
+        b, m = _decided_of(member)
+        n = len(b) + len(m)
+        return f'{len(b)} of {n}' if n else "no target recorded"
 
-    def family_blank_causes(members):
-        """Why a family contributed nothing -- measured, not assumed.
-
-        Three different facts, and the old prose named only one of them:
-          not_a_v1_source  the member is a V_eta TARGET class, so the ledger has
-                           no row for it and never will (the whole
-                           `time_reference` family is this).
-          no_decided       there IS a ledger row and its `decided_targets` is
-                           empty -- the gap the coverage ledger now flags.
-          self_only        its only decided target is itself (a signed
-                           passthrough), which is stripped as non-evidence.
-        """
-        causes = {}
-        for m in members:
-            led = ledger_by_class.get(m)
-            if led is None:
-                causes[m] = "not_a_v1_source"
-            elif [t for t in (led.get("decided_targets") or []) if t != m]:
-                causes[m] = "has_decided"
-            elif led.get("decided_targets"):
-                causes[m] = "self_only"
-            else:
-                causes[m] = "no_decided"
-        return causes
-
-    if not ocs:
-        # RULE 5. No denominator available means the question was not asked,
-        # and that is not the same as "nothing is missing".
-        p("**TARGET-BUILD STATE NOT MEASURED IN THIS RUN.** The open-class")
-        p("evidence layer did not run, so this section cannot say whether these")
-        p("families' target schemas exist. Read that as UNKNOWN, not as unbuilt.")
-    else:
-        all_built, all_missing = set(), set()
-        seen, unseen = [], []
-        for name, members, _, _, _ in decided:
-            b, m = family_targets(members)
-            all_built |= b
-            all_missing |= m
-            (seen if (b or m) else unseen).append(name)
-        all_missing -= all_built
-        n_named = len(all_built) + len(all_missing)
-        # THE CHECK'S OWN COVERAGE COMES FIRST, BEFORE ITS RESULT. The first
-        # version of this block printed "13 named, 13 built, 0 missing" while
-        # 11 of the 18 families had contributed NOTHING to those numbers, so a
-        # reassuring "0 not built" was really "0 among the families I could
-        # see". A count that does not say what it failed to look at is the
-        # `silentLoss` defect, and writing the fix is not a licence to repeat
-        # it one layer up.
-        p(f'**DENOMINATOR: {len(decided)} signed families. {len(seen)} named at least one decided target class and were checked against the built tree; {len(unseen)} named none and are UNCHECKED HERE.**')
+    p("## Decided, awaiting build -- the open classes")
+    p("")
+    p(f'DENOMINATOR: {len(open_work)} open class(es); {len(decided_open)} cite a decision line that exists. The decision column is the line\'s own text, not a summary.')
+    p("")
+    if decided_open:
+        p("| class | targets built | decided in | decision |")
+        p("|---|---|---|---|")
+        for c in decided_open:
+            rec = open_dec[c]["decided_by"]
+            p(f'| `{c}` | {_targets_cell(c)} | {_cite_cell(rec)} | {_short(rec["decision"])} |')
         p("")
-        p(f'Across the {len(seen)} checked: {n_named} distinct target class(es), {len(all_built)} present in the built set, {len(all_missing)} not.')
-        p("")
+
+    # EVERY CITATION, not only the open classes': the record is per class, and
+    # most decided classes are no longer `in_progress`.
+    cited = sorted(dc.CITATIONS)
+    disp_of = {s["class_name"]: s.get("disposition", "(none)") for s in schemas}
+    all_missing = set()
+    p("## Every decision citation")
+    p("")
+    p(f'DENOMINATOR: {len(cited)} class(es) cite {sum(len(v) for v in dc.CITATIONS.values())} decision line(s); {len(unresolved)} citation(s) do not resolve. "targets built" counts the class\'s decided targets present in the built set (a target equal to the class is a passthrough and is not counted).')
+    p("")
+    p("| class | disposition | targets built | decided in |")
+    p("|---|---|---|---|")
+    for c in cited:
+        d = dc.decision_for([c])
+        disp = disp_of.get(c) or (ledger_by_class.get(c) or {}).get("disposition", "(absent)")
+        if ocs:
+            all_missing |= _decided_of(c)[1]
+        p("| `{}` | {} | {} | {} |".format(
+            c, disp, _targets_cell(c),
+            "; ".join(_cite_cell(r) if r["resolved"] else
+                      f'**UNRESOLVED** `{r["document"]}` `[{r["tag"]}]`'
+                      for r in d["citations"])))
+    p("")
+    if ocs:
         if all_missing:
-            p("The classes not yet present are the schema build queue:")
+            p("Decided targets not yet in the built set (the schema build queue):")
             p("")
-            for t in sorted(all_missing):
+            for t in sorted(all_missing - built_now):
                 p(f"- `{t}`")
             p("")
-        elif n_named:
-            p("So for the checked families the schema half is DONE and what")
-            p("remains is MIGRATOR work. Do not read those rows as a build")
-            p("queue for schema.")
-            p("")
-        if unseen:
-            # "no target recorded" splits SEVERAL ways and the split is the
-            # point. A class that DISSOLVES correctly names no target
-            # (`epochid`, dropped outright). A class whose target is fixed in a
-            # signed plan but was never written down is a GAP. A class whose
-            # decided target is ITSELF is a signed passthrough. And a family
-            # member that is a V_eta TARGET rather than a v1 source has no
-            # ledger row at all. Four facts; one blank cell.
-            #
-            # THIS BLOCK'S OWN PROSE WAS WRONG TWICE, BOTH TIMES IN THE
-            # DIRECTION OF SOUNDING BETTER MEASURED THAN IT WAS.
-            #
-            #   94cacb3 cited "`epochid` and `ngrid`" as the dissolutions.
-            #   0eb58d9 corrected `ngrid` to a fold -> `sampled_body`, citing
-            #           the plan's R4 SECTION HEADING.
-            #   Measured 2026-08-11: the `TEAM-SIGN-OFF [image / ngrid]` line in
-            #           that same document reads "ngrid is DISSOLVED (deleted,
-            #           not migrated)" and the plan's FINAL class block reads
-            #           "ngrid   DELETED". Both commits read one half of one
-            #           document. `coverage.py` now renders `ngrid` as DISPUTED
-            #           rather than picking a side for the team.
-            #
-            # And the sentence this replaces -- "No member of these families
-            # carries a `decided_targets` entry in the coverage ledger" -- was
-            # FALSE for five of the eleven. It described the ledger without
-            # reading it; the lookup only ever touched `open_class_state`,
-            # which does not cover a `retire` v1 source row. The causes below
-            # are MEASURED per member, so the claim cannot outrun the check
-            # again.
-            p(f'**The other {len(unseen)} are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:')
-            p("")
-            _CAUSE = {
-                "not_a_v1_source":
-                    "a V_eta target class, so the coverage ledger has no row "
-                    "for it (it is not a v1 source)",
-                "no_decided":
-                    "has a ledger row whose `decided_targets` is EMPTY -- the "
-                    "gap the ledger now flags by name",
-                "self_only":
-                    "its only decided target is ITSELF, a signed passthrough, "
-                    "which is stripped because it is not build evidence",
-                "has_decided":
-                    "DOES carry a decided target -- if this appears here the "
-                    "join is broken, not the record",
-            }
-            for name in unseen:
-                members = next(f[1] for f in decided if f[0] == name)
-                causes = family_blank_causes(members)
-                buckets = {}
-                for m, c in causes.items():
-                    buckets.setdefault(c, []).append(m)
-                p("- **%s** (%d class(es)): %s" % (
-                    name, len(members),
-                    "; ".join(f'{len(v)} {", ".join(f"`{x}`" for x in sorted(v))} -- {_CAUSE[k]}'
-                              for k, v in sorted(buckets.items()))))
-            p("")
-            p("Only the `decided_targets` EMPTY bucket is a missing record. The")
-            p("others are correct states that this check cannot use: a V_eta")
-            p("target class has no v1 row to carry a target, and a signed")
-            p("passthrough deliberately names no new class. `tools/coverage.py`")
-            p("now records dissolution POSITIVELY (with the sign-off quoted) and")
-            p("renders a row with neither a target nor a dissolution as an")
-            p("explicit gap, so the empty bucket is enumerable rather than")
-            p("indistinguishable from a settled one.")
-    p("")
-    p("Every one of these re-targets migrators that are already written, which")
-    p("is why migrator work before the target closes is rework.")
-    p("")
-    p("| family | classes | targets built | decision | recorded in |")
-    p("|---|---|---|---|---|")
-    for name, members, plan, what, _ in decided:
-        if not ocs:
-            cell = "not measured"
         else:
-            b, m = family_targets(members)
-            n = len(b) + len(m)
-            cell = f'{len(b)} of {n}' if n else "no target recorded"
-        p(f'| **{name}** | {len(members)} | {cell} | {what} | `{plan}` |')
-    p("")
+            p("Every decided target these classes name is present in the built set, so")
+            p("what remains for them is MIGRATOR work, not schema work.")
+            p("")
 
-    # ---- the family table's own prose, checked against the signatures -------
-    pvs = family_prose_vs_signoff({s["class_name"] for s in schemas})
-    p("## Class names the family table asserts that its sign-off does not say")
+    census = dc.decision_census()
+    p("## Decision lines no class cites")
     p("")
-    p(f'DENOMINATOR: {pvs["families_checked"]} signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. {sum(len(r[2]) for r in pvs["rows"])} family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.')
+    p(f'DENOMINATOR: {census["documents_read"]} document(s) read ({len(census["documents_excluded_as_generated"])} generated copies excluded); {census["accepted_lines"]} decision line(s) accepted, {len(census["rejected_lines"])} rejected; {census["lines_cited"]} cited by a class, {len(census["uncited_lines"])} cited by none.')
     p("")
-    p("**THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**")
-    p("The family one-liner is Claude-authored prose in `tools/status_board.py`;")
-    p("the sign-off is the team's own words. An unsigned name may be a fair")
-    p("paraphrase, a structural word used in passing (`value`, `entity`), or")
-    p("a target nobody agreed to -- and only a person can tell which.")
+    p("An uncited line is a decision the record holds that no class points at.")
+    p("Most decide something that is not one class (a tenet, a naming rule, a")
+    p("field). If one decides a class's disposition, that class should cite it.")
     p("")
-    p("It exists because on 2026-08-11 `ngrid` was filed as a dissolution,")
-    p("\"corrected\" to a fold into `sampled_body`, and the correction was wrong.")
-    p("Both readings came from `V_eta_image_model_plan.md`; neither reader")
-    p("reached the `TEAM-SIGN-OFF [image / ngrid]` line in it, which says")
-    p("\"ngrid is DISSOLVED (deleted, not migrated)\". Sweeping for the SHAPE")
-    p("then found a second instance immediately -- `binaryseries_parameters`,")
-    p("whose section heading says \"folds into `sampled_body`\" while its")
-    p("signature routes the fields to a statement and an axis and names no")
-    p("class.")
+    for e in census["uncited_lines"]:
+        p("- `{}`:{} {}".format(e["document"], e["line"],
+                                f'`[{e["tag"]}]`' if e["tag"] else
+                                f'({e["kind"]}, {e["date"] or "undated"})'))
     p("")
-    p("**ONE OF THE TWO IS NOW SETTLED, AND THE OTHER IS NOT.** This")
-    p("paragraph said \"Both are recorded DISPUTED in the coverage ledger,")
-    p("with both citations and no choice made\", and half of that went stale")
-    p("the day it was written. The team ruled on 2026-08-11 that for")
-    p("`binaryseries_parameters` the SIGNATURE is what is intended, so its")
-    p("ledger row now records TWO decided targets -- `statement` and")
-    p("`sampled_body`, the two mounts the axis entry can take, selected per")
-    p("document by `storage_mode`. `ngrid` is UNCHANGED and still DISPUTED:")
-    p("nothing was decided about it, and the two rows only ever shared a")
-    p("shape. Note that the ruling does NOT make either name a signed one --")
-    p("both still appear in the table below, because the signature says \"the")
-    p("statement's\" and \"the axis\", never a class name. That is the honest")
-    p("state: a decided target, derived from the signature, not quoted from")
-    p("it.")
-    p("")
-    if pvs["rows"]:
-        p("| family | unsigned class name(s) in the one-liner | sign-off in |")
-        p("|---|---|---|")
-        for name, plan, missing in pvs["rows"]:
-            p("| **{}** | {} | `{}` |".format(name, ", ".join(f"`{m}`" for m in missing), plan))
-        p("")
-    else:
-        p("None -- every class name in every family one-liner appears in the")
-        p("signature that signs it.")
-        p("")
-    if pvs["multi_untagged"]:
-        p(f'**AND: {len(pvs["multi_untagged"])} document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`')
-        p("line.** An untagged line signs the document, and counts only when")
-        p("exactly one family cites it -- so `find_signoff` returns the FIRST")
-        p("one and the reader cannot tell which was shown. Not wrong; not")
-        p("visible either.")
-        p("")
-        for plan, n in pvs["multi_untagged"]:
-            p(f'- `{plan}` -- {n} untagged sign-off lines')
-        p("")
 
     # v1 source side
     led_disp = {}
@@ -3644,8 +2193,8 @@ def build(ocs=None, didm=None, log=None):
         p(f'### `retire`, but NO MIGRATOR YET -- {len(unplanned_retire)} rows')
         p("")
         p("Marked `retire` in the ledger with **no per-class migrator and no `how`")
-        p("note**. `retire` reads as settled, so these do not appear in the family")
-        p("counts above -- but they are open work. Several hold real data (e.g.")
+        p("note**. `retire` reads as settled, so they are counted with the open classes")
+        p("above -- they are open work. Several hold real data (e.g.")
         p("`spike_extraction_parameters` carries filter_type / filter_low /")
         p("filter_high / filter_order / filter_ripple).")
         p("")
@@ -3694,114 +2243,77 @@ def build(ocs=None, didm=None, log=None):
             p(f"- `{c}`")
         p("")
 
-    if stale:
-        p("## Families naming classes that are no longer open")
-        p("")
-        p("Settled or removed since the family was written -- prune from `FAMILIES`:")
-        p("")
-        for c in stale:
-            p(f"- `{c}`")
-        p("")
-    if dupes:
-        p("## ERROR -- classes claimed by more than one family")
-        p("")
-        for c in sorted(set(dupes)):
-            p(f"- `{c}`")
-        p("")
 
-    if missing_plans:
-        p("## ERROR -- families claiming a decision document that does not exist")
-        p("")
-        for n, pl in missing_plans:
-            p(f"- **{n}** -> `schemas/{pl}` (missing)")
-        p("")
-
-    ok = (not unclaimed and not dupes and not missing_plans
-          and not [r for r in built_but_called_undecided if not r[3]])
+    ok = not unresolved
     return "\n".join(L) + "\n", ok
 
 
 STATE_LABEL = {
-    "signed_awaiting_build": "decided and signed off, awaiting build",
-    "awaiting_signature": "decided in a walkthrough, awaiting a signature",
-    "proposed_unreviewed": "written up by Claude alone, unreviewed",
-    "open": "nobody has proposed anything yet",
+    dc.DECIDED: "decided: cites a decision line that exists",
+    dc.PROPOSED: "Proposed (not decided): awaiting review",
 }
 
 
-def family_state(status, signed):
-    """The four-valued state a family renders as.
-
-    Mirrors the board's own buckets EXACTLY, and for the same reason: "the team
-    decided this" and "a document exists" are different facts, and collapsing
-    them is how five families Claude wrote alone were once reported as settled.
-    A `team` family with no sign-off line is NOT signed, no matter what the
-    FAMILIES table says.
-    """
-    if status == "team":
-        return "signed_awaiting_build" if signed else "awaiting_signature"
-    if status == "proposed":
-        return "proposed_unreviewed"
-    return "open"
-
-
 def decisions_doc(ocs=None):
-    """Build the machine-readable decisions artifact."""
-    schemas, _rows = load()
+    """Build the machine-readable decisions artifact: ONE RECORD PER CLASS.
+
+    A record exists for every class that cites a decision line and for every
+    open class. Its `state` is `decided` only when one of its citations
+    resolves to a decision line; the line's own location and text ride with it.
+    """
+    schemas, rows = load()
     disp = {s["class_name"]: s.get("disposition", "(none)") for s in schemas}
+    ledger_by_class = {r["v1_class"]: r for r in rows}
+    open_work = ({c for c, d in disp.items() if d == "in_progress"}
+                 | set(unplanned_retire_rows(rows)))
 
-    families, by_class = [], {}
-    for name, members, plan, call, status in FAMILIES:
-        line = find_signoff(plan, name)
-        state = family_state(status, line is not None)
-        # A member may already have been built out of `in_progress` (or deleted
-        # outright) while its family is still tracked. Report the per-class
-        # disposition alongside, so "the family is unbuilt" and "this particular
-        # class is still open" stay distinguishable -- they are not the same
-        # claim, and conflating them is what made `dataseries_channel_map` look
-        # open for four days after it was decided.
-        member_rows = [{"class_name": m, "disposition": disp.get(m, "(absent)")}
-                       for m in members]
-        fam = {
-            "name": name,
-            "members": member_rows,
-            "open_members": [m["class_name"] for m in member_rows
-                             if m["disposition"] == "in_progress"],
-            "plan": plan,
-            "decision": call,
-            "status": status,
-            "signed": line is not None,
-            "signoff": line,
-            "state": state,
-            "state_label": STATE_LABEL[state],
+    by_class = {}
+    for cls in sorted(set(dc.CITATIONS) | open_work):
+        d = dc.decision_for(class_names_for(cls, ledger_by_class))
+        by_class[cls] = {
+            "class_name": cls,
+            "disposition": disp.get(cls) or (ledger_by_class.get(cls) or {}).get(
+                "disposition", "(absent)"),
+            "open": cls in open_work,
+            "state": d["state"],
+            "state_label": STATE_LABEL[d["state"]],
+            "decided_in": ({k: d["decided_by"][k] for k in
+                            ("document", "tag", "line", "kind")}
+                           if d["decided_by"] else None),
+            "decision": d["decided_by"]["decision"] if d["decided_by"] else None,
+            "citations": [{k: r[k] for k in ("document", "tag", "resolved",
+                                             "line", "kind", "why")}
+                          for r in d["citations"]],
         }
-        families.append(fam)
-        for m in members:
-            by_class[m] = name
 
-    counts = {}
-    for k in STATE_LABEL:
-        counts[k] = sum(1 for f in families if f["state"] == k)
+    def _count(recs):
+        return {k: sum(1 for r in recs if r["state"] == k) for k in STATE_LABEL}
+
+    open_recs = [r for r in by_class.values() if r["open"]]
     doc = {
-        "title": "V_eta decision families (GENERATED -- do not hand-edit)",
+        "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
         "description":
             "Regenerate with `python3 tools/status_board.py`. The human-readable "
-            "twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY "
-            "when its plan document carries a TEAM-SIGN-OFF line; Claude cannot "
-            "promote its own work.",
+            "twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it "
+            "cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line "
+            "or a `Decided by Jess Haley, <date>:` line in the cited document "
+            "(tools/decision_citations.py). Everything else is proposed (not "
+            "decided).",
         "summary": {
-            "families": len(families),
-            "classes_claimed": len(by_class),
-            "open_classes": sum(1 for v in disp.values() if v == "in_progress"),
-            "by_state": counts,
+            "classes": len(by_class),
+            "classes_citing": len(dc.CITATIONS),
+            "citations": sum(len(v) for v in dc.CITATIONS.values()),
+            "citations_unresolved": len(dc.unresolved_citations()),
+            "open_classes": len(open_recs),
+            "by_state": _count(by_class.values()),
+            "open_by_state": _count(open_recs),
             "state_labels": STATE_LABEL,
         },
-        "families": families,
         "by_class": by_class,
     }
     if ocs:
         # THE EVIDENCE SNAPSHOT. It lives here, in a committed artifact, because
-        # neither sibling repo is checked out in this repo's CI -- so this block
+        # neither sibling repo is checked out in every CI job -- so this block
         # is what `--check` compares against and what a `--check`-only run reads
         # back. It carries no timestamps and no absolute paths on purpose: a
         # field that changes every run makes the staleness check meaningless.
@@ -3811,6 +2323,7 @@ def decisions_doc(ocs=None):
 
 def decisions_text(ocs=None):
     return json.dumps(decisions_doc(ocs), indent=2, sort_keys=False) + "\n"
+
 
 
 def parse_args(argv):

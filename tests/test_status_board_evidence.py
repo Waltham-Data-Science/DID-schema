@@ -322,11 +322,16 @@ def test_every_discounted_class_names_a_replacement_that_exists():
            if t not in built}
     assert bad == {}, f"replacement class(es) absent from the built index: {bad}"
 
-    claimed = {m for f in sb.FAMILIES for m in f[1]}
-    orphan = sorted(set(sb.RETIRED_BY_ITS_OWN_DECISION) - claimed)
+    # The discount is transcribed from a decision; the class must CITE that
+    # decision (tools/decision_citations.py, which replaced the decision
+    # families 2026-10-21), and the citation must resolve.
+    cited = set(sb.dc.CITATIONS)
+    orphan = sorted(set(sb.RETIRED_BY_ITS_OWN_DECISION) - cited)
     assert orphan == [], (
-        f"{orphan} are discounted but claimed by no decision family, so the "
-        "sign-off the discount is transcribed from cannot be located")
+        f"{orphan} are discounted but cite no decision line, so the "
+        "decision the discount is transcribed from cannot be located")
+    for c in sb.RETIRED_BY_ITS_OWN_DECISION:
+        assert sb.dc.decision_for([c])["state"] == sb.dc.DECIDED, c
 
 
 def test_the_denominator_of_the_mint_sweep_is_recorded():
@@ -1275,7 +1280,10 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
 # So there are two things to hold down, and the second is the important one.
 # --------------------------------------------------------------------------
 
-_AWAITING_HEAD = "## DECIDED by the team, awaiting build"
+# RETARGETED 2026-10-21: the per-family "DECIDED by the team, awaiting build"
+# table became the per-class citation table when the decision families were
+# replaced by direct citations. It carries the same `targets built` column.
+_AWAITING_HEAD = "## Every decision citation"
 
 
 def _awaiting_section():
@@ -1308,36 +1316,21 @@ def test_awaiting_build_never_asserts_the_schema_is_unbuilt():
 def test_awaiting_build_states_how_many_families_it_could_not_check():
     """RULE 5, applied to the fix and not just to the thing it fixed.
 
-    A result is only readable beside the coverage of the check that produced
-    it. This asserts the section reports BOTH -- how many families it checked
-    and how many it could not -- so a future edit cannot quietly drop the
-    second half and leave a bare, reassuring zero.
+    The section must state how many classes it read and how many citations
+    failed, and a class whose targets cannot be checked must say so in words
+    (`no target recorded`), never as a blank or a pass.
     """
     sec = _awaiting_section()
     assert "DENOMINATOR" in sec, (
-        "the awaiting-build section no longer leads with a denominator")
-
-    m = re.search(r"(\d+) signed families\. (\d+) named at least one decided "
-                  r"target class and were checked against the built tree; "
-                  r"(\d+) named none and are UNCHECKED HERE", sec)
-    assert m, (
-        "the awaiting-build denominator no longer states checked-vs-unchecked "
-        "family counts. It must, and in a form that cannot be read as a clean "
-        "bill of health: an unchecked family is not a passing one.")
-    total, checked, unchecked = (int(g) for g in m.groups())
-    assert checked + unchecked == total, (
-        f"checked ({checked}) + unchecked ({unchecked}) != families ({total}) -- the section's own arithmetic does not close, so one bucket is silently dropping families")
-
-    if unchecked:
-        assert "unchecked, NOT clean" in sec, (
-            f'{unchecked} families went unchecked and the section does not say that a blank is not a pass')
-        # The two causes of a blank must stay distinguished in the prose: a
-        # family that DISSOLVES correctly names no target, while one whose
-        # target is fixed in a signed plan and never recorded is a real gap.
-        # Rendering both as blank is how a settled decision gets re-litigated.
-        assert "DISSOLVES" in sec, (
-            "the section no longer explains that a blank target has two "
-            "causes -- dissolution (final) and an unrecorded target (a gap)")
+        "the citation section no longer leads with a denominator")
+    m = re.search(r"DENOMINATOR: (\d+) class\(es\) cite (\d+) decision "
+                  r"line\(s\); (\d+) citation\(s\) do not resolve", sec)
+    assert m, "the citation section's denominator is gone or reworded"
+    total = int(m.group(1))
+    rows = [ln for ln in sec.splitlines() if ln.startswith("| `")]
+    assert len(rows) == total, (
+        f"the section says {total} classes and lists {len(rows)} -- its own "
+        "arithmetic does not close")
 
 
 def test_awaiting_build_table_carries_a_targets_built_column():
@@ -1349,8 +1342,8 @@ def test_awaiting_build_table_carries_a_targets_built_column():
     # admission that no target is on file. A blank cell would be the old
     # failure in miniature.
     rows = [ln for ln in sec.splitlines()
-            if ln.startswith("| **") and ln.count("|") >= 5]
-    assert rows, "the awaiting-build table has no family rows"
+            if ln.startswith("| `") and ln.count("|") >= 5]
+    assert rows, "the citation table has no class rows"
     for ln in rows:
         cell = ln.split("|")[3].strip()
         assert re.fullmatch(r"\d+ of \d+", cell) or cell == "no target recorded", (

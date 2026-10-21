@@ -30,15 +30,14 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-# ONE PARSER FOR `TEAM-SIGN-OFF`, and it lives in status_board.py because that
-# is where operating rule 4 is enforced. This tool used to hand-carry four
-# transcriptions and read nothing else, so 94 of 102 rows reported stage 1 as
-# `not measured` -- correctly, since that was the absence of a TRANSCRIPTION
-# rather than evidence of no decision, but it also meant the team's signatures
-# could not reach the ledger at all. A second copy of the sign-off parsing here
-# would be a second place for the two laundering holes it closes (HTML
-# comments, untagged lines in shared documents) to reopen.
-import status_board  # noqa: E402
+# ONE PARSER FOR DECISION LINES (`TEAM-SIGN-OFF` and `Decided by Jess Haley`),
+# and ONE definition of "this class is decided": tools/decision_citations.py,
+# shared with status_board.py. Each class cites the line that decided it; the
+# decision-family join that stood here until 2026-10-21 is gone. A second copy
+# of the parsing here would be a second place for the laundering holes it
+# closes (HTML comments, quotations in code fences, template placeholders) to
+# reopen.
+import decision_citations as dc  # noqa: E402
 
 SCHEMA_ROOT = os.path.dirname(HERE)
 INDEX = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
@@ -1205,14 +1204,19 @@ def _signoff_lines(plan):
         if m_sup and not in_fence:
             superseded.add(m_sup.group(1).strip())
             continue
-        # A decision Jess makes in conversation is recorded as a line beginning
-        # "Decided by Jess Haley" (CLAUDE.md Operating Rule 4, 2026-10-21), and a
-        # tool reading decision state reads either form.
-        if not s.startswith(("TEAM-SIGN-OFF", DECIDED_BY)) or in_fence:
+        # A decision Jess makes in conversation is recorded as a line
+        # "Decided by Jess Haley, <date>: ..." (CLAUDE.md Operating Rule 4,
+        # 2026-10-21), and a tool reading decision state reads either form. The
+        # form is matched by decision_citations' own pattern, so the two
+        # readers cannot disagree about what counts as one.
+        m_dec = dc._DECIDED_BY_RE.match(s)
+        if not (s.startswith("TEAM-SIGN-OFF") or m_dec) or in_fence:
             continue
-        m_tag = re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s)
-        if m_tag and m_tag.group(1).strip() in superseded:
-            superseded.discard(m_tag.group(1).strip())
+        m_tag = (re.match(r"TEAM-SIGN-OFF\s*\[([^\]]+)\]", s) if not m_dec
+                 else (m_dec if m_dec.group(2) else None))
+        _tg = (m_tag.group(2) if m_dec else m_tag.group(1)) if m_tag else None
+        if _tg and _tg.strip() in superseded:
+            superseded.discard(_tg.strip())
             continue
         joined = [ln.rstrip()]
         # Walk continuation lines. `all_lines[i:]` gives us the lines after the
@@ -1280,84 +1284,63 @@ def check_decision_citations():
     # something it cannot derive -- the TARGET CLASSES a signature names, and
     # the reason a signed row has no target. So they stay. What must not
     # survive is the two records DISAGREEING: a transcription citing document A
-    # while the signed family that names the same class cites document B means
-    # one of them is pointing at the wrong decision, and today it would be
-    # noticed by nobody. Hand-editing either side into a contradiction is now
-    # fatal, in the same run, with both citations printed.
+    # while the class's own decision citation (tools/decision_citations.py)
+    # names only document B means one of them is pointing at the wrong
+    # decision. Hand-editing either side into a contradiction is fatal, in the
+    # same run, with both citations printed.
     #
-    # NOT an error: a transcribed class that NO family names. Families track
-    # open classes; a class can be signed and closed. That case is counted, not
-    # failed, so the check cannot be satisfied by deleting family members.
-    signed_idx = signed_family_index()
-    reconciled, unfamilied = 0, []
+    # NOT an error: a transcribed class that cites nothing. Counted, not failed.
+    reconciled, uncited = 0, []
     for kind, cls, plan, _frag, _mapping in checks:
-        hits = [e for name in (cls, snake(cls)) for e in (signed_idx.get(name) or [])]
+        hits = [c for c in dc.decision_for([cls, snake(cls)])["citations"]
+                if c["resolved"]]
         if not hits:
-            unfamilied.append(cls)
+            uncited.append(cls)
             continue
-        docs = {e["document"] for e in hits}
+        docs = {c["document"] for c in hits}
         if plan not in docs:
             fails.append(
-                f"{kind} {cls}: the transcription cites {plan}, but the SIGNED "
-                f'family {", ".join(sorted(e["family"] for e in hits))} that '
-                f'names this class is signed in {", ".join(sorted(docs))}. '
+                f"{kind} {cls}: the transcription cites {plan}, but the class's "
+                f'decision citation(s) resolve in {", ".join(sorted(docs))}. '
                 "Two records of one decision, pointing at different documents "
                 "-- fix whichever is wrong; do not keep both.")
             continue
         reconciled += 1
     lines.append(
         f'  DENOMINATOR: {len(checks)} transcription(s) reconciled against the '
-        f'DERIVED signature join -- {reconciled} also named by a signed family '
-        f'and citing that family\'s document, {len(unfamilied)} named by no '
-        f'family at all (not an error: families track OPEN classes)'
-        + (": " + ", ".join(sorted(unfamilied)) if unfamilied else ""))
+        f'classes\' own decision citations -- {reconciled} cite the same '
+        f'document, {len(uncited)} cite no decision line (not an error)'
+        + (": " + ", ".join(sorted(uncited)) if uncited else ""))
     return lines, fails
 
 # ============================================================================
-# THE SIGNATURE JOIN -- rung 1, DERIVED from the team's own sign-off lines.
+# THE CITATION JOIN -- governance, DERIVED from each class's own citation.
 # ============================================================================
 #
-# WHAT WAS WRONG. `DECIDED_TARGETS_BY_SIGNOFF` above is hand-carried, and it
-# carries FOUR classes. The team has written far more than four sign-off lines,
-# in ~19 plan documents this tool never opened, so 94 of 102 rows reported rung
-# 1 as `not measured`. That reading was HONEST -- absence of a transcription is
-# not evidence of no decision, and rendering it as "not decided" would be this
-# repository's signature error -- but it made the ladder unable to see the one
-# record that is authoritative.
+# A ledger row is DECIDED when the row's class CITES a decision line that
+# exists (tools/decision_citations.py): `CITATIONS[<v1 name or V_eta name>]`
+# names a document and a tag, and that document holds an accepted
+# `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:` line the tag
+# names. Re-derived on every build; nothing here is transcribed.
 #
-# WHAT REPLACES IT. `status_board.FAMILIES` groups open classes into decision
-# units and each family cites a plan document; `status_board.signed_families()`
-# returns the families whose document carries a `TEAM-SIGN-OFF` line that
-# family's tag reaches. The join is: ledger row -> the family naming that row's
-# class -> that family's SIGNATURE. Re-derived on every build; nothing is
-# transcribed, so a signature added tomorrow moves rows tomorrow.
+# This REPLACED the decision-FAMILY join on 2026-10-21. The family join went
+# row -> the family naming the row -> that family's signature, so a signature
+# whose tag named no family reached nothing (47 such lines that day), and every
+# row a signed line named but no family claimed read "no signature found".
 #
-# THREE PROPERTIES OF THE JOIN, EACH CHOSEN AGAINST A SPECIFIC FAILURE:
+# THREE PROPERTIES, KEPT FROM THE FAMILY JOIN, EACH CHOSEN AGAINST A FAILURE:
 #
-# 1. IT JOINS ON THE SIGNATURE, NEVER ON MEMBERSHIP. A family exists in the
-#    table whether or not anyone signed it; `signed_families()` is the only
-#    admission. Joining on membership would let one unsigned family promote
-#    every class it names -- operating rule 4 broken by a lookup.
+# 1. IT JOINS ON A RESOLVED CITATION, NEVER ON THE CITATION ALONE. A citation
+#    that names no accepted line decides nothing; it is reported as
+#    `citation UNRESOLVED`, never as decided.
 #
-# 2. IT JOINS ON THE ROW'S OWN IDENTITY, NEVER ON WHAT ITS MIGRATOR EMITS.
-#    Measured before it was written: matching a row's `targets` as well would
-#    move 62 rows instead of 26, and 36 of those 62 arrive through ONE class --
-#    `session_relative_reference`, the time anchor almost every migrator emits
-#    alongside its real output. The `time_reference` signature decides the time
-#    model; it says nothing about whether `treatment_drug`'s disposition is
-#    settled. Those 36 are counted and reported as their own bucket instead, so
-#    the reach a looser join would buy is visible rather than taken.
+# 2. IT JOINS ON THE ROW'S OWN IDENTITY, NEVER ON WHAT ITS MIGRATOR EMITS. A
+#    signature on the time model decides the time model; it says nothing about
+#    the class that happens to emit a time anchor.
 #
-# 3. IT MATCHES EXACTLY, IN BOTH NAMESPACES, AND NORMALISES NOTHING. A ledger
-#    row is keyed by its v1 (NDI, camelCase) name; a family member may be
-#    EITHER a v1 name (`imageCollection`, `imageStack_parameters` -- status_board
-#    says so in its own comment) or a V_eta snake_case class (`acquisition_epoch`).
-#    So the row's v1 name AND its V_eta class name are each compared, unchanged,
-#    by string equality. No lowercasing, no underscore-stripping, no substring:
-#    `filter` is a substring of `frequency_filter` and `image` of `image_stack`,
-#    and CLAUDE.md records five classes a previous generator got wrong on
-#    exactly this axis. Names that match only after normalisation are REPORTED
-#    as near misses and never joined.
+# 3. IT MATCHES EXACTLY, IN BOTH NAMESPACES, AND NORMALISES NOTHING. The row's
+#    v1 (camelCase) name and its V_eta class name are each looked up unchanged.
+#    Names that match only after normalisation are REPORTED as near misses.
 
 
 def _normalised(name):
@@ -1370,98 +1353,57 @@ def _normalised(name):
     return name.lower().replace("_", "")
 
 
-def family_index(families=None):
-    """class name -> [family names that claim it], over ALL families.
+def citation_for_row(v1_class, veta_class, table=None):
+    """The decision state of one ledger row, from its own citations. Pure.
 
-    Signed or not. The unsigned half is what lets a gap be labelled "a family
-    tracks this class and nobody has signed it" instead of "nothing tracks it",
-    which are different questions for the team.
+    Returns (decided_by, citations): `decided_by` is the first citation that
+    RESOLVES, with which name matched (`matched_on` is `v1_class` or
+    `veta_class`), or None; `citations` is every citation, resolved or not.
     """
-    idx = {}
-    for name, members, _plan, _what, _status in (
-            families if families is not None else status_board.FAMILIES):
-        for m in members:
-            idx.setdefault(m, []).append(name)
-    return idx
-
-
-def signed_family_index(signed=None):
-    """class name -> [{family, document, line, signoff}], SIGNED families only."""
-    idx = {}
-    sf = status_board.signed_families() if signed is None else signed
-    for fam in sorted(sf):
-        info = sf[fam]
-        for m in info["members"]:
-            idx.setdefault(m, []).append({
-                "family": fam, "document": info["plan"], "line": info["line"],
-                "signoff": info["signoff"]})
-    return idx
-
-
-def match_signed_family(v1_class, veta_class, index):
-    """The signed family that names THIS row, or None. Pure; exact match only.
-
-    Both namespaces are offered and the match records WHICH one hit, because
-    `imageStack_parameters` matches on its v1 name while its V_eta name
-    (`image_stack_parameters`) matches nothing -- the snake/camel split, and a
-    join that reported only "matched" would hide which spelling carried it.
-
-    A row claimed by TWO different signed families is returned with `conflict`
-    populated rather than silently resolved: status_board already fails when two
-    families claim one class, but it compares within one namespace and this join
-    spans two, so the condition is reachable here and unreachable there.
-    """
-    hits = []
-    for name, how in ((v1_class, "v1_class"), (veta_class, "veta_class")):
-        for entry in (index.get(name) or []) if name else []:
-            hits.append(dict(entry, matched_on=how, matched_name=name))
-    if not hits:
-        return None
-    fams = sorted({h["family"] for h in hits})
-    first = dict(hits[0])
-    first["conflict"] = fams if len(fams) > 1 else []
-    return first
+    d = dc.decision_for([n for n in (v1_class, veta_class) if n], table)
+    cites = []
+    for c in d["citations"]:
+        rec = dict(c)
+        rec["matched_on"] = ("v1_class" if c["matched_name"] == v1_class
+                             else "veta_class")
+        cites.append(rec)
+    hit = next((c for c in cites if c["resolved"]), None)
+    return hit, cites
 
 
 # The gap buckets, named so "nothing to see" and "nobody looked" cannot print
-# the same way. Every rung-1 row that is still `not measured` after the join
-# carries exactly one of these.
-GAP_FAMILY_UNSIGNED = "a family names this class and that family is UNSIGNED"
-GAP_TARGET_ONLY = ("no family names this class; a SIGNED family names a class "
-                   "its migrator EMITS")
-GAP_NOTHING_TO_JOIN = ("no family names this class, and the row has no V_eta "
+# the same way. Every row with no resolved citation carries exactly one.
+GAP_CITATION_UNRESOLVED = ("the class cites a decision line that does not "
+                           "resolve")
+GAP_TARGET_ONLY = ("no citation names this class; a class it EMITS cites a "
+                   "decision")
+GAP_NOTHING_TO_JOIN = ("no citation names this class, and the row has no V_eta "
                        "class and no target either")
-GAP_NO_FAMILY = "no family in FAMILIES names this class"
+GAP_NO_CITATION = "no decision citation names this class"
 
 
-def governance_gap(row, all_idx, signed_idx):
-    """Why no signature is FINDABLE for this row, in ONE named bucket, or None."""
+def governance_gap(row, table=None):
+    """Why no decision is FINDABLE for this row, in ONE named bucket, or None."""
+    table = dc.CITATIONS if table is None else table
     if row.get("decided_signoff") or row.get("no_target_signoff") \
-            or row.get("decided_by_family"):
+            or row.get("decided_by_citation"):
         return None
-    identity = [n for n in (row.get("v1_class"), row.get("veta_class")) if n]
-    if any(all_idx.get(n) for n in identity):
-        return GAP_FAMILY_UNSIGNED
+    if row.get("decision_citations"):
+        return GAP_CITATION_UNRESOLVED
     emitted = list(row.get("targets") or []) + list(row.get("decided_targets") or [])
-    if any(signed_idx.get(t) for t in emitted):
+    if any(t in table and dc.decision_for([t], table)["state"] == dc.DECIDED
+           for t in emitted):
         return GAP_TARGET_ONLY
     if not row.get("veta_class") and not emitted:
         return GAP_NOTHING_TO_JOIN
-    return GAP_NO_FAMILY
+    return GAP_NO_CITATION
 
 
-def signature_join_census(rows, all_idx, signed_idx):
-    """RULE 5 for the join: what it inspected, what it moved, what it did not.
-
-    The three outputs a reader needs and could not get before:
-      * the DENOMINATOR and how many rows the signature reached;
-      * every unmoved row bucketed by CAUSE, so "decided but unrecorded" and
-        "nobody has looked at this class" stop printing identically;
-      * the SPELLING near misses, which is the failure mode CLAUDE.md records
-        five instances of and which a join reports as a clean zero.
-    """
+def citation_join_census(rows, table=None):
+    """RULE 5 for the join: what it inspected, what it moved, what it did not."""
     from collections import Counter
-    matched = [r for r in rows if r.get("decided_by_family")]
+    table = dc.CITATIONS if table is None else table
+    matched = [r for r in rows if r.get("decided_by_citation")]
     gaps = Counter()
     gap_rows = {}
     for r in rows:
@@ -1469,61 +1411,42 @@ def signature_join_census(rows, all_idx, signed_idx):
         if g:
             gaps[g] += 1
             gap_rows.setdefault(g, []).append(r["v1_class"])
-    # Which signed-family class each target-only row reached, so the bucket is
-    # inspectable rather than a number. `session_relative_reference` dominates
-    # it and that is the whole argument for excluding emitted targets.
     via = Counter()
     for r in rows:
         if r.get("governance_gap") != GAP_TARGET_ONLY:
             continue
         for t in list(r.get("targets") or []) + list(r.get("decided_targets") or []):
-            for e in signed_idx.get(t) or []:
-                via[t + " (" + e["family"] + ")"] += 1
+            if t in table:
+                via[t] += 1
 
     row_names = {n for r in rows for n in (r["v1_class"], r.get("veta_class")) if n}
     near = []
-    for member in sorted(all_idx):
-        if member in row_names:
+    for cited in sorted(table):
+        if cited in row_names:
             continue
         for n in sorted(row_names):
-            if _normalised(member) == _normalised(n):
-                near.append({"family_member": member, "ledger_name": n,
-                             "families": all_idx[member]})
-    unmatched_members = sorted(m for m in all_idx if m not in row_names)
+            if _normalised(cited) == _normalised(n):
+                near.append({"cited_class": cited, "ledger_name": n})
+    unmatched = sorted(m for m in table if m not in row_names)
     return {
         "rows_inspected": len(rows),
-        "rows_matched_by_a_signed_family": len(matched),
-        "matched_on": dict(Counter(r["decided_by_family"]["matched_on"]
+        "rows_with_a_resolved_citation": len(matched),
+        "matched_on": dict(Counter(r["decided_by_citation"]["matched_on"]
                                    for r in matched)),
-        # WHICH NAMESPACE UNIQUELY CARRIED THE MATCH. `matched_on` records the
-        # FIRST hit and the v1 name is offered first, so it would read "34 on
-        # v1_class" even if every one of them also matched on its V_eta name.
-        # These two say whether the second namespace is doing any work at all
-        # -- 0 today, and that is worth knowing before anyone deletes it.
-        "matched_on_v1_class_only": sum(
-            1 for r in matched
-            if r["v1_class"] in signed_idx
-            and (r.get("veta_class") or "") not in signed_idx),
-        "matched_on_veta_class_only": sum(
-            1 for r in matched
-            if r["v1_class"] not in signed_idx
-            and (r.get("veta_class") or "") in signed_idx),
-        "matched_by_family": dict(Counter(r["decided_by_family"]["family"]
-                                          for r in matched)),
-        "conflicting_claims": sorted(
-            r["v1_class"] for r in matched if r["decided_by_family"]["conflict"]),
+        "decided_by_document": dict(Counter(
+            r["decided_by_citation"]["document"] for r in matched)),
         "unmoved_by_cause": {k: gaps.get(k, 0) for k in (
-            GAP_FAMILY_UNSIGNED, GAP_TARGET_ONLY, GAP_NOTHING_TO_JOIN,
-            GAP_NO_FAMILY)},
+            GAP_CITATION_UNRESOLVED, GAP_TARGET_ONLY, GAP_NOTHING_TO_JOIN,
+            GAP_NO_CITATION)},
         "unmoved_rows_by_cause": {k: sorted(v) for k, v in gap_rows.items()},
         "target_only_reached_via": dict(via.most_common()),
-        # A family member that names no ledger row is NORMAL -- families track
-        # V_eta target classes too (`acquisition_epoch`, `control_designation`).
-        # Reported as a count, with the spelling near misses split out, because
-        # a member that SHOULD have matched and did not is invisible otherwise.
-        "family_members_matching_no_ledger_row": len(unmatched_members),
+        # A cited class that names no ledger row is NORMAL -- an open V_eta
+        # class (`acquisition_epoch`) is cited too. Counted, with the spelling
+        # near misses split out.
+        "cited_classes_matching_no_ledger_row": len(unmatched),
         "spelling_near_misses": near,
     }
+
 
 
 LEDGER_BLURB = (
@@ -1911,18 +1834,15 @@ def build_ledger():
     # is a function of fields already on that row -- there is no list here to
     # hand-set and nothing to override any of them with.
     #
-    # ORDER IS LOAD-BEARING: the signature join fills `decided_by_family`, the
+    # ORDER IS LOAD-BEARING: the citation join fills `decided_by_citation`, the
     # gap bucket reads it, `governance_state` reads both, and the completion
     # ladder reads NONE of them. That last clause is the restructure of
-    # 2026-08-12 in one line -- a signature can no longer cap a build stage.
-    all_idx, signed_idx = family_index(), signed_family_index()
+    # 2026-08-12 in one line -- a decision can no longer cap a build stage.
     for r in rows:
-        r["decided_by_family"] = match_signed_family(
-            r["v1_class"], r["veta_class"], signed_idx)
-        r["families_naming_this_class"] = sorted(
-            {f for n in (r["v1_class"], r["veta_class"]) if n
-             for f in all_idx.get(n, [])})
-        r["governance_gap"] = governance_gap(r, all_idx, signed_idx)
+        hit, cites = citation_for_row(r["v1_class"], r["veta_class"])
+        r["decided_by_citation"] = hit
+        r["decision_citations"] = cites
+        r["governance_gap"] = governance_gap(r)
         r["governance"] = governance_state(r)
         r["stage"] = stage_ladder(r, CORPUS_SCAN)
     # sanity: every named target class should exist in the built V_eta schema
@@ -2048,34 +1968,33 @@ def _need(row, key, kinds):
 # ---------------------------------------------------------------------------
 # GOVERNANCE -- a FLAG, not a rung. Nothing here may cap a completion stage.
 # ---------------------------------------------------------------------------
-G_SIGNED = "signed"
+G_SIGNED = dc.DECIDED                     # "decided"
 G_DISPUTED = "DISPUTED"
-G_UNSIGNED = "family UNSIGNED"
-G_NOT_FOUND = "no signature found"
+G_UNSIGNED = "citation UNRESOLVED"
+G_NOT_FOUND = dc.PROPOSED                 # "proposed (not decided)"
 
 # The order matters and is asserted by a test: DISPUTED outranks a derived
-# family signature. `ngrid` is claimed by the SIGNED family `image / ngrid` AND
+# citation. `ngrid` cites the signed `[image / ngrid]` line AND
 # carries a transcription saying `V_eta_image_model_plan.md` states two
-# incompatible dispositions. Letting the family join answer first would erase a
+# incompatible dispositions. Letting the citation join answer first would erase a
 # recorded contradiction with a lookup -- the disagreement is the finding.
 GOVERNANCE_STATES = (G_SIGNED, G_DISPUTED, G_UNSIGNED, G_NOT_FOUND)
 
 
 def governance_state(row):
-    """Can this tool find the TEAM's signature for this class? A flag, not progress.
+    """Is this class DECIDED -- does it cite a decision line? A flag, not progress.
 
     NONE OF THESE FOUR STATES IS AN ACHIEVEMENT AND NONE OF THEM IS A STAGE.
-    `signed` says the record is findable, not that anything was built;
-    `no signature found` says this tool could not reach one, NOT that no
-    decision exists -- operating rule 3, and the reason the state is named for
-    the search and not for the record.
+    `decided` says the decision line is findable, not that anything was built;
+    `proposed (not decided)` says no citation of this class resolves -- which
+    is what Operating Rule 4 calls anything Jess has not decided.
 
     Two independent sources, in this order:
       1. a CHECKED TRANSCRIPTION on the row (`DECIDED_TARGETS_BY_SIGNOFF` /
          `NO_TARGET_BY_DECISION`), re-verified against its document on every
          build by check_decision_citations();
-      2. the DERIVED join: a signed decision family in status_board.FAMILIES
-         names this class. Re-derived every build, never transcribed.
+      2. the class's own DECISION CITATION (tools/decision_citations.py),
+         resolved against the cited document on every build.
     """
     reason = row.get("no_target_reason")
     if reason == NO_TARGET_DISPUTED:
@@ -2088,36 +2007,34 @@ def governance_state(row):
     if cite:
         doc = cite.get("document", "?")
         return {"state": G_SIGNED, "signoff": cite,
-                "why": (f"a TEAM-SIGN-OFF line in `{doc}` is transcribed onto this "
+                "why": (f"a decision line in `{doc}` is transcribed onto this "
                         "row and re-checked against that document by "
                         "check_decision_citations() on every ledger build")}
-    fam = row.get("decided_by_family")
-    if fam:
-        return {"state": G_SIGNED, "signoff": fam,
-                "why": ("DERIVED, not transcribed: the decision family "
-                        f'`{fam["family"]}` names this class as `{fam["matched_name"]}` '
-                        f'({fam["matched_on"]}), and that family is signed at '
-                        f'`{fam["document"]}`:{fam["line"]}. Re-derived on every '
-                        "build from status_board.signed_families(); a family "
-                        "with no signature reaches nothing")}
+    hit = row.get("decided_by_citation")
+    if hit:
+        return {"state": G_SIGNED, "signoff": hit,
+                "why": ("the class cites `{}` [{}] (as `{}`), which resolves to "
+                        "the {} line at `{}`:{}. Re-resolved on every build "
+                        "(tools/decision_citations.py)").format(
+                            hit["document"], hit["tag"], hit["matched_name"],
+                            hit["kind"], hit["document"], hit["line"])}
     gap = row.get("governance_gap")
-    if gap == GAP_FAMILY_UNSIGNED:
-        fams = row.get("families_naming_this_class") or []
+    if gap == GAP_CITATION_UNRESOLVED:
+        bad = row.get("decision_citations") or []
         return {"state": G_UNSIGNED, "signoff": None,
-                "why": ("the decision family "
-                        + ", ".join("`" + f + "`" for f in fams)
-                        + " names this class and carries no sign-off line this "
-                          "tool will honour. What is missing is a SIGNATURE, "
-                          "not a model")}
+                "why": ("the class cites "
+                        + "; ".join("`{}` [{}]: {}".format(c["document"], c["tag"],
+                                                         c["why"]) for c in bad)
+                        + ". A citation that names no decision line decides "
+                          "nothing")}
     claim = row.get("decided_targets_source") == "curated_targets_file"
     extra = ("; V_eta_migration_targets.json DOES claim a signed decision for "
              "this class (`decided_targets`), but that claim is authored and "
              "UNCHECKED" if claim else "")
     return {"state": G_NOT_FOUND, "signoff": None,
-            "why": ((gap or GAP_NO_FAMILY) + ". This is the absence of a "
-                    "FINDABLE signature -- a transcription, or a signed family "
-                    "naming this class -- and NOT evidence that no decision "
-                    "exists" + extra)}
+            "why": ((gap or GAP_NO_CITATION) + ". Proposed (not decided): no "
+                    "decision line is cited for this class. If one exists, the "
+                    "class should cite it in tools/decision_citations.py" + extra)}
 
 
 def _rung_targets_built(row):
@@ -2803,9 +2720,10 @@ def _stage_rollup(rows, evidence):
                       "emission against. NOT evidence that no target exists"),
             "moved_by_the_signature_join": 0,
             "why_the_join_moves_none_of_them": (
-                "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target "
-                "list. The join can say a class is decided; it cannot say WHAT "
-                "it becomes. Naming a target from it would be inventing one"),
+                "a decision citation names a decision LINE, not a per-class "
+                "target list. The join can say a class is decided; it cannot "
+                "say WHAT it becomes. Naming a target from it would be "
+                "inventing one"),
         },
         "anomalies": {
             # BOTH counts, because they answer different questions and one
@@ -2851,17 +2769,13 @@ def _stage_rollup(rows, evidence):
 
 
 def _governance_rollup(rows):
-    """Can we PROVE the team agreed, per class -- and where the gaps are.
+    """Is each class DECIDED -- and where the gaps are.
 
-    THREE OUTPUTS, and the second and third are the ones that drifted:
-      * the per-state histogram over every row, denominator first;
-      * the JOIN's own census: what it moved, and every unmoved row bucketed by
-        CAUSE, so "decided but unrecorded" and "nobody has looked at this
-        class" stop printing identically;
-      * the SIGNATURE census: orphan tags and unsigned families, which are
-        QUESTIONS FOR THE TEAM and are never paired up here. Mapping a
-        signature onto a family it does not name would be recording a
-        disposition (operating rule 4).
+    THREE OUTPUTS: the per-state histogram over every row, denominator first;
+    the citation join's own census (what it moved, every unmoved row bucketed
+    by CAUSE); and the DECISION-LINE census (tools/decision_citations.py):
+    every accepted decision line, which of them a class cites, and every
+    citation that does not resolve.
     """
     from collections import Counter
     states = Counter((r.get("governance") or {}).get("state") for r in rows)
@@ -2870,16 +2784,15 @@ def _governance_rollup(rows):
         g = r.get("governance") or {}
         if g.get("state") != G_SIGNED:
             continue
-        by_source["derived from a signed family" if r.get("decided_by_family")
+        by_source["cited by the class" if r.get("decided_by_citation")
                   and not (r.get("decided_signoff") or r.get("no_target_signoff"))
                   else "checked transcription on the row"] += 1
-    all_idx, signed_idx = family_index(), signed_family_index()
     return {
         "denominator": len(rows),
         "by_state": {k: states.get(k, 0) for k in GOVERNANCE_STATES},
         "signed_by": dict(by_source),
-        "join": signature_join_census(rows, all_idx, signed_idx),
-        "census": status_board.signature_census(),
+        "join": citation_join_census(rows),
+        "census": dc.decision_census(),
     }
 
 
@@ -3156,15 +3069,16 @@ def _governance_cell(r):
         where = " `{}`{}".format(cite["document"],
                                  ":" + str(cite["line"]) if cite.get("line") else "")
     if state == G_SIGNED:
-        how = ("derived: family `{}`".format(cite.get("family"))
-               if cite.get("family") else "transcribed")
-        return f"**signed** ({how}){where}"
+        how = ("cited `[{}]`".format(cite.get("tag"))
+               if cite.get("tag") else "transcribed")
+        return f"**decided** ({how}){where}"
     if state == G_DISPUTED:
         return f"⚠ **DISPUTED**{where}"
     if state == G_UNSIGNED:
-        return "⚠ **family UNSIGNED** -- " + ", ".join(
-            "`" + f + "`" for f in (r.get("families_naming_this_class") or []))
-    return "· no signature found (NOT `undecided`)"
+        return "⚠ **citation UNRESOLVED** -- " + ", ".join(
+            "`{}` `[{}]`".format(c["document"], c["tag"])
+            for c in (r.get("decision_citations") or []))
+    return "· proposed (not decided)"
 
 
 def _stage_rollup_md(s):
@@ -3282,11 +3196,11 @@ def _stage_rollup_md(s):
     ]
     if sr["decision_claimed_but_unchecked"]:
         out += [
-            "**{n} row(s) claim a signed decision this tool cannot find** "
+            "**{n} row(s) claim a decision this tool cannot find** "
             "-- `V_eta_migration_targets.json` gives them `decided_targets`, "
             "which its own header calls \"a signed decision no migrator "
-            "implements yet\", but no `TEAM-SIGN-OFF` line is quoted and checked "
-            "for them and no signed family names them. This caps NOTHING (the "
+            "implements yet\", but no decision line is quoted and checked "
+            "for them and the class cites none. This caps NOTHING (the "
             "completion ladder no longer reads governance); it is a hole in the "
             "RECORD: {lst}.".format(n=len(sr["decision_claimed_but_unchecked"]),
                                     lst=", ".join("`" + c + "`" for c in
@@ -3298,164 +3212,108 @@ def _stage_rollup_md(s):
 
 
 def _governance_md(g):
-    """The governance flag + the signature gaps, as their own section.
+    """The decision flag + the citation gaps, as their own section.
 
-    A FIRST-CLASS OUTPUT WITH A DENOMINATOR, which is the whole point: this
-    drifted precisely because "nothing to see" and "nobody looked" printed the
-    same way. Nothing here is summed with a stage and nothing here is resolved
-    -- the orphan tags and the unsigned families are printed as QUESTIONS,
-    because pairing a signature with a family it does not name is recording a
-    disposition and operating rule 4 puts that with the team.
-
-    HOW AN ORPHAN TAG GETS CREATED, since the count moved twice on 2026-08-17
-    and the mechanism is not obvious from the output. `find_signoff_line` joins
-    a signature to a family by EXACT TAG MATCH against the family NAME. So a
-    signature written with a tag that reads naturally -- `[receptive field
-    naming]`, `[stimulus -- visual_grating_manipulation reconciliation]` --
-    reaches nothing at all unless a family of exactly that name exists in
-    status_board.FAMILIES. Both of those were written that day and are
-    COSMETIC: each sits in a document a signed family already cites, so the
-    decision is on the record and only the join is missing.
-
-    THE WAY TO AVOID ADDING A NINTH is to check, before writing a signature,
-    whether an existing family already names the class -- and if one does, use
-    ITS name as the tag. That is what the `[epoch]` signature added later the
-    same day did, which is why the count stayed at 8 rather than becoming 9.
-    A tag is not free-text; it is a foreign key.
+    A FIRST-CLASS OUTPUT WITH A DENOMINATOR: "nothing to see" and "nobody
+    looked" must not print the same way. Nothing here is summed with a stage
+    and nothing here is resolved -- an uncited decision line is listed for a
+    reader to judge, never joined to a class by this tool.
     """
     j, c = g["join"], g["census"]
     st = g["by_state"]
     out = [
-        "**Governance -- can we PROVE the team agreed? A FLAG, NOT A STAGE, and "
-        "never added to one.** DENOMINATOR: {d} row(s) classified. "
-        "**{signed} signed** ({by}), **{disputed} DISPUTED** (the record states "
-        "two incompatible dispositions), **{unsigned} named by a family that "
-        "carries no signature**, **{none} with no signature this tool can "
-        "find**. That last number is the absence of a FINDABLE signature and "
-        "not evidence that no decision exists -- operating rule 3.".format(
+        "**Decisions -- is each class DECIDED? A FLAG, NOT A STAGE, and never "
+        "added to one.** DENOMINATOR: {d} row(s) classified. **{signed} "
+        "decided** ({by}), **{disputed} DISPUTED** (the record states two "
+        "incompatible dispositions), **{unsigned} citing a decision line that "
+        "does not resolve**, **{none} proposed (not decided)** -- no decision "
+        "line is cited for the class (`tools/decision_citations.py`). A class "
+        "is decided only when it cites a `TEAM-SIGN-OFF [tag]` line or a "
+        "`Decided by Jess Haley, <date>:` line that exists.".format(
             d=g["denominator"], signed=st[G_SIGNED], disputed=st[G_DISPUTED],
             unsigned=st[G_UNSIGNED], none=st[G_NOT_FOUND],
             by=", ".join(f"{v} {k}" for k, v in sorted(g["signed_by"].items()))
             or "none"),
         "",
-        "**The join, measured.** DENOMINATOR: {n} row(s) inspected; {m} reached "
-        "by a signed decision family ({how}; {v1o} matched on the v1 name ONLY, "
-        "{veo} on the V_eta name ONLY). It joins on the SIGNATURE, never "
-        "on family membership -- an unsigned family names classes too, and "
-        "promoting them would break operating rule 4 with a lookup. It joins on "
-        "the row's OWN identity (its v1 name or its V_eta class, matched "
-        "EXACTLY, in both namespaces, with no normalisation), never on what its "
-        "migrator emits.".format(
-            n=j["rows_inspected"], m=j["rows_matched_by_a_signed_family"],
-            v1o=j["matched_on_v1_class_only"],
-            veo=j["matched_on_veta_class_only"],
+        "**The citation join, measured.** DENOMINATOR: {n} row(s) inspected; "
+        "{m} carry a citation that resolves ({how}). It matches the row's OWN "
+        "identity (its v1 name or its V_eta class, EXACTLY, with no "
+        "normalisation), never what its migrator emits.".format(
+            n=j["rows_inspected"], m=j["rows_with_a_resolved_citation"],
             how=", ".join(f"{v} on {k}" for k, v in sorted(j["matched_on"].items()))
             or "none"),
         "",
-        "| rows with no findable signature | cause |",
+        "| rows with no resolved citation | cause |",
         "|---:|---|",
     ]
     for cause, n in j["unmoved_by_cause"].items():
         out.append(f"| {n} | {cause} |")
-    via = j["target_only_reached_via"]
-    if via:
-        top = ", ".join(f"`{k}` ×{v}" for k, v in list(via.items())[:4])
-        out += [
-            "",
-            ("**Why the emitted-target rows are NOT joined.** Matching a row's "
-             "emitted `targets` as well would move more rows, and most of them "
-             f"would arrive through one class: {top}. A signature on the time "
-             "model decides the time model; it says nothing about whether the "
-             "disposition of the class that happens to emit a time anchor is "
-             "settled. The reach is counted here instead of taken."),
-        ]
     if j["spelling_near_misses"]:
         out += [
             "",
-            "⚠ **{n} family member(s) match a ledger name ONLY after "
-            "normalisation** (lowercase + strip underscores): {lst}. V_eta is "
-            "snake_case and NDI is camelCase; these are NOT joined, because a "
-            "join on a normalised name would make `demo_ndi` and `demoNDI` one "
-            "class. Fix the spelling in `FAMILIES` or confirm they are "
-            "different things.".format(
+            "⚠ **{n} cited class(es) match a ledger name ONLY after "
+            "normalisation** (lowercase + strip underscores): {lst}. These are "
+            "NOT joined; fix the spelling in `tools/decision_citations.py` or "
+            "confirm they are different things.".format(
                 n=len(j["spelling_near_misses"]),
-                lst=", ".join("`{}` ~ `{}`".format(m["family_member"],
+                lst=", ".join("`{}` ~ `{}`".format(m["cited_class"],
                                                    m["ledger_name"])
                               for m in j["spelling_near_misses"])),
         ]
-    if j["conflicting_claims"]:
-        out += [
-            "",
-            "⚠ **{n} row(s) claimed by TWO signed families**: {lst}. One class, "
-            "two decisions -- for the team.".format(
-                n=len(j["conflicting_claims"]),
-                lst=", ".join("`" + c + "`" for c in j["conflicting_claims"])),
-        ]
     out += [
         "",
-        "**Where the signatures are. DENOMINATOR: {d} plan document(s) read "
+        "**Where the decision lines are. DENOMINATOR: {d} document(s) read "
         "({x} generated artifact(s) excluded, carrying {xm} marker(s) between "
-        "them -- a generated file quotes signatures, it does not hold them); "
-        "{a} sign-off line(s) accepted, {r} rejected.** {ft} of {fa} decision "
-        "families are signed.".format(
+        "them -- a generated file quotes decisions, it does not hold them); "
+        "{a} decision line(s) accepted ({kinds}), {r} rejected; {lc} cited by "
+        "a class, {lu} cited by none. {ct} citation(s) from {cc} class(es); "
+        "{cu} do not resolve.**".format(
             d=c["documents_read"], x=len(c["documents_excluded_as_generated"]),
-            xm=c["signoff_markers_inside_excluded_documents"],
-            a=c["accepted_lines"], r=len(c["rejected_lines"]),
-            ft=len(c["families_signed"]), fa=c["families_total"]),
+            xm=c["markers_inside_excluded_documents"],
+            a=c["accepted_lines"],
+            kinds=", ".join(f"{v} {k}" for k, v in
+                            c["accepted_lines_by_kind"].items()) or "none",
+            r=len(c["rejected_lines"]), lc=c["lines_cited"],
+            lu=len(c["uncited_lines"]), ct=c["citations_total"],
+            cc=c["classes_citing"], cu=len(c["citations_unresolved"])),
         "",
     ]
-    # THE TWO DIRECTIONS OF THE MISMATCH, AS QUESTIONS. Never paired.
-    if c["orphan_tags"]:
+    if c["citations_unresolved"]:
         out += [
-            "**QUESTION FOR THE TEAM -- {n} signed tag(s) name no decision "
-            "family**, so the signature reaches nothing this tool joins: {lst}. "
-            "Whether each is a family that needs renaming, a family that needs "
-            "creating, or a decision that belongs to no family is a TEAM call; "
-            "mapping one onto a family it does not name would be recording a "
-            "disposition.".format(
-                n=len(c["orphan_tags"]),
-                lst="; ".join(
-                    "`{}` ({}:{})".format(t, v[0]["document"], v[0]["line"])
-                    for t, v in c["orphan_tags"].items())),
+            "⚠ **{n} citation(s) do not resolve**: {lst}. Each class renders "
+            "as `citation UNRESOLVED`, never decided.".format(
+                n=len(c["citations_unresolved"]),
+                lst="; ".join("`{}` -> `{}` `[{}]`".format(
+                    u["class"], u["document"], u["tag"])
+                    for u in c["citations_unresolved"])),
             "",
         ]
-    if c["families_unsigned"]:
+    if c["uncited_lines"]:
         out += [
-            "**QUESTION FOR THE TEAM -- {n} decision family(ies) carry no "
-            "signature this tool will honour**: {lst}. Their classes read "
-            "`family UNSIGNED` above, which is a missing SIGNATURE and not a "
-            "missing model.".format(
-                n=len(c["families_unsigned"]),
-                lst=", ".join("`" + f + "`" for f in c["families_unsigned"])),
+            "**{n} decision line(s) are cited by no class.** Most decide "
+            "something that is not one class's disposition (a tenet, a naming "
+            "rule, a field); if one does decide a class, that class should cite "
+            "it: {lst}.".format(
+                n=len(c["uncited_lines"]),
+                lst="; ".join("`{}`:{} {}".format(
+                    e["document"], e["line"],
+                    "`[" + e["tag"] + "]`" if e["tag"] else "(" + (e["date"] or "undated") + ")")
+                    for e in c["uncited_lines"])),
             "",
         ]
-    # A quotation in a code fence and a SUPERSEDED signature are rejected ON
-    # PURPOSE (status_board.scan_signoff_lines, 2026-09-29); this warning is about
-    # the placeholder guard only.
-    tagged_rejects = [r for r in c["rejected_lines"] if r["tag"]
-                      and not r["why"].startswith(("SUPERSEDED",
-                                                   "inside a fenced code block"))]
-    if tagged_rejects:
+    quiet = [r for r in c["rejected_lines"] if r["tag"]
+             and not r["why"].startswith(("SUPERSEDED",
+                                          "inside a fenced code block"))]
+    if quiet:
         out += [
-            "⚠ **{n} rejected line(s) carry a family tag and read as a real "
-            "signature.** The scanner's placeholder guard rejects a line that "
-            "carries one of the TEMPLATE's own unfilled slots (`<family>`, "
-            "`<who/when>`, `<what was decided>`): {lst}. The direction is safe "
-            "(less signed than reality, never more) and the blast radius is "
-            "printed beside each -- a rejected line in a document NO family "
-            "cites changes nothing today. NARROWED 2026-08-13: this guard used "
-            "to fire on a paired `<...>` ANYWHERE after the marker, which "
-            "rejected a real dated decision whose text names a class-name "
-            "pattern (`<modality>_observation`) and left the class it settles "
-            "reading as unsigned. Changing which lines count as a decision is "
-            "a team call; this narrowing restored one the guard should never "
-            "have taken.".format(
-                n=len(tagged_rejects),
-                lst="; ".join(
-                    "`{}` ({}:{}, cited by {})".format(
-                        r["tag"], r["document"], r["line"],
-                        ", ".join(r["document_cited_by_families"]) or "NO family")
-                    for r in tagged_rejects)),
+            "⚠ **{n} rejected line(s) carry a tag and read as a real decision**: "
+            "{lst}. The direction is safe (less decided than reality, never "
+            "more); changing which lines count is Jess's call.".format(
+                n=len(quiet),
+                lst="; ".join("`{}` ({}:{}, cited by {})".format(
+                    r["tag"], r["document"], r["line"],
+                    ", ".join(r["cited_by_classes"]) or "no class")
+                    for r in quiet)),
             "",
         ]
     return out
@@ -3714,7 +3572,7 @@ def _print_stage_rollup(s):
              (" (" + ", ".join(cap["nothing_built_but_excused_rows"]) + ")")
              if cap["nothing_built_but_excused_rows"] else ""))
     print("      no target recorded on %d row(s) -- rungs 2+3 unreadable for them, "
-          "and the signature join moves %d of them (a signature names a FAMILY, "
+          "and the signature join moves %d of them (a decision citation names a LINE, "
           "not a target)" % (ntr["rows"], ntr["moved_by_the_signature_join"]))
     an = sr["anomalies"]
     print("      anomalies: %d across %d class(es) (%d over a FAILED rung, "
@@ -3727,41 +3585,29 @@ def _print_stage_rollup(s):
     # GOVERNANCE, PRINTED SEPARATELY AND AFTER. It is not part of the ladder and
     # it is not summed with it.
     gst, gj, gc = gov["by_state"], gov["join"], gov["census"]
-    print("  governance (a FLAG, never a stage): DENOMINATOR %d row(s) -- "
-          "%d signed, %d DISPUTED, %d family UNSIGNED, %d no signature found"
+    print("  decisions (a FLAG, never a stage): DENOMINATOR %d row(s) -- "
+          "%d decided, %d DISPUTED, %d citation UNRESOLVED, %d proposed (not "
+          "decided)"
           % (gov["denominator"], gst[G_SIGNED], gst[G_DISPUTED],
              gst[G_UNSIGNED], gst[G_NOT_FOUND]))
-    print("      signature join: %d of %d row(s) reached by a SIGNED family "
-          "(%d matched on the v1 name ONLY, %d on the V_eta name ONLY)"
-          % (gj["rows_matched_by_a_signed_family"], gj["rows_inspected"],
-             gj["matched_on_v1_class_only"], gj["matched_on_veta_class_only"]))
+    print("      citation join: %d of %d row(s) carry a citation that resolves"
+          % (gj["rows_with_a_resolved_citation"], gj["rows_inspected"]))
     for cause, n in gj["unmoved_by_cause"].items():
         print("        %4d  %s" % (n, cause))
-    print("      signatures: %d document(s) read, %d accepted line(s), "
-          "%d rejected; %d of %d families signed"
+    print("      decision lines: %d document(s) read, %d accepted, %d rejected; "
+          "%d cited by a class, %d by none; %d citation(s), %d unresolved"
           % (gc["documents_read"], gc["accepted_lines"],
-             len(gc["rejected_lines"]), len(gc["families_signed"]),
-             gc["families_total"]))
-    if gc["orphan_tags"]:
-        print("      *** %d SIGNED TAG(S) NAME NO FAMILY (a question for the "
-              "team, not a mapping to make here): %s"
-              % (len(gc["orphan_tags"]),
-                 ", ".join("%s (%s:%d)" % (t, v[0]["document"], v[0]["line"])
-                           for t, v in gc["orphan_tags"].items())))
-    if gc["families_unsigned"]:
-        print("      *** %d FAMILY(IES) CARRY NO SIGNATURE: %s"
-              % (len(gc["families_unsigned"]), ", ".join(gc["families_unsigned"])))
-    for rj in gc["rejected_lines"]:
-        if rj["tag"]:
-            print("      *** REJECTED sign-off line with a family tag: [%s] "
-                  "%s:%d -- %s (document cited by: %s)"
-                  % (rj["tag"], rj["document"], rj["line"], rj["why"],
-                     ", ".join(rj["document_cited_by_families"]) or "NO family"))
+             len(gc["rejected_lines"]), gc["lines_cited"],
+             len(gc["uncited_lines"]), gc["citations_total"],
+             len(gc["citations_unresolved"])))
+    for u in gc["citations_unresolved"]:
+        print("      *** UNRESOLVED citation: %s -> %s [%s] -- %s"
+              % (u["class"], u["document"], u["tag"], u["why"]))
     if gj["spelling_near_misses"]:
-        print("      *** %d family member(s) match a ledger name ONLY after "
+        print("      *** %d cited class(es) match a ledger name ONLY after "
               "normalisation: %s"
               % (len(gj["spelling_near_misses"]),
-                 ", ".join("%s ~ %s" % (m["family_member"], m["ledger_name"])
+                 ", ".join("%s ~ %s" % (m["cited_class"], m["ledger_name"])
                            for m in gj["spelling_near_misses"])))
 
 

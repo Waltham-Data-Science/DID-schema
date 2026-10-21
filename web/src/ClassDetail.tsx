@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type {
   CoverageRow,
-  DecisionFamily,
+  ClassDecision,
   DecisionsDoc,
   IndexEntry,
   SchemaDocument,
@@ -77,9 +77,8 @@ export function ClassDetail({ v1Class, index, onSelect, onBack }: Props) {
   );
   const fam = useMemo(() => {
     if (!dec || !row) return undefined;
-    const key = (row.veta_class && dec.by_class[row.veta_class])
-      ?? dec.by_class[row.v1_class];
-    return key ? dec.families.find((f) => f.name === key) : undefined;
+    return (row.veta_class && dec.by_class[row.veta_class])
+      || dec.by_class[row.v1_class] || undefined;
   }, [dec, row]);
 
   // Every class this class is claimed to become, from all four ledger slots.
@@ -706,7 +705,7 @@ function BuildStatePanel({ row }: { row: CoverageRow | null }) {
 }
 
 function Signoff({ row, fam }: {
-  row: CoverageRow | null; fam: DecisionFamily | undefined;
+  row: CoverageRow | null; fam: ClassDecision | undefined;
 }) {
   const cites = [
     ["decided targets recorded in", row?.decided_targets_source],
@@ -717,8 +716,8 @@ function Signoff({ row, fam }: {
   if (!fam && cites.length === 0) {
     return (
       <p className="muted">
-        No decision family claims this class and the ledger cites no sign-off.
-        For most classes that is correct — they are settled and need no marker.
+        No decision line is cited for this class and the ledger cites no
+        sign-off. Proposed (not decided) unless a decision is recorded.
       </p>
     );
   }
@@ -726,23 +725,28 @@ function Signoff({ row, fam }: {
     <>
       {fam && (
         <div className={`decision-banner ${
-          fam.state === "signed_awaiting_build" ? ""
-            : fam.state === "awaiting_signature" ? "decision-unsigned"
-              : "decision-proposed"}`}>
+          fam.state === "decided" ? "" : "decision-proposed"}`}>
           <div className="decision-banner-head">
-            {fam.state_label} · <code>{fam.name}</code>
+            {fam.state_label}
+            {fam.decided_in && (
+              <> · <code>[{fam.decided_in.tag}]</code></>
+            )}
           </div>
-          <div>{fam.decision}</div>
-          {fam.plan && (
+          {fam.decided_in && (
             <div className="section-note">
-              Recorded in <code>schemas/{fam.plan}</code>
+              Decided in <code>{fam.decided_in.document}:{fam.decided_in.line}</code>
             </div>
           )}
-          {fam.signoff && (
+          {fam.decision && (
             <div className="decision-banner-signoff">
-              TEAM-SIGN-OFF: {fam.signoff}
+              {fam.decided_in?.kind}: {fam.decision}
             </div>
           )}
+          {fam.citations.filter((c) => !c.resolved).map((c) => (
+            <div key={c.document + c.tag} className="section-note">
+              Citation does not resolve: <code>{c.document} [{c.tag}]</code>
+            </div>
+          ))}
         </div>
       )}
       {cites.length > 0 && (

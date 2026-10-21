@@ -103,8 +103,8 @@ FIXTURE_ROW = {
     "v1_class": "fixture_class", "veta_class": None, "targets": [],
     "decided_targets": [], "second_pass": [], "no_target_reason": None,
     "decided_signoff": None, "no_target_signoff": None,
-    "decided_targets_source": None, "decided_by_family": None,
-    "governance_gap": None, "families_naming_this_class": [],
+    "decided_targets_source": None, "decided_by_citation": None,
+    "governance_gap": None, "decision_citations": [],
     "build_state": {"schema_targets_named": 0, "schema_targets_built": [],
                     "schema_targets_missing": [],
                     "migrator_emits_decided_targets": False,
@@ -302,15 +302,15 @@ def check_governance_cannot_move_a_build_stage(rows):
             if flavour == "flattering":
                 probe["decided_signoff"] = {"document": "X.md",
                                             "signoff_fragment": "f"}
-                probe["decided_by_family"] = {
-                    "family": "f", "document": "X.md", "line": 1,
-                    "signoff": "s", "matched_on": "v1_class",
-                    "matched_name": r["v1_class"], "conflict": []}
+                probe["decided_by_citation"] = {
+                    "document": "X.md", "tag": "t", "resolved": True,
+                    "line": 1, "kind": "TEAM-SIGN-OFF", "decision": "s",
+                    "matched_on": "v1_class", "matched_name": r["v1_class"]}
                 probe["governance_gap"] = None
             else:
                 probe["decided_signoff"] = None
-                probe["decided_by_family"] = None
-                probe["governance_gap"] = coverage.GAP_NO_FAMILY
+                probe["decided_by_citation"] = None
+                probe["governance_gap"] = coverage.GAP_NO_CITATION
             again = coverage.stage_ladder(probe, coverage.CORPUS_SCAN)
             assert again["reached"] == r["stage"]["reached"], (
                 f"{r['v1_class']}: changing GOVERNANCE ({flavour}) moved the "
@@ -769,7 +769,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(ntr["row_names"], want)
         self.assertEqual(ntr["rows"], len(want))
         self.assertEqual(ntr["moved_by_the_signature_join"], 0)
-        self.assertIn("signs a FAMILY", ntr["why_the_join_moves_none_of_them"])
+        self.assertIn("names a decision LINE", ntr["why_the_join_moves_none_of_them"])
         with open(LEDGER_MD) as fh:
             self.assertIn(f'**{ntr["rows"]} of {ntr["denominator"]} rows record '
                           "NO TARGET CLASS**", fh.read())
@@ -1293,7 +1293,8 @@ class ConfirmedTargetsCase(unittest.TestCase):
     def test_a_confirmation_is_NOT_a_governance_citation(self):
         # It briefly was, and every one of the five went `signed` while citing a
         # record with no document. Confirming a target set is not signing a
-        # disposition; the governance citation must still come from the family.
+        # disposition; the governance citation must still come from the class's own
+        # decision citation (tools/decision_citations.py).
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
