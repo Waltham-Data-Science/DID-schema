@@ -726,6 +726,8 @@ TEAM-SIGN-OFF [confirm sheet 2026-08-22]: jess@walthamdatascience.com / 2026-08-
 
 Decided by Jess Haley, 2026-10-21: A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.
 
+Decided by Jess Haley, 2026-10-21: A subject immersed in a formulation (bath, perfusion, the Haley assay droplet) is a manipulation valued by the formulation; a subject given a quantity is a dose, and an unrecorded amount is stated as unknown, never left empty.
+
 This changes the `dose_manipulation` half of the 2026-08-22 line above; the
 anchor and the conditional location `term_observation` are unchanged. Why it
 came up: a bath gives no amount, so the bath dose was written with an empty
@@ -737,6 +739,16 @@ so the bath becomes a `manipulation` listing `formulation` as its value kind,
 with an empty `value` and a `value_id` edge to the bath's `formulation`
 document (the one listing the mixture's ingredients). `dose.json` no longer
 says a dose may be empty for a bath.
+
+The second 2026-10-21 line widens the first from baths to anything a subject
+is immersed in. The test is immersion versus taking in a quantity: a subject
+sitting in a formulation (a bath, perfusion) is a `manipulation` valued by the
+formulation through `value_id`; a subject given an amount of it is a `dose`.
+The Haley assay droplet is the case that prompted it: worms are picked with an
+eyelash into a droplet of S-Complete, which evaporates before recording starts,
+so the droplet is a transitory bath, not a dose. A dose whose amount the source
+does not record states the amount as unknown rather than leaving `dose.value`
+empty. HOW unknown is written is NOT decided yet, and nothing builds it.
 
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131

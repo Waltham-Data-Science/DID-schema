@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How much of the formulation was given. A dose always has an amount: fill at least one of the slots below. A bath gives no amount and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md).",
+            "documentation": "How much of the formulation was given. A dose is a quantity the subject takes in, so it always has an amount: fill at least one of the slots below. A subject immersed in a formulation (a bath, perfusion, an assay droplet) is not given a quantity and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md). A dose whose amount the source does not record states the amount as unknown, never leaves it empty; how unknown is written is not yet decided.",
             "constraints": {},
             "fields": [
                 {
