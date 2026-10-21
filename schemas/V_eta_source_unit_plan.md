@@ -65,3 +65,5 @@ every OM identifier was read from `om-2.0.rdf` (github.com/HajoRijgersberg/OM).
   `v_eta-pre73`); item 4 applies then.
 
 To be signed: `source_unit` is a bound ontology_term (the unit's registered term, its label as the name) on every dimensioned value; blank when the source gives no unit; a migrated spelling no term matches keeps its spelling as the name with an empty node and is reported; OD600's unit is om:one
+
+TEAM-SIGN-OFF [source unit]: jess / 2026-10-21 -- `source_unit` is a bound ontology_term (the unit's registered term, its label as the name) on every dimensioned value; blank when the source gives no unit; a migrated spelling no term matches keeps its spelling as the name with an empty node and is reported; OD600's unit is om:one
