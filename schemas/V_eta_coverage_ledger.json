@@ -615,15 +615,15 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 123,
+          "accepted_lines": 124,
           "accepted_lines_by_kind": {
-            "Decided by Jess Haley": 7,
+            "Decided by Jess Haley": 8,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 843,
+              "line": 858,
               "kind": "TEAM-SIGN-OFF",
               "tag": "spatial_transcriptomics_family",
               "why": "SUPERSEDED -- jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.",
@@ -643,7 +643,7 @@
           "classes_citing": 73,
           "citations_total": 81,
           "citations_unresolved": [],
-          "lines_cited": 42,
+          "lines_cited": 43,
           "uncited_lines": [
             {
               "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -807,7 +807,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 837,
+              "line": 852,
               "kind": "TEAM-SIGN-OFF",
               "tag": "orientation_direction_tuning.json location",
               "date": "2026-09-22",
@@ -815,7 +815,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 873,
+              "line": 888,
               "kind": "TEAM-SIGN-OFF",
               "tag": "time anchors, amends the 2026-08-22 confirm sheet",
               "date": "2026-09-29",
@@ -823,7 +823,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 875,
+              "line": 890,
               "kind": "TEAM-SIGN-OFF",
               "tag": "dimensioned classes, batch confirmation",
               "date": "2026-09-29",
@@ -7150,7 +7150,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 871,
+          "line": 886,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7273,7 +7273,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "resolved": true,
-        "line": 871,
+        "line": 886,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
         "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7287,7 +7287,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 871,
+          "line": 886,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7304,7 +7304,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 871,
+          "line": 886,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7313,7 +7313,7 @@
           "matched_name": "kiasort_clusters",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kiasort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:871. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kiasort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:886. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -7410,7 +7410,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "resolved": true,
-        "line": 871,
+        "line": 886,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
         "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7424,7 +7424,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 871,
+          "line": 886,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7441,7 +7441,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 871,
+          "line": 886,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7450,7 +7450,7 @@
           "matched_name": "kilosort_clusters",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kilosort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:871. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kilosort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:886. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -11955,7 +11955,7 @@
         "kind": "Decided by Jess Haley",
         "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
         "anchor": "Decided by Jess Haley, 2026-10-21: A bath is a manipulation",
-        "matches": 3,
+        "matches": 4,
         "why": null,
         "matched_name": "stimulus_bath",
         "matched_on": "v1_class"
@@ -11969,7 +11969,7 @@
           "kind": "Decided by Jess Haley",
           "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
           "anchor": "Decided by Jess Haley, 2026-10-21: A bath is a manipulation",
-          "matches": 3,
+          "matches": 4,
           "why": null,
           "matched_name": "stimulus_bath",
           "matched_on": "v1_class"
@@ -14081,8 +14081,8 @@
         "term_assertion",
         "directed_relation"
       ],
-      "how": "dispatched by data structure into ONE data-type-named manipulation leaf + an optional site term_observation + session anchor",
-      "target_flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
+      "how": "dispatched by data structure into ONE data-type-named manipulation leaf + an optional site term_observation + session anchor; a delivered substance is a dose_manipulation, or a formulation-valued `manipulation` when its site is the bath",
+      "target_flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`). ROUTE BY RECORDED LOCATION (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md): a bath location (NCIm:C0179246 or the name 'bath') -> an immersion, a `manipulation` valued by its formulation through `value_id` (no dose, no location term_observation); any other location (intraperitoneal, a brain area) -> a dose_manipulation with the source's amount when a mixture row is in an amount unit (mass, volume, per body mass: Hunsberger's mg/kg -> amount_per_body_mass) and otherwise NaN in value.volume.liters; NO location -> that NaN dose, listed in the migration report as `route_unknown` (summary.migration_notes). Built on DID-matlab claude/port-88 (private/jTreatmentRoute, jTreatmentBodies, jDoseValue); NaN surviving a did2 write/read rides on DID-matlab #218. A v1 `treatment` records a location only through the Dab 'Target Location' idiom (string_value), so most substance rows are route_unknown; its unitless numeric_value stays on the ingredient entry, not the dose.",
       "decided_by_citation": {
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
@@ -14229,8 +14229,8 @@
         "term_assertion",
         "directed_relation"
       ],
-      "how": "drug administration -> a dose_manipulation (chemicals from mixture_table) + an optional site term_observation + anchor",
-      "target_flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
+      "how": "drug administration -> by recorded location: a dose_manipulation (formulation_id; chemicals from mixture_table) + the site term_observation, or, in the bath, a `manipulation` valued by the formulation through value_id; + anchor",
+      "target_flags": "term_observation only when a location is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`). ROUTE BY RECORDED LOCATION (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md): a bath location (NCIm:C0179246 or the name 'bath') -> an immersion, a `manipulation` valued by its formulation through `value_id` (no dose, no location term_observation); any other location (intraperitoneal, a brain area) -> a dose_manipulation with the source's amount when a mixture row is in an amount unit (mass, volume, per body mass: Hunsberger's mg/kg -> amount_per_body_mass) and otherwise NaN in value.volume.liters; NO location -> that NaN dose, listed in the migration report as `route_unknown` (summary.migration_notes). Built on DID-matlab claude/port-88 (private/jTreatmentRoute, jTreatmentBodies, jDoseValue); NaN surviving a did2 write/read rides on DID-matlab #218. mixture_table is read in NDI's writetablechar format (header row first); the old reader kept the header as a chemical.",
       "decided_by_citation": null,
       "decision_citations": [],
       "governance_gap": "no decision citation names this class",
@@ -14724,8 +14724,8 @@
         "term_assertion",
         "directed_relation"
       ],
-      "how": "viral injection -> a dose_manipulation (virus as spine variable, dilution/titer as amount) + an optional site term_observation + anchor",
-      "target_flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`).",
+      "how": "viral injection -> ALWAYS a dose_manipulation (virus as spine variable and first ingredient, dilution as that ingredient's concentration on the formulation, diluent a second ingredient) + an optional site term_observation + anchor",
+      "target_flags": "term_observation only when a site is present; SECOND PASS: attributed site -> Path-S part-subject -- #73 review item 7 (2026-09-25, not yet built in the migrator): a dose is a dose_manipulation whose `formulation_id` points at a `formulation` document (ingredient_id edges to deduplicated `chemical` documents; value.ingredients[k] holds each ingredient's concentration from the mixture table, with its unit); pH / osmolarity rows go on the formulation, a temperature row is a condition on the dose statement; `route` is dropped (it is `method`). ALWAYS A DOSE (Jess Haley, 2026-10-21): 'virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation' -- the template has no volume field, so value.volume.liters is NaN; a bath location (Birren) does NOT make it an immersion, and no site is NOT route_unknown. Built on DID-matlab claude/port-88; NaN persistence rides on DID-matlab #218.",
       "decided_by_citation": null,
       "decision_citations": [],
       "governance_gap": "no decision citation names this class",

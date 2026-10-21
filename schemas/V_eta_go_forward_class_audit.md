@@ -763,6 +763,21 @@ was prepared). `instance_of` does not fit: its registry row allows only a
 `product` or `strain` parent, and `formulation` is a value, not an entity.
 The suspension's OD600 and CFU observations are unchanged.
 
+Decided by Jess Haley, 2026-10-21: "The v1 treatment migrators decide by the recorded location: a bath location makes the treatment an immersion (a manipulation valued by its formulation through value_id); a body site (intraperitoneal, a brain area, ...) makes it a dose, with the source's amount when it has one and otherwise NaN in the quantity; virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation; a generic treatment with no location stays a dose with NaN and is listed in the migration report as route unknown."
+
+This applies the immersion-vs-dose line above to `treatment` (its substance
+branch), `treatment_drug` and `virus_injection`, and settles how an unrecorded
+amount is written for them: NaN in the dose's quantity. Built on DID-matlab
+`claude/port-88` (`+migrators_j/private/jTreatmentRoute.m`,
+`jTreatmentBodies.m`, `jDoseValue.m`). The bath test is the location term's
+node `NCIm:C0179246` (the node NDI's Birren and Babu writers use) or its name
+`bath`. A dose's amount is taken from a mixture row only when that row's unit
+is an amount (mass, volume, or per body mass: Hunsberger writes `mg/kg`); a
+row in a concentration unit (Molar, % v/v) stays on its ingredient, and
+otherwise the dose carries `value.volume.liters` = NaN. A treatment with no
+location is counted in `summary.migration_notes.route_unknown`. Whether NaN
+survives a did2 write and read is DID-matlab #218's work, not this one's.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
