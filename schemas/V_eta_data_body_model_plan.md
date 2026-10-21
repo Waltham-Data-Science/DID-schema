@@ -1394,3 +1394,5 @@ TEAM-SIGN-OFF [data_body amendment 5]: jess@walthamdatascience.com / 2026-10-21 
 ## 2026-10-21 — sorter output by location
 
 Decided by Jess Haley, 2026-10-21 [sorter output by location]: a v1 sorter output that names an external directory (kilosort/kiasort) migrates to an opaque_body whose single member records that directory by location, with the curated-output MD5 as the member's checksum and format EMPTY:0000315 "directory of files".
+
+Decided by Jess Haley, 2026-10-14 [format is an ontology term]: "`format` is a bound `ontology_term`, not an IANA media type ... EDAM format terms first ..., an EMPTY term where EDAM has none (OME-Zarr, minted as a kind of `EDAM:format_3915`)" (the AMENDED 2026-10-14 note above, confirmed by Jess Haley 2026-10-21, answer "4A"). This is the decision behind EMPTY:0000259 "OME-Zarr".

@@ -186,3 +186,5 @@ whose variable is orientation, not any entry in the list.
 To be signed: one method shape {term, parameters} inline and as the standalone method document (method_parameters renamed method, method_parameters_id renamed method_id); stimuli given as a recipe are method documents referenced by item; visual_grating and spatial_frequency deleted; T12/T13 amended
 
 TEAM-SIGN-OFF [method]: jess@walthamdatascience.com / 2026-10-21 -- one method shape {term, parameters} inline and as the standalone method document (method_parameters renamed method, method_parameters_id renamed method_id); recipe stimuli are method documents referenced by item; visual_grating and spatial_frequency deleted; T12/T13 amended
+
+Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods]: a visual stimulus that is not a grating (sparse noise / reverse correlation, other noise, disparity, flashed bars, shape movies) migrates the same way as a grating: one `method` document per distinct stimulus, its term naming the stimulus kind and every v1 parameter an entry, a parameter with no ontology term taking a label as its variable. No new class (answer "3A"; did-schema issue #94 item 1).

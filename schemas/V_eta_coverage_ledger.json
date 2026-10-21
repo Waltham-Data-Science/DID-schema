@@ -659,9 +659,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 165,
+          "accepted_lines": 169,
           "accepted_lines_by_kind": {
-            "Decided by": 49,
+            "Decided by": 53,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -744,6 +744,14 @@
               "tag": "sorter output by location",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [sorter output by"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1398,
+              "kind": "Decided by",
+              "tag": "format is an ontology term",
+              "date": "2026-10-14",
+              "anchor": "Decided by Jess Haley, 2026-10-14 [format is an ontology"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
@@ -1114,6 +1122,14 @@
               "anchor": "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /"
             },
             {
+              "document": "V_eta_method_plan.md",
+              "line": 190,
+              "kind": "Decided by",
+              "tag": "non-grating stimuli as methods",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as"
+            },
+            {
               "document": "V_eta_ngrid_family_findings.md",
               "line": 381,
               "kind": "TEAM-SIGN-OFF",
@@ -1272,6 +1288,14 @@
               "tag": "ontology image is an observation of its region",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [ontology image is an"
+            },
+            {
+              "document": "V_eta_spatial_transcriptomics_plan.md",
+              "line": 606,
+              "kind": "Decided by",
+              "tag": "non-area image node",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [non-area image node]: on"
             },
             {
               "document": "V_eta_stimulus_model_plan.md",
@@ -1504,6 +1528,14 @@
               "tag": "contributor role nodes",
               "date": "2026-10-19",
               "anchor": "TEAM-SIGN-OFF [contributor role nodes]"
+            },
+            {
+              "document": "V_eta_study_plan.md",
+              "line": 386,
+              "kind": "Decided by",
+              "tag": "author order from 0",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [author order from 0]: a"
             },
             {
               "document": "V_eta_subject_calculation_plan.md",

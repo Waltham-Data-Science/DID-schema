@@ -382,3 +382,5 @@ TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation and acceleration_calcul
 | corresponding author | `NCIT:C164481` |
 
 TEAM-SIGN-OFF [contributor role nodes]: jess@walthamdatascience.com / 2026-10-19 -- each CRediT role in directed_relation.roles takes Bioregistry's credit:<slug> node and corresponding author takes NCIT:C164481.
+
+Decided by Jess Haley, 2026-10-21 [author order from 0]: a `has_author` edge's `order` counts from 0, as every position in V_eta does (T14): the first author is `order: 0`. No exception for author position (answer "2A").

@@ -363,7 +363,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 165 decision line(s) accepted, 2 rejected; 40 cited by a class, 125 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 169 decision line(s) accepted, 2 rejected; 40 cited by a class, 129 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -376,6 +376,7 @@ field). If one decides a class's disposition, that class should cite it.
 - data_type only for plain arrays. "Decided by Jess Haley, 2026-10-21 [data_type only for plain" (V_eta_data_body_model_plan.md:1337).
 - data_body amendment 5. "TEAM-SIGN-OFF [data_body amendment 5]" (V_eta_data_body_model_plan.md:1392).
 - sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (V_eta_data_body_model_plan.md:1396).
+- format is an ontology term. "Decided by Jess Haley, 2026-10-14 [format is an ontology" (V_eta_data_body_model_plan.md:1398).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
@@ -422,6 +423,7 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
+- non-grating stimuli as methods. "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as" (V_eta_method_plan.md:190).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (V_eta_ngrid_family_findings.md:419).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).
@@ -442,6 +444,7 @@ field). If one decides a class's disposition, that class should cite it.
 - calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (V_eta_spatial_transcriptomics_plan.md:286).
 - formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (V_eta_spatial_transcriptomics_plan.md:602).
 - ontology image is an observation of its region. "Decided by Jess Haley, 2026-10-21 [ontology image is an" (V_eta_spatial_transcriptomics_plan.md:604).
+- non-area image node. "Decided by Jess Haley, 2026-10-21 [non-area image node]: on" (V_eta_spatial_transcriptomics_plan.md:606).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
@@ -471,6 +474,7 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-05. "TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on" (V_eta_study_plan.md:340).
 - 2026-10-05. "TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation" (V_eta_study_plan.md:341).
 - contributor role nodes. "TEAM-SIGN-OFF [contributor role nodes]" (V_eta_study_plan.md:384).
+- author order from 0. "Decided by Jess Haley, 2026-10-21 [author order from 0]: a" (V_eta_study_plan.md:386).
 - calculator + subject_calculation restructure. "TEAM-SIGN-OFF [calculator + subject_calculation" (V_eta_subject_calculation_plan.md:270).
 - observation vs calculation, amends #67. "TEAM-SIGN-OFF [observation vs calculation, amends #67]" (V_eta_subject_calculation_plan.md:369).
 - binding governance. "TEAM-SIGN-OFF [binding governance]: jess, 2026-08-10 -- bind" (V_eta_tenet_audit.md:438).
