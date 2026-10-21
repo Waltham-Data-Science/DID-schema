@@ -112,12 +112,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 641,
+        "line": 662,
         "spelling": "app",
         "text": "if isfield(src, 'app') && isstruct(src.app) && ~isempty(fieldnames(src.app))"
        },
        {
-        "line": 1094,
+        "line": 1115,
         "spelling": "app",
         "text": "if isempty(charField(subStruct(src, {'app'}), {'app_name', 'name'}))"
        }
@@ -206,7 +206,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 783,
+        "line": 795,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -215,25 +215,30 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 4,
+      "site_count": 5,
       "sites": [
        {
-        "line": 2393,
+        "line": 1913,
         "spelling": "base",
-        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
+        "text": "if isfield(v1, 'base') && isstruct(v1.base) && isfield(v1.base, 'session_id')"
        },
        {
-        "line": 2462,
+        "line": 2693,
+        "spelling": "base",
+        "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
+       },
+       {
+        "line": 2791,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 2667,
+        "line": 3014,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        },
        {
-        "line": 2693,
+        "line": 3040,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -242,35 +247,30 @@
      {
       "pass": "foldGenericFiles",
       "path": "src/did/+did2/+convert/foldGenericFiles.m",
-      "site_count": 6,
+      "site_count": 5,
       "sites": [
        {
-        "line": 1164,
+        "line": 1178,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1203,
+        "line": 1217,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1417,
-        "spelling": "base",
-        "text": "if isfield(src, 'base') && isstruct(src.base)"
-       },
-       {
-        "line": 1480,
+        "line": 1490,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1501,
+        "line": 1511,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1588,
+        "line": 1598,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -294,12 +294,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 295,
+        "line": 302,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 340,
+        "line": 347,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -311,7 +311,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 572,
+        "line": 631,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, name)"
        }
@@ -320,20 +320,15 @@
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 3,
+      "site_count": 2,
       "sites": [
        {
-        "line": 788,
+        "line": 1830,
         "spelling": "base",
-        "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
+        "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 1090,
-        "spelling": "base",
-        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
-       },
-       {
-        "line": 1107,
+        "line": 1915,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -342,25 +337,20 @@
      {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
-      "site_count": 4,
+      "site_count": 3,
       "sites": [
        {
-        "line": 1319,
-        "spelling": "base",
-        "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
-       },
-       {
-        "line": 1386,
+        "line": 1405,
         "spelling": "base",
         "text": "if isstruct(srcBody) && isfield(srcBody, 'base') && isstruct(srcBody.base)"
        },
        {
-        "line": 1595,
+        "line": 1614,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1635,
+        "line": 1666,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -372,17 +362,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 984,
+        "line": 991,
         "spelling": "base",
         "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base)"
        },
        {
-        "line": 1061,
+        "line": 1068,
         "spelling": "base",
         "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base) && isfield(s.base, name) ..."
        },
        {
-        "line": 1154,
+        "line": 1161,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -394,7 +384,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 554,
+        "line": 561,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -406,7 +396,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 676,
+        "line": 683,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -418,17 +408,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1103,
+        "line": 1124,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1246,
+        "line": 1267,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1327,
+        "line": 1348,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -457,7 +447,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 672,
+        "line": 679,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -956,17 +946,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1049,
+        "line": 1094,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 1080,
+        "line": 1125,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 1790,
+        "line": 2038,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1841,9 +1831,9 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 306,
+        "line": 325,
         "spelling": "element",
-        "text": "if strcmp(cn, 'element')"
+        "text": "if strcmp(cn, 'element') || strcmp(cn, 'entity')"
        }
       ]
      }
@@ -2109,12 +2099,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2237,
+        "line": 2532,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2329,
+        "line": 2624,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2126,22 +2116,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 264,
+        "line": 442,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 805,
+        "line": 1128,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1037,
+        "line": 1364,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1056,
+        "line": 1383,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2229,35 +2219,55 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 6,
+      "site_count": 10,
       "sites": [
        {
-        "line": 808,
+        "line": 832,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 968,
+        "line": 993,
+        "spelling": "epochid",
+        "text": "% #88: the parked string is the 'epochid' parameter entry; the edge"
+       },
+       {
+        "line": 1003,
+        "spelling": "epochid",
+        "text": "&& strcmp(char(e.variable.name), 'epochid'));"
+       },
+       {
+        "line": 1013,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 969,
+        "line": 1014,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 1056,
+        "line": 1101,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 2026,
+        "line": 1530,
+        "spelling": "epochid",
+        "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
+       },
+       {
+        "line": 1909,
+        "spelling": "epochid",
+        "text": "if isfield(v1, 'epochid') && isstruct(v1.epochid) && isfield(v1.epochid, 'epochid')"
+       },
+       {
+        "line": 2314,
         "spelling": "epochid",
         "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        },
        {
-        "line": 2031,
+        "line": 2319,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
@@ -2266,12 +2276,22 @@
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 1,
+      "site_count": 3,
       "sites": [
        {
-        "line": 1060,
+        "line": 1387,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
+       },
+       {
+        "line": 1787,
+        "spelling": "epochid",
+        "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
+       },
+       {
+        "line": 1788,
+        "spelling": "epochid",
+        "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
       ]
      }
@@ -2310,22 +2330,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 681,
+        "line": 695,
         "spelling": "file_reference",
         "text": "isRecord = strcmp(classes, 'file_reference');"
        },
        {
-        "line": 775,
+        "line": 789,
         "spelling": "file_reference",
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1242,
+        "line": 1256,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1244,
+        "line": 1258,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
@@ -2727,12 +2747,12 @@
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 491,
+        "line": 498,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 540,
+        "line": 548,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -2828,25 +2848,7 @@
   },
   "image": {
    "consumers": {
-    "convert_package_mentions": [
-     {
-      "pass": "resolveEpochProbemap",
-      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 2,
-      "sites": [
-       {
-        "line": 750,
-        "spelling": "image",
-        "text": "if strcmp(mixin, 'image')"
-       },
-       {
-        "line": 953,
-        "spelling": "image",
-        "text": "entries = mkEntry('image_observation', 'image', 'image');"
-       }
-      ]
-     }
-    ],
+    "convert_package_mentions": [],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -3975,12 +3977,12 @@
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 517,
+        "line": 524,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 526,
+        "line": 533,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
@@ -4078,7 +4080,7 @@
         "text": "%   `ROW = 'ontology_table_row'` at :507 is the only class this pass selects"
        },
        {
-        "line": 528,
+        "line": 535,
         "spelling": "ontology_table_row",
         "text": "ROW = 'ontology_table_row';"
        }
@@ -4139,17 +4141,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 318,
+        "line": 325,
         "spelling": "openminds",
         "text": "if strcmp(classNameOf(b), 'openminds')"
        },
        {
-        "line": 775,
+        "line": 782,
         "spelling": "openminds",
         "text": "if ~isstruct(s) || ~isfield(s, 'openminds') || ~isstruct(s.openminds); return; end"
        },
        {
-        "line": 807,
+        "line": 814,
         "spelling": "openminds",
         "text": "if isstruct(s) && isfield(s, 'openminds') && isstruct(s.openminds) ..."
        }
@@ -4767,7 +4769,40 @@
   },
   "pyraview": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 5,
+      "sites": [
+       {
+        "line": 1525,
+        "spelling": "pyraview",
+        "text": "&& isstruct(bodies{k}) && isfield(bodies{k}, 'pyraview')"
+       },
+       {
+        "line": 1528,
+        "spelling": "pyraview",
+        "text": "if ~strcmp(rows(k).class_name, 'pyraview'); continue; end"
+       },
+       {
+        "line": 1543,
+        "spelling": "pyraview",
+        "text": "migrator = armingMigratorFor(armingMigrators, 'pyraview');"
+       },
+       {
+        "line": 1896,
+        "spelling": "pyraview",
+        "text": "if ~isfield(q(k), 'class_name') || ~strcmp(q(k).class_name, 'pyraview') ..."
+       },
+       {
+        "line": 2044,
+        "spelling": "pyraview",
+        "text": "'pyraview', ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -4839,12 +4874,27 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 1,
+      "site_count": 4,
       "sites": [
        {
-        "line": 669,
+        "line": 691,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
+       },
+       {
+        "line": 1889,
+        "spelling": "session",
+        "text": "if strcmp(classNameOf(b), 'session')"
+       },
+       {
+        "line": 2211,
+        "spelling": "session",
+        "text": "%   entity class with a bound type) answers its TYPE ('session', 'epoch',"
+       },
+       {
+        "line": 2212,
+        "spelling": "session",
+        "text": "%   ...), so the rows below keep comparing on 'session' and 'epoch'. The"
        }
       ]
      },
@@ -4881,9 +4931,21 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 127,
+        "line": 134,
         "spelling": "session",
         "text": "if ~strcmp(classes{k}, 'session'); continue; end"
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 392,
+        "spelling": "session",
+        "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        }
       ]
      },
@@ -4893,7 +4955,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 400,
+        "line": 407,
         "spelling": "session",
         "text": "if ~strcmp(anchorClass{k}, 'session'); continue; end"
        }
@@ -5943,17 +6005,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 485,
+        "line": 535,
         "spelling": "stimulus_bath",
         "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
        },
        {
-        "line": 497,
+        "line": 554,
         "spelling": "stimulus_bath",
-        "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
+        "text": "if ~(isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
        },
        {
-        "line": 526,
+        "line": 585,
         "spelling": "stimulus_bath",
         "text": "if isfield(qEntry, 'class_name') && strcmp(qEntry.class_name, 'stimulus_bath')"
        }
@@ -6284,17 +6346,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1225,
+        "line": 1271,
         "spelling": "stimulus_response_scalar",
         "text": "if ~strcmp(rows(k).class_name, 'stimulus_response_scalar'); continue; end"
        },
        {
-        "line": 1248,
+        "line": 1294,
         "spelling": "stimulus_response_scalar",
         "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
        },
        {
-        "line": 1792,
+        "line": 2040,
         "spelling": "stimulus_response_scalar",
         "text": "'stimulus_response_scalar', ..."
        }
@@ -6306,7 +6368,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 243,
+        "line": 250,
         "spelling": "stimulus_response_scalar",
         "text": "SOURCE = 'stimulus_response_scalar';"
        }
@@ -6404,7 +6466,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 242,
+        "line": 249,
         "spelling": "stimulus_response_scalar_parameters_basic",
         "text": "PARAMS = 'stimulus_response_scalar_parameters_basic';"
        }
@@ -6583,53 +6645,31 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2184,
+        "line": 2473,
         "spelling": "subject",
-        "text": "if strcmp(cn, 'subject') && isstruct(bodies{k}) ..."
+        "text": "if isstruct(bodies{k}) && isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
        },
        {
-        "line": 2185,
+        "line": 2474,
         "spelling": "subject",
-        "text": "&& isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
-       }
-      ]
-     },
-     {
-      "pass": "resolveEpochProbemap",
-      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 2,
-      "sites": [
-       {
-        "line": 216,
-        "spelling": "subject",
-        "text": "case 'subject'"
-       },
-       {
-        "line": 218,
-        "spelling": "subject",
-        "text": "if isfield(b, 'subject') && isstruct(b.subject)"
+        "text": "subjBlock = 'subject';                       % pre-#73"
        }
       ]
      },
      {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
-      "site_count": 3,
+      "site_count": 2,
       "sites": [
        {
-        "line": 861,
+        "line": 868,
         "spelling": "subject",
-        "text": "if ~strcmp(classes{k}, 'subject'); continue; end"
+        "text": "if ~any(strcmp(classes{k}, {'subject', 'entity'})); continue; end"
        },
        {
-        "line": 1318,
+        "line": 1634,
         "spelling": "subject",
-        "text": "body.document_class = struct('class_name', 'subject', 'class_version', '3.0.0', ..."
-       },
-       {
-        "line": 1603,
-        "spelling": "subject",
-        "text": "if isstruct(b) && isfield(b, 'subject') && isstruct(b.subject) ..."
+        "text": "for c = {'entity', 'subject'}"
        }
       ]
      }
@@ -6784,12 +6824,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 144,
+        "line": 151,
         "spelling": "syncgraph",
         "text": "if ~strcmp(classes{k}, 'syncgraph'); continue; end"
        },
        {
-        "line": 168,
+        "line": 175,
         "spelling": "syncgraph",
         "text": "if isscalar(folded) && strcmp(classNameOf(folded{1}), 'syncgraph')"
        }
@@ -6878,22 +6918,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 1364,
+        "line": 1411,
         "spelling": "syncrule_mapping",
         "text": "if ~strcmp(rows(k).class_name, 'syncrule_mapping'); continue; end"
        },
        {
-        "line": 1385,
+        "line": 1432,
         "spelling": "syncrule_mapping",
         "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
        },
        {
-        "line": 1794,
+        "line": 2042,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        },
        {
-        "line": 2001,
+        "line": 2289,
         "spelling": "syncrule_mapping",
         "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
        }
@@ -7082,7 +7122,8 @@
     {
      "confidence": "possible",
      "mentions_names_absent_from_template": [
-      "dose"
+      "dose",
+      "route"
      ],
      "migrator": "treatment_drug.m",
      "ndi_class": "treatment_drug",
@@ -7287,22 +7328,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 620,
+        "line": 634,
         "spelling": "valid_interval",
         "text": "if ~strcmp(classes{k}, 'valid_interval'); continue; end"
-       },
-       {
-        "line": 623,
-        "spelling": "valid_interval",
-        "text": "numel(intervalEntries(blockOf(bodies{k}, 'valid_interval')));"
        },
        {
         "line": 637,
         "spelling": "valid_interval",
+        "text": "numel(intervalEntries(blockOf(bodies{k}, 'valid_interval')));"
+       },
+       {
+        "line": 658,
+        "spelling": "valid_interval",
         "text": "if ~strcmp(classes{k}, 'valid_interval'); continue; end"
        },
        {
-        "line": 640,
+        "line": 661,
         "spelling": "valid_interval",
         "text": "blk = blockOf(src, 'valid_interval');"
        }
@@ -7804,7 +7845,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 21,
+  "convert_package_files_scanned": 23,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 115,
