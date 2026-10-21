@@ -417,8 +417,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # 33 -> 34 on 2026-10-20 (V_eta_relation_inheritance_plan.md, a proposal built
     # ahead of signature): `included_in`, a record filed under a record.
     # 69 -> 65 on 2026-10-21 (Jess Haley): the 4 illustrative `binding_examples`
-    # rows deleted.
-    assert total == 65, f'registry row count moved: {total}'
+    # rows deleted. 65 -> 66 the same day (Jess Haley): subject_statement 11 -> 12,
+    # `culture type` (EMPTY:0000357), the kind of a culture entity.
+    assert total == 66, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -426,7 +427,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # subject_statement_bindings moved 5 -> 6 on 2026-09-22 when #120 added
     # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
-    ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above)
+    ("subject_statement_bindings", 12),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
     ("relation_bindings", 34),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20

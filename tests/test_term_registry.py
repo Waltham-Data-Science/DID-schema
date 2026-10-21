@@ -115,6 +115,7 @@ DECIDED_BINDING_VARIABLES = {
     "cell type": "EFO:0000324",
     "Equipment Type": "NCIT:C178920",                     # was `instrument type`
     "material type": "EMPTY:0000354",
+    "culture type": "EMPTY:0000357",                     # Jess Haley, 2026-10-21
     "ethics assessment": "EMPTY:0000355",
     "experimental approach": "EMPTY:0000356",
     "Open or Controlled Data Access Indicator": "NCIT:C175887",  # was `accessibility`

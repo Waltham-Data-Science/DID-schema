@@ -2912,3 +2912,5 @@ RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOS
 RE-DERIVED 2026-10-21 (didmatlab_m_files, sibling drift; `check_prose_counts`): **342 .m file(s) under DID-matlab src/** on `claude/ecstatic-pascal-md91fw` (`cd DID-matlab && find src -name '*.m' | wc -l` = 342 at `8eec66a`; was 339). Nothing in this repository changed the count. Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-21 (the 4 illustrative `binding_examples` rows deleted, Jess Haley; `check_prose_counts` re-derives all nouns): the registry has **65** rows (was 69; subject_statement 11, relation 34, entity_field 1, entity_type 19, and no `binding_examples` list). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
+
+RE-DERIVED 2026-10-21 (`culture type`, EMPTY:0000357, the kind of a `culture` entity, Jess Haley, from the Haley V2 import: a bacterial patch states its kind with it instead of NCIT Sample Type; `check_prose_counts` re-derives all nouns): the registry has **66** rows (was 65; subject_statement 11 -> 12). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.

@@ -49,6 +49,16 @@
         },
         {
             "variable": {
+                "node": "EMPTY:0000357",
+                "name": "culture type"
+            },
+            "class": "assertion",
+            "node_form": "curie",
+            "subject_defining": true,
+            "value_kind": "term"
+        },
+        {
+            "variable": {
                 "node": "NCIT:C43531",
                 "name": "developmental stage"
             },

@@ -8149,6 +8149,11 @@ SUBJECT_STATEMENT_BINDINGS = [
     # objects like an agar plate, which no chemical-entity subtree holds, so a
     # material's kind is any registered term.
     _sdef("material type"),
+    # Jess Haley, 2026-10-21: a `culture` entity (a bacterial patch) states its
+    # kind with its own variable, so NCIT Sample Type stays free for real samples.
+    # No ontology subtree holds the kinds of culture, so, as `material type`, its
+    # kind is any registered term.
+    _sdef("culture type"),
     _sdef("developmental stage", "UBERON", "UBERON:0000105"),
     #
     # #120 -- the variable bound to the spatial-transcriptomics pyramid
@@ -13579,6 +13584,9 @@ _BINDING_VARIABLE_TERMS = {
     # agar plate, so its kind is any registered term (the CHEBI chemical-entity
     # subtree is dropped; the row carries node_form curie, no ontology/root_node).
     "material type": ("EMPTY:0000354", "material type"),
+    # subject-defining, for a culture; no ontology term fits, minted (Jess Haley,
+    # 2026-10-21). Any registered term, as `material type`.
+    "culture type": ("EMPTY:0000357", "culture type"),
     # dataset; no ontology term fits, minted
     "ethics assessment": ("EMPTY:0000355", "ethics assessment"),
     # dataset; no ontology term fits, minted

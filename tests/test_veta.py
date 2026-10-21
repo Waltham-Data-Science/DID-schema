@@ -1546,14 +1546,15 @@ def test_binding_registry_meta_present():
     names = {b["variable"]["name"] for b in defining}
     # `instrument type` is named by its registered term, NCIT Equipment Type,
     # since 2026-10-21 (Jess Haley, binding variables)
-    assert {"species", "Equipment Type", "cell type", "material type"} <= names
+    assert {"species", "Equipment Type", "cell type", "material type",
+            "culture type"} <= names
     # each subject_defining row is a term assertion drawing from an ontology
     # subtree, except `material type`: since 2026-10-21 (Jess Haley) its kind is
     # any registered term (a material can be an agar plate), so it carries
     # node_form curie and no subtree
     for b in defining:
         assert (b["class"], b.get("value_kind")) == ("assertion", "term")
-        if b["variable"]["name"] == "material type":
+        if b["variable"]["name"] in ("material type", "culture type"):
             assert "ontology" not in b and "root_node" not in b, b
             assert b.get("node_form") == "curie", b
         else:
