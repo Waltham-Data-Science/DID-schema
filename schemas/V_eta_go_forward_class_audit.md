@@ -901,6 +901,8 @@ Decided by Jess Haley, 2026-10-21 [generic treatment number]: a generic v1 treat
 
 Decided by Jess Haley, 2026-10-21 [treatment onset]: a migrated treatment manipulation is anchored at the v1 administration_onset_time when one is recorded, and at "during the session" only when none is.
 
+Decided by Jess Haley, 2026-10-21 [virus injection onset]: a v1 virus_injection's virus_AdministrationDate is its onset, so the migrated manipulation is anchored at that date; "during the session" only when the date is absent.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
