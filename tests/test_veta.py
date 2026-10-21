@@ -1525,10 +1525,17 @@ def test_binding_registry_meta_present():
     # `instrument type` is named by its registered term, NCIT Equipment Type,
     # since 2026-10-21 (Jess Haley, binding variables)
     assert {"species", "Equipment Type", "cell type", "material type"} <= names
-    # each subject_defining row is a term assertion drawing from an ontology subtree
+    # each subject_defining row is a term assertion drawing from an ontology
+    # subtree, except `material type`: since 2026-10-21 (Jess Haley) its kind is
+    # any registered term (a material can be an agar plate), so it carries
+    # node_form curie and no subtree
     for b in defining:
         assert (b["class"], b.get("value_kind")) == ("assertion", "term")
-        assert b.get("ontology") and b.get("root_node")
+        if b["variable"]["name"] == "material type":
+            assert "ontology" not in b and "root_node" not in b, b
+            assert b.get("node_form") == "curie", b
+        else:
+            assert b.get("ontology") and b.get("root_node")
     in_index = {e["class_name"]: e for e in INDEX["schemas"]}
     assert in_index["binding_registry_meta"].get("is_meta") is True
 

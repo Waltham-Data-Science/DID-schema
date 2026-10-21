@@ -1808,6 +1808,54 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (binding variables)",
       "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)"
+    },
+    {
+      "name": "degree Celsius",
+      "node": "om:degreeCelsius",
+      "definition": "The degree Celsius is a unit of temperature defined as 1 kelvin.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "millilitre",
+      "node": "om:millilitre",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "gram",
+      "node": "om:gram",
+      "definition": "The gram is a unit of mass defined as 1.0e-3 kilogram.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "milligram",
+      "node": "om:milligram",
+      "definition": "The milligram is a unit of mass defined as 1.0e-3 gram.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "gram per litre",
+      "node": "om:gramPerLitre",
+      "definition": "Gram per litre is a unit of density defined as gram divided by litre.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "Microgram per Milliliter",
+      "node": "NCIT:C64572",
+      "definition": "A metric unit of mass concentration defined as the concentration of one gram of a substance per unit volume of the mixture equal to one cubic meter. The concept also refers to the metric unit of mass density (volumic mass) defined as the density of a substance which mass equal to one gram occupies the volume of one cubic meter.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     }
   ]
 }

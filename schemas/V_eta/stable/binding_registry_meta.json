@@ -43,8 +43,7 @@
                 "name": "material type"
             },
             "class": "assertion",
-            "ontology": "CHEBI",
-            "root_node": "CHEBI:24431",
+            "node_form": "curie",
             "subject_defining": true,
             "value_kind": "term"
         },

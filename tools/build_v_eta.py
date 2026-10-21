@@ -8211,15 +8211,28 @@ RELATION_VOCABULARY = [
 # these are a flagged SUBSET of the same list, not a separate registry -- a subject
 # carries many variables, only these define what it is. Each subject_defining row is
 # a term_assertion drawing from an ontology subtree.
-def _sdef(name, ontology, root_node):
-    return {"variable": {"node": "", "name": name}, "class": "term_assertion",
-            "ontology": ontology, "root_node": root_node, "subject_defining": True}
+#
+# A row with no ontology subtree (`ontology=None`) admits ANY registered term as
+# its value and carries `node_form: curie` instead, the form the dataset and study
+# rows already use for a term with no admissible set: the value's node must be a
+# well-formed CURIE, and the term registry (T19) says which terms exist.
+def _sdef(name, ontology=None, root_node=None):
+    row = {"variable": {"node": "", "name": name}, "class": "term_assertion"}
+    if ontology is None:
+        row["node_form"] = "curie"
+    else:
+        row["ontology"], row["root_node"] = ontology, root_node
+    row["subject_defining"] = True
+    return row
 
 SUBJECT_STATEMENT_BINDINGS = [
     _sdef("species", "NCBITaxon", "NCBITaxon:1"),
     _sdef("instrument type", "OBI", "OBI:0000968"),
     _sdef("cell type", "CL", "CL:0000000"),
-    _sdef("material type", "CHEBI", "CHEBI:24431"),
+    # Jess Haley, 2026-10-21: no CHEBI subtree. The `material` entity type covers
+    # objects like an agar plate, which no chemical-entity subtree holds, so a
+    # material's kind is any registered term.
+    _sdef("material type"),
     _sdef("developmental stage", "UBERON", "UBERON:0000105"),
     # The D3/D6 corpus sweep appends the non-defining bindings here.
     #
@@ -13693,8 +13706,10 @@ _BINDING_VARIABLE_TERMS = {
     "cell type": ("EFO:0000324", "cell type"),
     # subject-defining; NCIT Type's child, the sibling of the registered Sample Type
     "instrument type": ("NCIT:C178920", "Equipment Type"),
-    # subject-defining; no ontology term fits, minted. Its value set (CHEBI chemical
-    # entity, while the `material` entity type is "an agar plate") is NOT decided.
+    # subject-defining; no ontology term fits, minted. Its value set was DECIDED
+    # by Jess Haley, 2026-10-21: the material entity type covers objects like an
+    # agar plate, so its kind is any registered term (the CHEBI chemical-entity
+    # subtree is dropped; the row carries node_form curie, no ontology/root_node).
     "material type": ("EMPTY:0000354", "material type"),
     # dataset; no ontology term fits, minted
     "ethics assessment": ("EMPTY:0000355", "ethics assessment"),
