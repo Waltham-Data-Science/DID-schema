@@ -1864,6 +1864,62 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (a dataset licence is its SPDX identifier; no ontology has a licence term)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+    },
+    {
+      "name": "angstrom",
+      "node": "om:angstrom",
+      "definition": "The angstrom is a unit of length defined as 1.0e-10 metre. The unit is often used for wavelengths of electromagnetic radiation or to express the sizes of atoms and molecules.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "nanometre",
+      "node": "om:nanometre",
+      "definition": "The nanometre is a unit of length defined as 1.0e-9 metre.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "micrometre",
+      "node": "om:micrometre",
+      "definition": "The micrometre is a unit of length defined as 1.0e-6 metre.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "centimetre",
+      "node": "om:centimetre",
+      "definition": "The centimetre is a unit of length defined as 1.0e-2 metre.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "nanosecond",
+      "node": "om:nanosecond-Time",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "microsecond",
+      "node": "om:microsecond-Time",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "millisecond",
+      "node": "om:millisecond-Time",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
+      "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
     }
   ]
 }
