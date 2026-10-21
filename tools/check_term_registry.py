@@ -19,6 +19,10 @@ per meaning, so this checks, and fails on any of:
       or definition, read from an empty-ontology checkout ($EMPTY_ONTOLOGY,
       else a sibling `empty-ontology` folder). Without a checkout R7 is
       reported NOT CHECKED, never passed.
+  R8  a binding variable (binding_registry_meta.json subject_statement_bindings)
+      with no node while the registry holds a term of that name (the build fills
+      it, so this means the built registry is stale). Variables the registry does
+      not hold are LISTED, not failed: naming them is a decision.
 
 It prints its denominator first and checks NOTHING against an ontology over
 the network: that a node's label is the ontology's label is recorded when the
@@ -131,6 +135,27 @@ def check_empty(terms, owl):
     return out
 
 
+def check_bindings(terms, bindings):
+    """R8. Returns (failures, report lines)."""
+    by_name = {t["name"].lower(): t for t in terms if t.get("node")}
+    by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
+    failures, report = [], []
+    for row in bindings.get("subject_statement_bindings", []):
+        var = row.get("variable") or {}
+        name, node = var.get("name", ""), var.get("node", "")
+        if node:
+            t = by_node.get(node.lower())
+            report.append(f"R8   {name!r}: {node} " + (
+                f"registered as {t['name']!r}" if t else "NOT in the term registry"))
+        elif name.lower() in by_name:
+            failures.append(f"R8 binding variable {name!r} has no node, but the "
+                            f"registry names it {by_name[name.lower()]['node']} "
+                            f"(run tools/build_v_eta.py)")
+        else:
+            report.append(f"R8   {name!r}: no node, NOT in the term registry")
+    return failures, report
+
+
 def _load(path):
     with open(path) as f:
         return json.load(f)
@@ -151,6 +176,18 @@ def main():
     else:
         print(f"R7: {n_empty} EMPTY term(s) compared with {owl_path}")
         failures = failures + check_empty(terms, owl)
+    bindings_path = os.path.join(ROOT, "schemas", "V_eta", "stable",
+                                 "binding_registry_meta.json")
+    if os.path.exists(bindings_path):
+        bindings = _load(bindings_path)
+        n_var = len(bindings.get("subject_statement_bindings", []))
+        bfail, breport = check_bindings(terms, bindings)
+        print(f"R8: {n_var} binding variable(s) compared with the registry")
+        for line in breport:
+            print("  " + line)
+        failures = failures + bfail
+    else:
+        print("R8 NOT CHECKED: no built binding_registry_meta.json")
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

@@ -6,7 +6,7 @@
     "subject_statement_bindings": [
         {
             "variable": {
-                "node": "",
+                "node": "NCIT:C45293",
                 "name": "species"
             },
             "class": "assertion",
@@ -50,7 +50,7 @@
         },
         {
             "variable": {
-                "node": "",
+                "node": "NCIT:C43531",
                 "name": "developmental stage"
             },
             "class": "assertion",

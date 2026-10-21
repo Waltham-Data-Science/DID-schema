@@ -13663,6 +13663,25 @@ _reg["documentation"] = _reg.get("documentation", "") + (
     "distributive on the group is true of each member), `context` (the parent's "
     "interactions overlapping the stay, as context, never fact) or `nothing`.")
 _save(_rp, _reg)
+
+# -- 12.18 binding variables take their node from the term registry -----------
+# The term registry (schemas/V_eta_term_registry.json, tenet T19) names the
+# variables an import writes; the binding rows above were authored before it and
+# carry `"node": ""` for most variables. Where the registry holds a term with the
+# variable's exact name (ignoring case), the row takes that term's node, so the
+# two vocabularies cannot name one variable two ways. A variable the registry does
+# not hold keeps its row as authored: choosing a term for it is a decision, not a
+# build step (tools/check_term_registry.py R8 lists them).
+_term_by_name = {}
+for _tm in _term_source["terms"]:
+    if _tm.get("node"):
+        _term_by_name.setdefault(_tm["name"].lower(), _tm["node"])
+_reg = load(_rp)
+for _row in _reg["subject_statement_bindings"]:
+    _var = _row.get("variable") or {}
+    if not _var.get("node") and _var.get("name", "").lower() in _term_by_name:
+        _var["node"] = _term_by_name[_var["name"].lower()]
+_save(_rp, _reg)
 _t, _p = path_of("directed_relation")
 _d = load(_p)
 _rf = next(f for f in _d["fields"] if f["name"] == "relation")

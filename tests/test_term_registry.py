@@ -82,3 +82,25 @@ def test_an_empty_term_must_carry_the_ontologys_label_and_definition():
     assert len(bad) == 2 and all(b.startswith("R7 EMPTY:0000105") for b in bad)
     assert ctr.check_empty(terms, {}) == [
         "R7 EMPTY:0000105 (target seeding OD600): not in empty-ontology"]
+
+
+def test_a_binding_variable_the_registry_names_must_carry_its_node():
+    terms = [term("Species", "NCIT:C45293")]
+    stale = {"subject_statement_bindings": [{"variable": {"node": "", "name": "species"}}]}
+    failures, _ = ctr.check_bindings(terms, stale)
+    assert len(failures) == 1 and failures[0].startswith("R8")
+    built = {"subject_statement_bindings": [
+        {"variable": {"node": "NCIT:C45293", "name": "species"}},
+        {"variable": {"node": "", "name": "cell type"}}]}
+    failures, report = ctr.check_bindings(terms, built)
+    assert failures == []
+    assert any("'cell type': no node, NOT in the term registry" in r for r in report)
+
+
+def test_the_built_bindings_take_their_nodes_from_the_registry():
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+                                 "binding_registry_meta.json"))
+    nodes = {r["variable"]["name"]: r["variable"]["node"]
+             for r in reg["subject_statement_bindings"]}
+    assert nodes["species"] == "NCIT:C45293"
+    assert nodes["developmental stage"] == "NCIT:C43531"
