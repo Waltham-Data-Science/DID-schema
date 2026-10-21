@@ -773,10 +773,22 @@ material) as a `dose` manipulation with no amount, which the value rule
 recipe. So it becomes an `assertion` about the suspension whose value kind is
 `formulation`, with an empty `value` and a `value_id` edge to the recipe's
 `formulation` document, `variable` = composition (PATO:0000025, registered in
-`V_eta_term_registry.json`), and the time reference the dose carried (when it
-was prepared). `instance_of` does not fit: its registry row allows only a
-`product` or `strain` parent, and `formulation` is a value, not an entity.
-The suspension's OD600 and CFU observations are unchanged.
+`V_eta_term_registry.json`). `instance_of` does not fit: its registry row
+allows only a `product` or `strain` parent, and `formulation` is a value, not
+an entity. The suspension's OD600 and CFU observations are unchanged.
+
+Decided by Jess Haley, 2026-10-21: "The seeding solution's preparation day goes on the solution entity's own time_reference_id (when it existed, from its preparation); the composition assertion stays timeless. A dilution is linked to the stock solution it was made from by a `derived_from` relation (dilution -> that day's stock)."
+
+The first line's assertion was built at first with the time the dose had
+carried, and `did2.build` refused it: an assertion is a timeless fact
+(`V_eta_tenets.md`) and `assertion.json` declares no `time_reference_id`.
+So the composition assertion has no time, and the day the solution was
+prepared is the solution entity's own `time_reference_id` (`entity.json`:
+"when this entity existed"). Each dilution is a `directed_relation`
+`derived_from` (RO:0001000) with the dilution as child and that day's stock
+solution as parent; the registry's `derived_from` row leaves `child_types`
+and `parent_types` empty (unconstrained), so material to material needs no
+registry change.
 
 Decided by Jess Haley, 2026-10-21: "The v1 treatment migrators decide by the recorded location: a bath location makes the treatment an immersion (a manipulation valued by its formulation through value_id); a body site (intraperitoneal, a brain area, ...) makes it a dose, with the source's amount when it has one and otherwise NaN in the quantity; virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation; a generic treatment with no location stays a dose with NaN and is listed in the migration report as route unknown."
 

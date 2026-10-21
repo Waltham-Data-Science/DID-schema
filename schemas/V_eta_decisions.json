@@ -903,7 +903,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 901,
+          "line": 913,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -918,7 +918,7 @@
       "decided_in": {
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
-        "line": 901,
+        "line": 913,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
@@ -927,7 +927,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 901,
+          "line": 913,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -942,7 +942,7 @@
       "decided_in": {
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
-        "line": 901,
+        "line": 913,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
@@ -951,7 +951,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 901,
+          "line": 913,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
