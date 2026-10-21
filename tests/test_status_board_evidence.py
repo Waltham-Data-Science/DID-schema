@@ -658,54 +658,109 @@ def _cut_function(path, name):
 # so the reader meets it where it is used. Deliberate, not an oversight.
 import re  # noqa: E402
 
+# THE OLD IDIOMS ARE READ FROM THE TREE THAT STILL WROTE THEM. DID-matlab #218
+# merged the port to did-schema #88 at 229c12e; its first parent is the last
+# #218 commit whose migrators mint through idioms 1 and 2. Those bytes are cut
+# from that commit with `git show` (CI clones DID-matlab in full), so the old
+# idioms stay pinned to real code for older trees (the `v_eta-pre73` pin, NDI's
+# second pass) while the current-tree fixtures below pin the #88 builder.
+PRE_PORT = "229c12e^1"
+# The port merge itself still spelled statements by their old LEAF name through
+# the builder (`did2.build.statement('intensity_observation', ...)`, which
+# did2.build reads as `observation + intensity`); #218 then dropped every leaf
+# literal (merge 92200cd, "no old leaf-class literals"). The leaf-name form is
+# pinned at the merge, the direction + 'ValueKind' form at the checkout.
+PORT_MERGE = "229c12e"
+_MJ = "src/did/+did2/+convert/+migrators_j/"
+
+
+def _source(tmp_path, rel, tree, base=_MJ):
+    """A path holding `rel` as it stands in `tree` (None = the checkout)."""
+    if tree is None:
+        return (_mig(rel) if base == _MJ
+                else os.path.join(_did_root(), base, rel))
+    import subprocess
+    try:
+        text = subprocess.run(
+            ["git", "-C", _did_root(), "show", f"{tree}:{base}{rel}"],
+            check=True, capture_output=True, text=True).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        pytest.skip(f"DID-matlab {tree} is not reachable here ({exc}); a "
+                    "shallow clone cannot show the pre-port tree")
+    p = tmp_path / ("tree_" + rel.replace("/", "_"))
+    p.write_text(text)
+    return str(p)
+
+
 _IDIOM_SOURCES = [
-    # idiom, file, the needle that finds the mint statement, helper to carry
-    ("1 struct literal", "private/jSessionAnchor.m",
-     "'class_name', 'session_relative_reference'", None),
-    ("2 local class-block helper", "fitcurve.m",
-     "classBlock('session_relative_reference'", "classBlock"),
-    ("2 local class-block helper, 3-arg", "pyraview.m",
-     "classBlock('session_relative_reference'", "classBlock"),
-    ("3 class_name field write", "element_epoch.m",
-     "document_class.class_name = 'acquisition_epoch'", None),
+    # idiom, file, tree, the needle that finds the mint statement,
+    # helper (file, function) to carry beside it, the class it must yield
+    ("1 struct literal", "private/jSessionAnchor.m", PRE_PORT,
+     "'class_name', 'session_relative_reference'", None,
+     "session_relative_reference"),
+    ("2 local class-block helper", "fitcurve.m", PRE_PORT,
+     "classBlock('session_relative_reference'", ("fitcurve.m", "classBlock"),
+     "session_relative_reference"),
+    ("2 local class-block helper, 3-arg", "pyraview.m", PRE_PORT,
+     "classBlock('session_relative_reference'", ("pyraview.m", "classBlock"),
+     "session_relative_reference"),
+    ("3 class_name field write", "element_epoch.m", None,
+     "document_class.class_name = 'acquisition_epoch'", None,
+     "acquisition_epoch"),
+    # #88 (DID-matlab #218 after 229c12e): the builder.
+    ("4 builder, leaf name", "lightsheet_zarr_pyramid.m", PORT_MERGE,
+     "did2.build.statement('intensity_observation'", None,
+     "observation + intensity"),
+    ("4 builder, direction + ValueKind", "../resolveDeferredBaths.m", None,
+     "bath = did2.build.statement('manipulation'", None,
+     "manipulation + formulation"),
+    ("4 builder, entity document", "lightsheet_zarr_pyramid.m", None,
+     "software = did2.build.document('entity'", None, "entity"),
+    ("4 builder, fixed class", "private/jSessionAnchor.m", None,
+     "did2.build.relativeTimeReference(", None, "relative_time_reference"),
+    ("5 wrapper with ValueKind", "treatment_drug.m", None,
+     "doc = jStatement(preBody, 'manipulation'",
+     ("private/jStatement.m", "jStatement"), "manipulation + temperature"),
+    ("5 wrapper with a leaf name", "probe_location.m", PORT_MERGE,
+     "obs = jStatement(preBody, 'term_observation'",
+     ("private/jStatement.m", "jStatement"), "observation + term"),
 ]
 
 
-@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
-@pytest.mark.parametrize("idiom,rel,needle,helper", _IDIOM_SOURCES,
-                         ids=[s[0] for s in _IDIOM_SOURCES])
-def test_every_mint_idiom_in_the_real_migrators_is_detected(
-        tmp_path, idiom, rel, needle, helper):
-    """One fixture per idiom, cut from the migrator that uses it.
-
-    IDIOM 2 IS THE ONE THAT WAS MISSING, and it is not exotic: six migrators
-    mint `session_relative_reference` through a local `classBlock`, which is
-    twice as many sites as the idiom the detector could see.
-    """
-    path = _mig(rel)
+def _idiom_fixture(tmp_path, rel, tree, needle, helper):
+    path = _source(tmp_path, rel, tree)
     stmt, lineno = _cut_statement(path, needle)
-    assert stmt, (f"{rel} no longer contains {needle!r} -- this fixture has stopped "
-                  "describing the real migrator, so re-point it rather than "
-                  "relaxing it")
+    assert stmt, (f"{rel}@{tree or 'checkout'} no longer contains {needle!r} -- "
+                  "this fixture has stopped describing the real migrator, so "
+                  "re-point it rather than relaxing it")
     text = stmt
     if helper:
-        fn = _cut_function(path, helper)
-        assert fn, f"{rel} no longer defines {helper}()"
+        fn = _cut_function(_source(tmp_path, helper[0], tree), helper[1])
+        assert fn, f"{helper[0]}@{tree or 'checkout'} no longer defines {helper[1]}()"
         text = stmt + "\n" + fn
+    return text, lineno
 
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+@pytest.mark.parametrize("idiom,rel,tree,needle,helper,want", _IDIOM_SOURCES,
+                         ids=[s[0] for s in _IDIOM_SOURCES])
+def test_every_mint_idiom_in_the_real_migrators_is_detected(
+        tmp_path, idiom, rel, tree, needle, helper, want):
+    """One fixture per idiom, cut from the migrator that uses it.
+
+    IDIOM 2 WAS THE ONE ORIGINALLY MISSING: six migrators minted
+    `session_relative_reference` through a local `classBlock`. IDIOMS 4 AND 5
+    are the #88 port's: every per-document migrator now builds through
+    did2.build, and a statement's identity is its direction plus its value
+    kind (`manipulation + temperature`), whichever way the call spells it.
+    """
+    text, lineno = _idiom_fixture(tmp_path, rel, tree, needle, helper)
     p = tmp_path / "fixture.m"
     p.write_text(text)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
-
-    # The class is the LAST quoted literal in the needle -- `'class_name',
-    # 'session_relative_reference'` names the field first.
-    quoted = re.findall(r"'([a-z_][a-z_0-9]*)'", needle)
-    want = quoted[-1] if quoted else None
-    assert want and want != "class_name", (
-        f"could not read the expected class out of {needle!r}")
     assert want in minted, (
-        f'idiom {idiom}, cut verbatim from {rel}:{lineno}, was NOT recognised as a mint. Detected: {sorted(minted)}. This is the undercount coming back: the site is filed as a bare mention and the class renders with less outstanding work than it has.')
+        f'idiom {idiom}, cut verbatim from {rel}@{tree or "checkout"}:{lineno}, was NOT recognised as a mint of {want!r}. Detected: {sorted(minted)}. This is the undercount coming back: the site is filed as a bare mention and the class renders with less outstanding work than it has.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -714,13 +769,12 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
     classes and mints ONE. `time_reference` is itself an open class, and
     counting a superclass as a mint would move it toward "built" on somebody
     else's ancestry -- the same error the statement-position rule already
-    prevents for the struct idiom."""
-    path = _mig("fitcurve.m")
-    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
-    fn = _cut_function(path, "classBlock")
-    assert stmt and fn
+    prevents for the struct idiom. (Pre-port tree: see PRE_PORT.)"""
+    text, _ = _idiom_fixture(tmp_path, "fitcurve.m", PRE_PORT,
+                             "classBlock('session_relative_reference'",
+                             ("fitcurve.m", "classBlock"))
     p = tmp_path / "fixture.m"
-    p.write_text(stmt + "\n" + fn)
+    p.write_text(text)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
     assert minted == {"session_relative_reference"}, (
@@ -728,19 +782,34 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_wrapper_value_kind_is_not_mistaken_for_a_class(tmp_path):
+    """The #88 analogue of the superclass test: `jStatement(preBody,
+    'manipulation', ..., 'ValueKind', 'temperature')` names a direction and a
+    value kind and mints ONE document. The kind is not a document of its own,
+    and the direction alone is not the identity."""
+    text, _ = _idiom_fixture(tmp_path, "treatment_drug.m", None,
+                             "doc = jStatement(preBody, 'manipulation'",
+                             ("private/jStatement.m", "jStatement"))
+    p = tmp_path / "fixture.m"
+    p.write_text(text)
+    with open(str(p)) as fh:
+        minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+    assert minted == {"manipulation + temperature"}, sorted(minted)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
-    """Nothing in the detector knows the string "classBlock".
+    """Nothing in the detector knows the string "classBlock" or "jStatement".
 
     The real helper is renamed in the fixture. If the recogniser were keyed on
     the name this passes only by accident today and breaks the first time a
     migrator spells its helper differently -- which is how the board came to
     know one idiom out of three in the first place.
     """
-    path = _mig("fitcurve.m")
-    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
-    fn = _cut_function(path, "classBlock")
-    assert stmt and fn
-    text = (stmt + "\n" + fn).replace("classBlock", "buildTheClassStruct")
+    text, _ = _idiom_fixture(tmp_path, "fitcurve.m", PRE_PORT,
+                             "classBlock('session_relative_reference'",
+                             ("fitcurve.m", "classBlock"))
+    text = text.replace("classBlock", "buildTheClassStruct")
     p = tmp_path / "fixture.m"
     p.write_text(text)
     with open(str(p)) as fh:
@@ -750,6 +819,38 @@ def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
         "the class-block helper is being recognised by NAME")
     minted = {c for c, _l in sb.emitted_document_classes(lines)}
     assert minted == {"session_relative_reference"}
+
+    # ... and the #88 wrapper, the same way.
+    text, _ = _idiom_fixture(tmp_path, "treatment_drug.m", None,
+                             "doc = jStatement(preBody, 'manipulation'",
+                             ("private/jStatement.m", "jStatement"))
+    text = text.replace("jStatement", "makeTheStatement")
+    p.write_text(text)
+    with open(str(p)) as fh:
+        lines = fh.readlines()
+    assert "jStatement" not in "".join(lines)
+    assert set(sb.builder_wrappers(lines)) == {"makeTheStatement"}, (
+        "the builder wrapper is being recognised by NAME")
+    minted = {c for c, _l in sb.emitted_document_classes(lines)}
+    assert minted == {"manipulation + temperature"}, sorted(minted)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_every_fixed_class_builder_is_read_from_did2_build():
+    """`BUILDER_FIXED_CLASS` is a table, so it is checked against the builders:
+    each must pass that literal to `forward(...)` in +did2/+build/<name>.m.
+    `method` reads its class from the schema (`methodShape`), so it is checked
+    by name instead."""
+    base = os.path.join(_did_root(), "src/did/+did2/+build")
+    assert len(sb.BUILDER_FIXED_CLASS) >= 7, sb.BUILDER_FIXED_CLASS
+    for fn, cls in sorted(sb.BUILDER_FIXED_CLASS.items()):
+        with open(os.path.join(base, fn + ".m")) as fh:
+            src = fh.read()
+        if fn == "method":
+            assert "forward(shape.docClass" in src, fn
+            continue
+        assert f"forward('{cls}'" in src, (
+            f"did2.build.{fn} no longer forwards {cls!r}; correct BUILDER_FIXED_CLASS")
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -1026,35 +1127,37 @@ def test_a_mint_in_a_batch_post_pass_is_found(tmp_path):
     Same rule as the idiom fixtures above: a fixture built from the same premise
     as the detector cannot catch the detector. These bytes are the migrator's
     own, so if the batch passes change shape the fixture changes with them.
+
+    RE-POINTED 2026-10-21: the pre-port mint of `session_relative_reference`
+    (a struct literal) is gone with the #88 port; the pass now mints the bath
+    as `did2.build.statement('manipulation', ..., 'ValueKind', 'formulation')`,
+    i.e. a `manipulation + formulation`. The sweep is queried in the old leaf
+    spelling on purpose: the board must match it to the composed mint.
     """
     path = os.path.join(_convert_root(), "resolveDeferredBaths.m")
     assert os.path.exists(path), (
         "resolveDeferredBaths.m has moved; re-point this test at whatever "
         "batch post-pass mints a document now")
-    stmt, lineno = _cut_statement(
-        path, "struct('class_name', 'session_relative_reference'")
+    needle = "bath = did2.build.statement('manipulation'"
+    stmt, lineno = _cut_statement(path, needle)
     assert stmt, (
-        "resolveDeferredBaths.m no longer mints session_relative_reference -- "
+        "resolveDeferredBaths.m no longer mints the bath manipulation -- "
         "re-point this fixture rather than relaxing it")
     p = tmp_path / "fixture.m"
     p.write_text(stmt)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
-    assert "session_relative_reference" in minted, (
+    assert minted == {"manipulation + formulation"}, (
         f'the mint at resolveDeferredBaths.m:{lineno} was not recognised. Detected: {sorted(minted)}')
-    assert "time_reference" not in minted, (
-        "the superclass in the same statement was counted as a mint")
 
     # ... and the whole-repo sweep must cite it, filed under the batch group.
-    classes = set(_open_classes())
-    if "session_relative_reference" not in classes:
-        pytest.skip("session_relative_reference is no longer an open class")
-    mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
-    row = mig["session_relative_reference"]
+    cls = "formulation_manipulation"
+    mig, _src = sb.migrator_evidence({cls}, _did_root(), _ndi_root())
+    row = mig[cls]
     batch = row["by_group"][sb.GROUP_BATCH]
-    assert batch["n_emitted_class_refs"] >= 2, (
-        f'{batch["n_emitted_class_refs"]} batch mint(s) of session_relative_reference; resolveDeferredBaths.m has two. The board is back to reading half the path.')
-    assert any("resolveDeferredBaths.m" in r
+    assert batch["n_emitted_class_refs"] >= 1, (
+        f'{batch["n_emitted_class_refs"]} batch mint(s) of {cls}; resolveDeferredBaths.m has one. The board is back to reading half the path.')
+    assert any(f"resolveDeferredBaths.m:{lineno}" in r
                for r in batch["emitted_class_refs"]), batch["emitted_class_refs"]
     assert row["n_emitted_class_refs"] == (
         batch["n_emitted_class_refs"]
@@ -1202,7 +1305,7 @@ def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
-def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
+def test_every_mint_idiom_is_recognised_THROUGH_the_batch_root(tmp_path):
     """The idioms are verified IN the new root, not assumed to carry over.
 
     Measured on the real files, the batch post-passes use idiom 1 only today --
@@ -1219,16 +1322,10 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
     detector.
     """
     pieces, want = [], set()
-    for idiom, rel, needle, helper in _IDIOM_SOURCES:
-        path = _mig(rel)
-        stmt, _lineno = _cut_statement(path, needle)
-        assert stmt, f"{rel} no longer contains {needle!r}"
-        pieces.append(stmt)
-        if helper:
-            fn = _cut_function(path, helper)
-            assert fn, f"{rel} no longer defines {helper}()"
-            pieces.append(fn)
-        want.add(re.findall(r"'([a-z_][a-z_0-9]*)'", needle)[-1])
+    for _idiom, rel, tree, needle, helper, cls in _IDIOM_SOURCES:
+        text, _lineno = _idiom_fixture(tmp_path, rel, tree, needle, helper)
+        pieces.append(text)
+        want.add(cls)
     assert len(want) > 1, "the idiom sources no longer cover distinct classes"
 
     root = tmp_path / "DID-matlab"

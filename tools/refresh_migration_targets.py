@@ -246,6 +246,17 @@ _IDENT_ONLY = re.compile(r"^\s*([A-Za-z_]\w*)\s*$")
 LIT = "lit"
 PARAM = "param"
 DYN = "dyn"
+# THE #88 BUILDER (DID-matlab #218): a statement's class is its direction PLUS
+# its value kind, and the two can arrive from different places -- the class as
+# a parameter of `jStatement`, the kind as a `'ValueKind', <x>` pair the CALLER
+# forwards through `varargin`. So a statement whose halves are not both literal
+# yet is carried as (STMT, class symbol, kind symbol) and finished at the call
+# site, exactly as a bare PARAM is. `kind symbol` is None (no kind given),
+# (LIT, x), (PARAM, i) or (VARARG,) -- "whatever 'ValueKind' pair my caller
+# passes". A finished statement is (LIT, coverage.compose_target(class, kind)),
+# the `observation + intensity` spelling.
+STMT = "stmt"
+VARARG = ("varargin",)
 
 
 def _top_level_args(text, code, open_paren):
@@ -296,6 +307,47 @@ def _local_literals(func):
     return lits, murky
 
 
+def _arg_syms(src, func, lits, murky):
+    """Symbols for one argument source: a literal, a variable, or DYN."""
+    lm = _LIT.match(src)
+    if lm:
+        return [(LIT, lm.group(1))]
+    im = _IDENT_ONLY.match(src)
+    if im:
+        return _resolve_symbol(im.group(1), func, lits, murky)
+    return [(DYN, src.strip()[:60])]
+
+
+def _kind_syms(src, func, lits, murky):
+    """`_arg_syms` for a VALUE KIND. An empty literal is dropped: `leaf = ''`
+    is an initialiser (the migrator returns before building when it stays
+    empty), never a value kind, and keeping it would read a bare direction."""
+    return [k for k in _arg_syms(src, func, lits, murky)
+            if not (k[0] == LIT and not k[1])]
+
+
+def _value_kind_src(args):
+    """The source of the argument after a literal 'ValueKind', or None."""
+    for i, a in enumerate(args):
+        lm = _LIT.match(a)
+        if lm and lm.group(1) == SB.VALUE_KIND_OPTION and i + 1 < len(args):
+            return args[i + 1]
+    return None
+
+
+def _statement_sym(cls_sym, kind_sym):
+    """(LIT, composed) when both halves are known, DYN when either is
+    unreadable, else (STMT, class, kind) to be finished by a caller."""
+    if cls_sym[0] == DYN:
+        return cls_sym
+    if kind_sym is not None and kind_sym[0] == DYN:
+        return (DYN, f"{cls_sym[1]} + {kind_sym[1]}")
+    if cls_sym[0] == LIT and (kind_sym is None or kind_sym[0] == LIT):
+        return (LIT, COV.compose_target(cls_sym[1],
+                                        kind_sym[1] if kind_sym else None))
+    return (STMT, cls_sym, kind_sym)
+
+
 def _resolve_symbol(sym, func, lits, murky):
     """A variable used as a class name -> emission symbols."""
     if sym in func.params:
@@ -334,6 +386,31 @@ def analyse_function(func, known, imported=None):
         # The narrow signature used here is "the statement assigns the function's
         # OWN OUTPUT VARIABLE a struct that declares `superclasses`": a class
         # block, and nothing else in these packages, does that.
+        # IDIOM 5 -- the #88 builder: `did2.build.<x>(...)`. Read with
+        # status_board's tables (BUILDER_FIXED_CLASS / BUILDER_CLASS_ARG), not
+        # a copy of them.
+        for bm in SB.BUILDER_CALL.finditer(code):
+            bname = bm.group(1)
+            bline = _phys(spans, bm.start(), func)
+            if bname in SB.BUILDER_FIXED_CLASS:
+                direct.append(((LIT, SB.BUILDER_FIXED_CLASS[bname]), bline))
+                continue
+            if bname not in SB.BUILDER_CLASS_ARG:
+                continue
+            bargs, _end = _top_level_args(text, code, bm.end() - 1)
+            if not bargs:
+                continue
+            kv = _value_kind_src(bargs)
+            if kv is not None:
+                kinds = _kind_syms(kv, func, lits, murky)
+            elif "varargin" in func.params and any(
+                    a.strip().endswith("{:}") for a in bargs):
+                kinds = [VARARG]
+            else:
+                kinds = [None]
+            for c in _arg_syms(bargs[0], func, lits, murky):
+                for k in kinds:
+                    direct.append((_statement_sym(c, k), bline))
         returns_class_block = (
             lhs.strip() in func.outs and "superclasses" in text[rhs_off:])
         writes_dc = "document_class" in lhs or returns_class_block
@@ -619,38 +696,64 @@ class Analyser:
                 continue
             sub, subunres = self.analyse(callee, pkg, stack)
             unresolved.extend(subunres)
-            for sym in sub:
-                if sym[0] != PARAM:
-                    out.add(sym)
-                    continue
-                idx = sym[1]
+            lits, murky = _local_literals(func)
+            where = f'{_rel(func.path)}:{line}'
+
+            def _param(idx, what, args=args, callee=callee, where=where,
+                       func=func, lits=lits, murky=murky):
+                """The caller's symbols for the callee's parameter IDX."""
                 if idx >= len(args):
                     # the callee's parameter has a default the caller did not
-                    # override; the default is not a class name in any migrator
-                    # today, so this is reported rather than guessed
+                    # override; the default is not a class name in any
+                    # migrator today, so this is reported rather than guessed
                     unresolved.append(
-                        (f'call to `{callee.name}` omits class-name argument #{idx + 1}',
-                         f'{_rel(func.path)}:{line}'))
-                    continue
+                        (f'call to `{callee.name}` omits {what} argument #{idx + 1}',
+                         where))
+                    return []
                 arg = args[idx]
-                lm = _LIT.match(arg)
-                if lm:
-                    out.add((LIT, lm.group(1)))
+                syms = _arg_syms(arg, func, lits, murky)
+                good = [x for x in syms if x[0] != DYN]
+                if len(good) != len(syms):
+                    unresolved.append(
+                        ((f"{what} `{arg.strip()[:40]}` passed to `{callee.name}` is not a literal"
+                          if _IDENT_ONLY.match(arg) else
+                          f"{what} argument to `{callee.name}` is an expression (`{arg.strip()[:40]}`)"),
+                         where))
+                return good
+
+            for sym in sub:
+                if sym[0] == PARAM:
+                    for x in _param(sym[1], "class-name"):
+                        out.add(x)
                     continue
-                im = _IDENT_ONLY.match(arg)
-                if im:
-                    lits, murky = _local_literals(func)
-                    for s in _resolve_symbol(im.group(1), func, lits, murky):
-                        if s[0] == DYN:
+                if sym[0] != STMT:
+                    out.add(sym)
+                    continue
+                _t, cls_sym, kind_sym = sym
+                classes_ = (_param(cls_sym[1], "class-name")
+                            if cls_sym[0] == PARAM else [cls_sym])
+                if kind_sym is None or kind_sym[0] == LIT:
+                    kinds_ = [kind_sym]
+                elif kind_sym[0] == PARAM:
+                    kinds_ = [k for k in _param(kind_sym[1], "value-kind")
+                              if not (k[0] == LIT and not k[1])]
+                else:   # VARARG: the 'ValueKind' pair THIS call passes, if any
+                    kv = _value_kind_src(args)
+                    if kv is not None:
+                        kinds_ = _kind_syms(kv, func, lits, murky)
+                        if any(k[0] == DYN for k in kinds_):
                             unresolved.append(
-                                (f"class name `{im.group(1)}` passed to `{callee.name}` is not a literal",
-                                 f'{_rel(func.path)}:{line}'))
-                        else:
-                            out.add(s)
-                    continue
-                unresolved.append(
-                    (f"class-name argument to `{callee.name}` is an expression (`{arg.strip()[:40]}`)",
-                     f'{_rel(func.path)}:{line}'))
+                                (f"value kind `{kv.strip()[:40]}` passed to `{callee.name}` is not a literal",
+                                 where))
+                            kinds_ = [k for k in kinds_ if k[0] != DYN]
+                    elif "varargin" in func.params and any(
+                            a.strip().endswith("varargin{:}") for a in args):
+                        kinds_ = [VARARG]
+                    else:
+                        kinds_ = [None]
+                for c in classes_:
+                    for k in kinds_:
+                        out.add(_statement_sym(c, k))
         res = (out, unresolved)
         self._fn_cache[key] = res
         return res
@@ -672,10 +775,17 @@ class Analyser:
             return set(), [], True, path
         syms, unresolved = self.analyse(fns[0], pkg, frozenset())
         names = set()
-        for kind, val in syms:
+        for sym in syms:
+            kind, val = sym[0], sym[1]
             if kind == LIT:
-                names.add(val)
-            elif kind == PARAM:
+                # Every name in the #88 spelling: a leaf name an older idiom
+                # (or did2.build's leaf-name form) wrote is the same document
+                # as `direction + kind` (coverage.compose_target).
+                names.add(COV.compose_target(val))
+            elif kind == STMT and val[0] == LIT and sym[2] == VARARG:
+                # a wrapper reached with no 'ValueKind' pair: the class alone
+                names.add(COV.compose_target(val[1]))
+            elif kind in (PARAM, STMT):
                 unresolved.append(
                     ("entry point takes its class name as a parameter", _rel(path)))
         # A PURE CARRY-FORWARD MIGRATOR MINTS NOTHING, and that is a THIRD state,
@@ -779,11 +889,21 @@ def refresh(write=True, out=sys.stdout):
     all_derived = set()
     for cls in rows:
         derived, unresolved, carries, path = an.targets_for(cls)
-        existing = list(classes[cls].get("targets") or [])
+        original = list(classes[cls].get("targets") or [])
         if derived is None:
             n_nomig += 1
             continue
         all_derived |= derived
+        # THE RECORDED SET, RESPELLED IN THE #88 FORM BEFORE IT IS COMPARED. A
+        # PARTIAL row keeps what it had (absence is not evidence), and a kept
+        # `intensity_observation` beside a derived `observation + intensity`
+        # would be one target listed twice. Respelling is not a claim: the
+        # two spellings are one document (coverage.compose_target).
+        existing = []
+        for t in original:
+            t = COV.compose_target(t)
+            if t not in existing:
+                existing.append(t)
         if unresolved:
             # PARTIAL: a class name this tool could not read. Absence is not
             # evidence (operating rule 3), so the row can only GAIN.
@@ -808,9 +928,9 @@ def refresh(write=True, out=sys.stdout):
             n_full += 1
             new = ([t for t in existing if t in derived]
                    + [t for t in sorted(derived) if t not in existing])
-        if new != existing:
+        if new != original:
             mode = "PARTIAL" if unresolved else ("carry-fwd" if carries else "full")
-            changed.append((cls, existing, new, mode, _rel(path)))
+            changed.append((cls, original, new, mode, _rel(path)))
             classes[cls]["targets"] = new
 
         # THE COMPLETENESS OF `targets` IS NOW PART OF THE ROW, and until
@@ -896,7 +1016,8 @@ def refresh(write=True, out=sys.stdout):
     # nothing to report.
     if an.veta:
         stray = sorted(n for n in all_derived
-                       if n not in an.veta and n not in COV.KNOWN_NON_VETA)
+                       if not COV._target_built(n, an.veta)
+                       and n not in COV.KNOWN_NON_VETA)
         p(f'INSTRUMENT CHECK: {len(all_derived)} distinct target names derived; {len(stray)} absent from the built V_eta set')
         if stray:
             p("  " + ", ".join(stray))

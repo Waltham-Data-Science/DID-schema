@@ -468,6 +468,25 @@ BATCH_PASS_SCAN = {
 }
 
 
+def declared_targets(names):
+    """A declaration's target list, READ IN THE #88 SPELLING.
+
+    DID-matlab's BATCH-PASS-EMITS / helper headers may name a statement either
+    way: the old joined leaf (`voltage_observation`) or the #88 form DID-matlab's
+    tests spell with `classKey` (`observation+voltage`). Both are normalised here
+    to `compose_target`'s `observation + voltage`, so a header can move to the
+    #88 form without any row losing a credit, and an un-moved header keeps
+    reading the same. (DID-matlab's own parser decides what it accepts; this
+    side accepts both.)
+    """
+    out = []
+    for t in names or []:
+        t = compose_target(t)
+        if t not in out:
+            out.append(t)
+    return out
+
+
 def batch_pass_declarations():
     """Load DID-matlab's declaration scan. Populates BATCH_PASS_SCAN; no return.
 
@@ -546,7 +565,8 @@ def batch_pass_declarations():
             e = d["emits"].get(name) or {"form": None, "targets": [],
                                          "reason": None}
             index.setdefault(name, []).append(
-                {"pass": fn, "form": e["form"], "targets": list(e["targets"]),
+                {"pass": fn, "form": e["form"],
+                 "targets": declared_targets(e["targets"]),
                  "reason": e["reason"]})
     s["index"] = index
 
@@ -730,7 +750,9 @@ def helper_declarations():
     s["undeclared"] = len(out.get("undeclared") or [])
     s["invalid"] = list(out.get("invalid") or [])
     s["minting_undeclared"] = list(out.get("helpers_minting_undeclared") or [])
-    s["index"] = index
+    s["index"] = {name: [dict(e, targets=declared_targets(e.get("targets")))
+                         for e in entries]
+                  for name, entries in index.items()}
 
 
 def helper_entries(v1_class, veta_class):
@@ -862,9 +884,108 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "method_parameters", "visual_grating"}
 
 
+# ---- THE #88 SPELLING OF A TARGET, AND WHAT TWO SPELLINGS HAVE TO AGREE ON ----
+#
+# On did-schema #88 a statement is a DIRECTION class with ONE value-kind mixin
+# (V_eta_entity_composition_plan.md sec. 1): DID-matlab's did2.build makes an
+# `observation` listing `intensity` whether the migrator says
+# `did2.build.statement('observation', ..., 'ValueKind', 'intensity')` or the
+# older leaf name `'intensity_observation'` (+did2/+build/private/resolveLeaf.m
+# reads `<kind>_<direction>` as that direction with that kind). An entity is
+# one `entity` class with a `type`. So a target is spelled:
+#
+#     observation + intensity      a statement: direction + value-kind mixin
+#     entity (software)            an entity: the class, with its type
+#     relative_time_reference      anything else: the class name
+#
+# and two spellings are THE SAME TARGET when `target_key` agrees. Comparing the
+# raw strings is what made a correctly ported class read as SUPERSEDED: the
+# migrator emits `observation + intensity` and the record said
+# `intensity_observation`. The key keeps the information that a string compare
+# was standing in for (direction AND kind both have to match), and drops only
+# the spelling. An entity's type is NOT part of the key: the generated `targets`
+# column cannot read a type (`did2.build.document('entity', ent)` carries it in
+# a struct), so requiring it would fail every entity on a limitation of the
+# reader rather than a fact about the migrator. That is stated, not hidden.
+STATEMENT_DIRECTIONS = ("observation", "assertion", "manipulation", "calculation")
+_COMPOSED_SPELLING = re.compile(r"^\s*([A-Za-z_]\w*)\s*\+\s*([A-Za-z_]\w*)\s*$")
+_TYPED_ENTITY_SPELLING = re.compile(r"^\s*(entity)\s*\(\s*([A-Za-z_]\w*)\s*\)\s*$")
+_VETA_NAMES_CACHE = []
+
+
+def _veta_names(veta=None):
+    if veta is not None:
+        return set(veta)
+    if not _VETA_NAMES_CACHE:
+        try:
+            _VETA_NAMES_CACHE.append(set(veta_index()))
+        except (OSError, ValueError, KeyError, TypeError):
+            _VETA_NAMES_CACHE.append(set())
+    return _VETA_NAMES_CACHE[0]
+
+
+def compose_target(cls, kind=None, veta=None):
+    """The #88 spelling of the document did2.build makes from CLASS (+ VALUEKIND).
+
+    Mirrors DID-matlab +did2/+build/private/resolveLeaf.m: with a kind, the
+    class is that direction listing the kind; without one, a name the schema
+    lacks of the form `<kind>_<direction>` is read as that direction + kind.
+    A name the schema HAS is itself -- the eight named calculators
+    (`tuning_curve_calculation`, ...) are classes and stay named.
+    """
+    cls = str(cls).strip()
+    if kind:
+        return f"{cls} + {str(kind).strip()}"
+    m = _COMPOSED_SPELLING.match(cls)
+    if m:
+        return f"{m.group(1)} + {m.group(2)}"
+    names = _veta_names(veta)
+    if cls in names:
+        return cls
+    sup = SUPERSEDED_BY_ENTITY_COMPOSITION.get(cls)
+    if sup and len(sup) == 2:
+        return f"{sup[0]} + {sup[1]}"
+    for d in STATEMENT_DIRECTIONS:
+        suffix = "_" + d
+        if cls.endswith(suffix) and cls[:-len(suffix)] in names:
+            return f"{d} + {cls[:-len(suffix)]}"
+    return cls
+
+
+def target_key(name, veta=None):
+    """The comparison identity of a target in any spelling (see above).
+
+    `intensity_observation`, `observation+intensity` and
+    `observation + intensity` share one key; `software`, `entity (software)`
+    and `entity` share the key `entity`.
+    """
+    n = str(name).strip()
+    m = _TYPED_ENTITY_SPELLING.match(n)
+    if m:
+        return m.group(1)
+    sup = SUPERSEDED_BY_ENTITY_COMPOSITION.get(n)
+    if sup and len(sup) == 1:
+        return sup[0]
+    return compose_target(n, veta=veta)
+
+
+def target_parts(name, veta=None):
+    """The V_eta classes a target needs built: both halves of a composition."""
+    return [p.strip() for p in target_key(name, veta).split("+")]
+
+
+def target_document_class(name, veta=None):
+    """The `class_name` a document of this target carries (the direction)."""
+    return target_parts(name, veta)[0]
+
+
+def target_keys(names, veta=None):
+    return {target_key(t, veta) for t in (names or [])}
+
+
 def _target_built(name, veta):
     """A target class is built when it, or everything that replaced it, is in `veta`."""
-    return all(x in veta for x in SUPERSEDED_BY_ENTITY_COMPOSITION.get(name, [name]))
+    return all(x in veta for x in target_parts(name, veta))
 
 
 def guardrail(veta, emitted):
@@ -1051,7 +1172,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         # renamed `item` / `item_manipulation` 2026-10-04 (V_eta_study_plan.md,
         # "`timed_sequence` becomes `item`", signed); the quotes below are the
         # stimulus plan's own words, as signed.
-        ["item", "item_manipulation"],
+        ["item", "manipulation + item"],   # #88 spelling of item_manipulation
         "V_eta_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id",
         ("the v1 `stimulus_presentation` id is preserved on the body-of-record "
@@ -1070,7 +1191,9 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # bath gives none. The anchor is shared infra and the location
     # term_observation is conditional, so neither is listed.
     "stimulus_bath": (
-        ["manipulation", "formulation"], "V_eta_go_forward_class_audit.md",
+        # #88 spelling: the row's own `how` records "a `manipulation` whose
+        # value kind is `formulation`", plus the `formulation` document.
+        ["manipulation + formulation", "formulation"], "V_eta_go_forward_class_audit.md",
         "A bath is a manipulation whose value is the formulation",
         "A bath is a manipulation whose value is the formulation",
         ("Deferred in pass 1 (needsSessionContext), assembled by "
@@ -1680,7 +1803,8 @@ def build_ledger():
         if entry:
             no_target_reason, plan, frag, no_target_account = entry
             no_target_cite = {"document": plan, "signoff_fragment": frag}
-        elif decided_targets and decided_targets == [cn if cn in veta else vname]:
+        elif decided_targets and (target_keys(decided_targets, veta)
+                                  == target_keys([cn if cn in veta else vname], veta)):
             # Its decided target IS itself: a deliberate passthrough, which is
             # neither a dissolution nor a gap. Downstream consumers strip a
             # self-target (`open_class_state` does, correctly -- a passthrough
@@ -1731,6 +1855,14 @@ def build_ledger():
         _unread = list(((tinfo or {}).get("unread_targets") or {}).get("targets")
                        or [])
         _emitted_known = set(targets) | set(_unread)
+        # Compared by TARGET KEY, never by string (see `target_key`): a
+        # migrator emitting `observation + intensity` emits the decided
+        # `intensity_observation`; the two are one target spelled twice.
+        def _K(ts):
+            return target_keys(ts, veta)
+        _named_k = _K(_named)
+        _known_k = _K(_emitted_known)
+        _targets_k = _K(targets)
         _bp = batch_pass_entries(cn, vname)
         # The rename spelling, added last so it can only ADD a pass, never
         # displace one already matched by a direct spelling.
@@ -1738,6 +1870,7 @@ def build_ledger():
             if _re["pass"] not in {x["pass"] for x in _bp}:
                 _bp.append(_re)
         _bp_targets = sorted({t for e in _bp for t in e["targets"]})
+        _bp_k = _K(_bp_targets)
         # THE FOURTH CHANNEL, carried apart from the third for the same reason
         # the third is carried apart from the first: a reader must be able to
         # tell WHICH mechanism earned the rung. A batch post-pass runs once
@@ -1746,6 +1879,7 @@ def build_ledger():
         # shape, which is the shape this channel exists to surface.
         _hp = helper_entries(cn, vname)
         _hp_targets = sorted({t for e in _hp for t in e["targets"]})
+        _hp_k = _K(_hp_targets)
         _eb = tinfo.get("emitted_by")
         build_state = {
             "schema_targets_named": len(_named),
@@ -1758,14 +1892,14 @@ def build_ledger():
             # A migrator implements the decision only when it EMITS the decided
             # class. Emitting the source class back out is a passthrough.
             "migrator_emits_decided_targets": bool(
-                _named and all(t in _emitted_known for t in _named)),
+                _named and _named_k <= _known_k),
             "has_per_class_migrator": mig,
             "batch_pass_consumers": [e["pass"] for e in _bp],
             "batch_pass_emits": {e["pass"]: e["targets"] for e in _bp
                                  if e["targets"]},
             "batch_pass_emits_decided_targets": bool(
-                _named and not all(t in targets for t in _named)
-                and all(t in set(targets) | set(_bp_targets) for t in _named)),
+                _named and not _named_k <= _targets_k
+                and _named_k <= (_targets_k | _bp_k)),
             "helper_consumers": [e["helper"] for e in _hp],
             "helper_emits": {e["helper"]: e["targets"] for e in _hp
                              if e["targets"]},
@@ -1774,9 +1908,8 @@ def build_ledger():
             # rollup's "rows this channel moved" stays a true count.
             "helper_emits_decided_targets": bool(
                 _named
-                and not all(t in _emitted_known for t in _named)
-                and all(t in _emitted_known | set(_bp_targets) | set(_hp_targets)
-                        for t in _named)),
+                and not _named_k <= _known_k
+                and _named_k <= (_known_k | _bp_k | _hp_k)),
             # THE FIRST EMISSION SHAPE OF ROW 107, and the last to get a home.
             # A SUPERCLASS-ONLY v1 class has no documents of its own -- its
             # content rides as a BLOCK on another class's document -- so no
@@ -1802,9 +1935,9 @@ def build_ledger():
             # unnoticed -- a flag that lies while the behaviour looks right.
             # Caught by `test_only_rows_with_an_authored_emitted_by_are_credited`.
             "emitted_by_emits_decided_targets": bool(
-                _eb and _named and not all(t in targets for t in _named)
-                and all(t in set(targets) | set((_eb or {}).get("targets") or [])
-                        for t in _named)),
+                _eb and _named and not _named_k <= _targets_k
+                and _named_k <= (_targets_k
+                                 | _K((_eb or {}).get("targets") or []))),
         }
 
         rows.append({
@@ -1853,7 +1986,7 @@ def build_ledger():
     # sanity: every named target class should exist in the built V_eta schema
     unknown = sorted({t for r in rows
                       for t in (r["targets"] + r["second_pass"] + r["decided_targets"])
-                      if t not in veta})
+                      if not _target_built(t, veta)})
     if unknown:
         print("  WARNING: target classes not in V_eta schema: " + ", ".join(unknown))
     return veta, v1, rows
@@ -2516,9 +2649,17 @@ def corpus_verdict(row, ev):
     # The classes a defect would be attributed to: what the migrator emits, plus
     # the decided targets, plus the source class itself (a guarded passthrough
     # validates under its own name).
-    mine = {norm_class(t) for t in (row.get("targets") or [])}
-    mine |= {norm_class(t) for t in (row.get("decided_targets") or [])}
-    mine |= {norm_class(t) for t in (row.get("second_pass") or [])}
+    # A target is attributed under BOTH names a report can file it by: its
+    # recorded spelling (a pre-#88 report files `image_observation`) and the
+    # class its document carries on #88 (`observation + intensity` is filed
+    # under `observation`). The second over-attributes on purpose -- every
+    # #88 statement of one direction shares a class_name -- which can only
+    # surface a fault, never hide one.
+    mine = set()
+    for _t in (list(row.get("targets") or []) + list(row.get("decided_targets") or [])
+               + list(row.get("second_pass") or [])):
+        mine.add(norm_class(_t))
+        mine.add(norm_class(target_document_class(_t)))
     mine.add(norm_class(row["v1_class"]))
     faults, checked, blind = [], [], []
     for c in ev["corpora"]:
@@ -3481,7 +3622,9 @@ def write_ledger(veta, v1, rows):
             # `method_parameters` folds were invisible in the rendered ledger
             # while sitting in the JSON. Emitted and decided are different
             # voices, printed as different clauses, never merged.
-            dt = [t for t in (r.get("decided_targets") or []) if t not in r["targets"]]
+            _have = target_keys(r["targets"])
+            dt = [t for t in (r.get("decided_targets") or [])
+                  if target_key(t) not in _have]
             if dt:
                 tgt += " · **will become** " + " + ".join("`" + t + "`" for t in dt)
             # A SIGNED DISSOLUTION ON A ROW THAT STILL EMITS ITSELF. Emitting

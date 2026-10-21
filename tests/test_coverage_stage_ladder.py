@@ -1316,20 +1316,22 @@ class ConfirmedTargetsCase(unittest.TestCase):
                 and v.get("decided_targets")]
         self.assertEqual(both, [], f"rows claiming both: {both}")
 
-    def test_an_authored_unread_target_counts_as_emitted_for_rung_3(self):
-        # element's raw-recording observation is emitted but underivable, so it
-        # lives in `unread_targets`. Excluding it from rung 3 would fail the
-        # rung for a limit of the READER rather than a fact about the migrator.
+    def test_element_rung_3_reads_no_once_its_unread_entry_is_gone(self):
+        # INVERTED 2026-10-21, not updated. This test pinned that element's
+        # AUTHORED `unread_targets` (the raw-recording observations, minted
+        # through a local helper `mk` the walker could not read) counted as
+        # emitted for rung 3. The DID-matlab #88 port (#218, 229c12e) removed
+        # `mk`: element.m now builds through did2.build, the derivation reads
+        # it in full, and it mints no observation. So the authored entry is
+        # gone from V_eta_migration_targets.json (with that evidence in the
+        # row's flags), and the confirmed observations must now read as NOT
+        # emitted -- the gap is real, and hiding it is what this rung is for.
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]
-        self.assertIn("voltage_observation", el["decided_targets"])
-        # Was `reached == 3`. Since 2026-09-25 element stops at rung 3 on the
-        # time anchor (relative_time_reference, not yet emitted), so what this test
-        # protects -- the unread observation counting as emitted -- is checked on
-        # the rung-3 detail instead: the ONLY missing target is the anchor.
-        self.assertEqual(el["stage"]["reached"], 2)
+        self.assertIn("observation + voltage", el["decided_targets"])
+        self.assertNotIn("observation + voltage", el["targets"])
         rung3 = next(r for r in el["stage"]["ladder"] if r["stage"] == 3)
         self.assertEqual(rung3["state"], "no")
-        self.assertIn("relative_time_reference", rung3["why"])
+        self.assertIn("observation + voltage", rung3["why"])

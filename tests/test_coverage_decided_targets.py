@@ -316,11 +316,15 @@ def test_recorded_decided_target_survives_in_both_artifacts(cls):
     assert hits, f"{cls}: {plan} has no TEAM-SIGN-OFF line containing {fragment!r}"
 
     row = next(r for r in _rows() if r["v1_class"] == cls)
-    assert sorted(row["decided_targets"]) == sorted(want), (
+    # Compared by coverage.target_key: on #88 the signed `item_manipulation`
+    # is spelled `manipulation + item`, and that is the same target, not a
+    # different one. The key still requires direction AND kind to match.
+    key = _cov().target_key
+    assert sorted(key(t) for t in row["decided_targets"]) == sorted(key(t) for t in want), (
         f'{cls}: ledger records decided_targets={row["decided_targets"]}, signed record says {want} ({plan}:{hits[0]})')
 
     cell, _acct = _md_row(cls)
-    for t in want:
+    for t in row["decided_targets"]:
         assert f"`{t}`" in cell, (
             f"{cls}: `{t}` is a recorded decided target but does not appear in the "
             f"rendered target cell {cell!r}")
@@ -404,10 +408,13 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     # A name retired by the 2026-10-08 composition (signed) resolves through
     # coverage.py's supersession table (`software` -> `entity`,
     # `time_observation` -> `observation` + `time`); what it resolves to must exist.
-    sup = _cov().SUPERSEDED_BY_ENTITY_COMPOSITION
+    # On #88 a target may be SPELLED in the composed form
+    # (`observation + intensity`, `entity (software)`); coverage.target_parts
+    # names the classes either spelling needs, and each must exist.
+    parts = _cov().target_parts
     bad = [(r["v1_class"], t) for r in rows
            for t in r["decided_targets"]
-           if not all(x in built for x in sup.get(t, [t]))]
+           if not all(x in built for x in parts(t, built))]
     assert not bad, (
         f'DENOMINATOR: {len(rows)} rows, {len(built)} built classes. Decided targets naming no built class: {bad}')
 
@@ -485,14 +492,15 @@ def test_app_schema_half_is_reported_as_built():
     present, so the two halves cannot be read as one verdict.
     """
     row = next(r for r in _rows() if r["v1_class"] == "app")
-    assert row["decided_targets"] == ["software"], row["decided_targets"]
+    # Spelled `entity (software)` on #88 (an entity of type software).
+    assert row["decided_targets"] == ["entity (software)"], row["decided_targets"]
     # `software` is an `entity` type since 2026-10-08 (signed), so the target
     # is built when `entity` is.
     assert "entity" in _built_classes(), (
         "`entity` is not in the built set -- re-check this test's premise "
         "before relaxing it")
     bs = row["build_state"]
-    assert bs["schema_targets_built"] == ["software"], bs
+    assert bs["schema_targets_built"] == ["entity (software)"], bs
     assert bs["schema_targets_missing"] == [], bs
     assert bs["migrator_emits_decided_targets"] is False, bs
     _cell, acct = _md_row("app")

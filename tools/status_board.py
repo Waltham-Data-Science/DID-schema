@@ -411,8 +411,24 @@ def _coverage_supersession():
 SUPERSEDED = _coverage_supersession()
 
 
+def _coverage_module():
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coverage.py")
+    spec = importlib.util.spec_from_file_location("_status_board_coverage_keys", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+# coverage.py's #88 target spelling (`observation + intensity`), imported for the
+# same reason as CLASS_EMIT: one definition of what two spellings agree on.
+_COV = _coverage_module()
+compose_target = _COV.compose_target
+target_key = _COV.target_key
+
+
 def _target_built(name, built_classes):
-    return all(x in built_classes for x in SUPERSEDED.get(name, [name]))
+    return all(x in built_classes for x in _COV.target_parts(name, built_classes))
 
 
 def code_before_comment(line):
@@ -600,7 +616,223 @@ def _top_level_args(text, code, open_paren):
     return args
 
 
-def emitted_document_classes(lines, unresolved=None, idioms=None):
+# ---------------------------------------------------------------------------
+# IDIOMS 4 AND 5 -- THE #88 BUILDER (DID-matlab #218, the migrator port)
+# ---------------------------------------------------------------------------
+# The port to did-schema #88 (merged into DID-matlab #218 at 229c12e) replaced
+# all three idioms above in the per-document migrators with calls into
+# `did2.build`, which reads the class, its blocks and its edges from the schema:
+#
+#   IDIOM 4  did2.build.statement('observation', ..., 'ValueKind', 'intensity')
+#            did2.build.document('entity', ...)
+#            did2.build.relativeTimeReference(...)   (and the other builders
+#            named in BUILDER_FIXED_CLASS, each of which mints one fixed class)
+#   IDIOM 5  jStatement(preBody, 'manipulation', ..., 'ValueKind', 'dose')
+#            -- a WRAPPER: a function whose body passes one of its own
+#            PARAMETERS as the class of a did2.build.statement/document call.
+#            Recognised by that shape, never by its name (as idiom 2 is).
+#
+# A statement's IDENTITY on #88 is its direction plus its value kind, so the
+# class recorded is coverage.py's `compose_target` spelling
+# (`manipulation + dose`). did2.build also accepts the older leaf name
+# (`'intensity_observation'`, +did2/+build/private/resolveLeaf.m) and builds
+# the same document, so a leaf name composes to the same spelling.
+#
+# The old idioms are still recognised: older trees (the `v_eta-pre73` pin)
+# mint that way, and NDI's second pass still does.
+BUILDER_CALL = re.compile(r"(?<![\w.])did2\.build\.([A-Za-z_]\w*)\s*\(")
+# The builders whose class is their first argument.
+BUILDER_CLASS_ARG = ("statement", "document")
+# The builders that mint ONE fixed class: the literal is the first argument of
+# `forward(...)` in DID-matlab +did2/+build/<builder>.m
+# (tests/test_status_board_evidence.py checks this table against those files).
+# `method` reads its class from the schema (`methodShape(...).docClass`):
+# `method` on #88, `method_parameters` before it.
+BUILDER_FIXED_CLASS = {
+    "relativeTimeReference": "relative_time_reference",
+    "absoluteTimeReference": "absolute_time_reference",
+    "sampledBody": "sampled_body",
+    "opaqueBody": "opaque_body",
+    "directedRelation": "directed_relation",
+    "undirectedRelation": "undirected_relation",
+    "method": "method",
+}
+VALUE_KIND_OPTION = "ValueKind"
+_ANY_CALL = re.compile(r"(?<![\w.])([A-Za-z_]\w*)\s*\(")
+
+
+def builder_call_args(text, code, open_paren):
+    """[(start, source)] of a call's top-level arguments; see `_top_level_args`."""
+    return _top_level_args(text, code, open_paren)
+
+
+def value_kind_arg(args):
+    """(start, source) of the argument after a literal `'ValueKind'`, or None."""
+    for i, (_st, src) in enumerate(args):
+        lm = _SINGLE_LITERAL.match(src)
+        if lm and lm.group(1) == VALUE_KIND_OPTION and i + 1 < len(args):
+            return args[i + 1]
+    return None
+
+
+def has_splat(args):
+    """True when an argument is `x{:}` -- options forwarded from elsewhere."""
+    return any(src.strip().endswith("{:}") for _st, src in args)
+
+
+def builder_wrappers(lines, known=None):
+    """{function name: (class PARAMETER index, kind spec)} for wrappers in `lines`.
+
+    A WRAPPER passes one of its own parameters as the class of a
+    `did2.build.statement` / `did2.build.document` call (`jStatement`), or of
+    a call to a wrapper already `known` (`jCalculation` -> `jStatement`; the
+    caller iterates to a fixed point). The
+    kind spec says where its value kind comes from: ('param', i) when the
+    `'ValueKind'` option is one of its parameters, ('varargin',) when it
+    forwards its `varargin` (the caller's `'ValueKind', <x>` pair), or None.
+    """
+    heads = []
+    in_block = False
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if in_block:
+            if s == "%}":
+                in_block = False
+            continue
+        if s == "%{":
+            in_block = True
+            continue
+        if not s.startswith("function"):
+            continue
+        m = _FUNCTION_HEAD.match(line)
+        if m:
+            heads.append((i, m))
+    out = {}
+    for k, (i, m) in enumerate(heads):
+        end = heads[k + 1][0] if k + 1 < len(heads) else len(lines)
+        params = [a.strip() for a in (m.group("args") or "").split(",")
+                  if a.strip()]
+        if not params:
+            continue
+        for text, _spans in logical_statements(lines[i + 1:end]):
+            code, _lits = split_matlab_line(text)
+            calls = [(bm, 0, ("varargin",))
+                     for bm in BUILDER_CALL.finditer(code)
+                     if bm.group(1) in BUILDER_CLASS_ARG]
+            for wm in _ANY_CALL.finditer(code):
+                if known and wm.group(1) in known:
+                    calls.append((wm,) + tuple(known[wm.group(1)]))
+            for bm, cls_idx, inner_kind in calls:
+                args = builder_call_args(text, code, bm.end() - 1)
+                if len(args) <= cls_idx:
+                    continue
+                cls_src = args[cls_idx][1].strip()
+                if cls_src not in params:
+                    continue
+                kind = None
+                kv = (value_kind_arg(args[cls_idx + 1:])
+                      if inner_kind and inner_kind[0] == "varargin" else
+                      (args[inner_kind[1]] if inner_kind
+                       and inner_kind[1] < len(args) else None))
+                if kv and kv[1].strip() in params:
+                    kind = ("param", params.index(kv[1].strip()))
+                elif kv is None and has_splat(args) and "varargin" in params:
+                    kind = ("varargin",)
+                out[m.group("name")] = (params.index(cls_src), kind)
+    return out
+
+
+def collect_builder_wrappers(paths):
+    """`builder_wrappers` over many files, to a fixed point (wrappers of
+    wrappers: `jCalculation` passes its class to `jStatement`)."""
+    texts = []
+    for path in paths:
+        try:
+            with open(path, errors="replace") as fh:
+                texts.append(fh.readlines())
+        except OSError:
+            continue
+    wrappers = {}
+    while True:
+        before = dict(wrappers)
+        for lines in texts:
+            wrappers.update(builder_wrappers(lines, before))
+        if wrappers == before:
+            return wrappers
+
+
+def _function_params(lines):
+    """Every parameter name of every function in `lines`."""
+    out = set()
+    for line in lines:
+        if not line.lstrip().startswith("function"):
+            continue
+        m = _FUNCTION_HEAD.match(line)
+        if m:
+            out |= {a.strip() for a in (m.group("args") or "").split(",")
+                    if a.strip()}
+    return out
+
+
+def _builder_mints(text, spans, wrappers, params, found, unresolved, tally):
+    """Idioms 4 and 5 for one joined statement (see the block comment above)."""
+    code, _lits = split_matlab_line(text)
+    if code.lstrip().startswith("function"):
+        return
+
+    def _one(args, cls_arg, kind_arg, idiom):
+        st, src = cls_arg
+        lm = _SINGLE_LITERAL.match(src)
+        line = _line_of(spans, st)
+        if not lm:
+            # A class passed in from a PARAMETER is a wrapper's body: the class
+            # is named at the wrapper's call site (idiom 5), not here.
+            if src.strip() not in params and unresolved is not None:
+                unresolved.append((line, src.strip()[:80]))
+            return
+        kind = None
+        if kind_arg is not None:
+            km = _SINGLE_LITERAL.match(kind_arg[1])
+            if not km:
+                if unresolved is not None:
+                    unresolved.append((line, f"{lm.group(1)} + {kind_arg[1].strip()[:60]}"))
+                return
+            kind = km.group(1)
+        found.add((compose_target(lm.group(1), kind), line))
+        tally(idiom)
+
+    for bm in BUILDER_CALL.finditer(code):
+        name = bm.group(1)
+        if name in BUILDER_FIXED_CLASS:
+            found.add((BUILDER_FIXED_CLASS[name], _line_of(spans, bm.start())))
+            tally(4)
+            continue
+        if name not in BUILDER_CLASS_ARG:
+            continue
+        args = builder_call_args(text, code, bm.end() - 1)
+        if args:
+            _one(args, args[0], value_kind_arg(args), 4)
+    for wm in _ANY_CALL.finditer(code):
+        spec = wrappers.get(wm.group(1))
+        if spec is None:
+            continue
+        idx, kind_spec = spec
+        args = builder_call_args(text, code, wm.end() - 1)
+        if idx >= len(args):
+            if unresolved is not None:
+                unresolved.append((_line_of(spans, wm.start()),
+                                   f"{wm.group(1)}(...) omits its class argument"))
+            continue
+        if kind_spec and kind_spec[0] == "param":
+            kind_arg = args[kind_spec[1]] if kind_spec[1] < len(args) else None
+        elif kind_spec:
+            kind_arg = value_kind_arg(args[idx + 1:])
+        else:
+            kind_arg = None
+        _one(args, args[idx], kind_arg, 5)
+
+
+def emitted_document_classes(lines, unresolved=None, idioms=None, wrappers=None):
     """{(class_name, physical_line_no)} -- documents this file MINTS.
 
     Three idioms are recognised (see the block comment above). In every one, a
@@ -618,6 +850,14 @@ def emitted_document_classes(lines, unresolved=None, idioms=None):
          that helper's own class-name parameter INDEX, so the superclass
          argument beside it cannot be mistaken for a mint.
       3. `<body>.document_class.class_name = '<X>';`
+      4. `did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`,
+         `did2.build.document('<X>', ...)` and the fixed-class builders
+         (`BUILDER_FIXED_CLASS`) -- the #88 port. A statement is recorded as
+         `compose_target(<class>, <kind>)`: `observation + intensity`.
+      5. a call to a WRAPPER of idiom 4 (`jStatement(preBody, '<X>', ...,
+         'ValueKind', '<kind>')`), found by shape in `lines` or passed in as
+         `wrappers` ({name: spec} from `builder_wrappers`) when the wrapper
+         lives in another file (a `private/` helper).
 
     `unresolved`, if given a list, collects `(physical_line_no, expression)` for
     every `document_class` write whose class name is a VARIABLE. Those are mints
@@ -631,7 +871,15 @@ def emitted_document_classes(lines, unresolved=None, idioms=None):
             idioms[n] = idioms.get(n, 0) + 1
     found = set()
     helpers = class_block_helpers(lines)
+    wrap = dict(wrappers or {})
+    while True:
+        local = builder_wrappers(lines, wrap)
+        if all(wrap.get(k) == v for k, v in local.items()):
+            break
+        wrap.update(local)
+    params = _function_params(lines)
     for text, spans in logical_statements(lines):
+        _builder_mints(text, spans, wrap, params, found, unresolved, _tally)
         anchor = text.find("document_class")
         if anchor < 0:
             continue
@@ -797,7 +1045,7 @@ REF_KINDS = ("guard", "field_read", "field_write", "named", COMMENT_KIND,
 CODE_KINDS = tuple(k for k in REF_KINDS if k != COMMENT_KIND)
 
 
-def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
+def scan_matlab_file(path, patterns, unresolved=None, idioms=None, wrappers=None):
     """Return ({class: [(line_no, kind)]}, n_lines) for one .m file.
 
     `unresolved`, if given a list, collects `(line_no, expression)` for every
@@ -812,7 +1060,10 @@ def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
         return hits, 0
     # Statement-level, so it is computed over the whole file before the
     # line-level sweep below can mis-file one of its hits as `named`.
-    emissions = emitted_document_classes(lines, unresolved, idioms)
+    emissions = emitted_document_classes(lines, unresolved, idioms, wrappers)
+    # Matched by TARGET KEY: a queried leaf name and the `direction + kind`
+    # the builder idioms record are one class spelled two ways.
+    emission_keys = {(target_key(c), ln) for c, ln in emissions}
     word = {cls: re.compile(r"(?<![\w])" + re.escape(cls) + r"(?![\w])")
             for cls in patterns}
     for lno, line in enumerate(lines, 1):
@@ -845,7 +1096,7 @@ def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
             by_name.setdefault(text, col)
         for cls, rx in patterns.items():
             if cls in by_name:
-                if (cls, lno) in emissions:
+                if (target_key(cls), lno) in emission_keys:
                     kind = EMITTED_CLASS_KIND
                 elif guardish:
                     kind = "guard"
@@ -860,6 +1111,19 @@ def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
                 continue
             kind = "field_read" if (eq is None or m.start() > eq) else "field_write"
             hits.setdefault(cls, []).append((lno, kind))
+    # A MINT WITH NO LITERAL OF THE QUERIED SPELLING ON ITS LINE: a fixed-class
+    # builder (`did2.build.relativeTimeReference(...)` names no class at all) or
+    # a statement queried in the #88 spelling (`manipulation + temperature`
+    # where the line says 'manipulation' ... 'temperature'). Filed as a mint
+    # by TARGET KEY, once per line, so the literal pass above is not doubled.
+    keys = {}
+    for cls in patterns:
+        keys.setdefault(target_key(cls), []).append(cls)
+    for c, ln in sorted(emissions, key=lambda e: (e[1], e[0])):
+        for cls in keys.get(target_key(c), ()):
+            spots = hits.setdefault(cls, [])
+            if (ln, EMITTED_CLASS_KIND) not in spots:
+                spots.append((ln, EMITTED_CLASS_KIND))
     return hits, len(lines)
 
 
@@ -1017,14 +1281,27 @@ def migrator_evidence(classes, did_root, ndi_root):
     by_group_lines = {g: 0 for g in GROUPS}
     by_group_idioms = {g: {} for g in GROUPS}
     by_group_unresolved = {g: [] for g in GROUPS}
+    # IDIOM 5's wrappers live in `private/` helpers (`jStatement`), so they are
+    # collected from every file a root reaches BEFORE any file is scanned.
+    planned = []
     for kind, repo, label, rel, group, skip_dirs in MIGRATOR_PACKAGES:
         root = did_root if kind == "did" else ndi_root
         base = os.path.join(root, rel) if root else None
         if not base or not os.path.isdir(base):
+            planned.append((repo, label, group, base, None, None))
+            continue
+        kept, skipped = package_files(base, set(skip_dirs))
+        planned.append((repo, label, group, base, kept, skipped))
+    # Only a `private/` function is visible outside its own file; a local
+    # subfunction wrapper is found by `emitted_document_classes` in its file.
+    wrappers = collect_builder_wrappers(
+        [p for _r, _l, _g, _b, kept, _s in planned if kept for p in kept
+         if os.path.basename(os.path.dirname(p)) == "private"])
+    for repo, label, group, base, kept, skipped in planned:
+        if kept is None:
             roots_missing.append(f"{repo}:{label}")
             continue
         roots_read.append(f"{repo}:{label}")
-        kept, skipped = package_files(base, set(skip_dirs))
         for pkg, paths in skipped.items():
             excluded_files.setdefault(pkg, []).extend(
                 f"{repo}:{label}/{os.path.relpath(p, base)}"
@@ -1044,7 +1321,7 @@ def migrator_evidence(classes, did_root, ndi_root):
             unresolved = []
             idioms_here = {}
             hits, n_lines = scan_matlab_file(path, patterns, unresolved,
-                                             idioms_here)
+                                             idioms_here, wrappers)
             for k, v in idioms_here.items():
                 idiom_counts[k] = idiom_counts.get(k, 0) + v
                 by_group_idioms[group][k] = by_group_idioms[group].get(k, 0) + v
