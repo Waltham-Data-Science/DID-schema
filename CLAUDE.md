@@ -365,8 +365,6 @@ or the status board.
   so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and
   `TermRegistry` are armed by default (`~envFlagIsOff(...)`).
 - **Variable bindings are `preferred`, not `required`** (OPEN_WORK #129).
-- **`directed_relation` still has `sequence`.** T20 renames it to `order`
-  before the V2 merge; not done yet.
 - **The value rule (`value_inline_or_body`) is decided, not signed**
   (`V_eta_data_body_model_plan.md`, AMENDMENT 5).
 - **NDI `+daq/reader.m` reads `document_properties.epochid.epochid`** for
