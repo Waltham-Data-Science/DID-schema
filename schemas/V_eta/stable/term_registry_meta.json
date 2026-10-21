@@ -1859,6 +1859,14 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Microliter per Milliliter",
+            "node": "NCIT:C69175",
+            "definition": "A unit of volume fraction expressed as a number of microliters of the constituent per the volume of the system represented in milliliters.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (source units of the Haley import: the spec's mL/L, the same ratio; V_eta_source_unit_plan.md)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         }
     ]
 }
