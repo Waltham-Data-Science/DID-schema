@@ -391,7 +391,6 @@ export interface BindingRegistryMeta {
   title?: string;
   description?: string;
   subject_statement_bindings?: Binding[];
-  binding_examples?: Binding[];
   relation_bindings?: RelationTerm[];
   notes?: string;
   [k: string]: unknown;

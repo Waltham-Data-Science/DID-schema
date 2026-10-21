@@ -103,8 +103,7 @@ def _registry(rows=None, **extra):
            "relation_bindings": [],
            "entity_field_bindings": rows if rows is not None else [
                {"class": "demo", "field": "f", "vocabulary": "openMINDS",
-                "term_set": "DemoSet", "closed": True}],
-           "binding_examples": []}
+                "term_set": "DemoSet", "closed": True}]}
     reg.update(extra)
     return reg
 
@@ -385,7 +384,7 @@ def test_the_registry_list_table_is_not_a_second_hand_kept_copy():
     hand-kept copies of one list is the defect this whole change is about, so
     they are asserted equal rather than merely both present."""
     assert rbs.REGISTRY_LISTS == cbg.REGISTRY_LISTS
-    assert len(rbs.REGISTRY_LISTS) == 5   # + entity_type_bindings, 2026-10-08
+    assert len(rbs.REGISTRY_LISTS) == 4   # + entity_type_bindings 2026-10-08; - binding_examples 2026-10-21
 
 
 # ---------------------------------------------------------------------------
@@ -417,7 +416,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # day: `distributed_as` (a strain -> the product it is distributed as).
     # 33 -> 34 on 2026-10-20 (V_eta_relation_inheritance_plan.md, a proposal built
     # ahead of signature): `included_in`, a record filed under a record.
-    assert total == 69, f'registry row count moved: {total}'
+    # 69 -> 65 on 2026-10-21 (Jess Haley): the 4 illustrative `binding_examples`
+    # rows deleted.
+    assert total == 65, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -431,7 +432,6 @@ def test_the_live_derivation_reports_its_denominator_first():
     ("relation_bindings", 34),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20
     ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
     ("entity_type_bindings", 19),         # new 2026-10-08
-    ("binding_examples", 4),
 ])
 def test_the_live_registry_lists_have_the_sizes_the_record_claims(list_name,
                                                                   expected):

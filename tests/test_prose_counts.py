@@ -177,7 +177,6 @@ def test_derivations_match_an_independent_recomputation():
     with open(os.path.join(veta, "stable", "binding_registry_meta.json")) as fh:
         reg = json.load(fh)
     assert C.derive_registry_rows() == (len(reg["subject_statement_bindings"])
-                                        + len(reg["binding_examples"])
                                         + len(reg["relation_bindings"])
                                         + len(reg["entity_field_bindings"])
                                         # 2026-10-08 (signed): what each entity.type requires

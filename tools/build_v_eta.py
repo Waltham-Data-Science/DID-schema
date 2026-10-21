@@ -2495,7 +2495,7 @@ with open(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"), "w") as _f:
 # a bare "utc" beside a `{node, name}` cell cannot say which half it is. That shape is
 # the one the registry already documents for a term-valued admissible set
 # ("values are ontology-term NodeRefs, not bare strings",
-# tests/test_veta.py::test_binding_examples_well_formed).
+# tests/test_veta.py::test_subject_statement_bindings_well_formed).
 _CLOCK_TERMS = [
     {"node": "", "name": "utc"},
     {"node": "", "name": "dev_local_time"},
@@ -8150,7 +8150,6 @@ SUBJECT_STATEMENT_BINDINGS = [
     # material's kind is any registered term.
     _sdef("material type"),
     _sdef("developmental stage", "UBERON", "UBERON:0000105"),
-    # The D3/D6 corpus sweep appends the non-defining bindings here.
     #
     # #120 -- the variable bound to the spatial-transcriptomics pyramid
     # observation. TEAM DECISION 2026-09-22 (option A on the #70 candidates
@@ -8161,7 +8160,7 @@ SUBJECT_STATEMENT_BINDINGS = [
     # THE CLASS IS THE CONCRETE PYRAMID LEAF, NOT ABSTRACT subject_observation
     # -- one of two candidates flagged as an open sub-question in the #120
     # candidates comment. Every existing row in this list maps to a CONCRETE
-    # subject_statement leaf (test_binding_examples_well_formed / _leaf_ok
+    # subject_statement leaf (test_subject_statement_bindings_well_formed / _leaf_ok
     # enforces it), which rules out `subject_observation` (abstract by
     # design; it does not carry `value`) and rules out `count_observation`
     # (concrete but wrong shape: the pyramid has no scalar `value` field, it
@@ -8236,34 +8235,6 @@ ENTITY_FIELD_BINDINGS = [
      "closed": False},
 ]
 
-# Illustrative examples kept OUT of the live binding list so they never collide
-# with or get mistaken for swept data. Each shows one shape (term leaf + subtree,
-# term leaf + enumerated NodeRef values, dimensional leaf with no spec, and a
-# method+variable interaction).
-BINDING_EXAMPLES = [
-    {"variable": {"node": "", "name": "brain region"},
-     "class": "term_observation",
-     "ontology": "UBERON", "root_node": "UBERON:0000955",
-     "notes": "term leaf + subtree: a located structure is a term_observation "
-              "whose value resolves against the UBERON brain subtree"},
-    {"variable": {"node": "PATO:0000047", "name": "biological sex"},
-     "class": "term_assertion",
-     "values": [{"node": "PATO:0000384", "name": "male"},
-                {"node": "PATO:0000383", "name": "female"},
-                {"node": "PATO:0001340", "name": "hermaphrodite"}],
-     "notes": "term leaf + enumeration: a fixed set of ontology terms (NodeRefs, "
-              "not bare strings) rather than a subtree"},
-    {"variable": {"node": "", "name": "body mass"},
-     "class": "mass_observation",
-     "notes": "dimensional leaf: mass_observation already fixes the value type, so "
-              "no admissible-set spec is needed"},
-    {"variable": {"node": "", "name": "bath temperature"},
-     "method": {"node": "", "name": "perfusion heating"},
-     "class": "temperature_manipulation",
-     "notes": "method + variable: on an interaction the binding is keyed by both "
-              "the method and the variable"},
-]
-
 binding_registry = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
@@ -8294,7 +8265,6 @@ binding_registry = {
                    "tooling resolves a value or endpoint against the matching "
                    "binding at validation time.",
     "subject_statement_bindings": SUBJECT_STATEMENT_BINDINGS,
-    "binding_examples": BINDING_EXAMPLES,
     "relation_bindings": RELATION_VOCABULARY,
     "controlled_vocabularies": CONTROLLED_VOCABULARIES,
     "entity_field_bindings": ENTITY_FIELD_BINDINGS,
@@ -8307,9 +8277,7 @@ binding_registry = {
              "leaf needs none. Rows flagged subject_defining make the subject-kind "
              "ingestion invariant precise: a subject is expected to carry >=1 "
              "term_assertion whose variable matches a subject_defining binding "
-             "(checked at ingest). The remaining (non-defining) bindings are "
-             "populated by the D3/D6 corpus sweep; binding_examples holds "
-             "illustrative rows only and is not swept data. relation_bindings "
+             "(checked at ingest). relation_bindings "
              "enumerate the admissible relation terms (D6): the value carried on "
              "directed_relation.relation / undirected_relation.relation is a member "
              "of this set. class pins the term to its carrier and thus its endpoint "
@@ -12845,7 +12813,7 @@ _rf = next(f for f in _d["fields"] if f["name"] == "relation")
 _rf["constraints"]["binding"]["values"] = [
     dict(r["relation"]) for r in _rows if r["class"] == "directed_relation"]
 write(_t, "directed_relation", _d)
-for _r in _reg["subject_statement_bindings"] + _reg.get("binding_examples", []):
+for _r in _reg["subject_statement_bindings"]:
     _cls = _r.get("class", "")
     for _dir in _DIRECTIONS:
         if _cls.endswith("_" + _dir):

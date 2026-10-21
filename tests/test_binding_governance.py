@@ -181,9 +181,6 @@ def synthetic(tmp_path):
             {"variable": {"node": "", "name": "odd"}, "class": "term_assertion",
              "ontology": "ZZZ", "root_node": "ZZZ:1"},
         ],
-        "binding_examples": [
-            {"variable": {"node": "", "name": "body mass"}, "class": "mass_observation"},
-        ],
         "relation_bindings": [],
         "entity_field_bindings": [
             {"class": "gamma", "field": "g", "vocabulary": "openMINDS",
@@ -282,15 +279,14 @@ def test_synthetic_b6_uncatalogued(synthetic):
 
 
 def test_synthetic_b7_leaf_selection_gap(synthetic):
-    """The jQuantityLeaf case. Both normative rows bind to `term_assertion`; the
-    only dimensional row is illustrative. A strict registry lookup for a
+    """The jQuantityLeaf case. Both normative rows bind to `term_assertion`.
+    A strict registry lookup for a
     dimensional leaf therefore resolves NOTHING -- which is why DID-matlab
     shipped a keyword-table stand-in."""
     f = TOOL.run(synthetic)["findings"]["B7_d9_leaf_selection_gap"]
     assert f["normative_rows"] == 2, f
     assert f["normative_dimensional_rows"] == 0, f
     assert f["count"] == 1, f
-    assert [e["variable"] for e in f["illustrative_dimensional_rows"]] == ["body mass"], f
 
 
 def test_synthetic_b8_unregistered_prefix(synthetic):

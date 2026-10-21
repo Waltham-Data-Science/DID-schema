@@ -1562,18 +1562,17 @@ def test_binding_registry_meta_present():
     assert in_index["binding_registry_meta"].get("is_meta") is True
 
 
-def test_binding_examples_well_formed():
-    """binding_examples is a SEPARATE block (never mistaken for swept data). Each
-    row carries a NodeRef `variable` and a concrete statement leaf `class`;
-    no `value` (the leaf fixes the type). A term-valued leaf pins an admissible
-    set (values | ontology+root_node) -- with `values` given as NodeRefs, not bare
-    strings -- and a dimensional leaf carries none."""
+def test_subject_statement_bindings_well_formed():
+    """Each subject_statement_bindings row carries a NodeRef `variable` and a
+    concrete statement leaf `class`; no `value` (the leaf fixes the type).
+    (`test_binding_examples_well_formed` until 2026-10-21, when the illustrative
+    `binding_examples` block was deleted.)"""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     assert "bindings" not in reg  # renamed -> subject_statement_bindings
+    assert "binding_examples" not in reg  # deleted 2026-10-21 (Jess Haley)
     concrete = {r[1]["document_class"]["class_name"]: r[1]["document_class"]
                 for r in RECORDS.values()}
-    # every real binding AND every example must name a concrete leaf, no value
-    for b in reg["subject_statement_bindings"] + reg["binding_examples"]:
+    for b in reg["subject_statement_bindings"]:
         assert set(b["variable"]) >= {"node", "name"}
         assert _leaf_ok(concrete, b["class"]), f"{b['class']} must be a concrete leaf"
         # a direction names its kind beside it since 2026-10-08 (composition)
@@ -1582,22 +1581,9 @@ def test_binding_examples_well_formed():
         assert "data_type" not in b, "the leaf class replaces data_type"
         if "method" in b:
             assert set(b["method"]) >= {"node", "name"}
-    forms = set()
-    for b in reg["binding_examples"]:
-        has_vals = "values" in b
-        has_sub = "ontology" in b and "root_node" in b
-        if b.get("value_kind") == "term":
-            assert has_vals ^ has_sub, f"term leaf needs one set spec: {b}"
-            forms.add("values" if has_vals else "subtree")
-            if has_vals:  # values are ontology-term NodeRefs, not bare strings
-                assert all(isinstance(v, dict) and {"node", "name"} <= set(v)
-                           for v in b["values"]), f"values must be NodeRefs: {b}"
-        else:
-            assert not has_vals and not has_sub, \
-                f"dimensional leaf {b['class']} needs no spec"
-    # both term-set forms demonstrated, plus at least one method+variable row
-    assert forms == {"values", "subtree"}
-    assert any("method" in b for b in reg["binding_examples"])
+        if "values" in b:  # values are ontology-term NodeRefs, not bare strings
+            assert all(isinstance(v, dict) and {"node", "name"} <= set(v)
+                       for v in b["values"]), f"values must be NodeRefs: {b}"
 
 
 def test_relation_bindings_present():
@@ -2585,7 +2571,7 @@ def test_clock_fields_are_ontology_terms_bound_to_the_same_four():
         assert b["strength"] == "required", where
         # values are NodeRefs, not bare strings -- the field is a {node, name}
         # cell, so a bare "utc" cannot say which half it is. Same rule the
-        # registry already states (test_binding_examples_well_formed).
+        # registry already states (test_subject_statement_bindings_well_formed).
         assert [v["name"] for v in b["values"]] == DID_CLOCKTYPE_TERMS, where
         assert all(set(v) == {"node", "name"} for v in b["values"]), where
         # maxLength was a char-cell constraint and has no meaning on a NodeRef

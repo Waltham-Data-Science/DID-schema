@@ -65,9 +65,9 @@ WHAT IT CHECKS  (each finding is a COUNT with a denominator and a ratchet)
   B7  the D9 LEAF-SELECTION GAP -- the concrete cost of leaving #32 open. The
       signed `subjectmeasurement` fold says the typed leaf "must be chosen
       through the D9 registry"; every normative `subject_statement_bindings`
-      row binds to `term_assertion`, and the only dimensional row in the file
-      sits under `binding_examples`, which the registry's own notes call
-      illustrative. So the lookup resolves nothing for `age`, and DID-matlab
+      row binds to `term_assertion` (the four illustrative `binding_examples`
+      rows, one of them dimensional, were deleted 2026-10-21). So the lookup
+      resolves nothing for `age`, and DID-matlab
       shipped `jQuantityLeaf` as a documented keyword-table stand-in.
   B8  CURIE prefixes used by admissible sets that CURIE_lookups_meta.json does
       not register. This is the `time:` repair recurring: a CURIE whose prefix
@@ -111,10 +111,10 @@ REGISTRY_FILE = "binding_registry_meta.json"
 META_FILE = "did_schema_meta.json"
 CURIE_FILE = "CURIE_lookups_meta.json"
 
-# The registry's list-valued blocks, and whether they are NORMATIVE. The
-# registry's own `notes` say `binding_examples` "holds illustrative rows only
-# and is not swept data" -- so a lookup that resolves only against
-# binding_examples resolves nothing. B7 turns on exactly that distinction.
+# The registry's list-valued blocks, and whether they are NORMATIVE. Every list
+# is normative since the illustrative `binding_examples` block was deleted
+# (Jess Haley, 2026-10-21); the flag stays so a non-normative list would have to
+# be declared as one.
 REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
@@ -122,7 +122,6 @@ REGISTRY_LISTS = {
     # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
     # `entity.type` requires. Normative, and carries no strength of its own.
     "entity_type_bindings": True,
-    "binding_examples": False,
 }
 
 # A CURIE-looking token: a prefix, a colon, then a local part. Deliberately
@@ -482,8 +481,6 @@ def run(veta=VETA):
             "registry_lists": {k: len(reg.get(k, [])) for k in REGISTRY_LISTS},
             "registry_rows_normative": sum(
                 len(reg.get(k, [])) for k, norm in REGISTRY_LISTS.items() if norm),
-            "registry_rows_illustrative": sum(
-                len(reg.get(k, [])) for k, norm in REGISTRY_LISTS.items() if not norm),
             "curie_prefixes_registered": len(curie.get("prefixes", {})),
         },
         "inventory": [],
@@ -610,13 +607,11 @@ def run(veta=VETA):
 
     # -- B7 -----------------------------------------------------------------
     ssb = reg.get("subject_statement_bindings", [])
-    ex = reg.get("binding_examples", [])
     by_class_norm = {}
     for e in ssb:
         by_class_norm.setdefault(e.get("class"), 0)
         by_class_norm[e.get("class")] += 1
     dim_norm = [e for e in ssb if e.get("class") != "term_assertion"]
-    dim_ex = [e for e in ex if e.get("class") != "term_assertion"]
     r["findings"]["B7_d9_leaf_selection_gap"] = {
         # the count IS the gap: how many dimensional leaves a strict registry
         # lookup can resolve. 0 means the signed subjectmeasurement fold cannot
@@ -625,10 +620,6 @@ def run(veta=VETA):
         "normative_rows": len(ssb),
         "normative_rows_by_target_class": by_class_norm,
         "normative_dimensional_rows": len(dim_norm),
-        "illustrative_rows": len(ex),
-        "illustrative_dimensional_rows": [
-            {"variable": e.get("variable", {}).get("name"), "class": e.get("class")}
-            for e in dim_ex],
     }
 
     # -- B8 -----------------------------------------------------------------
@@ -748,7 +739,6 @@ def report(r):
     print(f'    field declarations inspected       : {d["field_declarations"]}  (nested sub-fields included)')
     print(f'    fields carrying constraints.binding: {d["bound_fields"]}')
     print(f'    registry rows, NORMATIVE            : {d["registry_rows_normative"]}  {{k: v for k, v in d["registry_lists"].items() if REGISTRY_LISTS[k]}}')
-    print(f'    registry rows, ILLUSTRATIVE         : {d["registry_rows_illustrative"]}  {{k: v for k, v in d["registry_lists"].items() if not REGISTRY_LISTS[k]}}')
     print(f'    CURIE prefixes registered           : {d["curie_prefixes_registered"]}')
     print("    corpus documents inspected          : 0 -- NO corpus report is checked")
     print("                                          into either repo. Every count")

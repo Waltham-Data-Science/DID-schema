@@ -214,11 +214,11 @@ def derive_ledger_rows():
 
 
 def derive_registry_rows():
-    """Every row in binding_registry_meta.json, normative AND illustrative.
+    """Every row in binding_registry_meta.json.
 
-    The 34-vs-38 correction was exactly this: `binding_examples` is a row list
-    and was not being counted. So the derivation counts LIST-valued keys, which
-    cannot forget one."""
+    The 34-vs-38 correction was exactly this: `binding_examples` (deleted
+    2026-10-21) was a row list and was not being counted. So the derivation
+    counts LIST-valued keys, which cannot forget one."""
     reg = _load_json(REGISTRY, "binding_registry_meta.json")
     return sum(len(v) for v in reg.values() if isinstance(v, list))
 
