@@ -779,6 +779,18 @@ statement putting the same value on another subject (one per subject, sharing it
 `value_id`) restates what the graph already says and can come to disagree with it. Sharing a
 value through `value_id` is for a value that really does describe each subject on its own.
 
+**Proposed amendment (2026-10-21, Jess Haley's request from the stimulus-presentation fold;
+not signed): one event given to several subjects is ONE statement on their group, marked
+`distributive`, never N copies.** A stimulus shown to two animals recorded together, a drug
+bath given to a set of slices, a treatment given to a cage: the statement's subject is the
+group (`member_of`, which passes `distributive`), and the statement carries
+`distributive: true`, so it is true of each member through the graph. N statements, one per
+member, state one event N times and can come to disagree. The group is a **standing** group
+(the animals recorded together in a session, the worms of a cohort), reused by every
+statement about it; it is never minted per statement, which would replace N copies of the
+statement with N near-identical groups. A statement about a single subject still names that
+subject directly.
+
 A statement then reaches other subjects only along the graph (T4), and never upward (from a
 member to its group, a part to its whole, or contents to their container). **What passes
 along a relation is declared by the relation, not by this tenet's prose:** every row of
