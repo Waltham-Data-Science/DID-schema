@@ -1277,6 +1277,8 @@ Writers and readers follow in DID-matlab (`did2.build`, the validator).
 
 To be signed: a condition or method parameter may hold one numeric N-D array as a fifth value form `matrix` (row-major JSON nested arrays with every dimension written, in the entry's unit, no source_value; keys excluded); noise colours are in NCIT:C75765 Arbitrary Unit with a separate bit-depth count parameter; NCIT:C64220 Random Seed registered as the seed variable.
 
+TEAM-SIGN-OFF [data_body amendment 4]: jess@walthamdatascience.com / 2026-10-21 -- a condition or method parameter may hold one numeric N-D array as a fifth value form matrix (row-major, every dimension written, in the entry's unit, no source_value, not on keys); noise colours in NCIT:C75765 Arbitrary Unit plus a bit-depth count; NCIT:C64220 Random Seed as the seed variable
+
 AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
 apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was
 "modelled on the `axis` entry"), the three lists still spelled each value form

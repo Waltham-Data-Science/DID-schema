@@ -969,3 +969,5 @@ the statement direction, the data-type structure, or the relation?* If the answe
 ## Sign-offs
 
 TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess / 2026-10-21 -- T6: derivable includes every choice the derivation makes; T14: missing is not a value, a correction is named and travels with the value, precision is for calendar dates only, and a time with no anchor counts from the start of its statement's time reference; T16: an activity may be the variable when a logical value says whether it happened, and a variable never names how the value is stored; T19: a planned value is said by its term (only where a measured form exists), a condition carries no qualifiers, and a term's name matches the specificity of its definition; T3/T12-T16 leaf names read as direction + value kind.
+
+TEAM-SIGN-OFF [tenet amendments 2026-10-21]: jess@walthamdatascience.com / 2026-10-21 -- T17: one event given to several subjects is one distributive statement on a standing group, never N copies
