@@ -811,6 +811,8 @@ Decided by Jess Haley, 2026-10-21 [laterality on the part]: when a probe records
 
 Decided by Jess Haley, 2026-10-21 [laterality variable]: that assertion's variable is NCIT:C25185 "Laterality", and its value is the hemisphere term as the source wrote it (e.g. UBERON:0002812 left cerebral hemisphere).
 
+Decided by Jess Haley, 2026-10-21 [anatomy variable terms]: the variable "anatomical location" (where a probe, treatment or bath acts) is NCIT:C13717 "Anatomic Site", and "anatomical structure" (what a region part entity is) is UBERON:0000061 "anatomical structure"; both are registered.
+
 Decided by Jess Haley, 2026-10-21 [one part per side]: region parts are one per animal, area and side, so an animal recorded in left and right V1 has two parts, each with its own Laterality assertion.
 
 Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a region within a brain slice points at a region part entity that is a part of the slice, which is itself a part of the animal (animal -> slice -> region), so the bath on the slice and the recording share one chain.
@@ -903,11 +905,15 @@ Decided by Jess Haley, 2026-10-21 [multiple amount rows]: when a v1 treatment ca
 
 Decided by Jess Haley, 2026-10-21 [named-chemical amount on the ingredient]: a v1 treatment amount row in mass or substance-amount units that names a chemical goes into that chemical's dose ingredient entry (value.ingredients[k], paired with its ingredient_id edge), because it is the amount of that chemical delivered, not of the whole formulation; the dose's top-level mass is used only for a row that names no chemical. The formulation keeps the recipe (added amounts or final concentrations), not what one animal received.
 
+Decided by Jess Haley, 2026-10-21 [blank per-body-mass on the ingredient]: a v1 per-body-mass amount row (e.g. mg/kg) that names a chemical but has no number goes into that chemical's dose ingredient entry with NaN as its value, the same place a filled-in row goes; it is not written at the dose's top level.
+
 Decided by Jess Haley, 2026-10-21 [generic treatment number]: a generic v1 treatment's numeric_value is never read as an amount of an ingredient or of the dose; it is carried as the value the treatment's term says it is (the vhlab grating stimulation row's number is a duration in hours), and kept as an unlabelled number only when the term does not say.
 
 Decided by Jess Haley, 2026-10-21 [treatment onset]: a migrated treatment manipulation is anchored at the v1 administration_onset_time when one is recorded, and at "during the session" only when none is.
 
 Decided by Jess Haley, 2026-10-21 [virus injection onset]: a v1 virus_injection's virus_AdministrationDate is its onset, so the migrated manipulation is anchored at that date; "during the session" only when the date is absent.
+
+Decided by Jess Haley, 2026-10-21 [transfer onset]: a v1 treatment_transfer's timestamp (clock dev_local_time, written by the Babu importer as a negative number of hours) is its onset, so the migrated transfer is anchored at that time on the session's local clock; "during the session" only when no timestamp is recorded.
 
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131

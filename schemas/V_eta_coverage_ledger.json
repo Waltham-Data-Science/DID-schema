@@ -649,15 +649,15 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 156,
+          "accepted_lines": 161,
           "accepted_lines_by_kind": {
-            "Decided by": 40,
+            "Decided by": 45,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 989,
+              "line": 995,
               "kind": "TEAM-SIGN-OFF",
               "tag": "spatial_transcriptomics_family",
               "why": "SUPERSEDED -- jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.",
@@ -923,13 +923,21 @@
               "document": "V_eta_go_forward_class_audit.md",
               "line": 814,
               "kind": "Decided by",
+              "tag": "anatomy variable terms",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [anatomy variable terms]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 816,
+              "kind": "Decided by",
               "tag": "one part per side",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [one part per side]"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 816,
+              "line": 818,
               "kind": "Decided by",
               "tag": "slice region chain",
               "date": "2026-10-21",
@@ -937,7 +945,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 818,
+              "line": 820,
               "kind": "Decided by",
               "tag": "region anatomy is UBERON",
               "date": "2026-10-21",
@@ -945,7 +953,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 850,
+              "line": 852,
               "kind": "Decided by",
               "tag": "babu-media",
               "date": "2026-10-21",
@@ -953,7 +961,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 863,
+              "line": 865,
               "kind": "Decided by",
               "tag": "virus-location",
               "date": "2026-10-21",
@@ -961,7 +969,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 879,
+              "line": 881,
               "kind": "Decided by",
               "tag": "unknown-amount-slot",
               "date": "2026-10-21",
@@ -969,7 +977,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 890,
+              "line": 892,
               "kind": "Decided by",
               "tag": "dose per ingredient",
               "date": "2026-10-21",
@@ -977,7 +985,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 902,
+              "line": 904,
               "kind": "Decided by",
               "tag": "multiple amount rows",
               "date": "2026-10-21",
@@ -985,7 +993,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 904,
+              "line": 906,
               "kind": "Decided by",
               "tag": "named-chemical amount on the ingredient",
               "date": "2026-10-21",
@@ -993,7 +1001,15 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 906,
+              "line": 908,
+              "kind": "Decided by",
+              "tag": "blank per-body-mass on the ingredient",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [blank per-body-mass on"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 910,
               "kind": "Decided by",
               "tag": "generic treatment number",
               "date": "2026-10-21",
@@ -1001,7 +1017,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 908,
+              "line": 912,
               "kind": "Decided by",
               "tag": "treatment onset",
               "date": "2026-10-21",
@@ -1009,7 +1025,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 910,
+              "line": 914,
               "kind": "Decided by",
               "tag": "virus injection onset",
               "date": "2026-10-21",
@@ -1017,7 +1033,15 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 983,
+              "line": 916,
+              "kind": "Decided by",
+              "tag": "transfer onset",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [transfer onset]: a v1"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 989,
               "kind": "TEAM-SIGN-OFF",
               "tag": "orientation_direction_tuning.json location",
               "date": "2026-09-22",
@@ -1025,7 +1049,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 1019,
+              "line": 1025,
               "kind": "TEAM-SIGN-OFF",
               "tag": "time anchors, amends the 2026-08-22 confirm sheet",
               "date": "2026-09-29",
@@ -1033,7 +1057,7 @@
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 1021,
+              "line": 1027,
               "kind": "TEAM-SIGN-OFF",
               "tag": "dimensioned classes, batch confirmation",
               "date": "2026-09-29",
@@ -1160,6 +1184,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-21 [pyraview levels per"
             },
             {
+              "document": "V_eta_recording_observation_plan.md",
+              "line": 129,
+              "kind": "Decided by",
+              "tag": "pyraview leftovers",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]"
+            },
+            {
               "document": "V_eta_relation_inheritance_plan.md",
               "line": 113,
               "kind": "TEAM-SIGN-OFF",
@@ -1238,6 +1270,14 @@
               "tag": "control input told apart by its document",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [control input told apart"
+            },
+            {
+              "document": "V_eta_stimulus_response_model_plan.md",
+              "line": 608,
+              "kind": "Decided by",
+              "tag": "empty response settings",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [empty response"
             },
             {
               "document": "V_eta_study_plan.md",
@@ -7472,7 +7512,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 1017,
+          "line": 1023,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7595,7 +7635,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "resolved": true,
-        "line": 1017,
+        "line": 1023,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
         "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7609,7 +7649,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 1017,
+          "line": 1023,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7626,7 +7666,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 1017,
+          "line": 1023,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7635,7 +7675,7 @@
           "matched_name": "kiasort_clusters",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kiasort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:1017. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kiasort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:1023. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -7732,7 +7772,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "resolved": true,
-        "line": 1017,
+        "line": 1023,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
         "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7746,7 +7786,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 1017,
+          "line": 1023,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7763,7 +7803,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
-          "line": 1017,
+          "line": 1023,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
           "anchor": "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17",
@@ -7772,7 +7812,7 @@
           "matched_name": "kilosort_clusters",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kilosort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:1017. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_go_forward_class_audit.md` [spike-sorter output, amends the 2026-08-17 confirm sheet] (as `kilosort_clusters`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:1023. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,

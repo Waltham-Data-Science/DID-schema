@@ -309,9 +309,9 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `imageStack` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `imageStack_parameters` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
 | `interaction_purpose` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
-| `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1017). |
-| `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1017). |
-| `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1017). |
+| `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
+| `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
+| `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
 | `lightsheetZarrLevel` | retire | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
 | `lightsheetZarrPyramid` | retire | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
 | `neuron_extracellular` | retire | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
@@ -354,7 +354,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 156 decision line(s) accepted, 2 rejected; 40 cited by a class, 116 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 161 decision line(s) accepted, 2 rejected; 40 cited by a class, 121 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -390,21 +390,24 @@ field). If one decides a class's disposition, that class should cite it.
 - region parts. "Decided by Jess Haley, 2026-10-21 [region parts]" (V_eta_go_forward_class_audit.md:808).
 - laterality on the part. "Decided by Jess Haley, 2026-10-21 [laterality on the part]" (V_eta_go_forward_class_audit.md:810).
 - laterality variable. "Decided by Jess Haley, 2026-10-21 [laterality variable]" (V_eta_go_forward_class_audit.md:812).
-- one part per side. "Decided by Jess Haley, 2026-10-21 [one part per side]" (V_eta_go_forward_class_audit.md:814).
-- slice region chain. "Decided by Jess Haley, 2026-10-21 [slice region chain]: a" (V_eta_go_forward_class_audit.md:816).
-- region anatomy is UBERON. "Decided by Jess Haley, 2026-10-21 [region anatomy is" (V_eta_go_forward_class_audit.md:818).
-- babu-media. "Decided by Jess Haley, 2026-10-21 [babu-media]" (V_eta_go_forward_class_audit.md:850).
-- virus-location. "Decided by Jess Haley, 2026-10-21 [virus-location]" (V_eta_go_forward_class_audit.md:863).
-- unknown-amount-slot. "Decided by Jess Haley, 2026-10-21 [unknown-amount-slot]" (V_eta_go_forward_class_audit.md:879).
-- dose per ingredient. "Decided by Jess Haley, 2026-10-21 [dose per ingredient]" (V_eta_go_forward_class_audit.md:890).
-- multiple amount rows. "Decided by Jess Haley, 2026-10-21 [multiple amount rows]" (V_eta_go_forward_class_audit.md:902).
-- named-chemical amount on the ingredient. "Decided by Jess Haley, 2026-10-21 [named-chemical amount on" (V_eta_go_forward_class_audit.md:904).
-- generic treatment number. "Decided by Jess Haley, 2026-10-21 [generic treatment" (V_eta_go_forward_class_audit.md:906).
-- treatment onset. "Decided by Jess Haley, 2026-10-21 [treatment onset]: a" (V_eta_go_forward_class_audit.md:908).
-- virus injection onset. "Decided by Jess Haley, 2026-10-21 [virus injection onset]" (V_eta_go_forward_class_audit.md:910).
-- orientation_direction_tuning.json location. "TEAM-SIGN-OFF [orientation_direction_tuning.json location]" (V_eta_go_forward_class_audit.md:983).
-- time anchors, amends the 2026-08-22 confirm sheet. "TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm" (V_eta_go_forward_class_audit.md:1019).
-- dimensioned classes, batch confirmation. "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]" (V_eta_go_forward_class_audit.md:1021).
+- anatomy variable terms. "Decided by Jess Haley, 2026-10-21 [anatomy variable terms]" (V_eta_go_forward_class_audit.md:814).
+- one part per side. "Decided by Jess Haley, 2026-10-21 [one part per side]" (V_eta_go_forward_class_audit.md:816).
+- slice region chain. "Decided by Jess Haley, 2026-10-21 [slice region chain]: a" (V_eta_go_forward_class_audit.md:818).
+- region anatomy is UBERON. "Decided by Jess Haley, 2026-10-21 [region anatomy is" (V_eta_go_forward_class_audit.md:820).
+- babu-media. "Decided by Jess Haley, 2026-10-21 [babu-media]" (V_eta_go_forward_class_audit.md:852).
+- virus-location. "Decided by Jess Haley, 2026-10-21 [virus-location]" (V_eta_go_forward_class_audit.md:865).
+- unknown-amount-slot. "Decided by Jess Haley, 2026-10-21 [unknown-amount-slot]" (V_eta_go_forward_class_audit.md:881).
+- dose per ingredient. "Decided by Jess Haley, 2026-10-21 [dose per ingredient]" (V_eta_go_forward_class_audit.md:892).
+- multiple amount rows. "Decided by Jess Haley, 2026-10-21 [multiple amount rows]" (V_eta_go_forward_class_audit.md:904).
+- named-chemical amount on the ingredient. "Decided by Jess Haley, 2026-10-21 [named-chemical amount on" (V_eta_go_forward_class_audit.md:906).
+- blank per-body-mass on the ingredient. "Decided by Jess Haley, 2026-10-21 [blank per-body-mass on" (V_eta_go_forward_class_audit.md:908).
+- generic treatment number. "Decided by Jess Haley, 2026-10-21 [generic treatment" (V_eta_go_forward_class_audit.md:910).
+- treatment onset. "Decided by Jess Haley, 2026-10-21 [treatment onset]: a" (V_eta_go_forward_class_audit.md:912).
+- virus injection onset. "Decided by Jess Haley, 2026-10-21 [virus injection onset]" (V_eta_go_forward_class_audit.md:914).
+- transfer onset. "Decided by Jess Haley, 2026-10-21 [transfer onset]: a v1" (V_eta_go_forward_class_audit.md:916).
+- orientation_direction_tuning.json location. "TEAM-SIGN-OFF [orientation_direction_tuning.json location]" (V_eta_go_forward_class_audit.md:989).
+- time anchors, amends the 2026-08-22 confirm sheet. "TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm" (V_eta_go_forward_class_audit.md:1025).
+- dimensioned classes, batch confirmation. "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]" (V_eta_go_forward_class_audit.md:1027).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -420,6 +423,7 @@ field). If one decides a class's disposition, that class should cite it.
 - archive compression. "Decided by Jess Haley, 2026-10-21 [archive compression]: a" (V_eta_recording_observation_plan.md:123).
 - ingested epochs use the archive. "Decided by Jess Haley, 2026-10-21 [ingested epochs use the" (V_eta_recording_observation_plan.md:125).
 - pyraview levels per epoch. "Decided by Jess Haley, 2026-10-21 [pyraview levels per" (V_eta_recording_observation_plan.md:127).
+- pyraview leftovers. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]" (V_eta_recording_observation_plan.md:129).
 - relation inheritance. "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21" (V_eta_relation_inheritance_plan.md:113).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
@@ -430,6 +434,7 @@ field). If one decides a class's disposition, that class should cite it.
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
 - response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (V_eta_stimulus_response_model_plan.md:604).
 - control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (V_eta_stimulus_response_model_plan.md:606).
+- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:608).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).
