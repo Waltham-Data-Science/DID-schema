@@ -1266,14 +1266,6 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
     },
     {
-      "name": "time to slow down",
-      "node": "EMPTY:0000274",
-      "definition": "The time an animal takes to slow down on reaching something: the duration from its peak speed in the approach to an event to its minimum speed after the event.",
-      "status": "decided",
-      "decided": "Jess Haley, 2026-10-19",
-      "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-    },
-    {
       "name": "trace elements solution",
       "node": "MICRO:0000455",
       "definition": "",
