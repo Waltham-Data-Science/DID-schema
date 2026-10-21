@@ -363,7 +363,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 161 decision line(s) accepted, 2 rejected; 40 cited by a class, 121 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 163 decision line(s) accepted, 2 rejected; 40 cited by a class, 123 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -433,11 +433,13 @@ field). If one decides a class's disposition, that class should cite it.
 - ingested epochs use the archive. "Decided by Jess Haley, 2026-10-21 [ingested epochs use the" (V_eta_recording_observation_plan.md:125).
 - pyraview levels per epoch. "Decided by Jess Haley, 2026-10-21 [pyraview levels per" (V_eta_recording_observation_plan.md:127).
 - pyraview leftovers. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]" (V_eta_recording_observation_plan.md:129).
+- pyraview leftovers, schema form. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers" (V_eta_recording_observation_plan.md:131).
 - relation inheritance. "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21" (V_eta_relation_inheritance_plan.md:113).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
 - calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (V_eta_spatial_transcriptomics_plan.md:286).
 - formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (V_eta_spatial_transcriptomics_plan.md:602).
+- ontology image is an observation of its region. "Decided by Jess Haley, 2026-10-21 [ontology image is an" (V_eta_spatial_transcriptomics_plan.md:604).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).

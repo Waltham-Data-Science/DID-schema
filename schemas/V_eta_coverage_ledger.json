@@ -659,9 +659,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 161,
+          "accepted_lines": 163,
           "accepted_lines_by_kind": {
-            "Decided by": 45,
+            "Decided by": 47,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1202,6 +1202,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]"
             },
             {
+              "document": "V_eta_recording_observation_plan.md",
+              "line": 131,
+              "kind": "Decided by",
+              "tag": "pyraview leftovers, schema form",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [pyraview leftovers"
+            },
+            {
               "document": "V_eta_relation_inheritance_plan.md",
               "line": 113,
               "kind": "TEAM-SIGN-OFF",
@@ -1240,6 +1248,14 @@
               "tag": "formulation strain ingredient",
               "date": "2026-10-02",
               "anchor": "TEAM-SIGN-OFF [formulation strain ingredient]"
+            },
+            {
+              "document": "V_eta_spatial_transcriptomics_plan.md",
+              "line": 604,
+              "kind": "Decided by",
+              "tag": "ontology image is an observation of its region",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [ontology image is an"
             },
             {
               "document": "V_eta_stimulus_model_plan.md",

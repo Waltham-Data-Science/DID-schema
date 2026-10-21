@@ -128,6 +128,8 @@ Decided by Jess Haley, 2026-10-21 [pyraview levels per epoch]: each pyraview lev
 
 Decided by Jess Haley, 2026-10-21 [pyraview leftovers]: when pyraview levels move onto the epoch's recording observation, the retired pyraview observation's data type goes onto each level's sampled_body as its data_type, and its time anchor is dropped when it equals the epoch the recording observation already points to; otherwise the anchor is kept on the level body and counted.
 
+Decided by Jess Haley, 2026-10-21 [pyraview leftovers, schema form]: the [pyraview leftovers] line above is built in the form the schema allows: the retired pyraview observation's data type goes on the recording observation's value (value.data_type, which covers its sampled_body levels; a sampled_body never repeats it), and a time anchor that does not equal the epoch becomes the level body's time key (start offset) and is counted. No new body fields.
+
 What it means for the migration, and why:
 
 - **The native shape it matches** is NDI `ndi.setup.V2.recordingDocuments` (NDI-matlab

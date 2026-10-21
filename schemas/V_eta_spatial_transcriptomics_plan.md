@@ -600,3 +600,5 @@ The change:
 validate.
 
 TEAM-SIGN-OFF [formulation strain ingredient]: jess@walthamdatascience.com / 2026-10-02 -- formulation.ingredient_id may also refer to a strain, as recorded in section G.
+
+Decided by Jess Haley, 2026-10-21 [ontology image is an observation of its region]: a migrated v1 ontologyImage raster is one observation with the `intensity` value kind and variable NCIT:C221750 "Imaging Signal Intensity"; when its ontology node is an anatomical area, the observation's entity is that area's region part (per [region parts]), and any non-area node is a condition on the same observation. This replaces item 51's separate term observation for ontologyImage.
