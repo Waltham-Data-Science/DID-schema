@@ -179,7 +179,7 @@
       "carried": [],
       "second_pass": [],
       "how": "DISSOLVES into a `software` entity with `base.id` preserved: the class's content is a MATLAB class handle, which is software identity rather than a record of the experiment. `reader_string` is KEPT, as the de-encoded `daqreader_ndr.ndr_reader_string`.",
-      "flags": "BUILT (migrators_j/daqreader.m): 1 -> 1 into a `software` entity, base.id preserved, with a guarded-passthrough branch. NOT VERIFIED BY EXECUTION. A real v1 document carries exactly one fact -- a MATLAB class name -- plus base identity. The rest of the same sign-off has also landed: build_v_eta.py:2235 records that `file_extension` is NOT carried and `metadata_names` is dropped, both measured at 0 files on NDI origin/main before removal.",
+      "flags": "BUILT (migrators_j/daqreader.m): 1 -> 1 into a `software` entity, base.id preserved, with a guarded-passthrough branch. NOT VERIFIED BY EXECUTION. A real v1 document carries exactly one fact -- a MATLAB class name -- plus base identity. The rest of the same sign-off has also landed: build_v_eta.py:3960 (on did-schema main, where the deleted builder still lives; was :2235) records that `file_extension` is NOT carried and `metadata_names` is dropped, both measured at 0 files on NDI origin/main before removal.",
       "decided_targets": [
         "software"
       ],

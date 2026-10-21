@@ -3069,9 +3069,13 @@ def _governance_cell(r):
         where = " `{}`{}".format(cite["document"],
                                  ":" + str(cite["line"]) if cite.get("line") else "")
     if state == G_SIGNED:
-        how = ("cited `[{}]`".format(cite.get("tag"))
-               if cite.get("tag") else "transcribed")
-        return f"**decided** ({how}){where}"
+        # `tag` (document:line): the backticked tag is the ANCHOR that
+        # tools/check_citations.py verifies on the cited line, so this cell is
+        # a citation that can be checked, not just a pointer.
+        if cite.get("anchor") and cite.get("document") and cite.get("line"):
+            return "**decided** [{}]{}".format(cite["tag"], dc.cite_md(
+                cite["document"], cite["line"], cite["anchor"]).rstrip())
+        return f"**decided** (transcribed){where}"
     if state == G_DISPUTED:
         return f"⚠ **DISPUTED**{where}"
     if state == G_UNSIGNED:
@@ -3295,9 +3299,11 @@ def _governance_md(g):
             "rule, a field); if one does decide a class, that class should cite "
             "it: {lst}.".format(
                 n=len(c["uncited_lines"]),
-                lst="; ".join("`{}`:{} {}".format(
-                    e["document"], e["line"],
-                    "`[" + e["tag"] + "]`" if e["tag"] else "(" + (e["date"] or "undated") + ")")
+                # `tag` (document:line) -- the tag (or, untagged, the date)
+                # is the anchor tools/check_citations.py verifies on the line.
+                lst=" ".join("{}{}".format(
+                    e["tag"] or e["date"] or "undated",
+                    dc.cite_md(e["document"], e["line"], e["anchor"]).rstrip())
                     for e in c["uncited_lines"])),
             "",
         ]

@@ -2,13 +2,13 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by Jess Haley, <date>:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 71,
-    "classes_citing": 71,
-    "citations": 75,
+    "classes": 73,
+    "classes_citing": 73,
+    "citations": 81,
     "citations_unresolved": 0,
     "open_classes": 11,
     "by_state": {
-      "decided": 71,
+      "decided": 73,
       "proposed (not decided)": 0
     },
     "open_by_state": {
@@ -258,6 +258,14 @@
           "line": 276,
           "kind": "TEAM-SIGN-OFF",
           "why": null
+        },
+        {
+          "document": "V_eta_recording_observation_plan.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 115,
+          "kind": "Decided by Jess Haley",
+          "why": null
         }
       ]
     },
@@ -281,6 +289,38 @@
           "resolved": true,
           "line": 276,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_recording_observation_plan.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 115,
+          "kind": "Decided by Jess Haley",
+          "why": null
+        }
+      ]
+    },
+    "daqreader_mfdaq_epochdata_ingested": {
+      "class_name": "daqreader_mfdaq_epochdata_ingested",
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
+      "state": "decided",
+      "state_label": "decided: cites a decision line that exists",
+      "decided_in": {
+        "document": "V_eta_recording_observation_plan.md",
+        "tag": "2026-10-21",
+        "line": 115,
+        "kind": "Decided by Jess Haley"
+      },
+      "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
+      "citations": [
+        {
+          "document": "V_eta_recording_observation_plan.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 115,
+          "kind": "Decided by Jess Haley",
           "why": null
         }
       ]
@@ -353,6 +393,14 @@
           "resolved": true,
           "line": 99,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_recording_observation_plan.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 115,
+          "kind": "Decided by Jess Haley",
           "why": null
         }
       ]
@@ -457,6 +505,14 @@
           "resolved": true,
           "line": 884,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_recording_observation_plan.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 115,
+          "kind": "Decided by Jess Haley",
           "why": null
         }
       ]
@@ -1341,6 +1397,30 @@
         }
       ]
     },
+    "stimulus_bath": {
+      "class_name": "stimulus_bath",
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
+      "state": "decided",
+      "state_label": "decided: cites a decision line that exists",
+      "decided_in": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "2026-10-21",
+        "line": 727,
+        "kind": "Decided by Jess Haley"
+      },
+      "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
+      "citations": [
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "2026-10-21",
+          "resolved": true,
+          "line": 727,
+          "kind": "Decided by Jess Haley",
+          "why": null
+        }
+      ]
+    },
     "stimulus_parameter": {
       "class_name": "stimulus_parameter",
       "disposition": "retire",
@@ -1769,7 +1849,7 @@
         ],
         "packages_missing": [],
         "files_read": 197,
-        "lines_read": 48297,
+        "lines_read": 48298,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -1814,7 +1894,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 31889,
-          "batch_post_pass": 16408
+          "batch_post_pass": 16409
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -2573,7 +2653,7 @@
         "n_comment_mentions": 41,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:981 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:982 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:909 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:910 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
@@ -2618,7 +2698,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:981 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:982 (comment_mention)"
             ]
           }
         },

@@ -264,12 +264,15 @@ class TestTheCommittedLedger(unittest.TestCase):
         # `signed` under the family join, 69 are `decided` under citations.
         # The 57 are all still decided at the same document:line; the 12 added
         # each cite a signed line that names the class (see
-        # tools/decision_citations.py, the ADDED block). Re-derive, do not bump.
+        # tools/decision_citations.py, the ADDED block). 69 -> 70 the same day:
+        # `daqreader_mfdaq_epochdata_ingested` cites Jess's 2026-10-21 recording
+        # decision ("Decided by Jess Haley", which names the
+        # `daqreader_*_epochdata_ingested` archives). Re-derive, do not bump.
         st = self.gov["by_state"]
-        self.assertEqual(st[coverage.G_SIGNED], 69)
+        self.assertEqual(st[coverage.G_SIGNED], 70)
         self.assertEqual(st[coverage.G_DISPUTED], 1)
         self.assertEqual(st[coverage.G_UNSIGNED], 0)
-        self.assertEqual(st[coverage.G_NOT_FOUND], 45)
+        self.assertEqual(st[coverage.G_NOT_FOUND], 44)
 
     def test_a_DISPUTED_record_outranks_a_citation(self):
         ngrid = next(r for r in self.rows if r["v1_class"] == "ngrid")
@@ -296,7 +299,7 @@ class TestTheCommittedLedger(unittest.TestCase):
             self.assertIn(cause, md)
         census = self.gov["census"]
         for e in census["uncited_lines"]:
-            self.assertIn("`{}`:{}".format(e["document"], e["line"]), md)
+            self.assertIn("({}:{})".format(e["document"], e["line"]), md)
 
     def test_the_census_reports_its_denominator(self):
         c = self.gov["census"]
@@ -343,7 +346,10 @@ class TestTheReconciliation(unittest.TestCase):
         den = [ln for ln in lines if "own decision citations" in ln]
         self.assertEqual(len(den), 1)
         self.assertIn("9 transcription(s)", den[0])
-        self.assertIn("8 cite the same document", den[0],
+        # 8 -> 9 on 2026-10-21: `stimulus_bath` now cites the bath line its
+        # transcription quotes (V_eta_go_forward_class_audit.md, "Decided by
+        # Jess Haley, 2026-10-21"), so every transcription is reconciled.
+        self.assertIn("9 cite the same document", den[0],
                       "a reconciliation that matches nothing proves nothing")
 
     def test_the_table_still_carries_what_the_join_cannot(self):

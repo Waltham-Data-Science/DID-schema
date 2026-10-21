@@ -588,7 +588,9 @@ def test_the_board_quotes_the_decision_line_not_prose():
         dec = dc.decision_for([cls])
         assert dec["decided_by"], cls
         line = " ".join(dec["decided_by"]["decision"].split())
-        shown = cell.removesuffix("...")
+        # The board closes a code span or quote its cut left open; drop that,
+        # then the ellipsis, before comparing.
+        shown = cell.rstrip('`"').removesuffix("...")
         assert line.startswith(shown.rstrip()), (cls, shown[:60], line[:60])
 
 

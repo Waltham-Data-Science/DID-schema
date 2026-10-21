@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 166 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 31 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 48297 |
+| build: migrator lines inspected | 48298 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 31889 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 16408 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 16409 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
@@ -253,7 +253,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (decided) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1049 (guard)`, `DID-matlab:convert/epochMint.m:1791 (field_read)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1080 (named)`, `DID-matlab:convert/epochMint.m:1790 (named)`; mentioned in 10 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:589 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)` ...; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1189 (comment_mention)`, `DID-matlab:convert/epochMint.m:211 (comment_mention)`, `DID-matlab:convert/epochMint.m:212 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)`, `DID-matlab:convert/epochMint.m:28 (comment_mention)`, `DID-matlab:convert/epochMint.m:287 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `ensemble` (decided) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:438 (guard)`; mentioned in 23 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:151 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:73 (comment_mention)`, `DID-matlab:migrators_j/private/jRecordingModality.m:240 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
-- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:909 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:910 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:981 (comment_mention)`; target(s) BUILT: `item`, `item_manipulation`
+- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 6 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)`; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:909 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:910 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:982 (comment_mention)`; target(s) BUILT: `item`, `item_manipulation`
 
 ## Proposed (not decided) -- awaiting review
 
@@ -267,192 +267,190 @@ DENOMINATOR: 11 open class(es); 11 cite a decision line that exists. The decisio
 
 | class | targets built | decided in | decision |
 |---|---|---|---|
-| `acquisition_epoch` | no target recorded | `V_eta_epoch_plan.md`:884 `[epoch]` | jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relat... |
-| `app` | 1 of 1 | `V_eta_tenet_audit.md`:16 `[software]` | jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environm... |
-| `binaryseries_parameters` | 2 of 2 | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re... |
-| `calculator` | no target recorded | `V_eta_subject_calculation_plan.md`:371 `[calculator mixin dropped (#73)]` | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm... |
-| `daqmetadatareader_epochdata_ingested` | 1 of 1 | `V_eta_ingested_payload_findings.md`:276 `[daq ingested payloads]` | jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are n... |
-| `ensemble` | 3 of 3 | `V_eta_ensemble_plan.md`:10 `[ensemble]` | jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose m... |
-| `generic_file` | no target recorded | `V_eta_OPEN_WORK.md`:789 `[stranded sources]` | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
-| `imageCollection` | no target recorded | `V_eta_OPEN_WORK.md`:789 `[stranded sources]` | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
-| `interaction_purpose` | no target recorded | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re... |
-| `projectvar` | no target recorded | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re... |
-| `stimulus_presentation` | 2 of 2 | `V_eta_stimulus_model_plan.md`:258 `[stimulus]` | jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -... |
+| `acquisition_epoch` | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). | jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relat... |
+| `app` | 1 of 1 | [software]. "TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the" (V_eta_tenet_audit.md:16). | jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environm...` |
+| `binaryseries_parameters` | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
+| `calculator` | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm...` |
+| `daqmetadatareader_epochdata_ingested` | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). | jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are n... |
+| `ensemble` | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). | jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose m... |
+| `generic_file` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
+| `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
+| `interaction_purpose` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
+| `projectvar` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
+| `stimulus_presentation` | 2 of 2 | [stimulus]. "TEAM-SIGN-OFF [stimulus]: jess@walthamdatascience.com /" (V_eta_stimulus_model_plan.md:258). | jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -... |
 
 ## Every decision citation
 
-DENOMINATOR: 71 class(es) cite 75 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
-| `acquisition_epoch` | in_progress | no target recorded | `V_eta_epoch_plan.md`:884 `[epoch]` |
-| `app` | in_progress | 1 of 1 | `V_eta_tenet_audit.md`:16 `[software]` |
-| `binaryseries_parameters` | in_progress | 2 of 2 | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` |
-| `calculator` | retire | no target recorded | `V_eta_subject_calculation_plan.md`:371 `[calculator mixin dropped (#73)]` |
-| `cellTypeLabels` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `control_stimulus_ids` | retire | 1 of 1 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `daqmetadatareader` | retire | 1 of 1 | `V_eta_daq_family_decisions.md`:479 `[daq configuration]` |
-| `daqmetadatareader_epochdata_ingested` | in_progress | 1 of 1 | `V_eta_ingested_payload_findings.md`:276 `[daq ingested payloads]` |
-| `daqreader` | retire | 1 of 1 | `V_eta_daq_family_decisions.md`:479 `[daq configuration]` |
-| `daqreader_epochdata_ingested` | retire | 1 of 1 | `V_eta_ingested_payload_findings.md`:276 `[daq ingested payloads]` |
-| `daqreader_image_epochdata_ingested` | retire | 3 of 3 | `V_eta_ingested_payload_findings.md`:276 `[daq ingested payloads]` |
-| `daqreader_ndr` | consumed by migrator (no tombstone) | 3 of 3 | `V_eta_daq_family_decisions.md`:479 `[daq configuration]` |
-| `daqsystem` | retire | 1 of 1 | `V_eta_daq_family_decisions.md`:479 `[daq configuration]` |
-| `element` | retire | 10 of 10 | `V_eta_recording_observation_plan.md`:99 `[raw recording observation]` |
-| `element_epoch` | consumed by migrator (no tombstone) | no target recorded | `V_eta_epoch_plan.md`:884 `[epoch]` |
-| `ensemble` | in_progress | 3 of 3 | `V_eta_ensemble_plan.md`:10 `[ensemble]` |
-| `epochclocktimes` | consumed by migrator (no tombstone) | 1 of 1 | `V_eta_time_reference_family_plan.md`:181 `[epochclocktimes]`; `V_eta_OPEN_WORK.md`:831 `[epoch extent -- row #113]` |
-| `epochfiles_ingested` | retire | 1 of 1 | `V_eta_epoch_plan.md`:884 `[epoch]` |
-| `epochid` | retire | no target recorded | `V_eta_epoch_plan.md`:884 `[epoch]` |
-| `fileReference` | retire | 1 of 1 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `filenavigator` | retire | 1 of 1 | `V_eta_daq_family_decisions.md`:333 `[file navigation]` |
-| `filter` | retire | 1 of 1 | `V_eta_frequency_filter_model_plan.md`:5 `[2026-07-30]` |
-| `fitcurve` | retire | 1 of 1 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `geneExpression` | retire | no target recorded | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `geneList` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `geneListMapping` | retire | 3 of 3 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `generic_file` | retire | no target recorded | `V_eta_OPEN_WORK.md`:789 `[stranded sources]` |
-| `hartley_calc` | retire | no target recorded | `V_eta_ngrid_family_findings.md`:358 `[receptive field fold]` |
-| `image` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `imageCollection` | retire | no target recorded | `V_eta_OPEN_WORK.md`:789 `[stranded sources]` |
-| `imageStack` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `imageStack_parameters` | retire | no target recorded | `V_eta_image_model_plan.md`:154 `[image / ngrid]` |
-| `interaction_purpose` | in_progress | no target recorded | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` |
-| `jrclust_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]`; `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
-| `kiasort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
-| `kilosort_clusters` | retire | 1 of 1 | `V_eta_go_forward_class_audit.md`:871 `[spike-sorter output, amends the 2026-08-17 confirm sheet]` |
-| `lightsheetZarrLevel` | retire | 1 of 1 | `review/73/OPEN_ITEMS.md`:317 `[lightsheet migrator points 1-11]` |
-| `lightsheetZarrPyramid` | retire | 3 of 3 | `review/73/OPEN_ITEMS.md`:317 `[lightsheet migrator points 1-11]` |
-| `neuron_extracellular` | retire | 7 of 7 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `ngrid` | retire | no target recorded | `V_eta_image_model_plan.md`:154 `[image / ngrid]` |
-| `ontologyImage` | retire | 4 of 4 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `openminds` | retire | no target recorded | `V_eta_openminds_family_record.md`:10 `[2026-08-08]` |
-| `oridirtuning_calc` | consumed by migrator (no tombstone) | 3 of 3 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]` |
-| `probe_geometry` | retire | 3 of 3 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `probe_location` | retire | no target recorded | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]` |
-| `projectvar` | in_progress | no target recorded | `V_eta_go_forward_class_audit.md`:9 `[misc singletons]` |
-| `pyraview` | retire | 1 of 1 | `V_eta_recording_observation_plan.md`:99 `[raw recording observation]`; `V_eta_recording_observation_plan.md`:111 `[pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]` |
-| `session` | consumed by migrator (no tombstone) | no target recorded | `V_eta_go_forward_class_audit.md`:664 `[session]` |
-| `sorting_parameters` | retire | 1 of 1 | `V_eta_method_parameters_plan.md`:32 `[spike processing parameters]` |
-| `spatialGeneExpressionCells` | retire | 5 of 5 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `spatialGeneExpressionPyramid` | retire | 5 of 5 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `spatialGeneExpressionTiles` | retire | 1 of 1 | `V_eta_spatial_transcriptomics_plan.md`:565 `[spatial_transcriptomics_family]` |
-| `spike_extraction_parameters` | retire | 1 of 1 | `V_eta_method_parameters_plan.md`:32 `[spike processing parameters]` |
-| `spike_extraction_parameters_modification` | retire | 1 of 1 | `V_eta_method_parameters_plan.md`:32 `[spike processing parameters]` |
-| `stimulus_parameter` | retire | no target recorded | `V_eta_stimulus_parameter_plan.md`:221 `[stimulus parameters]` |
-| `stimulus_parameter_table` | retire | no target recorded | `V_eta_stimulus_parameter_plan.md`:221 `[stimulus parameters]` |
-| `stimulus_presentation` | in_progress | 2 of 2 | `V_eta_stimulus_model_plan.md`:258 `[stimulus]` |
-| `stimulus_response` | retire | no target recorded | `V_eta_stimulus_response_model_plan.md`:541 `[stimulus response]` |
-| `stimulus_response_scalar` | retire | 1 of 1 | `V_eta_stimulus_response_model_plan.md`:541 `[stimulus response]` |
-| `stimulus_response_scalar_parameters` | retire | no target recorded | `V_eta_stimulus_response_model_plan.md`:541 `[stimulus response]` |
-| `stimulus_response_scalar_parameters_basic` | retire | 1 of 1 | `V_eta_stimulus_response_model_plan.md`:541 `[stimulus response]` |
-| `subject` | consumed by migrator (no tombstone) | no target recorded | `V_eta_go_forward_class_audit.md`:697 `[subject]` |
-| `subjectmeasurement` | retire | no target recorded | `V_eta_go_forward_class_audit.md`:336 `[subject measurement]` |
-| `syncgraph` | retire | 1 of 1 | `V_eta_clock_alignment_cluster_plan.md`:506 `[sync configuration]` |
-| `syncrule` | retire | 1 of 1 | `V_eta_clock_alignment_cluster_plan.md`:506 `[sync configuration]` |
-| `syncrule_mapping` | retire | 1 of 1 | `V_eta_clock_alignment_cluster_plan.md`:508 `[sync mapping]` |
-| `treatment` | consumed by migrator (no tombstone) | 7 of 7 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]` |
-| `tuningcurve_calc` | consumed by migrator (no tombstone) | 3 of 3 | `V_eta_go_forward_class_audit.md`:723 `[confirm sheet 2026-08-17]` |
-| `valid_interval` | retire | 1 of 1 | `V_eta_logical_observation_plan.md`:365 `[logical_observation]`; `V_eta_logical_observation_plan.md`:425 `[logical_observation amendment 1]` |
-| `vmspikefilteringparameters` | retire | 1 of 1 | `V_eta_method_parameters_plan.md`:32 `[spike processing parameters]` |
-| `vmspikefit` | retire | 1 of 1 | `V_eta_spatial_transcriptomics_plan.md`:567 `[#73 audit 2, D1-D13]` |
+| `acquisition_epoch` | in_progress | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
+| `app` | in_progress | 1 of 1 | [software]. "TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the" (V_eta_tenet_audit.md:16). |
+| `binaryseries_parameters` | in_progress | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
+| `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). |
+| `cellTypeLabels` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `control_stimulus_ids` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `daqmetadatareader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqmetadatareader_epochdata_ingested` | in_progress | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). |
+| `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqreader_epochdata_ingested` | retire | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [2026-10-21]. "Decided by Jess Haley, 2026-10-21: Migrated recordings link" (V_eta_recording_observation_plan.md:115). |
+| `daqreader_image_epochdata_ingested` | retire | 3 of 3 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [2026-10-21]. "Decided by Jess Haley, 2026-10-21: Migrated recordings link" (V_eta_recording_observation_plan.md:115). |
+| `daqreader_mfdaq_epochdata_ingested` | consumed by migrator (no tombstone) | no target recorded | [2026-10-21]. "Decided by Jess Haley, 2026-10-21: Migrated recordings link" (V_eta_recording_observation_plan.md:115). |
+| `daqreader_ndr` | consumed by migrator (no tombstone) | 3 of 3 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqsystem` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `element` | retire | 10 of 10 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [2026-10-21]. "Decided by Jess Haley, 2026-10-21: Migrated recordings link" (V_eta_recording_observation_plan.md:115). |
+| `element_epoch` | consumed by migrator (no tombstone) | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
+| `ensemble` | in_progress | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). |
+| `epochclocktimes` | consumed by migrator (no tombstone) | 1 of 1 | [epochclocktimes]. "TEAM-SIGN-OFF [epochclocktimes]" (V_eta_time_reference_family_plan.md:181).; [epoch extent -- row #113]. "TEAM-SIGN-OFF [epoch extent -- row #113]" (V_eta_OPEN_WORK.md:831). |
+| `epochfiles_ingested` | retire | 1 of 1 | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884).; [2026-10-21]. "Decided by Jess Haley, 2026-10-21: Migrated recordings link" (V_eta_recording_observation_plan.md:115). |
+| `epochid` | retire | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
+| `fileReference` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `filenavigator` | retire | 1 of 1 | [file navigation]. "TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06" (V_eta_daq_family_decisions.md:333). |
+| `filter` | retire | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (V_eta_frequency_filter_model_plan.md:5). |
+| `fitcurve` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `geneExpression` | retire | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `geneList` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `geneListMapping` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `generic_file` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). |
+| `hartley_calc` | retire | no target recorded | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (V_eta_ngrid_family_findings.md:358). |
+| `image` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `imageCollection` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). |
+| `imageStack` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `imageStack_parameters` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
+| `interaction_purpose` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
+| `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:871). |
+| `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:871). |
+| `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:871). |
+| `lightsheetZarrLevel` | retire | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
+| `lightsheetZarrPyramid` | retire | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
+| `neuron_extracellular` | retire | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `ngrid` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
+| `ontologyImage` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `openminds` | retire | no target recorded | [2026-08-08]. "TEAM-SIGN-OFF: jess, 2026-08-08 -- Part 7: the 3 unattached" (V_eta_openminds_family_record.md:10). |
+| `oridirtuning_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
+| `probe_geometry` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `probe_location` | retire | no target recorded | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
+| `projectvar` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
+| `pyraview` | retire | 1 of 1 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]. "TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13" (V_eta_recording_observation_plan.md:111). |
+| `session` | consumed by migrator (no tombstone) | no target recorded | [session]. "TEAM-SIGN-OFF [session]: jess@walthamdatascience.com /" (V_eta_go_forward_class_audit.md:664). |
+| `sorting_parameters` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
+| `spatialGeneExpressionCells` | retire | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `spatialGeneExpressionPyramid` | retire | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `spatialGeneExpressionTiles` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:565). |
+| `spike_extraction_parameters` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
+| `spike_extraction_parameters_modification` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
+| `stimulus_bath` | consumed by migrator (no tombstone) | 2 of 2 | [2026-10-21]. "Decided by Jess Haley, 2026-10-21: A bath is a manipulation" (V_eta_go_forward_class_audit.md:727). |
+| `stimulus_parameter` | retire | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (V_eta_stimulus_parameter_plan.md:221). |
+| `stimulus_parameter_table` | retire | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (V_eta_stimulus_parameter_plan.md:221). |
+| `stimulus_presentation` | in_progress | 2 of 2 | [stimulus]. "TEAM-SIGN-OFF [stimulus]: jess@walthamdatascience.com /" (V_eta_stimulus_model_plan.md:258). |
+| `stimulus_response` | retire | no target recorded | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
+| `stimulus_response_scalar` | retire | 1 of 1 | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
+| `stimulus_response_scalar_parameters` | retire | no target recorded | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
+| `stimulus_response_scalar_parameters_basic` | retire | 1 of 1 | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
+| `subject` | consumed by migrator (no tombstone) | no target recorded | [subject]. "TEAM-SIGN-OFF [subject]: jess@walthamdatascience.com /" (V_eta_go_forward_class_audit.md:697). |
+| `subjectmeasurement` | retire | no target recorded | [subject measurement]. "TEAM-SIGN-OFF [subject measurement]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:336). |
+| `syncgraph` | retire | 1 of 1 | [sync configuration]. "TEAM-SIGN-OFF [sync configuration]" (V_eta_clock_alignment_cluster_plan.md:506). |
+| `syncrule` | retire | 1 of 1 | [sync configuration]. "TEAM-SIGN-OFF [sync configuration]" (V_eta_clock_alignment_cluster_plan.md:506). |
+| `syncrule_mapping` | retire | 1 of 1 | [sync mapping]. "TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com /" (V_eta_clock_alignment_cluster_plan.md:508). |
+| `treatment` | consumed by migrator (no tombstone) | 7 of 7 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
+| `tuningcurve_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
+| `valid_interval` | retire | 1 of 1 | [logical_observation]. "TEAM-SIGN-OFF [logical_observation]" (V_eta_logical_observation_plan.md:365).; [logical_observation amendment 1]. "TEAM-SIGN-OFF [logical_observation amendment 1]" (V_eta_logical_observation_plan.md:425). |
+| `vmspikefilteringparameters` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
+| `vmspikefit` | retire | 1 of 1 | [#73 audit 2, D1-D13]. "TEAM-SIGN-OFF [#73 audit 2, D1-D13]" (V_eta_spatial_transcriptomics_plan.md:567). |
 
 Every decided target these classes name is present in the built set, so
 what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 123 decision line(s) accepted, 2 rejected; 38 cited by a class, 85 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 123 decision line(s) accepted, 2 rejected; 42 cited by a class, 81 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
 field). If one decides a class's disposition, that class should cite it.
 
-- `V_eta_clock_alignment_cluster_plan.md`:638 `[sync configuration amendment 1]`
-- `V_eta_data_body_model_plan.md`:673 `[data_body]`
-- `V_eta_data_body_model_plan.md`:1281 `[data_body amendment 4]`
-- `V_eta_data_body_model_plan.md`:1319 `[data_body amendment 3]`
-- `V_eta_data_body_model_plan.md`:1337 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_data_body_model_plan.md`:1392 `[data_body amendment 5]`
-- `V_eta_duplicate_entities_plan.md`:95 `[same_as]`
-- `V_eta_ensemble_plan.md`:218 `[spike train leaf]`
-- `V_eta_entity_composition_plan.md`:49 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:61 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:70 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:116 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:127 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:148 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:165 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:176 (TEAM-SIGN-OFF, 2026-10-19)
-- `V_eta_entity_composition_plan.md`:188 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_entity_composition_plan.md`:195 (TEAM-SIGN-OFF, 2026-10-08)
-- `V_eta_go_forward_class_audit.md`:228 `[dataseries_channel_map]`
-- `V_eta_go_forward_class_audit.md`:725 `[confirm sheet 2026-08-22]`
-- `V_eta_go_forward_class_audit.md`:727 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_go_forward_class_audit.md`:729 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_go_forward_class_audit.md`:753 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_go_forward_class_audit.md`:837 `[orientation_direction_tuning.json location]`
-- `V_eta_go_forward_class_audit.md`:873 `[time anchors, amends the 2026-08-22 confirm sheet]`
-- `V_eta_go_forward_class_audit.md`:875 `[dimensioned classes, batch confirmation]`
-- `V_eta_linked_session_plan.md`:95 (TEAM-SIGN-OFF, 2026-10-09)
-- `V_eta_method_parameters_plan.md`:862 `[parameter unit, #73 audit 2 D4]`
-- `V_eta_method_plan.md`:188 `[method]`
-- `V_eta_ngrid_family_findings.md`:381 `[receptive field naming]`
-- `V_eta_openminds_family_record.md`:20 (TEAM-SIGN-OFF, 2026-08-05)
-- `V_eta_openminds_family_record.md`:1329 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_openminds_family_record.md`:1333 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_prefix_spelling_plan.md`:202 `[prefix spelling]`
-- `V_eta_recording_observation_plan.md`:115 (Decided by Jess Haley, 2026-10-21)
-- `V_eta_relation_inheritance_plan.md`:113 `[relation inheritance]`
-- `V_eta_source_unit_plan.md`:69 `[source unit]`
-- `V_eta_source_unit_plan.md`:84 `[source unit amendment 1]`
-- `V_eta_spatial_transcriptomics_plan.md`:595 `[formulation strain ingredient]`
-- `V_eta_stimulus_model_plan.md`:304 `[stimulus -- visual_grating_manipulation reconciliation]`
-- `V_eta_stimulus_model_plan.md`:372 `[onsets on the sequence, #73 audit 2 D11]`
-- `V_eta_study_plan.md`:21 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:28 (TEAM-SIGN-OFF, 2026-10-21)
-- `V_eta_study_plan.md`:29 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:30 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:31 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:40 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:41 (TEAM-SIGN-OFF, 2026-09-30)
-- `V_eta_study_plan.md`:50 (TEAM-SIGN-OFF, 2026-10-01)
-- `V_eta_study_plan.md`:61 (TEAM-SIGN-OFF, 2026-10-02)
-- `V_eta_study_plan.md`:110 (TEAM-SIGN-OFF, 2026-10-02)
-- `V_eta_study_plan.md`:111 (TEAM-SIGN-OFF, 2026-10-02)
-- `V_eta_study_plan.md`:142 (TEAM-SIGN-OFF, 2026-10-03)
-- `V_eta_study_plan.md`:143 (TEAM-SIGN-OFF, 2026-10-03)
-- `V_eta_study_plan.md`:171 (TEAM-SIGN-OFF, 2026-10-03)
-- `V_eta_study_plan.md`:172 (TEAM-SIGN-OFF, 2026-10-03)
-- `V_eta_study_plan.md`:189 (TEAM-SIGN-OFF, 2026-10-03)
-- `V_eta_study_plan.md`:336 (TEAM-SIGN-OFF, 2026-10-04)
-- `V_eta_study_plan.md`:337 (TEAM-SIGN-OFF, 2026-10-04)
-- `V_eta_study_plan.md`:338 (TEAM-SIGN-OFF, 2026-10-04)
-- `V_eta_study_plan.md`:339 (TEAM-SIGN-OFF, 2026-10-05)
-- `V_eta_study_plan.md`:340 (TEAM-SIGN-OFF, 2026-10-05)
-- `V_eta_study_plan.md`:341 (TEAM-SIGN-OFF, 2026-10-05)
-- `V_eta_study_plan.md`:384 `[contributor role nodes]`
-- `V_eta_subject_calculation_plan.md`:270 `[calculator + subject_calculation restructure]`
-- `V_eta_subject_calculation_plan.md`:369 `[observation vs calculation, amends #67]`
-- `V_eta_tenet_audit.md`:438 `[binding governance]`
-- `V_eta_tenet_audit.md`:521 `[date dtype]`
-- `V_eta_tenet_audit.md`:525 `[base naming]`
-- `V_eta_tenet_audit.md`:529 `[time dtype]`
-- `V_eta_tenets.md`:996 `[tenet amendments 2026-10-20]`
-- `V_eta_tenets.md`:998 `[tenet amendments 2026-10-21]`
-- `V_eta_tenets.md`:999 `[tenet T20, group entities]`
-- `V_eta_term_registry_plan.md`:31 `[term registry]`
-- `V_eta_term_registry_plan.md`:151 `[term registry closed value sets]`
-- `V_eta_time_reference_model_plan.md`:468 `[time_reference]`
-- `V_eta_time_reference_model_plan.md`:735 `[time_reference uniqueness rule]`
-- `V_eta_time_reference_model_plan.md`:762 `[epoch and session wall-clock time]`
-- `V_eta_time_reference_model_plan.md`:797 `[time_reference end]`
-- `V_eta_time_reference_model_plan.md`:840 `[time_reference tolerance]`
-- `V_eta_time_reference_model_plan.md`:861 `[time_reference tolerance amendment 1]`
-- `V_eta_tuning_model_plan.md`:144 `[tuning_curve composite + tuning_curve_calculation leaf, restructure]`
-- `V_eta_tuning_model_plan.md`:246 `[tuning shape, #73 audit 2 amendment]`
-- `review/73/OPEN_ITEMS.md`:349 `[lightsheet reader questions R1-R6]`
-- `review/73/OPEN_ITEMS.md`:362 `[developed_by, hosted_by, distributed_as]`
+- sync configuration amendment 1. "TEAM-SIGN-OFF [sync configuration amendment 1]" (V_eta_clock_alignment_cluster_plan.md:638).
+- data_body. "TEAM-SIGN-OFF [data_body]: jess@walthamdatascience.com /" (V_eta_data_body_model_plan.md:673).
+- data_body amendment 4. "TEAM-SIGN-OFF [data_body amendment 4]" (V_eta_data_body_model_plan.md:1281).
+- data_body amendment 3. "TEAM-SIGN-OFF [data_body amendment 3]" (V_eta_data_body_model_plan.md:1319).
+- 2026-10-21. "Decided by Jess Haley, 2026-10-21" (V_eta_data_body_model_plan.md:1337).
+- data_body amendment 5. "TEAM-SIGN-OFF [data_body amendment 5]" (V_eta_data_body_model_plan.md:1392).
+- same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
+- spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- datum_type is renamed" (V_eta_entity_composition_plan.md:61).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- add the text value kind" (V_eta_entity_composition_plan.md:70).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- one concrete entity" (V_eta_entity_composition_plan.md:116).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- strain is an" (V_eta_entity_composition_plan.md:127).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are" (V_eta_entity_composition_plan.md:148).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- web_resource and the" (V_eta_entity_composition_plan.md:165).
+- 2026-10-19. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19" (V_eta_entity_composition_plan.md:176).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is" (V_eta_entity_composition_plan.md:188).
+- 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:195).
+- dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).
+- confirm sheet 2026-08-22. "TEAM-SIGN-OFF [confirm sheet 2026-08-22]" (V_eta_go_forward_class_audit.md:725).
+- orientation_direction_tuning.json location. "TEAM-SIGN-OFF [orientation_direction_tuning.json location]" (V_eta_go_forward_class_audit.md:837).
+- time anchors, amends the 2026-08-22 confirm sheet. "TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm" (V_eta_go_forward_class_audit.md:873).
+- dimensioned classes, batch confirmation. "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]" (V_eta_go_forward_class_audit.md:875).
+- 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
+- parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
+- method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
+- receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
+- 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).
+- 2026-10-21. "Decided by Jess Haley, 2026-10-21" (V_eta_openminds_family_record.md:1329).
+- 2026-10-21. "Decided by Jess Haley, 2026-10-21" (V_eta_openminds_family_record.md:1333).
+- prefix spelling. "TEAM-SIGN-OFF [prefix spelling]" (V_eta_prefix_spelling_plan.md:202).
+- relation inheritance. "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21" (V_eta_relation_inheritance_plan.md:113).
+- source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
+- source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
+- formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (V_eta_spatial_transcriptomics_plan.md:595).
+- stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
+- onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
+- 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the awarded_to" (V_eta_study_plan.md:30).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add" (V_eta_study_plan.md:31).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional" (V_eta_study_plan.md:40).
+- 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add optional" (V_eta_study_plan.md:41).
+- 2026-10-01. "TEAM-SIGN-OFF: jess / 2026-10-01 -- add optional" (V_eta_study_plan.md:50).
+- 2026-10-02. "TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed" (V_eta_study_plan.md:61).
+- 2026-10-02. "TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional" (V_eta_study_plan.md:110).
+- 2026-10-02. "TEAM-SIGN-OFF: jess / 2026-10-02 -- add optional" (V_eta_study_plan.md:111).
+- 2026-10-03. "TEAM-SIGN-OFF: jess / 2026-10-03 -- a formulation may be" (V_eta_study_plan.md:142).
+- 2026-10-03. "TEAM-SIGN-OFF: jess / 2026-10-03 -- add optional" (V_eta_study_plan.md:143).
+- 2026-10-03. "TEAM-SIGN-OFF: jess / 2026-10-03 -- add the humidity data" (V_eta_study_plan.md:171).
+- 2026-10-03. "TEAM-SIGN-OFF: jess / 2026-10-03 -- T14: canonical units" (V_eta_study_plan.md:172).
+- 2026-10-03. "TEAM-SIGN-OFF: jess / 2026-10-03 -- add length_calculation" (V_eta_study_plan.md:189).
+- 2026-10-04. "TEAM-SIGN-OFF: jess / 2026-10-04 -- timed_sequence becomes" (V_eta_study_plan.md:336).
+- 2026-10-04. "TEAM-SIGN-OFF: jess / 2026-10-04 -- tenet audit fixes" (V_eta_study_plan.md:337).
+- 2026-10-04. "TEAM-SIGN-OFF: jess / 2026-10-04" (V_eta_study_plan.md:338).
+- 2026-10-05. "TEAM-SIGN-OFF: jess / 2026-10-05 -- key_labels_id becomes" (V_eta_study_plan.md:339).
+- 2026-10-05. "TEAM-SIGN-OFF: jess / 2026-10-05 -- T2 paragraph on" (V_eta_study_plan.md:340).
+- 2026-10-05. "TEAM-SIGN-OFF: jess / 2026-10-05 -- add time_calculation" (V_eta_study_plan.md:341).
+- contributor role nodes. "TEAM-SIGN-OFF [contributor role nodes]" (V_eta_study_plan.md:384).
+- calculator + subject_calculation restructure. "TEAM-SIGN-OFF [calculator + subject_calculation" (V_eta_subject_calculation_plan.md:270).
+- observation vs calculation, amends #67. "TEAM-SIGN-OFF [observation vs calculation, amends #67]" (V_eta_subject_calculation_plan.md:369).
+- binding governance. "TEAM-SIGN-OFF [binding governance]: jess, 2026-08-10 -- bind" (V_eta_tenet_audit.md:438).
+- date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:521).
+- base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:525).
+- time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:529).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:996).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:998).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:999).
+- term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (V_eta_term_registry_plan.md:31).
+- term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
+- time_reference. "TEAM-SIGN-OFF [time_reference]: jess@walthamdatascience.com" (V_eta_time_reference_model_plan.md:468).
+- time_reference uniqueness rule. "TEAM-SIGN-OFF [time_reference uniqueness rule]" (V_eta_time_reference_model_plan.md:735).
+- epoch and session wall-clock time. "TEAM-SIGN-OFF [epoch and session wall-clock time]" (V_eta_time_reference_model_plan.md:762).
+- time_reference end. "TEAM-SIGN-OFF [time_reference end]" (V_eta_time_reference_model_plan.md:797).
+- time_reference tolerance. "TEAM-SIGN-OFF [time_reference tolerance]" (V_eta_time_reference_model_plan.md:840).
+- time_reference tolerance amendment 1. "TEAM-SIGN-OFF [time_reference tolerance amendment 1]" (V_eta_time_reference_model_plan.md:861).
+- tuning_curve composite + tuning_curve_calculation leaf, restructure. "TEAM-SIGN-OFF [tuning_curve composite +" (V_eta_tuning_model_plan.md:144).
+- tuning shape, #73 audit 2 amendment. "TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]" (V_eta_tuning_model_plan.md:246).
+- lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
+- developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
 
 ## v1 source side (from the coverage ledger)
 

@@ -83,6 +83,11 @@ _ST = "V_eta_spatial_transcriptomics_plan.md"
 _ST_REVIEW = (_ST, "spatial_transcriptomics_family")   # signs #73 review items 1-71
 _ST_AUDIT2 = (_ST, "#73 audit 2, D1-D13")              # signs audit 2 D1-D13
 _GFA = "V_eta_go_forward_class_audit.md"
+# "Decided by Jess Haley, 2026-10-21: Migrated recordings link their epoch files
+# as data bodies ..." -- names one observation per element per epoch, the
+# `epochfiles_ingested` caches (non-ingested files) and the
+# `daqreader_*_epochdata_ingested` archives (ingested files).
+_REC_2026_10_21 = ("V_eta_recording_observation_plan.md", "2026-10-21")
 
 CITATIONS = {
     # -- migrated from the families ---------------------------------------
@@ -114,14 +119,16 @@ CITATIONS = {
     "acquisition_epoch": [("V_eta_epoch_plan.md", "epoch")],
     "element_epoch": [("V_eta_epoch_plan.md", "epoch")],
     "epochid": [("V_eta_epoch_plan.md", "epoch")],
-    "epochfiles_ingested": [("V_eta_epoch_plan.md", "epoch")],
+    "epochfiles_ingested": [("V_eta_epoch_plan.md", "epoch"), _REC_2026_10_21],
     "daqsystem": [("V_eta_daq_family_decisions.md", "daq configuration")],
     "daqreader": [("V_eta_daq_family_decisions.md", "daq configuration")],
     "daqmetadatareader": [("V_eta_daq_family_decisions.md", "daq configuration")],
     "daqreader_ndr": [("V_eta_daq_family_decisions.md", "daq configuration")],
-    "daqreader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
+    "daqreader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads"),
+                                     _REC_2026_10_21],
     "daqmetadatareader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
-    "daqreader_image_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
+    "daqreader_image_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads"),
+                                           _REC_2026_10_21],
     "syncgraph": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
     "syncrule": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
     "syncrule_mapping": [("V_eta_clock_alignment_cluster_plan.md", "sync mapping")],
@@ -142,7 +149,8 @@ CITATIONS = {
     "stimulus_response_scalar_parameters": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
     "stimulus_response_scalar_parameters_basic": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
     "subjectmeasurement": [(_GFA, "subject measurement")],
-    "element": [("V_eta_recording_observation_plan.md", "raw recording observation")],
+    "element": [("V_eta_recording_observation_plan.md", "raw recording observation"),
+                _REC_2026_10_21],
     # The second citation is the signed amendment the target map names
     # ("SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md)").
     "pyraview": [("V_eta_recording_observation_plan.md", "raw recording observation"),
@@ -185,6 +193,13 @@ CITATIONS = {
     # an unheld opaque_body ...; the software entity is the builder".
     "lightsheetZarrPyramid": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
     "lightsheetZarrLevel": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
+    # ADDED 2026-10-21 (later the same day): Jess's two "Decided by Jess Haley"
+    # lines of that date. The bath line: "A bath is a manipulation whose value
+    # is the formulation (pointed at through `value_id`), not a dose".
+    "stimulus_bath": [(_GFA, "2026-10-21")],
+    # The recording line names `daqreader_*_epochdata_ingested`; the mfdaq
+    # subtype is one of them and was cited by nothing before.
+    "daqreader_mfdaq_epochdata_ingested": [_REC_2026_10_21],
 }
 
 
@@ -278,9 +293,42 @@ def scan_decision_lines(text):
         else:
             keys = [tagged] if tagged is not None else ([date] if date else [])
         out.append({"line": n, "kind": kind, "tag": tagged, "date": date,
-                    "keys": keys, "content": rest,
+                    "keys": keys, "content": rest, "anchor": anchor_text(line),
                     "accepted": why is None, "rejected_because": why})
     return out
+
+
+ANCHOR_LEN = 60
+
+
+def anchor_text(line):
+    """A verbatim prefix of a decision line, to quote beside its citation.
+
+    Rendered as `<anchor>` (document:line), so tools/check_citations.py can
+    VERIFY every citation a generated artifact prints: it confirms a citation
+    when a quotation in the citation's own sentence is found on the cited line.
+    A bare tag is not enough -- `data_body` or `raw recording observation`
+    occurs on many lines of its own plan, so it locates nothing -- while the
+    line's own opening (`TEAM-SIGN-OFF [tag]: who / date`, or `Decided by Jess
+    Haley, <date>: <what>`) occurs once. Cut before any backtick or double
+    quote (either would end the quotation) and at a word boundary.
+    """
+    # ". " too: check_citations ends the citation's sentence there, so the
+    # quotation must not contain one.
+    text = re.split(r'[`"]|\. ', " ".join(line.split()), maxsplit=1)[0].rstrip()
+    if len(text) > ANCHOR_LEN:
+        text = text[:ANCHOR_LEN].rsplit(" ", 1)[0]
+    return text.rstrip(" ,;:-")
+
+
+def cite_md(document, line, anchor):
+    """"<anchor>" (document:line) as ONE sentence, so check_citations reads
+    only this quotation as its evidence and no neighbouring one.
+
+    DOUBLE QUOTES, not backticks: check_citations pairs backticks only around
+    spans of 8+ characters, so a short code span earlier on the same table row
+    (`app`) would pair with this quotation's opening backtick and swallow it."""
+    return f'. "{anchor}" ({document}:{line}). '
 
 
 def document_path(document):
@@ -311,8 +359,8 @@ def _scan_document(document):
 def resolve(document, tag):
     """One citation, resolved: the decision line it names, or why there is none."""
     rec = {"document": document, "tag": tag, "resolved": False,
-           "line": None, "kind": None, "decision": None, "matches": 0,
-           "why": None}
+           "line": None, "kind": None, "decision": None, "anchor": None,
+           "matches": 0, "why": None}
     entries = _scan_document(document)
     if entries is None:
         rec["why"] = ("the document does not exist (or is a generated copy, "
@@ -328,7 +376,8 @@ def resolve(document, tag):
         return rec
     first = hits[0]
     rec.update(resolved=True, line=first["line"], kind=first["kind"],
-               decision=first["content"], matches=len(hits))
+               decision=first["content"], anchor=first["anchor"],
+               matches=len(hits))
     return rec
 
 
@@ -428,7 +477,7 @@ def decision_census(schemas_dir=None, table=None):
         return sorted({c for k in e["keys"] for c in tags.get(k, [])})
 
     uncited = [{"document": e["document"], "line": e["line"], "kind": e["kind"],
-                "tag": e["tag"], "date": e["date"]}
+                "tag": e["tag"], "date": e["date"], "anchor": e["anchor"]}
                for e in lines if not _cited(e)]
     unresolved = unresolved_citations(table)
     by_kind = {}

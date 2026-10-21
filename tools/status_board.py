@@ -1930,16 +1930,26 @@ def class_names_for(cls, ledger_by_class):
 
 def _short(text, n=220):
     text = " ".join((text or "").split())
-    return text if len(text) <= n else text[:n - 3].rstrip() + "..."
+    text = text if len(text) <= n else text[:n - 3].rstrip() + "..."
+    # A cut inside a `code span` leaves one backtick open, which re-pairs every
+    # quotation after it on the line -- and the citation beside it then quotes
+    # nothing check_citations can read. Close it.
+    text = text + "`" if text.count("`") % 2 else text
+    return text + '"' if text.count('"') % 2 else text
 
 
 def _cite_cell(rec):
-    """`doc:line [tag]` for a resolved citation, or the reason it did not resolve."""
+    """[tag]. `<line opening>` (document:line). for a resolved citation.
+
+    The quoted opening of the decision line is the ANCHOR
+    tools/check_citations.py looks for on the cited line, so every rendered
+    citation can be verified (decision_citations.cite_md)."""
     if rec is None:
         return "-"
-    where = "`{}`{}".format(rec["document"],
-                            ":" + str(rec["line"]) if rec.get("line") else "")
-    return "{} `[{}]`".format(where, rec["tag"])
+    if rec.get("line"):
+        return "[{}]{}".format(rec["tag"], dc.cite_md(
+            rec["document"], rec["line"], rec["anchor"]).rstrip())
+    return "[{}] in {}".format(rec["tag"], rec["document"])
 
 
 def build(ocs=None, didm=None, log=None):
@@ -2154,9 +2164,8 @@ def build(ocs=None, didm=None, log=None):
     p("field). If one decides a class's disposition, that class should cite it.")
     p("")
     for e in census["uncited_lines"]:
-        p("- `{}`:{} {}".format(e["document"], e["line"],
-                                f'`[{e["tag"]}]`' if e["tag"] else
-                                f'({e["kind"]}, {e["date"] or "undated"})'))
+        p("- {}{}".format(e["tag"] or e["date"] or "undated",
+                          dc.cite_md(e["document"], e["line"], e["anchor"]).rstrip()))
     p("")
 
     # v1 source side
