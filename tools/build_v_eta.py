@@ -13128,6 +13128,8 @@ _PREFIX_SPELLING = {
     "bao": ("BAO", ("the ontology's IRIs end `bao#BAO_0000089` and OLS gives "
             "`obo_id` `BAO:0000089` (checked 2026-10-20); Bioregistry lists `BAO` as a "
             "synonym")),
+    "spdx": ("spdx", ("Bioregistry's preferred prefix (fetched 2026-10-21); SPDX itself "
+             "writes the bare licence identifier (`CC-BY-4.0`) and has no CURIE form")),
     "allen_ccf_v3": ("allen_ccf_v3", "ours"), "empty": ("EMPTY", ("ours: the ontology writes its own ids `EMPTY:0000276` "
               "(its IRIs end `EMPTY_`), as OBO ID spaces are written; Jess "
               "2026-10-20")),
@@ -13216,6 +13218,11 @@ _NEW_PREFIXES = {
     # Bioregistry, fetched 2026-10-20 (Jess, 2026-10-20, Haley import audit)
     "bao": ("BioAssay Ontology", "http://www.bioassayontology.org/bao#BAO_",
             "obo_underscore", r"^\d{7}$"),
+    # SPDX licence identifiers: a dataset's licence (Jess Haley, 2026-10-21: no
+    # ontology has a licence term, so the licence is its SPDX identifier, e.g.
+    # `spdx:CC-BY-4.0`); Bioregistry, fetched 2026-10-21
+    "spdx": ("Software Package Data Exchange License", "https://spdx.org/licenses/",
+             "direct", r"^[0-9A-Za-z\-.\+]+$"),
 }
 for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
     _e = {"label": _label, "uri_base": _base, "uri_style": _style, "approximate": False}
@@ -13229,7 +13236,8 @@ for _px, (_label, _base, _style, _pat) in _NEW_PREFIXES.items():
     else:
         _e["documentation"] = f"Bioregistry prefix `{_px}`."
         if _pat is not None:
-            _e["pattern_source"] = f"https://bioregistry.io/api/registry/{_px} (2026-10-19)"
+            _e["pattern_source"] = (f"https://bioregistry.io/api/registry/{_px} "
+                                    f"({'2026-10-21' if _px == 'spdx' else '2026-10-19'})")
     if _pat is not None:
         _e["pattern"] = _pat
     _curie["prefixes"][_px] = _e

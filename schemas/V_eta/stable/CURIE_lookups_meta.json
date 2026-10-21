@@ -682,6 +682,18 @@
             "synonyms": [
                 "BAO"
             ]
+        },
+        "spdx": {
+            "label": "Software Package Data Exchange License",
+            "uri_base": "https://spdx.org/licenses/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `spdx`.",
+            "pattern_source": "https://bioregistry.io/api/registry/spdx (2026-10-21)",
+            "pattern": "^[0-9A-Za-z\\-.\\+]+$",
+            "spelling": "spdx",
+            "spelling_source": "Bioregistry's preferred prefix (fetched 2026-10-21); SPDX itself writes the bare licence identifier (`CC-BY-4.0`) and has no CURIE form",
+            "synonyms": []
         }
     },
     "uri_styles": {

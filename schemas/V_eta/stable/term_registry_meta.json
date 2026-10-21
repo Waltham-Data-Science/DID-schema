@@ -1859,6 +1859,14 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-21 (source units of the Haley import: the spec's mL/L, the same ratio; V_eta_source_unit_plan.md)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
+        },
+        {
+            "name": "Creative Commons Attribution 4.0 International",
+            "node": "spdx:CC-BY-4.0",
+            "definition": "The Creative Commons Attribution 4.0 International licence (SPDX licence identifier CC-BY-4.0).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-21 (a dataset licence is its SPDX identifier; no ontology has a licence term)",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         }
     ]
 }
