@@ -33,8 +33,8 @@ are subjects, with **no kind-subclasses**. Every other property is *derived from
 graph*: group-ness from incoming `member_of` edges; kind from a `term` assertion;
 "biological" from whether that kind term sits under an organism branch. (SPEC §1)
 
-*Amended 2026-10-20 (PROPOSAL, from the Haley tenet audit, T-4; Jess Haley agreed; not
-signed). Since the one-entity merge (signed 2026-10-08) the subject is an `entity`, and two
+*Amended 2026-10-20 (from the Haley tenet audit, T-4; Jess Haley agreed; signed
+by her 2026-10-21). Since the one-entity merge (signed 2026-10-08) the subject is an `entity`, and two
 sentences above no longer describe it:*
 - **Kind.** An entity's **coarse kind** is `entity.type`, a bound, required field (the 19
   types of `entity_type_bindings`: organism, culture, tissue, cell, group, device,
@@ -72,8 +72,8 @@ of the value kinds, `data_type`, becomes `value`: a parent names what each child
 "data type" read as an encoding, which is `datum_type`. The leaves keep their names
 (`temperature_observation`, `term_assertion`).
 
-**One entity class; statements by composition** (2026-10-08, PROPOSAL built ahead of
-signature, `V_eta_entity_composition_plan.md`). An entity is something the science
+**One entity class; statements by composition** (2026-10-08, built ahead of signature and signed the same day,
+, `V_eta_entity_composition_plan.md`). An entity is something the science
 describes, the named periods of an experiment included; configuration (what the software
 needs to read the data) is its own class off `base`. So every entity is one `entity` class
 with a bound `type` (organism ... session, epoch, protocol): its fields are identity only
@@ -117,7 +117,7 @@ new `variable`; it is **not** a new hand-written class. (SPEC §6)
 is written as its direction plus its value kind (`observation` listing `mass`). Read every
 `<kind>_<direction>` name in these tenets that way.*
 
-**AMENDED 2026-10-08 -- the product is a document, not a class** (PROPOSAL,
+**AMENDED 2026-10-08 -- the product is a document, not a class** (signed 2026-10-08,
 `V_eta_entity_composition_plan.md` sec. 1). A statement document's class is its direction
 and its `superclasses` list the value kind's chain after its own
 (`observation` + `temperature`), so the direction × value product exists only in documents.
@@ -165,8 +165,8 @@ interaction's subject is the part); a structure merely **located** stays a
 `term_observation` value (a spatial-relation `variable` + an atlas term). A brain region
 is normally an *address* (a value), not a subject. (SPEC §4)
 
-*Amended 2026-10-20 (PROPOSAL, from the Haley tenet audit, T-2; Jess Haley agreed; not
-signed). `part_of` was the only relation this tenet named, and that is how the Haley import
+*Amended 2026-10-20 (from the Haley tenet audit, T-2; Jess Haley agreed; signed
+by her 2026-10-21). `part_of` was the only relation this tenet named, and that is how the Haley import
 first made a bacterial patch `part_of` its plate (#52) before finding it must be
 `contained_in` it (#107).* **Pick the relation by what the child is:**
 - a **portion of the parent's own material** (a slice of a brain, a punch of a culture)
@@ -221,7 +221,7 @@ derived cache for fast population reads, not primary data (see `V_eta_ensemble_p
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
 
-*Amended 2026-10-20 (PROPOSAL, the Haley tenet audit's T-8; Jess Haley agreed; not signed).*
+*Amended 2026-10-20 (the Haley tenet audit's T-8; Jess Haley agreed; signed by her 2026-10-21).*
 **Derivable means rebuildable from what is stored, including every choice the derivation
 makes** (a reference, a floor, a model's settings). When a choice lives only in someone's
 code, the derived value is stored too, with those choices as its method parameters (the
@@ -479,8 +479,8 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   the canonical slot exists (a count). A cell whose value can be stated at a coarser
   granularity than it is stored adds a declared `precision` (a date) — precision is
   granularity, `approximate` is certainty, and a date carries both. *`precision` belongs to
-  calendar dates only (2026-10-20, PROPOSAL, the Haley tenet audit's T-7; Jess Haley agreed;
-  not signed): an instant or a quantity written at a coarser granularity (a time to the
+  calendar dates only (2026-10-20, the Haley tenet audit's T-7; Jess Haley agreed;
+  signed by her 2026-10-21): an instant or a quantity written at a coarser granularity (a time to the
   minute) takes a `tolerance` that covers it.* **`tolerance {minus,
   plus}`** is the stated bound, both ≥ 0 in the canonical unit, the true value lying in
   [value − minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not
@@ -548,8 +548,8 @@ drifted off the one-payload-slot rule for exactly the same reason: nothing check
 indexer, a third-party reader — get the value out and know what it means, from the schema
 alone? If it needs prose, an example, or our source, the structure is not declared.
 
-**Missing is not a value** (2026-10-20, PROPOSAL, the Haley tenet audit's T-5; Jess Haley
-agreed; not signed). A value that was not measured is **absent**, never a number:
+**Missing is not a value** (2026-10-20, the Haley tenet audit's T-5; Jess Haley
+agreed; signed by her 2026-10-21). A value that was not measured is **absent**, never a number:
 - **not attempted** (not filmed, not seeded, nothing taken): **no statement**;
 - **attempted, not obtained**: in an array, NaN (or the body's `fill_value`) at that
   position; a categorical value takes the term **Cannot Be Determined** (NCIT:C179711);
@@ -560,8 +560,8 @@ agreed; not signed). A value that was not measured is **absent**, never a number
   the lab's `max(x, 0.01)` makes it 0.01, decision #99; the same rule as "no times, no time
   reference" in the time plan.)
 
-**A correction is named and travels with the value** (2026-10-20, PROPOSAL, T-6; Jess Haley
-agreed; not signed). An import that corrects its source states each correction once,
+**A correction is named and travels with the value** (2026-10-20, T-6; Jess Haley
+agreed; signed by her 2026-10-21). An import that corrects its source states each correction once,
 outside the code (the Haley import's spec `corrections`): what, where, the value written
 (`was`), the value used and why. It is **applied only while the source still reads `was`**
 (a source fixed upstream is not corrected twice) and **reported** by the run, and the
@@ -676,8 +676,8 @@ Every statement must read as one sentence:
   A manipulation and an observation of the same property share one variable, so one query
   finds both (T2). `plate transfer` or `food deprivation` as a variable names the act and
   fails the sentence ("the cohort's plate transfer was set to assay plate").
-  *Two clarifications (2026-10-20, PROPOSAL, the Haley tenet audit's T-11; Jess Haley agreed;
-  not signed).* **An activity may be the variable when a `logical` value says whether it
+  *Two clarifications (2026-10-20, the Haley tenet audit's T-11; Jess Haley agreed;
+  signed by her 2026-10-21).* **An activity may be the variable when a `logical` value says whether it
   happened to the subject**: "the plate's video recording: false" is a fact about the
   plate's history, and the act, when it is done, is still the `method` of the statement it
   produced. **A variable never names how the value is stored**: a mask's pixels say where a
@@ -757,7 +757,7 @@ A statement then reaches other subjects only along the graph (T4), and never upw
 member to its group, a part to its whole, or contents to their container). **What passes
 along a relation is declared by the relation, not by this tenet's prose:** every row of
 `binding_registry_meta.json` `relation_bindings` carries `passes`, one of four values, and a
-row without one stops the build (2026-10-20, PROPOSAL, `V_eta_relation_inheritance_plan.md`;
+row without one stops the build (2026-10-20, `V_eta_relation_inheritance_plan.md`;
 until then the paths were named here and hard-coded in the reader, and one of them misfired):
 
 | `passes` | what reaches | how it reads | rows today |
@@ -776,8 +776,8 @@ every study and session read the dataset's assertions as its own.)
 **Choosing a relation is choosing what passes along it**: check that every assertion that
 would reach the child is true of it, or pick another relation.
 
-**An assertion about a container stays on the container** (2026-10-20, PROPOSAL, the
-Haley tenet audit's T-3; Jess Haley agreed; not signed). A plate excluded from analysis
+**An assertion about a container stays on the container** (2026-10-20, the
+Haley tenet audit's T-3; Jess Haley agreed; signed by her 2026-10-21). A plate excluded from analysis
 (`inclusion in analysis` = false) does not make its worms excluded: `contained_in` passes
 interactions as context, never assertions, and stating the exclusion again on each worm,
 track or encounter would state one fact many times. An analysis that drops whatever was on
@@ -799,7 +799,7 @@ Containment carries context, so a reader keeps it apart:
 The reverse question, what was stated of anything inside a container, is a walk the reader
 asks for explicitly (the container's descendants, then their statements), never inheritance.
 
-**A fourth path, from a type to its instances** (2026-10-08, PROPOSAL,
+**A fourth path, from a type to its instances** (2026-10-08, signed the same day,
 `V_eta_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
 product). What is **asserted** of the strain or the product is **true of each instance**: N2's
 genotype is each N2 worm's genotype. Its row passes `assertions`: interactions do not pass
@@ -887,7 +887,7 @@ the document states elsewhere.**
   relations or edges already state: `arena mask`, not `C. elegans behavioral assay: arena
   mask`; "the subjects", not "the animals" or "C. elegans". A qualifier stays when it says
   something nothing else does (`seeding volume`: what was done).
-  *Clarified 2026-10-20 (PROPOSAL, Jess Haley; not signed):* this holds for a term whose
+  *Clarified 2026-10-20 (Jess Haley; signed by her 2026-10-21):* this holds for a term whose
   meaning is general. **A term's name matches the specificity of its definition**: when the
   meaning genuinely depends on a species, a lab's model or a protocol, the name says so,
   because a general name over a narrow definition would invite reuse it cannot bear. Prefer
@@ -904,7 +904,7 @@ the document states elsewhere.**
   by nature.
 
 **A planned value is said by its term, and a condition carries no qualifiers**
-(2026-10-20, PROPOSAL, the Haley tenet audit's T-9; Jess Haley agreed; not signed). A
+(2026-10-20, the Haley tenet audit's T-9; Jess Haley agreed; signed by her 2026-10-21). A
 condition, a method parameter and a method are each one term that says everything it
 means: no `basis` field, no anchor shared between conditions, no qualifier on an entry.
 So a value that was **planned** rather than measured is named so by its term ("target

@@ -1,8 +1,9 @@
 # V_eta: what a relation passes, records' own relation, and `session_id` as an edge
 
 Written 2026-10-20 at Jess Haley's request, from the Haley import's tenet audit
-(T-1). A PROPOSAL, built ahead of signature at her request ("build it",
-2026-10-20); there is no `TEAM-SIGN-OFF` line yet. Built in did-schema#88
+(T-1). Built ahead of signature at her request ("build it", 2026-10-20) and
+signed by her 2026-10-21 (the `TEAM-SIGN-OFF [relation inheritance]` line at the
+end). Built in did-schema#88
 (`tools/build_v_eta.py` section 12.16), VH-Lab/DID-matlab#218 and
 VH-Lab/NDI-matlab#1021. did-schema `main` is unchanged.
 
