@@ -387,7 +387,7 @@
           "entity (subject)",
           "assertion + term",
           "directed_relation",
-          "sampled_body",
+          "opaque_body",
           "relative_time_reference",
           "observation + voltage",
           "observation + current",
@@ -398,7 +398,7 @@
         "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
         "signoff": "V_eta_recording_observation_plan.md [raw recording observation]",
         "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently.",
-        "amended": "2026-09-25 (jess, #65 increment 3b, schema first): the time-anchor entries were session_relative_reference/epoch_bounded_reference, which are now DELETED; they are replaced by the signed collapse target relative_time_reference. The migrator does NOT emit it yet (PR #76 DID-matlab checklist), so rung 3 reads `no` until it does. The rest of the set is the 2026-08-13 confirmation, unchanged. AMENDED AGAIN 2026-09-25 (#73 item 51): image_observation -> intensity_observation (an imaging element records brightness); the migrator still writes image_observation until the PR #76 item lands. PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): element.m no longer writes image_observation (no `mk` helper remains)."
+        "amended": "2026-10-21: `sampled_body` replaced by `opaque_body`, applying Decided by Jess Haley, 2026-10-21 [epoch files as data bodies] (V_eta_recording_observation_plan.md): the raw recording's bytes are an opaque_body per epoch file by location; the only sampled_body on a recording observation now is a pyraview level, minted by pyraview's own migrator. The recording observations and their bodies are minted by the batch pass did2.convert.resolveEpochProbemap."
       }
     },
     "element_epoch": {

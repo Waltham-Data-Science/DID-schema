@@ -86,8 +86,9 @@ names: "Bar-1" there means integrity, "Bar-2" means done.)*
   Only the classes that corpus contains count.
 - Report each corpus as **done** or **not done**, with the list of what is
   missing, the number and the run. Never report integrity as done.
-- Every corpus figure recorded so far was measured on the pre-#73 shape (the
-  migrators still emit it). It says nothing about the shape on PR #88.
+- Every corpus figure recorded before the migrator port landed on DID-matlab
+  #218 (2026-10-21) was measured on the pre-#73 shape. It says nothing about
+  the shape on PR #88.
 
 ---
 
@@ -205,13 +206,14 @@ checked out. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling
 
 - DID-matlab `test-builder.yml`: a did-schema branch with the same name, else
   `main`.
-- DID-matlab `test-code.yml` and `test-fixtures.yml`: pinned to the tag
-  `v_eta-pre73`. `test-migrators-quick.yml` falls back to it.
-- NDI-matlab `test-eta-migrate-{e2e,dab,b,soph}.yml`: `DID_SCHEMA_REF:
-  v_eta-pre73`.
+- DID-matlab `test-code.yml`, `test-fixtures.yml` and `test-corpus.yml`
+  (DID-matlab #218 head `dc56951`): the #88 branch
+  `claude/ecstatic-pascal-md91fw`.
+- NDI-matlab `test-eta-migrate*.yml` and `test-import-v2.yml` (NDI #1021 head
+  `cd85606`): `DID_SCHEMA_REF: claude/ecstatic-pascal-md91fw`.
 
-The pin exists because the migrators still emit the pre-#73 shape. It moves
-when the migrator port lands.
+The `v_eta-pre73` pin was dropped when the migrator port landed. These move to
+`main` when #88 merges.
 
 ### The JSON under `schemas/V_eta/` is the source
 
@@ -357,9 +359,10 @@ or the status board.
 
 ## 6. Open caveats (true at the heads named in the notes)
 
-- **The migrators emit the pre-#73 shape.** DID-matlab's port to PR #88's shape
-  is on branches `claude/port-88*`. Until it lands, sibling CI pins did-schema
-  `v_eta-pre73`, and no corpus figure describes PR #88's shape.
+- **No corpus figure yet describes PR #88's shape.** The migrator port landed
+  on DID-matlab #218 (2026-10-21); the first #88 corpus run was in progress at
+  that time. This repository's own CI still reads NDI through the integration
+  ref `claude/v-eta-migration-plan-35jj1z`, whose head pins `v_eta-pre73`.
 - **`BindingConformance` is disarmed by default.** DID-matlab
   `+did2/+schema/cache.m` reads it with `envFlag('DID_ENFORCE_BINDING_CONFORMANCE')`,
   so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and

@@ -228,14 +228,14 @@
         {
             "name": "order",
             "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "blank_value": -1,
+            "default_value": -1,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge, a member's position on an ordered group's `member_of` edge, T20). Counts from 0 (T14): the first author is 0 (Decided by Jess Haley, 2026-10-21 [author order from 0], V_eta_study_plan.md). Empty for unordered relations. Named `sequence` until the T20 rename (TEAM-SIGN-OFF [tenet T20, group entities], 2026-10-21).",
+            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge, a member's position on an ordered group's `member_of` edge, T20). Counts from 0 (T14): the first author is 0 (Decided by Jess Haley, 2026-10-21 [author order from 0], V_eta_study_plan.md). -1 (the blank) = unordered, as for `data.positions_from`: 0 is a real position. Named `sequence` until the T20 rename (TEAM-SIGN-OFF [tenet T20, group entities], 2026-10-21).",
             "constraints": {}
         },
         {

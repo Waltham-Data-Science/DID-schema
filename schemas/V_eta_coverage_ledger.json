@@ -4907,7 +4907,7 @@
         "entity (subject)",
         "assertion + term",
         "directed_relation",
-        "sampled_body",
+        "opaque_body",
         "relative_time_reference",
         "observation + voltage",
         "observation + current",
@@ -4934,8 +4934,8 @@
           "observation + intensity",
           "observation + temperature",
           "observation + voltage",
-          "relative_time_reference",
-          "sampled_body"
+          "opaque_body",
+          "relative_time_reference"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -5037,7 +5037,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `assertion + term`, `directed_relation`, `sampled_body`, `relative_time_reference`, `observation + voltage`, `observation + current`, `observation + intensity`, `observation + acceleration`, `observation + temperature` are not all among what the migrator emits today (`assertion + term`, `directed_relation`, `entity`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `entity (subject)`, `assertion + term`, `directed_relation`, `opaque_body`, `relative_time_reference`, `observation + voltage`, `observation + current`, `observation + intensity`, `observation + acceleration`, `observation + temperature` are not all among what the migrator emits today (`assertion + term`, `directed_relation`, `entity`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
