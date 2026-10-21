@@ -2564,6 +2564,18 @@ lives in these files — read them instead of re-deriving from memory:
   what Rule 2 asks for and what a figure quoted without its command quietly drops.
 
 ## Build / test
+**THE JSON UNDER `schemas/V_eta/` IS THE SOURCE (OPEN_WORK #128, 2026-10-21).**
+`tools/build_v_eta.py` and the `V_alpha`..`V_zeta` trees are deleted. To change a
+class, edit its file under `schemas/V_eta/<tier>/` (indent-4 JSON); a new class also
+needs a hand-written `disposition` in `schemas/V_eta/index.json` (its other index
+fields are derived). Then run `python3 tools/gates.py`: its `validate_v_eta` step
+(`tools/validate_v_eta.py`) checks every rule the builder enforced and rewrites the
+four derived pieces (index.json, `term_registry_meta.json`, the relation value
+sets, the `ndi_mustBeNonEmpty` stamp). Terms go in `schemas/V_eta_term_registry.json`,
+relation rows in `stable/binding_registry_meta.json`. Data the builder held that
+tools still read (RENAME, the retired class names, `_DELETE_PHASE8`) is in
+`tools/veta_record.py`; re-adding a retired name means deleting it there.
+
 - **`python3 tools/gates.py` IS THE ENTRY POINT.** **NO STEP COUNT IS WRITTEN
   HERE ANY MORE — run `python3 tools/gates.py --explain | head -1`.** The steps
   run in an order derived from which tool reads which artifact, once for a whole
@@ -2633,8 +2645,8 @@ lives in these files — read them instead of re-deriving from memory:
   whenever anyone adds a gate does not belong in prose beside a tool that prints
   it. **Do not type a step count here again — run `--explain | head -1`.**
 - The individual tools still work and are what the driver calls:
-  `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
-  then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
+  `python3 tools/validate_v_eta.py --check` validates `schemas/V_eta/` without
+  writing. `python3 -m pytest tests/test_veta.py -q` checks the schema.
 - Migrators live in DID-matlab `+did2/+convert/+migrators_j/`; corpus validation is
   DID-matlab `test-code.yml` (full, ~1–2h) and `test-migrators-quick.yml` (~2 min).
 - **THREE GATES THAT MATTER TO THIS REPO DO NOT RUN IN `tools/gates.py`, AND NOTHING HERE
