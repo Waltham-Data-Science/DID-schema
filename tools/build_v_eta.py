@@ -13386,12 +13386,22 @@ def _entry_subs(var, where):
                               "kept).")]),
         subfield("count", "integer", "An integer value.", blank=0),
         subfield("text", "char", "A free-text value."),
+        # data_body AMENDMENT 4 (Jess Haley, 2026-10-21; proposal built ahead of
+        # signature): a list or matrix value -- a colour palette (n x 3), colour
+        # weights, a background RGB triple, a MATLAB random-state seed (35 numbers).
+        subfield("matrix", "matrix",
+                 "A numeric N-D array value, in `unit` (absent for unitless numbers): "
+                 "row-major as JSON nested arrays -- a vector is [a, b, c], an n x 3 "
+                 "palette is [[r, g, b], ...], one inner array per row. The whole "
+                 "array is ONE value of the entry's `variable`; it is not split into "
+                 "entries. (data_body AMENDMENT 4, 2026-10-21.)", scalar=False),
     ]
 
 
 _ENTRY_ONE_FORM = (" Each entry is {variable, unit, source_unit, approximate} plus "
                    "exactly ONE value form -- `term`, `quantity` {value, source_value}, "
-                   "`count` or `text` -- the same entry as a key's, holding one value "
+                   "`count`, `text` or `matrix` (a numeric N-D array, data_body "
+                   "AMENDMENT 4) -- the same entry as a key's, holding one value "
                    "where a key holds n (2026-10-19).")
 
 

@@ -470,13 +470,16 @@ def test_conditions_on_statement():
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
-    assert len(sub) == 8, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    assert len(sub) == 9, f"read {len(sub)} entry field(s): {sorted(sub)}"
     assert sub["variable"]["type"] == "ontology_term"
     assert sub["term"]["type"] == "ontology_term"
     assert sub["count"]["type"] == "integer" and sub["text"]["type"] == "char"
     assert {f["name"] for f in sub["quantity"]["fields"]} == {"value", "source_value"}
     for form in ("term", "quantity", "count", "text"):
         assert sub[form]["mustBeScalar"] is True, f"a condition holds ONE {form}"
+    # data_body AMENDMENT 4 (2026-10-21, proposal): ONE numeric N-D array value
+    assert sub["matrix"]["type"] == "matrix" and sub["matrix"]["mustBeScalar"] is False
+    assert sub["matrix"]["blank_value"] == []
 
 
 def test_conditions_and_method_parameters_are_one_entry():
@@ -1339,7 +1342,7 @@ def test_method_is_the_inline_block_plus_an_identity():
     entry = sub["parameters"]
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
-    assert {"variable", "quantity", "term", "count", "text"} <= subs
+    assert {"variable", "quantity", "term", "count", "text", "matrix"} <= subs
     # identity is the bound variable; no value field. `unit` IS declared since
     # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
     # did for keys): the canonical value is in it.
@@ -3864,7 +3867,7 @@ def test_inline_method_has_the_document_shape():
     # `conditions` (data_body AMENDMENT 3).
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "quantity", "count", "text"]
+        "term", "quantity", "count", "text", "matrix"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")
@@ -4078,3 +4081,11 @@ def test_key_id_takes_positions_from_one_data_type():
     # the calculation leaves are a mixin since 2026-10-08; the values stay
     for leaf, dt in (("time_calculation", "time"), ("acceleration_calculation", "acceleration")):
         assert leaf not in RECORDS and dt in RECORDS, leaf
+
+
+def test_keys_carry_no_matrix_form():
+    """data_body AMENDMENT 4 (2026-10-21, proposal) adds `matrix` to the single-value
+    entry ONLY. A key's positions stay terms or quantities (AMENDMENT 3); a key whose
+    positions are vectors is a separate, undecided question."""
+    keys = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "keys")
+    assert "matrix" not in {x["name"] for x in keys["fields"]}

@@ -18,6 +18,7 @@
 > | `AMENDMENT 1 — the axis carries its own unit` | **REVERSES** `THERE IS NO \`unit\` FIELD`; angles are radians; #32 and #115 leave the critical path |
 > | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
 > | `AMENDMENT 3 — one entry for keys, conditions and method parameters` | renames the value forms: a key's `labels`/`values` become `term`/`quantity`; a condition's `term.value`/`count.value` flatten (2026-10-19, decided with Jess; built) |
+> | `AMENDMENT 4 — a \`matrix\` value form` | a condition or method parameter may hold one numeric N-D array (`matrix`); noise colours are `NCIT:C75765` Arbitrary Unit plus a bit-depth count (2026-10-21, Jess; PROPOSAL built ahead of signature) |
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
@@ -1193,6 +1194,83 @@ RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 Decided with Jess Haley in the Haley import's term pass. **SIGNED 2026-10-19** -- the
 `TEAM-SIGN-OFF [data_body amendment 3]` line is at the end of this section.
+
+# AMENDMENT 4 — a `matrix` value form on the single-value entry. Jess, 2026-10-21.
+
+**A PROPOSAL, built ahead of signature at Jess Haley's request (2026-10-21).** It
+closes `V_eta_method_plan.md` open follow-up (b). It lives here, not in the method
+plan, because the entry it changes is AMENDMENT 3's, shared by `conditions` and
+`method.parameters`; the method plan points here.
+
+## WHAT PROMPTED IT
+
+Noise stimuli (sparse noise, reverse correlation; vhlab NewStim stochastic grid
+stimuli) become `method` documents (`V_eta_method_plan.md`). Their settings include
+values that are lists or matrices, which none of `term` / `quantity` / `count` /
+`text` can hold:
+
+| setting | shape |
+|---|---|
+| colour palette | n x 3 |
+| colour weights | n |
+| background colour | 3 (an RGB triple) |
+| random-state seed | 35 numbers (MATLAB's legacy `rand('state')` vector) |
+
+## THE SHAPE
+
+The single-value entry gains a fifth value form:
+
+```
+variable, unit, source_unit, approximate
++ ONE value form:  term | quantity {value, source_value} | count | text | matrix
+```
+
+- **`matrix`**: type `matrix`, `mustBeScalar: false`, blank `[]`. A numeric N-D
+  array, **row-major as JSON nested arrays**: a vector is `[a, b, c]`, an n x 3
+  palette is `[[r, g, b], ...]` with one inner array per row. Its unit is the
+  entry's `unit` (absent for a unitless number), as for `quantity`.
+- **The whole array is ONE value of the entry's `variable`.** A palette is not
+  split into n entries; the variable names the whole thing ("colour palette").
+- **No `source_value` beside it.** `quantity.source_value` keeps a scalar exactly as
+  the source spelled it; a numeric array has no spelling to keep. A source in a
+  non-canonical unit is converted, and `source_unit` says what it was.
+- **Keys do NOT get `matrix`.** AMENDMENT 3 says a key's positions are terms or
+  quantities, one scalar per position along one axis. A key whose positions are
+  themselves vectors (a palette as an axis of n colours) is a different question
+  and is NOT decided here.
+
+## NOISE COLOURS (Jess, 2026-10-21)
+
+- Colour values are in **`NCIT:C75765` "Arbitrary Unit"** (registered in
+  `V_eta_term_registry.json`). A colour channel is a device level, not a physical
+  quantity.
+- The scale goes in the data, not in a convention: a separate **"bit depth"**
+  parameter, a `count` (8), so that 255 = full scale is recorded on the document.
+
+## VARIABLE TERMS
+
+Registered, because an existing term matches: **`NCIT:C64220` "Random Seed"** --
+*"A number (or vector) used to generate random numbers in a system."*
+
+**MISSING -- no matching term found (EBI OLS, exact search, 2026-10-21); NOT minted
+here**, naming them is a decision:
+
+| variable | nearest found | why it is not a match |
+|---|---|---|
+| colour palette | -- | nothing |
+| colour weights | -- | nothing |
+| background colour | `NCIT:C37927` Color | the generic quality, not the background's |
+| bit depth | -- | nothing ("color depth" finds only vision tests) |
+
+## WHAT IT TOUCHES
+
+Built in `tools/build_v_eta.py` section 12.15 (`_entry_subs`), so `_PARAMS_SHAPE`
+(section 12.20) inherits it and stays the single source: `matrix` appears on both
+`conditions` mounts (`statement`, `data_body`) and on every `method.parameters`
+(`interaction`, `relation`, `clock_alignment_configuration`, the `method` document).
+Writers and readers follow in DID-matlab (`did2.build`, the validator).
+
+To be signed: a condition or method parameter may hold one numeric N-D array as a fifth value form `matrix` (row-major JSON nested arrays, in the entry's unit, no source_value; keys excluded); noise colours are in NCIT:C75765 Arbitrary Unit with a separate bit-depth count parameter; NCIT:C64220 Random Seed registered as the seed variable.
 
 AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
 apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was

@@ -1920,6 +1920,22 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21 (units are OM terms; the lightsheet migrator's NGFF axis units, DID-matlab c3a64bf)",
       "first_used_in": "no dataset yet: the lightsheet migrator (DID-matlab +migrators_j/private/jLightsheetKeys.m)"
+    },
+    {
+      "name": "Arbitrary Unit",
+      "node": "NCIT:C75765",
+      "definition": "A single undivided thing (unit) based on or subject to individual judgment or preference, and not by necessity, reason, or principle.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21",
+      "first_used_in": "NDI V2 noise-stimulus method documents (vhlab NewStim stochastic grid stimuli; data_body AMENDMENT 4)"
+    },
+    {
+      "name": "Random Seed",
+      "node": "NCIT:C64220",
+      "definition": "A number (or vector) used to generate random numbers in a system.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-21 (her rule for this build: an existing term where one matches; the seed variable)",
+      "first_used_in": "NDI V2 noise-stimulus method documents (vhlab NewStim stochastic grid stimuli; data_body AMENDMENT 4)"
     }
   ]
 }

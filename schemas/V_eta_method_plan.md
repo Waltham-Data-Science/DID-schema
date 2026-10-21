@@ -159,7 +159,9 @@ frequency and contrast -- so a method document can be checked for completeness,
 the way a binding checks a variable.
 
 (b) **A `matrix` parameter value form** for noise palettes and random seeds, which
-are arrays and fit none of `term` / `quantity` / `count` / `text` today.
+are arrays and fit none of `term` / `quantity` / `count` / `text` today. **PROPOSED AND
+BUILT 2026-10-21 as `V_eta_data_body_model_plan.md` AMENDMENT 4** (the entry's
+home), awaiting signature there.
 
 (c) **The NDI second-pass emitter and the DID-matlab migrators move to this shape
 when they are ported to the #88 shape.** They are pinned to `v_eta-pre73`, so
