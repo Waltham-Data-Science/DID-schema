@@ -311,7 +311,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 609,
+        "line": 572,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, name)"
        }
@@ -323,17 +323,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 787,
+        "line": 788,
         "spelling": "base",
         "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
        },
        {
-        "line": 1089,
+        "line": 1090,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
        },
        {
-        "line": 1106,
+        "line": 1107,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -457,7 +457,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 685,
+        "line": 672,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -1841,7 +1841,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 305,
+        "line": 306,
         "spelling": "element",
         "text": "if strcmp(cn, 'element')"
        }
@@ -2131,17 +2131,17 @@
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 804,
+        "line": 805,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1036,
+        "line": 1037,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1055,
+        "line": 1056,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2269,7 +2269,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1059,
+        "line": 1060,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        }
@@ -2835,12 +2835,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 749,
+        "line": 750,
         "spelling": "image",
         "text": "if strcmp(mixin, 'image')"
        },
        {
-        "line": 952,
+        "line": 953,
         "spelling": "image",
         "text": "entries = mkEntry('image_observation', 'image', 'image');"
        }
@@ -2986,11 +2986,6 @@
      {
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/image_stack.m",
-      "spelling": "image_stack"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/image_stack.m",
       "spelling": "image_stack"
      }
     ]
@@ -4094,11 +4089,6 @@
      {
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/ontology_table_row.m",
-      "spelling": "ontology_table_row"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/ontology_table_row.m",
       "spelling": "ontology_table_row"
      }
     ]
@@ -5953,17 +5943,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 522,
+        "line": 485,
         "spelling": "stimulus_bath",
         "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
        },
        {
-        "line": 534,
+        "line": 497,
         "spelling": "stimulus_bath",
         "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
        },
        {
-        "line": 563,
+        "line": 526,
         "spelling": "stimulus_bath",
         "text": "if isfield(qEntry, 'class_name') && strcmp(qEntry.class_name, 'stimulus_bath')"
        }
@@ -5979,11 +5969,6 @@
      {
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/stimulus_bath.m",
-      "spelling": "stimulus_bath"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/stimulus_bath.m",
       "spelling": "stimulus_bath"
      }
     ]
@@ -6690,11 +6675,6 @@
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/subject_group.m",
       "spelling": "subject_group"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/subject_group.m",
-      "spelling": "subject_group"
      }
     ]
    },
@@ -7039,11 +7019,6 @@
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment.m",
       "spelling": "treatment"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/treatment.m",
-      "spelling": "treatment"
      }
     ]
    },
@@ -7099,11 +7074,6 @@
      {
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment_drug.m",
-      "spelling": "treatment_drug"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/treatment_drug.m",
       "spelling": "treatment_drug"
      }
     ]
@@ -7195,11 +7165,6 @@
      {
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment_transfer.m",
-      "spelling": "treatment_transfer"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/treatment_transfer.m",
       "spelling": "treatment_transfer"
      }
     ]
@@ -7395,11 +7360,6 @@
      {
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/virus_injection.m",
-      "spelling": "virus_injection"
-     },
-     {
-      "package": "migrators_i",
-      "path": "src/did/+did2/+convert/+migrators_i/virus_injection.m",
       "spelling": "virus_injection"
      }
     ]
