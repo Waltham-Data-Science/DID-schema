@@ -31,8 +31,8 @@
         },
         {
             "name": "operating_system_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). REQUIRED on every calculation (#73 item 53; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem).",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). Present whenever the operating system is known; absent when the source never recorded it, as no v1 calculation does (#73 item 53, made optional 2026-10-21; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem).",
             "must_refer_to_document_class": "entity"
         }
     ],

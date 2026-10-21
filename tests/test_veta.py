@@ -1204,9 +1204,11 @@ def test_software_crosswalks_to_openminds_softwareversion():
     edges = {e["name"]: e for e in RECORDS["calculation"][1]["depends_on"]}
     for edge in ("interpreter_id", "operating_system_id"):
         assert edges[edge]["must_refer_to_document_class"] == "entity"
-    # the OS is required; the interpreter is not (2026-10-04: a compiled program,
-    # e.g. WormLab, has none -- a required edge would force an invented one)
-    assert edges["operating_system_id"]["mustBeNonEmpty"] is True
+    # neither is required: the interpreter since 2026-10-04 (a compiled program,
+    # e.g. WormLab, has none -- a required edge would force an invented one), the
+    # OS since 2026-10-21 (Jess Haley: required when known, absent when the source
+    # never recorded it -- no v1 calculation records one)
+    assert edges["operating_system_id"]["mustBeNonEmpty"] is False
     assert edges["interpreter_id"]["mustBeNonEmpty"] is False
     assert "runtime_environment_id" not in edges
     assert "execution_environment" not in RECORDS and "runtime_environment" not in RECORDS

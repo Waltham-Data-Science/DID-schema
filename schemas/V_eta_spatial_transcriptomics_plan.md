@@ -278,6 +278,13 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     already carries an RRID, DOI, SWHID or Wikidata id. Before the DID-matlab change lands, a
     corpus run must confirm every v1 `app` fills os and interpreter (a required edge
     quarantines a calculation that left them empty).
+    **Amended twice:** `interpreter_id` became optional 2026-10-04 (a compiled program has
+    no interpreter; `V_eta_study_plan.md`), and `operating_system_id` became optional
+    2026-10-21 (no v1 calculation records an operating system, so a required edge left
+    every migrated v1 calculation unconvertible; decision line below).
+
+Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `operating_system_id` is optional: required when the operating system is known, absent when the source never recorded it (as `interpreter_id` already is, made optional 2026-10-04)."
+
 54. **Names live on the classes that have one; `base.name` is did_v1-only** (2026-09-25).
     A name is a property of some things, not of every document: observations, bodies and
     relations have none, and V_eta's `base.name` filled up with `migrated_*` placeholders
