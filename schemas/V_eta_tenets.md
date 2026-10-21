@@ -555,7 +555,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   `daqmetadatareader_id_#`, `syncgraph` `syncrule_id_#`) describe v1 documents as written,
   and a `_#` template matches a member whatever its number, so they need no change. Where a v1 number carried
   meaning (an ensemble's `neuron_id_3` is its third column), the migrator restates it as
-  data — a `sequence` field — rather than trusting a name.
+  data — the `order` field of its `member_of` relation (`sequence` until T20) — rather than trusting a name.
 
 **The failure this names is not hypothetical.** The named types shipped for most of the
 project as enum strings whose real layout lived in the meta-schema's prose and in

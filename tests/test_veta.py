@@ -3308,7 +3308,7 @@ def test_directed_relation_has_an_optional_epoch_id_slot():
         "epoch_id must stay OPTIONAL -- most relations have no epoch, and "
         "#37's RequiredDependencies gate is armed")
     # column order was already there; the epoch was the missing half.
-    assert any(f["name"] == "sequence"
+    assert any(f["name"] == "order"
                for f in RECORDS["directed_relation"][1]["fields"])
 
 
@@ -3729,14 +3729,20 @@ def test_logical_does_not_carry_a_v1_array_position():
     # type declares only `value`, so `sequence` cannot come back through it.
     assert "logical_observation" not in RECORDS
     assert [f["name"] for f in RECORDS["logical"][1]["fields"]] == ["value"]
-    # `sequence` itself is NOT retired as a concept -- directed_relation's is a
-    # real order over a real sequence. Pinned so this deletion is not read as a
-    # licence to delete that one.
+    # An ordinal is NOT retired as a concept -- directed_relation's (named
+    # `sequence` until the T20 rename, now `order`) is a real order over a real
+    # sequence. Pinned so this deletion is not read as a licence to delete
+    # that one.
     dr = [f for f in RECORDS["directed_relation"][1]["fields"]
-          if f["name"] == "sequence"]
+          if f["name"] == "order"]
     assert len(dr) == 1 and dr[0]["type"] == "integer", (
-        "directed_relation.sequence went with it; that one orders a genuine "
+        "directed_relation.order went with it; that one orders a genuine "
         "sequence and was never part of HAZARD 2")
+    # T20 renamed it; the old name must not come back beside the new one.
+    assert not any(f["name"] == "sequence"
+                   for f in RECORDS["directed_relation"][1]["fields"]), (
+        "directed_relation.sequence was renamed to `order` by T20 "
+        "(TEAM-SIGN-OFF [tenet T20, group entities], 2026-10-21)")
 
 
 def test_logical_inheritance_is_re_derived_not_materialised():

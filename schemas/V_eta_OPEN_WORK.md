@@ -751,7 +751,7 @@ silently read as valid is not.**
 
   **A — keep the decomposition, declare closure per statement.** Each statement carries an
   `exhaustive_over` edge to the epoch: *within this epoch, the statements sharing this subject
-  and variable are the complete list.* Buildable today; `sequence` already exists. **Its
+  and variable are the complete list.* Buildable today; `directed_relation.order` (`sequence` until T20) already exists. **Its
   weakness is that set identity is IMPLICIT** — a filtered query, a partial batch, or one
   statement quarantined leaves the survivors still claiming exhaustiveness, and the reader
   concludes the gaps are good data.
