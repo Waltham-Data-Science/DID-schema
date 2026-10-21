@@ -648,7 +648,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 109,
+          "accepted_lines": 111,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -736,6 +736,7 @@
             "tenet amendments 2026-10-20",
             "tenet amendments 2026-10-21",
             "term registry",
+            "term registry closed value sets",
             "time anchors, amends the 2026-08-22 confirm sheet",
             "time dtype",
             "time_reference",
@@ -792,7 +793,7 @@
             "contributor role nodes": [
               {
                 "document": "V_eta_study_plan.md",
-                "line": 383
+                "line": 384
               }
             ],
             "daq configuration": [
@@ -1127,6 +1128,12 @@
                 "line": 31
               }
             ],
+            "term registry closed value sets": [
+              {
+                "document": "V_eta_term_registry_plan.md",
+                "line": 151
+              }
+            ],
             "time anchors, amends the 2026-08-22 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -1187,7 +1194,7 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_linked_session_plan.md": 1,
             "V_eta_openminds_family_record.md": 2,
-            "V_eta_study_plan.md": 21
+            "V_eta_study_plan.md": 22
           },
           "families_total": 27,
           "families_signed": [
@@ -1254,7 +1261,7 @@
             "contributor role nodes": [
               {
                 "document": "V_eta_study_plan.md",
-                "line": 383
+                "line": 384
               }
             ],
             "data_body": [
@@ -1429,6 +1436,12 @@
               {
                 "document": "V_eta_term_registry_plan.md",
                 "line": 31
+              }
+            ],
+            "term registry closed value sets": [
+              {
+                "document": "V_eta_term_registry_plan.md",
+                "line": 151
               }
             ],
             "time anchors, amends the 2026-08-22 confirm sheet": [
