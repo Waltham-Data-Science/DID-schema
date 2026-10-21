@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How this value's bytes are encoded -- the ONE place the encoding lives (a body never repeats it). Needed only for bytes the schema does not type (rule `data_type_when_bytes`). `datum_type` until 2026-10-08, renamed once the class `data_type` became `value`; it is the v1 spelling of the same fact (binaryseries_parameters, ngrid, ...).",
+            "documentation": "The element type of this value's bytes when they are a plain array -- the ONE place it lives (a sampled_body never repeats it). Needed only when the bytes are a plain array the schema does not type: a `sampled_body`, or an untyped inline array (rule `data_type_when_bytes`). Bytes in an `opaque_body` need none: its `format` term is the encoding (Jess Haley, 2026-10-21). `datum_type` until 2026-10-08, renamed once the class `data_type` became `value`; it is the v1 spelling of the same fact (binaryseries_parameters, ngrid, ...).",
             "constraints": {
                 "enum": [
                     "uint8",
@@ -78,7 +78,7 @@
                 "data_type",
                 "data_body"
             ],
-            "statement": "`data_type` is present when the value has bytes the schema does not type: `data_body` true, or an inline value that is not a declared cell (a bare numeric or text array). A typed cell already says its type (`temperature.value.celsius` is a double), so it needs none."
+            "statement": "`data_type` is required only when the value's bytes are a plain array: in a `sampled_body`, or an untyped inline value (a bare numeric or text array, not a declared cell). When its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed; a typed cell already says its type (`temperature.value.celsius` is a double). A body's kind is not visible on the owner, so the sampled_body half is a batch check. (Jess Haley, 2026-10-21; V_eta_data_body_model_plan.md AMENDMENT 5.)"
         },
         {
             "name": "value_inline_or_body",

@@ -617,9 +617,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 119,
+          "accepted_lines": 122,
           "accepted_lines_by_kind": {
-            "Decided by Jess Haley": 3,
+            "Decided by Jess Haley": 6,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -677,7 +677,14 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1380,
+              "line": 1337,
+              "kind": "Decided by Jess Haley",
+              "tag": null,
+              "date": "2026-10-21"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1392,
               "kind": "TEAM-SIGN-OFF",
               "tag": "data_body amendment 5",
               "date": "2026-10-21"
@@ -849,6 +856,20 @@
               "kind": "TEAM-SIGN-OFF",
               "tag": null,
               "date": "2026-08-05"
+            },
+            {
+              "document": "V_eta_openminds_family_record.md",
+              "line": 1329,
+              "kind": "Decided by Jess Haley",
+              "tag": null,
+              "date": "2026-10-21"
+            },
+            {
+              "document": "V_eta_openminds_family_record.md",
+              "line": 1333,
+              "kind": "Decided by Jess Haley",
+              "tag": null,
+              "date": "2026-10-21"
             },
             {
               "document": "V_eta_prefix_spelling_plan.md",

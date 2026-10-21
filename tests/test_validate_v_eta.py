@@ -240,3 +240,14 @@ def test_a_statement_with_a_shared_value_document_passes():
     assert V.value_inline_or_body(doc)
     # the v1-shaped edge {name, value} reads the same
     assert V.value_inline_or_body({"depends_on": [{"name": "value_id", "value": "x"}]}) == []
+
+
+def test_data_type_is_required_only_for_plain_array_bytes():
+    """Jess Haley, 2026-10-21: `data_type` only when the bytes are a plain
+    array (a sampled_body, or an untyped inline array); an opaque_body's
+    `format` term is the encoding, so it needs none."""
+    with open(os.path.join(VETA, "stable", "value.json")) as f:
+        rules = {r["name"]: r for r in json.load(f)["rules"]}
+    st = rules["data_type_when_bytes"]["statement"]
+    assert "sampled_body" in st and "opaque_body" in st and "`format`" in st
+    assert "`data_body` true, or" not in st

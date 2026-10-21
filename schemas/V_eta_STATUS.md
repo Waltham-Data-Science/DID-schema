@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 119 decision line(s) accepted, 2 rejected; 38 cited by a class, 81 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 122 decision line(s) accepted, 2 rejected; 38 cited by a class, 84 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -372,7 +372,8 @@ field). If one decides a class's disposition, that class should cite it.
 - `V_eta_data_body_model_plan.md`:673 `[data_body]`
 - `V_eta_data_body_model_plan.md`:1281 `[data_body amendment 4]`
 - `V_eta_data_body_model_plan.md`:1319 `[data_body amendment 3]`
-- `V_eta_data_body_model_plan.md`:1380 `[data_body amendment 5]`
+- `V_eta_data_body_model_plan.md`:1337 (Decided by Jess Haley, 2026-10-21)
+- `V_eta_data_body_model_plan.md`:1392 `[data_body amendment 5]`
 - `V_eta_duplicate_entities_plan.md`:95 `[same_as]`
 - `V_eta_ensemble_plan.md`:218 `[spike train leaf]`
 - `V_eta_entity_composition_plan.md`:49 (TEAM-SIGN-OFF, 2026-10-08)
@@ -397,6 +398,8 @@ field). If one decides a class's disposition, that class should cite it.
 - `V_eta_method_plan.md`:188 `[method]`
 - `V_eta_ngrid_family_findings.md`:381 `[receptive field naming]`
 - `V_eta_openminds_family_record.md`:20 (TEAM-SIGN-OFF, 2026-08-05)
+- `V_eta_openminds_family_record.md`:1329 (Decided by Jess Haley, 2026-10-21)
+- `V_eta_openminds_family_record.md`:1333 (Decided by Jess Haley, 2026-10-21)
 - `V_eta_prefix_spelling_plan.md`:202 `[prefix spelling]`
 - `V_eta_recording_observation_plan.md`:115 (Decided by Jess Haley, 2026-10-21)
 - `V_eta_relation_inheritance_plan.md`:113 `[relation inheritance]`

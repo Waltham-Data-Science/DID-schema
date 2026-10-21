@@ -1333,6 +1333,18 @@ value and value descriptors are empty: the shared document states them"); the sh
 document itself is inline or in bodies. So the check passes when `value` is filled, OR
 `data_body` is true, OR a non-empty `value_id` edge is present. This follows from the
 existing `value_id` decision and is not a new decision.
+
+Decided by Jess Haley, 2026-10-21: "`data_type` is required only when a value's bytes are a plain array -- a `sampled_body`, or an untyped inline array; when its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed."
+
+Why it came up: with this amendment a value with no inline `value` must say
+`data_body: true`, and `data_type_when_bytes` then demanded a `data_type` for every such
+value. Two kinds of value have bytes with no single datum type: the spike sorter's output
+(an `observation` with a `count` value kind, whose sorter files are an `opaque_body`;
+DID-matlab `jSorterOutput.m` left `data_body` unset to avoid the demand) and raw
+acquisition files (Intan `.rhd` and the like, linked as `opaque_body`). The rule
+`data_type_when_bytes` on `value` now says so. A body's kind is not visible on its owner,
+so a per-document check cannot tell a sampled owner from an opaque one; the
+`sampled_body` half is a batch check.
 dated clarification about `value_id`. (Until c8260da this paragraph read "NOT SIGNED";
 HISTORICAL-SIGNOFF-CLAIM.)
 
