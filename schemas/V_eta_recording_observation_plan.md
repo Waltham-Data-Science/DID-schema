@@ -109,3 +109,39 @@ TEAM-SIGN-OFF [raw recording observation]: jess@walthamdatascience.com / 2026-08
     (Recorded by Claude at the signer's explicit instruction in session_01BenWtpJyRu3QhEZqCErpwm. The signer was shown the generated confirm-sheet row for `pyraview` -- question, named answer options, the emitted set with both time-reference handles marked as intermediates and their folding passes named, and `governance: no signature found` -- and answered "Yes to those 5 rows". The DECISION is the signer's; the transcription is Claude's, and Operating Rule 4 forbids Claude writing such a line unprompted. Corpus state at signing: PRED, corpus-PROVEN in run 31746748355; the attribution verified by TestMigrateLocalEtaPRED in run 31748129747, 8/8.)
 
 TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]: jess@walthamdatascience.com / 2026-09-29 -- a `pyraview` pyramid's levels are `redundant` `sampled_body` documents OWNED BY THE RECORDING's observation (a second-pass join), not a second `voltage_observation` (#73 audit 2 D7). In V_eta_migration_targets.json, `pyraview`'s `confirmed_targets` becomes `decided_targets: [sampled_body]`.
+
+## 2026-10-21 — migrated recordings link their epoch files as data bodies (native V2 shape)
+
+Decided by Jess Haley, 2026-10-21: Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.
+
+What it means for the migration, and why:
+
+- **The native shape it matches** is NDI `ndi.setup.V2.recordingDocuments` (NDI-matlab
+  `claude/v2-object-layer`, `src/ndi/+ndi/+setup/+V2/recordingDocuments.m`): per recorded
+  file, an observation (`DataBody true`) timed by its epoch, and an `opaque_body` whose
+  `body_data_0` is recorded BY LOCATION (`ingest 0`, an absolute path, never copied), with a
+  `format` term and, when the file can be read, its size and MD5. A migrated v1 recording now
+  reads the same way, so one reader serves both.
+- **One observation per element per epoch.** Until now pass 1 emitted ONE value-less
+  observation per element across all its epochs (a session-scoped `during` anchor, no value,
+  no body), which rule `value_inline_or_body` (data_body AMENDMENT 5, signed 2026-10-21)
+  refuses. An element document names no epochs and carries no files, so the per-epoch
+  observation is minted where the epoch and its files are known: the DID batch pass over the
+  cached `epochfiles_ingested` documents (each names the epoch, its probe-map rows and its
+  files) and, where a session has no such cache, the NDI second pass, which asks the file
+  navigator.
+- **The files.** Each epoch file becomes one `opaque_body`, shared by every electrode
+  recorded in it. Non-ingested: recorded by location from `epochfiles_ingested.files`.
+  Ingested: the archive already attached to the epoch's `daqreader_*_epochdata_ingested`
+  document, its members carried as attached. The channel map (which channels of the file
+  belong to which electrode) is the observation's `acquisition_channels_id` edge, from the
+  epoch probe map's device string.
+- **Shared bodies need a repeated `owner_id`.** `data_body.owner_id` was a single edge, so a
+  body could hold the value of one statement only. A file recorded by several electrodes is
+  part of the value of each of their observations, so the edge now repeats (T15:
+  `multiple: true`, `min_count: 1`, `ordered: false`); a body with one owner is unchanged.
+  This is the one schema change the decision needs.
+- **A file named but absent** (the test corpora ship document JSON only) is still recorded
+  by location; only `size_bytes` and `content_hash` are omitted, both of which are optional
+  on `data_body` (an `opaque_body` requires only `format`). A corpus test reports such
+  files as a known property of its data, not a failure.

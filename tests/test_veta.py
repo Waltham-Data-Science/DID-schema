@@ -569,9 +569,18 @@ def test_data_body_classes():
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
                      if d["name"] == "owner_id")
     assert statement["must_refer_to_document_class"] == "statement,value"
-    assert statement["mustBeNonEmpty"] is True, (
-        "the hoisted `owner` edge must be REQUIRED -- optional would drop a "
-        "guarantee sampled_body already enforced under the armed #37 gate")
+    # REPEATS since 2026-10-21 (Jess Haley, V_eta_recording_observation_plan.md):
+    # a raw recording file is ONE body shared by the observation of every
+    # electrode recorded in it, so the edge repeats (T15) -- and the requirement
+    # moved from `mustBeNonEmpty` (which cannot describe a repeated edge; see
+    # test_numbered_edge_families_declare_cardinality) to `min_count: 1`. Still
+    # REQUIRED: a body must belong to at least one owner.
+    assert statement.get("multiple") is True
+    assert statement.get("min_count") == 1, (
+        "the hoisted `owner` edge must be REQUIRED (min_count 1) -- optional "
+        "would drop a guarantee sampled_body already enforced under the armed "
+        "#37 gate")
+    assert statement.get("ordered") is False
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
         assert RECORDS[body][0] == "draft"
@@ -2917,7 +2926,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     edges = {e["name"]: e
              for c in _chain("sampled_body")
              for e in RECORDS[c][1].get("depends_on", [])}
-    assert edges["owner_id"]["mustBeNonEmpty"] is True, (
+    assert edges["owner_id"].get("min_count", 0) >= 1, (
         "the fold binds the body to its statement through `owner` "
         "(named `statement` until #73); "
         "an optional edge here would let a body be minted belonging to nobody")
