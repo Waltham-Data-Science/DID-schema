@@ -648,7 +648,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 111,
+          "accepted_lines": 112,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -733,6 +733,7 @@
             "sync configuration",
             "sync configuration amendment 1",
             "sync mapping",
+            "tenet T20, group entities",
             "tenet amendments 2026-10-20",
             "tenet amendments 2026-10-21",
             "term registry",
@@ -1110,6 +1111,12 @@
                 "line": 508
               }
             ],
+            "tenet T20, group entities": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 999
+              }
+            ],
             "tenet amendments 2026-10-20": [
               {
                 "document": "V_eta_tenets.md",
@@ -1418,6 +1425,12 @@
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
                 "line": 638
+              }
+            ],
+            "tenet T20, group entities": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 999
               }
             ],
             "tenet amendments 2026-10-20": [
