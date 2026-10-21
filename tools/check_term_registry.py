@@ -14,14 +14,14 @@ per meaning, so this checks, and fails on any of:
       written in the registry's `spelling` (V_eta_prefix_spelling_plan.md)
   R5  a term we mint (EMPTY) or a staged term with no definition
   R6  the built schemas/V_eta/stable/term_registry_meta.json listing other
-      terms than the source (run tools/build_v_eta.py)
+      terms than the source (run tools/validate_v_eta.py)
   R7  an EMPTY term whose name or definition is not the ontology's own label
       or definition, read from an empty-ontology checkout ($EMPTY_ONTOLOGY,
       else a sibling `empty-ontology` folder). Without a checkout R7 is
       reported NOT CHECKED, never passed.
   R8  a binding variable (binding_registry_meta.json subject_statement_bindings)
-      with no node while the registry holds a term of that name (the build fills
-      it, so this means the built registry is stale). Variables the registry does
+      with no node while the registry holds a term of that name (the builder
+      filled it until 2026-10-21; the JSON is the source now, so write it there). Variables the registry does
       not hold are LISTED, not failed: naming them is a decision.
 
 It prints its denominator first and checks NOTHING against an ontology over
@@ -94,9 +94,9 @@ def check(source, built, curies):
                 failures.append(f'R2 {where}: the name is already used for {by_name[name.lower()] or "a staged term"}')
             by_name.setdefault(name.lower(), node)
     if built is None:
-        failures.append("R6 the built term_registry_meta.json does not exist (run tools/build_v_eta.py)")
+        failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
-        failures.append("R6 the built term_registry_meta.json differs from the source (run tools/build_v_eta.py)")
+        failures.append("R6 the built term_registry_meta.json differs from the source (run tools/validate_v_eta.py)")
     return terms, staged, failures
 
 
@@ -150,7 +150,7 @@ def check_bindings(terms, bindings):
         elif name.lower() in by_name:
             failures.append(f"R8 binding variable {name!r} has no node, but the "
                             f"registry names it {by_name[name.lower()]['node']} "
-                            f"(run tools/build_v_eta.py)")
+                            f"(write that node on the row in binding_registry_meta.json)")
         else:
             report.append(f"R8   {name!r}: no node, NOT in the term registry")
     return failures, report

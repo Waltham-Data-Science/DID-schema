@@ -149,7 +149,8 @@ def snake(name):
 
 
 def rename_map():
-    """did_v1 class name -> V_eta class name, read from build_v_eta.py's RENAME.
+    """did_v1 class name -> V_eta class name, read from tools/veta_record.py's
+    RENAME (build_v_eta.py's until 2026-10-21, when the built JSON became the source).
 
     WITHOUT THIS THE CHECKER HAS A HOLE EXACTLY WHERE IT MATTERS. It resolves an
     NDI class to its V_eta counterpart BY NAME, so any class V_eta renamed simply
@@ -164,7 +165,7 @@ def rename_map():
 
     Parsed from the source rather than duplicated here, so the two cannot drift.
     """
-    src = Path(os.path.join(REPO, "tools", "build_v_eta.py")).read_text()
+    src = Path(os.path.join(REPO, "tools", "veta_record.py")).read_text()
     m = re.search(r"^RENAME = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     if not m:
         return {}

@@ -350,44 +350,6 @@ def test_a_nested_binding_is_reachable_by_its_dotted_path(tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# 5. the second-source-of-truth guard
-# ---------------------------------------------------------------------------
-
-def test_build_v_eta_hand_authors_no_strength_in_the_registry_literal():
-    """The whole point of the derivation is that the value exists ONCE.
-
-    `ENTITY_FIELD_BINDINGS` in build_v_eta.py used to state `strength` beside
-    every row. Restoring it would be inert -- the generator overwrites the key
-    -- which is exactly why it must not come back: an editor would change a
-    literal, see the built file agree, and believe they had changed the rule.
-    """
-    import ast
-    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
-    tree = ast.parse(src)
-    literals = [n.value for n in ast.walk(tree)
-                if isinstance(n, ast.Assign)
-                and any(getattr(t, "id", None) == "ENTITY_FIELD_BINDINGS"
-                        for t in n.targets)]
-    assert len(literals) == 1, (
-        f'expected exactly one ENTITY_FIELD_BINDINGS assignment, found {len(literals)}')
-    rows = ast.literal_eval(literals[0])
-    assert len(rows) == 3, (
-        f'expected the 3 openMINDS dataset rows, found {len(rows)} -- if the catalogue grew, this denominator must move deliberately')
-    offenders = [r for r in rows if "strength" in r]
-    assert offenders == [], (
-        f"build_v_eta.py hand-authors a strength again: {offenders}. The field is "
-        "authoritative; tools/regen_binding_strengths.py derives this column.")
-
-
-def test_the_registry_list_table_is_not_a_second_hand_kept_copy():
-    """Two files enumerate the registry's lists and their normativity. Two
-    hand-kept copies of one list is the defect this whole change is about, so
-    they are asserted equal rather than merely both present."""
-    assert rbs.REGISTRY_LISTS == cbg.REGISTRY_LISTS
-    assert len(rbs.REGISTRY_LISTS) == 4   # + entity_type_bindings 2026-10-08; - binding_examples 2026-10-21
-
-
-# ---------------------------------------------------------------------------
 # 6. the live tree's denominators, stated so a shrinking sweep is visible
 # ---------------------------------------------------------------------------
 

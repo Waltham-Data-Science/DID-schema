@@ -74,10 +74,10 @@ def _deps(doc):
 
 
 def _rename_map():
-    """build_v_eta.py's RENAME, parsed from source -- the same way
+    """tools/veta_record.py's RENAME (build_v_eta.py's until 2026-10-21), parsed from source -- the same way
     check_tombstones.py reads it, so the two cannot drift."""
     import re
-    with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as f:
+    with open(os.path.join(REPO_ROOT, "tools", "veta_record.py")) as f:
         src = f.read()
     m = re.search(r"^RENAME = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     return dict(re.findall(r'"([A-Za-z0-9_]+)"\s*:\s*"([A-Za-z0-9_]+)"',
@@ -85,11 +85,11 @@ def _rename_map():
 
 
 def _phase8_set():
-    """build_v_eta.py's `_DELETE_PHASE8`, parsed from source for the same
+    """tools/veta_record.py's `_DELETE_PHASE8`, parsed from source for the same
     reason as RENAME above: the test must read the set the BUILD uses, not a
     copy of it written here that could agree with a stale expectation."""
     import re
-    with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as f:
+    with open(os.path.join(REPO_ROOT, "tools", "veta_record.py")) as f:
         src = f.read()
     m = re.search(r"^_DELETE_PHASE8 = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     return set(re.findall(r'"([A-Za-z0-9_]+)"', m.group(1)))

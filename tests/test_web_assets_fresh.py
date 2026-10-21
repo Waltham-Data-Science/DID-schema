@@ -488,7 +488,7 @@ def test_the_gate_is_in_the_chain_after_everything_it_compares(tmp_path):
     is against yesterday's artifacts -- a pass that means nothing."""
     assert "check_web_assets_fresh" in g.BY_NAME
     pos = {n: i for i, n in enumerate(g.ORDER)}
-    for producer in ("build_v_eta", "coverage", "status_board"):
+    for producer in ("validate_v_eta", "coverage", "status_board"):
         assert pos[producer] < pos["check_web_assets_fresh"], (
             f"{producer} writes something the viewer serves a copy of and must "
             "run first")

@@ -188,7 +188,7 @@ def test_derivations_match_an_independent_recomputation():
         [n for n in md.stdout.split() if n.endswith(".md")])
 
     # `_DELETE_PHASE8` counted by reading the source's set literal directly.
-    with open(os.path.join(TOOLS, "build_v_eta.py")) as fh:
+    with open(os.path.join(TOOLS, "veta_record.py")) as fh:
         src = fh.read()
     start = src.index("_DELETE_PHASE8 = {")
     body = src[start:src.index("\n}", start)]

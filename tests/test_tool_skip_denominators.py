@@ -47,7 +47,9 @@ sys.path.insert(0, str(TOOLS))
 
 # The five files row 92(d) named. Every one is now clean of the three rules.
 AUDITED = ("coverage.py", "ndi_ground_truth.py", "ndi_required_stamp.py",
-           "refresh_migration_targets.py", "build_v_eta.py")
+           "refresh_migration_targets.py", "validate_v_eta.py")
+# build_v_eta.py was the fifth until 2026-10-21, when the built JSON became the
+# source and validate_v_eta.py replaced it (OPEN_WORK #128).
 
 
 # --------------------------------------------------------------------------
@@ -483,45 +485,24 @@ def test_refresh_prints_the_index_denominator_and_runs_its_instrument_check():
 
 
 # ---------------------------------------------------------------------------
-# build_v_eta -- the delete pass
+# validate_v_eta -- what it read (build_v_eta's delete pass until 2026-10-21)
 # ---------------------------------------------------------------------------
 
-def test_build_prints_the_delete_pass_denominator(tmp_path):
-    """A file this loop could not read was not a deletion candidate, and the
-    printed `removed N` shrank to match -- both halves of the evidence moving
-    together.
-
-    RUN IN A SCRATCH MIRROR, NEVER IN THE WORKING TREE. `build_v_eta.py` is step
-    2 of the 16-step chain and `regen_binding_strengths.py` is step 3, so a
-    build run on its own from inside pytest (step 8) leaves the registry's
-    derived `strength` column wiped -- an artifact diff caused by the test
-    rather than by the code. `tools/gates.py --check` mirrors for exactly this
-    reason, so the mirror is borrowed from there rather than reinvented.
-    """
-    sys.path.insert(0, str(TOOLS))
-    import gates
-
-    mirror = tmp_path / "mirror"
-    mirror.mkdir()
-    copied = gates.mirror_tracked_tree(str(REPO), str(mirror))
-    print(f"DENOMINATOR: {copied} tracked file(s) mirrored to {mirror}")
-    p = subprocess.run([sys.executable, os.path.join("tools", "build_v_eta.py")],
-                       cwd=str(mirror), capture_output=True, text=True, check=False)
-    print(f"DENOMINATOR: 1 tool run, exit={p.returncode}, "
-          f"{len(p.stdout.splitlines())} stdout line(s)")
-    assert p.returncode == 0, p.stdout[-2000:] + p.stderr[-2000:]
-    m = re.search(r"^V_eta delete pass: DENOMINATOR (\d+) schema file\(s\) "
-                  r"inspected, (\d+) UNREADABLE; (\d+) phase-8 \+ "
-                  r"(\d+) no-v1-provenance removed$", p.stdout, re.MULTILINE)
-    assert m, ("the delete pass reported what it removed without reporting what "
-               "it inspected\n--- stdout tail ---\n"
-               + "\n".join(p.stdout.splitlines()[-15:]))
-    inspected, unreadable, phase8, invented = (int(g) for g in m.groups())
-    assert inspected > 0, "the delete pass inspected nothing and said `removed 0`"
-    assert unreadable == 0, (
-        f"{unreadable} built schema file(s) could not be read. Those classes "
-        "were never considered for deletion and are still in the built set.")
-    assert phase8 + invented <= inspected
+def test_the_validator_prints_its_denominator_first():
+    """A schema file the validator could not read is a file no rule checked, so
+    the count of unreadable files is printed first, beside the count read.
+    --check writes nothing, so this runs against the working tree."""
+    p = subprocess.run([sys.executable, str(TOOLS / "validate_v_eta.py"), "--check",
+                        "--quiet-stamp"],
+                       cwd=str(REPO), capture_output=True, text=True, check=False)
+    first = p.stdout.splitlines()[0] if p.stdout else ""
+    m = re.match(r"^DENOMINATOR: (\d+) class file\(s\) and (\d+) meta file\(s\) read "
+                 r".*; (\d+) unreadable;", first)
+    assert m, f"the first line is not the denominator: {first!r}"
+    classes, metas, unreadable = (int(g) for g in m.groups())
+    assert classes > 0 and metas > 0, "the validator read nothing"
+    assert unreadable == 0, f"{unreadable} schema file(s) could not be read"
+    assert p.returncode == 0, p.stdout[-3000:]
 
 
 def test_the_split_is_recorded_so_it_cannot_be_re_derived_by_guess():

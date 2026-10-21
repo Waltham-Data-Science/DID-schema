@@ -99,8 +99,9 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
             k, regkey, pre, local = key_of(node)
             if not k:
                 verdicts.append(("FAIL", label, (f"R4 the CURIE registry does not know the "
-                                 f"prefix {pre!r}: add it (did-schema build_v_eta.py's prefix "
-                                 f"tables; ndi-ontology-matlab for lookups) before the term")))
+                                 f"prefix {pre!r}: add it (did-schema "
+                                 f"schemas/V_eta/stable/CURIE_lookups_meta.json, with a "
+                                 f"`spelling`; ndi-ontology-matlab for lookups) before the term")))
                 continue
             if k in by_key:
                 reg = by_key[k]

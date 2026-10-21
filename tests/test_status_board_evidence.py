@@ -78,30 +78,25 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     Pinned with a denominator on both sides. If a future `_disposition()` starts
     DERIVING `in_progress` from something, this test fails and the docstring at
     the top of `tools/status_board.py` needs rewriting -- which is the point.
-    """
-    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
-    start = src.index("_DECIDED_PENDING = {")
-    end = src.index("def _disposition(")
-    ns = {"_re": __import__("re")}
-    exec(src[start:end], ns)          # noqa: S102 -- reading the tool's own literals
-    declared = set(ns["_DECIDED_PENDING"]) | set(ns["_IN_PROGRESS"])
 
+    Since 2026-10-21 (OPEN_WORK #128) the declaration is DATA: `disposition` in
+    schemas/V_eta/index.json, written by hand. Until then it was a literal in
+    build_v_eta.py (`_DECIDED_PENDING` / `_IN_PROGRESS`). validate_v_eta.py
+    rewrites every other index field from the class files and keeps this one,
+    so it is still a declaration and never a measurement.
+    """
     open_classes = _open_classes()
     assert open_classes, "no in_progress classes -- this sweep would check nothing"
-
-    derived = [c for c in open_classes if c not in declared]
-    assert derived == [], (
-        f"{len(derived)} in_progress class(es) come from somewhere other than a "
-        f"literal in build_v_eta.py: {derived}. If `in_progress` has become a "
-        "measurement, status_board.py's premise has changed.")
-
-    # The denominator, split the way the board reports it.
-    from_pending = [c for c in open_classes if c in ns["_DECIDED_PENDING"]]
-    from_set = [c for c in open_classes if c in ns["_IN_PROGRESS"]]
-    assert len(from_pending) + len(from_set) == len(open_classes)
-    assert from_pending and from_set, (
-        "both literal collections must still be feeding the count, or this "
-        "split has stopped describing anything")
+    with open(INDEX) as fh:
+        idx = {s["class_name"]: s for s in json.load(fh)["schemas"]}
+    unexplained = [c for c in open_classes if not idx[c].get("disposition_note")]
+    assert unexplained == [], (
+        f"{len(unexplained)} in_progress class(es) carry no disposition_note saying "
+        f"what is open: {unexplained}")
+    src = Path(os.path.join(TOOLS, "validate_v_eta.py")).read_text()
+    assert 'disp = prev.get("disposition")' in src, (
+        "validate_v_eta.py no longer copies `disposition` from index.json -- if it "
+        "now DERIVES it, status_board.py's premise has changed")
 
 
 # ---------------------------------------------------------------------------

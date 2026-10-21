@@ -117,7 +117,7 @@ VETA = os.path.join(SCHEMA_DIR, "V_eta")
 LEDGER = os.path.join(SCHEMA_DIR, "V_eta_coverage_ledger.json")
 GROUND_TRUTH = os.path.join(SCHEMA_DIR, "V_eta_ndi_ground_truth.json")
 REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
-BUILDER = os.path.join(HERE, "build_v_eta.py")
+BUILDER = os.path.join(HERE, "veta_record.py")   # build_v_eta.py's literals, 2026-10-21
 
 
 # --------------------------------------------------------------------------
@@ -148,7 +148,7 @@ class Unavailable(Exception):
 def _veta_docs():
     """(json file count, [document_class block, ...]) over the BUILT V_eta set."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is not built -- run tools/build_v_eta.py")
+        raise Unavailable("schemas/V_eta is missing")
     files, blocks = 0, []
     for root, _dirs, names in os.walk(VETA):
         for n in sorted(names):
@@ -230,7 +230,7 @@ def derive_bound_fields():
     prints it as its own denominator. Re-implementing it here is how the
     top-level-only sweep missed the two nested bindings and reported 14."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is not built -- run tools/build_v_eta.py")
+        raise Unavailable("schemas/V_eta is missing")
     sys.path.insert(0, HERE)
     try:
         import regen_binding_strengths
@@ -284,13 +284,13 @@ def derive_plan_documents():
 
 
 def derive_phase8_deleted():
-    """`_DELETE_PHASE8` read from build_v_eta.py's AST.
+    """`_DELETE_PHASE8` read from tools/veta_record.py's AST (build_v_eta.py's until 2026-10-21).
 
     Parsed, not grepped: the set literal is surrounded by comments naming the
     two classes that were REMOVED from it, and a grep for quoted strings counts
     those too."""
     if not os.path.exists(BUILDER):
-        raise Unavailable("tools/build_v_eta.py is absent")
+        raise Unavailable("tools/veta_record.py is absent")
     with open(BUILDER, encoding="utf-8") as fh:
         tree = ast.parse(fh.read())
     for node in ast.walk(tree):
@@ -299,7 +299,7 @@ def derive_phase8_deleted():
         for target in node.targets:
             if isinstance(target, ast.Name) and target.id == "_DELETE_PHASE8":
                 return len(ast.literal_eval(node.value))
-    raise Unavailable("_DELETE_PHASE8 not found in build_v_eta.py")
+    raise Unavailable("_DELETE_PHASE8 not found in tools/veta_record.py")
 
 
 def derive_tombstones_compared():
@@ -408,7 +408,7 @@ NOUNS = [
          [_N + r"\s+markdown files?(?:\(s\))?\s+under\s+`?schemas/",
           _N + r"\s+markdown file\(s\)\s+under\s+`?schemas/"]),
 
-    Noun("phase8_deleted", "classes in build_v_eta.py `_DELETE_PHASE8`",
+    Noun("phase8_deleted", "classes in veta_record.py `_DELETE_PHASE8`",
          derive_phase8_deleted,
          [r"\*\*" + _N + r"\s+deleted\*\*",
           _N + r"\s+deleted classes\b",

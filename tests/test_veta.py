@@ -3801,7 +3801,8 @@ def test_leaves_exist_only_when_needed():
     """#73 item 50 (team, 2026-09-25): every value stays; a direction leaf exists
     only once a writer or a decided target needs it. The 52 leaves nothing needed are
     gone, their data types are not, and the rule is written into T3."""
-    with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as fh:
+    # tools/veta_record.py holds the builder's list since 2026-10-21 (#128)
+    with open(os.path.join(REPO_ROOT, "tools", "veta_record.py")) as fh:
         build = fh.read()
     body = build.split("_DELETE_UNUSED_LEAVES = {", 1)[1].split("}", 1)[0]
     gone = set(re.findall(r'"([a-z_]+)"', body))

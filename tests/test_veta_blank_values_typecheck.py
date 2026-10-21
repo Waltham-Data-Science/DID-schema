@@ -42,6 +42,7 @@ DENOMINATOR: every counting assertion states what it counted.
 """
 import json
 import os
+import pathlib
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
@@ -380,7 +381,9 @@ def test_the_blank_ladder_knows_the_validators_char_only_types():
     two ladders. This pins that it still contains every char-only type; if
     DID-matlab widens the case, this fails and points at the ladder.
     """
-    src = os.path.join(REPO_ROOT, "tools", "build_v_eta.py")
+    # the builder's constant, kept in tools/veta_record.py since 2026-10-21 and
+    # read by validate_v_eta.py's R3 (a char-like field has a text blank)
+    src = os.path.join(REPO_ROOT, "tools", "veta_record.py")
     with open(src) as fh:
         text = fh.read()
     marker = "_CHARLIKE_BLANK_TYPES = ("
@@ -395,7 +398,9 @@ def test_the_blank_ladder_knows_the_validators_char_only_types():
     assert not missing, (
         "_CHARLIKE_BLANK_TYPES omits type(s) the validator accepts only as "
         "char: " + repr(missing))
-    # Both ladders must read the constant, not a literal of their own.
-    assert text.count("ftype in _CHARLIKE_BLANK_TYPES") == 2, (
-        "expected both the subfield() and field() blank ladders to consult "
-        "_CHARLIKE_BLANK_TYPES")
+    # The builder's two blank ladders (field(), subfield()) read the constant
+    # until 2026-10-21. With the JSON as the source, the validator's R3 reads it
+    # instead: a char-like scalar must carry a text blank and default.
+    val = (pathlib.Path(REPO_ROOT) / "tools" / "validate_v_eta.py").read_text()
+    assert "REC._CHARLIKE_BLANK_TYPES" in val, (
+        "validate_v_eta.py no longer checks blanks against _CHARLIKE_BLANK_TYPES")
