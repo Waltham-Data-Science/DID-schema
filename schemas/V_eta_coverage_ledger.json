@@ -660,7 +660,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 105,
+          "accepted_lines": 106,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -728,6 +728,7 @@
             "session",
             "software",
             "source unit",
+            "source unit amendment 1",
             "spatial_transcriptomics_family",
             "spike processing parameters",
             "spike train leaf",
@@ -1013,6 +1014,12 @@
               {
                 "document": "V_eta_source_unit_plan.md",
                 "line": 69
+              }
+            ],
+            "source unit amendment 1": [
+              {
+                "document": "V_eta_source_unit_plan.md",
+                "line": 84
               }
             ],
             "spatial_transcriptomics_family": [
@@ -1353,6 +1360,12 @@
               {
                 "document": "V_eta_source_unit_plan.md",
                 "line": 69
+              }
+            ],
+            "source unit amendment 1": [
+              {
+                "document": "V_eta_source_unit_plan.md",
+                "line": 84
               }
             ],
             "spike train leaf": [
