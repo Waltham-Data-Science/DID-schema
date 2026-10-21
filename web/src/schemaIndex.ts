@@ -56,7 +56,7 @@ export async function loadTenets(): Promise<TenetsDoc> {
 
 // The set shown if the versions manifest can't be loaded (e.g. an older
 // bundle without versions.json).
-const FALLBACK_VERSION = "V_delta";
+const FALLBACK_VERSION = "V_eta"; // the only set since 2026-10-21 (#128)
 
 // The list of schema sets the viewer can switch between. Written by
 // scripts/sync-schemas.mjs. Falls back to a single historical default so an

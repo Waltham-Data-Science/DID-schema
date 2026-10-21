@@ -210,11 +210,14 @@ def vzeta_classes():
     """Class names present in the V_zeta base (the set V_eta was copied from).
     A v1 class absent here AND without a V_eta home/migrator was never reviewed by
     the migration -> a genuine gap (vs. one V_zeta reviewed and chose to dissolve)."""
-    out = set()
-    for p in glob.glob(os.path.join(SCHEMA_ROOT, "schemas", "V_zeta", "**", "*.json"),
-                       recursive=True):
-        out.add(os.path.basename(p)[:-5])
-    return out
+    # The V_zeta tree was deleted 2026-10-21 (OPEN_WORK #128); its class names
+    # were captured into tools/veta_record.py first, so this set is unchanged.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_veta_record", os.path.join(HERE, "veta_record.py"))
+    rec = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rec)
+    return set(rec.VZETA_CLASSES)
 
 
 # Migrator files that are NOT per-class consumers (shared helpers / default

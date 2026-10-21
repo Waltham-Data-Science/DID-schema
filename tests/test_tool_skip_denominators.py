@@ -217,12 +217,13 @@ def test_v_alpha_divergence_counts_an_unparseable_snapshot(tmp_path, monkeypatch
     """`V_alpha divergences: N` is printed; N was what this loop survived."""
     import ndi_ground_truth as ngt
 
-    adir = tmp_path / "schemas" / "V_alpha"
-    adir.mkdir(parents=True)
-    (adir / "goodA.json").write_text(json.dumps(
-        {"_classname": "goodA", "_fields": [{"_name": "someField"}]}))
-    (adir / "broken.json").write_text("{oh no")
-    monkeypatch.setattr(ngt, "REPO", str(tmp_path))
+    # schemas/V_alpha is deleted (2026-10-21); its extract stands in, and an
+    # entry that is not an object is what an unreadable file used to be.
+    snap = tmp_path / "v_alpha_fields.json"
+    snap.write_text(json.dumps({"files": {
+        "goodA.json": {"class": "goodA", "fields": ["someField"]},
+        "broken.json": "{oh no"}}))
+    monkeypatch.setattr(ngt, "ALPHA_SNAPSHOT", str(snap))
 
     truth = {"goodA": {"fields": ["some_other_field"]}}
     rows = ngt.v_alpha_divergence(truth)
