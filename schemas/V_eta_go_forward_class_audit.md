@@ -850,6 +850,33 @@ every row is `OM:Heat` into a `temperature_manipulation` (`celsius` filled
 from the NCIT:C42559 "Degree Celsius" unit). Babu writes one heat document per
 training time, so each migrates to its own temperature manipulation.
 
+Decided by Jess Haley, 2026-10-21 [virus-location]: "virus_injection follows the same location rule as the other treatments: a bath location makes it an immersion (a manipulation of the subject valued by the virus formulation through value_id, no location observation); a body site makes it a dose. A dilution of 0 is treated as not recorded (NaN), not as a measured 0."
+
+This SUPERSEDES the "virus_injection is always a dose (an injection), its
+volume NaN when unrecorded, its dilution staying on the formulation" part of
+the treatment-location line above ([treatment-location], "The v1 treatment
+migrators decide by the recorded location"); the rest of that line stands.
+The case that prompted it: NDI's Birren writers (`+birren/TreatmentCreator.m`,
+`createSayaTreatments.m`) record AAV DREADDs for cell cultures as
+`virus_injection` located in the bath (NCIm:C0179246), with `dilution = 0`,
+the template blank. Built on DID-matlab `claude/port-88` (`2c306d60`):
+`virus_injection` is routed by `jTreatmentRoute` like `treatment_drug` (bath
+-> a formulation-valued manipulation through `value_id`; a body site -> a dose
+with `value.volume.liters` = NaN and the site observation; no location -> that
+dose, counted as `route_unknown`), and a dilution of 0 leaves the virus
+ingredient's concentration NaN with no "dilution" unit.
+
+Decided by Jess Haley, 2026-10-21 [unknown-amount-slot]: When a dose's amount was not recorded and the kind of quantity is not known, the NaN goes in value.volume.liters; where the kind is known (from the source, the paper, or a case raised with the team), the NaN goes in that quantity instead, decided case by case.
+
+Built on DID-matlab `claude/port-88` (`4ad0c1cc`, `private/jDoseValue.m`):
+`value.volume.liters` stays the default, and when a source row states the
+kind of amount (an amount unit: mass, volume, per body mass) but no number,
+the NaN goes in that quantity with the unit as `source_unit`. No NDI writer on
+`origin/main` writes such a row today (Hunsberger always gives 1 or 0.25
+mg/kg; the Birren and Babu rows are concentrations), so a constructed test
+covers it. A kind known only from a paper or a team case is not in the source
+and is decided case by case, as the line says; nothing builds it generally.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
