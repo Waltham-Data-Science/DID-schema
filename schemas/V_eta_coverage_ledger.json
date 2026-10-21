@@ -648,7 +648,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 106,
+          "accepted_lines": 109,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -688,6 +688,7 @@
             "daq ingested payloads",
             "data_body",
             "data_body amendment 3",
+            "data_body amendment 4",
             "dataseries_channel_map",
             "date dtype",
             "dimensioned classes, batch confirmation",
@@ -701,6 +702,7 @@
             "image / ngrid",
             "logical_observation",
             "logical_observation amendment 1",
+            "method",
             "misc singletons",
             "observation vs calculation, amends #67",
             "onsets on the sequence, #73 audit 2 D11",
@@ -732,6 +734,7 @@
             "sync configuration amendment 1",
             "sync mapping",
             "tenet amendments 2026-10-20",
+            "tenet amendments 2026-10-21",
             "term registry",
             "time anchors, amends the 2026-08-22 confirm sheet",
             "time dtype",
@@ -821,7 +824,13 @@
             "data_body amendment 3": [
               {
                 "document": "V_eta_data_body_model_plan.md",
-                "line": 1316
+                "line": 1318
+              }
+            ],
+            "data_body amendment 4": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1280
               }
             ],
             "dataseries_channel_map": [
@@ -908,6 +917,12 @@
               {
                 "document": "V_eta_logical_observation_plan.md",
                 "line": 425
+              }
+            ],
+            "method": [
+              {
+                "document": "V_eta_method_plan.md",
+                "line": 188
               }
             ],
             "misc singletons": [
@@ -1100,6 +1115,12 @@
                 "line": 971
               }
             ],
+            "tenet amendments 2026-10-21": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 973
+              }
+            ],
             "term registry": [
               {
                 "document": "V_eta_term_registry_plan.md",
@@ -1245,7 +1266,13 @@
             "data_body amendment 3": [
               {
                 "document": "V_eta_data_body_model_plan.md",
-                "line": 1316
+                "line": 1318
+              }
+            ],
+            "data_body amendment 4": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 1280
               }
             ],
             "dataseries_channel_map": [
@@ -1288,6 +1315,12 @@
               {
                 "document": "V_eta_logical_observation_plan.md",
                 "line": 425
+              }
+            ],
+            "method": [
+              {
+                "document": "V_eta_method_plan.md",
+                "line": 188
               }
             ],
             "observation vs calculation, amends #67": [
@@ -1384,6 +1417,12 @@
               {
                 "document": "V_eta_tenets.md",
                 "line": 971
+              }
+            ],
+            "tenet amendments 2026-10-21": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 973
               }
             ],
             "term registry": [
