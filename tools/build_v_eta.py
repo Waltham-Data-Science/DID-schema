@@ -22,6 +22,7 @@ conversion docs are still V_zeta-targeted pending retarget.
 
 Usage:  python3 tools/build_v_eta.py
 """
+import copy
 import glob
 import json
 import os
@@ -13750,6 +13751,68 @@ _d["fields"].insert(next(i for i, f in enumerate(_d["fields"]) if f["name"] == "
                     _do)
 write(_t, "data", _d)
 print("12.17 datum_order: moved from sampled_body to data, beside keys")
+
+# ---------- 12.19 `source_unit` is a bound term (2026-10-21) ----------
+# Jess Haley, 2026-10-21 ("make source_unit a bound term"), built ahead of
+# signature; the record is V_eta_source_unit_plan.md. Every dimensioned value's
+# `source_unit` was free text while the unit of an axis, key, condition or
+# parameter entry was already an ontology_term, so a unit was a string in one
+# place and a term in another. Each `source_unit` declaration (and the
+# `source_unit: ""` inside any default or blank value that holds one) becomes an
+# ontology_term bound like `statement.variable`; its name is the unit term's
+# label, and a value with no source unit leaves the term blank.
+_BLANK_TERM = {"node": "", "name": ""}
+_t, _p = path_of("statement")
+_term_subfields = next(f for f in load(_p)["fields"] if f["name"] == "variable")["fields"]
+_SOURCE_UNIT_DOC = ("The unit the source gave the value in, as a term: the unit's registered "
+                    "term (schemas/V_eta_term_registry.json), its label as the name "
+                    "(V_eta_source_unit_plan.md). Blank when the source gives no unit.")
+
+
+def _term_defaults(_v):
+    # a default or blank value that carries `source_unit: ""` carries a blank term instead
+    if isinstance(_v, dict):
+        for _k in list(_v):
+            if _k == "source_unit" and isinstance(_v[_k], str):
+                if _v[_k]:
+                    raise SystemExit(f"build_v_eta 12.19: a non-empty default source_unit "
+                                     f"{_v[_k]!r} has no term to become")
+                _v[_k] = dict(_BLANK_TERM)
+            else:
+                _term_defaults(_v[_k])
+    elif isinstance(_v, list):
+        for _x in _v:
+            _term_defaults(_x)
+
+
+def _source_unit_terms(_fields):
+    _n = 0
+    for _f in _fields or []:
+        if _f.get("name") == "source_unit" and _f.get("type") == "char":
+            _f.update({"type": "ontology_term", "blank_value": dict(_BLANK_TERM),
+                       "default_value": dict(_BLANK_TERM), "documentation": _SOURCE_UNIT_DOC,
+                       "constraints": {"binding": {"strength": "preferred",
+                                                   "node_form": "curie"}},
+                       "fields": copy.deepcopy(_term_subfields)})
+            _n += 1
+        else:
+            for _key in ("default_value", "blank_value"):
+                _term_defaults(_f.get(_key))
+            _n += _source_unit_terms(_f.get("fields"))
+    return _n
+
+
+_n_su = _n_su_files = 0
+for _tier, _fp, _o in _all_class_files():
+    _k = _source_unit_terms(_o.get("fields"))
+    if _k:
+        _n_su += _k
+        _n_su_files += 1
+        _save(_fp, _o)
+if _n_su == 0:
+    raise SystemExit("build_v_eta 12.19: no `source_unit` declaration found")
+print(f"12.19 source_unit: {_n_su} declaration(s) in {_n_su_files} class file(s) "
+      f"became bound terms")
 
 
 # ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------

@@ -653,7 +653,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 60,
+          "documents_read": 61,
           "documents_excluded_as_generated": [
             "V_eta_STATUS.md",
             "V_eta_coverage_ledger.md",

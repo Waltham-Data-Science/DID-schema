@@ -848,3 +848,5 @@ RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown file
 RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`, Jess Haley's decision: the term list lives in did-schema and an unregistered term is an error). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **63 markdown files under `schemas/`** (was 62; +`V_eta_relation_inheritance_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.

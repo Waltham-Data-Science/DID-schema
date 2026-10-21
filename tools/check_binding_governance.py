@@ -191,7 +191,11 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 28
+# 28 -> 93 (2026-10-21, jess; V_eta_source_unit_plan.md, to sign): every
+# dimensioned value's `source_unit` is now an ontology_term bound {strength:
+# preferred, node_form: curie} like `statement.variable` -- 65 more bound
+# declarations, uncatalogued for the same reason as `variable`.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 93
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
