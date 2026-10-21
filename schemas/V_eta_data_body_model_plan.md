@@ -1367,3 +1367,5 @@ the fold can emit it.
   `foldExpressible()` passthrough. Follows separately.
 
 To be signed: a value is inline (its `value` field filled) or in data bodies (`data_body: true`), never neither -- one rule `value_inline_or_body` on the parent `value` class, replacing `mustBeNonEmpty: true` on the `value` field of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field.
+
+TEAM-SIGN-OFF [data_body amendment 5]: jess@walthamdatascience.com / 2026-10-21 -- a value is inline (its value field filled) or in data bodies (data_body: true), never neither: one rule value_inline_or_body on the parent value class, replacing the required inline value of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field
