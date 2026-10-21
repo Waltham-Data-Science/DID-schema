@@ -728,6 +728,8 @@ Decided by Jess Haley, 2026-10-21: A bath is a manipulation whose value is the f
 
 Decided by Jess Haley, 2026-10-21: A subject immersed in a formulation (bath, perfusion, the Haley assay droplet) is a manipulation valued by the formulation; a subject given a quantity is a dose, and an unrecorded amount is stated as unknown, never left empty.
 
+Decided by Jess Haley, 2026-10-21: An unrecorded amount is written as NaN in its quantity (e.g. a dose's volume.liters: NaN), and V2 stores NaN the way V1 does.
+
 This changes the `dose_manipulation` half of the 2026-08-22 line above; the
 anchor and the conditional location `term_observation` are unchanged. Why it
 came up: a bath gives no amount, so the bath dose was written with an empty
@@ -748,7 +750,20 @@ The Haley assay droplet is the case that prompted it: worms are picked with an
 eyelash into a droplet of S-Complete, which evaporates before recording starts,
 so the droplet is a transitory bath, not a dose. A dose whose amount the source
 does not record states the amount as unknown rather than leaving `dose.value`
-empty. HOW unknown is written is NOT decided yet, and nothing builds it.
+empty.
+
+The third 2026-10-21 line says how: NaN in the quantity's canonical slot (a
+dose of unrecorded volume is `dose.value.volume.liters: NaN`). V1 already
+stores NaN: it writes documents with `did.datastructures.jsonencodenan`
+(`jsonencode(..., 'ConvertInfAndNaN', false)`), so the text carries the
+literal `NaN`. V2's `did2.document` wrote plain `jsonencode`, which turns a
+scalar NaN into `null`, read back as `[]`, so an unknown amount came out of the
+database as an absent one. DID-matlab now writes NaN, Infinity and -Infinity as
+literals, as V1 does; `testSqliteDbNonFinite` tests the round trip through
+`did2.database.sqlitedb` and SQLite's JSON functions. A NaN amount is a stated
+value under `value_inline_or_body` (a number is not a blank). Which doses get
+NaN, and in which quantity, is decided case by case; no migrator or import
+writes it yet.
 
 Decided by Jess Haley, 2026-10-21: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
 

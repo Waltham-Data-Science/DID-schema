@@ -8,6 +8,7 @@ rule bites.
 import importlib.util
 import io
 import json
+import math
 import os
 import shutil
 from contextlib import redirect_stdout
@@ -213,6 +214,22 @@ def test_a_term_with_no_inline_value_and_no_data_body_is_refused():
     assert V.value_inline_or_body(dict(doc, value={"node": "NCBITaxon:10090",
                                                    "name": "Mus musculus"})) == []
     assert V.value_inline_or_body({"value": [False]}) == []
+
+
+def test_an_unrecorded_amount_written_as_nan_counts_as_stated():
+    # Jess Haley, 2026-10-21 (V_eta_go_forward_class_audit.md): an unrecorded
+    # amount is written as NaN in its quantity, e.g. a dose's volume.liters.
+    # NaN is a number, not a blank, so the value is stated. The text V2 writes
+    # (the literal NaN, as V1 writes it) parses here to float('nan').
+    doc = json.loads('{"document_class": {"class_name": "dose"}, '
+                     '"value": {"volume": {"liters": NaN, '
+                     '"source_unit": {"node": "", "name": ""}}}}')
+    assert math.isnan(doc["value"]["volume"]["liters"])
+    assert V.value_inline_or_body(doc) == []
+    # the same document with the amount written as null (plain jsonencode)
+    # would be refused: that is why V2 must keep the literal
+    lost = json.loads(json.dumps(doc).replace("NaN", "null"))
+    assert V.value_inline_or_body(lost)
 
 
 def test_a_required_inline_value_is_refused(tree):
