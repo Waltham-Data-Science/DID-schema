@@ -108,3 +108,5 @@ pointed at. Nothing in v1 refers to a session document by its `base.id`.
   published record.
 
 To be signed: every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id
+
+TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21 -- every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id; a dataset folder's own record is the dataset entity and its reference stays in reference.txt; T5 picks a relation by what the child is; T17 keeps an assertion about a container on the container; T1 states entity.type for the coarse kind and one term assertion for the finer kind.
