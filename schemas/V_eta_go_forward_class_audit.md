@@ -1043,3 +1043,7 @@ RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **63 markdown file
 RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **65 markdown files under `schemas/`** (was 64; +`V_eta_method_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+Decided by Jess Haley, 2026-10-21 [sorter input]: spike-sorter output (`jrclust_clusters`, `kilosort_clusters`, `kiasort_clusters`; a calculation with the `label` value kind, per the 2026-09-29 sign-off) takes as its input the per-epoch recording observations of the electrode it sorted, when they exist, falling back to the electrode entity when they do not (answer "1b").
+
+Decided by Jess Haley, 2026-10-21 [sorter keys]: `kilosort_clusters` and `kiasort_clusters` carry no keys: the sorter's output folder is the value as-is, and "keys [spike]" applies only where the bytes are an array (as in `jrclust_clusters`) (answer "2a").

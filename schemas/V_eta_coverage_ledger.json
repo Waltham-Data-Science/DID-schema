@@ -659,9 +659,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 163,
+          "accepted_lines": 165,
           "accepted_lines_by_kind": {
-            "Decided by": 47,
+            "Decided by": 49,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1072,6 +1072,22 @@
               "tag": "dimensioned classes, batch confirmation",
               "date": "2026-09-29",
               "anchor": "TEAM-SIGN-OFF [dimensioned classes, batch confirmation]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1047,
+              "kind": "Decided by",
+              "tag": "sorter input",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [sorter input]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1049,
+              "kind": "Decided by",
+              "tag": "sorter keys",
+              "date": "2026-10-21",
+              "anchor": "Decided by Jess Haley, 2026-10-21 [sorter keys]"
             },
             {
               "document": "V_eta_linked_session_plan.md",

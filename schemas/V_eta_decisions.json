@@ -1849,11 +1849,11 @@
         ],
         "packages_missing": [],
         "files_read": 211,
-        "lines_read": 49585,
+        "lines_read": 49824,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
-          "DID-matlab:convert/resolveEpochProbemap.m:1045 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1143 (entry.class)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
@@ -1892,8 +1892,8 @@
           "batch_post_pass": 34
         },
         "lines_read_by_group": {
-          "per_document_migrator": 31330,
-          "batch_post_pass": 18255
+          "per_document_migrator": 31371,
+          "batch_post_pass": 18453
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1925,7 +1925,7 @@
             "DID-matlab:migrators_j/treatment.m:100 (manipulation + kind)"
           ],
           "batch_post_pass": [
-            "DID-matlab:convert/resolveEpochProbemap.m:1045 (entry.class)",
+            "DID-matlab:convert/resolveEpochProbemap.m:1143 (entry.class)",
             "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
@@ -2036,7 +2036,7 @@
           "DID-matlab:convert/epochMint.m:2910 (field_read)",
           "DID-matlab:convert/epochMint.m:2913 (field_read)",
           "DID-matlab:convert/epochMint.m:829 (guard)",
-          "DID-matlab:convert/resolveEpochProbemap.m:332 (guard)"
+          "DID-matlab:convert/resolveEpochProbemap.m:339 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -2094,7 +2094,7 @@
               "DID-matlab:convert/epochMint.m:2910 (field_read)",
               "DID-matlab:convert/epochMint.m:2913 (field_read)",
               "DID-matlab:convert/epochMint.m:829 (guard)",
-              "DID-matlab:convert/resolveEpochProbemap.m:332 (guard)"
+              "DID-matlab:convert/resolveEpochProbemap.m:339 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -2154,14 +2154,14 @@
         "named_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:1119 (named)"
         ],
-        "n_comment_mentions": 171,
+        "n_comment_mentions": 172,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
+          "DID-matlab:convert/resolveEpochProbemap.m:887 (comment_mention)",
           "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
-          "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:1090 (comment_mention)"
+          "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2205,14 +2205,14 @@
             "named_refs": [
               "DID-matlab:convert/resolveValidIntervals.m:1119 (named)"
             ],
-            "n_comment_mentions": 38,
+            "n_comment_mentions": 39,
             "comment_mentions": [
               "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
               "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
+              "DID-matlab:convert/resolveEpochProbemap.m:887 (comment_mention)",
               "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
-              "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:1090 (comment_mention)"
+              "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"
             ]
           }
         },

@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1842,
+        "line": 2040,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 1919,
+        "line": 2117,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -2133,22 +2133,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 445,
+        "line": 452,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 1130,
+        "line": 1228,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1370,
+        "line": 1468,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1389,
+        "line": 1487,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2296,17 +2296,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1393,
+        "line": 1491,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 1799,
+        "line": 1997,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 1800,
+        "line": 1998,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -4960,7 +4960,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 395,
+        "line": 402,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        }
