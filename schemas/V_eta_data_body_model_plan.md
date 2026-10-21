@@ -1226,9 +1226,14 @@ variable, unit, source_unit, approximate
 ```
 
 - **`matrix`**: type `matrix`, `mustBeScalar: false`, blank `[]`. A numeric N-D
-  array, **row-major as JSON nested arrays**: a vector is `[a, b, c]`, an n x 3
-  palette is `[[r, g, b], ...]` with one inner array per row. Its unit is the
-  entry's `unit` (absent for a unitless number), as for `quantity`.
+  array, **row-major as JSON nested arrays, every dimension written**: an n x 3
+  palette is `[[r, g, b], ...]` with one inner array per row, a 1 x n row is
+  `[[a, b, c]]` and an n x 1 column is `[[a], [b], [c]]`. A flat `[a, b, c]`
+  cannot say row or column (MATLAB's `jsondecode` reads it as a column), so the
+  writer never emits one; a reader treats a flat array from another tool as a
+  column. (Corrected 2026-10-21 from "a vector is `[a, b, c]`" when did2.build's
+  round-trip tests showed the orientation was lost; VH-Lab/DID-matlab 415368f.)
+  Its unit is the entry's `unit` (absent for a unitless number), as for `quantity`.
 - **The whole array is ONE value of the entry's `variable`.** A palette is not
   split into n entries; the variable names the whole thing ("colour palette").
 - **No `source_value` beside it.** `quantity.source_value` keeps a scalar exactly as
@@ -1270,7 +1275,7 @@ Built in `tools/build_v_eta.py` section 12.15 (`_entry_subs`), so `_PARAMS_SHAPE
 (`interaction`, `relation`, `clock_alignment_configuration`, the `method` document).
 Writers and readers follow in DID-matlab (`did2.build`, the validator).
 
-To be signed: a condition or method parameter may hold one numeric N-D array as a fifth value form `matrix` (row-major JSON nested arrays, in the entry's unit, no source_value; keys excluded); noise colours are in NCIT:C75765 Arbitrary Unit with a separate bit-depth count parameter; NCIT:C64220 Random Seed registered as the seed variable.
+To be signed: a condition or method parameter may hold one numeric N-D array as a fifth value form `matrix` (row-major JSON nested arrays with every dimension written, in the entry's unit, no source_value; keys excluded); noise colours are in NCIT:C75765 Arbitrary Unit with a separate bit-depth count parameter; NCIT:C64220 Random Seed registered as the seed variable.
 
 AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
 apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was

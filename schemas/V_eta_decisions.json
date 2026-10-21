@@ -693,7 +693,7 @@
         ],
         "packages_missing": [],
         "files_read": 197,
-        "lines_read": 48347,
+        "lines_read": 48297,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -711,7 +711,7 @@
         ],
         "n_unresolved_mint_sites": 11,
         "mint_sites_by_idiom": {
-          "1": 73,
+          "1": 71,
           "2": 20,
           "3": 5
         },
@@ -738,7 +738,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 31889,
-          "batch_post_pass": 16458
+          "batch_post_pass": 16408
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -751,7 +751,7 @@
             "3": 5
           },
           "batch_post_pass": {
-            "1": 17,
+            "1": 15,
             "2": 1
           }
         },
@@ -783,11 +783,9 @@
         ],
         "n_files_excluded_by_package": {
           "+migrators": 22,
-          "+migrators_e": 7,
-          "+migrators_i": 9,
           "+migrators_j": 146
         },
-        "n_files_excluded_v_zeta": 38,
+        "n_files_excluded_v_zeta": 22,
         "files_excluded_v_zeta": [
           "DID-matlab:convert/+migrators/Contents.m",
           "DID-matlab:convert/+migrators/contrast_sensitivity_calc.m",
@@ -810,23 +808,7 @@
           "DID-matlab:convert/+migrators/speed_tuning_calc.m",
           "DID-matlab:convert/+migrators/stimulus_bath.m",
           "DID-matlab:convert/+migrators/temporal_frequency_tuning_calc.m",
-          "DID-matlab:convert/+migrators/tuningcurve_calc.m",
-          "DID-matlab:convert/+migrators_e/ontology_table_row.m",
-          "DID-matlab:convert/+migrators_e/stimulus_bath.m",
-          "DID-matlab:convert/+migrators_e/subject_group.m",
-          "DID-matlab:convert/+migrators_e/treatment.m",
-          "DID-matlab:convert/+migrators_e/treatment_drug.m",
-          "DID-matlab:convert/+migrators_e/treatment_transfer.m",
-          "DID-matlab:convert/+migrators_e/virus_injection.m",
-          "DID-matlab:convert/+migrators_i/Contents.m",
-          "DID-matlab:convert/+migrators_i/image_stack.m",
-          "DID-matlab:convert/+migrators_i/ontology_table_row.m",
-          "DID-matlab:convert/+migrators_i/stimulus_bath.m",
-          "DID-matlab:convert/+migrators_i/subject_group.m",
-          "DID-matlab:convert/+migrators_i/treatment.m",
-          "DID-matlab:convert/+migrators_i/treatment_drug.m",
-          "DID-matlab:convert/+migrators_i/treatment_transfer.m",
-          "DID-matlab:convert/+migrators_i/virus_injection.m"
+          "DID-matlab:convert/+migrators/tuningcurve_calc.m"
         ],
         "ref_kinds": [
           "guard",
@@ -1507,7 +1489,7 @@
         "n_comment_mentions": 41,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:994 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:981 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:909 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:910 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
@@ -1552,7 +1534,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:994 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:981 (comment_mention)"
             ]
           }
         },
