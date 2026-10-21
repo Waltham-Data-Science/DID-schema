@@ -87,6 +87,15 @@ DECLARED_DIVERGENCES = {
         "CONSEQUENCE, recorded because it is not benign: the six-corpus gate "
         "measures the coarse pass, so NDI's bath assembly -- the one that "
         "ships -- is exercised by NDI's unit tests alone and by no corpus."),
+    "mintSessionDuring": (
+        "NDI ONLY AS A NAMED STEP. NDI's second pass calls it directly in "
+        "+ndi/+migrate/local.m to anchor the stimulus manipulations it mints "
+        "(the marker set in +ndi/+migrate/+internal/stimulusPresentationToItem.m). "
+        "The harness does run the same function, but only inside "
+        "did2.convert.foldGenericFiles (and for lightsheet_zarr_pyramid's "
+        "marker). CONSEQUENCE: the function is corpus-measured, but NDI's "
+        "stimulus call site is exercised by NDI's unit tests and e2e, not by "
+        "the six-corpus gate, which runs no NDI second pass."),
 }
 
 

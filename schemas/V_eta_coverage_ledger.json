@@ -42,6 +42,34 @@
       ],
       "credited_rung_3": [
         {
+          "v1_class": "element",
+          "emits": {
+            "resolveEpochProbemap": [
+              "observation + voltage",
+              "observation + current",
+              "observation + intensity",
+              "observation + acceleration",
+              "observation + temperature",
+              "observation + time",
+              "opaque_body",
+              "relative_time_reference"
+            ]
+          },
+          "decided_targets": [
+            "entity (subject)",
+            "assertion + term",
+            "directed_relation",
+            "opaque_body",
+            "relative_time_reference",
+            "observation + voltage",
+            "observation + current",
+            "observation + intensity",
+            "observation + acceleration",
+            "observation + temperature"
+          ],
+          "stage_reached": 3
+        },
+        {
           "v1_class": "epochfiles_ingested",
           "emits": {
             "resolveEpochProbemap": [
@@ -109,6 +137,12 @@
           "v1_class": "daqmetadatareader_epochdata_ingested",
           "passes": [
             "epochMint"
+          ]
+        },
+        {
+          "v1_class": "element",
+          "passes": [
+            "resolveEpochProbemap"
           ]
         },
         {
@@ -310,8 +344,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 19,
-        "3": 46,
+        "2": 17,
+        "3": 48,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -329,8 +363,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 45,
-          "no": 22,
+          "yes": 47,
+          "no": 20,
           "n/a": 3
         },
         "4": {
@@ -340,7 +374,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 45,
+        "3": 47,
         "4": 0
       },
       "capped": {
@@ -354,8 +388,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 22,
-          "3": 45,
+          "2": 20,
+          "3": 47,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -4940,12 +4974,25 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
-        "batch_pass_emits": {},
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_consumers": [
+          "resolveEpochProbemap"
+        ],
+        "batch_pass_emits": {
+          "resolveEpochProbemap": [
+            "observation + voltage",
+            "observation + current",
+            "observation + intensity",
+            "observation + acceleration",
+            "observation + temperature",
+            "observation + time",
+            "opaque_body",
+            "relative_time_reference"
+          ]
+        },
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5016,10 +5063,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -5036,8 +5083,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `assertion + term`, `directed_relation`, `opaque_body`, `relative_time_reference`, `observation + voltage`, `observation + current`, `observation + intensity`, `observation + acceleration`, `observation + temperature` are not all among what the migrator emits today (`assertion + term`, `directed_relation`, `entity`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `observation + acceleration`, `observation + current`, `observation + intensity`, `observation + temperature`, `observation + time`, `observation + voltage`, `opaque_body`, `relative_time_reference` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -5047,7 +5094,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8502,12 +8549,12 @@
       "gap": false,
       "targets": [
         "directed_relation",
-        "observation + score",
-        "assertion + count",
-        "observation + voltage",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label",
+        "calculation + score",
+        "calculation + voltage"
       ],
       "decided_targets": [
         "entity (subject)",
@@ -8538,7 +8585,7 @@
           "relative_time_reference"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -8605,10 +8652,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -8625,8 +8672,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `calculation + label`, `calculation + score`, `calculation + voltage`, `relative_time_reference`, `entity (software)` are not all among what the migrator emits today (`directed_relation`, `observation + score`, `assertion + count`, `observation + voltage`, `assertion + text`, `entity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -8636,7 +8683,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

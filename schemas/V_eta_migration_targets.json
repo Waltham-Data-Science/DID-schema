@@ -820,12 +820,12 @@
     "neuron_extracellular": {
       "targets": [
         "directed_relation",
-        "observation + score",
-        "assertion + count",
-        "observation + voltage",
         "assertion + text",
         "entity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "calculation + label",
+        "calculation + score",
+        "calculation + voltage"
       ],
       "carried": [
         "entity (subject)"

@@ -179,7 +179,8 @@ exists:
 
 1. a branch with the same name as the branch under test;
 2. the PR's base branch;
-3. the integration ref `claude/v-eta-migration-plan-35jj1z`;
+3. the integration ref `claude/v2-object-layer` (NDI #1021's head; Jess Haley,
+   2026-10-21; `claude/v-eta-migration-plan-35jj1z` before);
 4. the sibling's default branch.
 
 A request that names the sibling's default branch is tried last. The step
@@ -361,8 +362,7 @@ or the status board.
 
 - **No corpus figure yet describes PR #88's shape.** The migrator port landed
   on DID-matlab #218 (2026-10-21); the first #88 corpus run was in progress at
-  that time. This repository's own CI still reads NDI through the integration
-  ref `claude/v-eta-migration-plan-35jj1z`, whose head pins `v_eta-pre73`.
+  that time.
 - **`BindingConformance` is disarmed by default.** DID-matlab
   `+did2/+schema/cache.m` reads it with `envFlag('DID_ENFORCE_BINDING_CONFORMANCE')`,
   so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and

@@ -1265,9 +1265,13 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # confirmed sets now name relative_time_reference, which the migrators do
         # not emit yet. They sit at stage 2 with rung 3 `no` until the PR #76
         # DID-matlab emitter change lands -- pinned below.
+        # element RETURNED to rung 3 on 2026-10-21: DID-matlab #218 declares the
+        # resolveEpochProbemap batch pass as minting its recording observations
+        # and their opaque bodies ([epoch files as data bodies]). It reaches 3 by
+        # a declared batch-pass emission, not by a confirmed per-class one.
         st = rows["element"]["stage"]
-        self.assertEqual(st["reached"], 2, f"element: {st}")
-        self.assertEqual(st["blocked_by"], 3, f"element: {st}")
+        self.assertEqual(st["reached"], 3, f"element: {st}")
+        self.assertEqual(st["blocked_by"], 4, f"element: {st}")
         # pyraview LEFT the confirmed rows 2026-09-29: jess signed [pyraview levels],
         # which supersedes its 2026-08-13 confirmation with decided_targets
         # [sampled_body]. It now reads rung 3 `yes` -- AT THE CLASS LEVEL ONLY: the
@@ -1316,7 +1320,12 @@ class ConfirmedTargetsCase(unittest.TestCase):
                 and v.get("decided_targets")]
         self.assertEqual(both, [], f"rows claiming both: {both}")
 
-    def test_element_rung_3_reads_no_once_its_unread_entry_is_gone(self):
+    def test_element_rung_3_comes_from_the_batch_pass_not_from_element_m(self):
+        # INVERTED AGAIN 2026-10-21 (DID-matlab #218 a3b491e): element.m itself
+        # still mints no observation, and rung 3 must not pretend it does. The
+        # observations now come from the resolveEpochProbemap batch pass, which
+        # declares them, so rung 3 reads `yes` and its reason names that pass.
+        # History of the earlier inversion, kept:
         # INVERTED 2026-10-21, not updated. This test pinned that element's
         # AUTHORED `unread_targets` (the raw-recording observations, minted
         # through a local helper `mk` the walker could not read) counted as
@@ -1333,5 +1342,6 @@ class ConfirmedTargetsCase(unittest.TestCase):
         self.assertIn("observation + voltage", el["decided_targets"])
         self.assertNotIn("observation + voltage", el["targets"])
         rung3 = next(r for r in el["stage"]["ladder"] if r["stage"] == 3)
-        self.assertEqual(rung3["state"], "no")
+        self.assertEqual(rung3["state"], "yes")
+        self.assertIn("resolveEpochProbemap", rung3["why"])
         self.assertIn("observation + voltage", rung3["why"])

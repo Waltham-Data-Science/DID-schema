@@ -366,9 +366,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
+        # FIVE since DID-matlab #218 a3b491e (2026-10-21): element joined.
+        # resolveEpochProbemap now declares element's recording observations and
+        # their opaque bodies ([epoch files as data bodies]).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "fileReference", "stimulus_bath",
+            ["element", "epochfiles_ingested", "fileReference", "stimulus_bath",
              "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):
