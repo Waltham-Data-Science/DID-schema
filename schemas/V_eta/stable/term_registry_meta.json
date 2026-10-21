@@ -3955,6 +3955,22 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-21",
             "first_used_in": "v1 spike-sorted neuron migration (V_eta_recording_observation_plan.md [spike train variable])"
+        },
+        {
+            "name": "directory of files",
+            "node": "EMPTY:0000315",
+            "definition": "A data format that is a folder of files rather than a single file, with no layout of its contents specified by this term; the program that wrote it, or the record that holds it, says how to read it.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-19 (option A; empty-ontology d500863)",
+            "first_used_in": "v1 kilosort_clusters / kiasort_clusters migration (DID-matlab +did2/+convert/+migrators_j/private/jSorterOutput.m)"
+        },
+        {
+            "name": "OME-Zarr",
+            "node": "EMPTY:0000259",
+            "definition": "A Zarr store laid out and annotated according to the OME Next-Generation File Format (OME-NGFF) specification, holding one or more multiscale image pyramids with their axes, coordinate transformations and channel metadata.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-14 (lightsheet migrator point 4; V_eta_data_body_model_plan.md AMENDED 2026-10-14; empty-ontology 5f2c022); registered 2026-10-21",
+            "first_used_in": "v1 lightsheet OME-Zarr store migration (DID-matlab +did2/+convert/foldGenericFiles.m)"
         }
     ]
 }
