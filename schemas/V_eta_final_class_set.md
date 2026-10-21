@@ -4,8 +4,8 @@
 
 | Category | n |
 |---|--:|
-| ① Statement spine & genus | 14 |
-| ② Entities | 0 |
+| ① Statement spine & genus | 13 |
+| ② Entities | 1 |
 | ③ Quantity & substance composites (value) | 47 |
 | ④ Data-type leaf tier | 8 |
 | ⑤ time_reference family | 3 |
@@ -13,11 +13,13 @@
 | ⑦ Acquisition & infra (keep) | 14 |
 | **Persist total** | **88** |
 
-## ① Statement spine & genus (14)
-`assertion`, `base`, `calculation`, `data`, `data_body`, `directed_relation`, `entity`, `interaction`, `manipulation`, `observation`, `relation`, `statement`, `undirected_relation`, `value`
+## ① Statement spine & genus (13)
+`assertion`, `base`, `calculation`, `data`, `data_body`, `directed_relation`, `interaction`, `manipulation`, `observation`, `relation`, `statement`, `undirected_relation`, `value`
 
-## ② Entities (0)
-*(none)*
+## ② Entities (1)
+`entity`
+
+Kinds of entity (19, the values of entity.type in entity_type_bindings): organism, culture, tissue, cell, group, device, material, strain, product, software, person, organization, funding, dataset, study, publication, protocol, session, epoch.
 
 ## ③ Quantity & substance composites (value) (47)
 `acceleration`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `humidity`, `intensity`, `item`, `label`, `length`, `logical`, `mass`, `model_fit`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `score`, `spatial_frequency`, `substance_amount`, `temperature`, `term`, `text`, `time`, `tuning_curve`, `velocity`, `visual_grating`, `voltage`, `volume`

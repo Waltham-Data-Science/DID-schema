@@ -664,7 +664,7 @@
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 798,
+              "line": 804,
               "tag": "spatial_transcriptomics_family",
               "why": "SUPERSEDED -- jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.",
               "excerpt": "Steve Van Hooser 2026-09-22 --",
@@ -763,13 +763,13 @@
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 519
+                "line": 525
               }
             ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 432
+                "line": 438
               }
             ],
             "calculator + subject_calculation restructure": [
@@ -787,13 +787,13 @@
             "confirm sheet 2026-08-17": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 717
+                "line": 723
               }
             ],
             "confirm sheet 2026-08-22": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 719
+                "line": 725
               }
             ],
             "contributor role nodes": [
@@ -837,19 +837,19 @@
             "dataseries_channel_map": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 222
+                "line": 228
               }
             ],
             "date dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 515
+                "line": 521
               }
             ],
             "dimensioned classes, batch confirmation": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 830
+                "line": 836
               }
             ],
             "ensemble": [
@@ -923,7 +923,7 @@
             "misc singletons": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 3
+                "line": 9
               }
             ],
             "observation vs calculation, amends #67": [
@@ -941,7 +941,7 @@
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 792
+                "line": 798
               }
             ],
             "parameter unit, #73 audit 2 D4": [
@@ -999,13 +999,13 @@
             "session": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 658
+                "line": 664
               }
             ],
             "software": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 10
+                "line": 16
               }
             ],
             "spatial_transcriptomics_family": [
@@ -1029,7 +1029,7 @@
             "spike-sorter output, amends the 2026-08-17 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 826
+                "line": 832
               }
             ],
             "stimulus": [
@@ -1065,13 +1065,13 @@
             "subject": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 691
+                "line": 697
               }
             ],
             "subject measurement": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 330
+                "line": 336
               }
             ],
             "sync configuration": [
@@ -1107,13 +1107,13 @@
             "time anchors, amends the 2026-08-22 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 828
+                "line": 834
               }
             ],
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 523
+                "line": 529
               }
             ],
             "time_reference": [
@@ -1207,13 +1207,13 @@
             "base naming": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 519
+                "line": 525
               }
             ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 432
+                "line": 438
               }
             ],
             "calculator + subject_calculation restructure": [
@@ -1225,7 +1225,7 @@
             "confirm sheet 2026-08-22": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 719
+                "line": 725
               }
             ],
             "contributor role nodes": [
@@ -1249,19 +1249,19 @@
             "dataseries_channel_map": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 222
+                "line": 228
               }
             ],
             "date dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 515
+                "line": 521
               }
             ],
             "dimensioned classes, batch confirmation": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 830
+                "line": 836
               }
             ],
             "epoch and session wall-clock time": [
@@ -1303,7 +1303,7 @@
             "orientation_direction_tuning.json location": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 792
+                "line": 798
               }
             ],
             "parameter unit, #73 audit 2 D4": [
@@ -1351,7 +1351,7 @@
             "spike-sorter output, amends the 2026-08-17 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 826
+                "line": 832
               }
             ],
             "stimulus -- visual_grating_manipulation reconciliation": [
@@ -1381,13 +1381,13 @@
             "time anchors, amends the 2026-08-22 confirm sheet": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 828
+                "line": 834
               }
             ],
             "time dtype": [
               {
                 "document": "V_eta_tenet_audit.md",
-                "line": 523
+                "line": 529
               }
             ],
             "time_reference": [
@@ -1693,7 +1693,7 @@
       "decided_by_family": {
         "family": "software",
         "document": "V_eta_tenet_audit.md",
-        "line": 10,
+        "line": 16,
         "signoff": "jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.",
         "matched_on": "v1_class",
         "matched_name": "app",
@@ -1708,13 +1708,13 @@
         "signoff": {
           "family": "software",
           "document": "V_eta_tenet_audit.md",
-          "line": 10,
+          "line": 16,
           "signoff": "jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.",
           "matched_on": "v1_class",
           "matched_name": "app",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `software` names this class as `app` (v1_class), and that family is signed at `V_eta_tenet_audit.md`:10. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `software` names this class as `app` (v1_class), and that family is signed at `V_eta_tenet_audit.md`:16. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -1902,7 +1902,7 @@
       "decided_by_family": {
         "family": "misc singletons",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 3,
+        "line": 9,
         "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
         "matched_on": "v1_class",
         "matched_name": "binaryseries_parameters",
@@ -6494,7 +6494,7 @@
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 717,
+        "line": 723,
         "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
         "matched_on": "v1_class",
         "matched_name": "jrclust_clusters",
@@ -6509,13 +6509,13 @@
         "signoff": {
           "family": "confirm sheet 2026-08-17",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 717,
+          "line": 723,
           "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
           "matched_on": "v1_class",
           "matched_name": "jrclust_clusters",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `jrclust_clusters` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `jrclust_clusters` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:723. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8311,7 +8311,7 @@
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 717,
+        "line": 723,
         "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
         "matched_on": "v1_class",
         "matched_name": "oridirtuning_calc",
@@ -8326,13 +8326,13 @@
         "signoff": {
           "family": "confirm sheet 2026-08-17",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 717,
+          "line": 723,
           "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
           "matched_on": "v1_class",
           "matched_name": "oridirtuning_calc",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `oridirtuning_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `oridirtuning_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:723. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8720,7 +8720,7 @@
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 717,
+        "line": 723,
         "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
         "matched_on": "v1_class",
         "matched_name": "probe_location",
@@ -8735,13 +8735,13 @@
         "signoff": {
           "family": "confirm sheet 2026-08-17",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 717,
+          "line": 723,
           "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
           "matched_on": "v1_class",
           "matched_name": "probe_location",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `probe_location` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `probe_location` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:723. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8830,7 +8830,7 @@
       "decided_by_family": {
         "family": "misc singletons",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 3,
+        "line": 9,
         "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
         "matched_on": "v1_class",
         "matched_name": "projectvar",
@@ -8845,13 +8845,13 @@
         "signoff": {
           "family": "misc singletons",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 3,
+          "line": 9,
           "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
           "matched_on": "v1_class",
           "matched_name": "projectvar",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `misc singletons` names this class as `projectvar` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:3. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `misc singletons` names this class as `projectvar` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:9. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9068,7 +9068,7 @@
       "decided_by_family": {
         "family": "session",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 658,
+        "line": 664,
         "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
         "matched_on": "v1_class",
         "matched_name": "session",
@@ -9083,13 +9083,13 @@
         "signoff": {
           "family": "session",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 658,
+          "line": 664,
           "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
           "matched_on": "v1_class",
           "matched_name": "session",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `session` names this class as `session` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:658. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `session` names this class as `session` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:664. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -11742,7 +11742,7 @@
       "decided_by_family": {
         "family": "subject",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 691,
+        "line": 697,
         "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
         "matched_on": "v1_class",
         "matched_name": "subject",
@@ -11757,13 +11757,13 @@
         "signoff": {
           "family": "subject",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 691,
+          "line": 697,
           "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
           "matched_on": "v1_class",
           "matched_name": "subject",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:691. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:697. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -11944,7 +11944,7 @@
       "decided_by_family": {
         "family": "subject measurement",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 330,
+        "line": 336,
         "signoff": "jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.",
         "matched_on": "v1_class",
         "matched_name": "subjectmeasurement",
@@ -11959,13 +11959,13 @@
         "signoff": {
           "family": "subject measurement",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 330,
+          "line": 336,
           "signoff": "jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.",
           "matched_on": "v1_class",
           "matched_name": "subjectmeasurement",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `subject measurement` names this class as `subjectmeasurement` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:330. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `subject measurement` names this class as `subjectmeasurement` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:336. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -12633,7 +12633,7 @@
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 717,
+        "line": 723,
         "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
         "matched_on": "v1_class",
         "matched_name": "treatment",
@@ -12648,13 +12648,13 @@
         "signoff": {
           "family": "confirm sheet 2026-08-17",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 717,
+          "line": 723,
           "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
           "matched_on": "v1_class",
           "matched_name": "treatment",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `treatment` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `treatment` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:723. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -12958,7 +12958,7 @@
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 717,
+        "line": 723,
         "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
         "matched_on": "v1_class",
         "matched_name": "tuningcurve_calc",
@@ -12973,13 +12973,13 @@
         "signoff": {
           "family": "confirm sheet 2026-08-17",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 717,
+          "line": 723,
           "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
           "matched_on": "v1_class",
           "matched_name": "tuningcurve_calc",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `tuningcurve_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `tuningcurve_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:723. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

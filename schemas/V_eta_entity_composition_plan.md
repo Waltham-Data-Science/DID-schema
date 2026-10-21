@@ -147,6 +147,12 @@ normalised to it (`NCIT:` -> `ncit:`, `RO:` -> `ro:`, ...).
 To be signed: global identifiers are CURIEs or IRIs from one lowercase prefix registry with Bioregistry patterns
 TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are CURIEs or IRIs from one lowercase prefix registry with Bioregistry patterns
 
+> **Superseded in part, 2026-10-19:** the rule above that term nodes and identifiers are
+> written with lowercase prefixes was reversed by `V_eta_prefix_spelling_plan.md` (signed
+> 2026-10-19): a prefix is written as its issuer cites it (`NCIT:`, `ORCID:`, `WormBase:`),
+> and readers match prefixes ignoring case. Registry keys stay lowercase. The rest of this
+> section stands.
+
 ## 7. `web_resource` retires; `protocol` is a type
 
 A URL is an address for the thing it names, so it goes in that thing's

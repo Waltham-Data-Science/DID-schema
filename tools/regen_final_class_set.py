@@ -15,12 +15,16 @@ from pathlib import Path
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 INDEX = os.path.join(ROOT, "schemas", "V_eta", "index.json")
+REGISTRY = os.path.join(ROOT, "schemas", "V_eta", "stable",
+                        "binding_registry_meta.json")
 OUT = os.path.join(ROOT, "schemas", "V_eta_final_class_set.md")
 
 # The abstract spine & genus (category 1) -- named explicitly; everything else is
-# classified by its superclass chain.
+# classified by its superclass chain. `entity` is NOT spine: since the one-entity
+# schema (V_eta_entity_composition_plan.md) it is the one entity class, so it is
+# category (2), and the kinds of entity are rows of `entity_type_bindings`.
 SPINE = {
-    "app", "base", "data", "data_body", "value", "directed_relation", "entity",
+    "app", "base", "data", "data_body", "value", "directed_relation",
     "relation", "assertion", "calculation", "interaction",
     "manipulation", "observation", "statement",
     "undirected_relation",
@@ -68,7 +72,7 @@ def main():
             cats["infra"].append(name)
         elif "value" in ch:
             cats["composite"].append(name)
-        elif "entity" in ch:
+        elif name == "entity" or "entity" in ch:
             cats["entity"].append(name)
         else:
             cats["infra"].append(name)
@@ -102,9 +106,19 @@ def main():
         lines.append(f"| {label} | {len(cats[key])} |")
     lines.append(f"| **Persist total** | **{total}** |")
     lines.append("")
+    types = []
+    if os.path.exists(REGISTRY):
+        types = [r["type"] for r in json.loads(Path(REGISTRY).read_text())
+                 .get("entity_type_bindings", [])]
     for key, label in order:
         lines.append(f"## {label} ({len(cats[key])})")
         lines.append(joined(cats[key]) or "*(none)*")
+        if key == "entity" and types:
+            # Plain text, not backticked: these are values of entity.type, not
+            # classes, and the viewer reads every backticked name here as a class.
+            lines.append("")
+            lines.append(f"Kinds of entity ({len(types)}, the values of entity.type in "
+                         "entity_type_bindings): " + ", ".join(types) + ".")
         lines.append("")
 
     lines.append("---")

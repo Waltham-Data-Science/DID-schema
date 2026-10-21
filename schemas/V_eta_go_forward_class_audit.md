@@ -1,5 +1,11 @@
 # V_eta Go-Forward Class Audit — J-cohesiveness of every live class
 
+> **Vocabulary note (2026-10-21):** this document predates the one-entity schema
+> (`V_eta_entity_composition_plan.md`, signed 2026-10-08) and uses its old names:
+> `subject_statement` is now `statement`, `subject_id` is `entity_id`, `data_type` is
+> `value`, and the separate entity classes (`subject`, `dataset`, `software`, ...) are one
+> `entity` with a `type`. Its decisions stand under the new names.
+
 TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.
 
 > **This line is TAGGED `[misc singletons]` deliberately.** Three families cite this

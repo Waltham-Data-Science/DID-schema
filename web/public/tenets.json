@@ -691,7 +691,7 @@
    "citation": {
     "anchor": "`binaryseries_parameters` \u2192 **`acquisition_layout`**",
     "doc": "schemas/V_eta_tenet_audit.md",
-    "line": 92,
+    "line": 98,
     "quote": "- **R5 infra** (cross-repo, NDI lockstep): `binaryseries_parameters` \u2192 **`acquisition_layout`**;"
    },
    "class_registers": {
@@ -820,7 +820,7 @@
    "citation": {
     "anchor": "`app` \u2192 `software` entity + `software_id` edge + `execution_environment`",
     "doc": "schemas/V_eta_tenet_audit.md",
-    "line": 31,
+    "line": 37,
     "quote": "| **R1** `app` \u2192 `software` entity + `software_id` edge + `execution_environment` | FINAL | \u2705 built + green |"
    },
    "class_registers": {
@@ -854,7 +854,7 @@
    "citation": {
     "anchor": "`control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13)",
     "doc": "schemas/V_eta_tenet_audit.md",
-    "line": 267,
+    "line": 273,
     "quote": "| `control_stimulus_ids` \u2192 **`control_designation`** | \u2705 **Separate DERIVED annotation doc (option c)**, RENAMED `control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13). References the `timed_sequence` + the control stimulus `data_type` doc(s), carries the `method`, marked `derived_from`/`software_id` (T10). NOT baked into the immutable body. | **Investigated:** the `tuning_response` app *derives* it (`tuning_response.m:653\u2013656`) and **always** sets `stimulus_presentation_id` \u2192 presentation-less docs are a non-issue (schema `optional` is just permissiveness; can tighten to required). Since it's derived, keeping it out of the machine body is correct. Drop the `app` straggler (\u2192 `software_id`). |"
    },
    "class_registers": {
@@ -887,7 +887,7 @@
    "citation": {
     "anchor": "the `derived_summary` bag is KILLED",
     "doc": "schemas/V_eta_tenet_audit.md",
-    "line": 82,
+    "line": 88,
     "quote": "(the `derived_summary` bag is KILLED \u2014 failed the T13 \"predict the content\" test, overloaded"
    },
    "class_registers": {
@@ -968,7 +968,7 @@
    "citation": {
     "anchor": "26 of 35",
     "doc": "schemas/V_eta_tenet_audit.md",
-    "line": 493,
+    "line": 499,
     "quote": "whose real layout lived in prose and in migrator string literals \u2014 which meant **26 of 35"
    },
    "class_registers": {

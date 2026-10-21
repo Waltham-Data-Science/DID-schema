@@ -1,6 +1,9 @@
 # V_eta migration plan — `did_v1` → V_eta (Brainstorm J)
 
-**Status:** proposal, awaiting team approval. Nothing here is built yet.
+**Status:** historical. This was the opening proposal ("nothing here is built yet" when it was
+written); V_eta has since been built and reshaped many times. For current state read
+`V_eta_STATUS.md` and the coverage ledger; for decisions, the individual plan documents and
+their `TEAM-SIGN-OFF` lines. HISTORICAL-SIGNOFF-CLAIM.
 **Implements:** Brainstorm **J** — "the subject model, and one class family for
 everything about a subject"
 (`ndi-next-steps/Summer 2026/1_Ingestion/20260615/Brainstorm_J_Subject_Model.md`,

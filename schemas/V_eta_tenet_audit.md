@@ -1,5 +1,11 @@
 # V_eta — tenet audit of the class set
 
+> **Vocabulary note (2026-10-21):** this document predates the one-entity schema
+> (`V_eta_entity_composition_plan.md`, signed 2026-10-08) and uses its old names:
+> `subject_statement` is now `statement`, `subject_id` is `entity_id`, `data_type` is
+> `value`, and the separate entity classes (`subject`, `dataset`, `software`, ...) are one
+> `entity` with a `type`. Its decisions stand under the new names.
+
 *Audits every persisting + in-progress V_eta class against the tenets in
 `V_eta_tenets.md` (T1–T13). Three buckets: **✅ fully conceived** (clean under all
 tenets), **⚠️ needs reconsidering** (a tenet tension/violation to resolve), **❓ needs
