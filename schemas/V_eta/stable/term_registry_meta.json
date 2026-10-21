@@ -173,14 +173,6 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "Baseline",
-            "node": "NCIT:C25213",
-            "definition": "A starting point to which things may be compared.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
             "name": "before the first encounter",
             "node": "EMPTY:0000278",
             "definition": "The period from the start of a subject's record to the start of its first encounter.",
@@ -605,14 +597,6 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "head",
-            "node": "UBERON:0000033",
-            "definition": "The head is the anterior-most division of the body [GO].",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
             "name": "hour",
             "node": "om:hour",
             "definition": "The hour is a unit of time defined as 3600 second.",
@@ -904,14 +888,6 @@
             "name": "nearest bacterial patch",
             "node": "EMPTY:0000297",
             "definition": "The bacterial patch closest to a point: to a pixel of a plate image, or to an animal at one moment of its track.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-19",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
-            "name": "nearest bacterial patch edge",
-            "node": "EMPTY:0000276",
-            "definition": "The edge of whichever bacterial patch is closest to a point, used as the reference point from which a distance is measured.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-19",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
@@ -1306,14 +1282,6 @@
             "definition": "A physical quality inhering in a bearer by virtue of the bearer's scalar absolute value of the rate of change of the bearer's position.",
             "status": "decided",
             "decided": "Jess Haley, 2026-10-19",
-            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
-        },
-        {
-            "name": "tail",
-            "node": "UBERON:0002415",
-            "definition": "An external caudal extension of the body. In chordates, the tail is post-anal, in other animals the anus ends in the tail.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-20",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {

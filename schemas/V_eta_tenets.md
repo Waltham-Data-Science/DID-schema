@@ -572,6 +572,10 @@ mean both "the same quantity, as written" and "a different value, refused". **Wh
 evidence allows two readings, store the one that claims less** (fewer entities, wider
 bounds, no link) and note the other.
 
+**A time with no anchor of its own counts from its time reference** (2026-10-20, PROPOSAL,
+the Haley document audit's D-2; Jess Haley agreed; not signed). A time value or time key
+with no anchor of its own counts from the start of its statement's time reference.
+
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
 *(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the
 `_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every
