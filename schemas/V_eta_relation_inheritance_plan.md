@@ -1,8 +1,9 @@
 # V_eta: what a relation passes, records' own relation, and `session_id` as an edge
 
 Written 2026-10-20 at Jess Haley's request, from the Haley import's tenet audit
-(T-1). A PROPOSAL, built ahead of signature at her request ("build it",
-2026-10-20); there is no `TEAM-SIGN-OFF` line yet. Built in did-schema#88
+(T-1). Built ahead of signature at her request ("build it", 2026-10-20) and
+signed by her 2026-10-21 (the `TEAM-SIGN-OFF [relation inheritance]` line at the
+end). Built in did-schema#88
 (`tools/build_v_eta.py` section 12.16), VH-Lab/DID-matlab#218 and
 VH-Lab/NDI-matlab#1021. did-schema `main` is unchanged.
 
@@ -108,3 +109,5 @@ pointed at. Nothing in v1 refers to a session document by its `base.id`.
   published record.
 
 To be signed: every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id
+
+TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21 -- every relation_bindings row declares `passes` (assertions / distributive / context / nothing; no default); records are related by `included_in` (schema:isPartOf, passes nothing) and `part_of` is physical only; `base.session_id` becomes the required `session_id` edge to the session or dataset entity, whose base.id is its session id; a dataset folder's own record is the dataset entity and its reference stays in reference.txt; T5 picks a relation by what the child is; T17 keeps an assertion about a container on the container; T1 states entity.type for the coarse kind and one term assertion for the finer kind.

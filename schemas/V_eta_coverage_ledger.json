@@ -660,7 +660,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 102,
+          "accepted_lines": 104,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -723,6 +723,7 @@
             "raw recording observation",
             "receptive field fold",
             "receptive field naming",
+            "relation inheritance",
             "same_as",
             "session",
             "software",
@@ -740,6 +741,7 @@
             "sync configuration",
             "sync configuration amendment 1",
             "sync mapping",
+            "tenet amendments 2026-10-20",
             "term registry",
             "time anchors, amends the 2026-08-22 confirm sheet",
             "time dtype",
@@ -982,6 +984,12 @@
                 "line": 381
               }
             ],
+            "relation inheritance": [
+              {
+                "document": "V_eta_relation_inheritance_plan.md",
+                "line": 113
+              }
+            ],
             "same_as": [
               {
                 "document": "V_eta_duplicate_entities_plan.md",
@@ -1082,6 +1090,12 @@
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
                 "line": 508
+              }
+            ],
+            "tenet amendments 2026-10-20": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 937
               }
             ],
             "term registry": [
@@ -1316,6 +1330,12 @@
                 "line": 381
               }
             ],
+            "relation inheritance": [
+              {
+                "document": "V_eta_relation_inheritance_plan.md",
+                "line": 113
+              }
+            ],
             "same_as": [
               {
                 "document": "V_eta_duplicate_entities_plan.md",
@@ -1344,6 +1364,12 @@
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
                 "line": 638
+              }
+            ],
+            "tenet amendments 2026-10-20": [
+              {
+                "document": "V_eta_tenets.md",
+                "line": 937
               }
             ],
             "term registry": [
