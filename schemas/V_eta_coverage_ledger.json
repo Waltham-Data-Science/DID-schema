@@ -660,7 +660,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 104,
+          "accepted_lines": 105,
           "rejected_lines": [
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -727,6 +727,7 @@
             "same_as",
             "session",
             "software",
+            "source unit",
             "spatial_transcriptomics_family",
             "spike processing parameters",
             "spike train leaf",
@@ -1006,6 +1007,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 16
+              }
+            ],
+            "source unit": [
+              {
+                "document": "V_eta_source_unit_plan.md",
+                "line": 69
               }
             ],
             "spatial_transcriptomics_family": [
@@ -1340,6 +1347,12 @@
               {
                 "document": "V_eta_duplicate_entities_plan.md",
                 "line": 95
+              }
+            ],
+            "source unit": [
+              {
+                "document": "V_eta_source_unit_plan.md",
+                "line": 69
               }
             ],
             "spike train leaf": [

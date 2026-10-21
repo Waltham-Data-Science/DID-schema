@@ -49,7 +49,7 @@ every OM identifier was read from `om-2.0.rdf` (github.com/HajoRijgersberg/OM).
 | um/s | om:micrometrePerSecond-Time |
 | um/s^2 | om:micrometrePerSecond-TimeSquared |
 | CFU/mL | NCIT:C68902 Colony Forming Unit per Milliliter (registered) |
-| OD600 | **open:** proposed om:one (OM's dimensionless unit; an optical density is a log ratio with no unit). OM has no optical-density unit; UO's absorbance unit (UO:0000269) would need the `uo` prefix registered. |
+| OD600 | NCIT:C73686 Absorbance Unit (amendment 1; signed first as om:one) |
 
 ## What it touches
 
@@ -67,3 +67,16 @@ every OM identifier was read from `om-2.0.rdf` (github.com/HajoRijgersberg/OM).
 To be signed: `source_unit` is a bound ontology_term (the unit's registered term, its label as the name) on every dimensioned value; blank when the source gives no unit; a migrated spelling no term matches keeps its spelling as the name with an empty node and is reported; OD600's unit is om:one
 
 TEAM-SIGN-OFF [source unit]: jess / 2026-10-21 -- `source_unit` is a bound ontology_term (the unit's registered term, its label as the name) on every dimensioned value; blank when the source gives no unit; a migrated spelling no term matches keeps its spelling as the name with an empty node and is reported; OD600's unit is om:one
+
+## Amendment 1 (2026-10-21): OD600's unit is NCIT:C73686 Absorbance Unit
+
+The sign-off above named om:one, OM's dimensionless unit, as the unit of an OD600
+reading. An optical density has no dimension but does have a named unit, the
+absorbance unit (-log10 of transmitted over incident light), and om:one says only
+"no unit". Jess Haley chose NCIT:C73686 "Absorbance Unit" (2026-10-21): NCIT is
+already a registered prefix and already names the OD600 method (NCIT:C85776). The
+wavelength (600 nm) is said by the variable and method, not the unit. UO:0000269
+"absorbance unit" is the same unit; it was not chosen because `uo` is not a
+registered prefix. om:one leaves the term registry.
+
+To be signed: amendment 1 -- OD600's unit is NCIT:C73686 Absorbance Unit, not om:one

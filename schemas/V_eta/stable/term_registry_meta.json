@@ -1757,11 +1757,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         },
         {
-            "name": "one",
-            "node": "om:one",
-            "definition": "Unit one is a unit of dimension one.",
+            "name": "Absorbance Unit",
+            "node": "NCIT:C73686",
+            "definition": "A unit of optical density expressed as the absorbance of light transmitted through the medium on the logarithmic scale.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-21 (source_unit is a term, V_eta_source_unit_plan.md); PROPOSED as the unit of an OD600 reading, open in the plan",
+            "decided": "Jess Haley, 2026-10-21 (the unit of an OD600 reading; V_eta_source_unit_plan.md amendment 1)",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)"
         }
     ]
