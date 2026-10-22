@@ -5431,6 +5431,168 @@
             "obsolete": false
         },
         {
+            "name": "Chebyshev type I filter",
+            "node": "EMPTY:0000387",
+            "definition": "A filter design with equal ripple in the passband and a monotonic stopband, giving a steeper transition than a Butterworth design of the same order.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000387 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "Chebyshev type II filter",
+            "node": "EMPTY:0000388",
+            "definition": "A filter design with a monotonic passband and equal ripple in the stopband.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000388 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "filter band",
+            "node": "EMPTY:0000389",
+            "definition": "Which range of frequencies a filter passes and which it attenuates.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000389 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "passband low edge",
+            "node": "EMPTY:0000390",
+            "definition": "The lowest frequency a filter is designed to pass.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [passband edges paired], V_eta_frequency_filter_model_plan.md; EMPTY:0000390 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "passband high edge",
+            "node": "EMPTY:0000391",
+            "definition": "The highest frequency a filter is designed to pass.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [passband edges paired], V_eta_frequency_filter_model_plan.md; EMPTY:0000391 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "stopband low edge",
+            "node": "EMPTY:0000392",
+            "definition": "The lowest frequency of the range a filter is designed to attenuate.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000392 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "stopband high edge",
+            "node": "EMPTY:0000393",
+            "definition": "The highest frequency of the range a filter is designed to attenuate.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000393 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "filter order",
+            "node": "EMPTY:0000394",
+            "definition": "The order of a filter's transfer function, which sets how steeply the filter changes from passing to attenuating.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000394 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "passband ripple",
+            "node": "EMPTY:0000395",
+            "definition": "The peak-to-peak variation of a filter's gain within its passband.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000395 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "stopband attenuation",
+            "node": "EMPTY:0000396",
+            "definition": "The minimum reduction of a filter's gain in its stopband relative to its passband.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000396 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "Butterworth filter",
+            "node": "wikidata:Q1018162",
+            "definition": "A filter design whose gain is as flat as possible in the passband, falling monotonically through the transition.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "elliptic filter",
+            "node": "wikidata:Q1051541",
+            "definition": "A filter design with equal ripple in both the passband and the stopband, giving the steepest transition for a given order (also called a Cauer filter).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "Bessel filter",
+            "node": "wikidata:Q830123",
+            "definition": "A filter design with a maximally flat group delay in the passband, which preserves the waveform shape of filtered signals.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "Finite Impulse Response filter",
+            "node": "wikidata:Q117785",
+            "definition": "A filter whose response to an impulse settles to zero in a finite number of samples.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "high-pass filter",
+            "node": "wikidata:Q262754",
+            "definition": "A filter that passes signals with a frequency higher than a cutoff frequency and attenuates signals with lower frequencies.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "low-pass filter",
+            "node": "wikidata:Q918242",
+            "definition": "A filter that passes signals with a frequency lower than a cutoff frequency and attenuates signals with higher frequencies.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "band-pass filter",
+            "node": "wikidata:Q2718101",
+            "definition": "A filter that passes signals within a frequency range and attenuates signals outside that range.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
+            "name": "band-stop filter",
+            "node": "wikidata:Q386022",
+            "definition": "A filter that attenuates signals within a frequency range and passes signals outside that range.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+            "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
+            "obsolete": false
+        },
+        {
             "name": "cycles per degree",
             "node": "",
             "definition": "The number of cycles of a periodic pattern per degree of visual angle (a spatial frequency).",
