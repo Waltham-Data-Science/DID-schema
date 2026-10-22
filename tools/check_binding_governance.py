@@ -198,7 +198,13 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # 93 -> 94 (2026-10-22, Jess Haley [clock alignment relation bound]):
 # `clock_alignment.relation` is bound to its relation_bindings rows, like
 # directed_relation.relation, which is uncatalogued for the same reason.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 94
+# 94 -> 114 (2026-10-22, Jess Haley, tenet audit): +8 entry and covariate `unit`
+# slots ([units bound]), +2 `response_unit` ([remaining units bound]), +9 for the
+# one fit entry's `model` and two `unit`s on model_fit, tuning_curve and
+# contrast_sensitivity ([one fit entry], [remaining units bound]), +1 the
+# `irradiance` cell's `source_unit` ([irradiance]); all bound {strength:
+# preferred, node_form: curie} like `source_unit`, uncatalogued for its reason.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 114
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and

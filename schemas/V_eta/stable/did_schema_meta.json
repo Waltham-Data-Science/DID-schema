@@ -314,6 +314,7 @@
                         "count",
                         "score",
                         "intensity",
+                        "irradiance",
                         "velocity",
                         "acceleration",
                         "area",
@@ -332,7 +333,7 @@
                         "date",
                         "humidity"
                     ],
-                    "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
+                    "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific. An `integer` slot holds a whole number, or NaN for a missing position, stored as a literal NaN; a validator accepts a whole number or NaN (Jess Haley 2026-10-22 [missing integers])."
                 },
                 "blank_value": {
                     "description": "Value in a freshly constructed blank document. May fail validation."

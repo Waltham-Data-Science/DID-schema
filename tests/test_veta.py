@@ -475,7 +475,9 @@ def test_conditions_on_statement():
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
-    assert len(sub) == 9, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    # 9 -> 10 on 2026-10-22: the `logical` form (Jess Haley [logical entries])
+    assert len(sub) == 10, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is True
     assert sub["variable"]["type"] == "ontology_term"
     assert sub["term"]["type"] == "ontology_term"
     assert sub["count"]["type"] == "integer" and sub["text"]["type"] == "char"
@@ -512,8 +514,9 @@ def test_conditions_and_method_parameters_are_one_entry():
     ks = {x["name"]: x for x in cov["fields"]}
     assert "labels" not in ks and "values" not in ks
     assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
+    # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
-        "along", "cyclic", "origin", "spacing", "logical", "document"}, sorted(ks)
+        "along", "cyclic", "origin", "spacing", "document"}, sorted(ks)
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
@@ -1407,7 +1410,11 @@ def test_settings_edge_is_on_the_interaction_branch_only():
                if x["name"] == "method_id")
     assert dep["mustBeNonEmpty"] is False
     assert dep["must_refer_to_document_class"] == "method"
-    assert "NEVER BOTH" in dep["documentation"]
+    # "never both" was replaced 2026-10-22 (Jess Haley [method shared plus own]):
+    # an inline block beside method_id adds settings only this run had
+    assert "method_shared_and_own" in dep["documentation"]
+    rules = {r["name"] for r in RECORDS["interaction"][1].get("rules", [])}
+    assert "method_shared_and_own" in rules
 
 
 def test_strain_is_an_entity_with_a_recursive_pedigree():
@@ -3975,7 +3982,7 @@ def test_inline_method_has_the_document_shape():
     # `conditions` (data_body AMENDMENT 3).
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "quantity", "count", "text", "matrix"]
+        "term", "quantity", "count", "text", "logical", "matrix"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")

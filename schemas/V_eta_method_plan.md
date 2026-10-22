@@ -200,3 +200,9 @@ Decided by Jess Haley, 2026-10-22 [spatial phase in degrees]: a stimulus's spati
 Decided by Jess Haley, 2026-10-22 [flashed bar parent]: EMPTY:0000366 "flashed bar" sits under NCIT:C61406 Stimulation, as EMPTY:0000358 does (empty-ontology #23), not XCO visual stimulus or NCIT Stimulus. Answer "3a".
 
 Deferred by Jess Haley, 2026-10-22, to after the merge: the stimulus vocabulary proposals (non-blocking). Answer "5y".
+
+## 2026-10-22 -- tenet audit
+
+Decided by Jess Haley, 2026-10-22 [method shared plus own]: an interaction may carry `method_id` (shared) AND an inline `method` whose parameters add settings only this run had: no variable in both, and the inline term empty. A changed shared setting still makes a variant method document with `parent_id`. This replaces "never both" (team, 2026-08-09) (answer "O6a").
+
+Decided by Jess Haley, 2026-10-22 [rules and clock_alignment tenet]: named validator rules: an assertion has no time dimension; `method_id` and an inline method share no variable ([method shared plus own]). T15 gains a clock_alignment paragraph (a relation with four named edges) (answer "P1a"). Built: rules `assertion_no_time_dimension` (assertion) and `method_shared_and_own` (interaction); the T15 paragraph is in V_eta_tenets.md.

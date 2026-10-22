@@ -210,8 +210,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number.",
-                    "constraints": {},
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/V_eta_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -566,7 +571,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "'C' | 'F' -- the order of the values of the array `dimensions` describes: C is row-major (last dimension fastest), F is column-major (first dimension fastest, MATLAB's native layout). Like `dimensions`, it describes the INLINE value on a value document and THIS body's array on a data body. Empty means F. Meaningless for one dimension or none; a writer with more than one dimension states it. (Declared on `sampled_body` only until 2026-10-20, so an inline multi-key value stated its order in prose; it ordered `keys` until 2026-10-22, data_body plan AMENDMENT 6.)",
+            "documentation": "'C' | 'F' -- the order of the values of the array `dimensions` describes: C is row-major (last dimension fastest), F is column-major (first dimension fastest, MATLAB's native layout). Like `dimensions`, it describes the INLINE value on a value document and THIS body's array on a data body. REQUIRED on a sampled body of more than one dimension (rule `datum_order_multidimensional` on sampled_body; Jess Haley 2026-10-22 [covariate rules named] 6.3a); meaningless for one dimension or none, where it is left empty. (Declared on `sampled_body` only until 2026-10-20; it ordered `keys` until 2026-10-22, data_body plan AMENDMENT 6.)",
             "constraints": {
                 "enum": [
                     "C",
@@ -646,7 +651,7 @@
             "fields": [
                 "covariates.variable"
             ],
-            "statement": "A variable appears at most once across a statement's `conditions`, its value's `covariates` and any one of its bodies' `covariates`; the batch check, with covariates in place of keys (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
+            "statement": "A variable appears at most once across a statement's `conditions`, its value's `covariates`, and any one of its bodies' `covariates` and `conditions`; the batch check, with covariates in place of keys (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; body conditions added 2026-10-22 [audit mechanical fixes 2])."
         }
     ]
 }

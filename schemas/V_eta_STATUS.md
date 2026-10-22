@@ -14,8 +14,8 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 175 |
-| settled (persist) | 91 |
+| target classes | 176 |
+| settled (persist) | 92 |
 | settled (retire) | 76 |
 | **still open (`in_progress`)** | **8** |
 | **`retire` with no migrator YET** | **3** |
@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 217 decision line(s) accepted, 2 rejected; 41 cited by a class, 176 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 230 decision line(s) accepted, 2 rejected; 41 cited by a class, 189 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -397,6 +397,13 @@ field). If one decides a class's disposition, that class should cite it.
 - covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1501).
 - stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (V_eta_data_body_model_plan.md:1503).
 - index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (V_eta_data_body_model_plan.md:1505).
+- units bound. "Decided by Jess Haley, 2026-10-22 [units bound]" (V_eta_data_body_model_plan.md:1509).
+- remaining units bound. "Decided by Jess Haley, 2026-10-22 [remaining units bound]" (V_eta_data_body_model_plan.md:1511).
+- logical entries. "Decided by Jess Haley, 2026-10-22 [logical entries]: the" (V_eta_data_body_model_plan.md:1513).
+- irradiance. "Decided by Jess Haley, 2026-10-22 [irradiance]: a new" (V_eta_data_body_model_plan.md:1515).
+- ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (V_eta_data_body_model_plan.md:1517).
+- missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (V_eta_data_body_model_plan.md:1519).
+- audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (V_eta_data_body_model_plan.md:1521).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
@@ -459,6 +466,8 @@ field). If one decides a class's disposition, that class should cite it.
 - Hartley without enumeration. "Decided by Jess Haley, 2026-10-22 [Hartley without" (V_eta_method_plan.md:196).
 - spatial phase in degrees. "Decided by Jess Haley, 2026-10-22 [spatial phase in" (V_eta_method_plan.md:198).
 - flashed bar parent. "Decided by Jess Haley, 2026-10-22 [flashed bar parent]" (V_eta_method_plan.md:200).
+- method shared plus own. "Decided by Jess Haley, 2026-10-22 [method shared plus own]" (V_eta_method_plan.md:206).
+- rules and clock_alignment tenet. "Decided by Jess Haley, 2026-10-22 [rules and" (V_eta_method_plan.md:208).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (V_eta_ngrid_family_findings.md:419).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).
@@ -488,6 +497,7 @@ field). If one decides a class's disposition, that class should cite it.
 - non-area image node. "Decided by Jess Haley, 2026-10-21 [non-area image node]: on" (V_eta_spatial_transcriptomics_plan.md:606).
 - calculation-software-optional decided. "Decided by Jess Haley, 2026-10-22" (V_eta_spatial_transcriptomics_plan.md:610).
 - non-area image node, revisited. "Decided by Jess Haley, 2026-10-22 [non-area image node" (V_eta_spatial_transcriptomics_plan.md:612).
+- coordinate system names. "Decided by Jess Haley, 2026-10-22 [coordinate system names]" (V_eta_spatial_transcriptomics_plan.md:614).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
@@ -544,6 +554,9 @@ field). If one decides a class's disposition, that class should cite it.
 - tuning shape, #73 audit 2 amendment. "TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]" (V_eta_tuning_model_plan.md:246).
 - complex trial responses. "Decided by Jess Haley, 2026-10-21 [complex trial" (V_eta_tuning_model_plan.md:250).
 - pooled blank statistics. "Decided by Jess Haley, 2026-10-21 [pooled blank" (V_eta_tuning_model_plan.md:259).
+- one fit entry. "Decided by Jess Haley, 2026-10-22 [one fit entry]: there is" (V_eta_tuning_model_plan.md:267).
+- significance with results. "Decided by Jess Haley, 2026-10-22 [significance with" (V_eta_tuning_model_plan.md:269).
+- calculator units. "Decided by Jess Haley, 2026-10-22 [calculator units]" (V_eta_tuning_model_plan.md:271).
 - lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
 - developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
 

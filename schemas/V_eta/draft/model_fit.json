@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A fitted model: which model, its equation and variables, the named coefficients and constraints, how well it fits, and optionally the fit sampled on a grid.",
+            "documentation": "THE fit entry (Jess Haley 2026-10-22 [one fit entry]): which model, its equation and variables, the named coefficients and constraints, how well it fits, and optionally the fit sampled on a grid. Every fit has this one shape: a tuning curve's and a contrast sensitivity's `model_fit` entries are this entry with that calculator's own results beside it (validate_v_eta R17).",
             "constraints": {},
             "fields": [
                 {
@@ -41,8 +41,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The fitted model: a term for a named model (naka_rushton, von_mises, ...), otherwise a label. <- v1 `fit_name`.",
-                    "constraints": {},
+                    "documentation": "The fitted model, a term (naka_rushton, von_mises, double_gaussian, ...; a label when no term exists), bound (Jess Haley 2026-10-22 [one fit entry]). <- v1 `fit_name`.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -161,8 +166,13 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical unit; absent for a categorical variable.",
-                            "constraints": {},
+                            "documentation": "Canonical unit; absent for a categorical variable. Bound (Jess Haley 2026-10-22 [remaining units bound]).",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
                             "fields": [
                                 {
                                     "name": "node",
@@ -270,8 +280,13 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical unit; absent for a categorical variable.",
-                            "constraints": {},
+                            "documentation": "Canonical unit; absent for a categorical variable. Bound (Jess Haley 2026-10-22 [remaining units bound]).",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
                             "fields": [
                                 {
                                     "name": "node",

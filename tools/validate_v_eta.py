@@ -11,7 +11,7 @@ its `index.json` entry's `disposition` if the class is new, then run
 
 TWO KINDS OF THING
 ------------------
-RULES (R1-R16) are checks only. A failure names the file and what is wrong;
+RULES (R1-R17) are checks only. A failure names the file and what is wrong;
 the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D4) are copies of a fact held elsewhere, so they are
@@ -567,6 +567,31 @@ def r16_value_inline_or_body(t):
     return n, bad
 
 
+def r17_one_fit_entry(t):
+    """ONE fit entry (Jess Haley 2026-10-22 [one fit entry]): every `model_fit`
+    block (a tuning curve's, a contrast sensitivity's) begins with exactly the
+    fields of `model_fit.value`, in its order and shape; what follows them is
+    that calculator's own results. Documentation and required-ness may differ."""
+    ref = next(f for f in t.doc("model_fit")["fields"] if f["name"] == "value")["fields"]
+    want = [_shape(x) for x in ref]
+    bad, n = [], 0
+    for cn, (_, _, d) in t.classes.items():
+        if cn == "model_fit":
+            continue
+        for path, f in walk_fields(d.get("fields")):
+            if f["name"] != "model_fit" or f["type"] != "structure":
+                continue
+            n += 1
+            got = [_shape(x) for x in (f.get("fields") or [])[:len(ref)]]
+            if got != want:
+                names = [x["name"] for x in (f.get("fields") or [])]
+                bad.append(f"{cn}.{path} does not begin with the fit entry "
+                           f"{[x['name'] for x in ref]}: {names}")
+    if n == 0:
+        bad.append("no `model_fit` block found besides model_fit.value")
+    return n, bad
+
+
 RULES = [
     ("R1 canonical JSON layout", lambda c: r1_format(c["tree"])),
     ("R2 one class per name, named as its file", lambda c: r2_identity(c["tree"])),
@@ -585,6 +610,7 @@ RULES = [
     ("R15 closed value sets are registered terms", lambda c: r15_value_sets(c["reg"])),
     ("R16 a value is inline or in bodies (value_inline_or_body)",
      lambda c: r16_value_inline_or_body(c["tree"])),
+    ("R17 one fit entry", lambda c: r17_one_fit_entry(c["tree"])),
 ]
 
 

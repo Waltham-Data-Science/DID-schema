@@ -38,6 +38,12 @@ per meaning, so this checks, and fails on any of:
       different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
       something still writes it), and the node it names is registered.
 
+  R11 the canonical-unit list (tools/canonical_units.py; T14; Jess Haley
+      2026-10-22 [units bound]): every value-kind cell declares the listed
+      canonical slots, every listed unit term with a node is registered under
+      that node and name, and every entry / response `unit` is a bound term.
+      A canonical unit with no registered term is LISTED, not failed.
+
 It prints its denominator first and checks NOTHING against an ontology over
 the network: that a node's label is the ontology's label is recorded when the
 term is decided, not re-fetched on every run.
@@ -231,6 +237,26 @@ def check_value_sets(terms, bindings):
     return failures, report, n
 
 
+def check_canonical_units(terms):
+    """R11. Returns (failures, report lines)."""
+    import glob
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import canonical_units as cu
+    classes = {}
+    for tier in ("stable", "draft", "deprecated"):
+        for f in glob.glob(os.path.join(ROOT, "schemas", "V_eta", tier, "*.json")):
+            d = _load(f)
+            if "document_class" in d:
+                classes[d["document_class"]["class_name"]] = d
+    fails, listed, n = cu.check(classes, terms)
+    report = [(f"R11: {n['cells']} value-kind cell(s) in {len(classes)} class(es) checked against "
+               f"{len(cu.CANONICAL_UNITS)} kind(s); {n['units']} canonical unit(s), "
+               f"{n['units'] - len(listed)} with a registered term; "
+               f"{n['bound_unit_fields']} unit field(s) checked bound")]
+    report += [f"  R11 listed (not failed): {x}" for x in listed]
+    return fails, report
+
+
 def _load(path):
     with open(path) as f:
         return json.load(f)
@@ -268,6 +294,10 @@ def main():
         failures = failures + vfail
     else:
         print("R8 NOT CHECKED: no built binding_registry_meta.json")
+    cfail, creport = check_canonical_units(terms)
+    for line in creport:
+        print(line)
+    failures = failures + cfail
     n_obs = sum(1 for t in terms if t.get("obsolete"))
     print(f"R10: {len(terms)} row(s) checked for one shape; {n_obs} obsolete term(s)")
     for f in failures:

@@ -441,8 +441,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number.",
-                    "constraints": {},
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/V_eta_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

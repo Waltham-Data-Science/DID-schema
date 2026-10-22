@@ -53,5 +53,15 @@
     ],
     "require_inherited": [
         "dimensions"
+    ],
+    "rules": [
+        {
+            "name": "datum_order_multidimensional",
+            "fields": [
+                "datum_order",
+                "dimensions"
+            ],
+            "statement": "A sampled body with more than one dimension states `datum_order` ('C' or 'F'); with one dimension or none it is left empty (Jess Haley 2026-10-22 [covariate rules named] 6.3a; named by [audit mechanical fixes 2])."
+        }
     ]
 }

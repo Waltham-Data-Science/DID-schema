@@ -880,3 +880,5 @@ RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lights
 RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.

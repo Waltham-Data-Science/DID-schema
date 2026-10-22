@@ -100,7 +100,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Orientation with the highest response in orientation vector space. Same unit as the curve's direction variable.",
+                    "documentation": "Orientation with the highest response in orientation vector space. In degrees, fixed (Jess Haley 2026-10-22 [calculator units]).",
                     "constraints": {}
                 },
                 {
@@ -113,7 +113,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Direction with the highest response in direction vector space. Same unit as the curve's direction variable.",
+                    "documentation": "Direction with the highest response in direction vector space. In degrees, fixed (Jess Haley 2026-10-22 [calculator units]).",
                     "constraints": {}
                 }
             ]

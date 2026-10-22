@@ -112,7 +112,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The settings themselves -- the same list as an interaction's inline `method.parameters`. A stimulus given as a recipe carries its settings here (orientation, spatial frequency, temporal frequency, contrast ...). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
+            "documentation": "The settings themselves -- the same list as an interaction's inline `method.parameters`. A stimulus given as a recipe carries its settings here (orientation, spatial frequency, temporal frequency, contrast ...). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text`, `logical` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
             "constraints": {},
             "fields": [
                 {
@@ -183,8 +183,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number.",
-                    "constraints": {},
+                    "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/V_eta_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -394,6 +399,19 @@
                     "constraints": {}
                 },
                 {
+                    "name": "logical",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A true/false value (Jess Haley 2026-10-22 [logical entries]): whether a setting was on, whether a condition held. One value form.",
+                    "constraints": {}
+                },
+                {
                     "name": "matrix",
                     "type": "matrix",
                     "blank_value": [],
@@ -403,7 +421,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "A numeric N-D array value, in `unit` (absent for unitless numbers): row-major as JSON nested arrays -- a vector is [a, b, c], an n x 3 palette is [[r, g, b], ...], one inner array per row. The whole array is ONE value of the entry's `variable`; it is not split into entries. (data_body AMENDMENT 4, 2026-10-21.)",
+                    "documentation": "A numeric N-D array value, in `unit` (absent for unitless numbers): row-major as JSON nested arrays, every dimension written: an n x 3 palette is [[r, g, b], ...], one inner array per row, and a vector is written with its dimension as one row [[a, b, c]] or one column [[a], [b], [c]], never a flat [a, b, c], which cannot say which (data_body plan AMENDMENT 4, corrected 2026-10-21). The whole array is ONE value of the entry's `variable`; it is not split into entries. (data_body AMENDMENT 4, 2026-10-21.)",
                     "constraints": {}
                 }
             ]

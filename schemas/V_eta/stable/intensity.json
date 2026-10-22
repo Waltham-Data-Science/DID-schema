@@ -33,7 +33,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A value cell for a dimensionless intensity (dF/F, fluorescence, ratios, amplitudes; arbitrary units) quantity (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise).",
+            "documentation": "A value cell for a dimensionless intensity (dF/F, fluorescence, ratios, amplitudes; arbitrary units) quantity (canonical + lossless source). It stays dimensionless: a measured physical light intensity (W/m^2) is an `irradiance` (Jess Haley 2026-10-22 [irradiance]). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise).",
             "constraints": {},
             "fields": [
                 {
