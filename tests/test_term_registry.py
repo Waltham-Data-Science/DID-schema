@@ -17,8 +17,9 @@ def registry(*terms):
     return {"description": "test", "terms": list(terms)}
 
 
-def term(name, node, status="decided", definition="d"):
-    return {"name": name, "node": node, "status": status, "definition": definition}
+def term(name, node, status="decided", definition="d", obsolete=False):
+    return {"name": name, "node": node, "status": status, "definition": definition,
+            "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete}
 
 
 def run(src):
@@ -102,8 +103,9 @@ def test_the_built_bindings_take_their_nodes_from_the_registry():
                                  "binding_registry_meta.json"))
     nodes = {r["variable"]["name"]: r["variable"]["node"]
              for r in reg["subject_statement_bindings"]}
-    assert nodes["species"] == "NCIT:C45293"
-    assert nodes["developmental stage"] == "NCIT:C43531"
+    # named by the registered labels (Jess Haley 2026-10-22 [developmental stage])
+    assert nodes["Species"] == "NCIT:C45293"
+    assert nodes["Developmental Stage"] == "NCIT:C43531"
 
 
 # Jess Haley, 2026-10-21 (binding variables): each decided row is named by its
@@ -195,3 +197,30 @@ def test_the_decided_closed_value_lists():
     assert "study design" not in rows and "ethics assessment" not in rows
     failures, _, n = ctr.check_value_sets(ctr._load(ctr.SOURCE)["terms"], reg)
     assert failures == [] and n == 4 + 1 + 2 + 206 + 40
+
+
+def test_every_row_has_one_shape():
+    """R10: DID-matlab did2.schema.termIndex concatenates the rows, so a row with
+    other keys than the rest breaks it (Jess Haley 2026-10-22 [vocabulary nodes]
+    made rows carry `obsolete`)."""
+    bad = term("Median", "NCIT:C28007")
+    del bad["obsolete"]
+    assert any(f.startswith("R10") for f in run(registry(bad))[2])
+
+
+def test_an_obsolete_term_names_a_registered_term_to_consider():
+    src = registry(term("onset time", "EMPTY:0000368"),
+                   term("encounter onset time", "EMPTY:0000140",
+                        obsolete={"consider": "EMPTY:0000368"}),
+                   term("x", "EMPTY:0000001", obsolete={"consider": "EMPTY:0000999"}))
+    fails = [f for f in run(src)[2] if f.startswith("R10")]
+    assert len(fails) == 1 and "EMPTY:0000999" in fails[0], fails
+
+
+def test_an_obsolete_term_matches_the_ontologys_obsolete_label():
+    terms = [{"name": "encounter onset time", "node": "EMPTY:0000140", "definition": "d",
+              "obsolete": {"consider": "EMPTY:0000368"}}]
+    owl = {"0000140": ("obsolete encounter onset time", "d")}
+    assert ctr.check_empty(terms, owl) == []
+    terms[0]["obsolete"] = False
+    assert ctr.check_empty(terms, owl) != []

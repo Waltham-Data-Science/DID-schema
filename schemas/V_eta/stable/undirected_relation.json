@@ -46,11 +46,11 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "",
+                            "node": "EMPTY:0000380",
                             "name": "paired_with"
                         },
                         {
-                            "node": "",
+                            "node": "owl:sameAs",
                             "name": "same_as"
                         }
                     ],

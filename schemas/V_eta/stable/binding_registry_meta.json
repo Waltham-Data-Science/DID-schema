@@ -2,12 +2,12 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. an entity's `type`). subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no value; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
+    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. an entity's `type`). subject_statement_bindings map a statement's variable (and, on interactions, method) to the statement class that carries it (its direction: assertion, observation, manipulation or calculation, with the value kind it takes; T3 since 2026-10-08). A term-valued row additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Every relation name and entity type has a node (Jess Haley 2026-10-22 [vocabulary nodes]); code matches a relation or an entity type by its node. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
     "subject_statement_bindings": [
         {
             "variable": {
                 "node": "NCIT:C45293",
-                "name": "species"
+                "name": "Species"
             },
             "class": "assertion",
             "ontology": "NCBITaxon",
@@ -84,11 +84,20 @@
         {
             "variable": {
                 "node": "NCIT:C43531",
-                "name": "developmental stage"
+                "name": "Developmental Stage"
             },
-            "class": "assertion",
+            "class": [
+                "observation",
+                "calculation"
+            ],
             "ontology": "UBERON",
             "root_node": "UBERON:0000105",
+            "additional_roots": [
+                {
+                    "ontology": "WBls",
+                    "root_node": "WBls:0000075"
+                }
+            ],
             "subject_defining": true,
             "value_kind": "term"
         },
@@ -97,7 +106,8 @@
                 "node": "NCIT:C16608",
                 "name": "Gene Expression"
             },
-            "class": "spatial_gene_expression_pyramid",
+            "class": "observation",
+            "value_kind": "count",
             "subject_defining": false,
             "term_valued": false
         },
@@ -1197,14 +1207,30 @@
         },
         {
             "relation": {
-                "node": "RO:0001018",
+                "node": "RO:0001025",
                 "name": "contained_in"
             },
             "class": "directed_relation",
-            "child_role": "the contained",
-            "parent_role": "the container",
-            "child_types": [],
-            "parent_types": [],
+            "child_role": "the contained (a physical entity located in or on the container for a while)",
+            "parent_role": "the container (a physical entity); a record filed under a record uses included_in",
+            "child_types": [
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "material",
+                "device",
+                "group"
+            ],
+            "parent_types": [
+                "organism",
+                "culture",
+                "tissue",
+                "cell",
+                "material",
+                "device",
+                "group"
+            ],
             "timed": true,
             "ordered": false,
             "passes": "context"
@@ -1216,7 +1242,7 @@
             },
             "class": "directed_relation",
             "child_role": "the member",
-            "parent_role": "the group",
+            "parent_role": "the group (an entity of type group, T20)",
             "child_types": [
                 "organism",
                 "culture",
@@ -1224,16 +1250,11 @@
                 "cell",
                 "group",
                 "device",
-                "material"
+                "material",
+                "software"
             ],
             "parent_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
+                "group"
             ],
             "timed": true,
             "ordered": true,
@@ -1245,8 +1266,8 @@
                 "name": "derived_from"
             },
             "class": "directed_relation",
-            "child_role": "the derivative",
-            "parent_role": "the source",
+            "child_role": "the derivative: material that begins to exist as the source is used up (RO:0001000; Jess Haley 2026-10-22 [vocabulary nodes] K2)",
+            "parent_role": "the source material, which ceases to exist",
             "child_types": [],
             "parent_types": [],
             "timed": true,
@@ -1255,12 +1276,12 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "ENVO:01003004",
                 "name": "sample_of"
             },
             "class": "directed_relation",
-            "child_role": "the sample",
-            "parent_role": "the sampled source",
+            "child_role": "the portion taken (a sample, an aliquot, a passaged culture): it derives from part of the source, which continues to exist",
+            "parent_role": "the source it was taken from",
             "child_types": [
                 "organism",
                 "culture",
@@ -1285,67 +1306,7 @@
         },
         {
             "relation": {
-                "node": "",
-                "name": "aliquot_of"
-            },
-            "class": "directed_relation",
-            "child_role": "the aliquot",
-            "parent_role": "the parent quantity",
-            "child_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "parent_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "timed": true,
-            "ordered": false,
-            "passes": "assertions"
-        },
-        {
-            "relation": {
-                "node": "",
-                "name": "passage_of"
-            },
-            "class": "directed_relation",
-            "child_role": "the passage",
-            "parent_role": "the parent culture",
-            "child_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "parent_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "timed": true,
-            "ordered": false,
-            "passes": "assertions"
-        },
-        {
-            "relation": {
-                "node": "",
+                "node": "RO:0002437",
                 "name": "encountered"
             },
             "class": "directed_relation",
@@ -1375,37 +1336,7 @@
         },
         {
             "relation": {
-                "node": "",
-                "name": "measured_distance_to"
-            },
-            "class": "directed_relation",
-            "child_role": "the measured-from subject",
-            "parent_role": "the reference subject",
-            "child_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "parent_types": [
-                "organism",
-                "culture",
-                "tissue",
-                "cell",
-                "group",
-                "device",
-                "material"
-            ],
-            "timed": true,
-            "ordered": false,
-            "passes": "nothing"
-        },
-        {
-            "relation": {
-                "node": "",
+                "node": "schema:author",
                 "name": "has_author"
             },
             "class": "directed_relation",
@@ -1423,7 +1354,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:citation",
                 "name": "cites"
             },
             "class": "directed_relation",
@@ -1441,7 +1372,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:funding",
                 "name": "funded_by"
             },
             "class": "directed_relation",
@@ -1459,7 +1390,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:funder",
                 "name": "issued_by"
             },
             "class": "directed_relation",
@@ -1477,7 +1408,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:affiliation",
                 "name": "affiliated_with"
             },
             "class": "directed_relation",
@@ -1495,7 +1426,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:subjectOf",
                 "name": "documented_by"
             },
             "class": "directed_relation",
@@ -1516,7 +1447,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:maintainer",
                 "name": "has_custodian"
             },
             "class": "directed_relation",
@@ -1535,7 +1466,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:contributor",
                 "name": "contributed_by"
             },
             "class": "directed_relation",
@@ -1554,7 +1485,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:copyrightHolder",
                 "name": "copyright_holder"
             },
             "class": "directed_relation",
@@ -1573,7 +1504,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "SIO:000497",
                 "name": "alternative_of"
             },
             "class": "directed_relation",
@@ -1591,7 +1522,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:isBasedOn",
                 "name": "input_data"
             },
             "class": "directed_relation",
@@ -1609,7 +1540,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000378",
                 "name": "follows_protocol"
             },
             "class": "directed_relation",
@@ -1627,7 +1558,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:parentOrganization",
                 "name": "suborganization_of"
             },
             "class": "directed_relation",
@@ -1645,7 +1576,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000382",
                 "name": "instance_of"
             },
             "class": "directed_relation",
@@ -1670,7 +1601,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:fundedItem",
                 "name": "awarded_to"
             },
             "class": "directed_relation",
@@ -1689,7 +1620,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000386",
                 "name": "orthologous gene mapping"
             },
             "class": "directed_relation",
@@ -1707,7 +1638,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000381",
                 "name": "gene alias mapping"
             },
             "class": "directed_relation",
@@ -1725,7 +1656,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000380",
                 "name": "paired_with"
             },
             "class": "undirected_relation",
@@ -1739,7 +1670,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "owl:sameAs",
                 "name": "same_as"
             },
             "class": "undirected_relation",
@@ -1753,7 +1684,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "OBI:0000647",
                 "name": "sold_by"
             },
             "class": "directed_relation",
@@ -1771,7 +1702,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:producer",
                 "name": "developed_by"
             },
             "class": "directed_relation",
@@ -1789,7 +1720,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "schema:provider",
                 "name": "hosted_by"
             },
             "class": "directed_relation",
@@ -1807,7 +1738,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000379",
                 "name": "distributed_as"
             },
             "class": "directed_relation",
@@ -1826,16 +1757,16 @@
         {
             "relation": {
                 "node": "",
-                "name": "recorded_by"
+                "name": "temporally aligned with"
             },
-            "class": "directed_relation",
-            "child_role": "the epoch",
-            "parent_role": "the acquisition system that recorded it",
+            "class": "clock_alignment",
+            "child_role": "the timeline mapped from (`input_id`)",
+            "parent_role": "the timeline mapped to (`output_id`)",
             "child_types": [
-                "epoch"
+                "relative_time_reference"
             ],
             "parent_types": [
-                "acquisition_system"
+                "relative_time_reference"
             ],
             "timed": false,
             "ordered": false,
@@ -1859,10 +1790,11 @@
             "strength": "required"
         }
     ],
-    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no value and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, statement or value classes (#73 items 22, 27). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor.",
+    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the statement class that carries it: its direction (assertion, observation, manipulation, calculation; a list where more than one is allowed) and `value_kind`. There is no separately-named value_set. Only a term-valued row carries an admissible-set spec (values or ontology+root_node); a dimensional row needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term assertion whose variable matches a subject_defining binding (checked at ingest). relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, statement or value classes (#73 items 22, 27). The abstract type `entity` means 'any entity'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is its ontology term (Jess Haley 2026-10-22 [vocabulary nodes]; \"\" only where no node is decided). ordered marks terms where the membership's `order` field is meaningful (T20); timed marks event edges that may carry a method/time anchor. A `clock_alignment` row binds clock_alignment.relation (Jess Haley 2026-10-22 [clock alignment relation bound]): the one kind did2.convert.resolveClockAlignment's bodies write, passing nothing. A subject_statement_bindings row may name more than one subtree: `ontology` + `root_node`, plus `additional_roots` [{ontology, root_node}].",
     "entity_type_bindings": [
         {
             "type": "organism",
+            "node": "COB:0000022",
             "description": "one whole living individual",
             "requires": [
                 "local_identifier"
@@ -1870,6 +1802,7 @@
         },
         {
             "type": "culture",
+            "node": "",
             "description": "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture",
             "requires": [
                 "local_identifier"
@@ -1877,6 +1810,7 @@
         },
         {
             "type": "tissue",
+            "node": "UBERON:0000479",
             "description": "part of an organism: a slice, a biopsy, a region",
             "requires": [
                 "local_identifier"
@@ -1884,6 +1818,7 @@
         },
         {
             "type": "cell",
+            "node": "CL:0000000",
             "description": "one cell",
             "requires": [
                 "local_identifier"
@@ -1891,6 +1826,7 @@
         },
         {
             "type": "group",
+            "node": "NCIT:C43359",
             "description": "an entity whose members are entities, by `member_of`: a cohort, an ensemble",
             "requires": [
                 "local_identifier"
@@ -1898,6 +1834,7 @@
         },
         {
             "type": "device",
+            "node": "COB:0001300",
             "description": "an instrument or a piece of apparatus",
             "requires": [
                 "local_identifier"
@@ -1905,6 +1842,7 @@
         },
         {
             "type": "material",
+            "node": "BFO:0000040",
             "description": "a non-living object or substance: an agar plate",
             "requires": [
                 "local_identifier"
@@ -1912,6 +1850,7 @@
         },
         {
             "type": "strain",
+            "node": "NCIT:C14419",
             "description": "a genetically defined line; its members are `instance_of` it",
             "requires": [
                 "name"
@@ -1919,6 +1858,7 @@
         },
         {
             "type": "product",
+            "node": "schema:Product",
             "description": "something bought: a reagent, a device model; units are `instance_of` it",
             "requires": [
                 "name"
@@ -1926,6 +1866,7 @@
         },
         {
             "type": "software",
+            "node": "IAO:0000010",
             "description": "a program, at a version",
             "requires": [
                 "name"
@@ -1933,6 +1874,7 @@
         },
         {
             "type": "person",
+            "node": "NCIT:C25190",
             "description": "a person",
             "requires": [
                 "name"
@@ -1940,6 +1882,7 @@
         },
         {
             "type": "organization",
+            "node": "OBI:0000245",
             "description": "an institution, a lab, a company, a funder",
             "requires": [
                 "name"
@@ -1947,6 +1890,7 @@
         },
         {
             "type": "funding",
+            "node": "NCIT:C16644",
             "description": "a grant or award",
             "requires": [
                 "name"
@@ -1954,6 +1898,7 @@
         },
         {
             "type": "dataset",
+            "node": "NCIT:C47824",
             "description": "a published body of data, at a version",
             "requires": [
                 "name"
@@ -1961,6 +1906,7 @@
         },
         {
             "type": "study",
+            "node": "NCIT:C63536",
             "description": "a unit of research with its own question and design",
             "requires": [
                 "name"
@@ -1968,6 +1914,7 @@
         },
         {
             "type": "publication",
+            "node": "IAO:0000311",
             "description": "an article or preprint",
             "requires": [
                 "name"
@@ -1975,6 +1922,7 @@
         },
         {
             "type": "protocol",
+            "node": "OBI:0000272",
             "description": "a written procedure",
             "requires": [
                 "name"
@@ -1982,6 +1930,7 @@
         },
         {
             "type": "session",
+            "node": "NCIT:C67447",
             "description": "a period of work: one sitting at the rig, one day of an assay",
             "requires": [
                 "local_identifier"
@@ -1989,6 +1938,7 @@
         },
         {
             "type": "epoch",
+            "node": "EMPTY:0000383",
             "description": "one recording: the files one acquisition system wrote for one stretch of time",
             "requires": [
                 "local_identifier"

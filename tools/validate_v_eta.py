@@ -21,8 +21,10 @@ written, not hand-edited:
       DATA in index.json (the source of a class's disposition) and are kept.
   D2  stable/term_registry_meta.json: schemas/V_eta_term_registry.json, with
       a header, for did2.build.
-  D3  directed_relation.relation / undirected_relation.relation binding values:
-      the registry's relation_bindings rows of that carrier, in order.
+  D3  directed_relation.relation / undirected_relation.relation /
+      clock_alignment.relation binding values: the registry's relation_bindings
+      rows of that carrier, in order (clock_alignment's: Jess Haley 2026-10-22
+      [clock alignment relation bound]).
   D4  `ndi_mustBeNonEmpty` on depends_on entries: NDI's required-ness from
       schemas/V_eta_ndi_ground_truth.json (tools/ndi_required_stamp.py).
 Default mode writes them; --check writes nothing and fails if any differs.
@@ -637,7 +639,7 @@ def d2_term_registry(t):
 
 def d3_relation_values(t, reg):
     out, bad = {}, []
-    for carrier in ("directed_relation", "undirected_relation"):
+    for carrier in ("directed_relation", "undirected_relation", "clock_alignment"):
         _, p, d = t.classes[carrier]
         d = copy.deepcopy(d)
         rows = [r["relation"] for r in reg["relation_bindings"] if r["class"] == carrier]

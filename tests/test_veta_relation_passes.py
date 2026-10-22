@@ -33,8 +33,9 @@ def test_the_inheriting_relations_are_the_ones_t17_names():
     by = {}
     for r in _rows():
         by.setdefault(r["passes"], set()).add(r["relation"]["name"])
-    assert by["assertions"] == {"part_of", "sample_of", "aliquot_of", "passage_of",
-                                "instance_of"}
+    # aliquot_of and passage_of folded into sample_of, "derives from part of"
+    # (Jess Haley 2026-10-22 [vocabulary nodes] K5)
+    assert by["assertions"] == {"part_of", "sample_of", "instance_of"}
     assert by["distributive"] == {"member_of"}
     assert by["context"] == {"contained_in"}
 

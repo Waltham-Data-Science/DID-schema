@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.1.0",
+    "format_version": "1.2.0",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -731,6 +731,40 @@
             "pattern_source": "https://bioregistry.io/api/registry/xco (2026-10-22)",
             "spelling": "XCO",
             "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
+        },
+        "envo": {
+            "label": "Environment Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/ENVO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `envo`. Registered for ENVO:01003004 derives from part of (published in RO), the node of `sample_of` (Jess Haley 2026-10-22 [vocabulary nodes] K5).",
+            "pattern": "^\\d{7,8}$",
+            "pattern_source": "https://bioregistry.io/api/registry/envo (2026-10-22)",
+            "spelling": "ENVO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
+        },
+        "owl": {
+            "label": "Web Ontology Language",
+            "uri_base": "http://www.w3.org/2002/07/owl#",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `owl`. Registered for owl:sameAs, the node of `same_as` (Jess Haley 2026-10-22 [vocabulary nodes] K3).",
+            "spelling": "owl",
+            "spelling_source": "W3C OWL namespace",
+            "synonyms": []
+        },
+        "sio": {
+            "label": "Semanticscience Integrated Ontology",
+            "uri_base": "http://semanticscience.org/resource/SIO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `sio`. Registered for SIO:000497 is version of, the node of `alternative_of` (Jess Haley 2026-10-22 [vocabulary nodes] K3).",
+            "pattern": "^\\d{6}$",
+            "pattern_source": "https://bioregistry.io/api/registry/sio (2026-10-22)",
+            "spelling": "SIO",
+            "spelling_source": "the identifier space as written in its IRIs",
             "synonyms": []
         }
     },

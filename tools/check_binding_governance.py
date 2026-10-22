@@ -195,7 +195,10 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # dimensioned value's `source_unit` is now an ontology_term bound {strength:
 # preferred, node_form: curie} like `statement.variable` -- 65 more bound
 # declarations, uncatalogued for the same reason as `variable`.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 93
+# 93 -> 94 (2026-10-22, Jess Haley [clock alignment relation bound]):
+# `clock_alignment.relation` is bound to its relation_bindings rows, like
+# directed_relation.relation, which is uncatalogued for the same reason.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 94
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
@@ -610,8 +613,12 @@ def run(veta=VETA):
     ssb = reg.get("subject_statement_bindings", [])
     by_class_norm = {}
     for e in ssb:
-        by_class_norm.setdefault(e.get("class"), 0)
-        by_class_norm[e.get("class")] += 1
+        # a row may name more than one class (Developmental Stage: observation
+        # or calculation; Jess Haley 2026-10-22 [developmental stage])
+        c = e.get("class")
+        c = " | ".join(c) if isinstance(c, list) else c
+        by_class_norm.setdefault(c, 0)
+        by_class_norm[c] += 1
     dim_norm = [e for e in ssb if e.get("class") != "term_assertion"]
     r["findings"]["B7_d9_leaf_selection_gap"] = {
         # the count IS the gap: how many dimensional leaves a strict registry

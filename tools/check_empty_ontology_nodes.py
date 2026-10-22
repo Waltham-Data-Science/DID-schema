@@ -360,7 +360,15 @@ BASELINE_MIGRATORS = 60
 # with no CURIE like every other row in that set, after the merge retired
 # relations of its own. Surfaced, again, only in
 # DID-matlab's quick gate (run 38744180928).
-BASELINE_SCHEMAS = 95
+#
+# LOWERED 95 -> 30 on 2026-10-22 (Jess Haley, tenet audit [vocabulary nodes] and
+# [channel types]): every relation name and every entity type but `culture` has a
+# node, and the channel types are the 10 bound terms. Left (30): did_clocktype 8,
+# did_response_type 10, did_filter_algorithm 6 and did_filter_band 4 (the
+# frequency_filter class, whose deletion [filters are methods] waits for
+# DID-matlab), did_entity_type 1 (`culture`, no node decided) and
+# did_relation_clock_alignment 1 (`temporally aligned with`, no node decided).
+BASELINE_SCHEMAS = 30
 
 CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
 # THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that

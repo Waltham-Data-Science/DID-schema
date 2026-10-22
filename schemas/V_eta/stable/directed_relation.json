@@ -72,7 +72,7 @@
                             "name": "included_in"
                         },
                         {
-                            "node": "RO:0001018",
+                            "node": "RO:0001025",
                             "name": "contained_in"
                         },
                         {
@@ -84,112 +84,96 @@
                             "name": "derived_from"
                         },
                         {
-                            "node": "",
+                            "node": "ENVO:01003004",
                             "name": "sample_of"
                         },
                         {
-                            "node": "",
-                            "name": "aliquot_of"
-                        },
-                        {
-                            "node": "",
-                            "name": "passage_of"
-                        },
-                        {
-                            "node": "",
+                            "node": "RO:0002437",
                             "name": "encountered"
                         },
                         {
-                            "node": "",
-                            "name": "measured_distance_to"
-                        },
-                        {
-                            "node": "",
+                            "node": "schema:author",
                             "name": "has_author"
                         },
                         {
-                            "node": "",
+                            "node": "schema:citation",
                             "name": "cites"
                         },
                         {
-                            "node": "",
+                            "node": "schema:funding",
                             "name": "funded_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:funder",
                             "name": "issued_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:affiliation",
                             "name": "affiliated_with"
                         },
                         {
-                            "node": "",
+                            "node": "schema:subjectOf",
                             "name": "documented_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:maintainer",
                             "name": "has_custodian"
                         },
                         {
-                            "node": "",
+                            "node": "schema:contributor",
                             "name": "contributed_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:copyrightHolder",
                             "name": "copyright_holder"
                         },
                         {
-                            "node": "",
+                            "node": "SIO:000497",
                             "name": "alternative_of"
                         },
                         {
-                            "node": "",
+                            "node": "schema:isBasedOn",
                             "name": "input_data"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000378",
                             "name": "follows_protocol"
                         },
                         {
-                            "node": "",
+                            "node": "schema:parentOrganization",
                             "name": "suborganization_of"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000382",
                             "name": "instance_of"
                         },
                         {
-                            "node": "",
+                            "node": "schema:fundedItem",
                             "name": "awarded_to"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000386",
                             "name": "orthologous gene mapping"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000381",
                             "name": "gene alias mapping"
                         },
                         {
-                            "node": "",
+                            "node": "OBI:0000647",
                             "name": "sold_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:producer",
                             "name": "developed_by"
                         },
                         {
-                            "node": "",
+                            "node": "schema:provider",
                             "name": "hosted_by"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000379",
                             "name": "distributed_as"
-                        },
-                        {
-                            "node": "",
-                            "name": "recorded_by"
                         }
                     ],
                     "strength": "preferred",

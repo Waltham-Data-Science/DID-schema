@@ -1066,3 +1066,9 @@ Decided by Jess Haley, 2026-10-22 [NDI ref fallback]: DID-matlab's Test code wor
 
 Decided by Jess Haley, 2026-10-22 [NDI ref fallback, test-corpus]: DID-matlab's test-corpus.yml resolves NDI-matlab in the same order as [NDI ref fallback] (answer "yes to all three"). Built: DID-matlab 4963355.
 
+
+## 2026-10-22 -- tenet audit: acquisition
+
+Decided by Jess Haley, 2026-10-22 [epoch to system link]: the `recorded_by` relation row is dropped. An epoch reaches its acquisition system through the recording interaction's `acquisition_channels_id` and then `acquisition_channels.acquisition_system_id`; `acquisition_system.device_id` is filled when known (in the Haley import, the camera entity, `instrumentFor` in sessionDocuments.m). It depends on [channel types] (answer "A1 agreed").
+
+Decided by Jess Haley, 2026-10-22 [channel types]: `acquisition_channels.channels.type` binds the 10 hardware channel types, rooted at NCIT:C44170 Channel: md NCIT:C52095 Metadata, tx NCIT:C25704 Text, and EMPTY:0000370-0000377 (analog input, analog output, digital input, digital output, time, auxiliary input, event and marker channel). The migrator maps the v1 prefixes to these terms, and NDI's vintage map maps them back for its readers; that map lives in their code, not in the term registry (Jess Haley's clarification the same day: the registry needs nodes, not synonyms), and code matches a channel type by its node. The 8 derived read modes (dep den dimp dimn aep aen aimp aimn) get no terms (0 uses in the corpus probemaps: B {mk,e,md,ai}, Dab {mk,e,ai,md,ao}, Soph {mk,e,md,ai}). Her answers: "agreed, B2a with 10"; "should be real terms". (The old 4-value list came from d329ef0, which copied daqsystemstring.m's example.)

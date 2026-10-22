@@ -39,14 +39,14 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What kind of entity this is -- organism (one whole living individual) | culture (a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture) | tissue (part of an organism: a slice, a biopsy, a region) | cell (one cell) | group (an entity whose members are entities, by `member_of`: a cohort, an ensemble) | device (an instrument or a piece of apparatus) | material (a non-living object or substance: an agar plate) | strain (a genetically defined line; its members are `instance_of` it) | product (something bought: a reagent, a device model; units are `instance_of` it) | software (a program, at a version) | person (a person) | organization (an institution, a lab, a company, a funder) | funding (a grant or award) | dataset (a published body of data, at a version) | study (a unit of research with its own question and design) | publication (an article or preprint) | protocol (a written procedure) | session (a period of work: one sitting at the rig, one day of an assay) | epoch (one recording: the files one acquisition system wrote for one stretch of time). Bound, required. What each type requires is in `binding_registry_meta.json` `entity_type_bindings`. The finer kind (species, cell type, instrument type) is an assertion.",
+            "documentation": "What kind of entity this is -- organism (one whole living individual) | culture (a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture) | tissue (part of an organism: a slice, a biopsy, a region) | cell (one cell) | group (an entity whose members are entities, by `member_of`: a cohort, an ensemble) | device (an instrument or a piece of apparatus) | material (a non-living object or substance: an agar plate) | strain (a genetically defined line; its members are `instance_of` it) | product (something bought: a reagent, a device model; units are `instance_of` it) | software (a program, at a version) | person (a person) | organization (an institution, a lab, a company, a funder) | funding (a grant or award) | dataset (a published body of data, at a version) | study (a unit of research with its own question and design) | publication (an article or preprint) | protocol (a written procedure) | session (a period of work: one sitting at the rig, one day of an assay) | epoch (one recording: the files one acquisition system wrote for one stretch of time). Bound, required. What each type requires is in `binding_registry_meta.json` `entity_type_bindings`. The finer kind (species, cell type, instrument type) is an assertion. Each type has a node (Jess Haley 2026-10-22 [vocabulary nodes]; `culture` has none decided yet), and code matches a type by its node. The stored name becomes the node's ontology label (\"Organism Strain\", \"Data Set\") in the coordinated change with DID-matlab and NDI ([vocabulary nodes] L2); until then the name is the type's handle. The registry holds nodes only: no published V2 data carries the handles, so they need no registry entry.",
             "constraints": {
                 "binding": {
                     "root": "did_entity_type",
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "",
+                            "node": "COB:0000022",
                             "name": "organism"
                         },
                         {
@@ -54,71 +54,71 @@
                             "name": "culture"
                         },
                         {
-                            "node": "",
+                            "node": "UBERON:0000479",
                             "name": "tissue"
                         },
                         {
-                            "node": "",
+                            "node": "CL:0000000",
                             "name": "cell"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C43359",
                             "name": "group"
                         },
                         {
-                            "node": "",
+                            "node": "COB:0001300",
                             "name": "device"
                         },
                         {
-                            "node": "",
+                            "node": "BFO:0000040",
                             "name": "material"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C14419",
                             "name": "strain"
                         },
                         {
-                            "node": "",
+                            "node": "schema:Product",
                             "name": "product"
                         },
                         {
-                            "node": "",
+                            "node": "IAO:0000010",
                             "name": "software"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C25190",
                             "name": "person"
                         },
                         {
-                            "node": "",
+                            "node": "OBI:0000245",
                             "name": "organization"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C16644",
                             "name": "funding"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C47824",
                             "name": "dataset"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C63536",
                             "name": "study"
                         },
                         {
-                            "node": "",
+                            "node": "IAO:0000311",
                             "name": "publication"
                         },
                         {
-                            "node": "",
+                            "node": "OBI:0000272",
                             "name": "protocol"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C67447",
                             "name": "session"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000383",
                             "name": "epoch"
                         }
                     ],

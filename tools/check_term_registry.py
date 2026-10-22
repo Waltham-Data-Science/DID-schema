@@ -18,7 +18,8 @@ per meaning, so this checks, and fails on any of:
   R7  an EMPTY term whose name or definition is not the ontology's own label
       or definition, read from an empty-ontology checkout ($EMPTY_ONTOLOGY,
       else a sibling `empty-ontology` folder). Without a checkout R7 is
-      reported NOT CHECKED, never passed.
+      reported NOT CHECKED, never passed. A term marked `obsolete` matches
+      the label either as written or with the ontology's "obsolete " prefix.
   R8  a binding variable (binding_registry_meta.json subject_statement_bindings)
       with no node while the registry holds a term of that name (the builder
       filled it until 2026-10-21; the JSON is the source now, so write it there). Variables the registry does
@@ -30,6 +31,12 @@ per meaning, so this checks, and fails on any of:
       any registered term (node_form curie), or NOT TERM-VALUED
       (`term_valued: false`, the value is data, e.g. Gene Expression) --
       the last is not a gap.
+
+  R10 every entry carries the same keys (name, node, definition, status,
+      decided, first_used_in, obsolete): DID-matlab
+      did2.schema.termIndex concatenates the rows, which fails on rows of
+      different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
+      something still writes it), and the node it names is registered.
 
 It prints its denominator first and checks NOTHING against an ontology over
 the network: that a node's label is the ontology's label is recorded when the
@@ -47,6 +54,8 @@ SOURCE = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
 BUILT = os.path.join(ROOT, "schemas", "V_eta", "stable", "term_registry_meta.json")
 CURIES = os.path.join(ROOT, "schemas", "V_eta", "stable", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
+ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
+            "obsolete"]
 
 
 def prefix_index(curies):
@@ -67,6 +76,9 @@ def check(source, built, curies):
     by_key, by_name = {}, {}
     staged = 0
     for i, t in enumerate(terms):
+        if sorted(t) != sorted(ROW_KEYS):
+            failures.append(f"R10 term {i + 1} ({t.get('name')!r}): keys {sorted(t)}, "
+                            f"not the row shape {ROW_KEYS}")
         name = (t.get("name") or "").strip()
         node = (t.get("node") or "").strip()
         where = f'term {i + 1} ("{name}")'
@@ -100,11 +112,35 @@ def check(source, built, curies):
             if name.lower() in by_name:
                 failures.append(f'R2 {where}: the name is already used for {by_name[name.lower()] or "a staged term"}')
             by_name.setdefault(name.lower(), node)
+    failures += _obsolete(terms, names)
     if built is None:
         failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
         failures.append("R6 the built term_registry_meta.json differs from the source (run tools/validate_v_eta.py)")
     return terms, staged, failures
+
+
+def _obsolete(terms, names):
+    """R10: `obsolete` is false, or {consider: <a registered node>}."""
+    out, nodes = [], set()
+    for t in terms:
+        node = (t.get("node") or "").strip()
+        if node:
+            pre, _, local = node.partition(":")
+            nodes.add(f"{names.get(pre.lower(), pre)}:{local}".lower())
+    for i, t in enumerate(terms):
+        where = f'term {i + 1} ("{t.get("name")}")'
+        ob = t.get("obsolete")
+        if ob is False:
+            continue
+        if not (isinstance(ob, dict) and set(ob) == {"consider"} and isinstance(ob["consider"], str)):
+            out.append(f"R10 {where}: `obsolete` is {ob!r}, not false or {{consider: <node>}}")
+            continue
+        c = ob["consider"]
+        pre, _, local = c.partition(":")
+        if f"{names.get(pre.lower(), pre)}:{local}".lower() not in nodes:
+            out.append(f"R10 {where}: obsolete, but the term to consider ({c}) is not registered")
+    return out
 
 
 def empty_ontology_terms():
@@ -135,6 +171,8 @@ def check_empty(terms, owl):
             out.append(f"R7 {node} ({t.get('name')}): not in empty-ontology")
             continue
         label, definition = owl[k]
+        if t.get("obsolete") and label == "obsolete " + (t.get("name") or ""):
+            label = t.get("name")
         if label != t.get("name"):
             out.append(f"R7 {node}: name {t.get('name')!r}, the ontology's label {label!r}")
         if definition != t.get("definition"):
@@ -230,6 +268,8 @@ def main():
         failures = failures + vfail
     else:
         print("R8 NOT CHECKED: no built binding_registry_meta.json")
+    n_obs = sum(1 for t in terms if t.get("obsolete"))
+    print(f"R10: {len(terms)} row(s) checked for one shape; {n_obs} obsolete term(s)")
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

@@ -48,27 +48,51 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The channel type: ai | ao | di | do (daqsystemstring.m:53-56). Bound, required (#73 audit 2 D5).",
+                    "documentation": "The channel type, a term under NCIT:C44170 Channel (Jess Haley 2026-10-22 [channel types]): analog input channel (v1 `ai`), analog output channel (`ao`), digital input channel (`di`), digital output channel (`do`), time channel (`t`), auxiliary input channel (`ax`), event channel (`e`), marker channel (`mk`), Metadata (`md`), Text (`tx`). The migrator maps each v1 prefix to its term, and NDI's vintage map maps term to prefix for its readers; that map lives in their code, not in the term registry, and code matches a channel type by its node. The eight read modes NDI derives from a channel at read time (dep den dimp dimn aep aen aimp aimn) are not channel types and get no terms. Bound, required (#73 audit 2 D5).",
                     "constraints": {
                         "binding": {
                             "root": "did_channel_type",
                             "expansion": "value_set",
                             "values": [
                                 {
-                                    "node": "",
-                                    "name": "ai"
+                                    "node": "NCIT:C52095",
+                                    "name": "Metadata"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "ao"
+                                    "node": "NCIT:C25704",
+                                    "name": "Text"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "di"
+                                    "node": "EMPTY:0000370",
+                                    "name": "analog input channel"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "do"
+                                    "node": "EMPTY:0000371",
+                                    "name": "analog output channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000372",
+                                    "name": "digital input channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000373",
+                                    "name": "digital output channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000374",
+                                    "name": "time channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000375",
+                                    "name": "auxiliary input channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000376",
+                                    "name": "event channel"
+                                },
+                                {
+                                    "node": "EMPTY:0000377",
+                                    "name": "marker channel"
                                 }
                             ],
                             "strength": "required",

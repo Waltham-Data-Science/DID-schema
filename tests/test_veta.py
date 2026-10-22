@@ -1580,13 +1580,21 @@ def test_binding_registry_meta_present():
     names = {b["variable"]["name"] for b in defining}
     # `instrument type` is named by its registered term, NCIT Equipment Type,
     # since 2026-10-21 (Jess Haley, binding variables)
-    assert {"species", "Equipment Type", "cell type", "material type",
+    assert {"Species", "Equipment Type", "cell type", "material type",
             "culture type"} <= names
     # each subject_defining row is a term assertion drawing from an ontology
     # subtree, except `material type`: since 2026-10-21 (Jess Haley) its kind is
     # any registered term (a material can be an agar plate), so it carries
     # node_form curie and no subtree
     for b in defining:
+        if b["variable"]["name"] == "Developmental Stage":
+            # a time-varying property is stated by an interaction, never an
+            # assertion (Jess Haley 2026-10-22 [developmental stage]); its
+            # subtrees are UBERON's and the WBls life-stage root
+            assert (b["class"], b.get("value_kind")) == (["observation", "calculation"], "term")
+            assert b["root_node"] == "UBERON:0000105"
+            assert b["additional_roots"] == [{"ontology": "WBls", "root_node": "WBls:0000075"}]
+            continue
         assert (b["class"], b.get("value_kind")) == ("assertion", "term")
         if b["variable"]["name"] in ("material type", "culture type"):
             assert "ontology" not in b and "root_node" not in b, b
@@ -1609,10 +1617,12 @@ def test_subject_statement_bindings_well_formed():
                 for r in RECORDS.values()}
     for b in reg["subject_statement_bindings"]:
         assert set(b["variable"]) >= {"node", "name"}
-        assert _leaf_ok(concrete, b["class"]), f"{b['class']} must be a concrete leaf"
-        # a direction names its kind beside it since 2026-10-08 (composition)
-        if b["class"] in ("assertion", "observation", "manipulation", "calculation"):
-            assert b.get("value_kind") in concrete, f"{b} needs a value_kind"
+        # a row may allow more than one direction (Developmental Stage, 2026-10-22)
+        for c in (b["class"] if isinstance(b["class"], list) else [b["class"]]):
+            assert _leaf_ok(concrete, c), f"{c} must be a concrete leaf"
+            # a direction names its kind beside it since 2026-10-08 (composition)
+            if c in ("assertion", "observation", "manipulation", "calculation"):
+                assert b.get("value_kind") in concrete, f"{b} needs a value_kind"
         assert "data_type" not in b, "the leaf class replaces data_type"
         if "method" in b:
             assert set(b["method"]) >= {"node", "name"}
@@ -1652,8 +1662,12 @@ def test_relation_bindings_present():
                for r in vocab.values() if r["class"] == "directed_relation")
     assert all({"relation", "class", "member_types"} <= set(r)
                for r in vocab.values() if r["class"] == "undirected_relation")
-    assert all(r["class"] in ("directed_relation", "undirected_relation")
+    # clock_alignment.relation is bound to its own rows since 2026-10-22
+    # (Jess Haley [clock alignment relation bound])
+    assert all(r["class"] in ("directed_relation", "undirected_relation", "clock_alignment")
                for r in vocab.values())
+    assert [n for n, r in vocab.items() if r["class"] == "clock_alignment"] == [
+        "temporally aligned with"]
     # #73 audit 2 D5: the first undirected rows exist, and only they carry member_types
     assert {n for n, r in vocab.items() if r["class"] == "undirected_relation"} == {
         "paired_with", "same_as"}
@@ -1682,9 +1696,14 @@ def test_relation_bindings_present():
         for t in r.get("child_types", []) + r.get("parent_types", []) + \
                 r.get("member_types", []):
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
-    # member_of: between physical entities (a group is an entity of type group)
-    assert vocab["member_of"]["parent_types"] == [
-        "organism", "culture", "tissue", "cell", "group", "device", "material"]
+    # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints])
+    assert vocab["member_of"]["parent_types"] == ["group"]
+    # every relation has a node except the clock alignment kind
+    # (Jess Haley 2026-10-22 [vocabulary nodes])
+    assert [n for n, r in vocab.items() if not r["relation"]["node"]] == [
+        "temporally aligned with"]
+    for gone in ("recorded_by", "measured_distance_to", "aliquot_of", "passage_of"):
+        assert gone not in vocab, f"{gone} was retired 2026-10-22"
     # entity-layer endpoint types match what the migrators mint
     assert vocab["has_author"]["child_types"] == ["dataset"]
     assert vocab["has_author"]["parent_types"] == ["person"]
@@ -3543,9 +3562,10 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     assert row["class"] == "directed_relation"
     assert row["timed"] is True, "the epoch scope makes this edge timed"
     assert row["ordered"] is True, "column order makes this edge ordered"
-    # the physical entity types since 2026-10-08 (`subject` merged into `entity`)
-    phys = ["organism", "culture", "tissue", "cell", "group", "device", "material"]
-    assert row["child_types"] == phys and row["parent_types"] == phys, (
+    # Jess Haley 2026-10-22 [member_of endpoints]: a member of a group entity;
+    # software joins the members (a software pipeline, T20)
+    phys = ["organism", "culture", "tissue", "cell", "group", "device", "material", "software"]
+    assert row["child_types"] == phys and row["parent_types"] == ["group"], (
         "a neuron is a member of an ensemble group")
 
 

@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 207,
+          "accepted_lines": 217,
           "accepted_lines_by_kind": {
-            "Decided by": 91,
+            "Decided by": 101,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1369,6 +1369,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [NDI ref fallback"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1072,
+              "kind": "Decided by",
+              "tag": "epoch to system link",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [epoch to system link]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1074,
+              "kind": "Decided by",
+              "tag": "channel types",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [channel types]"
+            },
+            {
               "document": "V_eta_linked_session_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1567,6 +1583,46 @@
               "tag": "relation inheritance",
               "date": "2026-10-21",
               "anchor": "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 117,
+              "kind": "Decided by",
+              "tag": "vocabulary nodes",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [vocabulary nodes]: every"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 121,
+              "kind": "Decided by",
+              "tag": "member_of endpoints",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [member_of endpoints]"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 123,
+              "kind": "Decided by",
+              "tag": "contained_in endpoints",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [contained_in endpoints]"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 125,
+              "kind": "Decided by",
+              "tag": "clock alignment relation bound",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [clock alignment relation"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 127,
+              "kind": "Decided by",
+              "tag": "distance",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [distance]"
             },
             {
               "document": "V_eta_source_unit_plan.md",
@@ -1975,6 +2031,30 @@
               "tag": "term registry closed value sets",
               "date": "2026-10-21",
               "anchor": "TEAM-SIGN-OFF [term registry closed value sets]"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 180,
+              "kind": "Decided by",
+              "tag": "developmental stage",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [developmental stage]"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 182,
+              "kind": "Decided by",
+              "tag": "Haley terms general",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [Haley terms general]"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 184,
+              "kind": "Decided by",
+              "tag": "serial number",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [serial number]: a"
             },
             {
               "document": "V_eta_time_reference_model_plan.md",

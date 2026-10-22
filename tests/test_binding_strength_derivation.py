@@ -384,7 +384,11 @@ def test_the_live_derivation_reports_its_denominator_first():
     # 66 -> 65 the same day (Jess Haley, value sets): subject_statement 12 -> 11,
     # the `study design` (OBI:0500000) row dropped; `ethics assessment` is
     # replaced in place by `ethics jurisdiction` (EMPTY:0000359).
-    assert total == 65, f'registry row count moved: {total}'
+    # 65 -> 62 on 2026-10-22 (Jess Haley, tenet audit): relation 34 -> 31,
+    # recorded_by ([epoch to system link]), measured_distance_to ([distance]),
+    # aliquot_of and passage_of ([vocabulary nodes] K5) retired, and the
+    # `clock_alignment` row added ([clock alignment relation bound]).
+    assert total == 62, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -395,7 +399,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`; 12 -> 11 the same day: `study design` dropped
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 34),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20
+    ("relation_bindings", 31),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20; 34 -> 31, 2026-10-22 (-4 retired, +clock_alignment)
     ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
     ("entity_type_bindings", 19),         # new 2026-10-08
 ])

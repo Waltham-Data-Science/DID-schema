@@ -174,3 +174,11 @@ TEAM-SIGN-OFF [term registry closed value sets]: jess@walthamdatascience.com / 2
 4. **Labels as of registration.** That a node's name is its ontology's label is
    checked when the term is decided, not on every run. An online re-check
    (OLS, OM's file) is not built.
+
+## 2026-10-22 -- tenet audit decisions on registered terms
+
+Decided by Jess Haley, 2026-10-22 [developmental stage]: the developmental stage binding takes the stage from an interaction (an observation or a calculation), never an assertion; its roots are UBERON:0000105 and the WBls life-stage root; binding names are the ontology labels ("Developmental Stage", "Species"). Her answer: "G1a, but also shouldn't a developmental stage always be an observation since it is time dependent?" Built: the row's class is [observation, calculation], its subtrees UBERON:0000105 and WBls:0000075 (worm life stage, the WBls root in OLS4), and the two variables are named "Developmental Stage" and "Species".
+
+Decided by Jess Haley, 2026-10-22 [Haley terms general]: EMPTY:0000350 is replaced by EMPTY:0000384 "signed distance to region boundary" with a condition pointing at the region's mask; the arena-mask method parameter EMPTY:0000122 by PATO:0001334 diameter; EMPTY:0000120 by EMPTY:0000385 "seeding volume". This lands before the Haley rerun (the post-merge rerun). The distance end point term and the plate kinds are kept (answer "O3 agreed"). Built here: EMPTY:0000384 and 0000385 are registered (staged until empty-ontology merges them), and EMPTY:0000350, 0000122 and 0000120 are marked obsolete with the term to consider; their rows stay until the NDI Haley writers stop writing them (the writer change is NDI's).
+
+Decided by Jess Haley, 2026-10-22 [serial number]: a device's serial number is an assertion, variable IAO:0000131 serial number, with a text value; the manufacturer is reached through `instance_of` to the product and `sold_by` (answer "P2a"). Built: IAO:0000131 is registered; the T18 sentence is in V_eta_tenets.md.
