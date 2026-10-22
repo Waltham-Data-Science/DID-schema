@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 194,
+          "accepted_lines": 204,
           "accepted_lines_by_kind": {
-            "Decided by": 78,
+            "Decided by": 88,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -895,6 +895,54 @@
               "tag": "covariate terms",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1491,
+              "kind": "Decided by",
+              "tag": "presentation dimension term",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [presentation dimension"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1493,
+              "kind": "Decided by",
+              "tag": "onset and offset terms",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [onset and offset terms]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1495,
+              "kind": "Decided by",
+              "tag": "row term deferred",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [row term deferred]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1497,
+              "kind": "Decided by",
+              "tag": "tuning grid",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1499,
+              "kind": "Decided by",
+              "tag": "covariate details",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [covariate details]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1501,
+              "kind": "Decided by",
+              "tag": "covariate rules named",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [covariate rules named]"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
@@ -1273,6 +1321,30 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [migrated masks have no"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1059,
+              "kind": "Decided by",
+              "tag": "encounter axis",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1061,
+              "kind": "Decided by",
+              "tag": "software dedup after pass one",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [software dedup after"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1065,
+              "kind": "Decided by",
+              "tag": "NDI ref fallback",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [NDI ref fallback]"
+            },
+            {
               "document": "V_eta_linked_session_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1591,6 +1663,14 @@
               "tag": "control record is a calculation",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [control record is a"
+            },
+            {
+              "document": "V_eta_stimulus_response_model_plan.md",
+              "line": 616,
+              "kind": "Decided by",
+              "tag": "presentation times from the file",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [presentation times from"
             },
             {
               "document": "V_eta_study_plan.md",

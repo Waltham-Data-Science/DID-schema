@@ -551,7 +551,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on a NUMERIC covariate (`origin`+`spacing`, `quantity`, `count` or `matrix`) along exactly ONE dimension (rule `covariate_cyclic`). Absent = false.",
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on an `origin`+`spacing` or a `quantity` covariate along exactly ONE dimension (rule `covariate_cyclic`; Jess Haley 2026-10-22 [covariate details], 5.1a: not on `count` or `matrix`). Absent = false.",
                     "constraints": {}
                 }
             ]
@@ -615,11 +615,10 @@
                 "covariates.cyclic",
                 "covariates.along",
                 "covariates.origin",
-                "covariates.quantity",
-                "covariates.count",
-                "covariates.matrix"
+                "covariates.spacing",
+                "covariates.quantity"
             ],
-            "statement": "`cyclic` is true only on a numeric covariate (`origin` + `spacing`, `quantity`, `count` or `matrix`) whose `along` has exactly one index (data_body plan AMENDMENT 6)."
+            "statement": "`cyclic` is true only on an `origin` + `spacing` or a `quantity` covariate whose `along` has exactly one index; never on `count`, `term`, `text`, `logical`, `matrix` or `document` (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate details], 5.1a)."
         },
         {
             "name": "dimension_chunk_sampled_only",
@@ -627,6 +626,27 @@
                 "dimensions.chunk"
             ],
             "statement": "`chunk` is set only on the dimensions of a sampled_body (was `key_chunk_sampled_only`)."
+        },
+        {
+            "name": "covariate_shape",
+            "fields": [
+                "covariates.along",
+                "dimensions.n",
+                "covariates.quantity",
+                "covariates.count",
+                "covariates.term",
+                "covariates.text",
+                "covariates.logical",
+                "covariates.matrix"
+            ],
+            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `document` covariate's document has exactly `n` entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
+        },
+        {
+            "name": "variable_once",
+            "fields": [
+                "covariates.variable"
+            ],
+            "statement": "A variable appears at most once across a statement's `conditions`, its value's `covariates` and any one of its bodies' `covariates`; the batch check, with covariates in place of keys (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
         }
     ]
 }

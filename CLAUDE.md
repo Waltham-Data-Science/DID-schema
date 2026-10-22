@@ -185,7 +185,13 @@ exists:
 
 A request that names the sibling's default branch is tried last. The step
 prints which ref it took and says FALLBACK when it fell back. **`V2` is not in
-that list.** Whether to change step 3 to `V2` is open.
+that list**, and this order stays until the merge. Decided (Jess Haley,
+2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]): DID-matlab's
+Test code workflow resolves NDI-matlab by the same-name branch, then
+`claude/v2-object-layer` (until NDI #1021 merges), then `V2`, then `main`; the
+integration branch is removed from it and from this repository's `tests.yml` in
+the first commit after the merge. At DID-matlab `7a49a9f` Test code still falls
+back straight to `main`.
 
 Three details are load-bearing and fail quietly if they regress (all asserted
 by `tests/test_ci_runs_the_whole_chain.py`): the clone is full, not shallow,

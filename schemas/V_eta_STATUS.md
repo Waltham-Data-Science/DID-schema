@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 194 decision line(s) accepted, 2 rejected; 41 cited by a class, 153 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 204 decision line(s) accepted, 2 rejected; 41 cited by a class, 163 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -389,6 +389,12 @@ field). If one decides a class's disposition, that class should cite it.
 - epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (V_eta_data_body_model_plan.md:1483).
 - tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (V_eta_data_body_model_plan.md:1485).
 - covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (V_eta_data_body_model_plan.md:1487).
+- presentation dimension term. "Decided by Jess Haley, 2026-10-22 [presentation dimension" (V_eta_data_body_model_plan.md:1491).
+- onset and offset terms. "Decided by Jess Haley, 2026-10-22 [onset and offset terms]" (V_eta_data_body_model_plan.md:1493).
+- row term deferred. "Decided by Jess Haley, 2026-10-22 [row term deferred]: the" (V_eta_data_body_model_plan.md:1495).
+- tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (V_eta_data_body_model_plan.md:1497).
+- covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (V_eta_data_body_model_plan.md:1499).
+- covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1501).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
@@ -436,6 +442,9 @@ field). If one decides a class's disposition, that class should cite it.
 - migrated masks are logical. "Decided by Jess Haley, 2026-10-22 [migrated masks are" (V_eta_go_forward_class_audit.md:1051).
 - sorter software. "Decided by Jess Haley, 2026-10-22 [sorter software]: a" (V_eta_go_forward_class_audit.md:1053).
 - migrated masks have no software. "Decided by Jess Haley, 2026-10-22 [migrated masks have no" (V_eta_go_forward_class_audit.md:1057).
+- encounter axis. "Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley" (V_eta_go_forward_class_audit.md:1059).
+- software dedup after pass one. "Decided by Jess Haley, 2026-10-22 [software dedup after" (V_eta_go_forward_class_audit.md:1061).
+- NDI ref fallback. "Decided by Jess Haley, 2026-10-22 [NDI ref fallback]" (V_eta_go_forward_class_audit.md:1065).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -476,6 +485,7 @@ field). If one decides a class's disposition, that class should cite it.
 - control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (V_eta_stimulus_response_model_plan.md:606).
 - empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:608).
 - control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (V_eta_stimulus_response_model_plan.md:610).
+- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (V_eta_stimulus_response_model_plan.md:616).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).

@@ -4035,19 +4035,27 @@
     },
     {
       "name": "onset time",
-      "node": "",
+      "node": "EMPTY:0000368",
       "definition": "The time at which the thing a position stands for (a stimulus, an event) comes into effect or becomes present, as distinct from the start of any preparation or period around it.",
-      "status": "staged",
-      "decided": "Jess Haley, 2026-10-22 [onset time], V_eta_data_body_model_plan.md: the name is decided; the node is Proposed (not decided) [covariate terms chosen] (EMPTY:0000368/0000369, empty-ontology #24)",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], V_eta_data_body_model_plan.md (name: [onset time]); EMPTY:0000368 minted in empty-ontology PR #24, not yet merged",
       "first_used_in": "NDI stimulus presentation fold (stimulus_presentation onsets)"
     },
     {
       "name": "offset time",
-      "node": "",
+      "node": "EMPTY:0000369",
       "definition": "The time at which the thing a position stands for (a stimulus, an event) ceases to be in effect or present, as distinct from the end of any period around it.",
-      "status": "staged",
-      "decided": "Jess Haley, 2026-10-22 [onset time], V_eta_data_body_model_plan.md: the name is decided; the node is Proposed (not decided) [covariate terms chosen] (EMPTY:0000368/0000369, empty-ontology #24)",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], V_eta_data_body_model_plan.md (name: [onset time]); EMPTY:0000369 minted in empty-ontology PR #24, not yet merged",
       "first_used_in": "NDI stimulus presentation fold (stimulus_presentation offsets); Haley import encounter exit times"
+    },
+    {
+      "name": "presentation of stimulus",
+      "node": "OBI:0000807",
+      "definition": "A planned process with the objective to expose an organism to a stimulus.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [presentation dimension term], V_eta_data_body_model_plan.md: the dimension of a stimulus presentation sequence (replaces the label `presentation`)",
+      "first_used_in": "NDI stimulus presentation fold (stimulus_presentation presentation dimension)"
     }
   ]
 }

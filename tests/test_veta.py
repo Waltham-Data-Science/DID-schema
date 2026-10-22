@@ -2926,8 +2926,12 @@ def test_all_axes_declarations_are_the_one_entry():
 
     assert not stale, f"`keys` came back on {stale} (AMENDMENT 6 replaced it)"
     assert sorted(found_dims) == sorted(found), (found_dims, found)
-    assert len({tuple(v) for v in found_dims.values()}) == 1, found_dims
+    # AMENDED 2026-10-22 (Jess Haley, [covariate details] 5.3a): `chunk` is a
+    # sampled_body's alone, so an acquisition_epoch's dimensions carry no `chunk`;
+    # apart from it the entry is still the one shape everywhere.
+    assert len({tuple(s for s in v if s != "chunk") for v in found_dims.values()}) == 1, found_dims
     assert found_dims["data"] == ["term", "n", "chunk"], found_dims["data"]
+    assert "chunk" not in found_dims.get("acquisition_epoch", []), found_dims
 
     folded = {c: s for c, s in found.items() if c != "zarr"}
     # Lightsheet L3 (2026-09-25): the body mount is data_body now (inherited by
@@ -4258,7 +4262,8 @@ def test_a6_rules_replace_the_key_rules():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     assert set(rules) == {"covariate_one_value_form", "covariate_along",
                           "covariate_single_dimension_forms", "covariate_cyclic",
-                          "dimension_chunk_sampled_only"}, sorted(rules)
+                          "dimension_chunk_sampled_only", "covariate_shape",
+                          "variable_once"}, sorted(rules)
     for old in ("key_regular_origin_spacing", "key_positions_one_form",
                 "key_chunk_sampled_only"):
         assert old not in rules
@@ -4295,18 +4300,54 @@ def _covariate_problems(dimensions, covariate):
         out.append("along out of range")
     if ("origin" in forms or "document" in forms) and len(along) != 1:
         out.append("single-dimension form along several")
+    # [covariate details] 5.1a: `cyclic` only on origin+spacing or quantity
     if covariate.get("cyclic") and (
-            len(along) != 1 or not {"origin", "quantity", "count", "matrix"} & set(forms)):
-        out.append("cyclic not numeric along one")
+            len(along) != 1 or not {"origin", "quantity"} & set(forms)):
+        out.append("cyclic not origin+spacing or quantity along one")
+    # rule `covariate_shape` ([covariate rules named] 6.1a)
+    if len(forms) == 1 and not out and forms[0] not in ("origin", "document"):
+        form = forms[0]
+        v = covariate[form]["value"] if form == "quantity" else covariate[form]
+        want = [dimensions[k]["n"] for k in along]
+        got = _nested_shape(v)
+        if got[:len(want)] != want or (form != "matrix" and len(got) != len(want)) or (
+                form == "matrix" and len(got) == len(want)):
+            out.append(f"shape {got}, along extents {want}")
+    return out
+
+
+def _nested_shape(v):
+    """The shape of a JSON nested list (a scalar or a {name} term is one datum)."""
+    shape = []
+    while isinstance(v, list):
+        shape.append(len(v))
+        v = v[0] if v else None
+    return shape
+
+
+def _variable_once_problems(conditions, value_covariates, bodies_covariates):
+    """Rule `variable_once`: a variable at most once across a statement's conditions,
+    its value's covariates and any ONE body's covariates."""
+    def key(v):
+        return (v.get("node") or "").lower() or ("name", (v.get("name") or "").lower())
+    out = []
+    shared = [key(c["variable"]) for c in conditions] + [
+        key(c["variable"]) for c in value_covariates]
+    for body in bodies_covariates or [[]]:
+        seen = shared + [key(c["variable"]) for c in body]
+        dup = sorted({str(k) for k in seen if seen.count(k) > 1})
+        if dup:
+            out.append(f"variable more than once: {dup}")
     return out
 
 
 def test_a6_the_stimulus_presentation_example_satisfies_the_rules():
-    dims = [{"term": {"name": "presentation"}, "n": 3}]
+    # [presentation dimension term]: OBI:0000807, not the label `presentation`
+    dims = [{"term": {"node": "OBI:0000807", "name": "presentation of stimulus"}, "n": 3}]
     covs = [
-        {"variable": {"name": "onset time"}, "along": [0],
+        {"variable": {"node": "EMPTY:0000368", "name": "onset time"}, "along": [0],
          "quantity": {"value": [0.0, 2.0, 4.0], "source_value": [0.0, 2.0, 4.0]}},
-        {"variable": {"name": "offset time"}, "along": [0],
+        {"variable": {"node": "EMPTY:0000369", "name": "offset time"}, "along": [0],
          "quantity": {"value": [1.0, 3.0, 5.0], "source_value": [1.0, 3.0, 5.0]}},
         {"variable": {"node": "XCO:0000099", "name": "control condition"}, "along": [0],
          "logical": [False, True, False]},
@@ -4325,12 +4366,31 @@ def test_a6_rule_counterexamples_are_refused():
         "origin without spacing": {"variable": {}, "along": [0], "origin": {"value": 0}},
         "single-dimension form along several": {
             "variable": {}, "along": [0, 1], "origin": {"value": 0}, "spacing": {"value": 1}},
-        "cyclic not numeric along one": {
-            "variable": {}, "along": [0], "term": [{"name": "a"}], "cyclic": True},
+        "cyclic not origin+spacing or quantity along one": {
+            "variable": {}, "along": [0], "term": [{"name": "a"}] * 4, "cyclic": True},
+        # INVERTED 2026-10-22 ([covariate details] 5.1a): `count` and `matrix` were
+        # allowed `cyclic`; only origin+spacing and quantity are now
+        "cyclic not origin+spacing or quantity along one (count)": {
+            "variable": {}, "along": [0], "count": [1, 2, 3, 4], "cyclic": True},
+        "cyclic not origin+spacing or quantity along one (matrix)": {
+            "variable": {}, "along": [0], "matrix": [[0, 0]] * 4, "cyclic": True},
+        "shape": {"variable": {}, "along": [0], "count": [1, 2, 3]},
+        "shape (order)": {"variable": {}, "along": [1, 0], "logical": [[True] * 5] * 4},
+        "shape (matrix has its own axes)": {
+            "variable": {}, "along": [0], "matrix": [1, 2, 3, 4]},
     }
     for why, c in bad.items():
         got = _covariate_problems(two, c)
-        assert any(g.startswith(why) for g in got), (why, got)
+        assert any(g.startswith(why.split(" (")[0]) for g in got), (why, got)
+    # the shape rule's positive cases: along order, a matrix's own axes after them
+    ok = [{"variable": {}, "along": [1, 0], "logical": [[True] * 4] * 5},
+          {"variable": {}, "along": [0], "matrix": [[0.0, 1.0]] * 4},
+          {"variable": {}, "along": [0], "quantity": {"value": [0.0, 1.0, 2.0, 3.0]},
+           "cyclic": True},
+          {"variable": {}, "along": [1], "origin": {"value": 0}, "spacing": {"value": 1},
+           "cyclic": True}]
+    for c in ok:
+        assert _covariate_problems(two, c) == [], c
     # a document form along one dimension is fine; -1 is "not used"
     assert _covariate_problems(two, {"variable": {}, "along": [1], "document": 0}) == []
     assert _covariate_problems(two, {"variable": {}, "along": [1], "document": -1}) == [
@@ -4341,7 +4401,10 @@ def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():
     for name in ("dimensions", "covariates"):
         _e, ep = _a6_fields("acquisition_epoch", name)
         _d, da = _a6_fields("data", name)
-        assert list(ep) == list(da), name
+        # [covariate details] 5.3a: an epoch's dimensions carry no `chunk`
+        assert list(ep) == [k for k in da if not (name == "dimensions" and k == "chunk")], name
+    _e, ep_dims = _a6_fields("acquisition_epoch", "dimensions")
+    assert "chunk" not in ep_dims
     _e, ep = _a6_fields("acquisition_epoch", "covariates")
     assert ep["document"]["documentation"].startswith("NOT USABLE HERE")
     names = {f["name"] for f in RECORDS["acquisition_epoch"][1]["fields"]}
@@ -4384,3 +4447,69 @@ def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
     row = [t for t in terms if t["node"] == "XCO:0000099"]
     assert len(row) == 1 and row[0]["name"] == "control condition", row
     assert "[control as covariate]" in row[0]["decided"]
+
+
+# ---------------------------------------------------------------------------
+# 2026-10-22, Jess Haley, V_eta_data_body_model_plan.md: [covariate details],
+# [covariate rules named], [presentation dimension term], [onset and offset
+# terms], [tuning grid].
+# ---------------------------------------------------------------------------
+
+def test_a6_cyclic_only_on_origin_spacing_or_quantity():
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    r = rules["covariate_cyclic"]
+    assert set(r["fields"]) == {"covariates.cyclic", "covariates.along", "covariates.origin",
+                                "covariates.spacing", "covariates.quantity"}, r["fields"]
+    assert "[covariate details]" in r["statement"]
+    for cls in ("data", "acquisition_epoch"):
+        _c, cov = _a6_fields(cls, "covariates")
+        doc = cov["cyclic"]["documentation"]
+        assert "`origin`+`spacing` or a `quantity`" in doc and "not on `count` or `matrix`" in doc, cls
+
+
+def test_a6_covariate_shape_and_variable_once_are_named_rules():
+    """The names are shared with DID-matlab did2.build, which enforces them."""
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    shape, once = rules["covariate_shape"], rules["variable_once"]
+    assert "covariates.along" in shape["fields"] and "dimensions.n" in shape["fields"]
+    assert "covariates.matrix" in shape["fields"]
+    assert "in `along` order" in shape["statement"]
+    assert "followed by the array's own shape" in shape["statement"]
+    assert once["fields"] == ["covariates.variable"]
+    assert "at most once" in once["statement"] and "`conditions`" in once["statement"]
+    assert "any one of its bodies' `covariates`" in once["statement"]
+
+
+def test_a6_variable_once_counterexamples():
+    onset = {"variable": {"node": "EMPTY:0000368", "name": "onset time"}}
+    ctrl = {"variable": {"node": "XCO:0000099", "name": "control condition"}}
+    assert _variable_once_problems([], [onset, ctrl], [[], []]) == []
+    # two bodies may each carry the same variable: each is checked on its own
+    assert _variable_once_problems([], [], [[onset], [onset]]) == []
+    assert _variable_once_problems([onset], [onset], []) != []
+    assert _variable_once_problems([], [onset], [[ctrl], [onset]]) != []
+    # a label and a node are different keys; two labels of one name are one
+    assert _variable_once_problems([{"variable": {"name": "x"}}], [{"variable": {"name": "X"}}],
+                                   []) != []
+
+
+def test_a6_presentation_onset_offset_terms_are_registered():
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, "schemas", "V_eta_term_registry.json")) as fh:
+        terms = json.load(fh)["terms"]
+    want = {"OBI:0000807": ("presentation of stimulus", "[presentation dimension term]"),
+            "EMPTY:0000368": ("onset time", "[onset and offset terms]"),
+            "EMPTY:0000369": ("offset time", "[onset and offset terms]")}
+    for node, (name, tag) in want.items():
+        row = [t for t in terms if t["node"] == node]
+        assert len(row) == 1 and row[0]["name"] == name, (node, row)
+        assert row[0]["status"] == "decided" and tag in row[0]["decided"], row
+    assert not [t for t in terms if t["name"] in ("onset time", "offset time")
+                and t["status"] == "staged"]
+
+
+def test_a6_tuning_curve_dimensions_follow_the_tuning_grid_decision():
+    value = next(f for f in RECORDS["tuning_curve"][1]["fields"] if f["name"] == "value")
+    doc = value["documentation"]
+    assert "full grid" in doc and "`stimulus condition` dimension" in doc
+    assert "[tuning grid]" in doc

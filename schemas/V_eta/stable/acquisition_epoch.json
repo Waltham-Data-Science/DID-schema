@@ -277,7 +277,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The axes of the epoch's stored array, in array order: dimensions[k] IS array axis k. Empty for a bare scalar. acquisition_epoch's own copy of `data`'s `dimensions` (the class does not derive from `data`; deriving it waits for the epoch-family re-walk, #73 audit 2 D13), moved with it from `keys` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [epoch covariates], answer \"4y\"). What is known along a dimension is a `covariate`.",
+            "documentation": "The axes of the epoch's stored array, in array order: dimensions[k] IS array axis k. Empty for a bare scalar. acquisition_epoch's own copy of `data`'s `dimensions` (the class does not derive from `data`; deriving it waits for the epoch-family re-walk, #73 audit 2 D13), moved with it from `keys` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [epoch covariates], answer \"4y\"). What is known along a dimension is a `covariate`. An epoch's dimensions carry no `chunk` (Jess Haley 2026-10-22 [covariate details], 5.3a): `chunk` is a sampled_body's.",
             "constraints": {},
             "fields": [
                 {
@@ -343,19 +343,6 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `document` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
-                    "constraints": {}
-                },
-                {
-                    "name": "chunk",
-                    "type": "integer",
-                    "blank_value": 0,
-                    "default_value": 0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Positions per chunk along this dimension when the bytes are split across several files (a tiled image). Chunk k is file-series member k; every member is present. (On the key entry until 2026-10-22.)",
                     "constraints": {}
                 }
             ]
@@ -795,7 +782,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on a NUMERIC covariate (`origin`+`spacing`, `quantity`, `count` or `matrix`) along exactly ONE dimension (rule `covariate_cyclic`). Absent = false.",
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on an `origin`+`spacing` or a `quantity` covariate along exactly ONE dimension (rule `covariate_cyclic`; Jess Haley 2026-10-22 [covariate details], 5.1a: not on `count` or `matrix`). Absent = false.",
                     "constraints": {}
                 }
             ]

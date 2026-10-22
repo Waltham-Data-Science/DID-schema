@@ -1055,3 +1055,12 @@ Decided by Jess Haley, 2026-10-22 [sorter software]: a spike-sorter output with 
 Deferred by Jess Haley, 2026-10-22, to before the Haley V2 import: whether the Haley import's acquisition systems should carry the software entities naming NDI classes (`ndi.daq.system.image`, `ndi.file.navigator.bodies`, `ndi.daq.reader.image.ndr`; Haley import decisions #29, #33). Not decided; nothing changes until then.
 
 Decided by Jess Haley, 2026-10-22 [migrated masks have no software]: a migrated v1 imageStack mask calculation carries no `software_id`, because v1 `imageStack` records none ([calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md); the native Haley import names her analysis package. Answer "2y".
+
+Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley density estimate's dimension is NCIT:C62143 Encounter, with `onset time` as a covariate along it, not a dimension named "encounter onset time" (answer "7.4a").
+
+Decided by Jess Haley, 2026-10-22 [software dedup after pass one]: duplicate software, operating-system and interpreter entities are merged right after the first pass, not only at the end, with a test that the final document set is unchanged (answer "10a"; Soph peaked at 14.4 GB RSS plus 5 GB swap on a 16 GB runner, 665k documents before the end-of-run merge, 224k after).
+
+Deferred by Jess Haley, 2026-10-22, until before the Haley V2 rerun (after the merge): whether the Haley import's acquisition systems carry the NDI software entities ("8 defer for a little longer"; "Decision 8 needs to come before the Haley rerun").
+
+Decided by Jess Haley, 2026-10-22 [NDI ref fallback]: DID-matlab's Test code workflow resolves its NDI-matlab sibling by the same-name branch, then `claude/v2-object-layer` (NDI #1021's head, until #1021 merges), then `V2`, then `main`, instead of falling back straight to `main` (where `+ndi/+migrate` does not exist, so the cross-repo divergence check skipped); the integration branch is removed from it and from did-schema's tests.yml in the first commit after the merge (answers "9 A, but I think remove the object layer branch" and then "B"; the order with the integration branch ahead of `V2` is the one that keeps CI reading #1021 before the merge, as clarified to her on 2026-10-22).
+
