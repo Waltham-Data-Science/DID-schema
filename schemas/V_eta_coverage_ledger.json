@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 269,
+          "accepted_lines": 270,
           "accepted_lines_by_kind": {
-            "Decided by": 152,
+            "Decided by": 153,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2420,13 +2420,21 @@
               "document": "V_eta_term_registry_plan.md",
               "line": 184,
               "kind": "Decided by",
+              "tag": "region by condition and input",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [region by condition and"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 186,
+              "kind": "Decided by",
               "tag": "serial number",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [serial number]: a"
             },
             {
               "document": "V_eta_term_registry_plan.md",
-              "line": 186,
+              "line": 188,
               "kind": "Decided by",
               "tag": "registry holds nodes",
               "date": "2026-10-22",
@@ -2434,7 +2442,7 @@
             },
             {
               "document": "V_eta_term_registry_plan.md",
-              "line": 188,
+              "line": 190,
               "kind": "Decided by",
               "tag": "synonyms",
               "date": "2026-10-22",
@@ -2442,7 +2450,7 @@
             },
             {
               "document": "V_eta_term_registry_plan.md",
-              "line": 190,
+              "line": 192,
               "kind": "Decided by",
               "tag": "ethics assessment to jurisdiction",
               "date": "2026-10-22",

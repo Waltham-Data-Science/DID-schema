@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 269 decision line(s) accepted, 2 rejected; 41 cited by a class, 228 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 270 decision line(s) accepted, 2 rejected; 41 cited by a class, 229 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -577,10 +577,11 @@ field). If one decides a class's disposition, that class should cite it.
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (V_eta_term_registry_plan.md:180).
 - Haley terms general. "Decided by Jess Haley, 2026-10-22 [Haley terms general]" (V_eta_term_registry_plan.md:182).
-- serial number. "Decided by Jess Haley, 2026-10-22 [serial number]: a" (V_eta_term_registry_plan.md:184).
-- registry holds nodes. "Decided by Jess Haley, 2026-10-22 [registry holds nodes]" (V_eta_term_registry_plan.md:186).
-- synonyms. "Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is" (V_eta_term_registry_plan.md:188).
-- ethics assessment to jurisdiction. "Decided by Jess Haley, 2026-10-22 [ethics assessment to" (V_eta_term_registry_plan.md:190).
+- region by condition and input. "Decided by Jess Haley, 2026-10-22 [region by condition and" (V_eta_term_registry_plan.md:184).
+- serial number. "Decided by Jess Haley, 2026-10-22 [serial number]: a" (V_eta_term_registry_plan.md:186).
+- registry holds nodes. "Decided by Jess Haley, 2026-10-22 [registry holds nodes]" (V_eta_term_registry_plan.md:188).
+- synonyms. "Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is" (V_eta_term_registry_plan.md:190).
+- ethics assessment to jurisdiction. "Decided by Jess Haley, 2026-10-22 [ethics assessment to" (V_eta_term_registry_plan.md:192).
 - time_reference. "TEAM-SIGN-OFF [time_reference]: jess@walthamdatascience.com" (V_eta_time_reference_model_plan.md:468).
 - time_reference uniqueness rule. "TEAM-SIGN-OFF [time_reference uniqueness rule]" (V_eta_time_reference_model_plan.md:735).
 - epoch and session wall-clock time. "TEAM-SIGN-OFF [epoch and session wall-clock time]" (V_eta_time_reference_model_plan.md:762).
