@@ -12889,10 +12889,10 @@
       "second_pass": [
         "manipulation + item",
         "item",
-        "visual_grating",
+        "method",
         "sampled_body"
       ],
-      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToTimedSequence, called from local.m since 2026-08-17): the presentation becomes a timed_sequence_manipulation around its preserved id, referencing standalone visual_grating documents, with a sampled_body; a standalone timed_sequence carries the multi-subject case. The earlier flattening pass to visual_grating_manipulation is no longer called. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
+      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToItem, called from local.m): the presentation becomes a manipulation + item around its preserved id, referencing one standalone `method` document per distinct stimulus (gratings and non-gratings alike: TEAM-SIGN-OFF [method] and Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods], V_eta_method_plan.md), with a sampled_body; the control stimulus is value.control_item. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact. (Was timed_sequence + visual_grating before 2026-10-04 / 2026-10-21.)",
       "target_flags": "returns [] (leaves presentation as-is) when no animal responded",
       "decided_by_citation": {
         "document": "V_eta_stimulus_model_plan.md",

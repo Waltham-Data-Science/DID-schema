@@ -119,10 +119,11 @@ HUSK_BRIDGE = {
 # per-corpus DONE verdict needs the census of the FULL ndi.migrate.local output.
 SECOND_PASS = {
     "stimulus_presentation": {
-        "emits": "visual_grating (deduped) + item_manipulation "
-                 "(+ item.control_item; was timed_sequence, renamed 2026-10-04)",
-        "assembler": "ndi.migrate.internal.stimulusPresentationToTimedSequence "
-                     "(local.m resolveStimulusPresentations, wired :723)",
+        "emits": "one method document per distinct stimulus (deduped; was "
+                 "visual_grating until 2026-10-21) + manipulation + item "
+                 "(+ item.control_item; was timed_sequence until 2026-10-04)",
+        "assembler": "ndi.migrate.internal.stimulusPresentationToItem "
+                     "(local.m, the stimulus step)",
         "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "
                "signed decomposition replaced the flattening pass 2026-08-17.",
         "caveat": "a presentation with no responding animal is left as "

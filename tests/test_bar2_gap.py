@@ -94,7 +94,8 @@ def test_second_pass_overlay_beats_a_stale_ledger():
                               _row("no", targets=["stimulus_presentation"],
                                    decided=["item_manipulation"]))
     assert v == "SECOND_PASS"
-    assert "item_manipulation" in detail
+    assert "manipulation + item" in detail
+    assert "method" in detail
 
 
 def test_second_pass_does_not_make_a_corpus_not_done(tmp_path):
