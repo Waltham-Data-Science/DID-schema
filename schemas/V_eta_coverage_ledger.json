@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 246,
+          "accepted_lines": 248,
           "accepted_lines_by_kind": {
-            "Decided by": 129,
+            "Decided by": 131,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2263,6 +2263,22 @@
               "tag": "serial number",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [serial number]: a"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 186,
+              "kind": "Decided by",
+              "tag": "registry holds nodes",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [registry holds nodes]"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 188,
+              "kind": "Decided by",
+              "tag": "synonyms",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is"
             },
             {
               "document": "V_eta_time_reference_model_plan.md",

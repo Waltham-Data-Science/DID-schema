@@ -151,20 +151,22 @@ being re-provisioned.
 
 ### The repositories
 
-| repo | branch line | open PR (2026-10-21) | what lives there |
+| repo | branch line | open PR (2026-10-22) | what lives there |
 |---|---|---|---|
 | did-schema (Waltham-Data-Science) | `main` | #88, head `claude/ecstatic-pascal-md91fw` | V_eta JSON, registries, plan documents, gate tools |
 | DID-matlab (VH-Lab) | `V2` | #218, head `claude/ecstatic-pascal-md91fw` | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
 | NDI-matlab (VH-Lab) | `V2` | #1021, head `claude/v2-object-layer` | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates are the v1 truth |
-| empty-ontology (Waltham-Data-Science) | `V2` | #22, head `claude/ome-zarr-format` | EMPTY terms, `src/ontology/empty-edit.owl` |
-| ndi-ontology-matlab (Waltham-Data-Science) | `main` | #11 | ontology lookups, `NDIC.txt` |
+| empty-ontology (Waltham-Data-Science) | `V2` | #24 (`claude/onset-offset-time`), then #25 (`claude/audit-terms-2026-10-22`); #22 and #23 merged | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
+| ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11 merged) | ontology lookups, `NDIC.txt` |
 
 did-schema also has a `V2` branch. Check with `git rev-parse origin/V2
 origin/main` before assuming what it holds.
 
-Merge order recorded in PR #88: empty-ontology #22 and ndi-ontology-matlab #11
-first; then did-schema #88 into `main`; then DID-matlab #218 and NDI-matlab
-#1021 together into `V2`.
+Merge order: empty-ontology #24 then #25 into `V2` first (#22, #23 and
+ndi-ontology-matlab #11 are merged); then did-schema #88 into `main`; then
+DID-matlab #218 and NDI-matlab #1021 together into `V2`. The PR table above
+names branches, not heads: read a head with `git ls-remote` or `git rev-parse`
+when you need it, never from this file.
 
 If the local checkout may be behind, `git fetch` and compare with `origin`
 before measuring anything. A measurement taken on a rewound tree looks exactly
@@ -190,8 +192,8 @@ that list**, and this order stays until the merge. Decided (Jess Haley,
 Test code workflow resolves NDI-matlab by the same-name branch, then
 `claude/v2-object-layer` (until NDI #1021 merges), then `V2`, then `main`; the
 integration branch is removed from it and from this repository's `tests.yml` in
-the first commit after the merge. At DID-matlab `7a49a9f` Test code still falls
-back straight to `main`.
+the first commit after the merge. Built in DID-matlab `6236cc1` (Test code and
+the quick migrator run) and `4963355` (`test-corpus.yml`).
 
 Three details are load-bearing and fail quietly if they regress (all asserted
 by `tests/test_ci_runs_the_whole_chain.py`): the clone is full, not shallow,
@@ -213,14 +215,37 @@ checked out. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling
 
 - DID-matlab `test-builder.yml`: a did-schema branch with the same name, else
   `main`.
-- DID-matlab `test-code.yml`, `test-fixtures.yml` and `test-corpus.yml`
-  (DID-matlab #218 head `dc56951`): the #88 branch
-  `claude/ecstatic-pascal-md91fw`.
-- NDI-matlab `test-eta-migrate*.yml` and `test-import-v2.yml` (NDI #1021 head
-  `cd85606`): `DID_SCHEMA_REF: claude/ecstatic-pascal-md91fw`.
+- DID-matlab `test-code.yml`, `test-fixtures.yml` and `test-corpus.yml`: the
+  #88 branch `claude/ecstatic-pascal-md91fw`.
+- NDI-matlab `test-eta-migrate*.yml` and `test-import-v2.yml`:
+  `DID_SCHEMA_REF: claude/ecstatic-pascal-md91fw`.
+
+Grep the workflow files for the current pins; do not trust this list.
 
 The `v_eta-pre73` pin was dropped when the migrator port landed. These move to
 `main` when #88 merges.
+
+### Changes the siblings must follow land in the siblings first
+
+*(2026-10-22, Jess Haley, after a declared rule broke every sibling CI that
+reads #88.)* did-schema is read live by DID-matlab and NDI-matlab CI, so a
+schema change that their code must follow goes in this order:
+
+1. **A new named rule:** DID-matlab's `+did2/+build/private/checkRules.m` (and
+   its test) lands first; only then does a class declare the rule.
+   `did2.build` refuses a rule it cannot check (`did2:build:unknownRule`).
+2. **A removed or renamed field, a retired class, a required edge:** the
+   writers and readers in DID-matlab and NDI-matlab change first (or read both
+   shapes), then the schema removes the old shape.
+3. **A name that code compares** (relation, entity type, channel type): code
+   compares by node first, then the stored name changes.
+
+The schema side records the decision line at once and builds the part that
+breaks nothing; what waits is listed in the PR, not left implied.
+
+**One working copy per agent.** An agent works in its own clone or worktree,
+never in a checkout another agent or the main session is using. Two writers in
+one working tree leave half-built changes that nobody can safely commit.
 
 ### The JSON under `schemas/V_eta/` is the source
 
@@ -366,9 +391,11 @@ or the status board.
 
 ## 6. Open caveats (true at the heads named in the notes)
 
-- **No corpus figure yet describes PR #88's shape.** The migrator port landed
-  on DID-matlab #218 (2026-10-21); the first #88 corpus run was in progress at
-  that time.
+- **No corpus is reported done.** Corpus integrity was measured on the #88
+  shape on 2026-10-22 (NDI-matlab runs 39742960222 B, 39742963989 Dab,
+  39746425434 Soph), at heads since superseded by the tenet-audit batch
+  (`review/tenet-audit-2026-10-22/`). Rerun on the final heads before reporting
+  any corpus done.
 - **`BindingConformance` is disarmed by default.** DID-matlab
   `+did2/+schema/cache.m` reads it with `envFlag('DID_ENFORCE_BINDING_CONFORMANCE')`,
   so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and
