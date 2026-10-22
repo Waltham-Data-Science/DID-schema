@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 193 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 36 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 56400 |
+| build: migrator lines inspected | 56423 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 36641 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 19759 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 19782 |
 | build: classes queried | 7 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
@@ -188,7 +188,7 @@ artifact are therefore a FLOOR.
 |---|---|
 | `DID-matlab:convert/resolveEpochProbemap.m:1400` | `entry.class` |
 | `DID-matlab:convert/resolveEpochProbemap.m:821` | `kind.className` |
-| `DID-matlab:convert/resolveLawnPlateSubjects.m:1017` | `entry{1}` |
+| `DID-matlab:convert/resolveLawnPlateSubjects.m:1031` | `entry{1}` |
 | `DID-matlab:convert/universalRenames.m:240` | `v2ClassName;` |
 | `DID-matlab:migrators_j/image_stack.m:263` | `calculation + kind` |
 | `DID-matlab:migrators_j/ontology_table_row.m:233` | `measures{i, 2}` |

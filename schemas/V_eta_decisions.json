@@ -1849,13 +1849,13 @@
         ],
         "packages_missing": [],
         "files_read": 229,
-        "lines_read": 56400,
+        "lines_read": 56423,
         "classes_queried": 7,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
           "DID-matlab:convert/resolveEpochProbemap.m:1400 (entry.class)",
           "DID-matlab:convert/resolveEpochProbemap.m:821 (kind.className)",
-          "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
+          "DID-matlab:convert/resolveLawnPlateSubjects.m:1031 (entry{1})",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/image_stack.m:263 (calculation + kind)",
           "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
@@ -1894,7 +1894,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 36641,
-          "batch_post_pass": 19759
+          "batch_post_pass": 19782
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1928,7 +1928,7 @@
           "batch_post_pass": [
             "DID-matlab:convert/resolveEpochProbemap.m:1400 (entry.class)",
             "DID-matlab:convert/resolveEpochProbemap.m:821 (kind.className)",
-            "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
+            "DID-matlab:convert/resolveLawnPlateSubjects.m:1031 (entry{1})",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
         },
