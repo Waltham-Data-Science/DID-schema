@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag. The volume lives in `sampled_body` documents, one per plane, each stating what it holds as one body condition {variable: represented quantity, term: response estimate | significance} -- bodies have no order, so the plane is said on the body (#73 audit 2 D11; `planes[]` dropped). The keys (including real lag coordinates) are each body's `keys`. The inline `value` declares no sub-fields, so a receptive field is ALWAYS body-backed: `data_body` is true and `value` stays empty (rule `value_inline_or_body`, data_body AMENDMENT 5, 2026-10-21).",
+            "documentation": "A spatiotemporal receptive field: the response volume over two spatial axes and a time lag. The volume lives in `sampled_body` documents, one per plane, each stating what it holds as one body condition {variable: represented quantity, term: response estimate | significance} -- bodies have no order, so the plane is said on the body (#73 audit 2 D11; `planes[]` dropped). The axes are each body's `dimensions`, and the lag coordinates (and any other per-position fact) its `covariates`. The inline `value` declares no sub-fields, so a receptive field is ALWAYS body-backed: `data_body` is true and `value` stays empty (rule `value_inline_or_body`, data_body AMENDMENT 5, 2026-10-21).",
             "constraints": {},
             "fields": []
         }

@@ -215,7 +215,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's keys and conditions and this body's (a batch check: the owner does not list its bodies). Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
+            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's conditions and covariates and this body's (a batch check: the owner does not list its bodies). Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
             "constraints": {},
             "fields": [
                 {

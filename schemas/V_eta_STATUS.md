@@ -290,7 +290,7 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `binaryseries_parameters` | in_progress | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). |
 | `cellTypeLabels` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `control_stimulus_ids` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
+| `control_stimulus_ids` | retire | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (V_eta_stimulus_response_model_plan.md:614). |
 | `daqmetadatareader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
 | `daqmetadatareader_epochdata_ingested` | in_progress | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). |
 | `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 181 decision line(s) accepted, 2 rejected; 40 cited by a class, 141 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 194 decision line(s) accepted, 2 rejected; 41 cited by a class, 153 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -379,6 +379,16 @@ field). If one decides a class's disposition, that class should cite it.
 - sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (V_eta_data_body_model_plan.md:1396).
 - format is an ontology term. "Decided by Jess Haley, 2026-10-14 [format is an ontology" (V_eta_data_body_model_plan.md:1398).
 - NDI binary format. "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the" (V_eta_data_body_model_plan.md:1400).
+- covariates. "Decided by Jess Haley, 2026-10-22 [covariates]" (V_eta_data_body_model_plan.md:1469).
+- conditions stay on the statement. "Decided by Jess Haley, 2026-10-22 [conditions stay on the" (V_eta_data_body_model_plan.md:1471).
+- along by index. "Decided by Jess Haley, 2026-10-22 [along by index]" (V_eta_data_body_model_plan.md:1473).
+- matrix covariate. "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a" (V_eta_data_body_model_plan.md:1475).
+- onset time. "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus" (V_eta_data_body_model_plan.md:1477).
+- no complete. "Decided by Jess Haley, 2026-10-22 [no complete]" (V_eta_data_body_model_plan.md:1479).
+- bare dimension. "Decided by Jess Haley, 2026-10-22 [bare dimension]: a" (V_eta_data_body_model_plan.md:1481).
+- epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (V_eta_data_body_model_plan.md:1483).
+- tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (V_eta_data_body_model_plan.md:1485).
+- covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (V_eta_data_body_model_plan.md:1487).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
@@ -425,6 +435,7 @@ field). If one decides a class's disposition, that class should cite it.
 - sorter keys. "Decided by Jess Haley, 2026-10-21 [sorter keys]" (V_eta_go_forward_class_audit.md:1049).
 - migrated masks are logical. "Decided by Jess Haley, 2026-10-22 [migrated masks are" (V_eta_go_forward_class_audit.md:1051).
 - sorter software. "Decided by Jess Haley, 2026-10-22 [sorter software]: a" (V_eta_go_forward_class_audit.md:1053).
+- migrated masks have no software. "Decided by Jess Haley, 2026-10-22 [migrated masks have no" (V_eta_go_forward_class_audit.md:1057).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -433,6 +444,7 @@ field). If one decides a class's disposition, that class should cite it.
 - shape movie note. "Decided by Jess Haley, 2026-10-22 [shape movie note]: a" (V_eta_method_plan.md:194).
 - Hartley without enumeration. "Decided by Jess Haley, 2026-10-22 [Hartley without" (V_eta_method_plan.md:196).
 - spatial phase in degrees. "Decided by Jess Haley, 2026-10-22 [spatial phase in" (V_eta_method_plan.md:198).
+- flashed bar parent. "Decided by Jess Haley, 2026-10-22 [flashed bar parent]" (V_eta_method_plan.md:200).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (V_eta_ngrid_family_findings.md:419).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).
@@ -494,9 +506,9 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:529).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:997).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:999).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1000).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1017).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1019).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1020).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (V_eta_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
 - time_reference. "TEAM-SIGN-OFF [time_reference]: jess@walthamdatascience.com" (V_eta_time_reference_model_plan.md:468).

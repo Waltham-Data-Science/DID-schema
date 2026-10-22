@@ -329,7 +329,7 @@
     "no_target": {
       "rows_naming_no_target": 9,
       "by_reason": {
-        "dissolved": 3,
+        "dissolved": 4,
         "disputed": 1,
         "passthrough": 2,
         "unrecorded": 3
@@ -363,11 +363,12 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 14,
-        "3": 51,
+        "2": 13,
+        "3": 52,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
+        "control_stimulus_ids",
         "epochid"
       ],
       "per_stage_state_counts": {
@@ -377,14 +378,14 @@
         },
         "2": {
           "not measured": 45,
-          "yes": 67,
-          "n/a": 3
+          "yes": 66,
+          "n/a": 4
         },
         "3": {
           "not measured": 45,
           "yes": 50,
-          "no": 17,
-          "n/a": 3
+          "no": 16,
+          "n/a": 4
         },
         "4": {
           "not measured": 115
@@ -392,7 +393,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 102,
-        "2": 67,
+        "2": 66,
         "3": 50,
         "4": 0
       },
@@ -406,8 +407,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 38,
-          "2": 17,
+          "1": 39,
+          "2": 16,
           "3": 50,
           "4": 0
         },
@@ -481,7 +482,7 @@
       },
       "no_target_recorded": {
         "denominator": 115,
-        "rows": 48,
+        "rows": 49,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -489,6 +490,7 @@
           "binnedspikeratevm",
           "calculator",
           "contrast_sensitivity_calc",
+          "control_stimulus_ids",
           "daqreader_mfdaq_epochdata_ingested",
           "dataset_remote",
           "dataset_session_info",
@@ -604,8 +606,8 @@
           "proposed (not decided)": 44
         },
         "signed_by": {
-          "cited by the class": 62,
-          "checked transcription on the row": 8
+          "cited by the class": 61,
+          "checked transcription on the row": 9
         },
         "join": {
           "rows_inspected": 115,
@@ -617,7 +619,8 @@
             "V_eta_tenet_audit.md": 1,
             "V_eta_go_forward_class_audit.md": 13,
             "V_eta_subject_calculation_plan.md": 1,
-            "V_eta_spatial_transcriptomics_plan.md": 16,
+            "V_eta_spatial_transcriptomics_plan.md": 15,
+            "V_eta_stimulus_response_model_plan.md": 5,
             "V_eta_daq_family_decisions.md": 5,
             "V_eta_ingested_payload_findings.md": 3,
             "V_eta_recording_observation_plan.md": 3,
@@ -633,7 +636,6 @@
             "V_eta_method_parameters_plan.md": 4,
             "V_eta_stimulus_parameter_plan.md": 2,
             "V_eta_stimulus_model_plan.md": 1,
-            "V_eta_stimulus_response_model_plan.md": 4,
             "V_eta_clock_alignment_cluster_plan.md": 3,
             "V_eta_logical_observation_plan.md": 1
           },
@@ -712,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 181,
+          "accepted_lines": 194,
           "accepted_lines_by_kind": {
-            "Decided by": 65,
+            "Decided by": 78,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -740,7 +742,7 @@
           "classes_citing": 73,
           "citations_total": 81,
           "citations_unresolved": [],
-          "lines_cited": 40,
+          "lines_cited": 41,
           "uncited_lines": [
             {
               "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -813,6 +815,86 @@
               "tag": "NDI binary format",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1469,
+              "kind": "Decided by",
+              "tag": "covariates",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [covariates]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1471,
+              "kind": "Decided by",
+              "tag": "conditions stay on the statement",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [conditions stay on the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1473,
+              "kind": "Decided by",
+              "tag": "along by index",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [along by index]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1475,
+              "kind": "Decided by",
+              "tag": "matrix covariate",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1477,
+              "kind": "Decided by",
+              "tag": "onset time",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1479,
+              "kind": "Decided by",
+              "tag": "no complete",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [no complete]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1481,
+              "kind": "Decided by",
+              "tag": "bare dimension",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [bare dimension]: a"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1483,
+              "kind": "Decided by",
+              "tag": "epoch covariates",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [epoch covariates]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1485,
+              "kind": "Decided by",
+              "tag": "tenets follow covariates",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [tenets follow"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1487,
+              "kind": "Decided by",
+              "tag": "covariate terms",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
@@ -1183,6 +1265,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [sorter software]: a"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1057,
+              "kind": "Decided by",
+              "tag": "migrated masks have no software",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [migrated masks have no"
+            },
+            {
               "document": "V_eta_linked_session_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1245,6 +1335,14 @@
               "tag": "spatial phase in degrees",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [spatial phase in"
+            },
+            {
+              "document": "V_eta_method_plan.md",
+              "line": 200,
+              "kind": "Decided by",
+              "tag": "flashed bar parent",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [flashed bar parent]"
             },
             {
               "document": "V_eta_ngrid_family_findings.md",
@@ -1736,7 +1834,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 997,
+              "line": 1017,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-20",
               "date": "2026-10-21",
@@ -1744,7 +1842,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 999,
+              "line": 1019,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": "2026-10-21",
@@ -1752,7 +1850,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1000,
+              "line": 1020,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet T20, group entities",
               "date": "2026-10-21",
@@ -2314,7 +2412,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "signoff_fragment": "`binaryseries_parameters` folds into the data_body model and is retired",
         "mapping_fragment": "its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag",
-        "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet."
+        "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet. (data_body plan AMENDMENT 6, 2026-10-22: the axis is now a `dimension`, and `regular` is deleted -- the presence of a covariate's `origin` + `spacing` says it.)"
       },
       "target_source": "emitted",
       "no_target_reason": null,
@@ -2343,7 +2441,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
+      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.)",
       "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "decided_by_citation": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -2380,7 +2478,7 @@
           "document": "V_eta_go_forward_class_audit.md",
           "signoff_fragment": "`binaryseries_parameters` folds into the data_body model and is retired",
           "mapping_fragment": "its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag",
-          "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet."
+          "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet. (data_body plan AMENDMENT 6, 2026-10-22: the axis is now a `dimension`, and `regular` is deleted -- the presence of a covariate's `origin` + `spacing` says it.)"
         },
         "why": "a decision line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
@@ -3094,22 +3192,21 @@
       "targets": [
         "control_stimulus_ids"
       ],
-      "decided_targets": [
-        "calculation + item"
-      ],
-      "decided_targets_source": "curated_targets_file",
+      "decided_targets": [],
+      "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
-      "no_target_account": null,
-      "no_target_signoff": null,
+      "no_target_reason": "dissolved",
+      "no_target_reason_label": "DISSOLVES -- no target class, and that is the signed answer",
+      "no_target_account": "NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate]). Its fact is the `control condition` covariate (XCO:0000099, logical) along the stimulus presentation's item value, written by NDI's stimulus second pass; a v1 NaN control gives all false, and responses point at the presentation only. Supersedes [control record is a calculation].",
+      "no_target_signoff": {
+        "document": "V_eta_stimulus_response_model_plan.md",
+        "signoff_fragment": "A v1 `control_stimulus_ids` document becomes no V2 document"
+      },
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 1,
-        "schema_targets_built": [
-          "calculation + item"
-        ],
+        "schema_targets_named": 0,
+        "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -3126,19 +3223,17 @@
       "carried": [
         "item"
       ],
-      "second_pass": [
-        "calculation + item"
-      ],
-      "how": "1 -> 1, base.id PRESERVED: the derived 'which presented stimuli are the control' annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)",
-      "target_flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded.",
+      "second_pass": [],
+      "how": "1 -> NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md): NDI's stimulus second pass folds the control into the presentation's `item` value as the `logical` covariate `control condition` (XCO:0000099) along the presentation dimension, true where the presentation was a control (data_body plan AMENDMENT 6); a v1 NaN control gives all false; responses point at the presentation only. Pass 1 passes the document through under its v1 tombstone for that pass. (Was a `control_designation`, then `item.value.control_item`, then a calculation + item, [control record is a calculation], 2026-10-21.)",
+      "target_flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded. -- SUPERSEDED 2026-10-22 by [control as covariate] (V_eta_stimulus_response_model_plan.md): no V2 document; the control is the `control condition` covariate on the presentation's item value, [control record is a calculation] and [control input told apart by its document] are superseded and the proposed [control record with no control] withdrawn. At NDI 30a120cb3 the second pass still runs ndi.migrate.internal.controlCalculation (local.m) and mints the superseded calculation + item; `second_pass` records the decided emission (none). The dissolution is recorded in tools/coverage.py NO_TARGET_BY_DECISION.",
       "decided_by_citation": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
-        "tag": "spatial_transcriptomics_family",
+        "document": "V_eta_stimulus_response_model_plan.md",
+        "tag": "control as covariate",
         "resolved": true,
-        "line": 572,
-        "kind": "TEAM-SIGN-OFF",
-        "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
-        "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
+        "line": 614,
+        "kind": "Decided by",
+        "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
+        "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
         "matches": 1,
         "why": null,
         "matched_name": "control_stimulus_ids",
@@ -3146,13 +3241,13 @@
       },
       "decision_citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
-          "tag": "spatial_transcriptomics_family",
+          "document": "V_eta_stimulus_response_model_plan.md",
+          "tag": "control as covariate",
           "resolved": true,
-          "line": 572,
-          "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
-          "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
+          "line": 614,
+          "kind": "Decided by",
+          "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
+          "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
           "matches": 1,
           "why": null,
           "matched_name": "control_stimulus_ids",
@@ -3163,27 +3258,18 @@
       "governance": {
         "state": "decided",
         "signoff": {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
-          "tag": "spatial_transcriptomics_family",
-          "resolved": true,
-          "line": 572,
-          "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
-          "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
-          "matches": 1,
-          "why": null,
-          "matched_name": "control_stimulus_ids",
-          "matched_on": "v1_class"
+          "document": "V_eta_stimulus_response_model_plan.md",
+          "signoff_fragment": "A v1 `control_stimulus_ids` document becomes no V2 document"
         },
-        "why": "the class cites `V_eta_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `control_stimulus_ids`), which resolves to the TEAM-SIGN-OFF line at `V_eta_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "a decision line in `V_eta_stimulus_response_model_plan.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -3194,14 +3280,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "yes",
-            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "state": "n/a",
+            "why": "signed to DISSOLVE in `V_eta_stimulus_response_model_plan.md`: there is no target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `calculation + item` are not all among what the migrator emits today (`control_stimulus_ids`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "n/a",
+            "why": "signed to DISSOLVE in `V_eta_stimulus_response_model_plan.md`: no target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -3211,7 +3297,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -12986,7 +13072,7 @@
         "method",
         "sampled_body"
       ],
-      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToItem, called from local.m): the presentation becomes a manipulation + item around its preserved id, referencing one standalone `method` document per distinct stimulus (gratings and non-gratings alike: TEAM-SIGN-OFF [method] and Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods], V_eta_method_plan.md), with a sampled_body; the control stimulus is value.control_item. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact. (Was timed_sequence + visual_grating before 2026-10-04 / 2026-10-21.)",
+      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToItem, called from local.m): the presentation becomes a manipulation + item around its preserved id, referencing one standalone `method` document per distinct stimulus (gratings and non-gratings alike: TEAM-SIGN-OFF [method] and Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods], V_eta_method_plan.md), with a sampled_body. The item value has one presentation dimension and the covariates `onset time`, `offset time` (when v1 recorded ends) and `control condition` (XCO:0000099, logical; from v1 control_stimulus_ids), per data_body plan AMENDMENT 6 and [control as covariate] (2026-10-22); `value.offset` / `value.control_item` were deleted. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact. (Was timed_sequence + visual_grating before 2026-10-04 / 2026-10-21.)",
       "target_flags": "returns [] (leaves presentation as-is) when no animal responded",
       "decided_by_citation": {
         "document": "V_eta_stimulus_model_plan.md",

@@ -16,8 +16,10 @@ ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "V_eta")
 # or condition descriptor (its spacing, origin, coordinates, or quantity), not to a
 # value, so a bound would mean something new. Left out by decision, not omission.
 NOT_VALUES = {
-    "acquisition_epoch.keys",
-    "data.keys",
+    # data_body plan AMENDMENT 6 (2026-10-22): the axis key's descriptors are now a
+    # covariate's (`keys` -> `dimensions` + `covariates`); same decision, new name.
+    "acquisition_epoch.covariates",
+    "data.covariates",
     "data_body.conditions",
     "statement.conditions",
     # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,

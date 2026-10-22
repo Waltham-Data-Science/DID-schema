@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A date value cell (a real date, not a duration). One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
+            "documentation": "A date value cell (a real date, not a duration). One entry, or a list of them along the value's `dimensions`, whose `covariates` say what each entry is (#73 review D1; `keys` until 2026-10-22).",
             "constraints": {},
             "fields": [
                 {

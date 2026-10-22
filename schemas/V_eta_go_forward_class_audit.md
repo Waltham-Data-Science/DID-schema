@@ -1053,3 +1053,5 @@ Decided by Jess Haley, 2026-10-22 [migrated masks are logical]: a migrated v1 im
 Decided by Jess Haley, 2026-10-22 [sorter software]: a spike-sorter output with no `app` block names its software from its v1 class (jrclust, kilosort, kiasort); a sorted unit (`neuron_extracellular`) with no software record has no `software_id` (per [calculation-software-optional decided]), not an invented "spike sorter". (Answer "4c".)
 
 Deferred by Jess Haley, 2026-10-22, to before the Haley V2 import: whether the Haley import's acquisition systems should carry the software entities naming NDI classes (`ndi.daq.system.image`, `ndi.file.navigator.bodies`, `ndi.daq.reader.image.ndr`; Haley import decisions #29, #33). Not decided; nothing changes until then.
+
+Decided by Jess Haley, 2026-10-22 [migrated masks have no software]: a migrated v1 imageStack mask calculation carries no `software_id`, because v1 `imageStack` records none ([calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md); the native Haley import names her analysis package. Answer "2y".

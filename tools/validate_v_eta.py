@@ -383,8 +383,9 @@ def r11_curies(t, reg, curie):
 
 def r12_vocabulary_slots(t):
     """`source_unit` is a bound term with a blank-term default (12.19); every
-    `variable` of a statement, key, condition or method parameter is a bound
-    term (T8 parity, 2026-10-04)."""
+    `variable` of a statement, covariate, condition or method parameter, and
+    every dimension's `term`, is a bound term (T8 parity, 2026-10-04; keys ->
+    dimensions + covariates, data_body plan AMENDMENT 6, 2026-10-22)."""
     blank = {"node": "", "name": ""}
     bad, n = [], 0
     for cn, (_, _, d) in t.classes.items():
@@ -396,9 +397,10 @@ def r12_vocabulary_slots(t):
                 if f["type"] != "ontology_term" or b.get("node_form") != "curie" \
                         or f.get("blank_value") != blank or f.get("default_value") != blank:
                     bad.append(f"{cn}.{path} is not a bound blank-default term")
-            if f["name"] == "variable" and (
+            if (f["name"] == "variable" and (
                     (cn == "statement" and path == "variable")
-                    or (len(parts) > 1 and parts[-2] in ("keys",) + ENTRY_LISTS)):
+                    or (len(parts) > 1 and parts[-2] in ("covariates",) + ENTRY_LISTS))) \
+                    or (f["name"] == "term" and len(parts) > 1 and parts[-2] == "dimensions"):
                 n += 1
                 if f["type"] != "ontology_term" or b.get("node_form") != "curie":
                     bad.append(f"{cn}.{path} is not a bound term")

@@ -14,7 +14,7 @@
         {
             "name": "key_id",
             "mustBeNonEmpty": false,
-            "documentation": "The documents a key takes its positions from, chosen by that key's `positions_from` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `value` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the key's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05.)",
+            "documentation": "The documents a covariate takes its positions from, chosen by that covariate's `document` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `value` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the covariate's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05; chosen by a key's `positions_from` until 2026-10-22, data_body plan AMENDMENT 6.)",
             "must_refer_to_document_class": "value",
             "multiple": true,
             "min_count": 0,
@@ -24,7 +24,7 @@
     "file": [],
     "fields": [
         {
-            "name": "keys",
+            "name": "dimensions",
             "type": "structure",
             "blank_value": [],
             "default_value": [],
@@ -33,11 +33,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What a value is looked up by, in array order: keys[k] IS array dimension k. EXACTLY the array's dimensions: a length-1 dimension the array has is a key, and there is never a key for a dimension it does not have (a one-value fact true of every value is a CONDITION). Time is an ordinary key. On a value document it describes the INLINE value (with `data_body` true, each body carries the keys of its own array); on a data_body it describes THIS body's array. Required on a sampled_body; optional on an opaque_body, where it describes the array as its `format` presents it. `chunk` is used ONLY on a sampled_body's keys.",
+            "documentation": "The axes of the stored array, in array order: dimensions[k] IS array axis k (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; the NetCDF/CF and xarray model). EXACTLY the array's axes: a length-1 axis the array has is a dimension, and there is never a dimension for an axis it does not have (a one-value fact true of every value is a CONDITION, which stays on the statement or on one body: [conditions stay on the statement]). On a value document it describes the INLINE value (with `data_body` true, each body carries the dimensions of its own array); on a data_body it describes THIS body's array. Required on a sampled_body; optional on an opaque_body, where it describes the array as its `format` presents it. What is known ALONG a dimension (its times, its labels, a control flag) is a `covariate`, and a dimension may have none, a plain index ([bare dimension]). Sparse or ragged data is ONE `row` dimension with a covariate per varying fact, the long format ([no complete]). Replaces `keys` (until 2026-10-22): a key's axis and `n` are here, its positions are a covariate.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "variable",
+                    "name": "term",
                     "type": "ontology_term",
                     "blank_value": {
                         "node": "",
@@ -52,7 +52,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "What varies along this dimension (time, spatial position, contrast, ...). UNIQUE within the list -- that uniqueness is what makes 'which key is X' well defined.",
+                    "documentation": "What the axis is (time, channel, presentation, row, spatial position, ...). REQUIRED ([along by index]: \"Why do dimensions not have terms?\"; \"3y\"). NOT unique: a channel x channel matrix has two `channel` dimensions, so a dimension is named by its INDEX, never by its term.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -89,6 +89,112 @@
                     ]
                 },
                 {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `document` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
+                    "constraints": {}
+                },
+                {
+                    "name": "chunk",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "sampled_body ONLY (rule `dimension_chunk_sampled_only`). Positions per chunk along this dimension when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`. Every chunk is stored at the FULL chunk shape: positions at or past `n` in an edge chunk are padding, not values. A missing member holds `fill_value` everywhere, and is not allowed when no `fill_value` is declared. Absent = this dimension is not split. (On the key entry until 2026-10-22, when a sparse body's missing member was no rows; `complete` is deleted, data_body plan AMENDMENT 6 [no complete].)",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "covariates",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What is known about the value's positions along one or more of its `dimensions` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; a NetCDF/CF auxiliary coordinate): an onset time per presentation, a depth per channel, a control flag per trial. Each entry is the AMENDMENT 3 entry -- {variable, unit, source_unit, approximate} plus EXACTLY ONE value form (`origin`+`spacing`, `quantity`, `count`, `term`, `text`, `logical`, `matrix` or `document`) -- with `along`, the 0-based indices of the dimensions it runs along, and `cyclic`. Its shape is the extents of the `along` dimensions in that order (for `matrix`, followed by the array's own shape). NEVER `along: []`: a fact true of the whole value is a `condition` ([conditions stay on the statement]). A covariate DESCRIBES positions; it is not a further measurement (a standard error is its own value at the same positions, T14). Same scope as `dimensions`: the inline value on a value document, THIS body's array on a data_body. Replaces the positions of `keys`, and `item.value.offset` / `item.value.control_item` (until 2026-10-22).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). UNIQUE within the list, and a variable appears at most once across a statement's conditions, its value's covariates and any one of its bodies' (a batch check).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "along",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The dimensions this covariate runs along: 0-based indices into `dimensions` (T14), NON-EMPTY and distinct, each below the number of dimensions (rule `covariate_along`). By index, not by term, because a term may repeat ([along by index]: \"I'm still not sold on along referencing the name of the dimension term rather than the index\"). One index for a per-position fact (an onset time per presentation, a depth per channel); several for a fact that varies over a grid (a pixel's coordinate along [row, column]), in the order the covariate's own array is laid out. Never empty: a fact true of the whole value is a `condition` ([conditions stay on the statement]).",
+                    "constraints": {}
+                },
+                {
                     "name": "unit",
                     "type": "ontology_term",
                     "blank_value": {
@@ -104,7 +210,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a categorical key, which uses `term`.",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (V_gamma_SPEC.md), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number.",
                     "constraints": {},
                     "fields": [
                         {
@@ -197,33 +303,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Applies to the whole key.",
-                    "constraints": {}
-                },
-                {
-                    "name": "n",
-                    "type": "integer",
-                    "blank_value": 0,
-                    "default_value": 0,
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Number of positions along this key; equals the extent of the value it indexes.",
-                    "constraints": {}
-                },
-                {
-                    "name": "regular",
-                    "type": "boolean",
-                    "blank_value": false,
-                    "default_value": false,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "True: positions are generated from origin + spacing. False: they are stored, in `quantity`, `term` or `positions_from`.",
+                    "documentation": "Applies to the whole covariate.",
                     "constraints": {}
                 },
                 {
@@ -236,7 +316,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Where the key starts. REQUIRED iff `regular`.",
+                    "documentation": "Where REGULAR positions start: position k is origin + k * spacing, in `unit`. With `spacing` it is ONE value form (rule `covariate_one_value_form`), numeric, and only along exactly ONE dimension (rule `covariate_single_dimension_forms`). Its presence says the positions are regular (data_body plan AMENDMENT 6: the key's `regular` flag is deleted).",
                     "constraints": {},
                     "fields": [
                         {
@@ -277,7 +357,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The step. REQUIRED iff `regular`.",
+                    "documentation": "The step between regular positions, in `unit`. Present if and only if `origin` is.",
                     "constraints": {},
                     "fields": [
                         {
@@ -318,7 +398,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Numeric positions, n of them, in `unit`: `value` the canonical numbers and `source_value` what the source wrote (both arrays of n). REQUIRED iff NOT `regular` and numeric. XOR with `term` and `positions_from`. (`values {values, source_values}` until 2026-10-19.)",
+                    "documentation": "Numeric positions in `unit`: `value` the canonical numbers and `source_value` what the source wrote, each sized by the extents of the `along` dimensions, in that order. One value form (rule `covariate_one_value_form`). (`values {values, source_values}` until 2026-10-19.)",
                     "constraints": {},
                     "fields": [
                         {
@@ -350,6 +430,19 @@
                     ]
                 },
                 {
+                    "name": "count",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Integer positions (a trial number, a spike count per bin), sized by the extents of the `along` dimensions. No unit. One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
                     "name": "term",
                     "type": "ontology_term",
                     "blank_value": {
@@ -365,7 +458,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical positions, n of them: each a TERM ({node, name}) or a LABEL ({name}, no node: meaningful only locally, e.g. a cluster number). XOR with `quantity` and `positions_from`. (`labels` until 2026-10-19.)",
+                    "documentation": "Categorical positions, sized by the extents of the `along` dimensions: each a TERM ({node, name}) or a LABEL ({name}, no node: meaningful only locally, e.g. a cluster number). One value form (rule `covariate_one_value_form`). (`labels` until 2026-10-19.)",
                     "constraints": {},
                     "fields": [
                         {
@@ -397,7 +490,46 @@
                     ]
                 },
                 {
-                    "name": "positions_from",
+                    "name": "text",
+                    "type": "string",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Free-text positions, one string per position, sized by the extents of the `along` dimensions. One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "logical",
+                    "type": "boolean",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
+                    "constraints": {}
+                },
+                {
+                    "name": "matrix",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A whole numeric array AT EACH POSITION, in `unit` (absent for unitless numbers): its shape is the extents of the `along` dimensions followed by the array's own shape, row-major as JSON nested arrays (data_body AMENDMENT 4). The value's `dimensions` stay exactly its own axes; the array's extra axes are not dimensions ([matrix covariate], answer \"B\"). One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "document",
                     "type": "integer",
                     "blank_value": -1,
                     "default_value": -1,
@@ -406,7 +538,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this key's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along this key is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). `n` must equal the number of entries. -1 (the blank) = not used. XOR with `term`/`quantity`. (`labels_from` until 2026-10-05.)",
+                    "documentation": "Take this covariate's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along the covariate's ONE dimension is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). The dimension's `n` must equal the number of entries; only along exactly one dimension (rule `covariate_single_dimension_forms`). -1 (the blank) = not used: 0 is a real position. One value form (rule `covariate_one_value_form`). (`positions_from` on a key until 2026-10-22, `labels_from` until 2026-10-05; [along by index]: \"Why isn't it just 'document'?\")",
                     "constraints": {}
                 },
                 {
@@ -419,20 +551,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Absent = false.",
-                    "constraints": {}
-                },
-                {
-                    "name": "chunk",
-                    "type": "integer",
-                    "blank_value": 0,
-                    "default_value": 0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "sampled_body ONLY. Positions per chunk along this key when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`. Every chunk is stored at the FULL chunk shape: positions at or past `n` in an edge chunk are padding, not values. A missing member of a dense body (`complete` true) holds `fill_value` everywhere, and is not allowed when no `fill_value` is declared; a missing member of a sparse body (`complete` false) is no rows. Absent = this key is not split.",
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on a NUMERIC covariate (`origin`+`spacing`, `quantity`, `count` or `matrix`) along exactly ONE dimension (rule `covariate_cyclic`). Absent = false.",
                     "constraints": {}
                 }
             ]
@@ -447,53 +566,67 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "'C' | 'F' -- the order of the values of the array `keys` describes: C is row-major (last key fastest), F is column-major (first key fastest, MATLAB's native layout). Like `keys`, it describes the INLINE value on a value document and THIS body's array on a data body. Empty means F. Meaningless for one key or none; a writer with more than one key states it. (Declared on `sampled_body` only until 2026-10-20, so an inline multi-key value stated its order in prose.)",
+            "documentation": "'C' | 'F' -- the order of the values of the array `dimensions` describes: C is row-major (last dimension fastest), F is column-major (first dimension fastest, MATLAB's native layout). Like `dimensions`, it describes the INLINE value on a value document and THIS body's array on a data body. Empty means F. Meaningless for one dimension or none; a writer with more than one dimension states it. (Declared on `sampled_body` only until 2026-10-20, so an inline multi-key value stated its order in prose; it ordered `keys` until 2026-10-22, data_body plan AMENDMENT 6.)",
             "constraints": {
                 "enum": [
                     "C",
                     "F"
                 ]
             }
-        },
-        {
-            "name": "complete",
-            "type": "boolean",
-            "blank_value": true,
-            "default_value": true,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "True: every combination of key positions has a value (a dense grid). False: only the listed rows exist (ragged or sparse; a missing row is absence, e.g. an unlabelled cell).",
-            "constraints": {}
         }
     ],
     "rules": [
         {
-            "name": "key_regular_origin_spacing",
+            "name": "covariate_one_value_form",
             "fields": [
-                "keys.regular",
-                "keys.origin",
-                "keys.spacing"
+                "covariates.origin",
+                "covariates.spacing",
+                "covariates.quantity",
+                "covariates.count",
+                "covariates.term",
+                "covariates.text",
+                "covariates.logical",
+                "covariates.matrix",
+                "covariates.document"
             ],
-            "statement": "A key carries `origin` and `spacing` if and only if `regular` is true."
+            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `document` (0 or more; -1 is not used). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.)"
         },
         {
-            "name": "key_positions_one_form",
+            "name": "covariate_along",
             "fields": [
-                "keys.quantity",
-                "keys.term",
-                "keys.positions_from"
+                "covariates.along",
+                "dimensions"
             ],
-            "statement": "A key that is not `regular` carries exactly one of `quantity`, `term`, `positions_from`; a regular key carries none of them."
+            "statement": "A covariate's `along` is non-empty, its indices are distinct, and each is a 0-based index into `dimensions` (0 to the number of dimensions minus 1). A covariate is never `along: []`: a fact true of the whole value is a condition (data_body plan AMENDMENT 6, [conditions stay on the statement], [along by index])."
         },
         {
-            "name": "key_chunk_sampled_only",
+            "name": "covariate_single_dimension_forms",
             "fields": [
-                "keys.chunk"
+                "covariates.origin",
+                "covariates.spacing",
+                "covariates.document",
+                "covariates.along"
             ],
-            "statement": "`chunk` is set only on the keys of a sampled_body."
+            "statement": "A covariate with `origin` + `spacing`, or with `document`, has exactly one index in `along`: regular positions and positions taken from another document are positions along ONE dimension (data_body plan AMENDMENT 6)."
+        },
+        {
+            "name": "covariate_cyclic",
+            "fields": [
+                "covariates.cyclic",
+                "covariates.along",
+                "covariates.origin",
+                "covariates.quantity",
+                "covariates.count",
+                "covariates.matrix"
+            ],
+            "statement": "`cyclic` is true only on a numeric covariate (`origin` + `spacing`, `quantity`, `count` or `matrix`) whose `along` has exactly one index (data_body plan AMENDMENT 6)."
+        },
+        {
+            "name": "dimension_chunk_sampled_only",
+            "fields": [
+                "dimensions.chunk"
+            ],
+            "statement": "`chunk` is set only on the dimensions of a sampled_body (was `key_chunk_sampled_only`)."
         }
     ]
 }

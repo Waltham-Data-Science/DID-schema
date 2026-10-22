@@ -17,7 +17,7 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
+      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.)",
       "flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "target_completeness": {
         "state": "carry_forward",
@@ -127,18 +127,13 @@
       "carried": [
         "item"
       ],
-      "second_pass": [
-        "calculation + item"
-      ],
-      "how": "1 -> 1, base.id PRESERVED: the derived 'which presented stimuli are the control' annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)",
-      "flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded.",
+      "second_pass": [],
+      "how": "1 -> NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md): NDI's stimulus second pass folds the control into the presentation's `item` value as the `logical` covariate `control condition` (XCO:0000099) along the presentation dimension, true where the presentation was a control (data_body plan AMENDMENT 6); a v1 NaN control gives all false; responses point at the presentation only. Pass 1 passes the document through under its v1 tombstone for that pass. (Was a `control_designation`, then `item.value.control_item`, then a calculation + item, [control record is a calculation], 2026-10-21.)",
+      "flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded. -- SUPERSEDED 2026-10-22 by [control as covariate] (V_eta_stimulus_response_model_plan.md): no V2 document; the control is the `control condition` covariate on the presentation's item value, [control record is a calculation] and [control input told apart by its document] are superseded and the proposed [control record with no control] withdrawn. At NDI 30a120cb3 the second pass still runs ndi.migrate.internal.controlCalculation (local.m) and mints the superseded calculation + item; `second_pass` records the decided emission (none). The dissolution is recorded in tools/coverage.py NO_TARGET_BY_DECISION.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
-      },
-      "decided_targets": [
-        "calculation + item"
-      ]
+      }
     },
     "daqmetadatareader": {
       "targets": [
@@ -1540,7 +1535,7 @@
         "method",
         "sampled_body"
       ],
-      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToItem, called from local.m): the presentation becomes a manipulation + item around its preserved id, referencing one standalone `method` document per distinct stimulus (gratings and non-gratings alike: TEAM-SIGN-OFF [method] and Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods], V_eta_method_plan.md), with a sampled_body; the control stimulus is value.control_item. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact. (Was timed_sequence + visual_grating before 2026-10-04 / 2026-10-21.)",
+      "how": "DECOMPOSED in the NDI second pass (ndi.migrate.internal.stimulusPresentationToItem, called from local.m): the presentation becomes a manipulation + item around its preserved id, referencing one standalone `method` document per distinct stimulus (gratings and non-gratings alike: TEAM-SIGN-OFF [method] and Decided by Jess Haley, 2026-10-21 [non-grating stimuli as methods], V_eta_method_plan.md), with a sampled_body. The item value has one presentation dimension and the covariates `onset time`, `offset time` (when v1 recorded ends) and `control condition` (XCO:0000099, logical; from v1 control_stimulus_ids), per data_body plan AMENDMENT 6 and [control as covariate] (2026-10-22); `value.offset` / `value.control_item` were deleted. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact. (Was timed_sequence + visual_grating before 2026-10-04 / 2026-10-21.)",
       "flags": "returns [] (leaves presentation as-is) when no animal responded",
       "target_completeness": {
         "state": "carry_forward",

@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma). The same concept as a key's `origin`; a term here because a root coordinate system is not measured within another one.",
+            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma). The same concept as a covariate's `origin`; a term here because a root coordinate system is not measured within another one.",
             "constraints": {},
             "fields": [
                 {

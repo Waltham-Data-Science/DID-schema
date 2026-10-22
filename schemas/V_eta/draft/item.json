@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "At each position along the value's keys, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each onset, the patch nearest the worm in each video frame. The keys are whatever the statement needs (an onset key for a stimulus sequence, a frame key for a track); the values may sit in a body when there are many, and `value` is then absent (as for every value with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04.)",
+            "documentation": "At each position along the value's `dimensions`, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each presentation, the patch nearest the worm in each video frame. The dimensions and their covariates are whatever the statement needs (a stimulus sequence: one presentation dimension with covariates `onset time`, `offset time` when the source recorded ends, and `control condition` (XCO:0000099, `logical`) when it named a control; a track: a frame dimension with a time covariate); the values may sit in a body when there are many, and `value` is then absent (as for every value with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04. `offset` and `control_item` were deleted 2026-10-22 for the `offset time` and `control condition` covariates, data_body plan AMENDMENT 6 and Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md.)",
             "constraints": {},
             "fields": [
                 {
@@ -45,33 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "One 0-based position in `item_id` per position along the keys (value k names the k-th `item_id` entry). A position with no item is empty: NaN inline, the body's `fill_value` when the values are in a body. (`presentation_order` until 2026-10-04.)",
-                    "constraints": {}
-                },
-                {
-                    "name": "offset",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Optional, only when the key is time: the end of each position's interval on the same clock as the key (a stimulus's offset). <- v1 `presentation_time.offset`.",
-                    "constraints": {}
-                },
-                {
-                    "name": "control_item",
-                    "type": "integer",
-                    "blank_value": 0,
-                    "default_value": 0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Optional: the control condition (a stimulus sequence's blank): the 0-based position in `item_id` of the item that is the control. Control positions are the `item` entries equal to it. Empty = no control. <- v1 `control_stimulus_ids`, reduced to its one control stimulus.",
+                    "documentation": "One 0-based position in `item_id` per position along the dimensions (value k names the k-th `item_id` entry). A position with no item is empty: NaN inline, the body's `fill_value` when the values are in a body. (`presentation_order` until 2026-10-04.)",
                     "constraints": {}
                 }
             ]

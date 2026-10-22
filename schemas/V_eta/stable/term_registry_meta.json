@@ -4027,6 +4027,14 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: the canonical unit of spatial phase (T14)",
             "first_used_in": "NDI stimulus recipe (spatial phase, from NewStim periodicstim sPhaseShift)"
+        },
+        {
+            "name": "control condition",
+            "node": "XCO:0000099",
+            "definition": "This is any condition in which the major influencing factor is a uniform set of parameters accepted as normal or average and used by general consent as a basis of comparison. It is a baseline condition in which none of the experimental manipulations are performed.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md: the `logical` covariate along a stimulus presentation's presentation dimension, true where the presentation was a control (data_body plan AMENDMENT 6)",
+            "first_used_in": "v1 control_stimulus_ids, folded into the stimulus item value's covariates by NDI's stimulus second pass"
         }
     ]
 }

@@ -212,12 +212,17 @@ def test_spine_composes_onto_every_interaction():
         # `method` is the block {term, parameters} since 2026-10-21
         # (V_eta_method_plan.md); the technique is its bound `term`.
         assert ft.get("method") == "structure", f"{name} missing method"
-        # #73 item 21: timing is a time key in `keys`, not a `sample_time` block.
+        # #73 item 21: timing is a time covariate along a time dimension, not a
+        # `sample_time` block (a time key in `keys` until 2026-10-22).
         assert "sample_time" not in ft, f"{name} still carries sample_time"
-        # #73 item 60: `keys` lives on value (with the value), so only leaves --
-        # a direction x a data type (T3) -- carry it; the abstract directions do not.
+        # #73 item 60: the value's shape lives on value (with the value), so only
+        # leaves -- a direction x a data type (T3) -- carry it; the abstract
+        # directions do not. data_body plan AMENDMENT 6 (2026-10-22): that shape
+        # is `dimensions` + `covariates`, and `keys` is gone.
         if "value" in _chain(name):
-            assert ft.get("keys") == "structure", f"{name} missing keys"
+            assert ft.get("dimensions") == "structure", f"{name} missing dimensions"
+            assert ft.get("covariates") == "structure", f"{name} missing covariates"
+            assert "keys" not in ft, f"{name} still carries keys"
 
 
 def test_path_t_removed_and_element_id_retired():
@@ -500,10 +505,17 @@ def test_conditions_and_method_parameters_are_one_entry():
         shapes[(cls, fld)] = [(x["name"], x["type"]) for x in f["fields"]]
     assert len(shapes) == 6
     assert len({tuple(v) for v in shapes.values()}) == 1, shapes
-    keys = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "keys")
-    ks = {x["name"]: x for x in keys["fields"]}
+    # A covariate is the same entry plus `along` and `cyclic`, holding one value
+    # per position (data_body plan AMENDMENT 6): every condition sub-field is on
+    # it under the same name, and its value forms are arrays.
+    cov = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "covariates")
+    ks = {x["name"]: x for x in cov["fields"]}
     assert "labels" not in ks and "values" not in ks
+    assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
+    assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
+        "along", "cyclic", "origin", "spacing", "logical", "document"}, sorted(ks)
     assert ks["term"]["mustBeScalar"] is False
+    assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
 
 
@@ -607,9 +619,10 @@ def test_data_body_classes():
     assert sft.get("sample_time") is None, (
         "sampled_body declares `sample_time` again; it retired into `axes`, "
         "which is the single home for a body's index dimensions")
-    assert sft.get("keys") is not None, (
-        "sampled_body must declare `axes` -- it is where the retired "
-        "sample_time's content went")
+    assert sft.get("dimensions") is not None and sft.get("covariates") is not None, (
+        "sampled_body must declare `dimensions` + `covariates` (`axes`, then "
+        "`keys`, before) -- it is where the retired sample_time's content went")
+    assert "keys" not in sft, "sampled_body carries `keys` again (AMENDMENT 6)"
     # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
     # place"). It was minted empty on every body -- `{value: {}, time: {}}` --
     # with no writer filling it and no reader consulting it.
@@ -625,9 +638,12 @@ def test_data_body_classes():
     # split by who lays out the bytes, and an opaque body may describe its array
     # too. sampled_body still HAS it, through the chain.
     # #73 item 65 (2026-09-29): and on up to `data`, shared with value.
-    assert "keys" not in {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
+    # AMENDMENT 6 (2026-10-22): `keys` became `dimensions` + `covariates` on `data`,
+    # and sampled_body REQUIRES the inherited dimensions.
+    assert "dimensions" not in {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
+    assert RECORDS["sampled_body"][1]["require_inherited"] == ["dimensions"]
     sampled_axes = next(f for f in RECORDS["data"][1]["fields"]
-                        if f["name"] == "keys")
+                        if f["name"] == "dimensions")
     assert sampled_axes["mustBeNonEmpty"] is False
     assert sampled_axes["mustBeScalar"] is False
     # opaque_body carries a small descriptor (generic_file is INTENDED to fold onto
@@ -725,7 +741,11 @@ def test_the_two_stranding_classes_have_a_tombstone():
             "file_modified", "redundant",
             "conditions"} == db_fields, db_fields
     # #73 item 65: `keys` + `complete` moved on up to `data` (shared with value).
-    assert {"keys", "complete"} <= {f["name"] for f in RECORDS["data"][1]["fields"]}
+    # AMENDMENT 6 (2026-10-22): `keys` became `dimensions` + `covariates`, and
+    # `complete` is deleted (sparse data is one row dimension).
+    data_fields = {f["name"] for f in RECORDS["data"][1]["fields"]}
+    assert {"dimensions", "covariates"} <= data_fields
+    assert not {"keys", "complete"} & data_fields, data_fields
     # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
     # moot: it said that if `compression` ever appeared, content_hash must state
     # WHICH byte stream it covers (plan open question 3). It appeared, so the
@@ -1775,7 +1795,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # the key / condition entry's shape, unit + source_unit at the top of the entry.
     # Renamed `parameters` on 2026-10-21 (inside the one `method` block,
     # V_eta_method_plan.md); on the standalone `method` class it is a top-level field.
-    hoisted_field_names = {"keys", "conditions", "parameters"}
+    # `keys` became `covariates` (data_body plan AMENDMENT 6, 2026-10-22): the same
+    # hoisted triple, on the entry that now carries the positions.
+    hoisted_field_names = {"covariates", "conditions", "parameters"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         if name in exempt_classes:
@@ -2815,10 +2837,12 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     """
     assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
     # Lightsheet L3, then #73 item 65: sampled_body inherits `keys` from `data`.
+    # data_body plan AMENDMENT 6 (2026-10-22): the coordinate slot is now on a
+    # COVARIATE along the dimension (`keys` -> `dimensions` + `covariates`).
     assert "data" in _chain("sampled_body")
     _tier, body = RECORDS["data"]
-    axes = [f for f in body["fields"] if f["name"] == "keys"]
-    assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
+    axes = [f for f in body["fields"] if f["name"] == "covariates"]
+    assert len(axes) == 1, "sampled_body must inherit exactly one `covariates` field"
     sub = [s["name"] for s in axes[0].get("fields", [])]
     # DENOMINATOR FIRST, kept from the original: without it an empty sub-field
     # list would pass or fail for the wrong reason.
@@ -2869,12 +2893,22 @@ def test_all_axes_declarations_are_the_one_entry():
     out. This is why the plan's denominator reads 3 where a sweep of the built
     tree reads 4 -- recorded here so the discrepancy is never read as a miss.
     """
-    found = {}
+    # data_body plan AMENDMENT 6 (2026-10-22): the one entry is now TWO lists,
+    # `dimensions` (the axes) and `covariates` (what is known along them), and
+    # both must be the one shape wherever they are declared. `keys` is gone.
+    found, found_dims, stale = {}, {}, []
 
     def walk(fields, cls):
         for f in fields or []:
-            if f["name"] == "keys":
+            if f["name"] == "covariates":
                 found[cls] = [s["name"] for s in f.get("fields", [])]
+            # a `dimensions` beside a `covariates` (coordinate_system has an
+            # unrelated `dimensions` of its own: its frame's axes)
+            if f["name"] == "dimensions" and f.get("fields") and "covariates" in {
+                    g["name"] for g in fields}:
+                found_dims[cls] = [s["name"] for s in f.get("fields", [])]
+            if f["name"] == "keys" and f.get("fields"):
+                stale.append(cls)
             walk(f.get("fields"), cls)
 
     for name, (_tier, body) in RECORDS.items():
@@ -2890,11 +2924,16 @@ def test_all_axes_declarations_are_the_one_entry():
         "zarr; finding fewer means the walker is not reaching them, not that the "
         "fold is done.")
 
+    assert not stale, f"`keys` came back on {stale} (AMENDMENT 6 replaced it)"
+    assert sorted(found_dims) == sorted(found), (found_dims, found)
+    assert len({tuple(v) for v in found_dims.values()}) == 1, found_dims
+    assert found_dims["data"] == ["term", "n", "chunk"], found_dims["data"]
+
     folded = {c: s for c, s in found.items() if c != "zarr"}
     # Lightsheet L3 (2026-09-25): the body mount is data_body now (inherited by
     # both bodies), so it is the reference.
     assert "data" in folded, (
-        "data declares no `keys` -- it is the reference mount for the "
+        "data declares no `covariates` -- it is the reference mount for the "
         "signed entry, so its absence means the walker, not the schema, is wrong")
     expected = folded["data"]
     for cls, sub in sorted(folded.items()):
@@ -2913,6 +2952,8 @@ def test_all_axes_declarations_are_the_one_entry():
         assert "origin" in sub, (
             f"`{cls}.axes[]` has no `origin`, so it cannot say where the axis "
             "starts. Team: every one carries the regularity flag and an origin.")
+        # AMENDMENT 6: the regularity flag is the presence of origin + spacing.
+        assert "regular" not in sub and "positions_from" not in sub, sub
 
 
 def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
@@ -2963,22 +3004,30 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # a word. The property this guarded is now checked where it lives.
     assert not [f for f in sb["fields"] if f["name"] == "datum"], (
         "sampled_body declares `datum` again")
-    axes = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")  # item 65: inherited
+    axes = next(f for f in RECORDS["data"][1]["fields"]
+                if f["name"] == "dimensions")  # item 65: inherited; AMENDMENT 6
     assert axes["mustBeScalar"] is False, (
         "sampled_body.axes must be a LIST -- an ngrid is an N-D grid, and the "
         "axis count is what replaced datum.kind's scalar/array distinction")
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
-    axes = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")  # item 65: inherited
+    # AMENDMENT 6 (2026-10-22): the axis is a dimension {term, n}, and both are
+    # required ([along by index]: a dimension carries a term, "3y"); what varies
+    # along it is a covariate, which requires its `variable` and `along`.
+    axes = next(f for f in RECORDS["data"][1]["fields"]
+                if f["name"] == "dimensions")  # item 65: inherited
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
+    cov = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "covariates")
+    assert [s["name"] for s in cov["fields"] if s.get("mustBeNonEmpty")] == [
+        "variable", "along"]
     # UPDATED 2026-08-14: was `["name"]`. The signed axis entry drops `name` --
     # its own examples ('contrast', 'orientation') ARE variables, and a
     # free-text name beside a bound `variable` is the escape hatch that makes
     # the binding pointless -- and requires `variable` and `n` instead. `n` is
     # required because an axis that cannot say how long it is cannot index
     # anything; that is the jrclust `n = 0` shape the plan refuses.
-    assert required == ["variable", "n"], (
+    assert required == ["term", "n"], (
         f"the axis entry's required sub-fields changed to {required!r} -- jNgridBody fills "
         "`name` and leaves the rest defaulted, so a new requirement quarantines "
         "every folded body")
@@ -3926,12 +3975,15 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     """Lightsheet walkthrough L1-L3 (2026-09-25, review/73/OPEN_ITEMS.md; not
     signed). `keys`, `complete` and `conditions` live on data_body, so an opaque
     body may describe its array and any body may carry a one-value fact of its own;
-    only sampled_body declares a byte layout, and it gains `fill_value`."""
+    only sampled_body declares a byte layout, and it gains `fill_value`.
+    data_body plan AMENDMENT 6 (2026-10-22): `keys` became `dimensions` +
+    `covariates` and `complete` was deleted."""
     db = {f["name"]: f for f in RECORDS["data_body"][1]["fields"]}
     db.update({f["name"]: f for f in RECORDS["data"][1]["fields"]})   # item 65
     sb = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
     ob = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
-    assert {"keys", "complete", "conditions"} <= set(db), sorted(db)
+    assert {"dimensions", "covariates", "conditions"} <= set(db), sorted(db)
+    assert not {"keys", "complete"} & set(db), sorted(db)
     # `datum_order` moved up to `data`, beside `keys`, 2026-10-20 (Haley audit D-5)
     assert sb == {"byte_order", "fill_value"}, sb
     assert "datum_order" in db
@@ -3945,10 +3997,13 @@ def test_bodies_split_by_who_lays_out_the_bytes():
     assert ([s["name"] for s in db["conditions"]["fields"]]
             == [s["name"] for s in ss["fields"]])
     # the rules live in the docs, since a per-document validator cannot see them
-    chunk = next(s for s in db["keys"]["fields"] if s["name"] == "chunk")
+    chunk = next(s for s in db["dimensions"]["fields"] if s["name"] == "chunk")
     assert "sampled_body ONLY" in chunk["documentation"]
     assert "padding" in chunk["documentation"] and "fill_value" in chunk["documentation"]
-    assert "EXACTLY the array's dimensions" in db["keys"]["documentation"]
+    assert "EXACTLY the array's axes" in db["dimensions"]["documentation"]
+    assert "chunk" not in {s["name"] for s in db["covariates"]["fields"]}
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    assert rules["dimension_chunk_sampled_only"]["fields"] == ["dimensions.chunk"]
     fv = next(f for f in RECORDS["sampled_body"][1]["fields"] if f["name"] == "fill_value")
     # #73 audit 2 D13: ONE fill value, a char literal read per datum_type.
     assert fv["mustBeNonEmpty"] is False and fv["blank_value"] == ""
@@ -4017,8 +4072,10 @@ def test_value_descriptors_live_with_the_value():
     # #73 item 65: the array shape is declared once, on the shared parent `data`.
     # `datum_order` joined `keys` here 2026-10-20 (Haley audit D-5): it describes the
     # same array, inline or in a body
-    assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {"keys", "datum_order",
-                                                                  "complete"}
+    # AMENDMENT 6 (2026-10-22): `keys` became `dimensions` + `covariates`;
+    # `complete` was deleted ([no complete]).
+    assert {f["name"] for f in RECORDS["data"][1]["fields"]} == {
+        "dimensions", "covariates", "datum_order"}
     assert "key_id" in {e["name"] for e in RECORDS["data"][1]["depends_on"]}
     ss = RECORDS["statement"][1]
     # `distributive` (2026-10-02): whether a statement about a group holds of each
@@ -4102,7 +4159,10 @@ def test_item_generalises_timed_sequence():
     assert edge["multiple"] is True and edge["ordered"] is True
     val = next(f for f in d["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
-    assert {"item", "offset", "control_item"} <= subs
+    # AMENDMENT 6 (2026-10-22): `offset` and `control_item` are deleted; the end of
+    # each presentation is the `offset time` covariate and the control the
+    # `control condition` covariate ([control as covariate]).
+    assert subs == {"item"}, subs
     assert "presentation_order" not in subs
     # the signed section puts many values in a body, so `value` cannot be required
     assert not val.get("mustBeNonEmpty"), "an item's values may sit in a body"
@@ -4120,8 +4180,13 @@ def test_key_id_takes_positions_from_one_data_type():
     edge = {e["name"]: e for e in RECORDS["data"][1]["depends_on"]}["key_id"]
     assert edge["must_refer_to_document_class"] == "value"
     assert edge["multiple"] and edge["ordered"]
-    keys = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "keys")
-    assert "positions_from" in {f["name"] for f in keys["fields"]}
+    # AMENDMENT 6 (2026-10-22): the key's `positions_from` is the covariate's
+    # `document` value form ([along by index]); the `key_id` edge stays.
+    cov = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "covariates")
+    names = {f["name"] for f in cov["fields"]}
+    assert "document" in names and "positions_from" not in names
+    doc = next(f for f in cov["fields"] if f["name"] == "document")
+    assert doc["type"] == "integer" and doc["blank_value"] == -1
     assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
     for cls, (_tier, d) in RECORDS.items():
         assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
@@ -4130,9 +4195,192 @@ def test_key_id_takes_positions_from_one_data_type():
         assert leaf not in RECORDS and dt in RECORDS, leaf
 
 
-def test_keys_carry_no_matrix_form():
-    """data_body AMENDMENT 4 (2026-10-21, proposal) adds `matrix` to the single-value
-    entry ONLY. A key's positions stay terms or quantities (AMENDMENT 3); a key whose
-    positions are vectors is a separate, undecided question."""
-    keys = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "keys")
-    assert "matrix" not in {x["name"] for x in keys["fields"]}
+def test_a_matrix_covariate_holds_an_array_at_each_position():
+    """INVERTED 2026-10-22. This asserted a key carries no `matrix` form (AMENDMENT 4
+    left a key whose positions are vectors undecided). data_body plan AMENDMENT 6
+    decided it: a `matrix` covariate holds a whole array at each position, and the
+    value's dimensions stay exactly its own axes (Jess Haley, 2026-10-22 [matrix
+    covariate], answer "B")."""
+    cov = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "covariates")
+    m = next(x for x in cov["fields"] if x["name"] == "matrix")
+    assert m["type"] == "matrix" and m["mustBeScalar"] is False
+    assert "followed by the array's own shape" in m["documentation"]
+
+
+# ---------------------------------------------------------------------------
+# data_body plan AMENDMENT 6 (2026-10-22): dimensions and covariates replace keys.
+# Decided by Jess Haley: [covariates], [conditions stay on the statement],
+# [along by index], [matrix covariate], [no complete], [bare dimension],
+# [epoch covariates]; [control as covariate] in the stimulus-response plan.
+# ---------------------------------------------------------------------------
+
+_VALUE_FORMS = ("origin", "quantity", "count", "term", "text", "logical", "matrix",
+                "document")
+
+
+def _a6_fields(cls, name):
+    f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == name)
+    return f, {x["name"]: x for x in f["fields"]}
+
+
+def test_a6_dimension_entry_is_term_n_chunk():
+    dims, sub = _a6_fields("data", "dimensions")
+    assert list(sub) == ["term", "n", "chunk"]
+    assert dims["mustBeScalar"] is False and dims["blank_value"] == []
+    assert sub["term"]["type"] == "ontology_term" and sub["term"]["mustBeNonEmpty"] is True
+    assert sub["term"]["constraints"]["binding"] == {"strength": "preferred",
+                                                     "node_form": "curie"}
+    assert sub["n"]["type"] == "integer" and sub["n"]["mustBeNonEmpty"] is True
+    assert "NOT unique" in sub["term"]["documentation"]
+
+
+def test_a6_covariate_entry_shape():
+    _cov, sub = _a6_fields("data", "covariates")
+    assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
+                         "origin", "spacing", "quantity", "count", "term", "text",
+                         "logical", "matrix", "document", "cyclic"]
+    assert sub["variable"]["mustBeNonEmpty"] is True
+    assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
+    along = sub["along"]
+    assert (along["type"], along["mustBeScalar"], along["mustBeNonEmpty"]) == (
+        "integer", False, True)
+    assert "0-based" in along["documentation"] and "NON-EMPTY" in along["documentation"]
+    for pair in ("origin", "spacing", "quantity"):
+        assert [x["name"] for x in sub[pair]["fields"]] == ["value", "source_value"], pair
+    assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is False
+    assert sub["document"]["type"] == "integer" and sub["document"]["blank_value"] == -1
+    # removed with the key entry
+    for gone in ("n", "regular", "positions_from", "chunk"):
+        assert gone not in sub, gone
+
+
+def test_a6_rules_replace_the_key_rules():
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    assert set(rules) == {"covariate_one_value_form", "covariate_along",
+                          "covariate_single_dimension_forms", "covariate_cyclic",
+                          "dimension_chunk_sampled_only"}, sorted(rules)
+    for old in ("key_regular_origin_spacing", "key_positions_one_form",
+                "key_chunk_sampled_only"):
+        assert old not in rules
+    # every field a rule names is declared (a rule over a missing field checks nothing)
+    _c, cov = _a6_fields("data", "covariates")
+    _d, dim = _a6_fields("data", "dimensions")
+    declared = {"dimensions"} | {f"covariates.{k}" for k in cov} | {
+        f"dimensions.{k}" for k in dim}
+    for r in rules.values():
+        assert set(r["fields"]) <= declared, (r["name"], set(r["fields"]) - declared)
+    assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing"} == set(
+        rules["covariate_one_value_form"]["fields"])
+    assert "exactly one" in rules["covariate_single_dimension_forms"]["statement"]
+    assert "non-empty" in rules["covariate_along"]["statement"]
+    assert "distinct" in rules["covariate_along"]["statement"]
+
+
+def _covariate_problems(dimensions, covariate):
+    """The AMENDMENT 6 rules, transcribed, applied to one covariate entry."""
+    out = []
+    forms = [f for f in _VALUE_FORMS if f in covariate and f != "document"]
+    if "document" in covariate and covariate["document"] >= 0:
+        forms.append("document")
+    if ("origin" in covariate) != ("spacing" in covariate):
+        out.append("origin without spacing")
+    if len(forms) != 1:
+        out.append(f"value forms {forms}")
+    along = covariate.get("along") or []
+    if not along:
+        out.append("along empty")
+    if len(set(along)) != len(along):
+        out.append("along repeats")
+    if any(not 0 <= k < len(dimensions) for k in along):
+        out.append("along out of range")
+    if ("origin" in forms or "document" in forms) and len(along) != 1:
+        out.append("single-dimension form along several")
+    if covariate.get("cyclic") and (
+            len(along) != 1 or not {"origin", "quantity", "count", "matrix"} & set(forms)):
+        out.append("cyclic not numeric along one")
+    return out
+
+
+def test_a6_the_stimulus_presentation_example_satisfies_the_rules():
+    dims = [{"term": {"name": "presentation"}, "n": 3}]
+    covs = [
+        {"variable": {"name": "onset time"}, "along": [0],
+         "quantity": {"value": [0.0, 2.0, 4.0], "source_value": [0.0, 2.0, 4.0]}},
+        {"variable": {"name": "offset time"}, "along": [0],
+         "quantity": {"value": [1.0, 3.0, 5.0], "source_value": [1.0, 3.0, 5.0]}},
+        {"variable": {"node": "XCO:0000099", "name": "control condition"}, "along": [0],
+         "logical": [False, True, False]},
+    ]
+    for c in covs:
+        assert _covariate_problems(dims, c) == [], c
+
+
+def test_a6_rule_counterexamples_are_refused():
+    two = [{"term": {"name": "row"}, "n": 4}, {"term": {"name": "column"}, "n": 5}]
+    bad = {
+        "along empty": {"variable": {}, "along": [], "count": [1]},
+        "along repeats": {"variable": {}, "along": [0, 0], "count": [1]},
+        "along out of range": {"variable": {}, "along": [2], "count": [1]},
+        "value forms": {"variable": {}, "along": [0], "count": [1], "text": ["a"]},
+        "origin without spacing": {"variable": {}, "along": [0], "origin": {"value": 0}},
+        "single-dimension form along several": {
+            "variable": {}, "along": [0, 1], "origin": {"value": 0}, "spacing": {"value": 1}},
+        "cyclic not numeric along one": {
+            "variable": {}, "along": [0], "term": [{"name": "a"}], "cyclic": True},
+    }
+    for why, c in bad.items():
+        got = _covariate_problems(two, c)
+        assert any(g.startswith(why) for g in got), (why, got)
+    # a document form along one dimension is fine; -1 is "not used"
+    assert _covariate_problems(two, {"variable": {}, "along": [1], "document": 0}) == []
+    assert _covariate_problems(two, {"variable": {}, "along": [1], "document": -1}) == [
+        "value forms []"]
+
+
+def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():
+    for name in ("dimensions", "covariates"):
+        _e, ep = _a6_fields("acquisition_epoch", name)
+        _d, da = _a6_fields("data", name)
+        assert list(ep) == list(da), name
+    _e, ep = _a6_fields("acquisition_epoch", "covariates")
+    assert ep["document"]["documentation"].startswith("NOT USABLE HERE")
+    names = {f["name"] for f in RECORDS["acquisition_epoch"][1]["fields"]}
+    assert not {"keys", "complete"} & names, names
+    assert "key_id" not in {e["name"] for e in RECORDS["acquisition_epoch"][1]["depends_on"]}
+
+
+def test_a6_no_class_declares_the_removed_fields():
+    """`keys`, `complete`, `regular`, `positions_from` and item's `offset` /
+    `control_item` are gone everywhere (a tombstone keeps v1 names; none of these is
+    a v1 field name of a tombstone that declares it)."""
+    hits = []
+
+    def walk(fields, path):
+        for f in fields or []:
+            p = path + f["name"]
+            if f["name"] in ("keys", "positions_from", "control_item") or (
+                    f["name"] in ("complete", "regular") and f["type"] == "boolean"):
+                hits.append(p)
+            walk(f.get("fields"), p + ".")
+
+    assert len(RECORDS) > 150
+    for cls, (tier, d) in RECORDS.items():
+        if tier == "deprecated":
+            continue
+        walk(d.get("fields"), cls + ".")
+    assert not hits, hits
+    item_value = next(f for f in RECORDS["item"][1]["fields"] if f["name"] == "value")
+    assert [s["name"] for s in item_value["fields"]] == ["item"]
+
+
+def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, "schemas", "V_eta", "stable",
+                           "CURIE_lookups_meta.json")) as fh:
+        xco = json.load(fh)["prefixes"]["xco"]
+    assert xco["spelling"] == "XCO" and xco["uri_base"].endswith("/obo/XCO_")
+    with open(os.path.join(root, "schemas", "V_eta_term_registry.json")) as fh:
+        terms = json.load(fh)["terms"]
+    row = [t for t in terms if t["node"] == "XCO:0000099"]
+    assert len(row) == 1 and row[0]["name"] == "control condition", row
+    assert "[control as covariate]" in row[0]["decided"]

@@ -849,7 +849,9 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # #73 review item 65: renamed epoch_parameter_reader; the
                   # migrator emits the old name until DID-matlab moves.
                   "acquisition_metadata_reader",
-                  # #73 review item 67: deleted; folds into item.control_item.
+                  # #73 review item 67: deleted; folded into item.control_item,
+                  # which is itself deleted 2026-10-22: the control is the
+                  # `control condition` covariate ([control as covariate]).
                   "control_designation",
                   # 2026-10-04 (signed, V_eta_study_plan.md): timed_sequence becomes
                   # `item`, its leaf `item_manipulation`. NDI's
@@ -1080,6 +1082,19 @@ NO_TARGET_BY_DECISION = {
         ("DELETED. Superclass-only with zero documents in any corpus, so there "
         "is nothing to migrate and no target to name.")),
 
+    # "A v1 `control_stimulus_ids` document becomes no V2 document" -- the
+    #  control is a covariate on the presentation's item value (data_body plan
+    #  AMENDMENT 6). Nothing replaces the DOCUMENT, so this is a dissolution of
+    #  the class; its one fact moves onto another class's value.
+    "control_stimulus_ids": (
+        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        "A v1 `control_stimulus_ids` document becomes no V2 document",
+        ("NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate]). Its fact "
+        "is the `control condition` covariate (XCO:0000099, logical) along the "
+        "stimulus presentation's item value, written by NDI's stimulus second "
+        "pass; a v1 NaN control gives all false, and responses point at the "
+        "presentation only. Supersedes [control record is a calculation].")),
+
     # `binaryseries_parameters` WAS HERE, as the second row of the `ngrid`
     # shape, and is deliberately not, as of 2026-08-11. It is now in
     # DECIDED_TARGETS_BY_SIGNOFF with TWO targets -- see the entry there for the
@@ -1259,7 +1274,9 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "when it is body (V_eta_data_body_model_plan.md:136-137, mutually "
         "exclusive). Recording one mount would drop the other. NOT BUILT: the "
         "fold is gated on the data_body tier (#45, blocked on #32), since "
-        "`axes[]`, `datum_type` and `regular` do not exist yet.")),
+        "`axes[]`, `datum_type` and `regular` do not exist yet. (data_body plan "
+        "AMENDMENT 6, 2026-10-22: the axis is now a `dimension`, and `regular` is "
+        "deleted -- the presence of a covariate's `origin` + `spacing` says it.)")),
 
     # ---- spatial-transcriptomics family: the eight SIGNED PASSTHROUGHS that stood
     # here (Corrected Option C, V_eta_go_forward_class_audit.md:796, signed

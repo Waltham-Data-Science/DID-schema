@@ -148,19 +148,19 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
-        "tag": "spatial_transcriptomics_family",
-        "line": 572,
-        "kind": "TEAM-SIGN-OFF"
+        "document": "V_eta_stimulus_response_model_plan.md",
+        "tag": "control as covariate",
+        "line": 614,
+        "kind": "Decided by"
       },
-      "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
+      "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
-          "tag": "spatial_transcriptomics_family",
+          "document": "V_eta_stimulus_response_model_plan.md",
+          "tag": "control as covariate",
           "resolved": true,
-          "line": 572,
-          "kind": "TEAM-SIGN-OFF",
+          "line": 614,
+          "kind": "Decided by",
           "why": null
         }
       ]

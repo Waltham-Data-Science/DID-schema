@@ -720,6 +720,18 @@
             "spelling": "GO",
             "spelling_source": "OBO PURL: the ID space as written in uri_base",
             "synonyms": []
+        },
+        "xco": {
+            "label": "Experimental Condition Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/XCO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `xco`. Conditions under which measurements are made, e.g. XCO:0000099 control condition (the `logical` covariate marking a stimulus presentation's controls; Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md).",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/xco (2026-10-22)",
+            "spelling": "XCO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
+            "synonyms": []
         }
     },
     "uri_styles": {

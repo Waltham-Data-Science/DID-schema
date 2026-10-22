@@ -575,22 +575,27 @@ def test_subject_statement_now_has_the_axes_stimid_needs():
     assert {f["name"] for f in BUILT["statement"][1]["fields"]} == {
         "variable", "conditions", "distributive", "notes"}
     # #73 item 65 (2026-09-29): keys/complete moved on up to `data`, value's parent.
+    # data_body plan AMENDMENT 6 (2026-10-22): `keys` -> `dimensions` + `covariates`,
+    # `complete` deleted.
     _tier, d = BUILT["data"]
     names = {f["name"] for f in d["fields"]}
-    assert "keys" in names, (
-        "`statement.keys` (named `axes` until #73) is the inline/reference arm of the signed mount "
+    assert {"dimensions", "covariates"} <= names, (
+        "`data.dimensions` + `data.covariates` (`keys` until 2026-10-22, `axes` "
+        "until #73) are the inline/reference arm of the signed mount "
         "rule (addendum sec.7: axes live with the thing whose extent they "
-        "describe). Without it, `storage_mode: inline` has nowhere to put an "
+        "describe). Without them, `storage_mode: inline` has nowhere to put an "
         "extent and the stimid move has no target.")
-    assert names == {"keys", "datum_order", "complete"}  # datum_order: 2026-10-20, D-5
+    assert names == {"dimensions", "covariates", "datum_order"}  # datum_order: 2026-10-20, D-5
     assert {f["name"] for f in BUILT["value"][1]["fields"]} == {
         "data_type", "source_data_type", "data_body"}   # datum_type renamed 2026-10-08
     # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
     # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
     # this mount up automatically because it walks every class rather than a list.
-    axes = next(f for f in d["fields"] if f["name"] == "keys")
-    sub = [s["name"] for s in axes.get("fields", [])]
-    assert "variable" in sub and "n" in sub, (
+    axes = next(f for f in d["fields"] if f["name"] == "covariates")
+    dims = next(f for f in d["fields"] if f["name"] == "dimensions")
+    sub = [s["name"] for s in axes.get("fields", [])] + [
+        s["name"] for s in dims.get("fields", [])]
+    assert "variable" in sub and "n" in sub and "along" in sub, (
         f"`statement.axes[]` declares {sub!r}, which is not the signed "
         "axis entry")
 

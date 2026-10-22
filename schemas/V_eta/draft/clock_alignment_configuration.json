@@ -176,7 +176,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`...) and channel strings are the channel edges, not entries. `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a key's, holding one value where a key holds n (2026-10-19).",
+                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`...) and channel strings are the channel edges, not entries. `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
                     "constraints": {},
                     "fields": [
                         {
@@ -195,7 +195,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a key or a condition entry.",
+                            "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a condition entry, and as a covariate's without `along`.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",

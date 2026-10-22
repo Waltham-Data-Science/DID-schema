@@ -196,3 +196,7 @@ Decided by Jess Haley, 2026-10-22 [shape movie note]: a presentation whose playl
 Decided by Jess Haley, 2026-10-22 [Hartley without enumeration]: a Hartley presentation with no `hartley_calc` enumeration is converted like every other stimulus kind: one method document, term "Hartley stimulus", its raw v1 parameters as entries; the presentation's `notes` says the individual gratings are not listed in the source. Nothing is refused or invented. (Answer: "What do you think, a?", agreeing to (a).)
 
 Decided by Jess Haley, 2026-10-22 [spatial phase in degrees]: a stimulus's spatial phase (NewStim periodicstim `sPhaseShift`, "in radians where 2*pi is 1 cycle") is stored in the canonical angle unit, degrees (`om:degree`), per T14 ("Canonical units are PRACTICAL SI ... `degrees` (not radians)"), with `source_value` the v1 number in radians and `source_unit` `om:radian`. This corrects the earlier answer "A" (radian as the stored unit), which conflicted with T14; om:radian stays registered as the source unit. (Her words: "Agreed. You can fix the degrees issue.")
+
+Decided by Jess Haley, 2026-10-22 [flashed bar parent]: EMPTY:0000366 "flashed bar" sits under NCIT:C61406 Stimulation, as EMPTY:0000358 does (empty-ontology #23), not XCO visual stimulus or NCIT Stimulus. Answer "3a".
+
+Deferred by Jess Haley, 2026-10-22, to after the merge: the stimulus vocabulary proposals (non-blocking). Answer "5y".

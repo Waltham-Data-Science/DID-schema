@@ -1398,3 +1398,92 @@ Decided by Jess Haley, 2026-10-21 [sorter output by location]: a v1 sorter outpu
 Decided by Jess Haley, 2026-10-14 [format is an ontology term]: "`format` is a bound `ontology_term`, not an IANA media type ... EDAM format terms first ..., an EMPTY term where EDAM has none (OME-Zarr, minted as a kind of `EDAM:format_3915`)" (the AMENDED 2026-10-14 note above, confirmed by Jess Haley 2026-10-21, answer "4A"). This is the decision behind EMPTY:0000259 "OME-Zarr".
 
 Decided by Jess Haley, 2026-10-22 [NDI binary format]: the ingested stimulus metadata archive (v1 `daqmetadatareader_epochdata_ingested` `data.bin`, a `.nbf.tgz`) gets a new EMPTY format term rather than EDAM:format_2333 "Binary format" (answer "5b"). Evidence (Waltham-Data-Science/NDI-compress 37c8c05, `+ndi/+compress/write_ndibinary.m`): `.nbf.tgz` is NDI's own "NDI binary" format, `ndi_binary_version` 1, a gzip-compressed tar of an `.nbh` header and an `.nbf` data file; `compress_metadata` stores the parameter structs as JSON text in it, and `compress_ephys`, `compress_digital`, `compress_time` and `compress_eventmarktext` write the same format. Proposed (not decided): ONE generic term "NDI binary format" for every `.nbf.tgz`, not a metadata-only term.
+
+# AMENDMENT 6 — dimensions and covariates replace keys. Jess, 2026-10-22.
+
+**Why.** A value could describe each position along an axis only through its
+key, one per dimension. Anything else that varies along an axis had nowhere to
+go, so it grew as one-off fields on one value kind (`item.value.offset`, the
+per-trial end of a timed sequence; `item.value.control_item`, the control).
+Separating the axis from what is known along it removes both, and gives every
+other per-position fact (an electrode's depth per channel, a frame's quality, a
+trial's reward) a place without a new field. This is the NetCDF/CF and xarray
+model: dimensions, and auxiliary coordinates along them.
+
+**The shape, on `data` (value documents and data bodies alike, wherever `keys`
+was).**
+
+- `dimensions`: one entry per axis of the stored array, in array order
+  (dimension k IS array axis k). Each entry:
+  - `term` (ontology_term, required): what the axis is. Not unique: a channel x
+    channel matrix has two `channel` dimensions.
+  - `n` (integer, required): the axis length.
+  - `chunk` (sampled_body only): unchanged.
+- `covariates`: what is known about the value's positions along one or more
+  dimensions. Each entry is the AMENDMENT 3 entry with:
+  - `variable` (ontology_term, required).
+  - `along` (integer list, required, NON-EMPTY, distinct): 0-based indices into
+    `dimensions`.
+  - `unit`, `source_unit`, `approximate` as on every entry; `cyclic` only on a
+    numeric covariate along exactly one dimension.
+  - EXACTLY ONE value form:
+    - `origin` + `spacing` (each `{value, source_value}`): positions
+      origin + k * spacing; numeric; along exactly one dimension.
+    - `quantity` `{value, source_value}`: numbers in `unit`.
+    - `count`: integers.
+    - `term`: terms `{node, name}` or labels `{name}`.
+    - `text`: strings.
+    - `logical`: true / false (new).
+    - `matrix`: a whole numeric array at each position (AMENDMENT 4).
+    - `document`: the 0-based position of a `key_id` entry; position k is entry
+      k of that document's value (was the key's `positions_from`); along
+      exactly one dimension.
+  - Shape: the extents of the `along` dimensions, in that order; for `matrix`,
+    those extents followed by the array's own shape.
+- `datum_order`: unchanged; it orders the dimensions.
+
+**Rules.**
+- A covariate is never `along: []`. A fact true of the whole value is a
+  `condition`, and conditions STAY ON THE STATEMENT: a value document may be
+  shared by several statements (item 30), and conditions describe each
+  statement's circumstances.
+- A dimension may have no covariate (a plain index).
+- Covariates describe positions; they are not further measurements. A standard
+  error is its own value at the same positions, not a covariate.
+- A variable appears at most once across a statement's conditions, its value's
+  covariates, and any one of its bodies' covariates (the existing batch check,
+  with covariates in place of keys).
+
+**Removed.** `keys`; the entry's `n` (on the dimension now) and `regular` (the
+presence of `origin`/`spacing` says it); `positions_from` (now `document`);
+`complete` (sparse or ragged data is one `row` dimension with a covariate per
+former key, the long format); `item.value.offset` and `item.value.control_item`.
+`acquisition_epoch`'s own copy of the key entry becomes the same `dimensions` +
+`covariates`.
+
+**A stimulus presentation** (v1 `stimulus_presentation`, now an `item` value):
+one dimension, a presentation; covariates `onset time` (always), `offset time`
+(when v1 recorded ends) and `control condition` (XCO:0000099, `logical`; see
+the stimulus-response plan's [control as covariate]).
+
+Decided by Jess Haley, 2026-10-22 [covariates]: `data` carries `dimensions` and `covariates` in place of `keys`, as above. Her question that opened it: "why can't we come up with a way to specify additional covariates along one or more of a value's axes?"; then "Forget what's signed. What's truly the best shape"; the list name "Covariates"; built "Before" the merge.
+
+Decided by Jess Haley, 2026-10-22 [conditions stay on the statement]: conditions are not moved onto the value; a covariate always runs along at least one dimension. Her "Ok" to the revised proposal, after asking "Is there any reason moving conditions off the statement is going to be a problem?" (answer: a shared value document, item 30).
+
+Decided by Jess Haley, 2026-10-22 [along by index]: `along` lists dimension indices, not names ("I'm still not sold on along referencing the name of the dimension term rather than the index"), and a dimension carries a term ("Why do dimensions not have terms?"; required: "3y"). The value form that takes positions from another document is `document` ("Why isn't it just 'document'?").
+
+Decided by Jess Haley, 2026-10-22 [matrix covariate]: a `matrix` covariate holds a whole array at each position; dimensions stay exactly the value's own axes (answer "B").
+
+Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus presentation's times are the covariate `onset time`, not `time` and not `stimulus onset time` ("Actually I think onset time would be correct. Stimulus is redundant?"); the end is `offset time`.
+
+Decided by Jess Haley, 2026-10-22 [no complete]: `complete` is deleted; sparse data is one row dimension with covariates (answer "1a").
+
+Decided by Jess Haley, 2026-10-22 [bare dimension]: a dimension may have no covariate (answer "2a").
+
+Decided by Jess Haley, 2026-10-22 [epoch covariates]: `acquisition_epoch`'s copy of the key entry moves to `dimensions` + `covariates` (answer "4y").
+
+Decided by Jess Haley, 2026-10-22 [tenets follow covariates]: the tenets are updated to the covariate model ("If we need to update the tenets following the covariate changes, let's do that.").
+
+Decided by Jess Haley, 2026-10-22 [covariate terms]: terms for the presentation dimension, `onset time` and `offset time` are found by T19 order (an existing ontology term first, an EMPTY term only where none fits) and brought back as one list (answer "4y").
+
+Proposed (not decided) [covariate terms chosen]: from the T19 search of 2026-10-22 (scratch write-up; 503 registry terms, 49 prefixes, 402 EMPTY classes, 59 OLS4 queries; CogPO, CogAt and NEMO not searched): the presentation dimension is OBI:0000807 "presentation of stimulus" (its definition says "organism", a weak point for slices and cultures); `onset time` and `offset time` are new EMPTY:0000368 / EMPTY:0000369 (empty-ontology #24, unmerged), because NDI's stimulus decoder records `onset`/`offset` apart from `stimopen`/`stimclose`, so SIO:000669 "start time" / NCIT:C78441 "Start Time" would name `stimopen`; the sparse `row` dimension is SIO:000752 "row" (needs a new `sio` prefix). Until confirmed, builds write these four as labels (`{name}`, no node) and the registry holds no row for them. Open with it: whether EMPTY:0000140 "encounter onset time" becomes a subclass of, or is replaced by, `onset time` (T19).

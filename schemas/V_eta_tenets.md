@@ -58,8 +58,9 @@ inline or by `method_id` to a standalone `method` document -- proposed 2026-10-2
 `V_eta_method_plan.md`, not signed; `method` was a bare term beside a separate
 `method_parameters` list until then), an optional `instrument_id` and
 `software_id`, and requires a `time_reference`. Its per-reading positions are the value's
-`keys`, declared on `data` (#73 item 65; the `sample_time` block retired under the signed
-data_body model, 2026-08-14, built #73 item 21). (SPEC §3–§5)
+`dimensions` and the `covariates` along them, declared on `data` (#73 item 65; the
+`sample_time` block retired under the signed data_body model, 2026-08-14, built #73 item 21;
+`keys` until 2026-10-22, data_body plan AMENDMENT 6). (SPEC §3–§5)
 
 **Statements about any entity; the family loses `subject_`; `data_type` becomes `value`**
 (2026-10-08, decided by Jess Haley). The family's classes are `statement`, `assertion`,
@@ -103,12 +104,15 @@ N time references on one document. What to do instead depends on what each occur
 carries:
 - **a one-off event** is its own statement with its own time reference;
 - **a recurring event with its own measurements** (a worm's patch encounters) is a LIST
-  statement whose value is the occurrences' onsets (keyed by occurrence), plus one
-  statement per measured quantity keyed by that list through `key_id` (T14), each holding
-  one value per occurrence; the statements' own time reference is the span they cover;
+  statement whose value is the occurrences' onsets (along an occurrence dimension), plus one
+  statement per measured quantity whose occurrence dimension takes its positions from that
+  list (a `document` covariate, through `key_id`, T14), each holding one value per
+  occurrence; the statements' own time reference is the span they cover;
 - **a protocol that repeats an action on a schedule** (a stimulus sequence, five
-  identical doses) is an `item` keyed by onset: `item_id` names what was done, `value.item`
-  which one at each onset, `value.offset` when each ended.
+  identical doses) is an `item` along a presentation dimension: `item_id` names what was
+  done, `value.item` which one at each presentation, and covariates along that dimension
+  say when each began (`onset time`), when it ended (`offset time`) and whether it was a
+  control (`control condition`).
 
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
@@ -149,7 +153,7 @@ writes reads as a supported case nobody has checked.
 unknown-modality recording), do **not** invent a generic `array` /
 `numeric` value — that would only duplicate `sampled_body` (T6, which is already
 "self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
-`sampled_body`: its `keys` live on the body, its `datum_type` on the data type (#73 item 60), and
+`sampled_body`: its `dimensions` and `covariates` live on the body, its `datum_type` on the data type (#73 item 60), and
 the `variable` carries the label.
 The dimensioned data_types just *add* units on top. So: type it when you can (a modality → a
 composite); otherwise the self-describing body is the value. *(This is why `array` was killed
@@ -188,7 +192,7 @@ A value is inline (in `value`), shared (the statement's `value_id` points at a s
 data-type document), or in bodies (the boolean `data_body` is true and data_body documents
 point up at it; `storage_mode` was deleted by #73 item 9). The same holds for a relation
 leaf (T3): `value_id` present ⇒ its inline value and descriptors are empty. The value's descriptors —
-`keys`, `complete`, `datum_type` — live on `value`, WITH THE VALUE, so a shared value
+`dimensions`, `covariates`, `datum_type` — live on `value`, WITH THE VALUE, so a shared value
 states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
 `chunk`, `fill_value` — with `datum_type` on the data type it belongs to; `summary` dropped, #68;
@@ -197,21 +201,32 @@ TIFF, OME-Zarr, an archive; an opaque body must state its `format`, #73 audit 2 
 exemption, recorded (#73 audit 2 D13): `demo` keeps a file record outside the two bodies,
 because it reproduces v1 `demoNDI`, whose schema requires the file — a fixture class, not
 data. The two split by **who lays out the bytes**, not by whether
-there is an array: both may carry `keys` (required on a sampled body; on an opaque body
-they describe the array as its format presents it) and `conditions` (lightsheet
+there is an array: both may carry `dimensions` and `covariates` (dimensions required on a
+sampled body; on an opaque body they describe the array as its format presents it) and `conditions` (lightsheet
 walkthrough L1/L3, 2026-09-25). Every carrier — timeseries,
 dataseries, zarr, image, generic_file — phases into those; **encoding/format is a field,
 not a class**. Timing splits: the anchor lives in `time_reference`, the per-sample
 cadence rides beside the value. (SPEC §8)
 
-**Keys vs. conditions.** A **key** is a dimension of the *stored* array — exactly those,
-in order, a length-1 dimension included, and never a key for a dimension the array does not
-have. A **condition** is a one-value fact true of every value that is *not* a stored
-dimension (an electrode offset; a reduced pyramid level's `summary statistic: maximum`). A
-condition true of every body sits on the statement; one true of only one body sits on that
-body. A variable appears at most once across a statement's keys and conditions and any one
-of its bodies'. Bodies point at their owner (`owner_id`) and the owner does not list them —
-adding a body never rewrites the statement — so that rule is checked in batch.
+**Dimensions, covariates and conditions.** A **dimension** is an axis of the *stored*
+array — exactly those, in order, a length-1 axis included, and never a dimension for an axis
+the array does not have; it says what the axis is (a term, not unique) and how long it is.
+A **covariate** is what is known about the positions along one or more dimensions (their
+times, labels, a control flag), named by dimension *index*; a dimension may have none. A
+**condition** is a one-value fact true of every value (an electrode offset; a reduced
+pyramid level's `summary statistic: maximum`), so a covariate never runs along no
+dimension. A condition true of every body sits on the statement; one true of only one body
+sits on that body. A variable appears at most once across a statement's conditions, its
+value's covariates and any one of its bodies'. Bodies point at their owner (`owner_id`) and
+the owner does not list them — adding a body never rewrites the statement — so that rule is
+checked in batch.
+
+*Amended 2026-10-22 (data_body plan AMENDMENT 6; Jess Haley, [tenets follow covariates]):*
+`keys` became `dimensions` + `covariates` (the NetCDF/CF model), `complete` was deleted
+(sparse data is one `row` dimension with covariates), and `item.value.offset` /
+`item.value.control_item` became the covariates `offset time` and `control condition`.
+Conditions stay on the statement. The passages in T2, T3, T6, T13, T14, T15, T16 and T19
+that described keys were updated to match.
 
 **Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is
 **losslessly derivable** from representation *A*, store *A* once at the **finest grain** and
@@ -389,8 +404,7 @@ a footnote**.
   values**: ontology CURIEs (`obi:0000750`), openMINDS term-set names. PascalCase/camelCase
   in a document block is a migration smell (snake-case it) unless it is such an external id.
 - **Booleans name the property, with no `is_`/`has_` prefix** (team, 2026-09-24). A
-  boolean field is named for the property it asserts: `approximate`, `regular`,
-  `complete`, `cyclic`, `blank`, `mock`, `modulated_response`, `redundant` — never
+  boolean field is named for the property it asserts: `approximate`, `cyclic`, `blank`, `mock`, `modulated_response`, `redundant` — never
   `is_approximate`, `is_blank`. The type already says it is a yes/no; the prefix adds
   nothing a reader needs. This was already the practice in every field V_eta designed
   (the value cell's `approximate`, 54 uses; axes' `regular`, 4) and the `is_` names were
@@ -417,8 +431,8 @@ a footnote**.
   `parameters`, `data`, `info`, `struct`, `table`, `record`, `metadata`, `object`,
   `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,
   `stimulus_response_scalar_parameters` are v1 smells). **The spine's `data` is not a
-  wrapper** (#73 review item 65): it is the parent that declares a value's keyed array
-  shape (`keys`, `complete`, `key_labels_id`) for both `value` and `data_body`, so
+  wrapper** (#73 review item 65): it is the parent that declares a value's array
+  shape (`dimensions`, `covariates`, `key_id`) for both `value` and `data_body`, so
   the word names what those classes hold. A field holds a **role** — name the
   role: v1's generic `parameters` split into **`conditions`** (one-value facts true of
   every value — the experimental conditions, on a statement or on one body, T6) and
@@ -468,12 +482,12 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
 - **One payload slot.** Every `value` composite exposes its payload at exactly one
   field: **`value`**. This is what makes T3's `direction × value` factoring mechanical
   — `voltage.value` means the same thing in a `voltage` observation and a `voltage` calculation,
-  so one query spans both. Descriptors needed to *interpret* the payload (unit, keys) ride
+  so one query spans both. Descriptors needed to *interpret* the payload (unit, dimensions) ride
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
   carries `source_unit` next to `source_value`; by the same rule an inline raster carries
-  its `keys` next to its pixels. Exception, #73 item 15: the value's storage type is
+  its `dimensions` and `covariates` next to its pixels. Exception, #73 item 15: the value's storage type is
   `datum_type`, stated ONCE on the data type (#73 item 60), and colour/channels are read off the channel
-  key. There is no `image` class: a raster is a value of what its pixels measure, #73
+  dimension. There is no `image` class: a raster is a value of what its pixels measure, #73
   item 51.)*
 - **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
   `ontology_term`, …) declares its sub-fields in the schema — the canonical value plus
@@ -506,40 +520,45 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   plus}`** is the stated bound, both ≥ 0 in the canonical unit, the true value lying in
   [value − minus, value + plus]; asymmetric where the uncertainty is one-sided; a bound, not
   a statistic; absent means none stated, `{0, 0}` means exact as given. Every dimensioned cell
-  carries it, as do count, score and date cells (CHANGE 7 amendment 1); axis keys and
+  carries it, as do count, score and date cells (CHANGE 7 amendment 1); covariates and
   conditions do not. A measured spread (a standard deviation) is another statistic, so it is
   its own field (next bullet), never a tolerance.
-- **Another reading is a key; another statistic is a field** (#73 audit 2 D3, refining item
-  15). A further reading of the same quantity (another trial, another stimulus level) is a
-  position along a key; a different statistic of it (`mean`, `stddev`, `stderr`, the per-trial
-  `individual` values, a control's) is its own named field, sized by the same keys.
+- **Another reading is a position; another statistic is a field** (#73 audit 2 D3, refining
+  item 15). A further reading of the same quantity (another trial, another stimulus level) is
+  a position along a dimension; a different statistic of it (`mean`, `stddev`, `stderr`, the
+  per-trial `individual` values, a control's) is its own named field, sized by the same
+  dimensions, never a covariate.
 - **Readings that differ only by a label are one statement** (Jess, 2026-10-19). Values
-  with the same subject, variable, method, method parameters, inputs, conditions and keys,
-  differing only in one categorical fact (which body part, channel, sensor, period), are
-  one statement with that fact as a categorical (`term`) key. A condition is a fact true of every
+  with the same subject, variable, method, method parameters, inputs, conditions, dimensions
+  and covariates, differing only in one categorical fact (which body part, channel, sensor,
+  period), are one statement with a dimension for that fact and a categorical (`term`)
+  covariate along it. A condition is a fact true of every
   value; it never tells apart sibling statements that would otherwise be identical. They
   stay separate only when something else differs: another statistic, other inputs, or
-  keys with different positions. *(A worm's head, midpoint and tail speed are one
-  [frame x body part] statement; its median speed during and after each encounter is one
-  [encounter x encounter period] statement; its median speed before the first encounter
-  has no encounter key, so it stays its own.)*
-- **A key lists its positions, or takes them from ONE document** (2026-10-05). A key
-  states its positions itself (`regular` origin + spacing, `quantity`, or `term`), or takes
-  them from another `value` document through the **`key_id`** edge, chosen by the key's
-  `positions_from`: position *k* is entry *k* of that document's value, which names it.
-  A list several statements share is stated once and the others key by it -- a gene list
-  (a standalone `term`), a cell list (a `label` calculation), a worm's encounter onsets (a
-  `time` calculation). `key_id` mirrors `value_id` ("my value lives in that document" /
-  "this key's positions live in that document") and points only at a `value`, never at
-  a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05.)*
+  dimensions whose covariates hold different positions. *(A worm's head, midpoint and tail
+  speed are one [frame x body part] statement; its median speed during and after each
+  encounter is one [encounter x encounter period] statement; its median speed before the
+  first encounter has no encounter dimension, so it stays its own.)*
+- **A covariate lists its positions, or takes them from ONE document** (2026-10-05). A
+  covariate states its positions itself (`origin` + `spacing`, `quantity`, `count`, `term`,
+  `text`, `logical` or `matrix`), or takes them from another `value` document through the
+  **`key_id`** edge, chosen by the covariate's `document`: position *k* is entry *k* of that
+  document's value, which names it.
+  A list several statements share is stated once and the others take positions from it -- a
+  gene list (a standalone `term`), a cell list (a `label` calculation), a worm's encounter
+  onsets (a `time` calculation). `key_id` mirrors `value_id` ("my value lives in that
+  document" / "these positions live in that document") and points only at a `value`, never
+  at a subject, an entity or a body. *(`key_labels_id` / `labels_from` until 2026-10-05; a
+  key's `positions_from` until 2026-10-22.)*
 - **Declaration is what makes a field queryable.** A value is indexable exactly to the
   depth its structure is declared; undeclared internals are an opaque blob no matter how
   well named. "Typed" must mean *machine-readable*, not *documented*.
 - **Counting starts at 0, everywhere, and is declared once** (team, 2026-09-24). An index
   base is exactly the kind of fact a reader cannot recover from the numbers themselves, so
   V_eta has ONE rule rather than a per-field note:
-  - **every index is 0-based**: a position along a key, a row of a document named by
-    `positions_from` (`labels_from` until 2026-10-05), a chunk number,
+  - **every index is 0-based**: a position along a dimension, a covariate's `along` entry,
+    a row of a document named by a covariate's `document` (`positions_from` until
+    2026-10-22, `labels_from` until 2026-10-05), a chunk number,
     `item.value.item` (`timed_sequence.value.presentation_order` until 2026-10-04);
   - *[SUPERSEDED FOR EDGES by T15, 2026-09-25: edges are no longer numbered at all. A
     position into a multi-edge is still 0-based — `presentation_order` value *k* is the
@@ -594,7 +613,7 @@ evidence allows two readings, store the one that claims less** (fewer entities, 
 bounds, no link) and note the other.
 
 **A time with no anchor of its own counts from its time reference** (2026-10-20,
-the Haley document audit's D-2; Jess Haley agreed; signed by her 2026-10-21). A time value or time key
+the Haley document audit's D-2; Jess Haley agreed; signed by her 2026-10-21). A time value or time covariate
 with no anchor of its own counts from the start of its statement's time reference.
 
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
@@ -622,7 +641,8 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
   derived from X" is one exact name, never a pattern over `name_*`.
 - **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`
   means position is data (0-based, T14): `timed_sequence.item_id` (the playlist indexes it),
-  `key_labels_id` (a key's `labels_from` names an entry by position), and
+  `key_id` (a covariate's `document` names an entry by position; `key_labels_id` /
+  `labels_from` until 2026-10-05), and
   `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and
   breaks ties by rule order — `syncgraph.m`, `if c<lowcost`). `ordered: false` means the
   entries are a set and their order must not be read.
@@ -725,8 +745,8 @@ Every statement must read as one sentence:
   plates carry nothing. A query for exclusions looks for `false`.
 - **A summary of a general quantity is stated as that quantity, not as a term of its
   own.** "Median speed on patch" is `speed`, with the statistic as its `method` (`median`).
-  The stretch it summarises -- a body part, an encounter period, a time window -- is a key
-  when sibling values differ only there (T14), and a condition when the statement stands
+  The stretch it summarises -- a body part, an encounter period, a time window -- is a
+  dimension, with a covariate naming each stretch, when sibling values differ only there (T14), and a condition when the statement stands
   alone. A window is two numbers from an anchor: `analysis window start` and `analysis
   window end` as quantity conditions, with the anchor as a `reference time point`
   condition. A rule that is not a named statistic (a peak found by a lab's procedure) is a
@@ -922,7 +942,7 @@ the document states elsewhere.**
   term in our own ontology (EMPTY) at the right level rather than borrow one at the wrong
   level.
 - **A term we mint names nothing the document already carries.** Its label and definition
-  leave out the subject, species, place or partner that the statement's entity, keys,
+  leave out the subject, species, place or partner that the statement's entity, covariates,
   relations or edges already state: `arena mask`, not `C. elegans behavioral assay: arena
   mask`; "the subjects", not "the animals" or "C. elegans". A qualifier stays when it says
   something nothing else does (`seeding volume`: what was done).

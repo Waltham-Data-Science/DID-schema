@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A contrast-sensitivity profile: its one key is spatial frequency (unit cycles per degree; <- v1 `spatial_frequencies`), with an ARRAY of Naka-Rushton fit variants and typed summary sub-blocks.",
+            "documentation": "A contrast-sensitivity profile: its one dimension is spatial frequency, its positions the spatial-frequency covariate along it (unit cycles per degree; <- v1 `spatial_frequencies`), with an ARRAY of Naka-Rushton fit variants and typed summary sub-blocks.",
             "constraints": {},
             "fields": [
                 {
@@ -289,7 +289,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The grid: one entry per fit input, in the order of the fitted value's keys (a model_fit's `independent_variables`).",
+                                    "documentation": "The grid: one entry per fit input, in the order of the fitted value's dimensions (a model_fit's `independent_variables`).",
                                     "constraints": {}
                                 },
                                 {

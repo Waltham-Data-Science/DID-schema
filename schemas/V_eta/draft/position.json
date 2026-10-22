@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Where something is: coordinates[k] along the coordinate system's dimensions[k], in that dimension's spacing units (metres = coordinate x spacing). Many positions (centroids, outline vertices) are a key over the things positioned. One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
+            "documentation": "Where something is: coordinates[k] along the coordinate system's dimensions[k], in that dimension's spacing units (metres = coordinate x spacing). Many positions (centroids, outline vertices) run along a dimension over the things positioned. One entry, or a list of them along the value's `dimensions`, whose `covariates` say what each entry is (#73 review D1; `keys` until 2026-10-22).",
             "constraints": {},
             "fields": [
                 {

@@ -287,7 +287,9 @@ TENET_MAP = [
         "`control_designation` -- a name for the content, not for the box the "
         "content came in. (#73 review item 67 then folded it into "
         "`item.value.control_item` (was `timed_sequence`): which condition is the control is a "
-        "design fact.)",
+        "design fact. Since 2026-10-22 it is the `control condition` covariate along the "
+        "presentation dimension of that `item` value; `control_item` is deleted "
+        "([control as covariate], data_body plan AMENDMENT 6).)",
         ["control_stimulus_ids"],
         ["item"],
         "V_eta_tenet_audit.md",

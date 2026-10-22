@@ -186,7 +186,8 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
 # node_form: curie} like `study.factors` and `statement.variable`.
 # 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
-# and the `variable` of keys (data, acquisition_epoch), conditions (statement,
+# and the `variable` of keys (data, acquisition_epoch; covariates since 2026-10-22,
+# data_body plan AMENDMENT 6, beside the dimensions' bound `term`), conditions (statement,
 # data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.

@@ -120,27 +120,41 @@ HUSK_BRIDGE = {
 SECOND_PASS = {
     "stimulus_presentation": {
         "emits": "one method document per distinct stimulus (deduped; was "
-                 "visual_grating until 2026-10-21) + manipulation + item "
-                 "(+ item.control_item; was timed_sequence until 2026-10-04)",
+                 "visual_grating until 2026-10-21) + manipulation + item (was "
+                 "timed_sequence until 2026-10-04) whose value has one presentation "
+                 "dimension and the covariates `onset time`, `offset time` (when v1 "
+                 "recorded ends) and `control condition` (XCO:0000099, logical; when v1 "
+                 "named a control); item.value.offset / control_item were deleted "
+                 "2026-10-22 (data_body plan AMENDMENT 6)",
         "assembler": "ndi.migrate.internal.stimulusPresentationToItem "
                      "(local.m, the stimulus step)",
-        "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "
-               "signed decomposition replaced the flattening pass 2026-08-17.",
+        "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green) on the "
+               "SUPERSEDED key shape; the covariate shape (AMENDMENT 6, 2026-10-22) is "
+               "NOT YET MEASURED end to end. The signed decomposition replaced the "
+               "flattening pass 2026-08-17.",
         "caveat": "a presentation with no responding animal is left as "
-                  "passthrough by the pass (measured as single_grating_candidates).",
+                  "passthrough by the pass (measured as single_grating_candidates). "
+                  "At NDI 30a120cb3 the pass still writes item.value.offset and "
+                  "item.value.control_item (stimulusPresentationToItem.m), the shape "
+                  "AMENDMENT 6 deleted.",
     },
     "control_stimulus_ids": {
-        "emits": "calculation + item (the control's 0-based position in the "
-                 "presentation's item_id; base.id kept, so responses' input_id "
-                 "resolves), beside item.value.control_item",
-        "assembler": "ndi.migrate.internal.controlCalculation "
-                     "(local.m, the stimulus step after mintSessionDuring)",
-        "e2e": "TestControlCalculation (NDI #1021 6d1585916; 37 passed under "
-               "Octave with TestStimulusPresentationItem). Decided by Jess "
-               "Haley, 2026-10-21 [control record is a calculation]; DID pass 1 "
-               "cannot build it (the item documents do not exist yet).",
-        "caveat": "a control of NaN or none mints no calculation and is counted; "
-                  "the NDI e2e on the frozen head is the corpus evidence.",
+        "emits": "NO V2 document: the control is folded into the presentation's "
+                 "item value as the `control condition` covariate (XCO:0000099, "
+                 "logical, true where the presentation was a control; all false for "
+                 "a v1 NaN control). Jess Haley, 2026-10-22 [control as covariate], "
+                 "V_eta_stimulus_response_model_plan.md, superseding "
+                 "[control record is a calculation]; responses point at the "
+                 "presentation only.",
+        "assembler": "the stimulus step of ndi.migrate.local, beside "
+                     "ndi.migrate.internal.stimulusPresentationToItem. At NDI "
+                     "30a120cb3 it is still ndi.migrate.internal.controlCalculation "
+                     "(local.m), minting the superseded calculation + item.",
+        "e2e": "NOT YET MEASURED on the covariate shape (TestControlCalculation, "
+               "NDI #1021 6d1585916, covered the superseded calculation).",
+        "caveat": "until NDI's second pass moves, a migrated corpus carries the "
+                  "superseded control calculation; the overlay records the decided "
+                  "shape, not a measurement of it.",
     },
     "ensemble": {
         "emits": "member_of edges + a derived (times,ids) cache",
