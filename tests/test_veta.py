@@ -334,7 +334,10 @@ def test_entity_genus():
         assert gone not in RECORDS, f"{gone} should have merged into entity"
     t = next(f for f in RECORDS["entity"][1]["fields"] if f["name"] == "type")
     names = [v["name"] for v in t["constraints"]["binding"]["values"]]
-    assert {"organism", "strain", "dataset", "session", "epoch", "protocol"} <= set(names)
+    # each type stored by its ontology label since 2026-10-22 (Jess Haley
+    # [vocabulary nodes] L2): strain, dataset, session, epoch
+    assert {"organism", "Organism Strain", "Data Set", "Session", "recording epoch",
+            "protocol"} <= set(names)
     assert "web_resource" not in names and "web resource" not in names
     assert t["mustBeNonEmpty"] is True
     # directed_relation endpoints: entities, statements and standalone values (#73)
@@ -361,11 +364,14 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     assert f is not None and f["mustBeNonEmpty"] is False
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     req = {r["type"]: r["requires"] for r in reg["entity_type_bindings"]}
-    for t in ("organism", "culture", "tissue", "cell", "group", "device", "material",
-              "session", "epoch"):
+    # rows keyed by the stored type, the ontology label since 2026-10-22 (Jess
+    # Haley [vocabulary nodes] L2): group, material, session, epoch / dataset,
+    # person, funding, strain
+    for t in ("organism", "culture", "tissue", "cell", "Group", "device", "material entity",
+              "Session", "recording epoch"):
         assert "local_identifier" in req[t], t
-    for t in ("dataset", "person", "organization", "publication", "funding",
-              "software", "strain"):
+    for t in ("Data Set", "Person", "organization", "publication", "Grant",
+              "software", "Organism Strain"):
         assert req[t] == ["name"], t
     # each configuration class with a name declares `name`; base.name is did_v1-only
     for e in ("entity", "acquisition_system", "method"):
@@ -1103,7 +1109,7 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
     EthicsAssessment)."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]
-            if r.get("entity_type") == "dataset"}
+            if r.get("entity_type") == "Data Set"}  # the label (L2, 2026-10-22)
     expected = {
         # the registry entry's `spelling` since 2026-10-19 (signed,
         # V_eta_prefix_spelling_plan.md); lowercase 2026-10-08 to 2026-10-19.
@@ -1431,9 +1437,11 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
     assert gi["mustBeNonEmpty"] is False
     assert gi["mustBeScalar"] is False, "global_identifier must be repeatable"
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    rel = {r["relation"]["name"]: r for r in reg["relation_bindings"]}
-    assert rel["derived_from"]["child_types"] == [] and rel["derived_from"]["parent_types"] == []
-    assert "strain" in rel["instance_of"]["parent_types"]
+    # by node (Jess Haley 2026-10-22 [vocabulary nodes] L1): derived_from,
+    # instance_of; entity types by their label (L2)
+    rel = {r["relation"]["node"]: r for r in reg["relation_bindings"]}
+    assert rel["RO:0001000"]["child_types"] == [] and rel["RO:0001000"]["parent_types"] == []
+    assert "Organism Strain" in rel["EMPTY:0000382"]["parent_types"]
 
 
 def test_term_assertion_keeps_its_inline_value_and_gains_strain_id():
@@ -1446,8 +1454,10 @@ def test_term_assertion_keeps_its_inline_value_and_gains_strain_id():
     assert "term_assertion" not in RECORDS
     assert "strain_id" not in _flat_dep_names("assertion")
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    io = next(r for r in reg["relation_bindings"] if r["relation"]["name"] == "instance_of")
-    assert set(io["parent_types"]) == {"product", "strain"}
+    # instance_of by node, endpoint types by label ([vocabulary nodes] L1, L2)
+    io = next(r for r in reg["relation_bindings"] if r["relation"]["node"] == "EMPTY:0000382")
+    assert io["relation"]["name"] == "instance of"
+    assert set(io["parent_types"]) == {"Product", "Organism Strain"}
 
 
 def test_numbered_edge_families_declare_cardinality():
@@ -1648,75 +1658,132 @@ def test_relation_bindings_present():
     typed `from`/`to` endpoints."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     assert "relation_vocabulary" not in reg  # renamed -> relation_bindings
-    vocab = {r["relation"]["name"]: r for r in reg["relation_bindings"]}
+    rows = reg["relation_bindings"]
+    # keyed by NAME for the checks on names, and by NODE for the rest: since
+    # 2026-10-22 the stored name is the ontology label of the node and code
+    # matches relations by node (Jess Haley [vocabulary nodes] L1)
+    vocab = {r["relation"]["name"]: r for r in rows}
+    by_node = {r["relation"]["node"]: r for r in rows if r["relation"]["node"]}
+    assert len(vocab) == len(rows), "two relation rows share a name"
+    assert len(by_node) == len(rows) - 1, "two relation rows share a node"
     # the subject-side terms the migrators already emit + the new entity-layer terms
     # `observes` left with #73 audit 2 D5 (replaced by the statement's instrument_id).
     assert "observes" not in vocab
-    for term in ("part_of", "member_of", "derived_from", "encountered",
-                 "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
-                 "documented_by",
-                 # openMINDS crosswalk-parity terms (deferred -> minted)
-                 "has_custodian", "contributed_by", "copyright_holder",
-                 "alternative_of", "input_data", "follows_protocol",
-                 "suborganization_of",
-                 # #73 audit 2 D5: item 24's mappings, and the first undirected rows
-                 "orthologous gene mapping", "gene alias mapping",
-                 "paired_with", "same_as"):
-        assert term in vocab, f"{term} missing from relation_bindings"
+    for handle, node in (
+            ("part_of", "BFO:0000050"), ("member_of", "RO:0002350"),
+            ("derived_from", "RO:0001000"), ("encountered", "RO:0002437"),
+            ("has_author", "schema:author"), ("funded_by", "schema:funding"),
+            ("issued_by", "schema:funder"), ("affiliated_with", "schema:affiliation"),
+            ("cites", "schema:citation"), ("documented_by", "schema:subjectOf"),
+            # openMINDS crosswalk-parity terms (deferred -> minted)
+            ("has_custodian", "schema:maintainer"), ("contributed_by", "schema:contributor"),
+            ("copyright_holder", "schema:copyrightHolder"), ("alternative_of", "SIO:000497"),
+            ("input_data", "schema:isBasedOn"), ("follows_protocol", "EMPTY:0000378"),
+            ("suborganization_of", "schema:parentOrganization"),
+            # #73 audit 2 D5: item 24's mappings, and the first undirected rows
+            ("orthologous gene mapping", "EMPTY:0000386"),
+            ("gene alias mapping", "EMPTY:0000381"),
+            ("paired_with", "EMPTY:0000380"), ("same_as", "owl:sameAs")):
+        assert node in by_node, f"{handle} ({node}) missing from relation_bindings"
     # term identity is a {node, name} NodeRef, mirroring variable/method.
-    assert all({"node", "name"} <= set(r["relation"]) for r in vocab.values())
+    assert all({"node", "name"} <= set(r["relation"]) for r in rows)
     # directed endpoints are child/parent, matching the schema directed_relation
     # child/parent deps (not the old advisory `category`).
     # (undirected rows carry a symmetric `member_types` instead, #73 audit 2 D5)
     assert all({"relation", "class", "child_types", "parent_types"} <= set(r)
-               for r in vocab.values() if r["class"] == "directed_relation")
+               for r in rows if r["class"] == "directed_relation")
     assert all({"relation", "class", "member_types"} <= set(r)
-               for r in vocab.values() if r["class"] == "undirected_relation")
+               for r in rows if r["class"] == "undirected_relation")
     # clock_alignment.relation is bound to its own rows since 2026-10-22
     # (Jess Haley [clock alignment relation bound])
     assert all(r["class"] in ("directed_relation", "undirected_relation", "clock_alignment")
-               for r in vocab.values())
+               for r in rows)
     assert [n for n, r in vocab.items() if r["class"] == "clock_alignment"] == [
         "temporally aligned with"]
-    # #73 audit 2 D5: the first undirected rows exist, and only they carry member_types
-    assert {n for n, r in vocab.items() if r["class"] == "undirected_relation"} == {
-        "paired_with", "same_as"}
-    assert all("member_types" not in r for r in vocab.values()
+    # #73 audit 2 D5: the first undirected rows exist, and only they carry
+    # member_types (paired_with, same_as)
+    assert {n for n, r in by_node.items() if r["class"] == "undirected_relation"} == {
+        "EMPTY:0000380", "owl:sameAs"}
+    assert all("member_types" not in r for r in rows
                if r["class"] == "directed_relation")
     # written as the registry entry's `spelling` since 2026-10-19 (signed,
     # V_eta_prefix_spelling_plan.md); it was lowercase from 2026-10-08
-    assert vocab["part_of"]["relation"]["node"] == "BFO:0000050"
+    assert by_node["BFO:0000050"]["relation"]["name"] == "part of"
     # a URL lives in global_identifier since 2026-10-08, so these are gone
     for gone in ("stored_at", "has_homepage"):
         assert gone not in vocab, f"{gone} is back"
     # `hosted_by` came back 2026-10-15 (jess) with a different child: the DATASET
-    # a host keeps a copy of, not a web_resource (which no longer exists)
-    assert vocab["hosted_by"]["child_types"] == ["dataset"]
-    assert vocab["hosted_by"]["parent_types"] == ["organization"]
-    assert vocab["developed_by"]["child_types"] == ["software"]
-    assert vocab["developed_by"]["parent_types"] == ["organization"]
-    assert vocab["distributed_as"]["child_types"] == ["strain"]
-    assert vocab["distributed_as"]["parent_types"] == ["product"]
+    # a host keeps a copy of, not a web_resource (which no longer exists).
+    # Entity types are stored by their label since 2026-10-22 ([vocabulary nodes] L2).
+    hosted, developed = by_node["schema:provider"], by_node["schema:producer"]
+    assert hosted["child_types"] == ["Data Set"]
+    assert hosted["parent_types"] == ["organization"]
+    assert developed["child_types"] == ["software"]
+    assert developed["parent_types"] == ["organization"]
+    assert by_node["EMPTY:0000379"]["child_types"] == ["Organism Strain"]  # distributed_as
+    assert by_node["EMPTY:0000379"]["parent_types"] == ["Product"]
     # every endpoint type is a real class or an entity `type` (2026-10-08)
     ent = RECORDS["entity"][1]
     known = {r[1]["document_class"]["class_name"] for r in RECORDS.values()} | {
         v["name"] for v in next(f for f in ent["fields"] if f["name"] == "type")[
             "constraints"]["binding"]["values"]}
-    for r in vocab.values():
+    for r in rows:
         for t in r.get("child_types", []) + r.get("parent_types", []) + \
                 r.get("member_types", []):
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
     # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints])
-    assert vocab["member_of"]["parent_types"] == ["group"]
+    assert by_node["RO:0002350"]["parent_types"] == ["Group"]
     # every relation has a node except the clock alignment kind
     # (Jess Haley 2026-10-22 [vocabulary nodes])
     assert [n for n, r in vocab.items() if not r["relation"]["node"]] == [
         "temporally aligned with"]
     for gone in ("recorded_by", "measured_distance_to", "aliquot_of", "passage_of"):
         assert gone not in vocab, f"{gone} was retired 2026-10-22"
-    # entity-layer endpoint types match what the migrators mint
-    assert vocab["has_author"]["child_types"] == ["dataset"]
-    assert vocab["has_author"]["parent_types"] == ["person"]
+    # entity-layer endpoint types match what the migrators mint (has_author)
+    assert by_node["schema:author"]["child_types"] == ["Data Set"]
+    assert by_node["schema:author"]["parent_types"] == ["Person"]
+
+
+def test_stored_vocabulary_names_are_the_labels_of_their_nodes():
+    """Jess Haley 2026-10-22 [vocabulary nodes] L1, L2
+    (V_eta_relation_inheritance_plan.md): a relation's stored `name`, an entity
+    type and a channel type are the ontology LABEL of their node, as the term
+    registry holds it; the registry holds nodes, not synonyms, so the old
+    snake_case handles have no row. A term with no node keeps its name.
+
+    PENDING, named rather than skipped: `derived_from` (RO:0001000) keeps its
+    handle until the label for its new node prov:wasDerivedFrom is settled
+    ([derived from general]); PROV-O's rdfs:label is "wasDerivedFrom"."""
+    terms = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_term_registry.json"))["terms"]
+    label = {t["node"]: t["name"] for t in terms}
+    pending = {("RO:0001000", "derived_from")}
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    stored = [("relation_bindings", r["relation"]["node"], r["relation"]["name"])
+              for r in reg["relation_bindings"]]
+    stored += [("entity_type_bindings", r["node"], r["type"])
+               for r in reg["entity_type_bindings"]]
+    for cls, fld in (("entity", "type"), ("directed_relation", "relation"),
+                     ("undirected_relation", "relation"), ("clock_alignment", "relation")):
+        f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == fld)
+        stored += [(f"{cls}.{fld}", v["node"], v["name"])
+                   for v in f["constraints"]["binding"]["values"]]
+    ac = RECORDS["acquisition_channels"][1]["fields"][0]["fields"]
+    f = next(x for x in ac if x["name"] == "type")
+    stored += [("acquisition_channels.channels.type", v["node"], v["name"])
+               for v in f["constraints"]["binding"]["values"]]
+    print(f"DENOMINATOR: {len(stored)} stored vocabulary name(s), "
+          f"{sum(1 for _, n, _ in stored if n)} with a node")
+    assert sum(1 for _, n, _ in stored if n) > 0
+    bad = [(w, n, nm, label.get(n)) for w, n, nm in stored
+           if n and (n, nm) not in pending and label.get(n) != nm]
+    assert not bad, bad
+    # the endpoint lists name entity types by the same stored names
+    types = {r["type"] for r in reg["entity_type_bindings"]}
+    classes = {r[1]["document_class"]["class_name"] for r in RECORDS.values()}
+    for r in reg["relation_bindings"]:
+        for t in r.get("child_types", []) + r.get("parent_types", []) + \
+                r.get("member_types", []):
+            assert t in types or t in classes, (r["relation"]["name"], t)
 
 
 # ------------------------------------------------- value-cell convention conformance
@@ -3565,8 +3632,10 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     """
     with open(os.path.join(VETA, "stable", "binding_registry_meta.json")) as fh:
         reg = json.load(fh)
+    # member_of by node; its stored name is "member of" since 2026-10-22 (Jess
+    # Haley [vocabulary nodes] L1)
     rows = [r for r in reg["relation_bindings"]
-            if r["relation"]["name"] == "member_of"]
+            if r["relation"]["node"] == "RO:0002350"]
     assert len(rows) == 1, f'expected exactly one member_of row; got {len(rows)}'
     row = rows[0]
     assert row["class"] == "directed_relation"
@@ -3574,8 +3643,10 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     assert row["ordered"] is True, "column order makes this edge ordered"
     # Jess Haley 2026-10-22 [member_of endpoints]: a member of a group entity;
     # software joins the members (a software pipeline, T20)
-    phys = ["organism", "culture", "tissue", "cell", "group", "device", "material", "software"]
-    assert row["child_types"] == phys and row["parent_types"] == ["group"], (
+    # entity types by their label ([vocabulary nodes] L2)
+    phys = ["organism", "culture", "tissue", "cell", "Group", "device", "material entity",
+            "software"]
+    assert row["child_types"] == phys and row["parent_types"] == ["Group"], (
         "a neuron is a member of an ensemble group")
 
 
@@ -4091,8 +4162,9 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     # catalog and lot numbers are text assertions, its vendor a `sold_by` relation
     assert "product" not in RECORDS
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    sold = next(r for r in reg["relation_bindings"] if r["relation"]["name"] == "sold_by")
-    assert sold["child_types"] == ["product"] and sold["parent_types"] == ["organization"]
+    # sold_by by node (OBI:0000647 has_supplier, [vocabulary nodes] K4, L1)
+    sold = next(r for r in reg["relation_bindings"] if r["relation"]["node"] == "OBI:0000647")
+    assert sold["child_types"] == ["Product"] and sold["parent_types"] == ["organization"]
 
 
 def test_value_descriptors_live_with_the_value():

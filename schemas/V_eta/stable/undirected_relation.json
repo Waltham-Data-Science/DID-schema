@@ -47,11 +47,11 @@
                     "values": [
                         {
                             "node": "EMPTY:0000380",
-                            "name": "paired_with"
+                            "name": "paired with"
                         },
                         {
                             "node": "owl:sameAs",
-                            "name": "same_as"
+                            "name": "sameAs"
                         }
                     ],
                     "strength": "preferred",

@@ -26,8 +26,12 @@ def test_subject_type_is_an_optional_bound_term_over_seven_values():
     b = t["constraints"]["binding"]
     assert b["strength"] == "required"
     assert b["root"] == "did_entity_type"
-    assert [v["name"] for v in b["values"]][:7] == [
-        "organism", "culture", "tissue", "cell", "group", "device", "material"]
+    # stored by the ontology label of each node since 2026-10-22 (Jess Haley
+    # [vocabulary nodes] L2, L3); culture has no node
+    assert [(v["node"], v["name"]) for v in b["values"]][:7] == [
+        ("COB:0000022", "organism"), ("", "culture"), ("UBERON:0000479", "tissue"),
+        ("CL:0000000", "cell"), ("NCIT:C43359", "Group"), ("COB:0001300", "device"),
+        ("BFO:0000040", "material entity")]
     # The two values the design turned on: no "cell population", no "population".
     assert "cell population" not in t["documentation"]
 

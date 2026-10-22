@@ -65,19 +65,19 @@
                     "values": [
                         {
                             "node": "BFO:0000050",
-                            "name": "part_of"
+                            "name": "part of"
                         },
                         {
                             "node": "schema:isPartOf",
-                            "name": "included_in"
+                            "name": "isPartOf"
                         },
                         {
                             "node": "RO:0001025",
-                            "name": "contained_in"
+                            "name": "located in"
                         },
                         {
                             "node": "RO:0002350",
-                            "name": "member_of"
+                            "name": "member of"
                         },
                         {
                             "node": "RO:0001000",
@@ -85,71 +85,71 @@
                         },
                         {
                             "node": "ENVO:01003004",
-                            "name": "sample_of"
+                            "name": "derives from part of"
                         },
                         {
                             "node": "RO:0002437",
-                            "name": "encountered"
+                            "name": "biotically interacts with"
                         },
                         {
                             "node": "schema:author",
-                            "name": "has_author"
+                            "name": "author"
                         },
                         {
                             "node": "schema:citation",
-                            "name": "cites"
+                            "name": "citation"
                         },
                         {
                             "node": "schema:funding",
-                            "name": "funded_by"
+                            "name": "funding"
                         },
                         {
                             "node": "schema:funder",
-                            "name": "issued_by"
+                            "name": "funder"
                         },
                         {
                             "node": "schema:affiliation",
-                            "name": "affiliated_with"
+                            "name": "affiliation"
                         },
                         {
                             "node": "schema:subjectOf",
-                            "name": "documented_by"
+                            "name": "subjectOf"
                         },
                         {
                             "node": "schema:maintainer",
-                            "name": "has_custodian"
+                            "name": "maintainer"
                         },
                         {
                             "node": "schema:contributor",
-                            "name": "contributed_by"
+                            "name": "contributor"
                         },
                         {
                             "node": "schema:copyrightHolder",
-                            "name": "copyright_holder"
+                            "name": "copyrightHolder"
                         },
                         {
                             "node": "SIO:000497",
-                            "name": "alternative_of"
+                            "name": "is version of"
                         },
                         {
                             "node": "schema:isBasedOn",
-                            "name": "input_data"
+                            "name": "isBasedOn"
                         },
                         {
                             "node": "EMPTY:0000378",
-                            "name": "follows_protocol"
+                            "name": "follows protocol"
                         },
                         {
                             "node": "schema:parentOrganization",
-                            "name": "suborganization_of"
+                            "name": "parentOrganization"
                         },
                         {
                             "node": "EMPTY:0000382",
-                            "name": "instance_of"
+                            "name": "instance of"
                         },
                         {
                             "node": "schema:fundedItem",
-                            "name": "awarded_to"
+                            "name": "fundedItem"
                         },
                         {
                             "node": "EMPTY:0000386",
@@ -161,19 +161,19 @@
                         },
                         {
                             "node": "OBI:0000647",
-                            "name": "sold_by"
+                            "name": "has_supplier"
                         },
                         {
                             "node": "schema:producer",
-                            "name": "developed_by"
+                            "name": "producer"
                         },
                         {
                             "node": "schema:provider",
-                            "name": "hosted_by"
+                            "name": "provider"
                         },
                         {
                             "node": "EMPTY:0000379",
-                            "name": "distributed_as"
+                            "name": "distributed as"
                         }
                     ],
                     "strength": "preferred",

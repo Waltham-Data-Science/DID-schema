@@ -63,7 +63,7 @@
                         },
                         {
                             "node": "NCIT:C43359",
-                            "name": "group"
+                            "name": "Group"
                         },
                         {
                             "node": "COB:0001300",
@@ -71,15 +71,15 @@
                         },
                         {
                             "node": "BFO:0000040",
-                            "name": "material"
+                            "name": "material entity"
                         },
                         {
                             "node": "NCIT:C14419",
-                            "name": "strain"
+                            "name": "Organism Strain"
                         },
                         {
                             "node": "schema:Product",
-                            "name": "product"
+                            "name": "Product"
                         },
                         {
                             "node": "IAO:0000010",
@@ -87,7 +87,7 @@
                         },
                         {
                             "node": "NCIT:C25190",
-                            "name": "person"
+                            "name": "Person"
                         },
                         {
                             "node": "OBI:0000245",
@@ -95,15 +95,15 @@
                         },
                         {
                             "node": "NCIT:C16644",
-                            "name": "funding"
+                            "name": "Grant"
                         },
                         {
                             "node": "NCIT:C47824",
-                            "name": "dataset"
+                            "name": "Data Set"
                         },
                         {
                             "node": "NCIT:C63536",
-                            "name": "study"
+                            "name": "Study"
                         },
                         {
                             "node": "IAO:0000311",
@@ -115,11 +115,11 @@
                         },
                         {
                             "node": "NCIT:C67447",
-                            "name": "session"
+                            "name": "Session"
                         },
                         {
                             "node": "EMPTY:0000383",
-                            "name": "epoch"
+                            "name": "recording epoch"
                         }
                     ],
                     "strength": "required",

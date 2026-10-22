@@ -118,7 +118,7 @@
             },
             "class": "assertion",
             "value_kind": "term",
-            "entity_type": "dataset",
+            "entity_type": "Data Set",
             "subject_defining": false,
             "node_form": "curie",
             "values": [
@@ -139,7 +139,7 @@
             },
             "class": "assertion",
             "value_kind": "term",
-            "entity_type": "dataset",
+            "entity_type": "Data Set",
             "subject_defining": false,
             "node_form": "curie",
             "values": [
@@ -976,7 +976,7 @@
             },
             "class": "assertion",
             "value_kind": "term",
-            "entity_type": "dataset",
+            "entity_type": "Data Set",
             "subject_defining": false,
             "node_form": "curie",
             "values": [
@@ -1149,7 +1149,7 @@
             },
             "class": "assertion",
             "value_kind": "term",
-            "entity_type": "study",
+            "entity_type": "Study",
             "subject_defining": false,
             "node_form": "curie"
         }
@@ -1158,7 +1158,7 @@
         {
             "relation": {
                 "node": "BFO:0000050",
-                "name": "part_of"
+                "name": "part of"
             },
             "class": "directed_relation",
             "child_role": "the part (a portion of the whole's own material)",
@@ -1168,18 +1168,18 @@
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "parent_types": [
                 "organism",
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "timed": false,
             "ordered": false,
@@ -1188,18 +1188,18 @@
         {
             "relation": {
                 "node": "schema:isPartOf",
-                "name": "included_in"
+                "name": "isPartOf"
             },
             "class": "directed_relation",
             "child_role": "the record (a session, a study)",
             "parent_role": "the record it is filed under (a study, a dataset)",
             "child_types": [
-                "session",
-                "study"
+                "Session",
+                "Study"
             ],
             "parent_types": [
-                "study",
-                "dataset"
+                "Study",
+                "Data Set"
             ],
             "timed": false,
             "ordered": false,
@@ -1208,7 +1208,7 @@
         {
             "relation": {
                 "node": "RO:0001025",
-                "name": "contained_in"
+                "name": "located in"
             },
             "class": "directed_relation",
             "child_role": "the contained (a physical entity located in or on the container for a while)",
@@ -1218,18 +1218,18 @@
                 "culture",
                 "tissue",
                 "cell",
-                "material",
+                "material entity",
                 "device",
-                "group"
+                "Group"
             ],
             "parent_types": [
                 "organism",
                 "culture",
                 "tissue",
                 "cell",
-                "material",
+                "material entity",
                 "device",
-                "group"
+                "Group"
             ],
             "timed": true,
             "ordered": false,
@@ -1238,7 +1238,7 @@
         {
             "relation": {
                 "node": "RO:0002350",
-                "name": "member_of"
+                "name": "member of"
             },
             "class": "directed_relation",
             "child_role": "the member",
@@ -1248,13 +1248,13 @@
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material",
+                "material entity",
                 "software"
             ],
             "parent_types": [
-                "group"
+                "Group"
             ],
             "timed": true,
             "ordered": true,
@@ -1277,7 +1277,7 @@
         {
             "relation": {
                 "node": "ENVO:01003004",
-                "name": "sample_of"
+                "name": "derives from part of"
             },
             "class": "directed_relation",
             "child_role": "the portion taken (a sample, an aliquot, a passaged culture): it derives from part of the source, which continues to exist",
@@ -1287,18 +1287,18 @@
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "parent_types": [
                 "organism",
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "timed": true,
             "ordered": false,
@@ -1307,7 +1307,7 @@
         {
             "relation": {
                 "node": "RO:0002437",
-                "name": "encountered"
+                "name": "biotically interacts with"
             },
             "class": "directed_relation",
             "child_role": "the encountering subject",
@@ -1317,18 +1317,18 @@
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "parent_types": [
                 "organism",
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "timed": true,
             "ordered": false,
@@ -1337,16 +1337,16 @@
         {
             "relation": {
                 "node": "schema:author",
-                "name": "has_author"
+                "name": "author"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "the author (person)",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "person"
+                "Person"
             ],
             "timed": false,
             "ordered": true,
@@ -1355,13 +1355,13 @@
         {
             "relation": {
                 "node": "schema:citation",
-                "name": "cites"
+                "name": "citation"
             },
             "class": "directed_relation",
             "child_role": "the citing dataset",
             "parent_role": "the cited publication",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
                 "publication"
@@ -1373,16 +1373,16 @@
         {
             "relation": {
                 "node": "schema:funding",
-                "name": "funded_by"
+                "name": "funding"
             },
             "class": "directed_relation",
             "child_role": "the funded dataset",
             "parent_role": "the funding",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "funding"
+                "Grant"
             ],
             "timed": false,
             "ordered": false,
@@ -1391,13 +1391,13 @@
         {
             "relation": {
                 "node": "schema:funder",
-                "name": "issued_by"
+                "name": "funder"
             },
             "class": "directed_relation",
             "child_role": "the funding",
             "parent_role": "the issuing organization",
             "child_types": [
-                "funding"
+                "Grant"
             ],
             "parent_types": [
                 "organization"
@@ -1409,13 +1409,13 @@
         {
             "relation": {
                 "node": "schema:affiliation",
-                "name": "affiliated_with"
+                "name": "affiliation"
             },
             "class": "directed_relation",
             "child_role": "the person",
             "parent_role": "the organization",
             "child_types": [
-                "person"
+                "Person"
             ],
             "parent_types": [
                 "organization"
@@ -1427,7 +1427,7 @@
         {
             "relation": {
                 "node": "schema:subjectOf",
-                "name": "documented_by"
+                "name": "subjectOf"
             },
             "class": "directed_relation",
             "child_role": "the documented entity or recipe",
@@ -1448,16 +1448,16 @@
         {
             "relation": {
                 "node": "schema:maintainer",
-                "name": "has_custodian"
+                "name": "maintainer"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "the custodian (person/org)",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "person",
+                "Person",
                 "organization"
             ],
             "timed": false,
@@ -1467,16 +1467,16 @@
         {
             "relation": {
                 "node": "schema:contributor",
-                "name": "contributed_by"
+                "name": "contributor"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "the contributor (person/org)",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "person",
+                "Person",
                 "organization"
             ],
             "timed": false,
@@ -1486,17 +1486,17 @@
         {
             "relation": {
                 "node": "schema:copyrightHolder",
-                "name": "copyright_holder"
+                "name": "copyrightHolder"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "the copyright holder (org/person)",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
                 "organization",
-                "person"
+                "Person"
             ],
             "timed": false,
             "ordered": false,
@@ -1505,16 +1505,16 @@
         {
             "relation": {
                 "node": "SIO:000497",
-                "name": "alternative_of"
+                "name": "is version of"
             },
             "class": "directed_relation",
             "child_role": "the dataset version",
             "parent_role": "the alternative version",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "dataset"
+                "Data Set"
             ],
             "timed": false,
             "ordered": false,
@@ -1523,16 +1523,16 @@
         {
             "relation": {
                 "node": "schema:isBasedOn",
-                "name": "input_data"
+                "name": "isBasedOn"
             },
             "class": "directed_relation",
             "child_role": "the derived dataset",
             "parent_role": "the input dataset/resource",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
-                "dataset"
+                "Data Set"
             ],
             "timed": true,
             "ordered": false,
@@ -1541,13 +1541,13 @@
         {
             "relation": {
                 "node": "EMPTY:0000378",
-                "name": "follows_protocol"
+                "name": "follows protocol"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "the protocol",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
                 "protocol"
@@ -1559,7 +1559,7 @@
         {
             "relation": {
                 "node": "schema:parentOrganization",
-                "name": "suborganization_of"
+                "name": "parentOrganization"
             },
             "class": "directed_relation",
             "child_role": "the child organization",
@@ -1577,7 +1577,7 @@
         {
             "relation": {
                 "node": "EMPTY:0000382",
-                "name": "instance_of"
+                "name": "instance of"
             },
             "class": "directed_relation",
             "child_role": "the instance (a unit of a product, a member of a strain)",
@@ -1587,13 +1587,13 @@
                 "culture",
                 "tissue",
                 "cell",
-                "group",
+                "Group",
                 "device",
-                "material"
+                "material entity"
             ],
             "parent_types": [
-                "product",
-                "strain"
+                "Product",
+                "Organism Strain"
             ],
             "timed": false,
             "ordered": false,
@@ -1602,16 +1602,16 @@
         {
             "relation": {
                 "node": "schema:fundedItem",
-                "name": "awarded_to"
+                "name": "fundedItem"
             },
             "class": "directed_relation",
             "child_role": "the funding (award)",
             "parent_role": "the recipient (person/org)",
             "child_types": [
-                "funding"
+                "Grant"
             ],
             "parent_types": [
-                "person",
+                "Person",
                 "organization"
             ],
             "timed": false,
@@ -1657,7 +1657,7 @@
         {
             "relation": {
                 "node": "EMPTY:0000380",
-                "name": "paired_with"
+                "name": "paired with"
             },
             "class": "undirected_relation",
             "member_role": "an entity in a pair (e.g. littermates, a bilateral pair of sites)",
@@ -1671,7 +1671,7 @@
         {
             "relation": {
                 "node": "owl:sameAs",
-                "name": "same_as"
+                "name": "sameAs"
             },
             "class": "undirected_relation",
             "member_role": "entities that are the same thing recorded twice (e.g. one animal under two local identifiers)",
@@ -1685,13 +1685,13 @@
         {
             "relation": {
                 "node": "OBI:0000647",
-                "name": "sold_by"
+                "name": "has_supplier"
             },
             "class": "directed_relation",
             "child_role": "the product",
             "parent_role": "the vendor",
             "child_types": [
-                "product"
+                "Product"
             ],
             "parent_types": [
                 "organization"
@@ -1703,7 +1703,7 @@
         {
             "relation": {
                 "node": "schema:producer",
-                "name": "developed_by"
+                "name": "producer"
             },
             "class": "directed_relation",
             "child_role": "the software",
@@ -1721,13 +1721,13 @@
         {
             "relation": {
                 "node": "schema:provider",
-                "name": "hosted_by"
+                "name": "provider"
             },
             "class": "directed_relation",
             "child_role": "the dataset",
             "parent_role": "an organization hosting a copy of it",
             "child_types": [
-                "dataset"
+                "Data Set"
             ],
             "parent_types": [
                 "organization"
@@ -1739,16 +1739,16 @@
         {
             "relation": {
                 "node": "EMPTY:0000379",
-                "name": "distributed_as"
+                "name": "distributed as"
             },
             "class": "directed_relation",
             "child_role": "the strain",
             "parent_role": "a product it is distributed as",
             "child_types": [
-                "strain"
+                "Organism Strain"
             ],
             "parent_types": [
-                "product"
+                "Product"
             ],
             "timed": false,
             "ordered": false,
@@ -1825,7 +1825,7 @@
             ]
         },
         {
-            "type": "group",
+            "type": "Group",
             "node": "NCIT:C43359",
             "description": "an entity whose members are entities, by `member_of`: a cohort, an ensemble",
             "requires": [
@@ -1841,7 +1841,7 @@
             ]
         },
         {
-            "type": "material",
+            "type": "material entity",
             "node": "BFO:0000040",
             "description": "a non-living object or substance: an agar plate",
             "requires": [
@@ -1849,7 +1849,7 @@
             ]
         },
         {
-            "type": "strain",
+            "type": "Organism Strain",
             "node": "NCIT:C14419",
             "description": "a genetically defined line; its members are `instance_of` it",
             "requires": [
@@ -1857,7 +1857,7 @@
             ]
         },
         {
-            "type": "product",
+            "type": "Product",
             "node": "schema:Product",
             "description": "something bought: a reagent, a device model; units are `instance_of` it",
             "requires": [
@@ -1873,7 +1873,7 @@
             ]
         },
         {
-            "type": "person",
+            "type": "Person",
             "node": "NCIT:C25190",
             "description": "a person",
             "requires": [
@@ -1889,7 +1889,7 @@
             ]
         },
         {
-            "type": "funding",
+            "type": "Grant",
             "node": "NCIT:C16644",
             "description": "a grant or award",
             "requires": [
@@ -1897,7 +1897,7 @@
             ]
         },
         {
-            "type": "dataset",
+            "type": "Data Set",
             "node": "NCIT:C47824",
             "description": "a published body of data, at a version",
             "requires": [
@@ -1905,7 +1905,7 @@
             ]
         },
         {
-            "type": "study",
+            "type": "Study",
             "node": "NCIT:C63536",
             "description": "a unit of research with its own question and design",
             "requires": [
@@ -1929,7 +1929,7 @@
             ]
         },
         {
-            "type": "session",
+            "type": "Session",
             "node": "NCIT:C67447",
             "description": "a period of work: one sitting at the rig, one day of an assay",
             "requires": [
@@ -1937,7 +1937,7 @@
             ]
         },
         {
-            "type": "epoch",
+            "type": "recording epoch",
             "node": "EMPTY:0000383",
             "description": "one recording: the files one acquisition system wrote for one stretch of time",
             "requires": [

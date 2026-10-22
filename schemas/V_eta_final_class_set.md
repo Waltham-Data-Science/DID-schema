@@ -19,7 +19,7 @@
 ## ② Entities (1)
 `entity`
 
-Kinds of entity (19, the values of entity.type in entity_type_bindings): organism, culture, tissue, cell, group, device, material, strain, product, software, person, organization, funding, dataset, study, publication, protocol, session, epoch.
+Kinds of entity (19, the values of entity.type in entity_type_bindings): organism, culture, tissue, cell, Group, device, material entity, Organism Strain, Product, software, Person, organization, Grant, Data Set, Study, publication, protocol, Session, recording epoch.
 
 ## ③ Quantity & substance composites (value) (46)
 `acceleration`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `contrast_sensitivity`, `count`, `current`, `date`, `dose`, `energy`, `force`, `formulation`, `frequency`, `gain`, `harmonic_component`, `humidity`, `intensity`, `irradiance`, `item`, `label`, `length`, `logical`, `mass`, `model_fit`, `ph`, `polynomial`, `position`, `power`, `pressure`, `receptive_field`, `resistance`, `score`, `substance_amount`, `temperature`, `term`, `text`, `time`, `tuning_curve`, `velocity`, `voltage`, `volume`

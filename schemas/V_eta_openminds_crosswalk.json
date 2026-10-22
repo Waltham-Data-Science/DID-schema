@@ -75,23 +75,23 @@
         },
         "author": {
           "target_kind": "relation",
-          "ndi_target": "has_author",
-          "endpoint": "person",
+          "ndi_target": "author",
+          "endpoint": "Person",
           "notes": "contributor role = author, carried by the relation term."
         },
         "funding": {
           "target_kind": "relation",
-          "ndi_target": "funded_by",
-          "endpoint": "funding"
+          "ndi_target": "funding",
+          "endpoint": "Grant"
         },
         "relatedPublication": {
           "target_kind": "relation",
-          "ndi_target": "cites",
+          "ndi_target": "citation",
           "endpoint": "publication"
         },
         "fullDocumentation": {
           "target_kind": "relation",
-          "ndi_target": "documented_by",
+          "ndi_target": "subjectOf",
           "endpoint": "web_resource"
         },
         "repository": {
@@ -103,7 +103,7 @@
         "isNewVersionOf": {
           "target_kind": "relation",
           "ndi_target": "derived_from",
-          "endpoint": "dataset",
+          "endpoint": "Data Set",
           "notes": "version lineage as generic provenance (dataset -derived_from-> dataset)."
         },
         "digitalIdentifier": {
@@ -120,19 +120,19 @@
         },
         "custodian": {
           "target_kind": "relation",
-          "ndi_target": "has_custodian",
-          "endpoint": "person",
+          "ndi_target": "maintainer",
+          "endpoint": "Person",
           "notes": "steward role (person or organization); distinct contributor role from has_author."
         },
         "otherContribution": {
           "target_kind": "relation",
-          "ndi_target": "contributed_by",
-          "endpoint": "person",
+          "ndi_target": "contributor",
+          "endpoint": "Person",
           "notes": "typed contribution (person or organization)."
         },
         "copyright": {
           "target_kind": "relation",
-          "ndi_target": "copyright_holder",
+          "ndi_target": "copyrightHolder",
           "endpoint": "organization",
           "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."
         },
@@ -144,22 +144,22 @@
         },
         "protocol": {
           "target_kind": "relation",
-          "ndi_target": "follows_protocol",
+          "ndi_target": "follows protocol",
           "endpoint": "web_resource"
         },
         "inputData": {
           "target_kind": "relation",
-          "ndi_target": "input_data",
-          "endpoint": "dataset",
+          "ndi_target": "isBasedOn",
+          "endpoint": "Data Set",
           "notes": "input datasets/resources (dataset or web_resource)."
         },
         "isAlternativeVersionOf": {
           "target_kind": "relation",
-          "ndi_target": "alternative_of",
-          "endpoint": "dataset"
+          "ndi_target": "is version of",
+          "endpoint": "Data Set"
         }
       },
-      "entity_type": "dataset"
+      "entity_type": "Data Set"
     },
     "Person": {
       "ndi_entity": "entity",
@@ -186,7 +186,7 @@
         },
         "affiliation": {
           "target_kind": "relation",
-          "ndi_target": "affiliated_with",
+          "ndi_target": "affiliation",
           "endpoint": "organization"
         },
         "alternateName": {
@@ -195,7 +195,7 @@
           "value_kind": "text"
         }
       },
-      "entity_type": "person"
+      "entity_type": "Person"
     },
     "Organization": {
       "ndi_entity": "entity",
@@ -221,7 +221,7 @@
         },
         "hasParent": {
           "target_kind": "relation",
-          "ndi_target": "suborganization_of",
+          "ndi_target": "parentOrganization",
           "endpoint": "organization",
           "notes": "org hierarchy, kept distinct from subject/session part_of."
         }
@@ -242,11 +242,11 @@
         },
         "funder": {
           "target_kind": "relation",
-          "ndi_target": "issued_by",
+          "ndi_target": "funder",
           "endpoint": "organization"
         }
       },
-      "entity_type": "funding"
+      "entity_type": "Grant"
     },
     "SoftwareVersion": {
       "ndi_entity": "entity",

@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.2.1",
+    "format_version": "1.2.2",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -778,6 +778,19 @@
             "spelling": "SIO",
             "spelling_source": "the identifier space as written in its IRIs",
             "synonyms": []
+        },
+        "prov": {
+            "label": "W3C PROV Ontology (PROV-O)",
+            "uri_base": "http://www.w3.org/ns/prov#",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `prov` (no local-id pattern published there). Registered for prov:wasDerivedFrom, the node of `derived_from` (Jess Haley 2026-10-22 [derived from general]).",
+            "pattern_source": "https://bioregistry.io/api/registry/prov (2026-10-22): no pattern published",
+            "spelling": "prov",
+            "spelling_source": "W3C PROV namespace (https://www.w3.org/ns/prov)",
+            "synonyms": [
+                "prov-o"
+            ]
         }
     },
     "uri_styles": {
