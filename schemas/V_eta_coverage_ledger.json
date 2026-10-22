@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 267,
+          "accepted_lines": 269,
           "accepted_lines_by_kind": {
-            "Decided by": 150,
+            "Decided by": 152,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1137,6 +1137,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the"
             },
             {
+              "document": "V_eta_ensemble_plan.md",
+              "line": 286,
+              "kind": "Decided by",
+              "tag": "no ensemble cache",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [no ensemble cache]: the"
+            },
+            {
               "document": "V_eta_entity_composition_plan.md",
               "line": 49,
               "kind": "TEAM-SIGN-OFF",
@@ -1259,6 +1267,14 @@
             {
               "document": "V_eta_epoch_plan.md",
               "line": 1510,
+              "kind": "Decided by",
+              "tag": "JH position and distance",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [JH position and"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1512,
               "kind": "Decided by",
               "tag": "ingested epochs found",
               "date": "2026-10-22",
