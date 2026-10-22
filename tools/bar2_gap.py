@@ -128,6 +128,19 @@ SECOND_PASS = {
         "caveat": "a presentation with no responding animal is left as "
                   "passthrough by the pass (measured as single_grating_candidates).",
     },
+    "control_stimulus_ids": {
+        "emits": "calculation + item (the control's 0-based position in the "
+                 "presentation's item_id; base.id kept, so responses' input_id "
+                 "resolves), beside item.value.control_item",
+        "assembler": "ndi.migrate.internal.controlCalculation "
+                     "(local.m, the stimulus step after mintSessionDuring)",
+        "e2e": "TestControlCalculation (NDI #1021 6d1585916; 37 passed under "
+               "Octave with TestStimulusPresentationItem). Decided by Jess "
+               "Haley, 2026-10-21 [control record is a calculation]; DID pass 1 "
+               "cannot build it (the item documents do not exist yet).",
+        "caveat": "a control of NaN or none mints no calculation and is counted; "
+                  "the NDI e2e on the frozen head is the corpus evidence.",
+    },
     "ensemble": {
         "emits": "member_of edges + a derived (times,ids) cache",
         "assembler": "ndi.migrate.internal.ensembleMembership",

@@ -127,7 +127,9 @@
       "carried": [
         "item"
       ],
-      "second_pass": [],
+      "second_pass": [
+        "calculation + item"
+      ],
       "how": "1 -> 1, base.id PRESERVED: the derived 'which presented stimuli are the control' annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)",
       "flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded.",
       "target_completeness": {
@@ -135,7 +137,7 @@
         "unresolved_sites": []
       },
       "decided_targets": [
-        "item"
+        "calculation + item"
       ]
     },
     "daqmetadatareader": {
@@ -619,7 +621,10 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + text",
+        "calculation + label",
+        "entity"
       ],
       "carried": [
         "entity (subject)"
@@ -649,7 +654,10 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + text",
+        "calculation + label",
+        "entity"
       ],
       "carried": [
         "entity (subject)"

@@ -351,8 +351,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 37,
-        "2": 16,
-        "3": 49,
+        "2": 14,
+        "3": 51,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -370,8 +370,8 @@
         },
         "3": {
           "not measured": 45,
-          "yes": 48,
-          "no": 19,
+          "yes": 50,
+          "no": 17,
           "n/a": 3
         },
         "4": {
@@ -381,7 +381,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 67,
-        "3": 48,
+        "3": 50,
         "4": 0
       },
       "capped": {
@@ -395,8 +395,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 38,
-          "2": 19,
-          "3": 48,
+          "2": 17,
+          "3": 50,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -3003,7 +3003,7 @@
         "control_stimulus_ids"
       ],
       "decided_targets": [
-        "item"
+        "calculation + item"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -3016,7 +3016,7 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "item"
+          "calculation + item"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -3034,7 +3034,9 @@
       "carried": [
         "item"
       ],
-      "second_pass": [],
+      "second_pass": [
+        "calculation + item"
+      ],
       "how": "1 -> 1, base.id PRESERVED: the derived 'which presented stimuli are the control' annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)",
       "target_flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13). SUPERSEDED 2026-09-29 (#73 review item 67, jess; signed by the [spatial_transcriptomics_family] sign-off in V_eta_spatial_transcriptomics_plan.md, which agrees the #73 review items 1-71; amends the signed [stimulus] line): `control_designation` is DELETED. The one control stimulus becomes `timed_sequence.value.control_item` (0-based item position) on the sequence the presentation decomposes into; the per-trial pairing is dropped (nothing reads it since NDI#912). A document whose pairings name more than one control stimulus is refused with a counted reason. The migrator still emits `control_designation` until DID-matlab moves (coverage.py KNOWN_NON_VETA). -- PORTED (DID-matlab #218, merge 229c12e of claude/port-88, 2026-10-21): the migrator no longer emits `control_designation`; it passes the document through under its v1 tombstone for the NDI second pass (`bodies = {preBody}`, migrators_j/control_stimulus_ids.m:105). The sentence above about it still emitting `control_designation` is superseded.",
       "decided_by_citation": {
@@ -3107,7 +3109,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item` are not all among what the migrator emits today (`control_stimulus_ids`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + item` are not all among what the migrator emits today (`control_stimulus_ids`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7060,7 +7062,10 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + text",
+        "calculation + label",
+        "entity"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -7085,7 +7090,7 @@
           "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7152,10 +7157,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7172,8 +7177,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7183,7 +7188,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -7330,7 +7335,10 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + text",
+        "calculation + label",
+        "entity"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -7355,7 +7363,7 @@
           "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7422,10 +7430,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7442,8 +7450,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 67 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7453,7 +7461,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
