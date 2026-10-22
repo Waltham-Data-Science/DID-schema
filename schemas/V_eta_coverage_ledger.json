@@ -5954,6 +5954,10 @@
           ],
           "resolveEpochProbemap": [
             "observation + time",
+            "calculation + position",
+            "calculation + length",
+            "calculation + item",
+            "coordinate_system",
             "opaque_body",
             "relative_time_reference"
           ]
