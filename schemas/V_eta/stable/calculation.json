@@ -52,7 +52,5 @@
             "constraints": {}
         }
     ],
-    "require_inherited": [
-        "software_id"
-    ]
+    "require_inherited": []
 }

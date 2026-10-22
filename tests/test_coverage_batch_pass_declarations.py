@@ -369,9 +369,14 @@ class TestTheCommittedLedger(unittest.TestCase):
         # FIVE since DID-matlab #218 a3b491e (2026-10-21): element joined.
         # resolveEpochProbemap now declares element's recording observations and
         # their opaque bodies ([epoch files as data bodies]).
+        # SIX since DID-matlab #218 7c3aeff (2026-10-21):
+        # daqmetadatareader_epochdata_ingested joined. resolveEpochProbemap now
+        # declares its archive as the stimulator manipulation's opaque_body
+        # ([ingested epoch documents retired], item 61).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["element", "epochfiles_ingested", "fileReference", "stimulus_bath",
+            ["daqmetadatareader_epochdata_ingested", "element",
+             "epochfiles_ingested", "fileReference", "stimulus_bath",
              "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):

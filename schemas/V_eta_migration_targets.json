@@ -158,7 +158,7 @@
     },
     "daqmetadatareader_epochdata_ingested": {
       "targets": [
-        "acquisition_metadata_file"
+        "daqmetadatareader_epochdata_ingested"
       ],
       "carried": [],
       "second_pass": [],
@@ -168,7 +168,7 @@
         "opaque_body"
       ],
       "target_completeness": {
-        "state": "full",
+        "state": "carry_forward",
         "unresolved_sites": []
       }
     },

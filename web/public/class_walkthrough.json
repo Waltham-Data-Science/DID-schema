@@ -218,27 +218,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1915,
+        "line": 1916,
         "spelling": "base",
         "text": "if isfield(v1, 'base') && isstruct(v1.base) && isfield(v1.base, 'session_id')"
        },
        {
-        "line": 2696,
+        "line": 2697,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2794,
+        "line": 2795,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 3017,
+        "line": 3018,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        },
        {
-        "line": 3043,
+        "line": 3044,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2140,
+        "line": 2313,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2217,
+        "line": 2390,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -963,19 +963,31 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1096,
+        "line": 1097,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 1127,
+        "line": 1128,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 2040,
+        "line": 2041,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 373,
+        "spelling": "daqmetadatareader_epochdata_ingested",
+        "text": "if strcmp(classOf{k}, 'daqmetadatareader_epochdata_ingested')"
        }
       ]
      }
@@ -2116,12 +2128,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2535,
+        "line": 2536,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2627,
+        "line": 2628,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2133,22 +2145,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 467,
+        "line": 499,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 1304,
+        "line": 1363,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1544,
+        "line": 1603,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1563,
+        "line": 1622,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2239,52 +2251,52 @@
       "site_count": 10,
       "sites": [
        {
-        "line": 834,
+        "line": 835,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 995,
+        "line": 996,
         "spelling": "epochid",
         "text": "% #88: the parked string is the 'epochid' parameter entry; the edge"
        },
        {
-        "line": 1005,
+        "line": 1006,
         "spelling": "epochid",
         "text": "&& strcmp(char(e.variable.name), 'epochid'));"
        },
        {
-        "line": 1015,
+        "line": 1016,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 1016,
+        "line": 1017,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 1103,
+        "line": 1104,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 1532,
+        "line": 1533,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 1911,
+        "line": 1912,
         "spelling": "epochid",
         "text": "if isfield(v1, 'epochid') && isstruct(v1.epochid) && isfield(v1.epochid, 'epochid')"
        },
        {
-        "line": 2317,
+        "line": 2318,
         "spelling": "epochid",
         "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        },
        {
-        "line": 2322,
+        "line": 2323,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
@@ -2296,17 +2308,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1567,
+        "line": 1626,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2097,
+        "line": 2270,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2098,
+        "line": 2271,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -4793,27 +4805,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1527,
+        "line": 1528,
         "spelling": "pyraview",
         "text": "&& isstruct(bodies{k}) && isfield(bodies{k}, 'pyraview')"
        },
        {
-        "line": 1530,
+        "line": 1531,
         "spelling": "pyraview",
         "text": "if ~strcmp(rows(k).class_name, 'pyraview'); continue; end"
        },
        {
-        "line": 1545,
+        "line": 1546,
         "spelling": "pyraview",
         "text": "migrator = armingMigratorFor(armingMigrators, 'pyraview');"
        },
        {
-        "line": 1898,
+        "line": 1899,
         "spelling": "pyraview",
         "text": "if ~isfield(q(k), 'class_name') || ~strcmp(q(k).class_name, 'pyraview') ..."
        },
        {
-        "line": 2046,
+        "line": 2047,
         "spelling": "pyraview",
         "text": "'pyraview', ..."
        }
@@ -4894,22 +4906,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 693,
+        "line": 694,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
        },
        {
-        "line": 1891,
+        "line": 1892,
         "spelling": "session",
         "text": "if strcmp(classNameOf(b), 'session')"
        },
        {
-        "line": 2213,
+        "line": 2214,
         "spelling": "session",
         "text": "%   entity class with a bound type) answers its TYPE ('session', 'epoch',"
        },
        {
-        "line": 2214,
+        "line": 2215,
         "spelling": "session",
         "text": "%   ...), so the rows below keep comparing on 'session' and 'epoch'. The"
        }
@@ -4955,12 +4967,29 @@
       ]
      },
      {
+      "pass": "resolveDatasetEntities",
+      "path": "src/did/+did2/+convert/resolveDatasetEntities.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 332,
+        "spelling": "session",
+        "text": "tf = strcmp(className, 'session');"
+       },
+       {
+        "line": 336,
+        "spelling": "session",
+        "text": "tf = isstruct(t) && isfield(t, 'name') && strcmpi(char(t.name), 'session');"
+       }
+      ]
+     },
+     {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
       "site_count": 1,
       "sites": [
        {
-        "line": 417,
+        "line": 446,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        }
@@ -6363,17 +6392,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1273,
+        "line": 1274,
         "spelling": "stimulus_response_scalar",
         "text": "if ~strcmp(rows(k).class_name, 'stimulus_response_scalar'); continue; end"
        },
        {
-        "line": 1296,
+        "line": 1297,
         "spelling": "stimulus_response_scalar",
         "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
        },
        {
-        "line": 2042,
+        "line": 2043,
         "spelling": "stimulus_response_scalar",
         "text": "'stimulus_response_scalar', ..."
        }
@@ -6662,12 +6691,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2476,
+        "line": 2477,
         "spelling": "subject",
         "text": "if isstruct(bodies{k}) && isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
        },
        {
-        "line": 2477,
+        "line": 2478,
         "spelling": "subject",
         "text": "subjBlock = 'subject';                       % pre-#73"
        }
@@ -6935,22 +6964,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 1413,
+        "line": 1414,
         "spelling": "syncrule_mapping",
         "text": "if ~strcmp(rows(k).class_name, 'syncrule_mapping'); continue; end"
        },
        {
-        "line": 1434,
+        "line": 1435,
         "spelling": "syncrule_mapping",
         "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
        },
        {
-        "line": 2044,
+        "line": 2045,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        },
        {
-        "line": 2292,
+        "line": 2293,
         "spelling": "syncrule_mapping",
         "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
        }
