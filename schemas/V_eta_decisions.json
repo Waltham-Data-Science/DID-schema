@@ -1849,7 +1849,7 @@
         ],
         "packages_missing": [],
         "files_read": 229,
-        "lines_read": 56351,
+        "lines_read": 56371,
         "classes_queried": 7,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -1893,8 +1893,8 @@
           "batch_post_pass": 36
         },
         "lines_read_by_group": {
-          "per_document_migrator": 36599,
-          "batch_post_pass": 19752
+          "per_document_migrator": 36612,
+          "batch_post_pass": 19759
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -2033,10 +2033,10 @@
         "migrator_file": null,
         "n_consuming_refs": 11,
         "consuming_refs": [
-          "DID-matlab:convert/epochMint.m:2909 (guard)",
-          "DID-matlab:convert/epochMint.m:2910 (field_read)",
-          "DID-matlab:convert/epochMint.m:2911 (field_read)",
-          "DID-matlab:convert/epochMint.m:2914 (field_read)",
+          "DID-matlab:convert/epochMint.m:2916 (guard)",
+          "DID-matlab:convert/epochMint.m:2917 (field_read)",
+          "DID-matlab:convert/epochMint.m:2918 (field_read)",
+          "DID-matlab:convert/epochMint.m:2921 (field_read)",
           "DID-matlab:convert/epochMint.m:830 (guard)",
           "DID-matlab:convert/resolveEpochProbemap.m:1358 (guard)"
         ],
@@ -2059,8 +2059,8 @@
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:25 (comment_mention)",
           "DID-matlab:convert/epochMint.m:27 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:2898 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:2968 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:2905 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:2975 (comment_mention)",
           "DID-matlab:convert/epochMint.m:41 (comment_mention)",
           "DID-matlab:convert/epochMint.m:454 (comment_mention)"
         ],
@@ -2093,10 +2093,10 @@
           "batch_post_pass": {
             "n_consuming_refs": 10,
             "consuming_refs": [
-              "DID-matlab:convert/epochMint.m:2909 (guard)",
-              "DID-matlab:convert/epochMint.m:2910 (field_read)",
-              "DID-matlab:convert/epochMint.m:2911 (field_read)",
-              "DID-matlab:convert/epochMint.m:2914 (field_read)",
+              "DID-matlab:convert/epochMint.m:2916 (guard)",
+              "DID-matlab:convert/epochMint.m:2917 (field_read)",
+              "DID-matlab:convert/epochMint.m:2918 (field_read)",
+              "DID-matlab:convert/epochMint.m:2921 (field_read)",
               "DID-matlab:convert/epochMint.m:830 (guard)",
               "DID-matlab:convert/resolveEpochProbemap.m:1358 (guard)"
             ],
@@ -2112,8 +2112,8 @@
             "comment_mentions": [
               "DID-matlab:convert/epochMint.m:25 (comment_mention)",
               "DID-matlab:convert/epochMint.m:27 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:2898 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:2968 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:2905 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:2975 (comment_mention)",
               "DID-matlab:convert/epochMint.m:41 (comment_mention)",
               "DID-matlab:convert/epochMint.m:454 (comment_mention)"
             ]
@@ -2331,7 +2331,7 @@
         "n_consuming_refs": 3,
         "consuming_refs": [
           "DID-matlab:convert/epochMint.m:1097 (guard)",
-          "DID-matlab:convert/epochMint.m:2042 (field_read)",
+          "DID-matlab:convert/epochMint.m:2049 (field_read)",
           "DID-matlab:convert/resolveEpochProbemap.m:387 (guard)"
         ],
         "n_emitted_class_refs": 0,
@@ -2344,7 +2344,7 @@
         "n_named_refs": 2,
         "named_refs": [
           "DID-matlab:convert/epochMint.m:1128 (named)",
-          "DID-matlab:convert/epochMint.m:2041 (named)"
+          "DID-matlab:convert/epochMint.m:2048 (named)"
         ],
         "n_comment_mentions": 21,
         "comment_mentions": [
@@ -2379,7 +2379,7 @@
             "n_consuming_refs": 3,
             "consuming_refs": [
               "DID-matlab:convert/epochMint.m:1097 (guard)",
-              "DID-matlab:convert/epochMint.m:2042 (field_read)",
+              "DID-matlab:convert/epochMint.m:2049 (field_read)",
               "DID-matlab:convert/resolveEpochProbemap.m:387 (guard)"
             ],
             "n_emitted_class_refs": 0,
@@ -2389,7 +2389,7 @@
             "n_named_refs": 2,
             "named_refs": [
               "DID-matlab:convert/epochMint.m:1128 (named)",
-              "DID-matlab:convert/epochMint.m:2041 (named)"
+              "DID-matlab:convert/epochMint.m:2048 (named)"
             ],
             "n_comment_mentions": 12,
             "comment_mentions": [
