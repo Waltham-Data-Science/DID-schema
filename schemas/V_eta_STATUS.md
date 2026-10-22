@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 270 decision line(s) accepted, 2 rejected; 41 cited by a class, 229 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 271 decision line(s) accepted, 2 rejected; 41 cited by a class, 230 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -515,7 +515,8 @@ field). If one decides a class's disposition, that class should cite it.
 - clock alignment relation bound. "Decided by Jess Haley, 2026-10-22 [clock alignment relation" (V_eta_relation_inheritance_plan.md:125).
 - distance. "Decided by Jess Haley, 2026-10-22 [distance]" (V_eta_relation_inheritance_plan.md:127).
 - derived from general. "Decided by Jess Haley, 2026-10-22 [derived from general]" (V_eta_relation_inheritance_plan.md:129).
-- lawn in plate. "Decided by Jess Haley, 2026-10-22 [lawn in plate]: a" (V_eta_relation_inheritance_plan.md:131).
+- derived from label. "Decided by Jess Haley, 2026-10-22 [derived from label]: the" (V_eta_relation_inheritance_plan.md:131).
+- lawn in plate. "Decided by Jess Haley, 2026-10-22 [lawn in plate]: a" (V_eta_relation_inheritance_plan.md:133).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
 - calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (V_eta_spatial_transcriptomics_plan.md:286).
