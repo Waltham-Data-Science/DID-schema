@@ -1975,6 +1975,12 @@ def render_open_state(p, ocs):
         "1": "`b.document_class = struct('class_name', '<class>', ...)`",
         "2": "`b.document_class = classBlock('<class>', {supers})`",
         "3": "`b.document_class.class_name = '<class>';`",
+        # Idioms 4 and 5 (the #88 builder) are RECOGNISED by
+        # emitted_document_classes; without a label here the row printed
+        # "*unrecognised*", which read as uncounted mints.
+        "4": "`did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`, "
+             "`did2.build.document('<class>', ...)` or a fixed-class builder",
+        "5": "a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)`",
     }
     _by_idiom = msrc.get("mint_sites_by_idiom") or {}
     _idiom_by_group = msrc.get("mint_sites_by_idiom_by_group") or {}
