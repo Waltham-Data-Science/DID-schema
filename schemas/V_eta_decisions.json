@@ -1849,7 +1849,7 @@
         ],
         "packages_missing": [],
         "files_read": 223,
-        "lines_read": 54628,
+        "lines_read": 54765,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
@@ -1893,7 +1893,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 35501,
-          "batch_post_pass": 19127
+          "batch_post_pass": 19264
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -2655,7 +2655,7 @@
         "n_comment_mentions": 32,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:1042 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:917 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:918 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:113 (comment_mention)",
@@ -2698,7 +2698,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:1042 (comment_mention)"
             ]
           }
         },
