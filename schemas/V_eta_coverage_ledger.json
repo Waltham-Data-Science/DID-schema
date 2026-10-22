@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 255,
+          "accepted_lines": 257,
           "accepted_lines_by_kind": {
-            "Decided by": 138,
+            "Decided by": 140,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1047,6 +1047,22 @@
               "tag": "dF/F as variable",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1533,
+              "kind": "Decided by",
+              "tag": "pressure in mmHg",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1535,
+              "kind": "Decided by",
+              "tag": "pH unit one",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [pH unit one]: the"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",

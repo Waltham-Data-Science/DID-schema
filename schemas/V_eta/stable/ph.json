@@ -46,7 +46,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical pH, the log-scale number. `source_unit` is kept for lossless provenance (a source may write 'pH', or state a scale).",
+                    "documentation": "Canonical pH, the log-scale number; its unit is om:one, dimensionless (Jess Haley 2026-10-22 [pH unit one]). `source_unit` is kept for lossless provenance (a source may write 'pH', or state a scale).",
                     "constraints": {}
                 },
                 {

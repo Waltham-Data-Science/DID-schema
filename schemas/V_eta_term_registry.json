@@ -5122,6 +5122,24 @@
       "obsolete": false
     },
     {
+      "name": "millimetre of mercury",
+      "node": "om:millimetreOfMercury",
+      "definition": "The millimetre of mercury is a unit of pressure defined as 1.0e-3 metre of mercury.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [pressure in mmHg], V_eta_data_body_model_plan.md: the canonical unit of the `pressure` value kind (J3a)",
+      "first_used_in": "pressure.value.mmhg",
+      "obsolete": false
+    },
+    {
+      "name": "one",
+      "node": "om:one",
+      "definition": "Unit one is a unit of dimension one.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [pH unit one] and [dF/F as variable], V_eta_data_body_model_plan.md: the unit of a dimensionless quantity whose quantity is named elsewhere (the `ph` value kind; a dF/F response)",
+      "first_used_in": "ph.value.ph; tuning_curve.value.response_unit (dF/F)",
+      "obsolete": false
+    },
+    {
       "name": "signed distance to region boundary",
       "node": "EMPTY:0000384",
       "definition": "The distance from a point to the nearest boundary of a region, positive inside the region and negative outside it.",

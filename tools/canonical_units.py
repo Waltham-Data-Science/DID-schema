@@ -31,7 +31,7 @@ CANONICAL_UNITS = {
     "current": [("amperes", "ampere", "")],
     "frequency": [("hertz", "hertz", "om:hertz")],
     "temperature": [("celsius", "degree Celsius", "om:degreeCelsius")],
-    "pressure": [("mmhg", "millimetre of mercury", "")],
+    "pressure": [("mmhg", "millimetre of mercury", "om:millimetreOfMercury")],
     # concentration has no single canonical: each slot is filled when the source
     # unit is computable into it. Ratio slots are named by unit (Jess Haley
     # 2026-10-22 [ratio slots named by unit]).
@@ -54,7 +54,7 @@ CANONICAL_UNITS = {
     "substance_amount": [("moles", "mole", "")],
     "intensity": [("arbitrary_units", "arbitrary unit", "")],
     "irradiance": [("watts_per_square_meter", "watt per square metre", "om:wattPerSquareMetre")],
-    "ph": [("ph", "pH", "")],
+    "ph": [("ph", "one", "om:one")],
     "gain": [("decibels", "decibel", "")],
     "humidity": [("percent_relative_humidity", "percent relative humidity", "")],
 }
