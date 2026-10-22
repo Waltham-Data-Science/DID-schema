@@ -1500,3 +1500,5 @@ Decided by Jess Haley, 2026-10-22 [covariate details]: `cyclic` only on `origin`
 
 Decided by Jess Haley, 2026-10-22 [covariate rules named]: the covariate shape rule (extents of `along`, then a matrix's own shape) and the one-variable-across-conditions-and-covariates rule are named schema rules (6.1a); a covariate that only repeats its dimension's positions 0..n-1 is not written (6.2a); `datum_order` stays required only on a sampled body of more than one dimension (6.3a); migration reports count the v1 `stimulus_control_id` edges dropped by [control as covariate] (answer "A" to 6.4).
 
+Decided by Jess Haley, 2026-10-22 [stimulus condition term]: the `stimulus condition` dimension of [tuning grid] (one position per distinct combination of stimulus parameter values, when the conditions do not form a full grid) is XCO:0000000 "experimental condition", the parent of XCO:0000099 control condition; no ontology term names a combination of factor levels (answer "A").
+

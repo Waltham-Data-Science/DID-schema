@@ -4059,6 +4059,14 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-22 [presentation dimension term], V_eta_data_body_model_plan.md: the dimension of a stimulus presentation sequence (replaces the label `presentation`)",
             "first_used_in": "NDI stimulus presentation fold (stimulus_presentation presentation dimension)"
+        },
+        {
+            "name": "experimental condition",
+            "node": "XCO:0000000",
+            "definition": "A state of being, an external or environmental factor or a treatment observed or administered prior to or concurrent with an investigative procedure such as an assessment of a morphological or physiological state or property in a single individual or sample or in a group of individuals or samples, especially a state, factor or treatment which has the potential to influence the outcome of such an assessment.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [stimulus condition term], V_eta_data_body_model_plan.md",
+            "first_used_in": "DID-matlab jTuningCurve: the dimension of a multi-variable tuning curve whose conditions are not a full grid"
         }
     ]
 }
