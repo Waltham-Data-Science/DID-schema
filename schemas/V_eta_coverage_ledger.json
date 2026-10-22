@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 253,
+          "accepted_lines": 254,
           "accepted_lines_by_kind": {
-            "Decided by": 136,
+            "Decided by": 137,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1039,6 +1039,14 @@
               "tag": "response variable",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [response variable]: what"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1531,
+              "kind": "Decided by",
+              "tag": "dF/F as variable",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",

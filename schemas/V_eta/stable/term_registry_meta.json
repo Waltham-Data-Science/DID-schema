@@ -5143,15 +5143,6 @@
             "obsolete": false
         },
         {
-            "name": "dF/F",
-            "node": "",
-            "definition": "A change in fluorescence divided by the baseline fluorescence: a dimensionless ratio.",
-            "status": "staged",
-            "decided": "Jess Haley, 2026-10-22 [remaining units bound], V_eta_data_body_model_plan.md: register dF/F as a dimensionless ratio (M1); node not chosen (candidates om:one, UO:0010006 ratio)",
-            "first_used_in": "tuning_curve.value.response_unit (two-photon responses)",
-            "obsolete": false
-        },
-        {
             "name": "cycles per degree",
             "node": "",
             "definition": "The number of cycles of a periodic pattern per degree of visual angle (a spatial frequency).",
