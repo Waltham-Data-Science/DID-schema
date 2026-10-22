@@ -250,27 +250,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1178,
+        "line": 1228,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1217,
+        "line": 1269,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1490,
+        "line": 1547,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1511,
+        "line": 1568,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1598,
+        "line": 1655,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2319,
+        "line": 2324,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2396,
+        "line": 2401,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -2313,12 +2313,12 @@
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2276,
+        "line": 2281,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2277,
+        "line": 2282,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -2359,22 +2359,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 695,
+        "line": 696,
         "spelling": "file_reference",
         "text": "isRecord = strcmp(classes, 'file_reference');"
        },
        {
-        "line": 789,
+        "line": 794,
         "spelling": "file_reference",
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1256,
+        "line": 1310,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1258,
+        "line": 1312,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
@@ -2776,12 +2776,12 @@
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 498,
+        "line": 499,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 548,
+        "line": 549,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -4006,12 +4006,12 @@
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 524,
+        "line": 525,
         "spelling": "ontology_label",
         "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
        },
        {
-        "line": 533,
+        "line": 534,
         "spelling": "ontology_label",
         "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
        }
