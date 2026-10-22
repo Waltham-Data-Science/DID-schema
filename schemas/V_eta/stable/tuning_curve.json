@@ -214,7 +214,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit of the response arrays (spikes per second, dF/F, ...), a registered unit term, bound (Jess Haley 2026-10-22 [remaining units bound]).",
+                    "documentation": "The unit of the response arrays (e.g. hertz for a spike rate; what is measured, such as firing rate, goes in the statement's `variable`: Jess Haley 2026-10-22 [response variable]), a registered unit term, bound (Jess Haley 2026-10-22 [remaining units bound]).",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",

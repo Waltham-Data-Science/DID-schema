@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 249 decision line(s) accepted, 2 rejected; 41 cited by a class, 208 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 253 decision line(s) accepted, 2 rejected; 41 cited by a class, 212 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -404,6 +404,7 @@ field). If one decides a class's disposition, that class should cite it.
 - audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (V_eta_data_body_model_plan.md:1521).
 - audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (V_eta_data_body_model_plan.md:1525).
 - harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (V_eta_data_body_model_plan.md:1527).
+- response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (V_eta_data_body_model_plan.md:1529).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (V_eta_ensemble_plan.md:284).
@@ -465,6 +466,7 @@ field). If one decides a class's disposition, that class should cite it.
 - channel types. "Decided by Jess Haley, 2026-10-22 [channel types]" (V_eta_go_forward_class_audit.md:1078).
 - required acquisition edges. "Decided by Jess Haley, 2026-10-22 [required acquisition" (V_eta_go_forward_class_audit.md:1080).
 - instrument and device. "Decided by Jess Haley, 2026-10-22 [instrument and device]" (V_eta_go_forward_class_audit.md:1082).
+- rig minting with edges. "Decided by Jess Haley, 2026-10-22 [rig minting with edges]" (V_eta_go_forward_class_audit.md:1084).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -497,6 +499,7 @@ field). If one decides a class's disposition, that class should cite it.
 - contained_in endpoints. "Decided by Jess Haley, 2026-10-22 [contained_in endpoints]" (V_eta_relation_inheritance_plan.md:123).
 - clock alignment relation bound. "Decided by Jess Haley, 2026-10-22 [clock alignment relation" (V_eta_relation_inheritance_plan.md:125).
 - distance. "Decided by Jess Haley, 2026-10-22 [distance]" (V_eta_relation_inheritance_plan.md:127).
+- derived from general. "Decided by Jess Haley, 2026-10-22 [derived from general]" (V_eta_relation_inheritance_plan.md:129).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (V_eta_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (V_eta_source_unit_plan.md:84).
 - calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (V_eta_spatial_transcriptomics_plan.md:286).
@@ -561,6 +564,7 @@ field). If one decides a class's disposition, that class should cite it.
 - serial number. "Decided by Jess Haley, 2026-10-22 [serial number]: a" (V_eta_term_registry_plan.md:184).
 - registry holds nodes. "Decided by Jess Haley, 2026-10-22 [registry holds nodes]" (V_eta_term_registry_plan.md:186).
 - synonyms. "Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is" (V_eta_term_registry_plan.md:188).
+- ethics assessment to jurisdiction. "Decided by Jess Haley, 2026-10-22 [ethics assessment to" (V_eta_term_registry_plan.md:190).
 - time_reference. "TEAM-SIGN-OFF [time_reference]: jess@walthamdatascience.com" (V_eta_time_reference_model_plan.md:468).
 - time_reference uniqueness rule. "TEAM-SIGN-OFF [time_reference uniqueness rule]" (V_eta_time_reference_model_plan.md:735).
 - epoch and session wall-clock time. "TEAM-SIGN-OFF [epoch and session wall-clock time]" (V_eta_time_reference_model_plan.md:762).

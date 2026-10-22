@@ -5140,15 +5140,6 @@
       "obsolete": false
     },
     {
-      "name": "spikes per second",
-      "node": "",
-      "definition": "The number of action potentials per second (a rate).",
-      "status": "staged",
-      "decided": "Jess Haley, 2026-10-22 [remaining units bound], V_eta_data_body_model_plan.md: register the unit (M1); node not chosen (candidate NCIT:C94877 Count per Second)",
-      "first_used_in": "tuning_curve.value.response_unit, contrast_sensitivity.value.response_unit",
-      "obsolete": false
-    },
-    {
       "name": "dF/F",
       "node": "",
       "definition": "A change in fluorescence divided by the baseline fluorescence: a dimensionless ratio.",

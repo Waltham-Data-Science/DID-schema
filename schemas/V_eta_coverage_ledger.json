@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 249,
+          "accepted_lines": 253,
           "accepted_lines_by_kind": {
-            "Decided by": 132,
+            "Decided by": 136,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1031,6 +1031,14 @@
               "tag": "harmonic response unit bound",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [harmonic response unit"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1529,
+              "kind": "Decided by",
+              "tag": "response variable",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [response variable]: what"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
@@ -1521,6 +1529,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [instrument and device]"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1084,
+              "kind": "Decided by",
+              "tag": "rig minting with edges",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [rig minting with edges]"
+            },
+            {
               "document": "V_eta_linked_session_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1775,6 +1791,14 @@
               "tag": "distance",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [distance]"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 129,
+              "kind": "Decided by",
+              "tag": "derived from general",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [derived from general]"
             },
             {
               "document": "V_eta_source_unit_plan.md",
@@ -2287,6 +2311,14 @@
               "tag": "synonyms",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is"
+            },
+            {
+              "document": "V_eta_term_registry_plan.md",
+              "line": 190,
+              "kind": "Decided by",
+              "tag": "ethics assessment to jurisdiction",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [ethics assessment to"
             },
             {
               "document": "V_eta_time_reference_model_plan.md",
