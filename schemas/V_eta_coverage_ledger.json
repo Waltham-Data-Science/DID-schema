@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 265,
+          "accepted_lines": 267,
           "accepted_lines_by_kind": {
-            "Decided by": 148,
+            "Decided by": 150,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1243,6 +1243,22 @@
             {
               "document": "V_eta_epoch_plan.md",
               "line": 1506,
+              "kind": "Decided by",
+              "tag": "spike train body by bytes",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [spike train body by"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1508,
+              "kind": "Decided by",
+              "tag": "spike dimension term",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [spike dimension term]"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1510,
               "kind": "Decided by",
               "tag": "ingested epochs found",
               "date": "2026-10-22",

@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 265 decision line(s) accepted, 2 rejected; 41 cited by a class, 224 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 267 decision line(s) accepted, 2 rejected; 41 cited by a class, 226 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -430,7 +430,9 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:197).
 - dataset session reference. "Decided by Jess Haley, 2026-10-22 [dataset session" (V_eta_entity_composition_plan.md:209).
 - epoch dissolution before merge. "Decided by Jess Haley, 2026-10-22 [epoch dissolution before" (V_eta_epoch_plan.md:1504).
-- ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1506).
+- spike train body by bytes. "Decided by Jess Haley, 2026-10-22 [spike train body by" (V_eta_epoch_plan.md:1506).
+- spike dimension term. "Decided by Jess Haley, 2026-10-22 [spike dimension term]" (V_eta_epoch_plan.md:1508).
+- ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1510).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).
