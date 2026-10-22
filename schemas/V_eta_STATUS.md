@@ -50,8 +50,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 190 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 34 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 55105 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 35713 |
+| build: migrator lines inspected | 55117 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 35725 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 19392 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 206 decision line(s) accepted, 2 rejected; 41 cited by a class, 165 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 207 decision line(s) accepted, 2 rejected; 41 cited by a class, 166 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -396,6 +396,7 @@ field). If one decides a class's disposition, that class should cite it.
 - covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (V_eta_data_body_model_plan.md:1499).
 - covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1501).
 - stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (V_eta_data_body_model_plan.md:1503).
+- index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (V_eta_data_body_model_plan.md:1505).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
