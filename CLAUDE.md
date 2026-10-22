@@ -46,6 +46,11 @@ person's.)*
 
   `<name>` is a team member's full name. `<tag>` is short and unique among that
   document's `Decided by` lines; a class cites the decision by document and tag.
+  *(2026-10-22, Jess Haley.)* When the build lives in another repository, the
+  line is committed at once and ends `Build pending: <repo> (<what>)`; when the
+  build lands, that becomes `Built: <repo> <commit>`. Never hold a decision
+  line in an uncommitted tree waiting for a sibling. Before a PR merges,
+  `python3 tools/decision_citations.py --pending --strict` must report 0.
   `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
   kept) and reports, without counting, a line by anyone else or a line with no
   tag.

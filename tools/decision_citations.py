@@ -53,6 +53,7 @@ decision is recorded on). Claude records a `Decided by` line only for what a
 team member said, and never writes a `TEAM-SIGN-OFF` line.
 """
 
+import glob
 import os
 import re
 
@@ -569,3 +570,61 @@ def decision_census(schemas_dir=None, table=None):
         "lines_cited": len(lines) - len(uncited),
         "uncited_lines": uncited,
     }
+
+
+# ---------------------------------------------------------------------------
+# PENDING BUILDS (2026-10-22, Jess Haley: "do c now")
+# ---------------------------------------------------------------------------
+# A decision whose build lives in another repository may be recorded before
+# that build lands, so the record is never held back in an uncommitted tree.
+# Its line says so with the marker `Build pending:` followed by the repository
+# and what is to be built. When the build lands the marker is replaced by
+# `Built: <repo> <commit>`. No marker may remain when the PR merges:
+#
+#     python3 tools/decision_citations.py --pending          # report
+#     python3 tools/decision_citations.py --pending --strict # exit 1 if any
+#
+# The report states its denominator first (Operating Rule 5).
+
+PENDING_MARKER = "Build pending:"
+
+
+def pending_builds(schemas_dir=None):
+    """Every accepted-form decision line carrying the pending marker.
+
+    Returns (lines_read, pending) where pending is a list of
+    {document, line, tag, excerpt}."""
+    base = schemas_dir or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "schemas")
+    lines_read = 0
+    pending = []
+    for path in sorted(glob.glob(os.path.join(base, "*.md"))):
+        with open(path, encoding="utf-8") as fh:
+            for n, line in enumerate(fh, 1):
+                parsed = match_decided_by(line)
+                if not parsed and not line.startswith("TEAM-SIGN-OFF"):
+                    continue
+                lines_read += 1
+                if PENDING_MARKER in line:
+                    pending.append({"document": os.path.basename(path), "line": n,
+                                    "tag": parsed["tag"] if parsed else None,
+                                    "excerpt": line.strip()[:160]})
+    return lines_read, pending
+
+
+if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--pending", action="store_true",
+                    help="list decision lines whose build is still pending in another repository")
+    ap.add_argument("--strict", action="store_true",
+                    help="with --pending: exit 1 if any remain (run before merging)")
+    args = ap.parse_args()
+    if not args.pending:
+        ap.print_help()
+        raise SystemExit(0)
+    read, pend = pending_builds()
+    print(f"DENOMINATOR: {read} decision line(s) read in schemas/*.md")
+    print(f"PENDING BUILDS: {len(pend)}")
+    for p in pend:
+        print(f"  {p['document']}:{p['line']} [{p['tag']}] {p['excerpt']}")
+    raise SystemExit(1 if (args.strict and pend) else 0)
