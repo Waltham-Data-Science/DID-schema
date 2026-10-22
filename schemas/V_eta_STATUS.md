@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 260 decision line(s) accepted, 2 rejected; 41 cited by a class, 219 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 263 decision line(s) accepted, 2 rejected; 41 cited by a class, 222 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -410,6 +410,8 @@ field). If one decides a class's disposition, that class should cite it.
 - pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (V_eta_data_body_model_plan.md:1535).
 - pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (V_eta_data_body_model_plan.md:1537).
 - humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (V_eta_data_body_model_plan.md:1539).
+- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (V_eta_data_body_model_plan.md:1541).
+- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (V_eta_data_body_model_plan.md:1543).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (V_eta_ensemble_plan.md:284).
@@ -429,6 +431,7 @@ field). If one decides a class's disposition, that class should cite it.
 - ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1506).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
+- passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).
 - dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).
 - confirm sheet 2026-08-22. "TEAM-SIGN-OFF [confirm sheet 2026-08-22]" (V_eta_go_forward_class_audit.md:725).
 - immersion or dose. "Decided by Jess Haley, 2026-10-21 [immersion or dose]: A" (V_eta_go_forward_class_audit.md:729).

@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 260,
+          "accepted_lines": 263,
           "accepted_lines_by_kind": {
-            "Decided by": 143,
+            "Decided by": 146,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1081,6 +1081,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the"
             },
             {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1541,
+              "kind": "Decided by",
+              "tag": "unit names are labels",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [unit names are labels]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1543,
+              "kind": "Decided by",
+              "tag": "molar kept",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [molar kept]: the"
+            },
+            {
               "document": "V_eta_duplicate_entities_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1231,6 +1247,14 @@
               "tag": "filter terms from Wikidata",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [filter terms from"
+            },
+            {
+              "document": "V_eta_frequency_filter_model_plan.md",
+              "line": 205,
+              "kind": "Decided by",
+              "tag": "passband edges paired",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [passband edges paired]"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",

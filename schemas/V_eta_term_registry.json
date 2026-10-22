@@ -5158,6 +5158,51 @@
       "obsolete": false
     },
     {
+      "name": "Liter Per Liter",
+      "node": "NCIT:C105495",
+      "definition": "A measure of volume concentration expressed as the number of liters of a dissolved substance per liter of solution.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.liters_per_liter` (J8a)",
+      "first_used_in": "concentration.value.liters_per_liter",
+      "obsolete": false
+    },
+    {
+      "name": "reciprocal litre",
+      "node": "om:reciprocalLitre",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.particles_per_liter` (J8a)",
+      "first_used_in": "concentration.value.particles_per_liter",
+      "obsolete": false
+    },
+    {
+      "name": "Unit of Osmotic Concentration",
+      "node": "NCIT:C67425",
+      "definition": "A unit for measurement of concentration of osmotically active particles expressed as a number of osmoles of solute per liter of solution.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.osmolar` (J8a)",
+      "first_used_in": "concentration.value.osmolar",
+      "obsolete": false
+    },
+    {
+      "name": "Degrees Per Second",
+      "node": "NCIT:C166097",
+      "definition": "A unit of angular velocity defined as the number of degrees per unit of time equal to one second.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `angular_velocity.value.degrees_per_second` (J8a)",
+      "first_used_in": "angular_velocity.value.degrees_per_second",
+      "obsolete": false
+    },
+    {
+      "name": "molar",
+      "node": "om:molar",
+      "definition": "Molar is a unit of amount of substance concentration defined as 1 mole per litre.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [molar kept], V_eta_data_body_model_plan.md: the canonical `molar` slot's unit; om:molePerLitre is not registered (J9)",
+      "first_used_in": "concentration.value.molar",
+      "obsolete": false
+    },
+    {
       "name": "signed distance to region boundary",
       "node": "EMPTY:0000384",
       "definition": "The distance from a point to the nearest boundary of a region, positive inside the region and negative outside it.",
