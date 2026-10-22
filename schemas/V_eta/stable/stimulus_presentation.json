@@ -19,7 +19,7 @@
         {
             "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The STIMULATOR element -- NDI's only dependency on this class, in its template, in its schema (mustbenotempty: 1), at decoder.m:138 and in the mock. Typed `subject` because migrators_j.element promotes elements to subjects with their ids preserved, so the edge resolves. REPLACES an invented `element_id` that no NDI document has ever carried.",
+            "documentation": "The STIMULATOR element -- NDI's only dependency on this class, in its template, in its schema (mustbenotempty: 1), at decoder.m:138 and in the mock. Typed `entity` because migrators_j.element promotes elements to entities with their ids preserved, so the edge resolves. REPLACES an invented `element_id` that no NDI document has ever carried.",
             "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         }
@@ -67,7 +67,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- the parameters become typed fields of the referenced stimulus value documents in the second pass, not here.",
+                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- in the second pass a stimulus given as a recipe becomes a `method` document (TEAM-SIGN-OFF [method], V_eta_method_plan.md), not here.",
                     "constraints": {},
                     "fields": []
                 }

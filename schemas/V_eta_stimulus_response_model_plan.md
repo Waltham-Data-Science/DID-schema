@@ -615,3 +615,5 @@ Decided by Jess Haley, 2026-10-22 [control as covariate]: the control of a stimu
 
 Decided by Jess Haley, 2026-10-22 [presentation times from the file]: NDI's second pass reads each presentation's onset and offset from v1 `presentation_time.bin` (where the current v1 decoder writes them) into the `onset time` / `offset time` covariates, and the file stays attached to the presentation as its raw source (answer "7.1c"). Control records that cannot be placed stay v1 and are counted (7.2a); a presentation with no subject still carries the control covariate (7.3a).
 
+
+Decided by Jess Haley, 2026-10-22 [presentation file declared]: `presentation_time.bin` is an optional declared file on `item` and `manipulation`, because the stimulus fold keeps it attached ([presentation times from the file], 7.1c) and did2.validate.fileList would otherwise flag it undeclared (answer "both ok"). Built: the file record on both classes.

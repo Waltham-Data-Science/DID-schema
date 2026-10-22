@@ -6,13 +6,13 @@
     "classes_citing": 73,
     "citations": 81,
     "citations_unresolved": 0,
-    "open_classes": 11,
+    "open_classes": 10,
     "by_state": {
       "decided": 73,
       "proposed (not decided)": 0
     },
     "open_by_state": {
-      "decided": 11,
+      "decided": 10,
       "proposed (not decided)": 0
     },
     "state_labels": {
@@ -174,7 +174,7 @@
       "decided_in": {
         "document": "V_eta_daq_family_decisions.md",
         "tag": "daq configuration",
-        "line": 479,
+        "line": 489,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
@@ -183,7 +183,7 @@
           "document": "V_eta_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
-          "line": 479,
+          "line": 489,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -222,7 +222,7 @@
       "decided_in": {
         "document": "V_eta_daq_family_decisions.md",
         "tag": "daq configuration",
-        "line": 479,
+        "line": 489,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
@@ -231,7 +231,7 @@
           "document": "V_eta_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
-          "line": 479,
+          "line": 489,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -334,7 +334,7 @@
       "decided_in": {
         "document": "V_eta_daq_family_decisions.md",
         "tag": "daq configuration",
-        "line": 479,
+        "line": 489,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
@@ -343,7 +343,7 @@
           "document": "V_eta_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
-          "line": 479,
+          "line": 489,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -358,7 +358,7 @@
       "decided_in": {
         "document": "V_eta_daq_family_decisions.md",
         "tag": "daq configuration",
-        "line": 479,
+        "line": 489,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
@@ -367,7 +367,7 @@
           "document": "V_eta_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
-          "line": 479,
+          "line": 489,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -431,8 +431,8 @@
     },
     "ensemble": {
       "class_name": "ensemble",
-      "disposition": "in_progress",
-      "open": true,
+      "disposition": "retire",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -574,7 +574,7 @@
       "decided_in": {
         "document": "V_eta_daq_family_decisions.md",
         "tag": "file navigation",
-        "line": 333,
+        "line": 343,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
@@ -583,7 +583,7 @@
           "document": "V_eta_daq_family_decisions.md",
           "tag": "file navigation",
           "resolved": true,
-          "line": 333,
+          "line": 343,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -1850,7 +1850,7 @@
         "packages_missing": [],
         "files_read": 226,
         "lines_read": 55551,
-        "classes_queried": 8,
+        "classes_queried": 7,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
           "DID-matlab:convert/resolveEpochProbemap.m:1278 (entry.class)",
@@ -1994,7 +1994,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 8
+        "classes_queried": 7
       },
       "batch_consumers": {
         "files_scanned": 19,
@@ -2013,7 +2013,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 6,
+      "b_built_awaiting_corpus_proof": 5,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2405,96 +2405,6 @@
         ],
         "decided_targets_built": [
           "opaque_body"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ensemble",
-        "decision": "decided",
-        "decided_in": "V_eta_ensemble_plan.md:10 [ensemble]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "1 consuming reference(s) (1 per-document migrator)",
-          "decided target(s) built: `entity (subject)`, `directed_relation`, `sampled_body`"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 1,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:439 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:migrators_j/element.m:215 (named)"
-        ],
-        "n_comment_mentions": 25,
-        "comment_mentions": [
-          "DID-matlab:convert/resolveResponseParameters.m:101 (comment_mention)",
-          "DID-matlab:migrators_j/element.m:101 (comment_mention)",
-          "DID-matlab:migrators_j/element.m:210 (comment_mention)",
-          "DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)",
-          "DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)",
-          "DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:439 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/element.m:215 (named)"
-            ],
-            "n_comment_mentions": 24,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/element.m:101 (comment_mention)",
-              "DID-matlab:migrators_j/element.m:210 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:155 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 1,
-            "comment_mentions": [
-              "DID-matlab:convert/resolveResponseParameters.m:101 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "entity (subject)",
-          "directed_relation",
-          "sampled_body"
-        ],
-        "decided_targets_built": [
-          "entity (subject)",
-          "directed_relation",
-          "sampled_body"
         ],
         "decided_targets_missing": [],
         "survivors": null,

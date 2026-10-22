@@ -16,7 +16,7 @@
         {
             "name": "element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element associated with this epoch.",
+            "documentation": "The entity this epoch's samples belong to (a v1 element, promoted to an entity with its id preserved).",
             "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         }

@@ -195,3 +195,7 @@ document plus a `filter_id` edge from the observation the pyraview fold already 
   home yet. Not built speculatively.
 - Which observation classes get `filter_id`. Today only `pyraview` carries a filter block,
   but the raw-recording model (`V_eta_recording_observation_plan.md`) is the natural owner.
+
+## 2026-10-22 -- tenet audit
+
+Decided by Jess Haley, 2026-10-22 [filters are methods]: `frequency_filter` is deleted (a V2 invention; 0 occurrences in the NDI ground truth; no tombstone). jFrequencyFilter writes a `method` document (term = the filter design; parameters the band, the passband and stopband edges in Hz, the filter order as a count, ripple and attenuation in dB), and a body's `filter_id` becomes `method_id` (answer "N1a"). NOT BUILT HERE YET, deliberately: DID-matlab's migrators still emit `frequency_filter` and `filter_id` (private/jFrequencyFilter.m, jSpikeExtractionSettings.m, vmspikefilteringparameters.m, pyraview.m, epochfiles_ingested.m, spike_extraction_parameters.m, hartley_calc.m, binaryseries_parameters.m; did2.build.sampledBody) and NDI's ensembleMembership reads `filter_id`, so deleting the class or renaming the edge now would fail their CI. The class and `sampled_body.filter_id` stay until DID-matlab's change lands; the deletion and the rename to `method_id` then land here in one commit.

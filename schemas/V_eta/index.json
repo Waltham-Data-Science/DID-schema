@@ -11,7 +11,7 @@
         "did_v1",
         "V_zeta"
     ],
-    "notes": "Source of truth for class_name uniqueness and tier placement. V_eta implements Brainstorm J (ndi-next-steps Summer 2026/1_Ingestion): bare-identity subjects, subject_relation documents, restored subject_statement/subject_assertion, subject_observation/subject_manipulation, Path S locus, data-type leaves (no scalar_ prefix, no scalar/dataseries split, term_observation), the data_body flag + data_body documents, and a hard-validated binding registry. Supersedes V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, data_body, binding meta-schema) is an in-progress follow-up.",
+    "notes": "Source of truth for class_name uniqueness and tier placement; `disposition` (and `disposition_note`) are hand-written, every other field is derived by tools/validate_v_eta.py. V_eta: bare-identity entities (one `entity` class with a bound type, 2026-10-08), statements by composition (a direction plus a value kind), relations as documents (directed_relation / undirected_relation), values inline or in the two data bodies (sampled_body, opaque_body), and a hard-validated binding registry. Supersedes V_zeta. See V_eta_tenets.md.",
     "schemas": [
         {
             "class_name": "CURIE_lookups_meta",
@@ -627,8 +627,8 @@
                 "app"
             ],
             "path": "schemas/V_eta/stable/ensemble.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "retire",
+            "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], V_eta_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (V_eta_migration_targets.json ensemble.how)."
         },
         {
             "class_name": "entity",

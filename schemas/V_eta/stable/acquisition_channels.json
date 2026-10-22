@@ -13,7 +13,7 @@
         {
             "name": "acquisition_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig this channel group is read on -- the device half of v1's `devicestring` or a syncrule's device name. DECIDED REQUIRED (#73 item 56), kept OPTIONAL until the minting pass lands, because nothing fills it today and #37 would quarantine every syncrule-fold document: a batch pass resolves the device name by (session, name); when no `acquisition_system` has that name it MINTS one whose `name` is the device name, so the edge always resolves and the rig's name lives in one place. (Until item 54 an unresolved name rode on `base.name`.)",
+            "documentation": "The rig this channel group is read on -- the device half of v1's `devicestring` or a syncrule's device name. Every writer fills it today (Jess Haley 2026-10-22 [audit mechanical fixes 2]): a migrated probemap's channel groups, the two documents of a migrated filefind syncrule (resolved by session and name in did2.convert.resolveClockAlignment), and the Haley import's junction between a system and its recordings. DECIDED REQUIRED (#73 item 56); still declared optional here. The decided minting pass resolves a device name by (session, name) and, when no `acquisition_system` has that name, MINTS one whose `name` is the device name, so the edge always resolves and the rig's name lives in one place. (Until item 54 an unresolved name rode on `base.name`.)",
             "must_refer_to_document_class": "acquisition_system"
         }
     ],
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "One entry per channel-TYPE GROUP, as v1's devicestring stores them ('mydevice:ai27-28,45,88;di1-4'). `type` is scalar PER ENTRY because a group is by definition one type; `numbers` is the list. NOT equal-length parallel arrays -- the flat form repeats the type N times and discards the grouping the source actually stores.",
+            "documentation": "The document has three uses (Jess Haley 2026-10-22 [audit mechanical fixes 2]): the channel groups of a migrated probemap (one entry per channel-TYPE GROUP, as v1's devicestring stores them, 'mydevice:ai27-28,45,88;di1-4'); the two ends of a migrated filefind syncrule, which carry only `acquisition_system_id`; and the Haley import's per-system junction that a recording interaction points at, which carries only `acquisition_system_id`. `type` is scalar PER ENTRY because a group is by definition one type; `numbers` is the list. NOT equal-length parallel arrays -- the flat form repeats the type N times and discards the grouping the source actually stores. Empty when the document only names its system.",
             "constraints": {},
             "fields": [
                 {

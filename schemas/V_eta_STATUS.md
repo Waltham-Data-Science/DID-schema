@@ -16,21 +16,21 @@ else is **Proposed (not decided)**, whatever any prose says.
 |---|---|
 | target classes | 176 |
 | settled (persist) | 92 |
-| settled (retire) | 76 |
-| **still open (`in_progress`)** | **8** |
+| settled (retire) | 77 |
+| **still open (`in_progress`)** | **7** |
 | **`retire` with no migrator YET** | **3** |
-| **open classes in all** | **11** |
-| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 11 |
+| **open classes in all** | **10** |
+| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 10 |
 | &nbsp;&nbsp;**proposed (not decided), awaiting review** | **0** |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
 | (a) nothing built (the decision state is a separate column) | 2 |
-| (b) built, awaiting corpus proof | 6 |
+| (b) built, awaiting corpus proof | 5 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-## What is actually left on the 8 open classes
+## What is actually left on the 7 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
 open because its name is a literal in `_DECIDED_PENDING` / `_IN_PROGRESS` in
@@ -53,7 +53,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: migrator lines inspected | 55551 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 36159 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 19392 |
-| build: classes queried | 8 |
+| build: classes queried | 7 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 0 |
@@ -72,12 +72,12 @@ an `unconverted_count`, so **state (c) cannot be reached by any class in**
 key measured nothing; its silence is not a zero. Point `--census` at a
 directory of corpus reports, or run the DID-matlab corpus gate.
 
-### Where the 8 open classes sit
+### Where the 7 open classes sit
 
 | state | classes |
 |---|---|
 | (a) nothing built (the decision state is a separate column) | 2 |
-| (b) built, awaiting corpus proof | 6 |
+| (b) built, awaiting corpus proof | 5 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -236,7 +236,6 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `app` | decided | (b) | 5 consuming reference(s) (2 per-document migrator, 3 batch post-pass); decided target(s) built: `entity (software)` | - | 2 (1+1) | 1 (0+1) | 179 (140+39) | n/a -- not measured |
 | `binaryseries_parameters` | decided | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `statement`, `sampled_body` | - | - | 1 (1+0) | 15 (15+0) | n/a -- not measured |
 | `daqmetadatareader_epochdata_ingested` | decided | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; 3 consuming reference(s) (3 batch post-pass); decided target(s) built: `opaque_body` | - | - | 2 (0+2) | 21 (9+12) | n/a -- not measured |
-| `ensemble` | decided | (b) | 1 consuming reference(s) (1 per-document migrator); decided target(s) built: `entity (subject)`, `directed_relation`, `sampled_body` | - | - | 1 (1+0) | 25 (24+1) | n/a -- not measured |
 | `interaction_purpose` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 | `projectvar` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 | `stimulus_presentation` | decided | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 4 consuming reference(s) (4 per-document migrator); decided target(s) built: `item`, `manipulation + item` | - | - | - | 32 (30+2) | n/a -- not measured |
@@ -246,24 +245,23 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `interaction_purpose` (decided) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/openminds_stimulus.m:49 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:50 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:70 (comment_mention)`
 - `projectvar` (decided) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:360 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:378 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:38 (comment_mention)`
 
-#### (b) built, awaiting corpus proof -- 6
+#### (b) built, awaiting corpus proof -- 5
 
 - `acquisition_epoch` (decided) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:673 (guard)`; consumed at 6 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:2909 (guard)`, `DID-matlab:convert/epochMint.m:2910 (field_read)`, `DID-matlab:convert/epochMint.m:2911 (field_read)`, `DID-matlab:convert/epochMint.m:2914 (field_read)`, `DID-matlab:convert/epochMint.m:830 (guard)`, `DID-matlab:convert/resolveEpochProbemap.m:370 (guard)`; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:130 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:132 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/v1_to_v2.m:981 (named)`; mentioned in 28 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:672 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:39 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:168 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:100 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:102 (comment_mention)` ...; mentioned in 25 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:25 (comment_mention)`, `DID-matlab:convert/epochMint.m:27 (comment_mention)`, `DID-matlab:convert/epochMint.m:2898 (comment_mention)`, `DID-matlab:convert/epochMint.m:2968 (comment_mention)`, `DID-matlab:convert/epochMint.m:41 (comment_mention)`, `DID-matlab:convert/epochMint.m:454 (comment_mention)` ...
 - `app` (decided) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:663 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:105 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1119 (named)`; mentioned in 140 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:127 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:375 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:376 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:459 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:464 (comment_mention)` ...; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveEpochProbemap.m:986 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)` ...; target(s) BUILT: `entity (software)`
 - `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (decided) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1097 (guard)`, `DID-matlab:convert/epochMint.m:2042 (field_read)`, `DID-matlab:convert/resolveEpochProbemap.m:373 (guard)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1128 (named)`, `DID-matlab:convert/epochMint.m:2041 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:593 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; mentioned in 12 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1028 (comment_mention)`, `DID-matlab:convert/epochMint.m:1034 (comment_mention)`, `DID-matlab:convert/epochMint.m:1238 (comment_mention)`, `DID-matlab:convert/epochMint.m:216 (comment_mention)`, `DID-matlab:convert/epochMint.m:217 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)` ...; target(s) BUILT: `opaque_body`
-- `ensemble` (decided) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:439 (guard)`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element.m:215 (named)`; mentioned in 24 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element.m:101 (comment_mention)`, `DID-matlab:migrators_j/element.m:210 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:155 (comment_mention)` ...; mentioned in 1 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveResponseParameters.m:101 (comment_mention)`; target(s) BUILT: `entity (subject)`, `directed_relation`, `sampled_body`
 - `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:960 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:961 (field_read)`; mentioned in 30 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:917 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:918 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:113 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:35 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:49 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:77 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1148 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
 
 ## Proposed (not decided) -- awaiting review
 
-DENOMINATOR: 11 open class(es); 0 cite no decision line that resolves.
+DENOMINATOR: 10 open class(es); 0 cite no decision line that resolves.
 
 None -- every open class cites a decision line that exists.
 
 ## Decided, awaiting build -- the open classes
 
-DENOMINATOR: 11 open class(es); 11 cite a decision line that exists. The decision column is the line's own text, not a summary.
+DENOMINATOR: 10 open class(es); 10 cite a decision line that exists. The decision column is the line's own text, not a summary.
 
 | class | targets built | decided in | decision |
 |---|---|---|---|
@@ -272,7 +270,6 @@ DENOMINATOR: 11 open class(es); 11 cite a decision line that exists. The decisio
 | `binaryseries_parameters` | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `calculator` | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm...` |
 | `daqmetadatareader_epochdata_ingested` | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). | jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are n... |
-| `ensemble` | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). | jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose m... |
 | `generic_file` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `interaction_purpose` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
@@ -291,22 +288,22 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). |
 | `cellTypeLabels` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `control_stimulus_ids` | retire | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (V_eta_stimulus_response_model_plan.md:614). |
-| `daqmetadatareader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqmetadatareader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `daqmetadatareader_epochdata_ingested` | in_progress | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). |
-| `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `daqreader_epochdata_ingested` | retire | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `daqreader_image_epochdata_ingested` | retire | 3 of 3 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `daqreader_mfdaq_epochdata_ingested` | consumed by migrator (no tombstone) | no target recorded | [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
-| `daqreader_ndr` | consumed by migrator (no tombstone) | 3 of 3 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
-| `daqsystem` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:479). |
+| `daqreader_ndr` | consumed by migrator (no tombstone) | 3 of 3 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
+| `daqsystem` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `element` | retire | 10 of 10 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `element_epoch` | consumed by migrator (no tombstone) | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
-| `ensemble` | in_progress | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). |
+| `ensemble` | retire | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). |
 | `epochclocktimes` | consumed by migrator (no tombstone) | 1 of 1 | [epochclocktimes]. "TEAM-SIGN-OFF [epochclocktimes]" (V_eta_time_reference_family_plan.md:181).; [epoch extent -- row #113]. "TEAM-SIGN-OFF [epoch extent -- row #113]" (V_eta_OPEN_WORK.md:831). |
 | `epochfiles_ingested` | retire | 1 of 1 | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `epochid` | retire | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
 | `fileReference` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `filenavigator` | retire | 1 of 1 | [file navigation]. "TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06" (V_eta_daq_family_decisions.md:333). |
+| `filenavigator` | retire | 1 of 1 | [file navigation]. "TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06" (V_eta_daq_family_decisions.md:343). |
 | `filter` | retire | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (V_eta_frequency_filter_model_plan.md:5). |
 | `fitcurve` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneExpression` | retire | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
@@ -364,7 +361,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 230 decision line(s) accepted, 2 rejected; 41 cited by a class, 189 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 240 decision line(s) accepted, 2 rejected; 41 cited by a class, 199 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -404,8 +401,10 @@ field). If one decides a class's disposition, that class should cite it.
 - ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (V_eta_data_body_model_plan.md:1517).
 - missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (V_eta_data_body_model_plan.md:1519).
 - audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (V_eta_data_body_model_plan.md:1521).
+- audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (V_eta_data_body_model_plan.md:1525).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
+- ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (V_eta_ensemble_plan.md:284).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- datum_type is renamed" (V_eta_entity_composition_plan.md:61).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- add the text value kind" (V_eta_entity_composition_plan.md:70).
@@ -418,6 +417,9 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is" (V_eta_entity_composition_plan.md:190).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:197).
 - dataset session reference. "Decided by Jess Haley, 2026-10-22 [dataset session" (V_eta_entity_composition_plan.md:209).
+- epoch dissolution before merge. "Decided by Jess Haley, 2026-10-22 [epoch dissolution before" (V_eta_epoch_plan.md:1504).
+- ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1506).
+- filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).
 - confirm sheet 2026-08-22. "TEAM-SIGN-OFF [confirm sheet 2026-08-22]" (V_eta_go_forward_class_audit.md:725).
 - immersion or dose. "Decided by Jess Haley, 2026-10-21 [immersion or dose]: A" (V_eta_go_forward_class_audit.md:729).
@@ -453,10 +455,14 @@ field). If one decides a class's disposition, that class should cite it.
 - migrated masks have no software. "Decided by Jess Haley, 2026-10-22 [migrated masks have no" (V_eta_go_forward_class_audit.md:1057).
 - encounter axis. "Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley" (V_eta_go_forward_class_audit.md:1059).
 - software dedup after pass one. "Decided by Jess Haley, 2026-10-22 [software dedup after" (V_eta_go_forward_class_audit.md:1061).
-- NDI ref fallback. "Decided by Jess Haley, 2026-10-22 [NDI ref fallback]" (V_eta_go_forward_class_audit.md:1065).
-- NDI ref fallback, test-corpus. "Decided by Jess Haley, 2026-10-22 [NDI ref fallback" (V_eta_go_forward_class_audit.md:1067).
-- epoch to system link. "Decided by Jess Haley, 2026-10-22 [epoch to system link]" (V_eta_go_forward_class_audit.md:1072).
-- channel types. "Decided by Jess Haley, 2026-10-22 [channel types]" (V_eta_go_forward_class_audit.md:1074).
+- software location. "Decided by Jess Haley, 2026-10-22 [software location]" (V_eta_go_forward_class_audit.md:1065).
+- object software scope. "Decided by Jess Haley, 2026-10-22 [object software scope]" (V_eta_go_forward_class_audit.md:1067).
+- NDI ref fallback. "Decided by Jess Haley, 2026-10-22 [NDI ref fallback]" (V_eta_go_forward_class_audit.md:1069).
+- NDI ref fallback, test-corpus. "Decided by Jess Haley, 2026-10-22 [NDI ref fallback" (V_eta_go_forward_class_audit.md:1071).
+- epoch to system link. "Decided by Jess Haley, 2026-10-22 [epoch to system link]" (V_eta_go_forward_class_audit.md:1076).
+- channel types. "Decided by Jess Haley, 2026-10-22 [channel types]" (V_eta_go_forward_class_audit.md:1078).
+- required acquisition edges. "Decided by Jess Haley, 2026-10-22 [required acquisition" (V_eta_go_forward_class_audit.md:1080).
+- instrument and device. "Decided by Jess Haley, 2026-10-22 [instrument and device]" (V_eta_go_forward_class_audit.md:1082).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -506,6 +512,7 @@ field). If one decides a class's disposition, that class should cite it.
 - empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:608).
 - control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (V_eta_stimulus_response_model_plan.md:610).
 - presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (V_eta_stimulus_response_model_plan.md:616).
+- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (V_eta_stimulus_response_model_plan.md:619).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).
@@ -564,9 +571,9 @@ field). If one decides a class's disposition, that class should cite it.
 
 | disposition | count |
 |---|---|
-| retire | 73 |
+| retire | 74 |
 | consumed by migrator (no tombstone) | 30 |
-| in_progress | 6 |
+| in_progress | 5 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |

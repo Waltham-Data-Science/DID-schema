@@ -20,7 +20,12 @@
             "ordered": true
         }
     ],
-    "file": [],
+    "file": [
+        {
+            "name": "presentation_time.bin",
+            "documentation": "Optional: the v1 stimulus presentation's per-presentation onsets and offsets, kept attached as the raw source of the `onset time` / `offset time` covariates NDI's second pass reads from it (Jess Haley 2026-10-22 [presentation times from the file], 7.1c; declared by [presentation file declared]). Absent on documents that never had it."
+        }
+    ],
     "fields": [
         {
             "name": "value",

@@ -76,8 +76,11 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     # lands -- test_veta_acquisition_system_edge_typing pins that.
     assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
     rig = _load(os.path.join(VETA, "stable", "acquisition_system.json"))
-    assert all(not e["mustBeNonEmpty"] for e in rig["depends_on"]), (
-        "a minimal rig (a name, nothing else) must validate")
+    # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
+    # built without its reader and file pattern, so those two are required; the
+    # rest stay optional (a minimal rig is a name, a reader and a file pattern)
+    req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
+    assert req == {"reader_id", "epoch_file_pattern_id"}, req
     cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))

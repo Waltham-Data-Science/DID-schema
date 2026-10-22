@@ -278,3 +278,7 @@ RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.m
 RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
+
+## 2026-10-22 -- tenet audit
+
+Decided by Jess Haley, 2026-10-22 [ensemble retired]: the `ensemble` class is retired. A v1 ensemble migrates per V_eta_migration_targets.json `ensemble.how`: a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a `sampled_body` (answer "a"). Built: index.json disposition `retire` (the class stays as the v1 source tombstone); the migration itself is NDI's second pass.

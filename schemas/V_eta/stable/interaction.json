@@ -24,13 +24,13 @@
         {
             "name": "instrument_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; entity_id is the patient. Empty for hand measurements (D2).",
+            "documentation": "Optional: the device that sensed or acted on the subject (an electrode, a stimulator, a camera, a thermometer), an entity of type device; its finer kind is an `Equipment Type` assertion. The agent role; entity_id is the patient. Empty for hand measurements (D2). Kept beside `acquisition_system.device_id` (the device that produced the files), with no rule tying the two; one device that does both is the same entity in both (Jess Haley 2026-10-22 [instrument and device]).",
             "must_refer_to_document_class": "entity"
         },
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Empty for hand/DAQ measurements; REQUIRED on calculations (calculation.require_inherited). Supersedes the v1 `app` block.",
+            "documentation": "Optional: the software that produced this value, an entity of type software (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Optional on calculations too (Jess Haley 2026-10-22 [calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md; calculation.require_inherited is empty): a migrated calculation whose source records no software has none.",
             "must_refer_to_document_class": "entity"
         },
         {
@@ -142,7 +142,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "WHAT knob this is. To be BOUND (not yet declared -- binding worksheet, 2026-09-25), and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a condition entry, and as a covariate's without `along`.",
+                            "documentation": "WHAT knob this is. Bound {strength: preferred, node_form: curie}, and UNIQUE within the list. Identity lives in a bound variable, so domain-specific knobs are DATA rather than schema and no class or field is minted per program. A knob with no ontology term is a LABEL ({name}, no node; item 33), so every setting fits this list and nothing needs an untyped bag. The entry has the same shape as a condition entry, and as a covariate's without `along`.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
