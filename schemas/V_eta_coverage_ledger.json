@@ -714,10 +714,10 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 240,
+          "accepted_lines": 246,
           "accepted_lines_by_kind": {
-            "Decided by": 124,
-            "TEAM-SIGN-OFF": 116
+            "Decided by": 129,
+            "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
             {
@@ -2154,7 +2154,15 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1017,
+              "line": 835,
+              "kind": "TEAM-SIGN-OFF",
+              "tag": "tenet amendments 2026-10-21",
+              "date": null,
+              "anchor": "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1060,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-20",
               "date": "2026-10-21",
@@ -2162,7 +2170,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1019,
+              "line": 1062,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": "2026-10-21",
@@ -2170,11 +2178,51 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1020,
+              "line": 1063,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet T20, group entities",
               "date": "2026-10-21",
               "anchor": "TEAM-SIGN-OFF [tenet T20, group entities]"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1065,
+              "kind": "Decided by",
+              "tag": "tenet signature text",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [tenet signature text]"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1067,
+              "kind": "Decided by",
+              "tag": "T1 and T5 signed",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1069,
+              "kind": "Decided by",
+              "tag": "T2 time-varying property",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [T2 time-varying"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1071,
+              "kind": "Decided by",
+              "tag": "ordered inputs",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's"
+            },
+            {
+              "document": "V_eta_tenets.md",
+              "line": 1073,
+              "kind": "Decided by",
+              "tag": "tenet stale names",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the"
             },
             {
               "document": "V_eta_term_registry_plan.md",

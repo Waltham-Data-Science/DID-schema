@@ -361,7 +361,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 240 decision line(s) accepted, 2 rejected; 41 cited by a class, 199 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 246 decision line(s) accepted, 2 rejected; 41 cited by a class, 205 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -543,9 +543,15 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:529).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1017).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1019).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1020).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (V_eta_tenets.md:835).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1060).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1062).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1063).
+- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (V_eta_tenets.md:1065).
+- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (V_eta_tenets.md:1067).
+- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (V_eta_tenets.md:1069).
+- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (V_eta_tenets.md:1071).
+- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (V_eta_tenets.md:1073).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (V_eta_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (V_eta_term_registry_plan.md:180).

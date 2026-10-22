@@ -51,12 +51,16 @@ A statement binds a **`variable`** (what — an ontology term) to a **`value`**,
 subject (or, since 2026-10-08, any entity), optionally at a **time**. Identity rides on `variable`, not the class, so one
 query spans all statements. The family branches by *epistemic direction*:
 `assertion` (timeless fact), `observation` (measured from),
-`manipulation` (done to), `calculation` (derived/computed about). An
-assertion has no act/series; an interaction (observation/manipulation/calculation) adds
+`manipulation` (done to), `calculation` (derived/computed about). **A property that can
+change during an entity's life is never an assertion; it is stated by an interaction,
+which carries its time** (Jess Haley, 2026-10-22 [T2 time-varying property]: a
+developmental stage is observed or calculated, never asserted). An
+assertion has no act/series (rule `assertion_no_time_dimension`: no time dimension); an interaction (observation/manipulation/calculation) adds
 `method` (the verb: `{term, parameters}`, the technique and the settings it ran with,
-inline or by `method_id` to a standalone `method` document -- proposed 2026-10-21,
-`V_eta_method_plan.md`, not signed; `method` was a bare term beside a separate
-`method_parameters` list until then), an optional `instrument_id` and
+inline or by `method_id` to a standalone `method` document -- decided 2026-10-21 and
+signed, `V_eta_method_plan.md` TEAM-SIGN-OFF [method]; `method` was a bare term beside a separate
+`method_parameters` list until then; since 2026-10-22 an inline block beside `method_id`
+may add settings only this run had, Jess Haley [method shared plus own]), an optional `instrument_id` and
 `software_id`, and requires a `time_reference`. Its per-reading positions are the value's
 `dimensions` and the `covariates` along them, declared on `data` (#73 item 65; the
 `sample_time` block retired under the signed data_body model, 2026-08-14, built #73 item 21;
@@ -73,8 +77,9 @@ held there, never also as a statement (T17, each fact stated once). Whether an a
 about a strain holds of the subjects of that strain is not yet decided. The abstract parent
 of the value kinds, `data_type`, becomes `value`: a parent names what each child IS
 (`entity`, `statement`, `relation`), and a temperature, a term or a model fit IS a value;
-"data type" read as an encoding, which is `datum_type`. The leaves keep their names
-(`temperature_observation`, `term_assertion`).
+"data type" read as an encoding, which is `datum_type` (renamed `data_type` the same day).
+*(This paragraph said the leaves keep their names (`temperature_observation`,
+`term_assertion`); the next one removed the leaf classes.)*
 
 **One entity class; statements by composition** (2026-10-08, built ahead of signature and signed the same day,
 , `V_eta_entity_composition_plan.md`). An entity is something the science
@@ -95,7 +100,8 @@ held **outside** the dataset (an instrument, raw reads that are not stored) is a
 `observation` and has no `input_id`. Almost every measurement is processed by
 some pipeline, so "computed by software" cannot be the test; whether the inputs are in the
 dataset can be read off the document. Consequences: there is no "computed observation";
-`input_id` is declared on `calculation` only; a lossless re-assembly of stored
+among statements `input_id` is declared on `calculation` only (a `clock_alignment`, a
+relation, also has one: the timeline it maps from, T15); a lossless re-assembly of stored
 statements (`oneepoch`'s concatenation) is a calculation too.
 
 **Repeated events** (2026-10-05). The time-reference rule (signed 2026-09-30) gives a
@@ -116,8 +122,8 @@ carries:
 
 ### T3 — A leaf class = a direction × a data type. This is the move that collapses the zoo.
 Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,
-`term`, `timed_sequence`, …) × directions = one-word leaves (`mass_observation`,
-`dose_manipulation`, `term_assertion`, `timed_sequence_manipulation`,
+`term`, `item`, …) × directions = one-word leaves (`mass_observation`,
+`dose_manipulation`, `term_assertion`, `item_manipulation`,
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
 *Since 2026-10-08 (statements by composition) there are no leaf classes: a leaf named here
@@ -153,7 +159,7 @@ writes reads as a supported case nobody has checked.
 unknown-modality recording), do **not** invent a generic `array` /
 `numeric` value — that would only duplicate `sampled_body` (T6, which is already
 "self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
-`sampled_body`: its `dimensions` and `covariates` live on the body, its `datum_type` on the data type (#73 item 60), and
+`sampled_body`: its `dimensions` and `covariates` live on the body, its `data_type` on the value (#73 item 60), and
 the `variable` carries the label.
 The dimensioned data_types just *add* units on top. So: type it when you can (a modality → a
 composite); otherwise the self-describing body is the value. *(This is why `array` was killed
@@ -192,15 +198,17 @@ A value is inline (in `value`), shared (the statement's `value_id` points at a s
 data-type document), or in bodies (the boolean `data_body` is true and data_body documents
 point up at it; `storage_mode` was deleted by #73 item 9). The same holds for a relation
 leaf (T3): `value_id` present ⇒ its inline value and descriptors are empty. The value's descriptors —
-`dimensions`, `covariates`, `datum_type` — live on `value`, WITH THE VALUE, so a shared value
+`dimensions`, `covariates`, `data_type` — live on `value`, WITH THE VALUE, so a shared value
 states its own encoding once. `data_body` has **exactly two** members:
 `sampled_body` (raw bytes whose layout V_eta declares — `byte_order`, `datum_order`,
-`chunk`, `fill_value` — with `datum_type` on the data type it belongs to; `summary` dropped, #68;
+`chunk`, `fill_value` — with `data_type` on the value it belongs to; `summary` dropped, #68;
 partial-read, value-searchable) and `opaque_body` (bytes laid out by their own `format`:
 TIFF, OME-Zarr, an archive; an opaque body must state its `format`, #73 audit 2 D6). One
 exemption, recorded (#73 audit 2 D13): `demo` keeps a file record outside the two bodies,
 because it reproduces v1 `demoNDI`, whose schema requires the file — a fixture class, not
-data. The two split by **who lays out the bytes**, not by whether
+data. A second, decided 2026-10-22 (Jess Haley [presentation file declared]): `item` and
+`manipulation` declare an optional `presentation_time.bin`, the v1 stimulus file the
+presentation's onset and offset covariates are read from, kept attached as their source. The two split by **who lays out the bytes**, not by whether
 there is an array: both may carry `dimensions` and `covariates` (dimensions required on a
 sampled body; on an opaque body they describe the array as its format presents it) and `conditions` (lightsheet
 walkthrough L1/L3, 2026-09-25). Every carrier — timeseries,
@@ -323,8 +331,9 @@ whose node is still empty (staged, no ontology id yet) matches by `name`. (#73 r
 item 64, 2026-09-29.)
 
 ### T9 — Datasets and provenance are first-class, FAIR entities.
-`dataset`, `person`, `organization`, `funding`, `publication`, `web_resource`, `session`,
-`subject` carry a `global_identifier`, with full openMINDS field parity and a
+Entities of type `dataset`, `person`, `organization`, `funding`, `publication`, `session`,
+and the physical entities (`subject` and `web_resource` until the 2026-10-08 entity merge;
+a URL is now an entity's `global_identifier`) carry a `global_identifier`, with full openMINDS field parity and a
 machine-readable crosswalk. Aggregation/authorship/funding are `directed_relation`s.
 A bought item is a **`product`** entity (vendor → `organization`, catalog number, lot):
 chemicals and ready-made formulations point at it now, and instruments, plasmids and
@@ -339,7 +348,10 @@ its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 
 ### T11 — Naming grammar: one shape, one canonical name; nothing else in the name.
 - **Leaf** = `<value>_<direction>` (snake_case; direction ∈
-  `observation`/`manipulation`/`assertion`/`calculation`). **Composite** = the bare
+  `observation`/`manipulation`/`assertion`/`calculation`). *Since 2026-10-08 there are no
+  leaf classes (T3): a statement's class is its direction and its value kind a mixin, so
+  read a `<value>_<direction>` name as that pair; the grammar governs the names written
+  in prose and the eight named calculators.* **Composite** = the bare
   `<value>`. **time_reference** = `absolute_time_reference` / `relative_time_reference`
   (the `<origin>_<mode>_reference` family collapsed to these two, #65; the leaves say
   "time", #73).
@@ -377,15 +389,16 @@ Mint a composite **only when 1–4 all fail** — i.e. a genuinely new **dimensi
 quantity** (its own unit: `mass`, `charge`, `pressure`) or a genuinely new **structured
 object** (several co-varying fields that form one unit: a tuning curve, a dose).
 
-**Proposed amendment (2026-10-21, `V_eta_method_plan.md`, built ahead of signature at Jess
-Haley's request; not signed): a stimulus given as a RECIPE is a method, not a composite.**
+**Amendment (2026-10-21, `V_eta_method_plan.md`; signed by TEAM-SIGN-OFF [method] there,
+"T12/T13 amended"): a stimulus given as a RECIPE is a method, not a composite.**
 A grating, a bar, a sparse-noise frame or an odour pulse protocol is a `method` document:
 a method `term` ("drifting sinusoidal grating") plus its `parameters` (orientation, spatial
 frequency, temporal frequency, contrast, waveform ...). The kind of stimulus is vocabulary
 (rule 2), never a class per generator — the deleted `visual_grating` was one, and it did
 not generalise beyond visual neuroscience. A stimulus given as WHAT WAS DELIVERED (a
 movie's frames, a current trace, a measured light intensity) uses the value for that
-quantity (`intensity`, `current`, ...) under rule 3.
+quantity under rule 3 (`current`, ...): a measured light intensity is an `irradiance`
+(W/m²), and `intensity` stays dimensionless (Jess Haley, 2026-10-22 [irradiance]).
 When several near-identical structures differ only by an independent variable or a fit
 form, **prefer one parameterized composite** (a single `tuning_curve` whose independent
 variable is a field/`variable`) over a family of look-alike composites — **unless** a
@@ -438,7 +451,7 @@ a footnote**.
   every value — the experimental conditions, on a statement or on one body, T6) and
   the settings of a **`method`** (the algorithm config on an interaction);
   a per-stimulus mean is `response_mean`, not `value`.
-  **Proposed amendment (2026-10-21, `V_eta_method_plan.md`, not signed): `parameters` is
+  **Amendment (2026-10-21, `V_eta_method_plan.md`; signed by TEAM-SIGN-OFF [method]): `parameters` is
   allowed in exactly ONE place, inside `method` (`method.parameters`), where its owner
   names it** — the same reason `method_parameters` was accepted as a field name: the word
   is not a bare container when the field beside it (`method.term`) says whose parameters
@@ -486,7 +499,7 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   **inside** the cell, beside the value — never hoisted alongside it. *(A `voltage` cell
   carries `source_unit` next to `source_value`; by the same rule an inline raster carries
   its `dimensions` and `covariates` next to its pixels. Exception, #73 item 15: the value's storage type is
-  `datum_type`, stated ONCE on the data type (#73 item 60), and colour/channels are read off the channel
+  `data_type`, stated ONCE on the value (#73 item 60), and colour/channels are read off the channel
   dimension. There is no `image` class: a raster is a value of what its pixels measure, #73
   item 51.)*
 - **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
@@ -506,7 +519,10 @@ down: T8 governs the vocabulary a value may take, T14 governs the value's own sh
   canonical slot, except where it has incommensurable forms (`concentration`: `molar`,
   `grams_per_liter`, …). *(Until 2026-10-03 this rule lived only in builder text and plan
   amendments: mass became grams on 2026-09-23 (#73), angles degrees in #73 review item 44,
-  humidity percent on 2026-10-03; the list is `_DIM_CANON` in `tools/build_v_eta.py`.)*
+  humidity percent on 2026-10-03. The list was `_DIM_CANON` in the deleted
+`tools/build_v_eta.py`; since 2026-10-22 it is `tools/canonical_units.py`, with each
+slot's registered unit term, checked by `tools/check_term_registry.py` R11, and every
+entry's `unit` is a bound registered term (Jess Haley [units bound]).)*
 - **One value-cell pattern** (#73 audit 2 D10, jess 2026-09-29; `tolerance` added by CHANGE 7,
   signed 2026-10-02). Every value cell is
   `{<canonical slot>, source_value, source_unit, approximate, tolerance}`, all but the
@@ -592,7 +608,8 @@ alone? If it needs prose, an example, or our source, the structure is not declar
 agreed; signed by her 2026-10-21). A value that was not measured is **absent**, never a number:
 - **not attempted** (not filmed, not seeded, nothing taken): **no statement**;
 - **attempted, not obtained**: in an array, NaN (or the body's `fill_value`) at that
-  position; a categorical value takes the term **Cannot Be Determined** (NCIT:C179711);
+  position, integer slots included: an integer slot holds a whole number or a literal NaN
+  (Jess Haley, 2026-10-22 [missing integers]); a categorical value takes the term **Cannot Be Determined** (NCIT:C179711);
   either way the reason is in `notes`;
 - **a measured or designed zero is zero**;
 - **no transform turns a missing value into a number**: a floor, a default or a `max()`
@@ -618,7 +635,8 @@ with no anchor of its own counts from the start of its statement's time referenc
 
 ### T15 — An edge is a noun ending `_id`; a repeated edge repeats that one name.
 *(Decided in the #73 review, 2026-09-25. Supersedes T14's numbered-edge-family bullet and the
-`_#` template. BUILT schema-side the same day (`tools/build_v_eta.py` section 12.7): every
+`_#` template. BUILT schema-side the same day (in `tools/build_v_eta.py`, deleted 2026-10-21;
+the JSON is the source now and `tools/validate_v_eta.py` R6 checks edge names): every
 V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matlab's work in
 "What it costs" lands.)*
 
@@ -640,12 +658,17 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
   signalled by the name, so the spelling never depends on how many there are, and "what was
   derived from X" is one exact name, never a pattern over `name_*`.
 - **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`
-  means position is data (0-based, T14): `timed_sequence.item_id` (the playlist indexes it),
+  means position is data (0-based, T14): `item.item_id` (the playlist indexes it),
   `key_id` (a covariate's `document` names an entry by position; `key_labels_id` /
   `labels_from` until 2026-10-05), and
   `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and
   breaks ties by rule order — `syncgraph.m`, `if c<lowcost`). `ordered: false` means the
   entries are a set and their order must not be read.
+- **An ordered repeated edge lists a document's OWN inputs** (Jess Haley, 2026-10-22
+  [ordered inputs]): a formulation's or a dose's ingredients, a calculation's inputs, a
+  policy's rules. They are ordered when a position pairs an edge with a value entry
+  (`ingredient_id` with `value.ingredients`) or is an algorithm's order. A set referred to
+  as a unit by several documents is a group entity instead (T20).
 - **Why not `_k`.** A counter in a name hides a value in an identifier — a relational
   "repeating group" (`item1`, `item2`, …), which first normal form exists to remove — and it is
   structure carried by convention, which T14 forbids. Every established model repeats one
@@ -667,6 +690,14 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
 **Litmus:** could you write this edge's name without knowing how many there are, and could
 you tell what it points at from the name plus its class alone?
 
+**A clock alignment is a relation with four named edges** (Jess Haley, 2026-10-22 [rules and
+clock_alignment tenet]). `clock_alignment` is a relation leaf (T3: `relation` + `polynomial`)
+whose ends are not `child_id` / `parent_id` or `entity_id`: `input_id` (the timeline it maps
+from) and `output_id` (the timeline it maps to), both `relative_time_reference`s, named apart
+because the mapping is directed; `clock_alignment_configuration_id` (the rule that produced
+it); and `clock_alignment_policy_id` (the policy it belongs to). Its `relation` is bound to
+the `clock_alignment` rows of the binding registry and passes nothing (T17).
+
 **The vocabulary** (every V_eta edge on a persist or V_eta-designed class; v1 tombstones
 excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_id`,
 `strain_id`, `acquisition_system_id`, `method_parameters_id`, `coordinate_system_id`,
@@ -686,15 +717,15 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 | `relative_time_reference` | `relative_to` | `referent_id` | | |
 | `coordinate_system` | `relative_to` | `referent_id` | | |
 | `clock_alignment` | `from_reference`, `to_reference` | `input_id`, `output_id` | | |
-| `method_parameters` | `derived_from_id` | `parent_id` | | |
+| `method` (`method_parameters` until 2026-10-21) | `derived_from_id` | `parent_id` | | |
 | ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |
 | `calculation` | `derived_from_#` | `input_id` | yes | no |
 | ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |
 | `interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
 | `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
-| `timed_sequence` | `presented_id_#` | `item_id` | yes | **yes** |
-| `data` (items 60, 65; was `statement`, `data_body`) | `axis_labels_#` | `key_labels_id` | yes | **yes** |
-| `strain` | `background_strain_#` | `background_strain_id` | yes | no |
+| `item` (`timed_sequence` until 2026-10-04) | `presented_id_#` | `item_id` | yes | **yes** |
+| `data` (items 60, 65; was `statement`, `data_body`) | `axis_labels_#` | `key_id` (`key_labels_id` until 2026-10-05) | yes | **yes** |
+| ~~`strain`~~ | `background_strain_#` | *(no edge: a strain is an entity since 2026-10-08 and its pedigree a `derived_from` relation)* | | |
 | `clock_alignment_configuration` (also `interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
 | `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |
 | `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |
@@ -703,7 +734,7 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 `referent_id` is the time plan's and NDI's own word for this edge (`ndi.time.timereference`
 is `(referent, clocktype, epoch, time)`): the document whose timeline — or, for a coordinate
 system, whose space — the values are measured in. The zero point on it is a separate thing
-(`clock` for time, `origin` for space). `anchor_id` was rejected because "anchor" already
+(`clock` for time, `reference_point` for space, `origin` until 2026-10-22). `anchor_id` was rejected because "anchor" already
 names the time-reference document itself (T6); `origin_id` because `origin` already names the
 zero point.
 
@@ -800,8 +831,8 @@ statement putting the same value on another subject (one per subject, sharing it
 `value_id`) restates what the graph already says and can come to disagree with it. Sharing a
 value through `value_id` is for a value that really does describe each subject on its own.
 
-**Proposed amendment (2026-10-21, Jess Haley's request from the stimulus-presentation fold;
-not signed): one event given to several subjects is ONE statement on their group, marked
+**Amendment (2026-10-21, Jess Haley's request from the stimulus-presentation fold; signed by
+TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one event given to several subjects is ONE statement on their group, marked
 `distributive`, never N copies.** A stimulus shown to two animals recorded together, a drug
 bath given to a set of slices, a treatment given to a cage: the statement's subject is the
 group (`member_of`, which passes `distributive`), and the statement carries
@@ -822,7 +853,7 @@ until then the paths were named here and hard-coded in the reader, and one of th
 | `passes` | what reaches | how it reads | rows today |
 |---|---|---|---|
 | `distributive` | a statement marked `distributive` (and a `distributive` relation) on a group | **true of each member**: the cohort's strain is each worm's strain | `member_of` |
-| `assertions` | an **assertion** about the parent | **true of the child**: an animal's assertions hold of its slices. Interactions do not pass: a reading of the whole is not a reading of each part | `part_of`, `sample_of`, `aliquot_of`, `passage_of`, `instance_of` |
+| `assertions` | an **assertion** about the parent | **true of the child**: an animal's assertions hold of its slices. Interactions do not pass: a reading of the whole is not a reading of each part | `part_of`, `sample_of` (aliquots and passages included since 2026-10-22, [vocabulary nodes] K5), `instance_of` |
 | `context` | an **interaction** (observation, manipulation, calculation) on the container whose time overlaps the stay | **context, never fact**: the plate's 22 °C, its videos, its incubator period are what the worm was *in*, not properties *of* the worm | `contained_in` |
 | `nothing` | nothing | the relation is a fact about the two, not a channel | every other row, among them `included_in` |
 
@@ -895,7 +926,10 @@ Never on a shared kind (two devices of one model are two instruments until somet
 each one) and never on a shared name alone (two entities called "N2" with no identifier may be
 two stocks: they are listed for a person to confirm, and the confirmation writes the
 `same_as`). A model number recorded on a device would make every device of that model look
-like one, which is why it belongs on the `product`.
+like one, which is why it belongs on the `product`. **A device's serial number is an
+assertion** about the device, variable IAO:0000131 serial number, with a text value; its
+manufacturer is reached through `instance_of` the product and the product's `sold_by`
+(Jess Haley, 2026-10-22 [serial number]).
 
 **Stored in the dataset, and no id is deleted or rewritten to join them.** That two sessions'
 records are one thing is a fact about the dataset that holds both, so the relation lives in the
@@ -912,7 +946,8 @@ it) is not decided; if ever wanted, it must leave a redirect from each removed i
 ### T19 — A term is as general as its meaning allows; the document carries the rest.
 *(Written 2026-10-20 at Jess Haley's request, from the Haley import's term review: `head` from
 UBERON or WBbt, labels that began "C. elegans behavioral assay:", and STATO's *average value*
-for a mean. Not signed.)*
+for a mean. Signed 2026-10-20 by TEAM-SIGN-OFF [term registry], `V_eta_term_registry_plan.md`,
+which names "tenet T19"; this line claimed otherwise until 2026-10-22.)*
 
 T13 sets the altitude of the names we author; T19 sets it for the ontology terms we choose.
 **Choose the most general term that means exactly what is stated, and name nothing in it that
@@ -928,6 +963,9 @@ the document states elsewhere.**
 
   A term reached at step 2 or 3 is registered before it is used, so the next dataset finds
   it at step 1.
+- **Relation names, entity types and channel types are terms like any other** (Jess Haley,
+  2026-10-22 [vocabulary nodes]): each has an ontology node, chosen in this same order and
+  registered, and code matches a relation, an entity type or a channel type by its node.
 - **Same meaning: the general ontology.** When a general ontology (UBERON, NCIT, OBI, STATO,
   OM, PATO) has a term with the same meaning as a species- or domain-specific one (WBbt, ZFA,
   FMA), use the general term. The species is the subject's (T17), so the specific term adds
@@ -976,7 +1014,8 @@ so the condition is not ambiguous), and its variable stays general (`diameter`).
 ---
 
 ### T20 — A set referred to as a unit is a group entity.
-*(Proposed 2026-10-21 at Jess Haley's request, not signed. Three decisions that day — the
+*(Proposed 2026-10-21 at Jess Haley's request; signed by TEAM-SIGN-OFF [tenet T20, group
+entities], below. Three decisions that day — the
 stimulus cohort, the T17 standing-group amendment and the software pipeline of NDI-matlab
 #820 — each had to argue from first principles when a set becomes a group. T1 says
 group-ness comes from incoming `member_of` edges and T5 when a child is `member_of`; neither
@@ -998,7 +1037,11 @@ says when to make the group.)*
 - **What a group's statements mean for its members** is decided by the statement
   (`distributive`, T17), never by the group.
 - **Boundary.** A sequence that IS the data — the order stimuli were shown, an `item` — is
-  a value, not a group. Make a group only when the set is a thing reused as a unit.
+  a value, not a group. Make a group only when the set is a thing reused as a unit. A
+  document's own list of inputs (a formulation's or a dose's ingredients, a calculation's
+  inputs, a policy's rules) is not a group either: those are repeated edges under T15,
+  ordered when a position pairs an edge with a value entry or is an algorithm's order
+  (Jess Haley, 2026-10-22 [ordered inputs]).
 
 ## The meta-principle
 
@@ -1018,3 +1061,13 @@ TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess / 2026-10-21 -- T6: derivable 
 
 TEAM-SIGN-OFF [tenet amendments 2026-10-21]: jess@walthamdatascience.com / 2026-10-21 -- T17: one event given to several subjects is one distributive statement on a standing group, never N copies
 TEAM-SIGN-OFF [tenet T20, group entities]: jess@walthamdatascience.com / 2026-10-21 -- T20: a set referred to as a unit is one group entity linked by member_of; groups are standing, never minted per statement; order lives on the membership relation (directed_relation.order, renamed from sequence before the V2 merge); a sequence that is the data stays a value
+
+Decided by Jess Haley, 2026-10-22 [tenet signature text]: the tenet lines that still described signed amendments as unsigned now say they are signed and cite the line that signs them: T2's, T12's and T13's method amendments (TEAM-SIGN-OFF [method], V_eta_method_plan.md), T17's (TEAM-SIGN-OFF [tenet amendments 2026-10-21], above) and T20's (TEAM-SIGN-OFF [tenet T20, group entities], above); tools/check_signoff_header_staleness.py also catches such an in-text claim (its rule 4) (answer "a"). Also corrected with this line, on the positive evidence of TEAM-SIGN-OFF [term registry] (V_eta_term_registry_plan.md, 2026-10-20), which names "tenet T19": T19's own header, which described it as unsigned.
+
+Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the T1 amendment (from the Haley tenet audit's T-4) and the T5 amendment (T-2) were signed by Jess Haley on 2026-10-21, so their "signed by her 2026-10-21" stands; the sign-off line above that lists the 2026-10-20 amendments did not name them (answer "N2 yes").
+
+Decided by Jess Haley, 2026-10-22 [T2 time-varying property]: T2 gains "A property that can change during an entity's life is never an assertion; it is stated by an interaction, which carries its time." (answer "add the tenet", from her question "shouldn't a developmental stage always be an observation since it is time dependent?").
+
+Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's Boundary adds that a document's own list of inputs (formulation or dose ingredients, calculation inputs, a policy's rules) is not a group: those are repeated edges under T15, ordered when position pairs an edge with a value entry or is an algorithm's order. T15 adds that an ordered repeated edge lists a document's own inputs, and a set referred to as a unit by several documents is a group (T20). No schema change (answer "I1a").
+
+Decided by Jess Haley, 2026-10-22 [tenet stale names]: the stale names in the tenets are corrected as part of [audit mechanical fixes] (V_eta_data_body_model_plan.md): `timed_sequence` (T3, T15), `datum_type` (T3, T6, T14), the `<value>_<direction>` leaves (T11), `subject` and `web_resource` (T9), the T15 table's `key_labels_id`, `strain` and `tools/build_v_eta.py`, T2's method "proposed", and T2's clock_alignment `input_id` exception (answer "E yes").
