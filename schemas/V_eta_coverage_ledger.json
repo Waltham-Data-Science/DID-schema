@@ -700,9 +700,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 171,
+          "accepted_lines": 172,
           "accepted_lines_by_kind": {
-            "Decided by": 55,
+            "Decided by": 56,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1345,6 +1345,14 @@
               "tag": "non-area image node",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [non-area image node]: on"
+            },
+            {
+              "document": "V_eta_spatial_transcriptomics_plan.md",
+              "line": 610,
+              "kind": "Decided by",
+              "tag": "calculation-software-optional decided",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22"
             },
             {
               "document": "V_eta_stimulus_model_plan.md",

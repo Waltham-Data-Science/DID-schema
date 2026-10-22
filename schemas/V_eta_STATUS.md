@@ -46,12 +46,12 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 222 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 188 |
+| build: migrator files inspected | 223 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 189 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 34 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 53562 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 34790 |
+| build: migrator lines inspected | 53910 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 35138 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 18772 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
@@ -238,7 +238,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `ensemble` | decided | (b) | 1 consuming reference(s) (1 per-document migrator); decided target(s) built: `entity (subject)`, `directed_relation`, `sampled_body` | - | - | 1 (1+0) | 25 (24+1) | n/a -- not measured |
 | `interaction_purpose` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 | `projectvar` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
-| `stimulus_presentation` | decided | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 4 consuming reference(s) (4 per-document migrator); decided target(s) built: `item`, `manipulation + item` | - | - | - | 31 (29+2) | n/a -- not measured |
+| `stimulus_presentation` | decided | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 4 consuming reference(s) (4 per-document migrator); decided target(s) built: `item`, `manipulation + item` | - | - | - | 32 (30+2) | n/a -- not measured |
 
 #### (a) nothing built (the decision state is a separate column) -- 2
 
@@ -252,7 +252,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (decided) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1097 (guard)`, `DID-matlab:convert/epochMint.m:2042 (field_read)`, `DID-matlab:convert/resolveEpochProbemap.m:373 (guard)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1128 (named)`, `DID-matlab:convert/epochMint.m:2041 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:591 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; mentioned in 12 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1028 (comment_mention)`, `DID-matlab:convert/epochMint.m:1034 (comment_mention)`, `DID-matlab:convert/epochMint.m:1238 (comment_mention)`, `DID-matlab:convert/epochMint.m:216 (comment_mention)`, `DID-matlab:convert/epochMint.m:217 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `ensemble` (decided) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:439 (guard)`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element.m:215 (named)`; mentioned in 24 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element.m:101 (comment_mention)`, `DID-matlab:migrators_j/element.m:210 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:155 (comment_mention)` ...; mentioned in 1 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveResponseParameters.m:101 (comment_mention)`; target(s) BUILT: `entity (subject)`, `directed_relation`, `sampled_body`
-- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:624 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:625 (field_read)`; mentioned in 29 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:915 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:916 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:104 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
+- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:636 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:637 (field_read)`; mentioned in 30 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:915 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:916 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:104 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
 
 ## Proposed (not decided) -- awaiting review
 
@@ -363,7 +363,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 171 decision line(s) accepted, 2 rejected; 40 cited by a class, 131 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 172 decision line(s) accepted, 2 rejected; 40 cited by a class, 132 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -446,6 +446,7 @@ field). If one decides a class's disposition, that class should cite it.
 - formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (V_eta_spatial_transcriptomics_plan.md:602).
 - ontology image is an observation of its region. "Decided by Jess Haley, 2026-10-21 [ontology image is an" (V_eta_spatial_transcriptomics_plan.md:604).
 - non-area image node. "Decided by Jess Haley, 2026-10-21 [non-area image node]: on" (V_eta_spatial_transcriptomics_plan.md:606).
+- calculation-software-optional decided. "Decided by Jess Haley, 2026-10-22" (V_eta_spatial_transcriptomics_plan.md:610).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
