@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 254,
+          "accepted_lines": 255,
           "accepted_lines_by_kind": {
-            "Decided by": 137,
+            "Decided by": 138,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1807,6 +1807,14 @@
               "tag": "derived from general",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [derived from general]"
+            },
+            {
+              "document": "V_eta_relation_inheritance_plan.md",
+              "line": 131,
+              "kind": "Decided by",
+              "tag": "lawn in plate",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [lawn in plate]: a"
             },
             {
               "document": "V_eta_source_unit_plan.md",
