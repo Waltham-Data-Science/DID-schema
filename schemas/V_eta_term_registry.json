@@ -5518,6 +5518,24 @@
       "obsolete": false
     },
     {
+      "name": "neural firing rate",
+      "node": "wikidata:Q71762818",
+      "definition": "The number of action potentials a neuron fires per unit time.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [response variable nodes], V_eta_data_body_model_plan.md: the `variable` of a spike-rate response (Wikidata gives no definition; it classes the item as a biological quantity, Q71759392)",
+      "first_used_in": "tuning_curve_calculation / contrast_sensitivity variable (DID-matlab tuning migrators)",
+      "obsolete": false
+    },
+    {
+      "name": "dF/F",
+      "node": "EMPTY:0000397",
+      "definition": "The change in fluorescence relative to a baseline fluorescence, (F - F0)/F0.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [response variable nodes], V_eta_data_body_model_plan.md; EMPTY:0000397 minted in empty-ontology #25 (b88953a; not yet merged there)",
+      "first_used_in": "tuning_curve_calculation / contrast_sensitivity variable (DID-matlab tuning migrators)",
+      "obsolete": false
+    },
+    {
       "name": "Butterworth filter",
       "node": "wikidata:Q1018162",
       "definition": "A filter design whose gain is as flat as possible in the passband, falling monotonically through the transition.",

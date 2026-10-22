@@ -362,7 +362,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 271 decision line(s) accepted, 2 rejected; 41 cited by a class, 230 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 272 decision line(s) accepted, 2 rejected; 41 cited by a class, 231 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -406,14 +406,15 @@ field). If one decides a class's disposition, that class should cite it.
 - harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (V_eta_data_body_model_plan.md:1527).
 - response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (V_eta_data_body_model_plan.md:1529).
 - dF/F as variable. "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F" (V_eta_data_body_model_plan.md:1531).
-- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (V_eta_data_body_model_plan.md:1533).
-- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (V_eta_data_body_model_plan.md:1535).
-- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (V_eta_data_body_model_plan.md:1537).
-- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (V_eta_data_body_model_plan.md:1539).
-- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (V_eta_data_body_model_plan.md:1541).
-- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (V_eta_data_body_model_plan.md:1543).
-- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (V_eta_data_body_model_plan.md:1545).
-- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (V_eta_data_body_model_plan.md:1547).
+- response variable nodes. "Decided by Jess Haley, 2026-10-22 [response variable" (V_eta_data_body_model_plan.md:1533).
+- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (V_eta_data_body_model_plan.md:1535).
+- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (V_eta_data_body_model_plan.md:1537).
+- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (V_eta_data_body_model_plan.md:1539).
+- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (V_eta_data_body_model_plan.md:1541).
+- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (V_eta_data_body_model_plan.md:1543).
+- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (V_eta_data_body_model_plan.md:1545).
+- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (V_eta_data_body_model_plan.md:1547).
+- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (V_eta_data_body_model_plan.md:1549).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (V_eta_ensemble_plan.md:284).

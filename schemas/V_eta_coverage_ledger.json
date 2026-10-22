@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 271,
+          "accepted_lines": 272,
           "accepted_lines_by_kind": {
-            "Decided by": 154,
+            "Decided by": 155,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1052,13 +1052,21 @@
               "document": "V_eta_data_body_model_plan.md",
               "line": 1533,
               "kind": "Decided by",
+              "tag": "response variable nodes",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [response variable"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1535,
+              "kind": "Decided by",
               "tag": "pressure in mmHg",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the"
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1535,
+              "line": 1537,
               "kind": "Decided by",
               "tag": "pH unit one",
               "date": "2026-10-22",
@@ -1066,7 +1074,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1537,
+              "line": 1539,
               "kind": "Decided by",
               "tag": "pH unit is UO pH",
               "date": "2026-10-22",
@@ -1074,7 +1082,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1539,
+              "line": 1541,
               "kind": "Decided by",
               "tag": "humidity in percent",
               "date": "2026-10-22",
@@ -1082,7 +1090,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1541,
+              "line": 1543,
               "kind": "Decided by",
               "tag": "unit names are labels",
               "date": "2026-10-22",
@@ -1090,7 +1098,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1543,
+              "line": 1545,
               "kind": "Decided by",
               "tag": "molar kept",
               "date": "2026-10-22",
@@ -1098,7 +1106,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1545,
+              "line": 1547,
               "kind": "Decided by",
               "tag": "exact OM units",
               "date": "2026-10-22",
@@ -1106,7 +1114,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1547,
+              "line": 1549,
               "kind": "Decided by",
               "tag": "prefixed source units",
               "date": "2026-10-22",
