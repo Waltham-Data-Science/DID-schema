@@ -122,7 +122,12 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "Unit of the response values (e.g. spikes per second, dF/F), a term like every other unit.",
-                    "constraints": {},
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

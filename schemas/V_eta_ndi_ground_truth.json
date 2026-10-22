@@ -1729,8 +1729,7 @@
       "confidence": "possible",
       "reads_names_absent_from_template": [],
       "mentions_names_absent_from_template": [
-        "dose",
-        "route"
+        "dose"
       ],
       "template_fields": [
         "administration_duration",

@@ -1154,7 +1154,8 @@
         "observation + voltage",
         "sampled_body",
         "frequency_filter",
-        "relative_time_reference"
+        "relative_time_reference",
+        "method"
       ],
       "carried": [
         "entity (subject)"
