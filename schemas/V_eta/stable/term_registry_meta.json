@@ -5111,7 +5111,7 @@
             "node": "IAO:0000131",
             "definition": "A serial number is an information content entity which is a unique sequence of characters borne by part of manufactured product or its packaging that is assigned to each individual in some class of products, and so can serve as a way to identify an individual product within the class. Serial numbers can be encoded in a variety of other information objects, such as bar codes, numerals, or patterns of dots.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-22 [serial number], V_eta_duplicate_entities_plan.md: a device's serial number is an assertion with this variable and a text value (P2)",
+            "decided": "Jess Haley, 2026-10-22 [serial number], V_eta_term_registry_plan.md: a device's serial number is an assertion with this variable and a text value (P2)",
             "first_used_in": "tenet T18 (a device serial number, the evidence for same_as)",
             "obsolete": false
         },
@@ -5165,7 +5165,7 @@
             "node": "",
             "definition": "The number of cycles of a periodic pattern per degree of visual angle (a spatial frequency).",
             "status": "staged",
-            "decided": "Jess Haley, 2026-10-22 [calculator units], V_eta_data_body_model_plan.md: the unit of a spatial-frequency preferred value (C1); no ontology term found (OLS4: OM, UO, NCIT), node not chosen",
+            "decided": "Jess Haley, 2026-10-22 [calculator units], V_eta_tuning_model_plan.md: the unit of a spatial-frequency preferred value (C1); no ontology term found (OLS4: OM, UO, NCIT), node not chosen",
             "first_used_in": "spatial_frequency_tuning_calculation preferred values",
             "obsolete": false
         }
