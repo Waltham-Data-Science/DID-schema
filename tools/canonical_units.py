@@ -56,7 +56,7 @@ CANONICAL_UNITS = {
     "irradiance": [("watts_per_square_meter", "watt per square metre", "om:wattPerSquareMetre")],
     "ph": [("ph", "pH", "UO:0000196")],
     "gain": [("decibels", "decibel", "")],
-    "humidity": [("percent_relative_humidity", "percent relative humidity", "")],
+    "humidity": [("percent_relative_humidity", "percent", "om:percent")],
 }
 
 # The entry and response `unit` slots that must be bound terms (C2 [units bound],

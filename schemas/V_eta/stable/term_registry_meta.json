@@ -5152,6 +5152,15 @@
             "obsolete": false
         },
         {
+            "name": "percent",
+            "node": "om:percent",
+            "definition": "The percent is a unit of dimension one defined as 1/100.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [humidity in percent], V_eta_data_body_model_plan.md: the canonical unit of the `humidity` value kind (OM's relative humidity unit commonly has unit percent)",
+            "first_used_in": "humidity.value.percent_relative_humidity",
+            "obsolete": false
+        },
+        {
             "name": "signed distance to region boundary",
             "node": "EMPTY:0000384",
             "definition": "The distance from a point to the nearest boundary of a region, positive inside the region and negative outside it.",

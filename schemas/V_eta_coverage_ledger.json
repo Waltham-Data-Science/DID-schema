@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 259,
+          "accepted_lines": 260,
           "accepted_lines_by_kind": {
-            "Decided by": 142,
+            "Decided by": 143,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1071,6 +1071,14 @@
               "tag": "pH unit is UO pH",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1539,
+              "kind": "Decided by",
+              "tag": "humidity in percent",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
