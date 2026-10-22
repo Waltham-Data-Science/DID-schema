@@ -3998,18 +3998,18 @@
         },
         {
             "name": "flashed bar",
-            "node": "",
+            "node": "EMPTY:0000366",
             "definition": "A stationary bar of uniform luminance presented briefly against the background.",
-            "status": "staged",
-            "decided": "Jess Haley, 2026-10-22 [flashed bar], V_eta_method_plan.md; EMPTY node to be minted in empty-ontology",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [flashed bar], V_eta_method_plan.md; EMPTY:0000366 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
             "first_used_in": "NewStim periodicstim imageType 0 in a narrow oriented rectangle (corpus B / Dab, 17,260 stimuli)"
         },
         {
             "name": "NDI binary format",
-            "node": "",
+            "node": "EMPTY:0000367",
             "definition": "NDI's binary container (ndi_binary_version 1): a gzip-compressed tar of an .nbh header and an .nbf data file, as written by NDI-compress write_ndibinary (.nbf.tgz).",
-            "status": "staged",
-            "decided": "Jess Haley, 2026-10-22 [NDI binary format], V_eta_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY node to be minted in empty-ontology",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [NDI binary format], V_eta_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY:0000367 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
             "first_used_in": "v1 daqmetadatareader_epochdata_ingested data.bin (.nbf.tgz)"
         }
     ]
