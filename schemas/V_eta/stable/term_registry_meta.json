@@ -4019,6 +4019,14 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: registered as the SOURCE unit of spatial phase (canonical unit degrees, T14)",
             "first_used_in": "NewStim periodicstim sPhaseShift ('in radians where 2*pi is 1 cycle'), NDI stimulus recipe"
+        },
+        {
+            "name": "degree",
+            "node": "om:degree",
+            "definition": "The degree is a unit of angle defined as pi/180 radian.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: the canonical unit of spatial phase (T14)",
+            "first_used_in": "NDI stimulus recipe (spatial phase, from NewStim periodicstim sPhaseShift)"
         }
     ]
 }
