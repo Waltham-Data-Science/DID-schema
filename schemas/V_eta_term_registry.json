@@ -4008,6 +4008,14 @@
       "status": "decided",
       "decided": "Jess Haley, 2026-10-22 [NDI binary format], V_eta_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY:0000367 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
       "first_used_in": "v1 daqmetadatareader_epochdata_ingested data.bin (.nbf.tgz)"
+    },
+    {
+      "name": "radian",
+      "node": "om:radian",
+      "definition": "The radian is a unit of angle defined as the angle subtended at the center of a circle by an arc that is equal in length to the radius of the circle.",
+      "status": "decided",
+      "decided": "Proposed (not decided): added by Claude, 2026-10-22, T19 step 2 (an existing OM unit), while Jess Haley was away; for her review",
+      "first_used_in": "NewStim periodicstim sPhaseShift ('in radians where 2*pi is 1 cycle'), NDI stimulus recipe"
     }
   ]
 }

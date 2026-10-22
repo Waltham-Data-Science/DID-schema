@@ -50,16 +50,16 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 189 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 34 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 53914 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 35142 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 18772 |
+| build: migrator lines inspected | 54400 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 35335 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 19065 |
 | build: classes queried | 8 |
 | build: open classes MINTED as a document class | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 1 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 0 |
 | build: of those, discounted (decision retires the class) | 0 |
-| build: `document_class` writes whose class name is a VARIABLE | 8 |
-| build: &nbsp;&nbsp;-- of those, in a per-document migrator | 5 |
+| build: `document_class` writes whose class name is a VARIABLE | 9 |
+| build: &nbsp;&nbsp;-- of those, in a per-document migrator | 6 |
 | build: &nbsp;&nbsp;-- of those, in a batch post-pass | 3 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
@@ -142,9 +142,9 @@ is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.
 | 1 | `b.document_class = struct('class_name', '<class>', ...)` | 8 | 5 | 3 |
 | 2 | `b.document_class = classBlock('<class>', {supers})` | 0 | 0 | 0 |
 | 3 | `b.document_class.class_name = '<class>';` | 5 | 5 | 0 |
-| 4 | *unrecognised* | 69 | 39 | 30 |
-| 5 | *unrecognised* | 49 | 49 | 0 |
-| - | class name is a VARIABLE -- unresolved here | 8 | 5 | 3 |
+| 4 | *unrecognised* | 70 | 40 | 30 |
+| 5 | *unrecognised* | 48 | 48 | 0 |
+| - | class name is a VARIABLE -- unresolved here | 9 | 6 | 3 |
 
 **THE THREE IDIOMS ARE RE-MEASURED IN THE NEW ROOTS, NOT ASSUMED TO CARRY
 OVER.** The per-group columns are counted per file, so which idioms the
@@ -189,6 +189,7 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/resolveEpochProbemap.m:1278` | `entry.class` |
 | `DID-matlab:convert/resolveLawnPlateSubjects.m:1017` | `entry{1}` |
 | `DID-matlab:convert/universalRenames.m:240` | `v2ClassName;` |
+| `DID-matlab:migrators_j/image_stack.m:263` | `calculation + kind` |
 | `DID-matlab:migrators_j/ontology_table_row.m:233` | `measures{i, 2}` |
 | `DID-matlab:migrators_j/ontology_table_row.m:379` | `measures{i, 2}` |
 | `DID-matlab:migrators_j/ontology_table_row.m:650` | `observation + shapeClass` |
@@ -252,7 +253,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (decided) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1097 (guard)`, `DID-matlab:convert/epochMint.m:2042 (field_read)`, `DID-matlab:convert/resolveEpochProbemap.m:373 (guard)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1128 (named)`, `DID-matlab:convert/epochMint.m:2041 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:591 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; mentioned in 12 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1028 (comment_mention)`, `DID-matlab:convert/epochMint.m:1034 (comment_mention)`, `DID-matlab:convert/epochMint.m:1238 (comment_mention)`, `DID-matlab:convert/epochMint.m:216 (comment_mention)`, `DID-matlab:convert/epochMint.m:217 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `ensemble` (decided) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:439 (guard)`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element.m:215 (named)`; mentioned in 24 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element.m:101 (comment_mention)`, `DID-matlab:migrators_j/element.m:210 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)`, `DID-matlab:migrators_j/hartley_calc.m:155 (comment_mention)` ...; mentioned in 1 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveResponseParameters.m:101 (comment_mention)`; target(s) BUILT: `entity (subject)`, `directed_relation`, `sampled_body`
-- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:637 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:638 (field_read)`; mentioned in 30 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:915 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:916 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:104 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
+- `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:681 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:682 (field_read)`; mentioned in 30 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:915 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:916 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:104 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1029 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
 
 ## Proposed (not decided) -- awaiting review
 

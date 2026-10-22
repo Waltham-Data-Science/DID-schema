@@ -239,6 +239,12 @@
           ]
         },
         {
+          "v1_class": "syncrule",
+          "passes": [
+            "resolveClockAlignment"
+          ]
+        },
+        {
           "v1_class": "syncrule_mapping",
           "passes": [
             "epochMint"
@@ -283,6 +289,12 @@
           "v1_class": "stimulus_response_scalar",
           "passes": [
             "epochMint"
+          ]
+        },
+        {
+          "v1_class": "syncrule",
+          "passes": [
+            "resolveClockAlignment"
           ]
         },
         {
@@ -7137,7 +7149,8 @@
         "relative_time_reference",
         "assertion + text",
         "calculation + label",
-        "entity"
+        "entity",
+        "calculation + logical"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -7410,7 +7423,8 @@
         "relative_time_reference",
         "assertion + text",
         "calculation + label",
-        "entity"
+        "entity",
+        "calculation + logical"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -14193,7 +14207,9 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
+        "batch_pass_consumers": [
+          "resolveClockAlignment"
+        ],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],

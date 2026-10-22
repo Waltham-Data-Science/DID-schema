@@ -624,7 +624,8 @@
         "relative_time_reference",
         "assertion + text",
         "calculation + label",
-        "entity"
+        "entity",
+        "calculation + logical"
       ],
       "carried": [
         "entity (subject)"
@@ -657,7 +658,8 @@
         "relative_time_reference",
         "assertion + text",
         "calculation + label",
-        "entity"
+        "entity",
+        "calculation + logical"
       ],
       "carried": [
         "entity (subject)"

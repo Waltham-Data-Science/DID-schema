@@ -294,12 +294,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 302,
+        "line": 554,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 347,
+        "line": 599,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2313,
+        "line": 2319,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2390,
+        "line": 2396,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -2313,12 +2313,12 @@
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2270,
+        "line": 2276,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2271,
+        "line": 2277,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -4960,7 +4960,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 134,
+        "line": 179,
         "spelling": "session",
         "text": "if ~strcmp(classes{k}, 'session'); continue; end"
        }
@@ -4972,12 +4972,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 332,
+        "line": 361,
         "spelling": "session",
         "text": "tf = strcmp(className, 'session');"
        },
        {
-        "line": 336,
+        "line": 365,
         "spelling": "session",
         "text": "tf = isstruct(t) && isfield(t, 'name') && strcmpi(char(t.name), 'session');"
        }
@@ -6870,12 +6870,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 151,
+        "line": 213,
         "spelling": "syncgraph",
         "text": "if ~strcmp(classes{k}, 'syncgraph'); continue; end"
        },
        {
-        "line": 175,
+        "line": 237,
         "spelling": "syncgraph",
         "text": "if isscalar(folded) && strcmp(classNameOf(folded{1}), 'syncgraph')"
        }
@@ -6921,7 +6921,30 @@
   },
   "syncrule": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 350,
+        "spelling": "syncrule",
+        "text": "if ~strcmp(classes{k}, 'syncrule'); continue; end"
+       },
+       {
+        "line": 354,
+        "spelling": "syncrule",
+        "text": "if isfield(b, 'syncrule') && isstruct(b.syncrule); block = b.syncrule; end"
+       },
+       {
+        "line": 409,
+        "spelling": "syncrule",
+        "text": "if isscalar(folded) && strcmp(classNameOf(folded{1}), 'syncrule')"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",

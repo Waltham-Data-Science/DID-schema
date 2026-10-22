@@ -1849,25 +1849,26 @@
         ],
         "packages_missing": [],
         "files_read": 223,
-        "lines_read": 53914,
+        "lines_read": 54400,
         "classes_queried": 8,
         "classes_emitted_as_document_class": 1,
         "unresolved_mint_sites": [
           "DID-matlab:convert/resolveEpochProbemap.m:1278 (entry.class)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1017 (entry{1})",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
+          "DID-matlab:migrators_j/image_stack.m:263 (calculation + kind)",
           "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
           "DID-matlab:migrators_j/ontology_table_row.m:379 (measures{i, 2})",
           "DID-matlab:migrators_j/ontology_table_row.m:650 (observation + shapeClass)",
           "DID-matlab:migrators_j/private/jMeasurementFold.m:78 (observation + leaf)",
           "DID-matlab:migrators_j/treatment.m:100 (manipulation + kind)"
         ],
-        "n_unresolved_mint_sites": 8,
+        "n_unresolved_mint_sites": 9,
         "mint_sites_by_idiom": {
           "1": 8,
           "3": 5,
-          "4": 69,
-          "5": 49
+          "4": 70,
+          "5": 48
         },
         "groups": [
           "per_document_migrator",
@@ -1891,8 +1892,8 @@
           "batch_post_pass": 34
         },
         "lines_read_by_group": {
-          "per_document_migrator": 35142,
-          "batch_post_pass": 18772
+          "per_document_migrator": 35335,
+          "batch_post_pass": 19065
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 1,
@@ -1902,8 +1903,8 @@
           "per_document_migrator": {
             "1": 5,
             "3": 5,
-            "4": 39,
-            "5": 49
+            "4": 40,
+            "5": 48
           },
           "batch_post_pass": {
             "1": 3,
@@ -1911,11 +1912,12 @@
           }
         },
         "n_unresolved_mint_sites_by_group": {
-          "per_document_migrator": 5,
+          "per_document_migrator": 6,
           "batch_post_pass": 3
         },
         "unresolved_mint_sites_by_group": {
           "per_document_migrator": [
+            "DID-matlab:migrators_j/image_stack.m:263 (calculation + kind)",
             "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
             "DID-matlab:migrators_j/ontology_table_row.m:379 (measures{i, 2})",
             "DID-matlab:migrators_j/ontology_table_row.m:650 (observation + shapeClass)",
@@ -2638,8 +2640,8 @@
         "consuming_refs": [
           "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)",
           "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:637 (guard)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:638 (field_read)"
+          "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:681 (guard)",
+          "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:682 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -2665,8 +2667,8 @@
             "consuming_refs": [
               "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)",
               "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:637 (guard)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:638 (field_read)"
+              "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:681 (guard)",
+              "NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:682 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
