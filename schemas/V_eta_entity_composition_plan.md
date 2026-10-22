@@ -205,3 +205,5 @@ TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters scopes to entity_id
 - NDI's `getsubjects()` default (organism, culture, tissue, cell, group) is
   agreed and waits for the `ndi.entity` update.
 - The configuration classes are not reviewed here.
+
+Decided by Jess Haley, 2026-10-22 [dataset session reference]: when a dataset's own v1 `session` document merges into the dataset entity (resolveDatasetEntities, the duplicate-id fix), its `reference` (e.g. `haley_2025`, `griswold_et_al_2025`, `2013_treeshrew_LGNctx`) becomes the dataset entity's `local_identifier`, the same slot a session's reference takes; if the dataset already has a different `local_identifier`, nothing is overwritten and the conflict is counted. (Answer "A" to option (a).)

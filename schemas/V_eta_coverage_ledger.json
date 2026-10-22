@@ -700,9 +700,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 172,
+          "accepted_lines": 180,
           "accepted_lines_by_kind": {
-            "Decided by": 56,
+            "Decided by": 64,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -793,6 +793,14 @@
               "tag": "format is an ontology term",
               "date": "2026-10-14",
               "anchor": "Decided by Jess Haley, 2026-10-14 [format is an ontology"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1400,
+              "kind": "Decided by",
+              "tag": "NDI binary format",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
@@ -897,6 +905,14 @@
               "tag": null,
               "date": "2026-10-08",
               "anchor": "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters"
+            },
+            {
+              "document": "V_eta_entity_composition_plan.md",
+              "line": 209,
+              "kind": "Decided by",
+              "tag": "dataset session reference",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [dataset session"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -1139,6 +1155,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-21 [sorter keys]"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1051,
+              "kind": "Decided by",
+              "tag": "migrated masks are logical",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [migrated masks are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1053,
+              "kind": "Decided by",
+              "tag": "sorter software",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [sorter software]: a"
+            },
+            {
               "document": "V_eta_linked_session_plan.md",
               "line": 95,
               "kind": "TEAM-SIGN-OFF",
@@ -1169,6 +1201,30 @@
               "tag": "non-grating stimuli as methods",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as"
+            },
+            {
+              "document": "V_eta_method_plan.md",
+              "line": 192,
+              "kind": "Decided by",
+              "tag": "flashed bar",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [flashed bar]: a NewStim"
+            },
+            {
+              "document": "V_eta_method_plan.md",
+              "line": 194,
+              "kind": "Decided by",
+              "tag": "shape movie note",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [shape movie note]: a"
+            },
+            {
+              "document": "V_eta_method_plan.md",
+              "line": 196,
+              "kind": "Decided by",
+              "tag": "Hartley without enumeration",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [Hartley without"
             },
             {
               "document": "V_eta_ngrid_family_findings.md",
@@ -1353,6 +1409,14 @@
               "tag": "calculation-software-optional decided",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22"
+            },
+            {
+              "document": "V_eta_spatial_transcriptomics_plan.md",
+              "line": 612,
+              "kind": "Decided by",
+              "tag": "non-area image node, revisited",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [non-area image node"
             },
             {
               "document": "V_eta_stimulus_model_plan.md",

@@ -3981,14 +3981,6 @@
             "first_used_in": "NDI-matlab ndi.migrate.internal.pathSPromotion (what a region part entity is)"
         },
         {
-            "name": "Image Annotation",
-            "node": "NCIT:C211970",
-            "definition": "A label that is assigned to an image, or a region of interest within an image, to provide in-context information.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-21 (an existing term, answer 1b; V_eta_spatial_transcriptomics_plan.md [non-area image node]); this node chosen by Claude from an OLS search, for the team's review",
-            "first_used_in": "v1 ontologyImage migration: condition variable for an ontology node that is not an anatomical area"
-        },
-        {
             "name": "directory of files",
             "node": "EMPTY:0000315",
             "definition": "A data format that is a folder of files rather than a single file, with no layout of its contents specified by this term; the program that wrote it, or the record that holds it, says how to read it.",
@@ -4003,6 +3995,22 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-14 (lightsheet migrator point 4; V_eta_data_body_model_plan.md AMENDED 2026-10-14; empty-ontology 5f2c022); registered 2026-10-21",
             "first_used_in": "v1 lightsheet OME-Zarr store migration (DID-matlab +did2/+convert/foldGenericFiles.m)"
+        },
+        {
+            "name": "flashed bar",
+            "node": "",
+            "definition": "A stationary bar of uniform luminance presented briefly against the background.",
+            "status": "staged",
+            "decided": "Jess Haley, 2026-10-22 [flashed bar], V_eta_method_plan.md; EMPTY node to be minted in empty-ontology",
+            "first_used_in": "NewStim periodicstim imageType 0 in a narrow oriented rectangle (corpus B / Dab, 17,260 stimuli)"
+        },
+        {
+            "name": "NDI binary format",
+            "node": "",
+            "definition": "NDI's binary container (ndi_binary_version 1): a gzip-compressed tar of an .nbh header and an .nbf data file, as written by NDI-compress write_ndibinary (.nbf.tgz).",
+            "status": "staged",
+            "decided": "Jess Haley, 2026-10-22 [NDI binary format], V_eta_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY node to be minted in empty-ontology",
+            "first_used_in": "v1 daqmetadatareader_epochdata_ingested data.bin (.nbf.tgz)"
         }
     ]
 }
