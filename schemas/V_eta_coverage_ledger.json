@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 264,
+          "accepted_lines": 265,
           "accepted_lines_by_kind": {
-            "Decided by": 147,
+            "Decided by": 148,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1103,6 +1103,14 @@
               "tag": "exact OM units",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [exact OM units]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1547,
+              "kind": "Decided by",
+              "tag": "prefixed source units",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [prefixed source units]"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",

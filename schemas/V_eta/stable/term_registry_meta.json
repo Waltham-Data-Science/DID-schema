@@ -5341,6 +5341,78 @@
             "obsolete": false
         },
         {
+            "name": "millivolt",
+            "node": "om:millivolt",
+            "definition": "The millivolt is a unit of electric potential defined as 1.0e-3 volt. (OM gives no definition; written from its prefix.)",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled mV), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled mV)",
+            "obsolete": false
+        },
+        {
+            "name": "microvolt",
+            "node": "om:microvolt",
+            "definition": "The microvolt is a unit of electric potential defined as 1.0e-6 volt. (OM gives no definition; written from its prefix.)",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled µV, uV), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled µV, uV)",
+            "obsolete": false
+        },
+        {
+            "name": "kilogram",
+            "node": "om:kilogram",
+            "definition": "The kilogram is a unit of mass defined as 1.0e3 gram. (OM gives no definition; written from its prefix.)",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled kg), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled kg)",
+            "obsolete": false
+        },
+        {
+            "name": "kilohertz",
+            "node": "om:kilohertz",
+            "definition": "The kilohertz is a unit of frequency defined as 1.0e3 hertz.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled kHz), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled kHz)",
+            "obsolete": false
+        },
+        {
+            "name": "milliampere",
+            "node": "om:milliampere",
+            "definition": "The milliampere is a unit of electric current defined as 1.0e-3 ampere.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled mA), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled mA)",
+            "obsolete": false
+        },
+        {
+            "name": "microampere",
+            "node": "om:microampere",
+            "definition": "The microampere is a unit of electric current defined as 1.0e-6 ampere.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled µA, uA), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled µA, uA)",
+            "obsolete": false
+        },
+        {
+            "name": "nanoampere",
+            "node": "om:nanoampere",
+            "definition": "The nanoampere is a unit of electric current defined as 1.0e-9 ampere.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled nA), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled nA)",
+            "obsolete": false
+        },
+        {
+            "name": "picoampere",
+            "node": "om:picoampere",
+            "definition": "The picoampere is a unit of electric current defined as 1.0e-12 ampere.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled pA), not a canonical unit",
+            "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled pA)",
+            "obsolete": false
+        },
+        {
             "name": "signed distance to region boundary",
             "node": "EMPTY:0000384",
             "definition": "The distance from a point to the nearest boundary of a region, positive inside the region and negative outside it.",
