@@ -1064,3 +1064,5 @@ Deferred by Jess Haley, 2026-10-22, until before the Haley V2 rerun (after the m
 
 Decided by Jess Haley, 2026-10-22 [NDI ref fallback]: DID-matlab's Test code workflow resolves its NDI-matlab sibling by the same-name branch, then `claude/v2-object-layer` (NDI #1021's head, until #1021 merges), then `V2`, then `main`, instead of falling back straight to `main` (where `+ndi/+migrate` does not exist, so the cross-repo divergence check skipped); the integration branch is removed from it and from did-schema's tests.yml in the first commit after the merge (answers "9 A, but I think remove the object layer branch" and then "B"; the order with the integration branch ahead of `V2` is the one that keeps CI reading #1021 before the merge, as clarified to her on 2026-10-22).
 
+Decided by Jess Haley, 2026-10-22 [NDI ref fallback, test-corpus]: DID-matlab's test-corpus.yml resolves NDI-matlab in the same order as [NDI ref fallback] (answer "yes to all three"). Built: DID-matlab 4963355.
+

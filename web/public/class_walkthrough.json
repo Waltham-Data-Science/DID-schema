@@ -250,27 +250,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1228,
+        "line": 1242,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1269,
+        "line": 1283,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1547,
+        "line": 1561,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1568,
+        "line": 1582,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1655,
+        "line": 1669,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -459,12 +459,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 573,
+        "line": 598,
         "spelling": "base",
         "text": "if isstruct(body) && isscalar(body) && isfield(body, 'base') ..."
        },
        {
-        "line": 695,
+        "line": 720,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        }
@@ -2369,12 +2369,12 @@
         "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
        },
        {
-        "line": 1310,
+        "line": 1324,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1312,
+        "line": 1326,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
        }
