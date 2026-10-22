@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 204 decision line(s) accepted, 2 rejected; 41 cited by a class, 163 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 205 decision line(s) accepted, 2 rejected; 41 cited by a class, 164 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -395,6 +395,7 @@ field). If one decides a class's disposition, that class should cite it.
 - tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (V_eta_data_body_model_plan.md:1497).
 - covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (V_eta_data_body_model_plan.md:1499).
 - covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1501).
+- stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (V_eta_data_body_model_plan.md:1503).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- statements are a" (V_eta_entity_composition_plan.md:49).

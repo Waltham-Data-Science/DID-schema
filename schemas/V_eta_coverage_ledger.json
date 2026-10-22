@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 204,
+          "accepted_lines": 205,
           "accepted_lines_by_kind": {
-            "Decided by": 88,
+            "Decided by": 89,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -943,6 +943,14 @@
               "tag": "covariate rules named",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [covariate rules named]"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1503,
+              "kind": "Decided by",
+              "tag": "stimulus condition term",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [stimulus condition"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",
