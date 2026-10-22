@@ -4014,7 +4014,7 @@
       "node": "om:radian",
       "definition": "The radian is a unit of angle defined as the angle subtended at the center of a circle by an arc that is equal in length to the radius of the circle.",
       "status": "decided",
-      "decided": "Proposed (not decided): added by Claude, 2026-10-22, T19 step 2 (an existing OM unit), while Jess Haley was away; for her review",
+      "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: registered as the SOURCE unit of spatial phase (canonical unit degrees, T14)",
       "first_used_in": "NewStim periodicstim sPhaseShift ('in radians where 2*pi is 1 cycle'), NDI stimulus recipe"
     }
   ]

@@ -364,7 +364,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 180 decision line(s) accepted, 2 rejected; 40 cited by a class, 140 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 181 decision line(s) accepted, 2 rejected; 40 cited by a class, 141 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -432,6 +432,7 @@ field). If one decides a class's disposition, that class should cite it.
 - flashed bar. "Decided by Jess Haley, 2026-10-22 [flashed bar]: a NewStim" (V_eta_method_plan.md:192).
 - shape movie note. "Decided by Jess Haley, 2026-10-22 [shape movie note]: a" (V_eta_method_plan.md:194).
 - Hartley without enumeration. "Decided by Jess Haley, 2026-10-22 [Hartley without" (V_eta_method_plan.md:196).
+- spatial phase in degrees. "Decided by Jess Haley, 2026-10-22 [spatial phase in" (V_eta_method_plan.md:198).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (V_eta_ngrid_family_findings.md:381).
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (V_eta_ngrid_family_findings.md:419).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (V_eta_openminds_family_record.md:20).

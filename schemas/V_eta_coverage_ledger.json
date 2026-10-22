@@ -712,9 +712,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 180,
+          "accepted_lines": 181,
           "accepted_lines_by_kind": {
-            "Decided by": 64,
+            "Decided by": 65,
             "TEAM-SIGN-OFF": 116
           },
           "rejected_lines": [
@@ -1237,6 +1237,14 @@
               "tag": "Hartley without enumeration",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [Hartley without"
+            },
+            {
+              "document": "V_eta_method_plan.md",
+              "line": 198,
+              "kind": "Decided by",
+              "tag": "spatial phase in degrees",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [spatial phase in"
             },
             {
               "document": "V_eta_ngrid_family_findings.md",
