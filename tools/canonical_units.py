@@ -54,7 +54,7 @@ CANONICAL_UNITS = {
     "substance_amount": [("moles", "mole", "")],
     "intensity": [("arbitrary_units", "arbitrary unit", "")],
     "irradiance": [("watts_per_square_meter", "watt per square metre", "om:wattPerSquareMetre")],
-    "ph": [("ph", "one", "om:one")],
+    "ph": [("ph", "pH", "UO:0000196")],
     "gain": [("decibels", "decibel", "")],
     "humidity": [("percent_relative_humidity", "percent relative humidity", "")],
 }

@@ -5135,8 +5135,17 @@
       "node": "om:one",
       "definition": "Unit one is a unit of dimension one.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [pH unit one] and [dF/F as variable], V_eta_data_body_model_plan.md: the unit of a dimensionless quantity whose quantity is named elsewhere (the `ph` value kind; a dF/F response)",
-      "first_used_in": "ph.value.ph; tuning_curve.value.response_unit (dF/F)",
+      "decided": "Jess Haley, 2026-10-22 [dF/F as variable], V_eta_data_body_model_plan.md: the unit of a dFF response (a dimensionless quantity named in `variable`)",
+      "first_used_in": "tuning_curve.value.response_unit (dF/F)",
+      "obsolete": false
+    },
+    {
+      "name": "pH",
+      "node": "UO:0000196",
+      "definition": "A dimensionless concentration notation which denotes the acidity of a solution in terms of activity of hydrogen ions (H+).",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-22 [pH unit is UO pH], V_eta_data_body_model_plan.md: the canonical unit of the `ph` value kind (T14: the unit practitioners use; OM has pH only as the quantity om:Acidity)",
+      "first_used_in": "ph.value.ph",
       "obsolete": false
     },
     {

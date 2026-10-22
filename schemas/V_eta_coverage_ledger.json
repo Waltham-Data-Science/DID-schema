@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 258,
+          "accepted_lines": 259,
           "accepted_lines_by_kind": {
-            "Decided by": 141,
+            "Decided by": 142,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1063,6 +1063,14 @@
               "tag": "pH unit one",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [pH unit one]: the"
+            },
+            {
+              "document": "V_eta_data_body_model_plan.md",
+              "line": 1537,
+              "kind": "Decided by",
+              "tag": "pH unit is UO pH",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the"
             },
             {
               "document": "V_eta_duplicate_entities_plan.md",

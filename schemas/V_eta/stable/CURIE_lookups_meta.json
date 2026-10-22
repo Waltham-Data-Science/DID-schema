@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.2.0",
+    "format_version": "1.2.1",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -242,6 +242,18 @@
             "pattern_source": "https://bioregistry.io/api/registry/rrid (2026-10-08)",
             "spelling": "RRID",
             "spelling_source": "SciCrunch record `properCitation`, e.g. `RRID:WB-STRAIN:WBStrain00004246` (checked 2026-10-19)",
+            "synonyms": []
+        },
+        "uo": {
+            "label": "Units of Measurement Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/UO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "OBO Foundry ontology of units. Registered for one unit OM lacks: pH, UO:0000196 (Jess Haley 2026-10-22 [pH unit is UO pH], V_eta_data_body_model_plan.md). Other units stay OM. Expansion rule: 'UO:NNNNNNN' -> 'http://purl.obolibrary.org/obo/UO_NNNNNNN'.",
+            "pattern": "^\\d{7}$",
+            "pattern_source": "https://bioregistry.io/api/registry/uo (2026-10-22)",
+            "spelling": "UO",
+            "spelling_source": "OBO PURL: the ID space as written in uri_base",
             "synonyms": []
         },
         "wikidata": {
