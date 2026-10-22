@@ -714,9 +714,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 257,
+          "accepted_lines": 258,
           "accepted_lines_by_kind": {
-            "Decided by": 140,
+            "Decided by": 141,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1207,6 +1207,14 @@
               "tag": "filters are methods",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [filters are methods]"
+            },
+            {
+              "document": "V_eta_frequency_filter_model_plan.md",
+              "line": 203,
+              "kind": "Decided by",
+              "tag": "filter terms from Wikidata",
+              "date": "2026-10-22",
+              "anchor": "Decided by Jess Haley, 2026-10-22 [filter terms from"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
