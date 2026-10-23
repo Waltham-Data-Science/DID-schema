@@ -10,7 +10,7 @@
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1305,
+      "m_files_scanned": 1307,
       "dependency_call_sites": 163,
       "distinct_dependencies_written": [
         "cells_document_id",

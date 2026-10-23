@@ -93,3 +93,5 @@ entity and a session `part_of` relation.
 
 To be signed: membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a `linked_session` configuration document (path, entity_id)
 TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a linked_session configuration document (path, entity_id)
+
+Decided by Jess Haley, 2026-10-23 [nested studies]: a study may be included_in a parent study (Haley #144), and a session filed under a study at any depth is in the dataset; membership follows included_in up through every study to the dataset ("yes, do it", after the full Haley import left the 28 sessions of large_single_patch and small_single_patch, both filed under single_patch_assays, unlisted). Amends [the TEAM-SIGN-OFF of 2026-10-09 above], whose "to the dataset or a study of it" read one study deep. Built: NDI-matlab d1f1358c6

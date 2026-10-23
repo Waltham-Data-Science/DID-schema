@@ -1192,6 +1192,8 @@ RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `004585cec`: 1,305 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1305). Only the denominator moved. Re-derive, do not quote.
 
+RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
+
 
 # AMENDMENT 3 — one entry for keys, conditions and method parameters. Jess, 2026-10-19.
 
