@@ -248,7 +248,7 @@ def update(paths=None, path=None, today=None, out=print):
         out(f"  {name}: head {head} ({sib[name]['head_ref']}), main {main}")
     doc = {
         "why": old.get("why") or DEFAULT_WHY,
-        "date": today or datetime.date.today().isoformat(),
+        "date": today or datetime.datetime.now(datetime.timezone.utc).date().isoformat(),
         "siblings": {n: sib[n] for n in sorted(sib)},
     }
     with open(path, "w", encoding="utf-8") as fh:

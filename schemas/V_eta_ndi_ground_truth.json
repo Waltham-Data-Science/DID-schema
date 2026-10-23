@@ -1,6 +1,7 @@
 {
   "_comment": "GROUND TRUTH for the did_v1 side of the V_eta migration: the NDI document templates, read from origin/main. THIS FILE IS AUTHORITATIVE -- schemas/V_alpha and the V_delta conversion markdown are history, not evidence. Where a template and its WRITER disagree, the writer wins (see writer_divergence): the data follows the writer. Regenerate with tools/ndi_ground_truth.py. See V_eta_ground_truth_plan.md.",
   "ndi_ref": "origin/main",
+  "ndi_main_commit": "3cb19a85fb77453e1e656728828b08a54c406e96",
   "summary": {
     "ndi_classes": 104,
     "v_alpha_classes_compared": 80,

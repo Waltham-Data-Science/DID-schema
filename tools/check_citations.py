@@ -129,7 +129,6 @@ sys.path.insert(0, HERE)
 # name (this repository, a test's fake checkout) reads its live origin/main.
 import sibling_lock  # noqa: E402
 
-
 # --------------------------------------------------------------------------
 # TUNING -- every threshold in one place, each with the reason it has that value
 # --------------------------------------------------------------------------

@@ -92,7 +92,7 @@ def test_a_malformed_lock_is_unreadable_not_absent(tmp_path):
 
 
 def test_a_checkout_not_at_the_locked_head_is_a_mismatch_with_the_fix(tmp_path):
-    root, a, b = _repo(tmp_path)
+    root, a, _b = _repo(tmp_path)
     lock = _write_lock(tmp_path / "lock.json",
                        {"NDI-matlab": {"head": a, "main": a, "head_ref": "V2"}})
     bad, out = _verify({"NDI-matlab": str(root)}, lock)   # HEAD is B

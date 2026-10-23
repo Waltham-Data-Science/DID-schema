@@ -89,6 +89,7 @@ sys.path.insert(0, HERE)
 # (`origin/main`) is what the artifact records and the rev is what git is asked
 # for, so the ground truth moves only when the lock does.
 import sibling_lock  # noqa: E402
+
 OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"

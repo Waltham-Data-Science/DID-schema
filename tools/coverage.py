@@ -38,6 +38,7 @@ sys.path.insert(0, HERE)
 # closes (HTML comments, quotations in code fences, template placeholders) to
 # reopen.
 import decision_citations as dc  # noqa: E402
+
 # THE SIBLING LOCK (tools/sibling_lock.json): NDI `origin/main` is read at the
 # LOCKED sha, so the v1 universe moves only when the lock does.
 import sibling_lock  # noqa: E402

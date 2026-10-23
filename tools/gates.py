@@ -62,7 +62,6 @@ PY = sys.executable or "python3"
 sys.path.insert(0, os.path.join(REPO, "tools"))
 import sibling_lock  # noqa: E402
 
-
 # --------------------------------------------------------------------------
 # THE STEPS
 # --------------------------------------------------------------------------
