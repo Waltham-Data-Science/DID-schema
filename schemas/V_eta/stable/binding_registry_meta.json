@@ -1262,12 +1262,12 @@
         },
         {
             "relation": {
-                "node": "RO:0001000",
-                "name": "derived_from"
+                "node": "prov:wasDerivedFrom",
+                "name": "wasDerivedFrom"
             },
             "class": "directed_relation",
-            "child_role": "the derivative: material that begins to exist as the source is used up (RO:0001000; Jess Haley 2026-10-22 [vocabulary nodes] K2)",
-            "parent_role": "the source material, which ceases to exist",
+            "child_role": "the derived entity: a new entity constructed from, transformed from or updated from a pre-existing one (prov:wasDerivedFrom; Jess Haley 2026-10-22 [derived from general], [derived from label])",
+            "parent_role": "the pre-existing entity it was derived from, which may continue to exist",
             "child_types": [],
             "parent_types": [],
             "timed": true,

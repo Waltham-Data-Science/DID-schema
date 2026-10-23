@@ -80,8 +80,8 @@
                             "name": "member of"
                         },
                         {
-                            "node": "RO:0001000",
-                            "name": "derived_from"
+                            "node": "prov:wasDerivedFrom",
+                            "name": "wasDerivedFrom"
                         },
                         {
                             "node": "ENVO:01003004",

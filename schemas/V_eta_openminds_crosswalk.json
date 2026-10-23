@@ -102,7 +102,7 @@
         },
         "isNewVersionOf": {
           "target_kind": "relation",
-          "ndi_target": "derived_from",
+          "ndi_target": "wasDerivedFrom",
           "endpoint": "Data Set",
           "notes": "version lineage as generic provenance (dataset -derived_from-> dataset)."
         },

@@ -1440,7 +1440,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
     # by node (Jess Haley 2026-10-22 [vocabulary nodes] L1): derived_from,
     # instance_of; entity types by their label (L2)
     rel = {r["relation"]["node"]: r for r in reg["relation_bindings"]}
-    assert rel["RO:0001000"]["child_types"] == [] and rel["RO:0001000"]["parent_types"] == []
+    assert rel["prov:wasDerivedFrom"]["child_types"] == [] and rel["prov:wasDerivedFrom"]["parent_types"] == []
     assert "Organism Strain" in rel["EMPTY:0000382"]["parent_types"]
 
 
@@ -1671,7 +1671,7 @@ def test_relation_bindings_present():
     assert "observes" not in vocab
     for handle, node in (
             ("part_of", "BFO:0000050"), ("member_of", "RO:0002350"),
-            ("derived_from", "RO:0001000"), ("encountered", "RO:0002437"),
+            ("derived_from", "prov:wasDerivedFrom"), ("encountered", "RO:0002437"),
             ("has_author", "schema:author"), ("funded_by", "schema:funding"),
             ("issued_by", "schema:funder"), ("affiliated_with", "schema:affiliation"),
             ("cites", "schema:citation"), ("documented_by", "schema:subjectOf"),
@@ -1751,12 +1751,12 @@ def test_stored_vocabulary_names_are_the_labels_of_their_nodes():
     registry holds it; the registry holds nodes, not synonyms, so the old
     snake_case handles have no row. A term with no node keeps its name.
 
-    PENDING, named rather than skipped: `derived_from` (RO:0001000) keeps its
-    handle until the label for its new node prov:wasDerivedFrom is settled
-    ([derived from general]); PROV-O's rdfs:label is "wasDerivedFrom"."""
+    `derived_from` is prov:wasDerivedFrom stored as PROV-O's rdfs:label
+    "wasDerivedFrom" ([derived from general], [derived from label]); nothing is
+    pending."""
     terms = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_term_registry.json"))["terms"]
     label = {t["node"]: t["name"] for t in terms}
-    pending = {("RO:0001000", "derived_from")}
+    pending = set()
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     stored = [("relation_bindings", r["relation"]["node"], r["relation"]["name"])
               for r in reg["relation_bindings"]]

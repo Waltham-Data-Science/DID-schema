@@ -4621,11 +4621,11 @@
             "obsolete": false
         },
         {
-            "name": "derives from",
-            "node": "RO:0001000",
-            "definition": "a relation between two distinct material entities, the new entity and the old entity, in which the new entity begins to exist when the old entity ceases to exist, and the new entity inherits the significant portion of the matter of the old entity",
+            "name": "wasDerivedFrom",
+            "node": "prov:wasDerivedFrom",
+            "definition": "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `derived_from` (K2)",
+            "decided": "Jess Haley, 2026-10-22 [derived from general] and [derived from label], V_eta_relation_inheritance_plan.md: the node of relation `derived_from`, stored with PROV-O's rdfs:label (https://www.w3.org/ns/prov.ttl); replaces RO:0001000, which nothing writes any more",
             "first_used_in": "did-schema binding_registry_meta relation_bindings (`derived_from`)",
             "obsolete": false
         },
