@@ -156,22 +156,21 @@ being re-provisioned.
 
 ### The repositories
 
-| repo | branch line | open PR (2026-10-23) | what lives there |
+| repo | branch line | V2 migration PR (merged 2026-10-23) | what lives there |
 |---|---|---|---|
-| did-schema (Waltham-Data-Science) | `main` | #88, head `claude/ecstatic-pascal-md91fw` | V_eta JSON, registries, plan documents, gate tools |
-| DID-matlab (VH-Lab) | `V2` | #218, head `claude/ecstatic-pascal-md91fw` | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
-| NDI-matlab (VH-Lab) | `V2` | #1021, head `claude/v2-object-layer` | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates are the v1 truth |
+| did-schema (Waltham-Data-Science) | `main` | #88 (and #120) | V_eta JSON, registries, plan documents, gate tools |
+| DID-matlab (VH-Lab) | `V2` | #218 | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
+| NDI-matlab (VH-Lab) | `V2` | #1021 | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates are the v1 truth |
 | empty-ontology (Waltham-Data-Science) | `V2` | none (#22-#25 merged) | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
 | ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11, #12, #14 merged) | ontology lookups, `NDIC.txt` |
 
 did-schema also has a `V2` branch. Check with `git rev-parse origin/V2
 origin/main` before assuming what it holds.
 
-Merge order: did-schema #88 into `main`; then DID-matlab #218 and NDI-matlab
-#1021 together into `V2` (empty-ontology #22-#25 and ndi-ontology-matlab #11,
-#12 and #14 are merged). The PR table above
-names branches, not heads: read a head with `git ls-remote` or `git rev-parse`
-when you need it, never from this file.
+The V2 migration is merged: did-schema #88 into `main`, then DID-matlab #218
+and NDI-matlab #1021 into `V2` (2026-10-23), after empty-ontology #22-#25 and
+ndi-ontology-matlab #11, #12 and #14. Read a head with `git ls-remote` or
+`git rev-parse` when you need it, never from this file.
 
 If the local checkout may be behind, `git fetch` and compare with `origin`
 before measuring anything. A measurement taken on a rewound tree looks exactly
@@ -186,19 +185,16 @@ exists:
 
 1. a branch with the same name as the branch under test;
 2. the PR's base branch;
-3. the integration ref `claude/v2-object-layer` (NDI #1021's head; Jess Haley,
-   2026-10-21; `claude/v-eta-migration-plan-35jj1z` before);
-4. the sibling's default branch.
+3. the integration ref `V2` (both siblings' V2 line; `claude/v2-object-layer`
+   until NDI #1021 merged on 2026-10-23);
+4. the sibling's default branch (`main`, which lacks the V2 code).
 
 A request that names the sibling's default branch is tried last. The step
-prints which ref it took and says FALLBACK when it fell back. **`V2` is not in
-that list**, and this order stays until the merge. Decided (Jess Haley,
-2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]): DID-matlab's
-Test code workflow resolves NDI-matlab by the same-name branch, then
-`claude/v2-object-layer` (until NDI #1021 merges), then `V2`, then `main`; the
-integration branch is removed from it and from this repository's `tests.yml` in
-the first commit after the merge. Built in DID-matlab `6236cc1` (Test code and
-the quick migrator run) and `4963355` (`test-corpus.yml`).
+prints which ref it took and says FALLBACK when it fell back. Decided (Jess
+Haley, 2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]):
+DID-matlab's workflows resolve NDI-matlab by the same-name branch, then `V2`,
+then `main`; the integration branch `claude/v2-object-layer` left that order and
+this repository's `tests.yml` in the first commits after the merge.
 
 Three details are load-bearing and fail quietly if they regress (all asserted
 by `tests/test_ci_runs_the_whole_chain.py`): the clone is full, not shallow,
@@ -218,17 +214,15 @@ checked out. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling
 
 ### How the siblings' CI picks a did-schema ref
 
-- DID-matlab `test-builder.yml`: a did-schema branch with the same name, else
-  `main`.
-- DID-matlab `test-code.yml`, `test-fixtures.yml` and `test-corpus.yml`: the
-  #88 branch `claude/ecstatic-pascal-md91fw`.
+- DID-matlab `test-builder.yml` and `test-migrators-quick.yml`: a did-schema
+  branch with the same name, else `main`.
+- DID-matlab `test-code.yml`, `test-fixtures.yml`, `test-corpus.yml` and
+  `test-soph-corpus.yml`: `main`.
 - NDI-matlab `test-eta-migrate*.yml` and `test-import-v2.yml`:
-  `DID_SCHEMA_REF: claude/ecstatic-pascal-md91fw`.
+  `DID_SCHEMA_REF: main`, `DID_MATLAB_REF: V2`.
 
-Grep the workflow files for the current pins; do not trust this list.
-
-The `v_eta-pre73` pin was dropped when the migrator port landed. These move to
-`main` when #88 merges.
+Grep the workflow files for the current pins; do not trust this list. The pins
+moved off the #88/#218 branch `claude/ecstatic-pascal-md91fw` after the merge.
 
 ### Changes the siblings must follow land in the siblings first
 
