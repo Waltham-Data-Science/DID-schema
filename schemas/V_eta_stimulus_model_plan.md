@@ -383,8 +383,8 @@ they hold for every migrated dataset, not for one.
    The stimulator route never leaves the session, because an epoch belongs to one session.
 2. **Several animals in one session get one manipulation on the session's cohort, marked
    `distributive`, never N copies.** The cohort is a standing group (the animals recorded
-   together in that session), reused by every presentation in it. This is the proposed T17
-   amendment in `V_eta_tenets.md` (not signed). Its build is part of the migrator port
+   together in that session), reused by every presentation in it. This is the T17
+   amendment in `V_eta_tenets.md`, signed 2026-10-21 ([tenet amendments 2026-10-21]). Its build is part of the migrator port
    (OPEN_WORK #79).
 3. **A blank counts as a blank whatever its stimulus class** (`isblank` = 1). A blank shows
    nothing, so its class does not change what the animal saw.

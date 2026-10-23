@@ -233,6 +233,14 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "relative_time_reference"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted set]: answered YES (\"K4 a\") -- pass 1's rename + epoch-table lift, then resolveEpochProbemap retires the archive once its files are owned by per-epoch bodies.",
+        "signoff": "V_eta_recording_observation_plan.md [mfdaq archive emitted set]",
+        "why": "THE EMITTED SET, confirmed. `daqreader_epochdata_ingested` is an intermediate the batch pass retires, so it is not part of the end state. Recorded by Claude at the decider's instruction; the decision is the team's."
       }
     },
     "daqreader_ndr": {

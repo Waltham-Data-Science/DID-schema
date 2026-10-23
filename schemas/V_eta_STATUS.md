@@ -290,7 +290,7 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `daqreader_epochdata_ingested` | retire | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `daqreader_image_epochdata_ingested` | retire | 3 of 3 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
-| `daqreader_mfdaq_epochdata_ingested` | consumed by migrator (no tombstone) | no target recorded | [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
+| `daqreader_mfdaq_epochdata_ingested` | consumed by migrator (no tombstone) | 1 of 1 | [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `daqreader_ndr` | consumed by migrator (no tombstone) | 3 of 3 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `daqsystem` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `element` | retire | 10 of 10 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 275 decision line(s) accepted, 2 rejected; 41 cited by a class, 234 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 281 decision line(s) accepted, 2 rejected; 41 cited by a class, 240 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -433,6 +433,8 @@ field). If one decides a class's disposition, that class should cite it.
 - spike dimension term. "Decided by Jess Haley, 2026-10-22 [spike dimension term]" (V_eta_epoch_plan.md:1508).
 - JH position and distance. "Decided by Jess Haley, 2026-10-22 [JH position and" (V_eta_epoch_plan.md:1510).
 - ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1512).
+- JH signed distance in pixels. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1514).
+- JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1516).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).
@@ -481,6 +483,8 @@ field). If one decides a class's disposition, that class should cite it.
 - instrument and device. "Decided by Jess Haley, 2026-10-22 [instrument and device]" (V_eta_go_forward_class_audit.md:1082).
 - rig minting with edges. "Decided by Jess Haley, 2026-10-22 [rig minting with edges]" (V_eta_go_forward_class_audit.md:1084).
 - generic_file emitted set. "Decided by Jess Haley, 2026-10-23 [generic_file emitted" (V_eta_go_forward_class_audit.md:1086).
+- v1 passthroughs accepted. "Decided by Jess Haley, 2026-10-23 [v1 passthroughs" (V_eta_go_forward_class_audit.md:1088).
+- sliceTetanus stays in NDI. "Decided by Jess Haley, 2026-10-23 [sliceTetanus stays in" (V_eta_go_forward_class_audit.md:1090).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
@@ -508,6 +512,7 @@ field). If one decides a class's disposition, that class should cite it.
 - pyraview leftovers. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers]" (V_eta_recording_observation_plan.md:129).
 - pyraview leftovers, schema form. "Decided by Jess Haley, 2026-10-21 [pyraview leftovers" (V_eta_recording_observation_plan.md:131).
 - preview attribution without epoch files. "Decided by Jess Haley, 2026-10-21 [preview attribution" (V_eta_recording_observation_plan.md:165).
+- mfdaq archive emitted set. "Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted" (V_eta_recording_observation_plan.md:167).
 - relation inheritance. "TEAM-SIGN-OFF [relation inheritance]: jess / 2026-10-21" (V_eta_relation_inheritance_plan.md:113).
 - vocabulary nodes. "Decided by Jess Haley, 2026-10-22 [vocabulary nodes]: every" (V_eta_relation_inheritance_plan.md:117).
 - member_of endpoints. "Decided by Jess Haley, 2026-10-22 [member_of endpoints]" (V_eta_relation_inheritance_plan.md:121).
@@ -596,6 +601,7 @@ field). If one decides a class's disposition, that class should cite it.
 - one fit entry. "Decided by Jess Haley, 2026-10-22 [one fit entry]: there is" (V_eta_tuning_model_plan.md:267).
 - significance with results. "Decided by Jess Haley, 2026-10-22 [significance with" (V_eta_tuning_model_plan.md:269).
 - calculator units. "Decided by Jess Haley, 2026-10-22 [calculator units]" (V_eta_tuning_model_plan.md:271).
+- contrast sensitivity lossless. "Decided by Jess Haley, 2026-10-23 [contrast sensitivity" (V_eta_tuning_model_plan.md:273).
 - lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
 - developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
 

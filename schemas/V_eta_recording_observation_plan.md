@@ -163,3 +163,5 @@ What it means for the migration, and why:
   files as a known property of its data, not a failure.
 
 Decided by Jess Haley, 2026-10-21 [preview attribution without epoch files]: when a corpus has no epoch files (so no per-epoch recording observation exists to take the specimen from), a pyraview's observation takes its specimen from the element's own v1 `observes` relation (the probe observes the organism), which the migration keeps. (Answer "Yes" to the proposed option (a).)
+
+Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted set]: what v1 `daqreader_mfdaq_epochdata_ingested` becomes is the end state: pass 1 renames it to the generic `daqreader_epochdata_ingested` (its `parameters` an optional field) and lifts its epoch table into `relative_time_reference` documents; resolveEpochProbemap then retires the archive under [ingested epoch documents retired] (answer "K4 a"). Recorded as `confirmed_targets` in `V_eta_migration_targets.json`.

@@ -376,9 +376,9 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 35,
+        "1": 34,
         "2": 13,
-        "3": 54,
+        "3": 55,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -392,13 +392,13 @@
           "no": 13
         },
         "2": {
-          "not measured": 43,
-          "yes": 67,
+          "not measured": 42,
+          "yes": 68,
           "n/a": 5
         },
         "3": {
-          "not measured": 43,
-          "yes": 51,
+          "not measured": 42,
+          "yes": 52,
           "no": 16,
           "n/a": 5
         },
@@ -408,8 +408,8 @@
       },
       "per_stage_satisfied_independently": {
         "1": 102,
-        "2": 67,
-        "3": 51,
+        "2": 68,
+        "3": 52,
         "4": 0
       },
       "capped": {
@@ -422,9 +422,9 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 38,
+          "1": 37,
           "2": 16,
-          "3": 51,
+          "3": 52,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -497,7 +497,7 @@
       },
       "no_target_recorded": {
         "denominator": 115,
-        "rows": 48,
+        "rows": 47,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -506,7 +506,6 @@
           "calculator",
           "contrast_sensitivity_calc",
           "control_stimulus_ids",
-          "daqreader_mfdaq_epochdata_ingested",
           "dataset_remote",
           "dataset_session_info",
           "demoNDI",
@@ -728,9 +727,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 275,
+          "accepted_lines": 281,
           "accepted_lines_by_kind": {
-            "Decided by": 158,
+            "Decided by": 164,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1311,6 +1310,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-22 [ingested epochs found]"
             },
             {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1514,
+              "kind": "Decided by",
+              "tag": "JH signed distance in pixels",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [JH signed distance in"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1516,
+              "kind": "Decided by",
+              "tag": "JH build choices",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [JH build choices]: the"
+            },
+            {
               "document": "V_eta_frequency_filter_model_plan.md",
               "line": 201,
               "kind": "Decided by",
@@ -1695,6 +1710,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-23 [generic_file emitted"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1088,
+              "kind": "Decided by",
+              "tag": "v1 passthroughs accepted",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [v1 passthroughs"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1090,
+              "kind": "Decided by",
+              "tag": "sliceTetanus stays in NDI",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [sliceTetanus stays in"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -1909,6 +1940,14 @@
               "tag": "preview attribution without epoch files",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [preview attribution"
+            },
+            {
+              "document": "V_eta_recording_observation_plan.md",
+              "line": 167,
+              "kind": "Decided by",
+              "tag": "mfdaq archive emitted set",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted"
             },
             {
               "document": "V_eta_relation_inheritance_plan.md",
@@ -2613,6 +2652,14 @@
               "tag": "calculator units",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [calculator units]"
+            },
+            {
+              "document": "V_eta_tuning_model_plan.md",
+              "line": 273,
+              "kind": "Decided by",
+              "tag": "contrast sensitivity lossless",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [contrast sensitivity"
             },
             {
               "document": "review/73/OPEN_ITEMS.md",
@@ -4680,8 +4727,10 @@
         "daqreader_epochdata_ingested",
         "relative_time_reference"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "relative_time_reference"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -4690,10 +4739,12 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "relative_time_reference"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -4758,9 +4809,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -4772,14 +4823,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -4789,7 +4840,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

@@ -722,6 +722,19 @@
                             "ontology": null,
                             "documentation": "Bonferroni-corrected response-varies p per spatial frequency.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "modulated_response",
+                            "type": "boolean",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Whether the response was judged modulated (v1 `is_modulated_response`, stored 0/1; T13 drops the `is_` prefix). Absent (null) when the source did not record it, so a missing judgement never reads as false. Decided by Jess Haley, 2026-10-23 [contrast sensitivity lossless].",
+                            "constraints": {}
                         }
                     ]
                 },
