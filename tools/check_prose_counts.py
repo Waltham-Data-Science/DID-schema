@@ -267,16 +267,25 @@ def derive_ndi_m_files():
     """`.m` files on NDI `origin/main` -- the ref, not the working tree.
 
     The working tree is the V_eta feature branch and lags main; every figure
-    this project quotes about NDI is an origin/main figure."""
+    this project quotes about NDI is an origin/main figure.
+
+    READ AT THE LOCKED SHA (tools/sibling_lock.json), so this count moves only
+    when the lock moves. It used to read the live `origin/main`, and NDI
+    gaining five `.m` files turned this gate red twice in one day with no
+    change here (dc650e8, 5cba5a4)."""
     ndi = find_repo("NDI-matlab", "NDI_MATLAB")
     if not ndi:
         raise Unavailable("NDI-matlab checkout not found")
-    for ref in ("origin/main", "main"):
-        res = subprocess.run(["git", "-C", ndi, "ls-tree", "-r", "--name-only", ref],
+    sys.path.insert(0, HERE)
+    import sibling_lock
+    tried = []
+    for ref, rev in sibling_lock.main_refs("NDI-matlab"):
+        res = subprocess.run(["git", "-C", ndi, "ls-tree", "-r", "--name-only", rev],
                              capture_output=True, text=True, check=False)
         if res.returncode == 0:
             return sum(1 for p in res.stdout.split("\n") if p.endswith(".m"))
-    raise Unavailable("neither origin/main nor main resolves in the NDI checkout")
+        tried.append(ref if rev == ref else f"{ref} (locked at {rev})")
+    raise Unavailable(f"{' nor '.join(tried)} does not resolve in the NDI checkout")
 
 
 def derive_plan_documents():

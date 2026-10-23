@@ -16,13 +16,18 @@ The clone has three properties that are each load-bearing, and each is asserted
 here because each fails QUIETLY if it regresses:
 
   * FULL history, not `--depth 1`. `coverage.py` and `ndi_ground_truth.py` read
-    NDI at `origin/main`, and the ground truth also walks history to find each
+    NDI's main at the LOCKED sha (`tools/sibling_lock.json`), which is not the
+    clone's HEAD, and the ground truth also walks history from it to find each
     class's add-commit. A shallow clone does not error -- the ref lookup falls
-    through and the tool reports a smaller universe.
-  * The FEATURE branch, not main. `check_pipeline_parity.py` and the status
-    board's migrator evidence read NDI's `ndi_second_pass/`, which exists only
-    on the feature branch. One checkout serves both readers only because a full
-    clone brings `origin/main` along with it.
+    through and the tool reports a smaller universe -- so the step checks that
+    the locked main commit is present and fails if it is not.
+  * The LOCKED HEAD, not a branch name and not main. `check_pipeline_parity.py`
+    and the status board's migrator evidence read NDI's `ndi_second_pass/`,
+    which lives on the siblings' V2 line, not on their main. One checkout serves
+    both readers only because a full clone brings the locked main along with it.
+    Since 2026-10-23 the commit comes from the sibling lock (Jess Haley: build
+    and check against locked commits), so a sibling's branch moving no longer
+    changes what CI measures.
   * `NDI_MATLAB` / `DID_MATLAB` exported. `find_repo` in gates.py treats an
     explicitly set variable as authoritative; without them a child falls back to
     a default the driver already rejected, and the two disagree again.
@@ -31,6 +36,7 @@ These are structural checks on the workflow file. They cannot prove CI is green
 -- only a run does that -- but they fail when the step is deleted, shallowed, or
 quietly pointed somewhere else.
 """
+import json
 import pathlib
 import re
 
@@ -96,13 +102,15 @@ def test_the_sibling_clone_is_not_shallow():
         "through and the tool reports a smaller universe.")
 
 
-def test_the_missing_origin_main_guard_is_still_there():
-    """A clone that lands without `origin/main` must FAIL, not proceed."""
+def test_the_missing_locked_main_guard_is_still_there():
+    """A clone that lands without the locked main commit must FAIL, not proceed."""
     run = _checkout_step()
-    assert "origin/main" in run, (
-        "the step no longer checks that `origin/main` resolves in the sibling "
-        "clone. That check is what turns a silently-smaller universe into a "
-        "red step.")
+    assert re.search(r'--get "\$name" main', run), (
+        "the step no longer reads the locked `main` sha from the sibling lock")
+    assert re.search(r'cat-file -e "\$\{main\}\^\{commit\}"', run), (
+        "the step no longer checks that the locked main commit resolves in the "
+        "sibling clone. That check is what turns a silently-smaller universe "
+        "into a red step.")
     assert re.search(r"rc=1", run), (
         "nothing in the step sets a non-zero exit. A checkout that could not "
         "give the gates what they read must fail loudly; the gates downstream "
@@ -120,38 +128,48 @@ def test_the_sibling_paths_are_exported_under_the_names_gates_reads():
             "already rejected.")
 
 
-def test_the_requested_ref_is_the_branch_under_test_with_an_announced_fallback():
-    step = _checkout_step()
-    assert "head_ref" in step and "ref_name" in step, (
-        "the sibling ref is not the branch under test. Pinning it to a fixed "
-        "branch would measure a tree nobody changed.")
-    assert "FALLBACK" in step, (
-        "there is no announced fallback. After this branch merges the ref "
-        "stops existing in the siblings; a bare checkout then goes red for a "
-        "reason unrelated to the change, and a SILENT fallback is worse -- the "
-        "gates would measure main while the log implies the branch.")
+def _lock():
+    with open(REPO / "tools" / "sibling_lock.json", encoding="utf-8") as fh:
+        return json.load(fh)
 
 
-def test_the_integration_ref_is_tried_before_the_default_branch():
-    """After #64 merged, a branch the siblings do not share fell through to
-    their `main`, which lacks the files the gates read -- and the chain went
-    red for a reason unrelated to the change under test. The siblings' V_eta
-    integration branch must be tried BEFORE their default branch, and taking it
-    must be announced like every other fallback."""
+def test_the_checkout_is_the_locked_head_not_a_branch_name():
+    """The commits come from `tools/sibling_lock.json`, and nothing else.
+
+    The branch-resolution logic this replaced (branch under test, PR base,
+    integration ref, default branch) measured whatever those branches held at
+    run time; NDI's main moving twice on 2026-10-23 turned the chain red with
+    no change here. A surviving `head_ref` or `base_ref` would mean a branch
+    name can still decide what CI measures."""
     step = _checkout_step()
-    assert "SIBLING_INTEGRATION_REF:" in step, (
-        "no integration ref is declared for the sibling checkout")
-    loop = step.index('for cand in "requested:${SIBLING_REF}"')
-    integration = step.index('"the integration ref:${SIBLING_INTEGRATION_REF:-}"')
-    default = step.index('checkout --quiet "$def"')
-    assert loop < integration < default, (
-        "the integration ref is not tried before the siblings' default branch, "
-        "so it can never be taken")
-    # A push to main or a PR into main REQUESTS the default branch by name; if
-    # that counted as a match the integration ref would never be reached.
-    assert '[ "$ref" != "$def" ]' in step, (
-        "a request naming the siblings' default branch is taken as a match, "
-        "which skips the integration ref on every push to main and PR into main")
-    assert "the integration ref" in step and "FALLBACK" in step, (
-        "taking the integration ref is not announced; a silent fallback makes "
-        "the log imply one tree while the gates measure another")
+    assert re.search(r'--get "\$name" head', step), (
+        "the sibling checkout does not read the locked head")
+    assert re.search(r'checkout --quiet --detach "\$head"', step), (
+        "the sibling working tree is not checked out at the locked head")
+    for leftover in ("head_ref", "base_ref", "SIBLING_INTEGRATION_REF",
+                     "symbolic-ref"):
+        assert leftover not in step, (
+            f"`{leftover}` survives in the sibling checkout: a branch name can "
+            "still decide what CI measures, which is what the lock replaced")
+    assert "sibling_lock.py --check" in step, (
+        "the step does not verify the checkout against the lock afterwards")
+
+
+def test_the_lock_names_both_siblings_with_a_head_off_main():
+    """The lock exists (there is no fallback without it), names both siblings,
+    and locks each working tree to a commit that is NOT its main: the files the
+    gates read from the working tree (NDI's second pass, the migrators) are on
+    the V2 line, while the v1 truth is read from the locked main."""
+    lk = _lock()
+    sib = lk["siblings"]
+    print(f"DENOMINATOR: {len(sib)} sibling(s) in the lock, {len(SIBLINGS)} required")
+    assert set(SIBLINGS) <= set(sib), f"the lock is missing {set(SIBLINGS) - set(sib)}"
+    for name in SIBLINGS:
+        rec = sib[name]
+        for key in ("head", "main"):
+            assert re.fullmatch(r"[0-9a-f]{40}", rec[key]), (name, key, rec[key])
+        assert rec["head"] != rec["main"] and rec.get("head_ref") != "main", (
+            f"{name}'s locked working tree is its main; the gates that read the "
+            "V2 line would measure a tree without it")
+    assert lk.get("why") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", lk.get("date", "")), (
+        "the lock carries no `why` or no date")

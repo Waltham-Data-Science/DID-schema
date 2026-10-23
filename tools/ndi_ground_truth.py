@@ -83,6 +83,12 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+# THE SIBLING LOCK (tools/sibling_lock.json). Every read of NDI `origin/main`
+# below reads the LOCKED sha: `main_refs` yields (label, rev) pairs, the label
+# (`origin/main`) is what the artifact records and the rev is what git is asked
+# for, so the ground truth moves only when the lock does.
+import sibling_lock  # noqa: E402
 OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
@@ -116,7 +122,7 @@ SCHEMA_SCAN = {"candidates": 0, "unreadable": 0, "listing_failed": False,
 # the ref exists to avoid, since a V_eta feature branch of NDI can lag main.
 TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
                  "not_a_document_class": 0, "classes": 0,
-                 "refs_tried": [], "ref_used": None}
+                 "refs_tried": [], "ref_used": None, "rev_used": None}
 # Filled by `writer_dependencies`. `m_files_scanned` was already reported (its
 # own comment says an unbelievable 5 call sites across a thousand files is what
 # the denominator exposed) -- but it counted files that CAME BACK, so an
@@ -487,11 +493,11 @@ def ndi_templates(ndi_path):
     stats = TEMPLATE_SCAN
     stats.update({"candidates": 0, "unreadable": 0, "unparseable": 0,
                   "not_a_document_class": 0, "classes": 0,
-                  "refs_tried": [], "ref_used": None})
-    for ref in ("origin/main", "main"):
+                  "refs_tried": [], "ref_used": None, "rev_used": None})
+    for ref, rev in sibling_lock.main_refs("NDI-matlab"):
         try:
             files = subprocess.run(
-                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref, "--", DDIR],
+                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", rev, "--", DDIR],
                 capture_output=True, text=True, check=True).stdout.splitlines()
         except (OSError, subprocess.CalledProcessError) as exc:
             # NOT a neutral fallback. Dropping to `main`, and then to the
@@ -499,14 +505,14 @@ def ndi_templates(ndi_path):
             # to prevent -- a V_eta feature branch of NDI lags main and ships
             # FEWER classes. Recorded per ref so the report can name what it
             # actually read rather than implying origin/main.
-            stats["refs_tried"].append(f"{ref}: {type(exc).__name__}")
+            stats["refs_tried"].append(f"{ref} @ {rev}: {type(exc).__name__}")
             continue
         out = {}
         wanted = [f for f in files if f.endswith(".json")]
         stats["candidates"] = len(wanted)
         for f in wanted:
             try:
-                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
+                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{rev}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
             except (OSError, subprocess.CalledProcessError):
                 stats["unreadable"] += 1
@@ -523,9 +529,10 @@ def ndi_templates(ndi_path):
             out[rec.pop("_class")] = rec
         if out:
             stats["ref_used"] = ref
+            stats["rev_used"] = rev
             stats["classes"] = len(out)
-            return _merge_schema_deps(out, ndi_path, ref), ref
-        stats["refs_tried"].append(f"{ref}: 0 classes")
+            return _merge_schema_deps(out, ndi_path, rev), ref
+        stats["refs_tried"].append(f"{ref} @ {rev}: 0 classes")
     # working-tree fallback
     out = {}
     root = os.path.join(ndi_path, DDIR)
@@ -550,6 +557,7 @@ def ndi_templates(ndi_path):
             continue
         out[rec.pop("_class")] = rec
     stats["ref_used"] = "worktree"
+    stats["rev_used"] = "worktree"
     stats["classes"] = len(out)
     return _merge_schema_deps(out, ndi_path, "worktree"), "worktree"
 
@@ -611,20 +619,20 @@ def writer_dependencies(ndi_path, truth):
     wscan = WRITER_SCAN
     wscan.update({"candidates": 0, "unreadable": 0, "listing_failed": False,
                   "refs_tried": [], "ref_used": None})
-    for ref in ("origin/main", "main"):
+    for ref, rev in sibling_lock.main_refs("NDI-matlab"):
         try:
             files = subprocess.run(
-                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref],
+                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", rev],
                 capture_output=True, text=True, check=True).stdout.splitlines()
         except (OSError, subprocess.CalledProcessError) as exc:
-            wscan["refs_tried"].append(f"{ref}: {type(exc).__name__}")
+            wscan["refs_tried"].append(f"{ref} @ {rev}: {type(exc).__name__}")
             continue
         wanted = [f for f in files if f.endswith(".m")]
         wscan["candidates"] += len(wanted)
         wscan["ref_used"] = ref
         for f in wanted:
             try:
-                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
+                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{rev}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
             except (OSError, subprocess.CalledProcessError):
                 wscan["unreadable"] += 1
@@ -1007,7 +1015,10 @@ def main():
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
     wdeps, wscan = writer_dependencies(a.ndi, truth)
-    prov = classify_divergence(a.ndi, ref, truth, {r["ndi_class"]: r for r in div})
+    # The walk takes the REV (the locked sha), not the label: `ndi_ref` below
+    # is what the sha stands for, `ndi_main_commit` is the sha itself.
+    rev = TEMPLATE_SCAN["rev_used"]
+    prov = classify_divergence(a.ndi, rev, truth, {r["ndi_class"]: r for r in div})
     for r in div:
         r["provenance"] = prov.get(r["ndi_class"], {"verdict": "UNKNOWN"})
 
@@ -1020,6 +1031,9 @@ def main():
             "writer. Regenerate with tools/ndi_ground_truth.py. See "
             "V_eta_ground_truth_plan.md."),
         "ndi_ref": ref,
+        # The commit `ndi_ref` was read at (tools/sibling_lock.json). Changes
+        # only when the lock moves; null when no lock was in force.
+        "ndi_main_commit": rev if rev != ref else None,
         "summary": {
             "ndi_classes": len(truth),
             "v_alpha_classes_compared": len(div) + sum(
@@ -1046,7 +1060,9 @@ def main():
         json.dump(doc, f, indent=2, sort_keys=False)
         f.write("\n")
 
-    print(f"ndi ref:                {ref}")
+    print(f"ndi ref:                {ref}"
+          + (f" @ {rev} (sibling lock)" if rev != ref
+             else "" if ref == "worktree" else "  (NO SIBLING LOCK in force)"))
     print(f'NDI classes captured:   {len(truth)}')
     # THE HEADLINE'S OWN DENOMINATOR, printed immediately under it and
     # unconditionally. `NDI classes captured` is what tools/gates.py matches on

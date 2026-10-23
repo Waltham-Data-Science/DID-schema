@@ -123,6 +123,11 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_DIR = os.path.join(REPO, "schemas")
+sys.path.insert(0, HERE)
+# A citation into a sibling's `origin/main` is checked at the LOCKED sha
+# (tools/sibling_lock.json), keyed by the tree's name; a tree the lock does not
+# name (this repository, a test's fake checkout) reads its live origin/main.
+import sibling_lock  # noqa: E402
 
 
 # --------------------------------------------------------------------------
@@ -588,6 +593,7 @@ class Tree:
         self._ref_paths = None
         self._ref_by_base = None
         self.ref = None
+        self.rev = None     # what git is asked for; `ref` is what is reported
 
     def _walk(self):
         if self._paths is not None:
@@ -612,12 +618,13 @@ class Tree:
         self._ref_paths, self._ref_by_base = [], {}
         if not self.root:
             return
-        for ref in ("origin/main", "main"):
+        for ref, rev in sibling_lock.main_refs(self.name):
             res = subprocess.run(
-                ["git", "-C", self.root, "ls-tree", "-r", "--name-only", ref],
+                ["git", "-C", self.root, "ls-tree", "-r", "--name-only", rev],
                 capture_output=True, text=True, check=False)
             if res.returncode == 0:
                 self.ref = ref
+                self.rev = rev
                 self._ref_paths = [p for p in res.stdout.split("\n") if p]
                 for p in self._ref_paths:
                     self._ref_by_base.setdefault(os.path.basename(p), []).append(p)
@@ -691,7 +698,8 @@ def read_lines(tree, path, where):
                 return fh.read().splitlines()
         except OSError:
             return None
-    res = subprocess.run(["git", "-C", tree.root, "show", f"{where}:{path}"],
+    rev = tree.rev if where == tree.ref and tree.rev else where
+    res = subprocess.run(["git", "-C", tree.root, "show", f"{rev}:{path}"],
                          capture_output=True, text=True, check=False)
     if res.returncode != 0:
         return None

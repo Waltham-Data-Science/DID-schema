@@ -208,13 +208,24 @@ def _stub(step_name, code, printed):
     return step, saved
 
 
-def _run(argv):
-    """Run gates.main with stdout captured, returning (rc, text)."""
+def _run(argv, lock_problems=0):
+    """Run gates.main with stdout captured, returning (rc, text).
+
+    The sibling lock is STUBBED to `lock_problems`: these tests are about step
+    mechanics, and whether this machine's sibling checkouts sit at the locked
+    commits is not their subject. The lock's own behaviour is tested in
+    tests/test_sibling_lock.py, including through `gates.main`."""
     import contextlib
     import io
     buf = io.StringIO()
-    with contextlib.redirect_stdout(buf):
-        rc = g.main(argv)
+    saved = g.verify_lock
+    g.verify_lock = lambda out=print: (out(f"SIBLING LOCK: stubbed, {lock_problems} problem(s)")
+                                       or lock_problems)
+    try:
+        with contextlib.redirect_stdout(buf):
+            rc = g.main(argv)
+    finally:
+        g.verify_lock = saved
     return rc, buf.getvalue()
 
 

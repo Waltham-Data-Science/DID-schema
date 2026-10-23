@@ -4,9 +4,8 @@ on:
   push:
     branches: [main]
   pull_request:
-    # No branch filter -- a PR stacked on a feature branch (this file's own
-    # sibling-base-ref fallback exists for that case, see the checkout step)
-    # needs its tests to run just like a PR targeting main. Restricting the
+    # No branch filter -- a PR stacked on a feature branch needs its tests to
+    # run just like a PR targeting main. Restricting the
     # trigger to main meant the tests workflow never fired on PR #69 -- the
     # very PR that adds the base-ref fallback -- so the fallback was
     # unverifiable by CI on the PR that shipped it.
@@ -51,104 +50,64 @@ jobs:
 
       # THE SIBLING CHECKOUTS, AND EVERY DETAIL HERE IS LOAD-BEARING.
       #
-      # fetch-depth: 0 -- NOT a shallow clone, for two independent reasons.
-      # `tools/coverage.py:185` and `tools/ndi_ground_truth.py:449,539` read NDI
-      # from `origin/main` (falling back to `main`), and `ndi_ground_truth.py`
-      # additionally WALKS HISTORY for provenance (`git log --diff-filter=A` to
-      # find each class's add-commit). A depth-1 checkout has neither, and the
-      # failure would not be loud: the ref lookup falls through and the tool
-      # reports a smaller universe.
+      # THE COMMITS COME FROM THE SIBLING LOCK, `tools/sibling_lock.json`, not
+      # from branch names. Until 2026-10-23 this step resolved a branch per run
+      # (the branch under test, the PR base, the integration ref, the default
+      # branch), so the chain measured whatever those branches held that hour:
+      # NDI `origin/main` gained .m files twice in one day and turned the chain
+      # red with no change here. Decided by Jess Haley, 2026-10-23: build and
+      # check against locked commits; moving them is a deliberate commit
+      # (`python3 tools/sibling_lock.py --update`). There is NO fallback: a
+      # missing lock, or a locked commit the clone does not hold, fails here.
       #
-      # ref: the FEATURE branch, not main. `check_pipeline_parity.py` and the
-      # status board's migrator evidence read NDI's V_eta second pass
-      # (`ndi_second_pass/`), which exists only on the feature branch, while
-      # coverage and the ground truth deliberately want `origin/main`. One
-      # checkout serves both ONLY because fetch-depth 0 brings every remote
-      # branch with it, so `origin/main` resolves inside a feature-branch
-      # working tree -- which is exactly the shape of a developer's machine.
+      # A full clone (no --depth), for two independent reasons. The tools read
+      # NDI's main at the LOCKED `main` sha, which is not the clone's HEAD and
+      # must be in the object store; and `ndi_ground_truth.py` WALKS HISTORY from
+      # it for provenance (`git log --diff-filter=A` for each class's
+      # add-commit). A shallow clone has neither, and the failure would not be
+      # loud: the ref lookup falls through and the tool reports a smaller
+      # universe. So the step checks the locked main resolves, and fails if not.
       #
-      # The fallback is explicit and it is ANNOUNCED. After this branch merges,
-      # `claude/...` stops existing in the siblings and a bare checkout would go
-      # red for a reason that has nothing to do with the change under test. A
-      # silent fallback would be worse: the gates would then be measuring main
-      # while the log implies the branch. So the step prints which ref it got
-      # for each sibling, and says FALLBACK in words when it took one.
-      - name: Check out the sibling repositories the gates read
-        env:
-          SIBLING_REF: ${{ github.head_ref || github.ref_name }}
-          # When a PR stacks on a feature branch (this PR bases on the V_eta
-          # migration branch, and both siblings carry a branch of the SAME NAME
-          # with the migrators the gates need), the sibling's copy of that base
-          # branch is a better fallback than main. github.base_ref is the PR
-          # target; empty on a push/dispatch and then this is a no-op fallback.
-          SIBLING_BASE_REF: ${{ github.base_ref }}
-          # THE SIBLINGS' INTEGRATION BRANCH, tried after the two above and
-          # before their default branch. V_eta merged here (#64) while
-          # NDI-matlab and DID-matlab still carry the migrators, the second
-          # pass and every file the gates read on THIS branch -- their `main`
-          # does not have them yet. So a PR here whose branch name the siblings
-          # do not share (any branch cut after #64) fell through to their
-          # `main`, and the chain went red on 6 steps and 5 artifacts for a
-          # reason unrelated to the change: `main` itself is red that way
-          # (run 35894139718). DELETE THIS once both siblings merge it to main;
-          # until then their default branch is the wrong thing to measure.
-          # The checkout below prints which ref it took, so the fallback is
-          # never silent.
-          # 2026-10-21, Jess Haley: NDI-matlab #1021's head, claude/v2-object-layer.
-          # #1021 merged into V2 on 2026-10-23 (DID-matlab #218 the same day),
-          # so the integration ref is now `V2` in both siblings ([NDI ref
-          # fallback]: the integration branch leaves in the first commit after
-          # the merge). Their `main` still lacks the V2 code.
-          SIBLING_INTEGRATION_REF: V2
+      # The working tree is checked out DETACHED at the locked `head` (the
+      # siblings' V2 line, where the migrators and NDI's second pass live),
+      # while the locked `main` stays reachable in the same clone -- the shape
+      # of a developer's machine. `sibling_lock.py --check` then verifies both,
+      # exactly as `tools/gates.py` does before it runs anything.
+      - name: Check out the sibling repositories at the locked commits
         run: |
           set -euo pipefail
-          echo "SIBLING CHECKOUT"
-          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'; base ref '${SIBLING_BASE_REF:-<none>}'; integration ref '${SIBLING_INTEGRATION_REF:-<none>}'"
+          echo "SIBLING CHECKOUT (tools/sibling_lock.json)"
+          echo "  DENOMINATOR: 2 sibling repo(s) requested, each at its locked head"
           rc=0
           for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
             name="${spec%%:*}"; slug="${spec#*:}"
             dest="${GITHUB_WORKSPACE}/${name}"
+            if ! head=$(python3 tools/sibling_lock.py --get "$name" head) \
+               || ! main=$(python3 tools/sibling_lock.py --get "$name" main); then
+              echo "  ${name}: NOT IN THE SIBLING LOCK -- this is a failure, not a skip"
+              rc=1
+              continue
+            fi
             if ! git clone --quiet --no-checkout \
                  "https://github.com/${slug}.git" "$dest"; then
               echo "  ${name}: CLONE FAILED -- this is a failure, not a skip"
               rc=1
               continue
             fi
-            # Candidates in order: the branch under test, the PR base, the
-            # integration branch, then the sibling's default branch. A request
-            # that NAMES the default branch (a push to main, a PR into main)
-            # is not a match of its own: it is deferred to the end, so the
-            # integration branch is preferred over the siblings' `main` for as
-            # long as it exists.
-            def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
-                  | sed 's|^origin/||')
-            got=""
-            for cand in "requested:${SIBLING_REF}" \
-                        "the PR base ref:${SIBLING_BASE_REF:-}" \
-                        "the integration ref:${SIBLING_INTEGRATION_REF:-}"; do
-              label="${cand%%:*}"; ref="${cand#*:}"
-              [ -n "$ref" ] && [ "$ref" != "$def" ] || continue
-              if git -C "$dest" checkout --quiet "$ref" 2>/dev/null; then
-                got="$ref"
-                if [ "$label" = "requested" ]; then how="requested"
-                elif [ "$SIBLING_REF" = "$def" ]; then
-                  how="FALLBACK -- '${SIBLING_REF}' is the default branch here, deferred; took ${label}"
-                else how="FALLBACK -- '${SIBLING_REF}' does not exist here; took ${label}"; fi
-                break
-              fi
-            done
-            if [ -z "$got" ]; then
-              git -C "$dest" checkout --quiet "$def"
-              got="$def"; how="FALLBACK -- took the default branch"
+            if ! git -C "$dest" checkout --quiet --detach "$head"; then
+              echo "  ${name}: *** LOCKED HEAD ${head} IS NOT IN THE CLONE (a"
+              echo "  ${name}: *** force-pushed or deleted branch?). Move the lock."
+              rc=1
+              continue
             fi
-            has_main=$(git -C "$dest" rev-parse --verify -q origin/main >/dev/null \
+            has_main=$(git -C "$dest" cat-file -e "${main}^{commit}" 2>/dev/null \
                        && echo yes || echo NO)
             n=$(git -C "$dest" rev-list --count HEAD)
-            echo "  ${name}: ref=${got} (${how}); origin/main present=${has_main}; ${n} commit(s)"
+            echo "  ${name}: head=${head} (locked); locked main ${main} present=${has_main}; ${n} commit(s)"
             if [ "$has_main" = "NO" ]; then
-              echo "  ${name}: *** origin/main IS MISSING. coverage.py and"
-              echo "  ${name}: *** ndi_ground_truth.py read it; a shallow or"
-              echo "  ${name}: *** single-ref clone is not enough."
+              echo "  ${name}: *** THE LOCKED origin/main COMMIT IS MISSING."
+              echo "  ${name}: *** coverage.py and ndi_ground_truth.py read it; a"
+              echo "  ${name}: *** shallow or single-ref clone is not enough."
               rc=1
             fi
             # gates.py resolves the siblings ONCE and hands the answer to every
@@ -157,10 +116,13 @@ jobs:
             # explicitly SET variable is authoritative there, which is what
             # stops a child falling back to a default the driver rejected.
             case "$name" in
-              NDI-matlab) echo "NDI_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
-              DID-matlab) echo "DID_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
+              NDI-matlab) echo "NDI_MATLAB=${dest}" >> "$GITHUB_ENV"
+                          export NDI_MATLAB="$dest" ;;
+              DID-matlab) echo "DID_MATLAB=${dest}" >> "$GITHUB_ENV"
+                          export DID_MATLAB="$dest" ;;
             esac
           done
+          python3 tools/sibling_lock.py --check || rc=1
           exit $rc
 
       # PINNED, DELIBERATELY. This was `pip install ruff`, and on 2026-08-09 the
