@@ -284,7 +284,7 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `binaryseries_parameters` | in_progress | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). |
 | `cellTypeLabels` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `control_stimulus_ids` | retire | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (V_eta_stimulus_response_model_plan.md:616). |
+| `control_stimulus_ids` | retire | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (V_eta_stimulus_response_model_plan.md:618). |
 | `daqmetadatareader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
 | `daqmetadatareader_epochdata_ingested` | in_progress | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). |
 | `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (V_eta_daq_family_decisions.md:489). |
@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 284 decision line(s) accepted, 2 rejected; 41 cited by a class, 243 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 285 decision line(s) accepted, 2 rejected; 41 cited by a class, 244 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -366,52 +366,52 @@ field). If one decides a class's disposition, that class should cite it.
 
 - sync configuration amendment 1. "TEAM-SIGN-OFF [sync configuration amendment 1]" (V_eta_clock_alignment_cluster_plan.md:638).
 - data_body. "TEAM-SIGN-OFF [data_body]: jess@walthamdatascience.com /" (V_eta_data_body_model_plan.md:673).
-- data_body amendment 4. "TEAM-SIGN-OFF [data_body amendment 4]" (V_eta_data_body_model_plan.md:1283).
-- data_body amendment 3. "TEAM-SIGN-OFF [data_body amendment 3]" (V_eta_data_body_model_plan.md:1321).
-- data_type only for plain arrays. "Decided by Jess Haley, 2026-10-21 [data_type only for plain" (V_eta_data_body_model_plan.md:1339).
-- data_body amendment 5. "TEAM-SIGN-OFF [data_body amendment 5]" (V_eta_data_body_model_plan.md:1394).
-- sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (V_eta_data_body_model_plan.md:1398).
-- format is an ontology term. "Decided by Jess Haley, 2026-10-14 [format is an ontology" (V_eta_data_body_model_plan.md:1400).
-- NDI binary format. "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the" (V_eta_data_body_model_plan.md:1402).
-- covariates. "Decided by Jess Haley, 2026-10-22 [covariates]" (V_eta_data_body_model_plan.md:1471).
-- conditions stay on the statement. "Decided by Jess Haley, 2026-10-22 [conditions stay on the" (V_eta_data_body_model_plan.md:1473).
-- along by index. "Decided by Jess Haley, 2026-10-22 [along by index]" (V_eta_data_body_model_plan.md:1475).
-- matrix covariate. "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a" (V_eta_data_body_model_plan.md:1477).
-- onset time. "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus" (V_eta_data_body_model_plan.md:1479).
-- no complete. "Decided by Jess Haley, 2026-10-22 [no complete]" (V_eta_data_body_model_plan.md:1481).
-- bare dimension. "Decided by Jess Haley, 2026-10-22 [bare dimension]: a" (V_eta_data_body_model_plan.md:1483).
-- epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (V_eta_data_body_model_plan.md:1485).
-- tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (V_eta_data_body_model_plan.md:1487).
-- covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (V_eta_data_body_model_plan.md:1489).
-- presentation dimension term. "Decided by Jess Haley, 2026-10-22 [presentation dimension" (V_eta_data_body_model_plan.md:1493).
-- onset and offset terms. "Decided by Jess Haley, 2026-10-22 [onset and offset terms]" (V_eta_data_body_model_plan.md:1495).
-- row term deferred. "Decided by Jess Haley, 2026-10-22 [row term deferred]: the" (V_eta_data_body_model_plan.md:1497).
-- tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (V_eta_data_body_model_plan.md:1499).
-- covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (V_eta_data_body_model_plan.md:1501).
-- covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1503).
-- stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (V_eta_data_body_model_plan.md:1505).
-- index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (V_eta_data_body_model_plan.md:1507).
-- units bound. "Decided by Jess Haley, 2026-10-22 [units bound]" (V_eta_data_body_model_plan.md:1511).
-- remaining units bound. "Decided by Jess Haley, 2026-10-22 [remaining units bound]" (V_eta_data_body_model_plan.md:1513).
-- logical entries. "Decided by Jess Haley, 2026-10-22 [logical entries]: the" (V_eta_data_body_model_plan.md:1515).
-- irradiance. "Decided by Jess Haley, 2026-10-22 [irradiance]: a new" (V_eta_data_body_model_plan.md:1517).
-- ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (V_eta_data_body_model_plan.md:1519).
-- missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (V_eta_data_body_model_plan.md:1521).
-- audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (V_eta_data_body_model_plan.md:1523).
-- audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (V_eta_data_body_model_plan.md:1527).
-- harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (V_eta_data_body_model_plan.md:1529).
-- response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (V_eta_data_body_model_plan.md:1531).
-- dF/F as variable. "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F" (V_eta_data_body_model_plan.md:1533).
-- response variable nodes. "Decided by Jess Haley, 2026-10-22 [response variable" (V_eta_data_body_model_plan.md:1535).
-- unstated response variable. "Decided by Jess Haley, 2026-10-23 [unstated response" (V_eta_data_body_model_plan.md:1537).
-- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (V_eta_data_body_model_plan.md:1539).
-- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (V_eta_data_body_model_plan.md:1541).
-- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (V_eta_data_body_model_plan.md:1543).
-- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (V_eta_data_body_model_plan.md:1545).
-- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (V_eta_data_body_model_plan.md:1547).
-- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (V_eta_data_body_model_plan.md:1549).
-- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (V_eta_data_body_model_plan.md:1551).
-- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (V_eta_data_body_model_plan.md:1553).
+- data_body amendment 4. "TEAM-SIGN-OFF [data_body amendment 4]" (V_eta_data_body_model_plan.md:1285).
+- data_body amendment 3. "TEAM-SIGN-OFF [data_body amendment 3]" (V_eta_data_body_model_plan.md:1323).
+- data_type only for plain arrays. "Decided by Jess Haley, 2026-10-21 [data_type only for plain" (V_eta_data_body_model_plan.md:1341).
+- data_body amendment 5. "TEAM-SIGN-OFF [data_body amendment 5]" (V_eta_data_body_model_plan.md:1396).
+- sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (V_eta_data_body_model_plan.md:1400).
+- format is an ontology term. "Decided by Jess Haley, 2026-10-14 [format is an ontology" (V_eta_data_body_model_plan.md:1402).
+- NDI binary format. "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the" (V_eta_data_body_model_plan.md:1404).
+- covariates. "Decided by Jess Haley, 2026-10-22 [covariates]" (V_eta_data_body_model_plan.md:1473).
+- conditions stay on the statement. "Decided by Jess Haley, 2026-10-22 [conditions stay on the" (V_eta_data_body_model_plan.md:1475).
+- along by index. "Decided by Jess Haley, 2026-10-22 [along by index]" (V_eta_data_body_model_plan.md:1477).
+- matrix covariate. "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a" (V_eta_data_body_model_plan.md:1479).
+- onset time. "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus" (V_eta_data_body_model_plan.md:1481).
+- no complete. "Decided by Jess Haley, 2026-10-22 [no complete]" (V_eta_data_body_model_plan.md:1483).
+- bare dimension. "Decided by Jess Haley, 2026-10-22 [bare dimension]: a" (V_eta_data_body_model_plan.md:1485).
+- epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (V_eta_data_body_model_plan.md:1487).
+- tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (V_eta_data_body_model_plan.md:1489).
+- covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (V_eta_data_body_model_plan.md:1491).
+- presentation dimension term. "Decided by Jess Haley, 2026-10-22 [presentation dimension" (V_eta_data_body_model_plan.md:1495).
+- onset and offset terms. "Decided by Jess Haley, 2026-10-22 [onset and offset terms]" (V_eta_data_body_model_plan.md:1497).
+- row term deferred. "Decided by Jess Haley, 2026-10-22 [row term deferred]: the" (V_eta_data_body_model_plan.md:1499).
+- tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (V_eta_data_body_model_plan.md:1501).
+- covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (V_eta_data_body_model_plan.md:1503).
+- covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (V_eta_data_body_model_plan.md:1505).
+- stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (V_eta_data_body_model_plan.md:1507).
+- index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (V_eta_data_body_model_plan.md:1509).
+- units bound. "Decided by Jess Haley, 2026-10-22 [units bound]" (V_eta_data_body_model_plan.md:1513).
+- remaining units bound. "Decided by Jess Haley, 2026-10-22 [remaining units bound]" (V_eta_data_body_model_plan.md:1515).
+- logical entries. "Decided by Jess Haley, 2026-10-22 [logical entries]: the" (V_eta_data_body_model_plan.md:1517).
+- irradiance. "Decided by Jess Haley, 2026-10-22 [irradiance]: a new" (V_eta_data_body_model_plan.md:1519).
+- ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (V_eta_data_body_model_plan.md:1521).
+- missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (V_eta_data_body_model_plan.md:1523).
+- audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (V_eta_data_body_model_plan.md:1525).
+- audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (V_eta_data_body_model_plan.md:1529).
+- harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (V_eta_data_body_model_plan.md:1531).
+- response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (V_eta_data_body_model_plan.md:1533).
+- dF/F as variable. "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F" (V_eta_data_body_model_plan.md:1535).
+- response variable nodes. "Decided by Jess Haley, 2026-10-22 [response variable" (V_eta_data_body_model_plan.md:1537).
+- unstated response variable. "Decided by Jess Haley, 2026-10-23 [unstated response" (V_eta_data_body_model_plan.md:1539).
+- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (V_eta_data_body_model_plan.md:1541).
+- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (V_eta_data_body_model_plan.md:1543).
+- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (V_eta_data_body_model_plan.md:1545).
+- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (V_eta_data_body_model_plan.md:1547).
+- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (V_eta_data_body_model_plan.md:1549).
+- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (V_eta_data_body_model_plan.md:1551).
+- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (V_eta_data_body_model_plan.md:1553).
+- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (V_eta_data_body_model_plan.md:1555).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (V_eta_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (V_eta_ensemble_plan.md:218).
 - ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (V_eta_ensemble_plan.md:284).
@@ -428,15 +428,15 @@ field). If one decides a class's disposition, that class should cite it.
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is" (V_eta_entity_composition_plan.md:190).
 - 2026-10-08. "TEAM-SIGN-OFF: jess / 2026-10-08 -- method_parameters" (V_eta_entity_composition_plan.md:197).
 - dataset session reference. "Decided by Jess Haley, 2026-10-22 [dataset session" (V_eta_entity_composition_plan.md:209).
-- epoch dissolution before merge. "Decided by Jess Haley, 2026-10-22 [epoch dissolution before" (V_eta_epoch_plan.md:1506).
-- spike train body by bytes. "Decided by Jess Haley, 2026-10-22 [spike train body by" (V_eta_epoch_plan.md:1508).
-- spike dimension term. "Decided by Jess Haley, 2026-10-22 [spike dimension term]" (V_eta_epoch_plan.md:1510).
-- JH position and distance. "Decided by Jess Haley, 2026-10-22 [JH position and" (V_eta_epoch_plan.md:1512).
-- ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1514).
-- JH signed distance in pixels. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1516).
-- JH signed distance in metres. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1518).
-- JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1520).
-- imageStack scale label kept. "Decided by Jess Haley, 2026-10-23 [imageStack scale label" (V_eta_epoch_plan.md:1522).
+- epoch dissolution before merge. "Decided by Jess Haley, 2026-10-22 [epoch dissolution before" (V_eta_epoch_plan.md:1508).
+- spike train body by bytes. "Decided by Jess Haley, 2026-10-22 [spike train body by" (V_eta_epoch_plan.md:1510).
+- spike dimension term. "Decided by Jess Haley, 2026-10-22 [spike dimension term]" (V_eta_epoch_plan.md:1512).
+- JH position and distance. "Decided by Jess Haley, 2026-10-22 [JH position and" (V_eta_epoch_plan.md:1514).
+- ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1516).
+- JH signed distance in pixels. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1518).
+- JH signed distance in metres. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1520).
+- JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1522).
+- imageStack scale label kept. "Decided by Jess Haley, 2026-10-23 [imageStack scale label" (V_eta_epoch_plan.md:1524).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).
@@ -490,6 +490,7 @@ field). If one decides a class's disposition, that class should cite it.
 - confirm sheet matches. "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]" (V_eta_go_forward_class_audit.md:1092).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
+- nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:97).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
 - non-grating stimuli as methods. "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as" (V_eta_method_plan.md:190).
@@ -537,12 +538,12 @@ field). If one decides a class's disposition, that class should cite it.
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (V_eta_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (V_eta_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (V_eta_stimulus_model_plan.md:396).
-- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (V_eta_stimulus_response_model_plan.md:606).
-- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (V_eta_stimulus_response_model_plan.md:608).
-- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:610).
-- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (V_eta_stimulus_response_model_plan.md:612).
-- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (V_eta_stimulus_response_model_plan.md:618).
-- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (V_eta_stimulus_response_model_plan.md:621).
+- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (V_eta_stimulus_response_model_plan.md:608).
+- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (V_eta_stimulus_response_model_plan.md:610).
+- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (V_eta_stimulus_response_model_plan.md:612).
+- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (V_eta_stimulus_response_model_plan.md:614).
+- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (V_eta_stimulus_response_model_plan.md:620).
+- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (V_eta_stimulus_response_model_plan.md:623).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (V_eta_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (V_eta_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (V_eta_study_plan.md:29).

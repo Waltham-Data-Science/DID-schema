@@ -150,7 +150,7 @@
       "decided_in": {
         "document": "V_eta_stimulus_response_model_plan.md",
         "tag": "control as covariate",
-        "line": 616,
+        "line": 618,
         "kind": "Decided by"
       },
       "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
@@ -159,7 +159,7 @@
           "document": "V_eta_stimulus_response_model_plan.md",
           "tag": "control as covariate",
           "resolved": true,
-          "line": 616,
+          "line": 618,
           "kind": "Decided by",
           "why": null
         }
