@@ -156,20 +156,20 @@ being re-provisioned.
 
 ### The repositories
 
-| repo | branch line | open PR (2026-10-22) | what lives there |
+| repo | branch line | open PR (2026-10-23) | what lives there |
 |---|---|---|---|
 | did-schema (Waltham-Data-Science) | `main` | #88, head `claude/ecstatic-pascal-md91fw` | V_eta JSON, registries, plan documents, gate tools |
 | DID-matlab (VH-Lab) | `V2` | #218, head `claude/ecstatic-pascal-md91fw` | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
 | NDI-matlab (VH-Lab) | `V2` | #1021, head `claude/v2-object-layer` | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates are the v1 truth |
-| empty-ontology (Waltham-Data-Science) | `V2` | #24 (`claude/onset-offset-time`), then #25 (`claude/audit-terms-2026-10-22`); #22 and #23 merged | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
-| ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11 merged) | ontology lookups, `NDIC.txt` |
+| empty-ontology (Waltham-Data-Science) | `V2` | none (#22-#25 merged) | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
+| ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11, #12, #14 merged) | ontology lookups, `NDIC.txt` |
 
 did-schema also has a `V2` branch. Check with `git rev-parse origin/V2
 origin/main` before assuming what it holds.
 
-Merge order: empty-ontology #24 then #25 into `V2` first (#22, #23 and
-ndi-ontology-matlab #11 are merged); then did-schema #88 into `main`; then
-DID-matlab #218 and NDI-matlab #1021 together into `V2`. The PR table above
+Merge order: did-schema #88 into `main`; then DID-matlab #218 and NDI-matlab
+#1021 together into `V2` (empty-ontology #22-#25 and ndi-ontology-matlab #11,
+#12 and #14 are merged). The PR table above
 names branches, not heads: read a head with `git ls-remote` or `git rev-parse`
 when you need it, never from this file.
 
@@ -396,11 +396,12 @@ or the status board.
 
 ## 6. Open caveats (true at the heads named in the notes)
 
-- **No corpus is reported done.** Corpus integrity was measured on the #88
-  shape on 2026-10-22 (NDI-matlab runs 39742960222 B, 39742963989 Dab,
-  39746425434 Soph), at heads since superseded by the tenet-audit batch
-  (`review/tenet-audit-2026-10-22/`). Rerun on the final heads before reporting
-  any corpus done.
+- **No corpus is reported done.** On DID-matlab 82453f4 (Test code run
+  39907038888, 2026-10-23) every corpus passes integrity, and the done report
+  reads "DONE on the DID side; PENDING the NDI e2e for the second-pass
+  class(es)" for 20211116, B, Dab, JH and Soph. 13 v1 classes stay as v1
+  documents by decision ([v1 passthroughs accepted]), so a corpus holding one
+  is not done.
 - **`BindingConformance` is disarmed by default.** DID-matlab
   `+did2/+schema/cache.m` reads it with `envFlag('DID_ENFORCE_BINDING_CONFORMANCE')`,
   so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and
@@ -416,10 +417,6 @@ or the status board.
 - **Migrated `element` name and reference are stored together** as
   `'%s (ref %s)'` in `local_identifier`, without escaping
   (NDI `+vintage/elementFields.m`).
-- **Generated headers still name `build_v_eta.py`** (`V_eta_STATUS.md`,
-  `V_eta_final_class_set.md`), and the status board still describes
-  `_DECIDED_PENDING` / `_IN_PROGRESS` in that file. The generator text is
-  stale; the data is not.
 - **`imageStack_parameters` and the demo-series classes have no target and no
   dissolution recorded.** See the coverage ledger's no-target census.
 - **`binnedspikeratevm`'s unit (Hz vs spikes per bin) cannot be read**: the
