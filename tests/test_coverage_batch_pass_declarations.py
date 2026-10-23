@@ -373,10 +373,13 @@ class TestTheCommittedLedger(unittest.TestCase):
         # daqmetadatareader_epochdata_ingested joined. resolveEpochProbemap now
         # declares its archive as the stimulator manipulation's opaque_body
         # ([ingested epoch documents retired], item 61).
+        # SEVEN since did-schema 2026-10-23: generic_file joined. Its emitted
+        # set was confirmed ([generic_file emitted set]), so the pass's
+        # declaration now matches a decided set.
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
             ["daqmetadatareader_epochdata_ingested", "element",
-             "epochfiles_ingested", "fileReference", "stimulus_bath",
+             "epochfiles_ingested", "fileReference", "generic_file", "stimulus_bath",
              "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):

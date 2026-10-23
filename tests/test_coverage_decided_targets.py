@@ -150,6 +150,11 @@ PINNED_DISSOLUTIONS = {
     "stimulus_response_scalar_parameters": (
         "V_eta_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE"),
+    # MOVED HERE FROM PINNED_DISPUTED, 2026-10-23: the team ruled the two
+    # sentences one answer (Decided by Jess Haley [ngrid block into
+    # sampled_body]): no document is an ngrid; its contents go into the
+    # carrying document's sampled_body.
+    "ngrid": ("V_eta_image_model_plan.md", "is dissolved as a class"),
 }
 
 # NEITHER DICTIONARY ABOVE, and pinned instead as DISPUTED. In both cases ONE
@@ -160,14 +165,9 @@ PINNED_DISSOLUTIONS = {
 # `binaryseries_parameters` immediately. A tool must record the disagreement,
 # not settle it -- so `sampled_body` is recorded for neither.
 PINNED_DISPUTED = {
-    "ngrid": ("V_eta_image_model_plan.md",
-              "ngrid is DISSOLVED (deleted, not migrated)",
-              "phases into `sampled_body`"),
-    # `binaryseries_parameters` WAS HERE and is now in PINNED_DECIDED_TARGETS:
-    # the team ruled 2026-08-11 that the signature governs. `ngrid` is NOT
-    # affected -- nothing was decided about it, and the two rows only ever shared
-    # a shape. It is left alone here on purpose, so that this dictionary going
-    # empty would be a visible event rather than a quiet one.
+    # EMPTY since 2026-10-23, and that is a visible event: `ngrid` moved to
+    # PINNED_DISSOLUTIONS on its own ruling ([ngrid block into sampled_body]),
+    # as `binaryseries_parameters` moved to PINNED_DECIDED_TARGETS on 2026-08-11.
 }
 
 
@@ -197,7 +197,9 @@ def _signoff_lines(plan):
             else:
                 s, in_comment = head, True
                 break
-        if s.lstrip().startswith("TEAM-SIGN-OFF"):
+        # Either form of decision line (CLAUDE.md Operating Rule 4): an older
+        # `TEAM-SIGN-OFF` line, or `Decided by <team member>, <date> [<tag>]:`.
+        if s.lstrip().startswith(("TEAM-SIGN-OFF", "Decided by ")):
             out.append((n, s))
     return out
 
@@ -383,20 +385,19 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
             "reading has lost its source and must be re-derived, not kept")
 
 
-def test_ngrid_is_still_disputed_and_was_not_swept_along():
-    """The `binaryseries_parameters` ruling settled ONE row, not a shape.
+def test_ngrid_was_resolved_by_its_own_ruling():
+    """`ngrid` left DISPUTED only on a decision that names it.
 
-    Both rows were filed as DISPUTED together, for the same reason, in the same
-    sweep. That makes it cheap for a later tidy-up to "finish the job" and give
-    `ngrid` a target on the strength of a decision that never mentioned it -- the
-    exact move operating rule 4 forbids. `ngrid`'s own sign-off still says
-    DISSOLVED while its R4 section still says it phases into `sampled_body`, and
-    nobody has ruled between them.
+    The `binaryseries_parameters` ruling of 2026-08-11 settled one row, not the
+    shape; `ngrid` stayed contested until the team ruled on it directly
+    (2026-10-23, [ngrid block into sampled_body]). That line must still be
+    there, and the class must still name no target of its own.
     """
+    hits = [n for n, ln in _signoff_lines("V_eta_image_model_plan.md")
+            if "[ngrid block into sampled_body]" in ln]
+    assert hits, "the ruling that resolved ngrid is no longer in V_eta_image_model_plan.md"
     row = next(r for r in _rows() if r["v1_class"] == "ngrid")
-    assert row["no_target_reason"] == "disputed", (
-        "ngrid: no_target_reason={!r} -- if this row was resolved, it needs its "
-        "own signed ruling, not this one".format(row["no_target_reason"]))
+    assert row["no_target_reason"] == "dissolved", row["no_target_reason"]
     assert not row["decided_targets"], (
         "ngrid now names {} as a decided target. No decision says so.".format(row["decided_targets"]))
 

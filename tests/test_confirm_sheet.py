@@ -100,17 +100,18 @@ class TheMapIsKeyedDifferentlyFromTheLedger(unittest.TestCase):
         """The fix must not make everything findable."""
         self.assertIsNone(cs.lookup({"demo_ndi": {}}, "nothing_like_this"))
 
-    def test_against_the_live_map_only_one_stage_row_is_unmapped(self):
-        """`generic_file` folds in a batch post-pass and has no per-class row.
+    def test_against_the_live_map_no_stage_row_is_unmapped(self):
+        """Every stage row has a target-map row.
 
-        Pinned as ONE so that a regression in `lookup` -- which would push this
-        back to 8 -- fails here rather than showing up as seven phantom review
-        items on the sheet.
+        `generic_file` was the last one (it folds in a batch post-pass); its row
+        was added 2026-10-23 with its confirmed set ([generic_file emitted set]).
+        Pinned at ZERO so that a regression in `lookup` fails here rather than
+        showing up as phantom review items on the sheet.
         """
         led, tmap = cs.load(cs.LEDGER), cs.load(cs.TARGETS)["classes"]
         rows, _ = cs.build(led, tmap)
         unmapped = [r["v1_class"] for r in rows if r["bucket"] == cs.B_UNMAPPED]
-        self.assertEqual(unmapped, ["generic_file"])
+        self.assertEqual(unmapped, [])
 
 
 class EveryClassIsSorted(unittest.TestCase):

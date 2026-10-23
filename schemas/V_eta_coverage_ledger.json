@@ -37,7 +37,7 @@
           "passes": [
             "foldGenericFiles"
           ],
-          "stage_reached": 1
+          "stage_reached": 3
         }
       ],
       "credited_rung_3": [
@@ -110,6 +110,20 @@
             ]
           },
           "decided_targets": [
+            "opaque_body"
+          ],
+          "stage_reached": 3
+        },
+        {
+          "v1_class": "generic_file",
+          "emits": {
+            "foldGenericFiles": [
+              "observation + term",
+              "opaque_body"
+            ]
+          },
+          "decided_targets": [
+            "observation + term",
             "opaque_body"
           ],
           "stage_reached": 3
@@ -329,8 +343,8 @@
     "no_target": {
       "rows_naming_no_target": 9,
       "by_reason": {
-        "dissolved": 4,
-        "disputed": 1,
+        "dissolved": 5,
+        "disputed": 0,
         "passthrough": 2,
         "unrecorded": 3
       },
@@ -362,14 +376,15 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 37,
+        "1": 35,
         "2": 13,
-        "3": 52,
+        "3": 54,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
         "control_stimulus_ids",
-        "epochid"
+        "epochid",
+        "ngrid"
       ],
       "per_stage_state_counts": {
         "1": {
@@ -377,15 +392,15 @@
           "no": 13
         },
         "2": {
-          "not measured": 45,
-          "yes": 66,
-          "n/a": 4
+          "not measured": 43,
+          "yes": 67,
+          "n/a": 5
         },
         "3": {
-          "not measured": 45,
-          "yes": 50,
+          "not measured": 43,
+          "yes": 51,
           "no": 16,
-          "n/a": 4
+          "n/a": 5
         },
         "4": {
           "not measured": 115
@@ -393,8 +408,8 @@
       },
       "per_stage_satisfied_independently": {
         "1": 102,
-        "2": 66,
-        "3": 50,
+        "2": 67,
+        "3": 51,
         "4": 0
       },
       "capped": {
@@ -407,9 +422,9 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 39,
+          "1": 38,
           "2": 16,
-          "3": 50,
+          "3": 51,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -482,7 +497,7 @@
       },
       "no_target_recorded": {
         "denominator": 115,
-        "rows": 49,
+        "rows": 48,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -503,7 +518,6 @@
           "element_epoch",
           "epochid",
           "geneExpression",
-          "generic_file",
           "hartley_calc",
           "imageCollection",
           "imageStack_parameters",
@@ -600,14 +614,14 @@
       "governance": {
         "denominator": 115,
         "by_state": {
-          "decided": 70,
-          "DISPUTED": 1,
+          "decided": 71,
+          "DISPUTED": 0,
           "citation UNRESOLVED": 0,
           "proposed (not decided)": 44
         },
         "signed_by": {
           "cited by the class": 61,
-          "checked transcription on the row": 9
+          "checked transcription on the row": 10
         },
         "join": {
           "rows_inspected": 115,
@@ -714,9 +728,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 273,
+          "accepted_lines": 275,
           "accepted_lines_by_kind": {
-            "Decided by": 156,
+            "Decided by": 158,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1671,6 +1685,22 @@
               "tag": "rig minting with edges",
               "date": "2026-10-22",
               "anchor": "Decided by Jess Haley, 2026-10-22 [rig minting with edges]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1086,
+              "kind": "Decided by",
+              "tag": "generic_file emitted set",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [generic_file emitted"
+            },
+            {
+              "document": "V_eta_image_model_plan.md",
+              "line": 226,
+              "kind": "Decided by",
+              "tag": "ngrid block into sampled_body",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [ngrid block into"
             },
             {
               "document": "V_eta_linked_session_plan.md",
@@ -7606,21 +7636,25 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "generic_file"
+      "targets": [],
+      "decided_targets": [
+        "observation + term",
+        "opaque_body"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
-      "target_source": "passthrough",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 2,
+        "schema_targets_built": [
+          "observation + term",
+          "opaque_body"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": false,
@@ -7633,18 +7667,18 @@
             "opaque_body"
           ]
         },
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": "",
+      "how": "no per-document migrator: DID-matlab's batch post-pass did2.convert.foldGenericFiles folds each document 1 -> 2 into an `observation + term` (base.id kept; `variable` from the sibling ontologyLabel's node) and an `opaque_body` (format, filename, checksum and the attached file carried). A document it cannot fold is left as it is, counted under its refusal reason.",
+      "target_flags": "emitted by a batch post-pass, not a +migrators_j file; the pass declares it (BATCH-PASS-EMITS) and coverage.py credits it from that declaration.",
       "decided_by_citation": {
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
@@ -7694,9 +7728,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -7708,14 +7742,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.foldGenericFiles` -> `observation + term`, `opaque_body` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -7725,7 +7759,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9556,12 +9590,12 @@
       "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "decided",
-      "no_target_reason": "disputed",
-      "no_target_reason_label": "DISPUTED -- the record states two incompatible dispositions",
-      "no_target_account": "CONTESTED. The sign-off says `ngrid is DISSOLVED (deleted, not migrated)` and the plan's FINAL class block says `ngrid DELETED`, while the same document's R4 section says `ngrid` phases into `sampled_body` -- a fold WITH a target. No target is recorded, because only the dissolution is in the team's own words; the disagreement is left visible rather than settled by a tool.",
+      "no_target_reason": "dissolved",
+      "no_target_reason_label": "DISSOLVES -- no target class, and that is the signed answer",
+      "no_target_account": "DISSOLVED as a class: no V2 document is an `ngrid`. The block's contents go into the `sampled_body` of the document that carried it (hartley_calc, ontology_image, via jNgridBody).",
       "no_target_signoff": {
         "document": "V_eta_image_model_plan.md",
-        "signoff_fragment": "ngrid is DISSOLVED (deleted, not migrated)"
+        "signoff_fragment": "is dissolved as a class"
       },
       "target_gap": false,
       "build_state": {
@@ -9614,19 +9648,19 @@
       ],
       "governance_gap": null,
       "governance": {
-        "state": "DISPUTED",
+        "state": "decided",
         "signoff": {
           "document": "V_eta_image_model_plan.md",
-          "signoff_fragment": "ngrid is DISSOLVED (deleted, not migrated)"
+          "signoff_fragment": "is dissolved as a class"
         },
-        "why": "the transcription on this row says `V_eta_image_model_plan.md` states two incompatible dispositions. POSITIVE evidence that the record disagrees with itself -- not an absence"
+        "why": "a decision line in `V_eta_image_model_plan.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -9638,14 +9672,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "n/a",
+            "why": "signed to DISSOLVE in `V_eta_image_model_plan.md`: there is no target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "n/a",
+            "why": "signed to DISSOLVE in `V_eta_image_model_plan.md`: no target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,

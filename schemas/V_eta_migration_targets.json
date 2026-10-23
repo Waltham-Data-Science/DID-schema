@@ -595,6 +595,22 @@
         "sampled_body"
       ]
     },
+    "generic_file": {
+      "targets": [],
+      "carried": [],
+      "second_pass": [],
+      "how": "no per-document migrator: DID-matlab's batch post-pass did2.convert.foldGenericFiles folds each document 1 -> 2 into an `observation + term` (base.id kept; `variable` from the sibling ontologyLabel's node) and an `opaque_body` (format, filename, checksum and the attached file carried). A document it cannot fold is left as it is, counted under its refusal reason.",
+      "flags": "emitted by a batch post-pass, not a +migrators_j file; the pass declares it (BATCH-PASS-EMITS) and coverage.py credits it from that declaration.",
+      "confirmed_targets": {
+        "targets": [
+          "observation + term",
+          "opaque_body"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [generic_file emitted set]: answered YES (\"K2 a\") to the emitted set of foldGenericFiles as the end state.",
+        "signoff": "V_eta_go_forward_class_audit.md [generic_file emitted set]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
+      }
+    },
     "hartley_calc": {
       "targets": [
         "receptive_field_calculation",

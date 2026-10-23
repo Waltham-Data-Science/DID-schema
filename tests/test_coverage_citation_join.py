@@ -282,18 +282,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         # tools/decision_citations.py, the ADDED block). 69 -> 70 the same day:
         # `daqreader_mfdaq_epochdata_ingested` cites Jess's 2026-10-21 recording
         # decision ("Decided by Jess Haley", which names the
-        # `daqreader_*_epochdata_ingested` archives). Re-derive, do not bump.
+        # `daqreader_*_epochdata_ingested` archives). 70 -> 71 and DISPUTED
+        # 1 -> 0 on 2026-10-23: `ngrid` resolved by [ngrid block into
+        # sampled_body]. Re-derive, do not bump.
         st = self.gov["by_state"]
-        self.assertEqual(st[coverage.G_SIGNED], 70)
-        self.assertEqual(st[coverage.G_DISPUTED], 1)
+        self.assertEqual(st[coverage.G_SIGNED], 71)
+        self.assertEqual(st[coverage.G_DISPUTED], 0)
         self.assertEqual(st[coverage.G_UNSIGNED], 0)
         self.assertEqual(st[coverage.G_NOT_FOUND], 44)
 
-    def test_a_DISPUTED_record_outranks_a_citation(self):
+    def test_a_resolved_dispute_reads_as_decided(self):
+        # `ngrid` was the last DISPUTED row; the team ruled on it 2026-10-23.
         ngrid = next(r for r in self.rows if r["v1_class"] == "ngrid")
-        self.assertTrue(ngrid["decided_by_citation"],
-                        "precondition: ngrid cites a signed line")
-        self.assertEqual(ngrid["governance"]["state"], coverage.G_DISPUTED)
+        self.assertEqual(ngrid["governance"]["state"], coverage.G_SIGNED)
 
     def test_the_emitted_target_rows_are_counted_not_joined(self):
         j = self.gov["join"]

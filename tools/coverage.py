@@ -1099,41 +1099,20 @@ NO_TARGET_BY_DECISION = {
     # shape, and is deliberately not, as of 2026-08-11. It is now in
     # DECIDED_TARGETS_BY_SIGNOFF with TWO targets -- see the entry there for the
     # team ruling that resolved it and why the count is two rather than one.
-    # `ngrid` below is UNAFFECTED and stays contested: nothing about that row was
-    # decided, and the two rows only ever shared a shape.
 
-    # THE ROW THIS TABLE WAS BUILT FROM, LEFT VISIBLE RATHER THAN RESOLVED
-    # HERE. Two statements in the SAME document:
-    #
-    #   V_eta_image_model_plan.md:107  "## `ngrid` / `array` -- KILLED as a
-    #                                   data_type; `ngrid` -> `sampled_body`"
-    #     :116  "**`ngrid` -> phases into `sampled_body`** like every other
-    #            carrier (drop `ngrid_file` + `element_id`). NOT a `data_type`."
-    #   V_eta_image_model_plan.md:144  the TEAM-SIGN-OFF line: "ngrid is
-    #            DISSOLVED (deleted, not migrated)"; and the FINAL class block
-    #            at :163 reads "ngrid   DELETED".
-    #
-    # "phases into `sampled_body`" is a fold WITH a target; "deleted, not
-    # migrated" is a dissolution. Only the second is in the team's own words,
-    # so `sampled_body` is NOT recorded as a decided target (operating rule 4
-    # -- Claude may not promote its reading over the signature). But recording
-    # a clean dissolution would bury the disagreement, and this row has already
-    # flipped sides once in a single day: commit 94cacb3 called it a
-    # dissolution, 0eb58d9 corrected that to a fold citing the section heading,
-    # and the sign-off says the first was closer. Both commits read one half of
-    # the document.
-    #
-    # So it renders as DISPUTED, which is neither clean nor a silent gap, and
-    # it stays on the board until the team says which sentence governs.
+    # RESOLVED 2026-10-23. This row sat as DISPUTED because the plan's
+    # [image / ngrid] sign-off says "ngrid is DISSOLVED (deleted, not
+    # migrated)" while its R4 section says "`ngrid` -> phases into
+    # `sampled_body`". The team ruled both are one answer: no document is an
+    # ngrid, and the block's contents land in the carrying document's
+    # sampled_body (hartley_calc, ontology_image via jNgridBody). So the class
+    # has no target of its own: a dissolution.
     "ngrid": (
-        NO_TARGET_DISPUTED, "V_eta_image_model_plan.md",
-        "ngrid is DISSOLVED (deleted, not migrated)",
-        ("CONTESTED. The sign-off says `ngrid is DISSOLVED (deleted, not "
-        "migrated)` and the plan's FINAL class block says `ngrid DELETED`, "
-        "while the same document's R4 section says `ngrid` phases into "
-        "`sampled_body` -- a fold WITH a target. No target is recorded, "
-        "because only the dissolution is in the team's own words; the "
-        "disagreement is left visible rather than settled by a tool.")),
+        NO_TARGET_DISSOLVED, "V_eta_image_model_plan.md",
+        "is dissolved as a class",
+        ("DISSOLVED as a class: no V2 document is an `ngrid`. The block's "
+        "contents go into the `sampled_body` of the document that carried it "
+        "(hartley_calc, ontology_image, via jNgridBody).")),
 }
 
 # class -> (targets, plan document, fragment on the sign-off line, the mapping

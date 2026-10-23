@@ -18,9 +18,9 @@ else is **Proposed (not decided)**, whatever any prose says.
 | settled (persist) | 92 |
 | settled (retire) | 77 |
 | **still open (`in_progress`)** | **7** |
-| **`retire` with no migrator YET** | **3** |
-| **open classes in all** | **10** |
-| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 10 |
+| **`retire` with no migrator YET** | **2** |
+| **open classes in all** | **9** |
+| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 9 |
 | &nbsp;&nbsp;**proposed (not decided), awaiting review** | **0** |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
@@ -50,8 +50,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 194 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 36 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 57072 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 36980 |
+| build: migrator lines inspected | 57039 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 36947 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 20092 |
 | build: classes queried | 7 |
 | build: open classes MINTED as a document class | 1 |
@@ -256,13 +256,13 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 ## Proposed (not decided) -- awaiting review
 
-DENOMINATOR: 10 open class(es); 0 cite no decision line that resolves.
+DENOMINATOR: 9 open class(es); 0 cite no decision line that resolves.
 
 None -- every open class cites a decision line that exists.
 
 ## Decided, awaiting build -- the open classes
 
-DENOMINATOR: 10 open class(es); 10 cite a decision line that exists. The decision column is the line's own text, not a summary.
+DENOMINATOR: 9 open class(es); 9 cite a decision line that exists. The decision column is the line's own text, not a summary.
 
 | class | targets built | decided in | decision |
 |---|---|---|---|
@@ -271,7 +271,6 @@ DENOMINATOR: 10 open class(es); 10 cite a decision line that exists. The decisio
 | `binaryseries_parameters` | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `calculator` | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm...` |
 | `daqmetadatareader_epochdata_ingested` | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (V_eta_ingested_payload_findings.md:276). | jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are n... |
-| `generic_file` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `interaction_purpose` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `projectvar` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
@@ -310,7 +309,7 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `geneExpression` | retire | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneList` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneListMapping` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `generic_file` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). |
+| `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). |
 | `hartley_calc` | retire | no target recorded | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (V_eta_ngrid_family_findings.md:358). |
 | `image` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `imageCollection` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:789). |
@@ -362,7 +361,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 273 decision line(s) accepted, 2 rejected; 41 cited by a class, 232 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 275 decision line(s) accepted, 2 rejected; 41 cited by a class, 234 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -484,6 +483,8 @@ field). If one decides a class's disposition, that class should cite it.
 - required acquisition edges. "Decided by Jess Haley, 2026-10-22 [required acquisition" (V_eta_go_forward_class_audit.md:1080).
 - instrument and device. "Decided by Jess Haley, 2026-10-22 [instrument and device]" (V_eta_go_forward_class_audit.md:1082).
 - rig minting with edges. "Decided by Jess Haley, 2026-10-22 [rig minting with edges]" (V_eta_go_forward_class_audit.md:1084).
+- generic_file emitted set. "Decided by Jess Haley, 2026-10-23 [generic_file emitted" (V_eta_go_forward_class_audit.md:1086).
+- ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
@@ -613,7 +614,7 @@ field). If one decides a class's disposition, that class should cite it.
 | dissolved → subject | 1 |
 | persist | 1 |
 
-### `retire`, but NO MIGRATOR YET -- 3 rows
+### `retire`, but NO MIGRATOR YET -- 2 rows
 
 Marked `retire` in the ledger with **no per-class migrator and no `how`
 note**. `retire` reads as settled, so they are counted with the open classes
@@ -636,9 +637,8 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 21 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal in 21 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
 - `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
-- `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
 
