@@ -106,8 +106,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/acquisition_epoch.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "retire",
+            "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). V_eta_epoch_plan.md [JH position and distance]"
         },
         {
             "class_name": "acquisition_reader",

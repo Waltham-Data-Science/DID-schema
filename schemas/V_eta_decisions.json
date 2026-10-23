@@ -6,13 +6,13 @@
     "classes_citing": 73,
     "citations": 81,
     "citations_unresolved": 0,
-    "open_classes": 9,
+    "open_classes": 8,
     "by_state": {
       "decided": 73,
       "proposed (not decided)": 0
     },
     "open_by_state": {
-      "decided": 9,
+      "decided": 8,
       "proposed (not decided)": 0
     },
     "state_labels": {
@@ -23,8 +23,8 @@
   "by_class": {
     "acquisition_epoch": {
       "class_name": "acquisition_epoch",
-      "disposition": "in_progress",
-      "open": true,
+      "disposition": "retire",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1850,8 +1850,8 @@
         "packages_missing": [],
         "files_read": 230,
         "lines_read": 57039,
-        "classes_queried": 7,
-        "classes_emitted_as_document_class": 1,
+        "classes_queried": 6,
+        "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
           "DID-matlab:convert/resolveEpochProbemap.m:1568 (entry.class)",
           "DID-matlab:convert/resolveEpochProbemap.m:949 (kind.className)",
@@ -1897,7 +1897,7 @@
           "batch_post_pass": 20092
         },
         "classes_emitted_as_document_class_by_group": {
-          "per_document_migrator": 1,
+          "per_document_migrator": 0,
           "batch_post_pass": 0
         },
         "mint_sites_by_idiom_by_group": {
@@ -1996,7 +1996,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 7
+        "classes_queried": 6
       },
       "batch_consumers": {
         "files_scanned": 21,
@@ -2011,119 +2011,11 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 5,
+      "b_built_awaiting_corpus_proof": 4,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
     "classes": [
-      {
-        "class_name": "acquisition_epoch",
-        "decision": "decided",
-        "decided_in": "V_eta_epoch_plan.md:884 [epoch]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "12 consuming reference(s) (2 per-document migrator, 10 batch post-pass)",
-          "minted as a document class at 1 site(s) (1 per-document migrator)"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 12,
-        "consuming_refs": [
-          "DID-matlab:convert/epochMint.m:2914 (guard)",
-          "DID-matlab:convert/epochMint.m:2915 (field_read)",
-          "DID-matlab:convert/epochMint.m:2916 (field_read)",
-          "DID-matlab:convert/epochMint.m:2919 (field_read)",
-          "DID-matlab:convert/epochMint.m:830 (guard)",
-          "DID-matlab:convert/resolveEpochProbemap.m:1526 (guard)"
-        ],
-        "n_emitted_class_refs": 1,
-        "emitted_class_refs": [
-          "DID-matlab:migrators_j/element_epoch.m:139 (emitted_class)"
-        ],
-        "emission_counts_as_build": true,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:migrators_j/element_epoch.m:141 (field_write)"
-        ],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:convert/v1_to_v2.m:982 (named)"
-        ],
-        "n_comment_mentions": 61,
-        "comment_mentions": [
-          "DID-matlab:convert/epochMint.m:25 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:27 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:2903 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:2973 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:41 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:454 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:563 (guard)",
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:670 (guard)"
-            ],
-            "n_emitted_class_refs": 1,
-            "emitted_class_refs": [
-              "DID-matlab:migrators_j/element_epoch.m:139 (emitted_class)"
-            ],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:migrators_j/element_epoch.m:141 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 31,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:672 (comment_mention)",
-              "DID-matlab:migrators_j/binaryseries_parameters.m:39 (comment_mention)",
-              "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:168 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:109 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:111 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:115 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 10,
-            "consuming_refs": [
-              "DID-matlab:convert/epochMint.m:2914 (guard)",
-              "DID-matlab:convert/epochMint.m:2915 (field_read)",
-              "DID-matlab:convert/epochMint.m:2916 (field_read)",
-              "DID-matlab:convert/epochMint.m:2919 (field_read)",
-              "DID-matlab:convert/epochMint.m:830 (guard)",
-              "DID-matlab:convert/resolveEpochProbemap.m:1526 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/v1_to_v2.m:982 (named)"
-            ],
-            "n_comment_mentions": 30,
-            "comment_mentions": [
-              "DID-matlab:convert/epochMint.m:25 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:27 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:2903 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:2973 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:41 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:454 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
       {
         "class_name": "app",
         "decision": "decided",
