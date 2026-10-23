@@ -79,9 +79,11 @@ LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
 # demoNDISeriesMixed, fileReference, geneExpression, geneList, geneListMapping,
 # spatialGeneExpressionCells/Pyramid/Tiles -- and #67 added `calculator` as a
 # V_eta class whose NDI v1 name matches, so it enters the ledger by the join).
+# NDI-matlab origin/main then gained lightsheetZarrPyramid and lightsheetZarrLevel
+# (NDI-matlab#979, 2026-10), so 115.
 # A classifier whose denominator quietly shrinks is the failure every operating
 # rule in CLAUDE.md is written against.
-V1_UNIVERSE = 113
+V1_UNIVERSE = 115
 
 # The completion rungs, written out here rather than imported so a change to
 # coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
@@ -101,8 +103,8 @@ FIXTURE_ROW = {
     "v1_class": "fixture_class", "veta_class": None, "targets": [],
     "decided_targets": [], "second_pass": [], "no_target_reason": None,
     "decided_signoff": None, "no_target_signoff": None,
-    "decided_targets_source": None, "decided_by_family": None,
-    "governance_gap": None, "families_naming_this_class": [],
+    "decided_targets_source": None, "decided_by_citation": None,
+    "governance_gap": None, "decision_citations": [],
     "build_state": {"schema_targets_named": 0, "schema_targets_built": [],
                     "schema_targets_missing": [],
                     "migrator_emits_decided_targets": False,
@@ -300,15 +302,15 @@ def check_governance_cannot_move_a_build_stage(rows):
             if flavour == "flattering":
                 probe["decided_signoff"] = {"document": "X.md",
                                             "signoff_fragment": "f"}
-                probe["decided_by_family"] = {
-                    "family": "f", "document": "X.md", "line": 1,
-                    "signoff": "s", "matched_on": "v1_class",
-                    "matched_name": r["v1_class"], "conflict": []}
+                probe["decided_by_citation"] = {
+                    "document": "X.md", "tag": "t", "resolved": True,
+                    "line": 1, "kind": "TEAM-SIGN-OFF", "decision": "s",
+                    "matched_on": "v1_class", "matched_name": r["v1_class"]}
                 probe["governance_gap"] = None
             else:
                 probe["decided_signoff"] = None
-                probe["decided_by_family"] = None
-                probe["governance_gap"] = coverage.GAP_NO_FAMILY
+                probe["decided_by_citation"] = None
+                probe["governance_gap"] = coverage.GAP_NO_CITATION
             again = coverage.stage_ladder(probe, coverage.CORPUS_SCAN)
             assert again["reached"] == r["stage"]["reached"], (
                 f"{r['v1_class']}: changing GOVERNANCE ({flavour}) moved the "
@@ -746,6 +748,9 @@ class TestTheCommittedLedger(unittest.TestCase):
         # eight no longer belong here. If this list grows an entry, the
         # question is which channel cannot see the emitter, not whether
         # the number needs updating.
+        # (lightsheetZarrLevel/Pyramid were here for a few hours on 2026-10-14,
+        # between their targets being built and their DID-matlab migrators,
+        # 1aece9a, landing.)
         self.assertEqual(failed, [
             "ensemble", "projectvar", "stimulus_parameter_table"])
         self.assertNotIn(
@@ -764,7 +769,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(ntr["row_names"], want)
         self.assertEqual(ntr["rows"], len(want))
         self.assertEqual(ntr["moved_by_the_signature_join"], 0)
-        self.assertIn("signs a FAMILY", ntr["why_the_join_moves_none_of_them"])
+        self.assertIn("names a decision LINE", ntr["why_the_join_moves_none_of_them"])
         with open(LEDGER_MD) as fh:
             self.assertIn(f'**{ntr["rows"]} of {ntr["denominator"]} rows record '
                           "NO TARGET CLASS**", fh.read())
@@ -1260,9 +1265,13 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # confirmed sets now name relative_time_reference, which the migrators do
         # not emit yet. They sit at stage 2 with rung 3 `no` until the PR #76
         # DID-matlab emitter change lands -- pinned below.
+        # element RETURNED to rung 3 on 2026-10-21: DID-matlab #218 declares the
+        # resolveEpochProbemap batch pass as minting its recording observations
+        # and their opaque bodies ([epoch files as data bodies]). It reaches 3 by
+        # a declared batch-pass emission, not by a confirmed per-class one.
         st = rows["element"]["stage"]
-        self.assertEqual(st["reached"], 2, f"element: {st}")
-        self.assertEqual(st["blocked_by"], 3, f"element: {st}")
+        self.assertEqual(st["reached"], 3, f"element: {st}")
+        self.assertEqual(st["blocked_by"], 4, f"element: {st}")
         # pyraview LEFT the confirmed rows 2026-09-29: jess signed [pyraview levels],
         # which supersedes its 2026-08-13 confirmation with decided_targets
         # [sampled_body]. It now reads rung 3 `yes` -- AT THE CLASS LEVEL ONLY: the
@@ -1288,7 +1297,8 @@ class ConfirmedTargetsCase(unittest.TestCase):
     def test_a_confirmation_is_NOT_a_governance_citation(self):
         # It briefly was, and every one of the five went `signed` while citing a
         # record with no document. Confirming a target set is not signing a
-        # disposition; the governance citation must still come from the family.
+        # disposition; the governance citation must still come from the class's own
+        # decision citation (tools/decision_citations.py).
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
@@ -1310,20 +1320,28 @@ class ConfirmedTargetsCase(unittest.TestCase):
                 and v.get("decided_targets")]
         self.assertEqual(both, [], f"rows claiming both: {both}")
 
-    def test_an_authored_unread_target_counts_as_emitted_for_rung_3(self):
-        # element's raw-recording observation is emitted but underivable, so it
-        # lives in `unread_targets`. Excluding it from rung 3 would fail the
-        # rung for a limit of the READER rather than a fact about the migrator.
+    def test_element_rung_3_comes_from_the_batch_pass_not_from_element_m(self):
+        # INVERTED AGAIN 2026-10-21 (DID-matlab #218 a3b491e): element.m itself
+        # still mints no observation, and rung 3 must not pretend it does. The
+        # observations now come from the resolveEpochProbemap batch pass, which
+        # declares them, so rung 3 reads `yes` and its reason names that pass.
+        # History of the earlier inversion, kept:
+        # INVERTED 2026-10-21, not updated. This test pinned that element's
+        # AUTHORED `unread_targets` (the raw-recording observations, minted
+        # through a local helper `mk` the walker could not read) counted as
+        # emitted for rung 3. The DID-matlab #88 port (#218, 229c12e) removed
+        # `mk`: element.m now builds through did2.build, the derivation reads
+        # it in full, and it mints no observation. So the authored entry is
+        # gone from V_eta_migration_targets.json (with that evidence in the
+        # row's flags), and the confirmed observations must now read as NOT
+        # emitted -- the gap is real, and hiding it is what this rung is for.
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]
-        self.assertIn("voltage_observation", el["decided_targets"])
-        # Was `reached == 3`. Since 2026-09-25 element stops at rung 3 on the
-        # time anchor (relative_time_reference, not yet emitted), so what this test
-        # protects -- the unread observation counting as emitted -- is checked on
-        # the rung-3 detail instead: the ONLY missing target is the anchor.
-        self.assertEqual(el["stage"]["reached"], 2)
+        self.assertIn("observation + voltage", el["decided_targets"])
+        self.assertNotIn("observation + voltage", el["targets"])
         rung3 = next(r for r in el["stage"]["ladder"] if r["stage"] == 3)
-        self.assertEqual(rung3["state"], "no")
-        self.assertIn("relative_time_reference", rung3["why"])
+        self.assertEqual(rung3["state"], "yes")
+        self.assertIn("resolveEpochProbemap", rung3["why"])
+        self.assertIn("observation + voltage", rung3["why"])

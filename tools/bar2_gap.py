@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
-"""bar2_gap.py -- the PER-CORPUS Bar-2 gap.
+"""bar2_gap.py -- is each corpus DONE, and if not, what is missing.
+
+THE WORDS (2026-10-21, Jess Haley: "Bar-2 means done. Bar-1 is just a step to
+get to Bar-2."). This tool used to print "BAR-1" and "BAR-2"; it now prints
+INTEGRITY and DONE. The file keeps its name because DID-matlab's corpus
+workflows call it by path.
+
+  INTEGRITY  nothing quarantined, orphaned or fragmented. A CI gate, never
+             reported as progress. (Formerly "Bar-1".)
+  DONE       per corpus: integrity + every class that corpus contains at its
+             decided shape + corpus-proven. Reported as done / not done, with
+             the list of what is missing. (Formerly "Bar-2".)
 
 WHY THIS EXISTS. On 2026-08-21 a green corpus run was reported as "Bar-2 held."
-It was not: a green run gates BAR-1 (0 quarantine, 0 orphans -- the documents
-migrate and validate). BAR-2 is every document at its DECIDED FINAL V_eta shape,
-and NO instrument emitted a per-corpus Bar-2 verdict. The coverage ladder is
+It was not: a green run shows INTEGRITY only (0 quarantine, 0 orphans -- the
+documents migrate and validate). DONE needs every document at its DECIDED FINAL
+V_eta shape, and NO instrument emitted a per-corpus verdict on that. The coverage ladder is
 keyed to the 102-class UNIVERSE, not to a corpus; its rung 3 reads `not measured`
 both when a class is genuinely undecided AND when the migrator already emits the
 decided target (no gap to flag) -- two opposite facts under one label; and it
@@ -23,7 +34,7 @@ INPUTS
 VERDICT per (corpus, v1 class present in it)
   SUPERSEDED   ladder rung 3 == 'no' -- the migrator emits a shape the signed
                model SUPERSEDES (e.g. stimulus_presentation -> the old shape, not
-               item_manipulation, was timed_sequence_manipulation). A definite Bar-2 failure.
+               item_manipulation, was timed_sequence_manipulation). Definitely not done.
   HUSK/BRIDGE  the class is in HUSK_BRIDGE below -- the migrator emits SOMETHING,
                but the source documents survive undeleted (a husk) or a raw v1
                string is preserved (a bridge). Not at final shape. The ladder
@@ -34,12 +45,13 @@ VERDICT per (corpus, v1 class present in it)
                This is "at decided shape" -- still needs stage 4 (corpus-proof)
                to be PROVEN, which only a clean corpus run supplies.
   UNDECIDED    no decided shape is recorded (no targets, or target_source unknown)
-               -- Bar-2 cannot even be assessed.
+               -- DONE cannot even be assessed.
 
-A corpus is at Bar-2 iff every class it contains is AT_DECIDED *and* the corpus
-migrated globally clean (0 quarantine / orphan / fragment -- Bar-1, which this
-tool takes from the report and REQUIRES, since a document at the right shape that
-does not validate is not at Bar-2 either).
+A corpus is DONE (on the DID side) iff every class it contains is AT_DECIDED
+*and* the corpus passes INTEGRITY (0 quarantine / orphan / fragment, which this
+tool takes from the report and REQUIRES, since a document at the right shape
+that does not validate is not done either). Corpus-proof (ladder stage 4) is
+reported as pending: this tool does not measure it.
 
 THE TOOL DECIDES NOTHING AND WRITES NO SIGNATURE. It reads the signed record and
 reports. It prints its denominator first (Operating Rule 5).
@@ -104,17 +116,45 @@ HUSK_BRIDGE = {
 # corpus_proven read) is taken BEFORE these passes run, so the class is still
 # PRESENT in it. This overlay says the decided shape EXISTS and is e2e-green; it
 # does NOT claim this particular report exercised it. A fully authoritative
-# per-corpus Bar-2 needs the census of the FULL ndi.migrate.local output.
+# per-corpus DONE verdict needs the census of the FULL ndi.migrate.local output.
 SECOND_PASS = {
     "stimulus_presentation": {
-        "emits": "visual_grating (deduped) + item_manipulation "
-                 "(+ item.control_item; was timed_sequence, renamed 2026-10-04)",
-        "assembler": "ndi.migrate.internal.stimulusPresentationToTimedSequence "
-                     "(local.m resolveStimulusPresentations, wired :723)",
-        "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "
-               "signed decomposition replaced the flattening pass 2026-08-17.",
+        "emits": "one method document per distinct stimulus (deduped; was "
+                 "visual_grating until 2026-10-21) + manipulation + item (was "
+                 "timed_sequence until 2026-10-04) whose value has one presentation "
+                 "dimension and the covariates `onset time`, `offset time` (when v1 "
+                 "recorded ends) and `control condition` (XCO:0000099, logical; when v1 "
+                 "named a control); item.value.offset / control_item were deleted "
+                 "2026-10-22 (data_body plan AMENDMENT 6)",
+        "assembler": "ndi.migrate.internal.stimulusPresentationToItem "
+                     "(local.m, the stimulus step)",
+        "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green) on the "
+               "SUPERSEDED key shape; the covariate shape (AMENDMENT 6, 2026-10-22) is "
+               "NOT YET MEASURED end to end. The signed decomposition replaced the "
+               "flattening pass 2026-08-17.",
         "caveat": "a presentation with no responding animal is left as "
-                  "passthrough by the pass (measured as single_grating_candidates).",
+                  "passthrough by the pass (measured as single_grating_candidates). "
+                  "At NDI 30a120cb3 the pass still writes item.value.offset and "
+                  "item.value.control_item (stimulusPresentationToItem.m), the shape "
+                  "AMENDMENT 6 deleted.",
+    },
+    "control_stimulus_ids": {
+        "emits": "NO V2 document: the control is folded into the presentation's "
+                 "item value as the `control condition` covariate (XCO:0000099, "
+                 "logical, true where the presentation was a control; all false for "
+                 "a v1 NaN control). Jess Haley, 2026-10-22 [control as covariate], "
+                 "V_eta_stimulus_response_model_plan.md, superseding "
+                 "[control record is a calculation]; responses point at the "
+                 "presentation only.",
+        "assembler": "the stimulus step of ndi.migrate.local, beside "
+                     "ndi.migrate.internal.stimulusPresentationToItem. At NDI "
+                     "30a120cb3 it is still ndi.migrate.internal.controlCalculation "
+                     "(local.m), minting the superseded calculation + item.",
+        "e2e": "NOT YET MEASURED on the covariate shape (TestControlCalculation, "
+               "NDI #1021 6d1585916, covered the superseded calculation).",
+        "caveat": "until NDI's second pass moves, a migrated corpus carries the "
+                  "superseded control calculation; the overlay records the decided "
+                  "shape, not a measurement of it.",
     },
     "ensemble": {
         "emits": "member_of edges + a derived (times,ids) cache",
@@ -215,7 +255,7 @@ def read_report(path):
             census[k] = v.get("total_docs", v.get("count", 0))
         else:
             census[k] = v
-    # global cleanliness (Bar-1) -- required for Bar-2.
+    # INTEGRITY (formerly "Bar-1") -- required for DONE.
     clean = {
         "quarantine": rep.get("quarantine_count", (rep.get("summary") or {}).get("quarantine_count", 0)),
         "orphans": ((rep.get("reference_integrity") or {}).get("orphan_count", 0)),
@@ -250,7 +290,7 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
     print(f"DENOMINATOR: {len(roots)} root(s) named, {len(reports)} corpus "
           f"report(s) found; {len(ledger)} ledger rows")
     if not reports:
-        print("*** NO CORPUS REPORTS FOUND -- Bar-2 is a per-corpus measure and "
+        print("*** NO CORPUS REPORTS FOUND -- DONE is a per-corpus measure and "
               "needs the reports a real run uploads. Nothing to assess.")
         return 2
     any_gap = False
@@ -261,10 +301,11 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
         present = sorted(c for c, n in census.items() if (n or 0) > 0)
         print(f"\n================ corpus {corpus} "
               f"({len(present)} v1 class(es), {clean['total']} doc(s)) ================")
-        bar1 = (clean["quarantine"] == 0 and clean["orphans"] == 0 and clean["fragments"] == 0)
-        print(f"  BAR-1 (migrates+validates): quarantine {clean['quarantine']}, "
+        integrity = (clean["quarantine"] == 0 and clean["orphans"] == 0 and clean["fragments"] == 0)
+        print(f"  INTEGRITY (nothing quarantined, orphaned or fragmented): "
+              f"quarantine {clean['quarantine']}, "
               f"orphans {clean['orphans']}, fragments {clean['fragments']} "
-              f"-> {'PASS' if bar1 else 'FAIL'}")
+              f"-> {'PASS' if integrity else 'FAIL'}")
         buckets = {AT: [], "SECOND_PASS": [], "SUPERSEDED": [],
                    "HUSK": [], "BRIDGE": [], "UNDECIDED": []}
         for c in present:
@@ -275,39 +316,40 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
         n_at = len(buckets[AT])
         n_sp = len(buckets["SECOND_PASS"])
         n_fail = sum(len(buckets[k]) for k in FAIL_KINDS)
-        print(f"  BAR-2: {n_at}/{len(present)} AT DECIDED SHAPE (DID side); "
+        print(f"  DECIDED SHAPE: {n_at}/{len(present)} AT DECIDED SHAPE (DID side); "
               f"{n_sp} reach it in the NDI SECOND PASS (not in this report); "
               f"{n_fail} NOT -- "
               + ", ".join(f"{k} {len(buckets[k])}" for k in FAIL_KINDS if buckets[k]))
         # SECOND_PASS is not a failure (the decided shape is built + e2e-green),
         # but this DID-only report cannot confirm it -- so a corpus with any
-        # SECOND_PASS class is at Bar-2 only PENDING the NDI e2e for those.
-        at_bar2 = bar1 and n_fail == 0
-        if at_bar2 and n_sp:
-            verdict = "YES on the DID side; PENDING the NDI e2e for the second-pass class(es)"
-        elif at_bar2:
-            verdict = "YES (pending stage-4 corpus-proof)"
+        # SECOND_PASS class is done only PENDING the NDI e2e for those.
+        done = integrity and n_fail == 0
+        if done and n_sp:
+            verdict = "DONE on the DID side; PENDING the NDI e2e for the second-pass class(es)"
+        elif done:
+            verdict = "DONE on the DID side (pending stage-4 corpus-proof)"
         else:
-            verdict = "NO"
-        print(f"  ==> corpus {corpus} at Bar-2 (decided shape + Bar-1 clean): {verdict}")
+            verdict = "NOT DONE"
+        print(f"  ==> corpus {corpus} (integrity + every class at decided shape): {verdict}")
         for k in (*FAIL_KINDS, "SECOND_PASS"):
             for c, n, detail in buckets[k]:
                 print(f"      {k:11s} {c:44s} {n:>8} doc(s)  {detail}")
         if verbose:
             for c, n, detail in buckets[AT]:
                 print(f"      {AT:11s} {c:44s} {n:>8} doc(s)  {detail}")
-        any_gap = any_gap or not at_bar2
+        any_gap = any_gap or not done
     return 1 if any_gap else 0
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Per-corpus Bar-2 gap report.")
+    ap = argparse.ArgumentParser(description="Per-corpus DONE report: integrity, "
+                                 "decided shape, and what is missing.")
     ap.add_argument("roots", nargs="*", help="corpus report dirs/files (*-summary.json)")
     ap.add_argument("--ledger", default=str(LEDGER))
     ap.add_argument("--only", action="append", help="restrict to these corpus name(s)")
     ap.add_argument("--verbose", action="store_true", help="also list AT_DECIDED classes")
     ap.add_argument("--gate", action="store_true",
-                    help="exit non-zero if any assessed corpus is not at Bar-2")
+                    help="exit non-zero if any assessed corpus is not done")
     a = ap.parse_args(argv)
     if not a.roots:
         ap.error("pass at least one corpus-report dir or *-summary.json file")

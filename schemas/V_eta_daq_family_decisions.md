@@ -8,6 +8,16 @@ are renamed for T13 (`metadata` / `data` name the box, not the content):
 pattern groups all of an epoch's files, the stimulus `.tsv` included). The decisions
 themselves are unchanged; the signed text is left as signed.
 
+**SUPERSEDED IN PART, read this before the model below (2026-10-22, Jess Haley [audit
+mechanical fixes 2], V_eta_data_body_model_plan.md).** Two things in the text below
+are no longer the model, and the signed lines are left as signed: `acquisition_system`
+is configuration off **`base`**, not a subclass of `entity`, with an optional `device_id`
+(TEAM-SIGN-OFF 2026-10-08, V_eta_entity_composition_plan.md sec. 8), and the numbered
+`acquisition_metadata_reader_#` family is the one edge
+`acquisition_system.epoch_parameter_reader_id` (item 65, above). An epoch reaches its
+system through the recording interaction's `acquisition_channels_id`, not a relation
+(Jess Haley 2026-10-22 [epoch to system link], V_eta_go_forward_class_audit.md).
+
 Read from the NDI `origin/main` templates. Seven classes, and they are **three
 different kinds of thing**. Nothing built.
 

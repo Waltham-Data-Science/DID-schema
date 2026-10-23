@@ -22,6 +22,8 @@ subject-side hard transforms at volume.
 | `subject_group` | **353** | → bare `subject` (the migrator I implemented **is** exercised here) |
 | `treatment` | 56 | food-restriction **onset/offset times** (a husbandry regime + time), `EMPTY:` nodes, **0 loci, 0 numeric_value** |
 
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+
 - **D3 confirmed at scale:** JH has **0** anatomical loci. Total across B+Dab+JH =
   **49** (all Dab optogenetic). Located-by-default is firmly the right call.
 - **`treatment_drug` / `virus_injection` / `treatment_transfer` are absent from
@@ -66,6 +68,8 @@ So in Dab, `treatment` never dispatches to dose/thermal/procedure — it is
   `string_value` matches a CURIE ⇒ the act is a `term_manipulation` (variable =
   the stimulation term, name minus the "Target Location" role-suffix), and the
   region is the **locus**.
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+
 - **D3 answer — the locus volume is small.** Distinct UBERON terms:
   `UBERON:0001930` (15), `UBERON:0001929` (16), `UBERON:0002034` (18) — 3 regions
   across **49 (subject, region) pairs = 49 loci** (one per subject; no per-subject
@@ -123,6 +127,8 @@ depends_on: probe_id
 (D5). 404 of them — the largest D5 volume.
 
 ## Consequences for the build
+
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
 
 - **D3 — resolved by measurement:** located-by-default + a mint allowlist; no
   standing dedup service for B/Dab. (Confirm against JH before locking.)

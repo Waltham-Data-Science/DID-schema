@@ -78,30 +78,25 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     Pinned with a denominator on both sides. If a future `_disposition()` starts
     DERIVING `in_progress` from something, this test fails and the docstring at
     the top of `tools/status_board.py` needs rewriting -- which is the point.
-    """
-    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
-    start = src.index("_DECIDED_PENDING = {")
-    end = src.index("def _disposition(")
-    ns = {"_re": __import__("re")}
-    exec(src[start:end], ns)          # noqa: S102 -- reading the tool's own literals
-    declared = set(ns["_DECIDED_PENDING"]) | set(ns["_IN_PROGRESS"])
 
+    Since 2026-10-21 (OPEN_WORK #128) the declaration is DATA: `disposition` in
+    schemas/V_eta/index.json, written by hand. Until then it was a literal in
+    build_v_eta.py (`_DECIDED_PENDING` / `_IN_PROGRESS`). validate_v_eta.py
+    rewrites every other index field from the class files and keeps this one,
+    so it is still a declaration and never a measurement.
+    """
     open_classes = _open_classes()
     assert open_classes, "no in_progress classes -- this sweep would check nothing"
-
-    derived = [c for c in open_classes if c not in declared]
-    assert derived == [], (
-        f"{len(derived)} in_progress class(es) come from somewhere other than a "
-        f"literal in build_v_eta.py: {derived}. If `in_progress` has become a "
-        "measurement, status_board.py's premise has changed.")
-
-    # The denominator, split the way the board reports it.
-    from_pending = [c for c in open_classes if c in ns["_DECIDED_PENDING"]]
-    from_set = [c for c in open_classes if c in ns["_IN_PROGRESS"]]
-    assert len(from_pending) + len(from_set) == len(open_classes)
-    assert from_pending and from_set, (
-        "both literal collections must still be feeding the count, or this "
-        "split has stopped describing anything")
+    with open(INDEX) as fh:
+        idx = {s["class_name"]: s for s in json.load(fh)["schemas"]}
+    unexplained = [c for c in open_classes if not idx[c].get("disposition_note")]
+    assert unexplained == [], (
+        f"{len(unexplained)} in_progress class(es) carry no disposition_note saying "
+        f"what is open: {unexplained}")
+    src = Path(os.path.join(TOOLS, "validate_v_eta.py")).read_text()
+    assert 'disp = prev.get("disposition")' in src, (
+        "validate_v_eta.py no longer copies `disposition` from index.json -- if it "
+        "now DERIVES it, status_board.py's premise has changed")
 
 
 # ---------------------------------------------------------------------------
@@ -327,11 +322,16 @@ def test_every_discounted_class_names_a_replacement_that_exists():
            if t not in built}
     assert bad == {}, f"replacement class(es) absent from the built index: {bad}"
 
-    claimed = {m for f in sb.FAMILIES for m in f[1]}
-    orphan = sorted(set(sb.RETIRED_BY_ITS_OWN_DECISION) - claimed)
+    # The discount is transcribed from a decision; the class must CITE that
+    # decision (tools/decision_citations.py, which replaced the decision
+    # families 2026-10-21), and the citation must resolve.
+    cited = set(sb.dc.CITATIONS)
+    orphan = sorted(set(sb.RETIRED_BY_ITS_OWN_DECISION) - cited)
     assert orphan == [], (
-        f"{orphan} are discounted but claimed by no decision family, so the "
-        "sign-off the discount is transcribed from cannot be located")
+        f"{orphan} are discounted but cite no decision line, so the "
+        "decision the discount is transcribed from cannot be located")
+    for c in sb.RETIRED_BY_ITS_OWN_DECISION:
+        assert sb.dc.decision_for([c])["state"] == sb.dc.DECIDED, c
 
 
 def test_the_denominator_of_the_mint_sweep_is_recorded():
@@ -658,54 +658,109 @@ def _cut_function(path, name):
 # so the reader meets it where it is used. Deliberate, not an oversight.
 import re  # noqa: E402
 
+# THE OLD IDIOMS ARE READ FROM THE TREE THAT STILL WROTE THEM. DID-matlab #218
+# merged the port to did-schema #88 at 229c12e; its first parent is the last
+# #218 commit whose migrators mint through idioms 1 and 2. Those bytes are cut
+# from that commit with `git show` (CI clones DID-matlab in full), so the old
+# idioms stay pinned to real code for older trees (the `v_eta-pre73` pin, NDI's
+# second pass) while the current-tree fixtures below pin the #88 builder.
+PRE_PORT = "229c12e^1"
+# The port merge itself still spelled statements by their old LEAF name through
+# the builder (`did2.build.statement('intensity_observation', ...)`, which
+# did2.build reads as `observation + intensity`); #218 then dropped every leaf
+# literal (merge 92200cd, "no old leaf-class literals"). The leaf-name form is
+# pinned at the merge, the direction + 'ValueKind' form at the checkout.
+PORT_MERGE = "229c12e"
+_MJ = "src/did/+did2/+convert/+migrators_j/"
+
+
+def _source(tmp_path, rel, tree, base=_MJ):
+    """A path holding `rel` as it stands in `tree` (None = the checkout)."""
+    if tree is None:
+        return (_mig(rel) if base == _MJ
+                else os.path.join(_did_root(), base, rel))
+    import subprocess
+    try:
+        text = subprocess.run(
+            ["git", "-C", _did_root(), "show", f"{tree}:{base}{rel}"],
+            check=True, capture_output=True, text=True).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        pytest.skip(f"DID-matlab {tree} is not reachable here ({exc}); a "
+                    "shallow clone cannot show the pre-port tree")
+    p = tmp_path / ("tree_" + rel.replace("/", "_"))
+    p.write_text(text)
+    return str(p)
+
+
 _IDIOM_SOURCES = [
-    # idiom, file, the needle that finds the mint statement, helper to carry
-    ("1 struct literal", "private/jSessionAnchor.m",
-     "'class_name', 'session_relative_reference'", None),
-    ("2 local class-block helper", "fitcurve.m",
-     "classBlock('session_relative_reference'", "classBlock"),
-    ("2 local class-block helper, 3-arg", "pyraview.m",
-     "classBlock('session_relative_reference'", "classBlock"),
-    ("3 class_name field write", "element_epoch.m",
-     "document_class.class_name = 'acquisition_epoch'", None),
+    # idiom, file, tree, the needle that finds the mint statement,
+    # helper (file, function) to carry beside it, the class it must yield
+    ("1 struct literal", "private/jSessionAnchor.m", PRE_PORT,
+     "'class_name', 'session_relative_reference'", None,
+     "session_relative_reference"),
+    ("2 local class-block helper", "fitcurve.m", PRE_PORT,
+     "classBlock('session_relative_reference'", ("fitcurve.m", "classBlock"),
+     "session_relative_reference"),
+    ("2 local class-block helper, 3-arg", "pyraview.m", PRE_PORT,
+     "classBlock('session_relative_reference'", ("pyraview.m", "classBlock"),
+     "session_relative_reference"),
+    ("3 class_name field write", "element_epoch.m", None,
+     "document_class.class_name = 'acquisition_epoch'", None,
+     "acquisition_epoch"),
+    # #88 (DID-matlab #218 after 229c12e): the builder.
+    ("4 builder, leaf name", "lightsheet_zarr_pyramid.m", PORT_MERGE,
+     "did2.build.statement('intensity_observation'", None,
+     "observation + intensity"),
+    ("4 builder, direction + ValueKind", "../resolveDeferredBaths.m", None,
+     "bath = did2.build.statement('manipulation'", None,
+     "manipulation + formulation"),
+    ("4 builder, entity document", "lightsheet_zarr_pyramid.m", None,
+     "software = did2.build.document('entity'", None, "entity"),
+    ("4 builder, fixed class", "private/jSessionAnchor.m", None,
+     "did2.build.relativeTimeReference(", None, "relative_time_reference"),
+    ("5 wrapper with ValueKind", "treatment_drug.m", None,
+     "doc = jStatement(preBody, 'manipulation'",
+     ("private/jStatement.m", "jStatement"), "manipulation + temperature"),
+    ("5 wrapper with a leaf name", "probe_location.m", PORT_MERGE,
+     "obs = jStatement(preBody, 'term_observation'",
+     ("private/jStatement.m", "jStatement"), "observation + term"),
 ]
 
 
-@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
-@pytest.mark.parametrize("idiom,rel,needle,helper", _IDIOM_SOURCES,
-                         ids=[s[0] for s in _IDIOM_SOURCES])
-def test_every_mint_idiom_in_the_real_migrators_is_detected(
-        tmp_path, idiom, rel, needle, helper):
-    """One fixture per idiom, cut from the migrator that uses it.
-
-    IDIOM 2 IS THE ONE THAT WAS MISSING, and it is not exotic: six migrators
-    mint `session_relative_reference` through a local `classBlock`, which is
-    twice as many sites as the idiom the detector could see.
-    """
-    path = _mig(rel)
+def _idiom_fixture(tmp_path, rel, tree, needle, helper):
+    path = _source(tmp_path, rel, tree)
     stmt, lineno = _cut_statement(path, needle)
-    assert stmt, (f"{rel} no longer contains {needle!r} -- this fixture has stopped "
-                  "describing the real migrator, so re-point it rather than "
-                  "relaxing it")
+    assert stmt, (f"{rel}@{tree or 'checkout'} no longer contains {needle!r} -- "
+                  "this fixture has stopped describing the real migrator, so "
+                  "re-point it rather than relaxing it")
     text = stmt
     if helper:
-        fn = _cut_function(path, helper)
-        assert fn, f"{rel} no longer defines {helper}()"
+        fn = _cut_function(_source(tmp_path, helper[0], tree), helper[1])
+        assert fn, f"{helper[0]}@{tree or 'checkout'} no longer defines {helper[1]}()"
         text = stmt + "\n" + fn
+    return text, lineno
 
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+@pytest.mark.parametrize("idiom,rel,tree,needle,helper,want", _IDIOM_SOURCES,
+                         ids=[s[0] for s in _IDIOM_SOURCES])
+def test_every_mint_idiom_in_the_real_migrators_is_detected(
+        tmp_path, idiom, rel, tree, needle, helper, want):
+    """One fixture per idiom, cut from the migrator that uses it.
+
+    IDIOM 2 WAS THE ONE ORIGINALLY MISSING: six migrators minted
+    `session_relative_reference` through a local `classBlock`. IDIOMS 4 AND 5
+    are the #88 port's: every per-document migrator now builds through
+    did2.build, and a statement's identity is its direction plus its value
+    kind (`manipulation + temperature`), whichever way the call spells it.
+    """
+    text, lineno = _idiom_fixture(tmp_path, rel, tree, needle, helper)
     p = tmp_path / "fixture.m"
     p.write_text(text)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
-
-    # The class is the LAST quoted literal in the needle -- `'class_name',
-    # 'session_relative_reference'` names the field first.
-    quoted = re.findall(r"'([a-z_][a-z_0-9]*)'", needle)
-    want = quoted[-1] if quoted else None
-    assert want and want != "class_name", (
-        f"could not read the expected class out of {needle!r}")
     assert want in minted, (
-        f'idiom {idiom}, cut verbatim from {rel}:{lineno}, was NOT recognised as a mint. Detected: {sorted(minted)}. This is the undercount coming back: the site is filed as a bare mention and the class renders with less outstanding work than it has.')
+        f'idiom {idiom}, cut verbatim from {rel}@{tree or "checkout"}:{lineno}, was NOT recognised as a mint of {want!r}. Detected: {sorted(minted)}. This is the undercount coming back: the site is filed as a bare mention and the class renders with less outstanding work than it has.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -714,13 +769,12 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
     classes and mints ONE. `time_reference` is itself an open class, and
     counting a superclass as a mint would move it toward "built" on somebody
     else's ancestry -- the same error the statement-position rule already
-    prevents for the struct idiom."""
-    path = _mig("fitcurve.m")
-    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
-    fn = _cut_function(path, "classBlock")
-    assert stmt and fn
+    prevents for the struct idiom. (Pre-port tree: see PRE_PORT.)"""
+    text, _ = _idiom_fixture(tmp_path, "fitcurve.m", PRE_PORT,
+                             "classBlock('session_relative_reference'",
+                             ("fitcurve.m", "classBlock"))
     p = tmp_path / "fixture.m"
-    p.write_text(stmt + "\n" + fn)
+    p.write_text(text)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
     assert minted == {"session_relative_reference"}, (
@@ -728,19 +782,34 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_wrapper_value_kind_is_not_mistaken_for_a_class(tmp_path):
+    """The #88 analogue of the superclass test: `jStatement(preBody,
+    'manipulation', ..., 'ValueKind', 'temperature')` names a direction and a
+    value kind and mints ONE document. The kind is not a document of its own,
+    and the direction alone is not the identity."""
+    text, _ = _idiom_fixture(tmp_path, "treatment_drug.m", None,
+                             "doc = jStatement(preBody, 'manipulation'",
+                             ("private/jStatement.m", "jStatement"))
+    p = tmp_path / "fixture.m"
+    p.write_text(text)
+    with open(str(p)) as fh:
+        minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+    assert minted == {"manipulation + temperature"}, sorted(minted)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
-    """Nothing in the detector knows the string "classBlock".
+    """Nothing in the detector knows the string "classBlock" or "jStatement".
 
     The real helper is renamed in the fixture. If the recogniser were keyed on
     the name this passes only by accident today and breaks the first time a
     migrator spells its helper differently -- which is how the board came to
     know one idiom out of three in the first place.
     """
-    path = _mig("fitcurve.m")
-    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
-    fn = _cut_function(path, "classBlock")
-    assert stmt and fn
-    text = (stmt + "\n" + fn).replace("classBlock", "buildTheClassStruct")
+    text, _ = _idiom_fixture(tmp_path, "fitcurve.m", PRE_PORT,
+                             "classBlock('session_relative_reference'",
+                             ("fitcurve.m", "classBlock"))
+    text = text.replace("classBlock", "buildTheClassStruct")
     p = tmp_path / "fixture.m"
     p.write_text(text)
     with open(str(p)) as fh:
@@ -750,6 +819,38 @@ def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
         "the class-block helper is being recognised by NAME")
     minted = {c for c, _l in sb.emitted_document_classes(lines)}
     assert minted == {"session_relative_reference"}
+
+    # ... and the #88 wrapper, the same way.
+    text, _ = _idiom_fixture(tmp_path, "treatment_drug.m", None,
+                             "doc = jStatement(preBody, 'manipulation'",
+                             ("private/jStatement.m", "jStatement"))
+    text = text.replace("jStatement", "makeTheStatement")
+    p.write_text(text)
+    with open(str(p)) as fh:
+        lines = fh.readlines()
+    assert "jStatement" not in "".join(lines)
+    assert set(sb.builder_wrappers(lines)) == {"makeTheStatement"}, (
+        "the builder wrapper is being recognised by NAME")
+    minted = {c for c, _l in sb.emitted_document_classes(lines)}
+    assert minted == {"manipulation + temperature"}, sorted(minted)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_every_fixed_class_builder_is_read_from_did2_build():
+    """`BUILDER_FIXED_CLASS` is a table, so it is checked against the builders:
+    each must pass that literal to `forward(...)` in +did2/+build/<name>.m.
+    `method` reads its class from the schema (`methodShape`), so it is checked
+    by name instead."""
+    base = os.path.join(_did_root(), "src/did/+did2/+build")
+    assert len(sb.BUILDER_FIXED_CLASS) >= 7, sb.BUILDER_FIXED_CLASS
+    for fn, cls in sorted(sb.BUILDER_FIXED_CLASS.items()):
+        with open(os.path.join(base, fn + ".m")) as fh:
+            src = fh.read()
+        if fn == "method":
+            assert "forward(shape.docClass" in src, fn
+            continue
+        assert f"forward('{cls}'" in src, (
+            f"did2.build.{fn} no longer forwards {cls!r}; correct BUILDER_FIXED_CLASS")
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -1026,35 +1127,37 @@ def test_a_mint_in_a_batch_post_pass_is_found(tmp_path):
     Same rule as the idiom fixtures above: a fixture built from the same premise
     as the detector cannot catch the detector. These bytes are the migrator's
     own, so if the batch passes change shape the fixture changes with them.
+
+    RE-POINTED 2026-10-21: the pre-port mint of `session_relative_reference`
+    (a struct literal) is gone with the #88 port; the pass now mints the bath
+    as `did2.build.statement('manipulation', ..., 'ValueKind', 'formulation')`,
+    i.e. a `manipulation + formulation`. The sweep is queried in the old leaf
+    spelling on purpose: the board must match it to the composed mint.
     """
     path = os.path.join(_convert_root(), "resolveDeferredBaths.m")
     assert os.path.exists(path), (
         "resolveDeferredBaths.m has moved; re-point this test at whatever "
         "batch post-pass mints a document now")
-    stmt, lineno = _cut_statement(
-        path, "struct('class_name', 'session_relative_reference'")
+    needle = "bath = did2.build.statement('manipulation'"
+    stmt, lineno = _cut_statement(path, needle)
     assert stmt, (
-        "resolveDeferredBaths.m no longer mints session_relative_reference -- "
+        "resolveDeferredBaths.m no longer mints the bath manipulation -- "
         "re-point this fixture rather than relaxing it")
     p = tmp_path / "fixture.m"
     p.write_text(stmt)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
-    assert "session_relative_reference" in minted, (
+    assert minted == {"manipulation + formulation"}, (
         f'the mint at resolveDeferredBaths.m:{lineno} was not recognised. Detected: {sorted(minted)}')
-    assert "time_reference" not in minted, (
-        "the superclass in the same statement was counted as a mint")
 
     # ... and the whole-repo sweep must cite it, filed under the batch group.
-    classes = set(_open_classes())
-    if "session_relative_reference" not in classes:
-        pytest.skip("session_relative_reference is no longer an open class")
-    mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
-    row = mig["session_relative_reference"]
+    cls = "formulation_manipulation"
+    mig, _src = sb.migrator_evidence({cls}, _did_root(), _ndi_root())
+    row = mig[cls]
     batch = row["by_group"][sb.GROUP_BATCH]
-    assert batch["n_emitted_class_refs"] >= 2, (
-        f'{batch["n_emitted_class_refs"]} batch mint(s) of session_relative_reference; resolveDeferredBaths.m has two. The board is back to reading half the path.')
-    assert any("resolveDeferredBaths.m" in r
+    assert batch["n_emitted_class_refs"] >= 1, (
+        f'{batch["n_emitted_class_refs"]} batch mint(s) of {cls}; resolveDeferredBaths.m has one. The board is back to reading half the path.')
+    assert any(f"resolveDeferredBaths.m:{lineno}" in r
                for r in batch["emitted_class_refs"]), batch["emitted_class_refs"]
     assert row["n_emitted_class_refs"] == (
         batch["n_emitted_class_refs"]
@@ -1202,7 +1305,7 @@ def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
-def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
+def test_every_mint_idiom_is_recognised_THROUGH_the_batch_root(tmp_path):
     """The idioms are verified IN the new root, not assumed to carry over.
 
     Measured on the real files, the batch post-passes use idiom 1 only today --
@@ -1219,16 +1322,10 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
     detector.
     """
     pieces, want = [], set()
-    for idiom, rel, needle, helper in _IDIOM_SOURCES:
-        path = _mig(rel)
-        stmt, _lineno = _cut_statement(path, needle)
-        assert stmt, f"{rel} no longer contains {needle!r}"
-        pieces.append(stmt)
-        if helper:
-            fn = _cut_function(path, helper)
-            assert fn, f"{rel} no longer defines {helper}()"
-            pieces.append(fn)
-        want.add(re.findall(r"'([a-z_][a-z_0-9]*)'", needle)[-1])
+    for _idiom, rel, tree, needle, helper, cls in _IDIOM_SOURCES:
+        text, _lineno = _idiom_fixture(tmp_path, rel, tree, needle, helper)
+        pieces.append(text)
+        want.add(cls)
     assert len(want) > 1, "the idiom sources no longer cover distinct classes"
 
     root = tmp_path / "DID-matlab"
@@ -1262,7 +1359,7 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
 # every family regardless of what was in the tree. By 2026-08-11 it was false
 # for essentially all of them -- a hand check of the target classes those
 # families name found every one already built, one of them as a block on
-# `subject_interaction` rather than a class file.
+# `interaction` rather than a class file.
 #
 # That is this project's recurring defect with the sign flipped. The usual
 # direction is prose claiming MORE progress than exists; this claimed LESS,
@@ -1280,7 +1377,10 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
 # So there are two things to hold down, and the second is the important one.
 # --------------------------------------------------------------------------
 
-_AWAITING_HEAD = "## DECIDED by the team, awaiting build"
+# RETARGETED 2026-10-21: the per-family "DECIDED by the team, awaiting build"
+# table became the per-class citation table when the decision families were
+# replaced by direct citations. It carries the same `targets built` column.
+_AWAITING_HEAD = "## Every decision citation"
 
 
 def _awaiting_section():
@@ -1313,36 +1413,21 @@ def test_awaiting_build_never_asserts_the_schema_is_unbuilt():
 def test_awaiting_build_states_how_many_families_it_could_not_check():
     """RULE 5, applied to the fix and not just to the thing it fixed.
 
-    A result is only readable beside the coverage of the check that produced
-    it. This asserts the section reports BOTH -- how many families it checked
-    and how many it could not -- so a future edit cannot quietly drop the
-    second half and leave a bare, reassuring zero.
+    The section must state how many classes it read and how many citations
+    failed, and a class whose targets cannot be checked must say so in words
+    (`no target recorded`), never as a blank or a pass.
     """
     sec = _awaiting_section()
     assert "DENOMINATOR" in sec, (
-        "the awaiting-build section no longer leads with a denominator")
-
-    m = re.search(r"(\d+) signed families\. (\d+) named at least one decided "
-                  r"target class and were checked against the built tree; "
-                  r"(\d+) named none and are UNCHECKED HERE", sec)
-    assert m, (
-        "the awaiting-build denominator no longer states checked-vs-unchecked "
-        "family counts. It must, and in a form that cannot be read as a clean "
-        "bill of health: an unchecked family is not a passing one.")
-    total, checked, unchecked = (int(g) for g in m.groups())
-    assert checked + unchecked == total, (
-        f"checked ({checked}) + unchecked ({unchecked}) != families ({total}) -- the section's own arithmetic does not close, so one bucket is silently dropping families")
-
-    if unchecked:
-        assert "unchecked, NOT clean" in sec, (
-            f'{unchecked} families went unchecked and the section does not say that a blank is not a pass')
-        # The two causes of a blank must stay distinguished in the prose: a
-        # family that DISSOLVES correctly names no target, while one whose
-        # target is fixed in a signed plan and never recorded is a real gap.
-        # Rendering both as blank is how a settled decision gets re-litigated.
-        assert "DISSOLVES" in sec, (
-            "the section no longer explains that a blank target has two "
-            "causes -- dissolution (final) and an unrecorded target (a gap)")
+        "the citation section no longer leads with a denominator")
+    m = re.search(r"DENOMINATOR: (\d+) class\(es\) cite (\d+) decision "
+                  r"line\(s\); (\d+) citation\(s\) do not resolve", sec)
+    assert m, "the citation section's denominator is gone or reworded"
+    total = int(m.group(1))
+    rows = [ln for ln in sec.splitlines() if ln.startswith("| `")]
+    assert len(rows) == total, (
+        f"the section says {total} classes and lists {len(rows)} -- its own "
+        "arithmetic does not close")
 
 
 def test_awaiting_build_table_carries_a_targets_built_column():
@@ -1354,8 +1439,8 @@ def test_awaiting_build_table_carries_a_targets_built_column():
     # admission that no target is on file. A blank cell would be the old
     # failure in miniature.
     rows = [ln for ln in sec.splitlines()
-            if ln.startswith("| **") and ln.count("|") >= 5]
-    assert rows, "the awaiting-build table has no family rows"
+            if ln.startswith("| `") and ln.count("|") >= 5]
+    assert rows, "the citation table has no class rows"
     for ln in rows:
         cell = ln.split("|")[3].strip()
         assert re.fullmatch(r"\d+ of \d+", cell) or cell == "no target recorded", (

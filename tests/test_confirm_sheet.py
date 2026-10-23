@@ -22,6 +22,7 @@ So the invariants are about COVERAGE and RESTRAINT, not about the prose:
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import typing
@@ -99,17 +100,18 @@ class TheMapIsKeyedDifferentlyFromTheLedger(unittest.TestCase):
         """The fix must not make everything findable."""
         self.assertIsNone(cs.lookup({"demo_ndi": {}}, "nothing_like_this"))
 
-    def test_against_the_live_map_only_one_stage_row_is_unmapped(self):
-        """`generic_file` folds in a batch post-pass and has no per-class row.
+    def test_against_the_live_map_no_stage_row_is_unmapped(self):
+        """Every stage row has a target-map row.
 
-        Pinned as ONE so that a regression in `lookup` -- which would push this
-        back to 8 -- fails here rather than showing up as seven phantom review
-        items on the sheet.
+        `generic_file` was the last one (it folds in a batch post-pass); its row
+        was added 2026-10-23 with its confirmed set ([generic_file emitted set]).
+        Pinned at ZERO so that a regression in `lookup` fails here rather than
+        showing up as phantom review items on the sheet.
         """
         led, tmap = cs.load(cs.LEDGER), cs.load(cs.TARGETS)["classes"]
         rows, _ = cs.build(led, tmap)
         unmapped = [r["v1_class"] for r in rows if r["bucket"] == cs.B_UNMAPPED]
-        self.assertEqual(unmapped, ["generic_file"])
+        self.assertEqual(unmapped, [])
 
 
 class EveryClassIsSorted(unittest.TestCase):
@@ -172,6 +174,9 @@ class ItRefusesToEnterTheRecord(unittest.TestCase):
         with open(out) as fh:
             body = fh.read()
         self.assertNotIn("TEAM-SIGN-OFF", body)
+        # The lighter Rule 4 form (2026-10-21) is a decision line too.
+        self.assertIsNone(re.search(
+            r"Decided by (?:Jess Haley|Steve Van Hooser), \d{4}", body))
         with open(os.path.join(REPO_ROOT, "tools", "confirm_sheet.py")) as fh:
             src = fh.read()
         self.assertNotIn('"TEAM-SIGN-OFF:"', src)
@@ -424,30 +429,43 @@ class DestinationsAndUnreadTargetsCase(unittest.TestCase):
 
 
 class UnreadTargetsSurviveRegenerationCase(unittest.TestCase):
-    """`unread_targets` is AUTHORED and the derivation must never remove it."""
+    """`unread_targets` is AUTHORED and the derivation must never remove it.
 
-    def test_element_carries_the_authored_entry_with_a_citation(self):
+    INVERTED 2026-10-21 for `element`, not updated. These tests pinned
+    element's authored entry (the raw-recording observations minted through a
+    local helper `mk` the walker could not read) and the PARTIAL completeness
+    block naming that site. The DID-matlab #88 port (#218, 229c12e) removed
+    `mk`: element.m builds through did2.build and the derivation reads it in
+    full. So the entry was removed BY HAND, with that evidence in the row's
+    flags -- and the tool still never removes one (the first test below).
+    """
+
+    def _rows(self):
         path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
         with open(path) as fh:
             doc = json.load(fh)
-        rows = doc.get("classes") or doc
-        ur = rows["element"].get("unread_targets") or {}
-        self.assertIn("voltage_observation", ur.get("targets") or [],
-                      "element's authored raw-recording observation is gone -- "
-                      "if the derivation learned to read it, move it to "
-                      "`targets` deliberately rather than dropping it")
-        self.assertTrue(ur.get("citation"),
-                        "an authored target without a citation is a claim with "
-                        "no evidence, which is what this key exists to avoid")
+        return doc.get("classes") or doc
 
-    def test_the_completeness_block_still_names_the_unread_site(self):
-        # The authored entry ANSWERS the gap; it does not close it. The site
-        # must stay recorded, or a future reader cannot tell that `targets` is
-        # still a lower bound.
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+    def test_the_refresh_tool_never_writes_unread_targets(self):
+        # The guarantee the class name states, checked on the tool itself:
+        # refresh_migration_targets.py writes `targets` and
+        # `target_completeness` and nothing else.
+        path = os.path.join(REPO_ROOT, "tools", "refresh_migration_targets.py")
         with open(path) as fh:
-            doc = json.load(fh)
-        rows = doc.get("classes") or doc
-        tc = rows["element"].get("target_completeness") or {}
-        self.assertEqual(tc.get("state"), "partial")
-        self.assertTrue(tc.get("unresolved_sites"))
+            src = fh.read()
+        writes = set(re.findall(r'classes\[cls\]\["(\w+)"\]\s*=', src))
+        self.assertTrue(writes, "found no row write at all -- re-read the tool")
+        self.assertEqual(writes, {"targets", "target_completeness"}, writes)
+
+    def test_element_entry_is_gone_because_its_site_is_gone(self):
+        rows = self._rows()
+        self.assertNotIn("unread_targets", rows["element"],
+                         "element carries an authored unread entry again -- "
+                         "cite the site it is read from")
+        self.assertIn("defines no `mk` any more", rows["element"]["flags"],
+                      "the removal must carry its evidence in the row")
+
+    def test_element_is_now_fully_derived(self):
+        tc = self._rows()["element"].get("target_completeness") or {}
+        self.assertEqual(tc.get("state"), "full")
+        self.assertEqual(tc.get("unresolved_sites"), [])

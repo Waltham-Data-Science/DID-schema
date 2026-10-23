@@ -244,3 +244,30 @@ The decisions are in `review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
   `response_type` becomes a bound term (mean | peak | F0 | F1 | F2).
 
 TEAM-SIGN-OFF [tuning shape, #73 audit 2 amendment]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: `model_fit[].coefficients` is the shared named list `{variable, value}` and `goodness` gains `sse_per_point` (D2); `independent_variables[]` is dropped and the stimulus dimensions are the value's `keys`, with a trailing trial dimension on the per-trial arrays (D3); `response_type` is a bound term (mean | peak | F0 | F1 | F2).
+
+## 2026-10-21 — complex per-trial responses
+
+Decided by Jess Haley, 2026-10-21 [complex trial responses]: a tuning curve's per-trial responses keep both parts of NDI's complex response, as a trailing [real, imaginary] dimension after the trial dimension when the response is F1 or F2; migration is lossless.
+
+Documented on `tuning_curve.value.individual`, `.raw_individual` and
+`.control.individual` (no type changed). `mean` / `stddev` / `stderr` are
+unchanged: NDI computes them from the complex trials, and `mean` is the
+magnitude. `contrast_sensitivity` declares no per-trial field, so it is unchanged.
+
+## 2026-10-21 — pooled blank statistics
+
+Decided by Jess Haley, 2026-10-21 [pooled blank statistics]: the v1 control_mean_stddev and control_mean_stderr are kept on the tuning curve as control.pooled.stddev and control.pooled.stderr, documented with how they were computed.
+
+Built as an optional `tuning_curve.value.control.pooled` structure with optional
+`stddev` and `stderr` matrices. `contrast_sensitivity` declares no `control`
+block, so it is unchanged.
+
+## 2026-10-22 -- tenet audit: one fit entry and calculator units
+
+Decided by Jess Haley, 2026-10-22 [one fit entry]: there is one fit entry, `model_fit`'s shape with `model` bound; the tuning and contrast calculators use it with their own results beside it (answer "G2a"). Built: a tuning curve's and a contrast sensitivity's `model_fit` entries begin with model_fit.value's fields (model, equation, independent_variables, dependent_variable, coefficients, constraints, goodness, sampled_fit, input_field, output_field), checked by validate_v_eta R17; the tuning `metrics` and the contrast per-frequency values follow it in the same entry.
+
+Decided by Jess Haley, 2026-10-22 [significance with results]: tuning_curve_calculation's `significance` moves into its value beside the fit entry; contrast_sensitivity's `model_fit.empirical_c50` is renamed `c50` (answer "O1a"). Built: `model_fit` and `significance` are fields of tuning_curve.value (set only on a calculation), no longer top-level fields of tuning_curve_calculation.
+
+Decided by Jess Haley, 2026-10-22 [calculator units]: orientation_preference, direction_preference and half_width_at_half_maximum are in degrees; a spatial-frequency preferred_value in cycles per degree; a temporal-frequency preferred_value in Hz; the generic tuning_curve_calculation preferred_value takes its unit from the curve's covariate `unit` (a named rule) (answer "C1a"). Built: the units in each field's documentation and the rule `fit_metric_unit` on tuning_curve. "cycles per degree" is registered STAGED: no ontology term was found (OLS4 search of OM, UO and NCIT).
+
+Decided by Jess Haley, 2026-10-23 [contrast sensitivity lossless]: migrating v1 `contrast_sensitivity_calc` keeps everything: the v1 `stimulus_presentation_id` joins the responses in `input_id`, and v1 `is_modulated_response` (0/1) becomes `significance.modulated_response` (boolean; absent, not false, when the source did not record it) (answer "K3-c", after asking "is A lossless?"; option (a) dropped both). Built: did-schema `contrast_sensitivity.json` field. Built: DID-matlab bd21c10 (jCalculation input_id, jContrastSensitivityValue; Quick migrator tests 39905156708 attempt 2 and 39907038587 green).

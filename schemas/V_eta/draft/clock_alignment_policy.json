@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "v1's `ndi_syncgraph_class`, folded to a software entity (R1).",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "clock_alignment_configuration_id",

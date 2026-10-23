@@ -1,5 +1,11 @@
 # V_eta Go-Forward Class Audit — J-cohesiveness of every live class
 
+> **Vocabulary note (2026-10-21):** this document predates the one-entity schema
+> (`V_eta_entity_composition_plan.md`, signed 2026-10-08) and uses its old names:
+> `subject_statement` is now `statement`, `subject_id` is `entity_id`, `data_type` is
+> `value`, and the separate entity classes (`subject`, `dataset`, `software`, ...) are one
+> `entity` with a `type`. Its decisions stand under the new names.
+
 TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.
 
 > **This line is TAGGED `[misc singletons]` deliberately.** Three families cite this
@@ -718,6 +724,197 @@ TEAM-SIGN-OFF [confirm sheet 2026-08-17]: jess@walthamdatascience.com / 2026-08-
 
 TEAM-SIGN-OFF [confirm sheet 2026-08-22]: jess@walthamdatascience.com / 2026-08-22 -- `stimulus_bath` migrates to a `dose_manipulation` (the delivered substance, a subject_manipulation leaf) + a `session_relative_reference` 'during' anchor + a CONDITIONAL `term_observation` (only when the source names a location), and that emitted set IS the intended end state. Deferred in pass 1 (`did2:convert:needsSessionContext`) by design, assembled by the `resolveDeferredBaths` batch pass. Strict-J D8 disposition -- the `bath`/`pharmacological_manipulation` family is retired -- matching the treatment family (`treatment_drug` / `virus_injection` also -> `dose_manipulation`). Answered against the generated confirm sheet and bar2_gap's Dab UNDECIDED flag (1,605 docs).
 
+Decided by Jess Haley, 2026-10-21 [bath is a manipulation]: A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.
+
+Decided by Jess Haley, 2026-10-21 [immersion or dose]: A subject immersed in a formulation (bath, perfusion, the Haley assay droplet) is a manipulation valued by the formulation; a subject given a quantity is a dose, and an unrecorded amount is stated as unknown, never left empty.
+
+Decided by Jess Haley, 2026-10-21 [unrecorded amount is NaN]: An unrecorded amount is written as NaN in its quantity (e.g. a dose's volume.liters: NaN), and V2 stores NaN the way V1 does.
+
+This changes the `dose_manipulation` half of the 2026-08-22 line above; the
+anchor and the conditional location `term_observation` are unchanged. Why it
+came up: a bath gives no amount, so the bath dose was written with an empty
+`dose.value`, and the value rule (`value_inline_or_body`,
+`V_eta_data_body_model_plan.md` AMENDMENT 5, with Jess's `value_id`
+clarification) refuses a value that is neither inline, in bodies, nor taken
+through `value_id`. `formulation` is a value kind (its superclass is `value`),
+so the bath becomes a `manipulation` listing `formulation` as its value kind,
+with an empty `value` and a `value_id` edge to the bath's `formulation`
+document (the one listing the mixture's ingredients). `dose.json` no longer
+says a dose may be empty for a bath.
+
+The second 2026-10-21 line widens the first from baths to anything a subject
+is immersed in. The test is immersion versus taking in a quantity: a subject
+sitting in a formulation (a bath, perfusion) is a `manipulation` valued by the
+formulation through `value_id`; a subject given an amount of it is a `dose`.
+The Haley assay droplet is the case that prompted it: worms are picked with an
+eyelash into a droplet of S-Complete, which evaporates before recording starts,
+so the droplet is a transitory bath, not a dose. A dose whose amount the source
+does not record states the amount as unknown rather than leaving `dose.value`
+empty.
+
+The third 2026-10-21 line says how: NaN in the quantity's canonical slot (a
+dose of unrecorded volume is `dose.value.volume.liters: NaN`). V1 already
+stores NaN: it writes documents with `did.datastructures.jsonencodenan`
+(`jsonencode(..., 'ConvertInfAndNaN', false)`), so the text carries the
+literal `NaN`. V2's `did2.document` wrote plain `jsonencode`, which turns a
+scalar NaN into `null`, read back as `[]`, so an unknown amount came out of the
+database as an absent one. DID-matlab now writes NaN, Infinity and -Infinity as
+literals, as V1 does; `testSqliteDbNonFinite` tests the round trip through
+`did2.database.sqlitedb` and SQLite's JSON functions. A NaN amount is a stated
+value under `value_inline_or_body` (a number is not a blank). Which doses get
+NaN, and in which quantity, is decided case by case; no migrator or import
+writes it yet.
+
+Decided by Jess Haley, 2026-10-21 [prepared material recipe]: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
+
+The Haley V2 import wrote the daily seeding suspension (an entity of type
+material) as a `dose` manipulation with no amount, which the value rule
+(AMENDMENT 5) refuses. Nothing was given to the suspension; it was made to a
+recipe. So it becomes an `assertion` about the suspension whose value kind is
+`formulation`, with an empty `value` and a `value_id` edge to the recipe's
+`formulation` document, `variable` = composition (PATO:0000025, registered in
+`V_eta_term_registry.json`). `instance_of` does not fit: its registry row
+allows only a `product` or `strain` parent, and `formulation` is a value, not
+an entity. The suspension's OD600 and CFU observations are unchanged.
+
+Decided by Jess Haley, 2026-10-21 [seeding solution preparation day]: "The seeding solution's preparation day goes on the solution entity's own time_reference_id (when it existed, from its preparation); the composition assertion stays timeless. A dilution is linked to the stock solution it was made from by a `derived_from` relation (dilution -> that day's stock)."
+
+The first line's assertion was built at first with the time the dose had
+carried, and `did2.build` refused it: an assertion is a timeless fact
+(`V_eta_tenets.md`) and `assertion.json` declares no `time_reference_id`.
+So the composition assertion has no time, and the day the solution was
+prepared is the solution entity's own `time_reference_id` (`entity.json`:
+"when this entity existed"). Each dilution is a `directed_relation`
+`derived_from` (RO:0001000) with the dilution as child and that day's stock
+solution as parent; the registry's `derived_from` row leaves `child_types`
+and `parent_types` empty (unconstrained), so material to material needs no
+registry change.
+
+Decided by Jess Haley, 2026-10-21 [treatment routes by location]: "The v1 treatment migrators decide by the recorded location: a bath location makes the treatment an immersion (a manipulation valued by its formulation through value_id); a body site (intraperitoneal, a brain area, ...) makes it a dose, with the source's amount when it has one and otherwise NaN in the quantity; virus_injection is always a dose (an injection), its volume NaN when unrecorded, its dilution staying on the formulation; a generic treatment with no location stays a dose with NaN and is listed in the migration report as route unknown."
+
+This applies the immersion-vs-dose line above to `treatment` (its substance
+branch), `treatment_drug` and `virus_injection`, and settles how an unrecorded
+amount is written for them: NaN in the dose's quantity. Built on DID-matlab
+`claude/port-88` (`+migrators_j/private/jTreatmentRoute.m`,
+`jTreatmentBodies.m`, `jDoseValue.m`). The bath test is the location term's
+node `NCIm:C0179246` (the node NDI's Birren and Babu writers use) or its name
+`bath`. A dose's amount is taken from a mixture row only when that row's unit
+is an amount (mass, volume, or per body mass: Hunsberger writes `mg/kg`); a
+row in a concentration unit (Molar, % v/v) stays on its ingredient, and
+otherwise the dose carries `value.volume.liters` = NaN. A treatment with no
+location is counted in `summary.migration_notes.route_unknown`. Whether NaN
+survives a did2 write and read is DID-matlab #218's work, not this one's.
+
+Decided by Jess Haley, 2026-10-21 [region parts]: "Any statement about an anatomical region of a subject — manipulation or observation — targets that region's part entity (one per subject and region, shared, type tissue, `part_of` the subject). A statement about the whole subject (a whole-prep or whole-slice bath, i.e. the generic 'bath' location NCIm:C0179246) targets the subject. This replaces D3's located-by-default."
+
+Decided by Jess Haley, 2026-10-21 [laterality on the part]: when a probe records an area plus a hemisphere, the migrator makes one part entity for the area and states the hemisphere on it as a term assertion, not a second part entity.
+
+Decided by Jess Haley, 2026-10-21 [laterality variable]: that assertion's variable is NCIT:C25185 "Laterality", and its value is the hemisphere term as the source wrote it (e.g. UBERON:0002812 left cerebral hemisphere).
+
+Decided by Jess Haley, 2026-10-21 [anatomy variable terms]: the variable "anatomical location" (where a probe, treatment or bath acts) is NCIT:C13717 "Anatomic Site", and "anatomical structure" (what a region part entity is) is UBERON:0000061 "anatomical structure"; both are registered.
+
+Decided by Jess Haley, 2026-10-21 [one part per side]: region parts are one per animal, area and side, so an animal recorded in left and right V1 has two parts, each with its own Laterality assertion.
+
+Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a region within a brain slice points at a region part entity that is a part of the slice, which is itself a part of the animal (animal -> slice -> region), so the bath on the slice and the recording share one chain.
+
+Decided by Jess Haley, 2026-10-21 [region anatomy is UBERON]: a region part entity's anatomy term is UBERON; the migrator flags and counts any non-UBERON anatomy term it meets rather than mapping it.
+
+The located-by-default policy it replaces (D3, `V_eta_discovery_notes.md` and
+`V_eta_migration_plan.md` D3) was a first-pass cost call with no sign-off: a
+site was a bare `anatomical location` value on the animal, and a part entity
+was minted only where an intervention was co-anchored with it. Now every
+statement about a region is about that region's part, an `entity` of type
+`tissue` with a term assertion of its anatomical kind and a `part_of` relation
+to the subject. There is one part per (subject, region), so an injection into a
+region and a recording from it are about the same entity. What it means for
+each source, as agreed in the same conversation:
+
+- A bath at an anatomical location (Marder `marder_bathtargets.json`: `upper`
+  UBERON:8910017-22, `lower` UBERON:8910010) targets the compartment's part.
+  The generic bath (`NCIm:C0179246`, every Dabrowska bath and Marder's `bath`)
+  targets the whole slice or prep, so NDI's `sliceTetanus` matching is
+  unaffected.
+- `treatment`, `treatment_drug` and `virus_injection` into a region already
+  target the part (NDI `pathSPromotion`).
+- A recording from a region (a probe with a `probe_location`, or a label naming
+  a region from `ontology_label`) becomes an observation of the region's part,
+  the same entity an injection into that region targets.
+
+Built on NDI-matlab `claude/second-pass-88-regions`
+(`+ndi/+migrate/+internal/pathSPromotion.m`, `stimulusBathToBath.m`,
+`local.m`) and DID-matlab `claude/port-88` (`resolveDeferredBaths.m`: no
+location observation for the generic bath). Not settled by this line and left
+as they were, with counts in the pass's report: a probe with more than one
+location (the Soph and 20211116 probes carry both `primary visual cortex` and a
+cerebral hemisphere), a recording already moved onto a Dabrowska slice (a region
+part of a slice), and a bath with no time reference to anchor its site on.
+
+Decided by Jess Haley, 2026-10-21 [babu-media]: "In the v1 migration, Babu treatments located at agar plate medium (MICRO:0000480) or ambient air (XCO:0000918) are exposures of the worms: a manipulation of the worm subject valued by the formulation through value_id, not a dose, with no anatomical-location observation; a heat row (OM:Heat, 37 °C) is a temperature manipulation of the worms at each training time. Plates are not minted in the migration; they are minted in a proper Babu V2 import from source."
+
+This settles the Babu case the location rule above did not fit: NDI's
+`+babu/TreatmentCreator.m` writes its chemical, odour and OP50 rows as
+`treatment_drug` documents located at agar plate medium or ambient air
+(`+babu/treatments.json` `agar`, `air`), and the literal rule made them doses
+with a NaN amount and an "anatomical location" of agar or air. Built on
+DID-matlab `claude/port-88` (`47d0f4fa`): `jTreatmentRoute` routes the two
+media to the immersion shape, and `treatment_drug` turns a mixture whose
+every row is `OM:Heat` into a `temperature_manipulation` (`celsius` filled
+from the NCIT:C42559 "Degree Celsius" unit). Babu writes one heat document per
+training time, so each migrates to its own temperature manipulation.
+
+Decided by Jess Haley, 2026-10-21 [virus-location]: "virus_injection follows the same location rule as the other treatments: a bath location makes it an immersion (a manipulation of the subject valued by the virus formulation through value_id, no location observation); a body site makes it a dose. A dilution of 0 is treated as not recorded (NaN), not as a measured 0."
+
+This SUPERSEDES the "virus_injection is always a dose (an injection), its
+volume NaN when unrecorded, its dilution staying on the formulation" part of
+the treatment-location line above ([treatment-location], "The v1 treatment
+migrators decide by the recorded location"); the rest of that line stands.
+The case that prompted it: NDI's Birren writers (`+birren/TreatmentCreator.m`,
+`createSayaTreatments.m`) record AAV DREADDs for cell cultures as
+`virus_injection` located in the bath (NCIm:C0179246), with `dilution = 0`,
+the template blank. Built on DID-matlab `claude/port-88` (`2c306d60`):
+`virus_injection` is routed by `jTreatmentRoute` like `treatment_drug` (bath
+-> a formulation-valued manipulation through `value_id`; a body site -> a dose
+with `value.volume.liters` = NaN and the site observation; no location -> that
+dose, counted as `route_unknown`), and a dilution of 0 leaves the virus
+ingredient's concentration NaN with no "dilution" unit.
+
+Decided by Jess Haley, 2026-10-21 [unknown-amount-slot]: When a dose's amount was not recorded and the kind of quantity is not known, the NaN goes in value.volume.liters; where the kind is known (from the source, the paper, or a case raised with the team), the NaN goes in that quantity instead, decided case by case.
+
+Built on DID-matlab `claude/port-88` (`4ad0c1cc`, `private/jDoseValue.m`):
+`value.volume.liters` stays the default, and when a source row states the
+kind of amount (an amount unit: mass, volume, per body mass) but no number,
+the NaN goes in that quantity with the unit as `source_unit`. No NDI writer on
+`origin/main` writes such a row today (Hunsberger always gives 1 or 0.25
+mg/kg; the Birren and Babu rows are concentrations), so a constructed test
+covers it. A kind known only from a paper or a team case is not in the source
+and is decided case by case, as the line says; nothing builds it generally.
+
+Decided by Jess Haley, 2026-10-21 [dose per ingredient]: "A dose states the amount of the whole formulation in its top-level quantities, and the amount of any specific ingredient in `value.ingredients`, each entry paired by order with a repeated `ingredient_id` edge on the dose itself (0-based, the same convention as the formulation: exactly one entry per ingredient_id edge, same order); each ingredient_id on a dose must be one of the ingredients of the dose's formulation."
+
+The motivating case is Hunsberger's alprazolam "1 mg/kg": an amount of the
+active chemical per body mass, not of the injected solution (alprazolam in
+saline). Built in `schemas/V_eta/stable/dose.json`: a repeated, ordered,
+optional `ingredient_id` edge declared like the formulation's, and
+`value.ingredients` (entries `mass`, `volume`, `substance_amount`, `count`,
+`amount_per_body_mass`). Two named rules: `ingredients_match_edges` (one entry
+per edge, same order) is checkable on the dose alone;
+`ingredient_in_formulation` needs the formulation document, so it is a batch
+or builder check, not a per-document one.
+
+Decided by Jess Haley, 2026-10-21 [multiple amount rows]: when a v1 treatment carries more than one amount row, the migrator puts each amount in its matching dose slot (volume, mass, substance_amount, count, or an ingredient's amount_per_body_mass), instead of taking an amount only when exactly one row exists.
+
+Decided by Jess Haley, 2026-10-21 [named-chemical amount on the ingredient]: a v1 treatment amount row in mass or substance-amount units that names a chemical goes into that chemical's dose ingredient entry (value.ingredients[k], paired with its ingredient_id edge), because it is the amount of that chemical delivered, not of the whole formulation; the dose's top-level mass is used only for a row that names no chemical. The formulation keeps the recipe (added amounts or final concentrations), not what one animal received.
+
+Decided by Jess Haley, 2026-10-21 [blank per-body-mass on the ingredient]: a v1 per-body-mass amount row (e.g. mg/kg) that names a chemical but has no number goes into that chemical's dose ingredient entry with NaN as its value, the same place a filled-in row goes; it is not written at the dose's top level.
+
+Decided by Jess Haley, 2026-10-21 [generic treatment number]: a generic v1 treatment's numeric_value is never read as an amount of an ingredient or of the dose; it is carried as the value the treatment's term says it is (the vhlab grating stimulation row's number is a duration in hours), and kept as an unlabelled number only when the term does not say.
+
+Decided by Jess Haley, 2026-10-21 [treatment onset]: a migrated treatment manipulation is anchored at the v1 administration_onset_time when one is recorded, and at "during the session" only when none is.
+
+Decided by Jess Haley, 2026-10-21 [virus injection onset]: a v1 virus_injection's virus_AdministrationDate is its onset, so the migrated manipulation is anchored at that date; "during the session" only when the date is absent.
+
+Decided by Jess Haley, 2026-10-21 [transfer onset]: a v1 treatment_transfer's timestamp (clock dev_local_time, written by the Babu importer as a negative number of hours) is its onset, so the migrated transfer is anchored at that time on the session's local clock; "during the session" only when no timestamp is recorded.
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
@@ -830,3 +1027,66 @@ TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm sheet]: jess@walthamd
 TEAM-SIGN-OFF [dimensioned classes, batch confirmation]: jess@walthamdatascience.com / 2026-09-29 -- confirmed as persisting classes: the observations `acceleration_observation`, `concentration_observation`, `current_observation`, `frequency_observation`, `mass_observation`, `pressure_observation`, `temperature_observation`, `velocity_observation`, `volume_observation`; the composites `capacitance`, `conductance`, `current`, `energy`, `force`, `intensity`, `power`, `resistance`; `date_assertion`; `contrast_sensitivity_calculation`; `subject_assertion`; and the tuning leaves under their #73 names (`orientation_direction_tuning_calculation`, `contrast_tuning_calculation`, `spatial_frequency_tuning_calculation`, `temporal_frequency_tuning_calculation`, `speed_tuning_calculation`). (audit 2 C19; the two classes that finding counts but does not name are not covered.)
 
 RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **58 markdown files under `schemas/`** (was 57; +`V_eta_entity_composition_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`, Jess Haley's decision: the term list lives in did-schema and an unregistered term is an error). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **63 markdown files under `schemas/`** (was 62; +`V_eta_relation_inheritance_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **65 markdown files under `schemas/`** (was 64; +`V_eta_method_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+
+Decided by Jess Haley, 2026-10-21 [sorter input]: spike-sorter output (`jrclust_clusters`, `kilosort_clusters`, `kiasort_clusters`; a calculation with the `label` value kind, per the 2026-09-29 sign-off) takes as its input the per-epoch recording observations of the electrode it sorted, when they exist, falling back to the electrode entity when they do not (answer "1b").
+
+Decided by Jess Haley, 2026-10-21 [sorter keys]: `kilosort_clusters` and `kiasort_clusters` carry no keys: the sorter's output folder is the value as-is, and "keys [spike]" applies only where the bytes are an array (as in `jrclust_clusters`) (answer "2a").
+
+Decided by Jess Haley, 2026-10-22 [migrated masks are logical]: a migrated v1 imageStack mask is a calculation with the `logical` value kind (one per mask, 1 = inside), its variable the region it marks, as the native Haley import writes masks ([masks use the region variable], T-11); no method, because none is recorded. Replaces the label value kind and the "pixel label" variable. (Answer "3A".) Her calculations' software is her analysis package (spec `haley_analysis`, decision #60 of the Haley import), already so in the import.
+
+Decided by Jess Haley, 2026-10-22 [sorter software]: a spike-sorter output with no `app` block names its software from its v1 class (jrclust, kilosort, kiasort); a sorted unit (`neuron_extracellular`) with no software record has no `software_id` (per [calculation-software-optional decided]), not an invented "spike sorter". (Answer "4c".)
+
+Deferred by Jess Haley, 2026-10-22, to before the Haley V2 import: whether the Haley import's acquisition systems should carry the software entities naming NDI classes (`ndi.daq.system.image`, `ndi.file.navigator.bodies`, `ndi.daq.reader.image.ndr`; Haley import decisions #29, #33). Not decided; nothing changes until then.
+
+Decided by Jess Haley, 2026-10-22 [migrated masks have no software]: a migrated v1 imageStack mask calculation carries no `software_id`, because v1 `imageStack` records none ([calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md); the native Haley import names her analysis package. Answer "2y".
+
+Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley density estimate's dimension is NCIT:C62143 Encounter, with `onset time` as a covariate along it, not a dimension named "encounter onset time" (answer "7.4a").
+
+Decided by Jess Haley, 2026-10-22 [software dedup after pass one]: duplicate software, operating-system and interpreter entities are merged right after the first pass, not only at the end, with a test that the final document set is unchanged (answer "10a"; Soph peaked at 14.4 GB RSS plus 5 GB swap on a 16 GB runner, 665k documents before the end-of-run merge, 224k after).
+
+Deferred by Jess Haley, 2026-10-22, until before the Haley V2 rerun (after the merge): whether the Haley import's acquisition systems carry the NDI software entities ("8 defer for a little longer"; "Decision 8 needs to come before the Haley rerun").
+
+Decided by Jess Haley, 2026-10-22 [software location]: software an NDI object is rebuilt from (the software behind acquisition_system, acquisition_reader and epoch_file_pattern) stays in EACH session, in both paths (the migrator and the Haley import); only descriptive software is merged to the dataset, and softwareDedup changes accordingly. This answers deferred decision 8 above: the Haley import keeps its three software entities (answer "H1a").
+
+Decided by Jess Haley, 2026-10-22 [object software scope]: the software NDI rebuilds an object from is the software of every ndi.vintage.map class with an object_edge (acquisition system, reader, file pattern, syncgraph/syncrule clock alignment) plus any `reader_id`; all of it stays in its session (answer "both ok"). Built: NDI-matlab 6c4a27c14.
+
+Decided by Jess Haley, 2026-10-22 [NDI ref fallback]: DID-matlab's Test code workflow resolves its NDI-matlab sibling by the same-name branch, then `claude/v2-object-layer` (NDI #1021's head, until #1021 merges), then `V2`, then `main`, instead of falling back straight to `main` (where `+ndi/+migrate` does not exist, so the cross-repo divergence check skipped); the integration branch is removed from it and from did-schema's tests.yml in the first commit after the merge (answers "9 A, but I think remove the object layer branch" and then "B"; the order with the integration branch ahead of `V2` is the one that keeps CI reading #1021 before the merge, as clarified to her on 2026-10-22).
+
+Decided by Jess Haley, 2026-10-22 [NDI ref fallback, test-corpus]: DID-matlab's test-corpus.yml resolves NDI-matlab in the same order as [NDI ref fallback] (answer "yes to all three"). Built: DID-matlab 4963355.
+
+
+## 2026-10-22 -- tenet audit: acquisition
+
+Decided by Jess Haley, 2026-10-22 [epoch to system link]: the `recorded_by` relation row is dropped. An epoch reaches its acquisition system through the recording interaction's `acquisition_channels_id` and then `acquisition_channels.acquisition_system_id`; `acquisition_system.device_id` is filled when known (in the Haley import, the camera entity, `instrumentFor` in sessionDocuments.m). It depends on [channel types] (answer "A1 agreed").
+
+Decided by Jess Haley, 2026-10-22 [channel types]: `acquisition_channels.channels.type` binds the 10 hardware channel types, rooted at NCIT:C44170 Channel: md NCIT:C52095 Metadata, tx NCIT:C25704 Text, and EMPTY:0000370-0000377 (analog input, analog output, digital input, digital output, time, auxiliary input, event and marker channel). The migrator maps the v1 prefixes to these terms, and NDI's vintage map maps them back for its readers; that map lives in their code, not in the term registry (Jess Haley's clarification the same day: the registry needs nodes, not synonyms), and code matches a channel type by its node. The 8 derived read modes (dep den dimp dimn aep aen aimp aimn) get no terms (0 uses in the corpus probemaps: B {mk,e,md,ai}, Dab {mk,e,ai,md,ao}, Soph {mk,e,md,ai}). Her answers: "agreed, B2a with 10"; "should be real terms". (The old 4-value list came from d329ef0, which copied daqsystemstring.m's example.)
+
+Decided by Jess Haley, 2026-10-22 [required acquisition edges]: `acquisition_system.reader_id` and `epoch_file_pattern_id` are required (answer "H2a"). Built: both edges `mustBeNonEmpty`.
+
+Decided by Jess Haley, 2026-10-22 [instrument and device]: `interaction.instrument_id` and `acquisition_system.device_id` are both kept and no rule ties them. instrument_id is "the device that sensed or acted on the subject (electrode, stimulator, camera, thermometer)"; device_id is "the device that produced the files this system reads (a digitizer, a camera, a computer); the same entity as an interaction's instrument when one device does both" (answer "a"). Built: the two edge documentations.
+
+Decided by Jess Haley, 2026-10-22 [rig minting with edges]: the #73 item 56 rig-minting pass mints each acquisition system from its v1 daqsystem document, with `reader_id` and `epoch_file_pattern_id`; a devicestring naming a rig with no daqsystem document gets no system and is counted (measured 2026-10-22: 0 such rigs in B, Dab, Soph, 20211116, PRED) (answer "2a"). Built: DID-matlab d2b3558 (a daqsystem missing its reader or navigator is quarantined), af27912 (`rigs_without_daqsystem` count).
+
+Decided by Jess Haley, 2026-10-23 [generic_file emitted set]: the set DID-matlab's batch pass `did2.convert.foldGenericFiles` emits for a v1 `generic_file` is the end state: an `observation + term` keeping the v1 id (its `variable` from the sibling `ontologyLabel`) plus an `opaque_body` holding the file; a document the pass cannot fold stays as it is, counted under its refusal reason (answer "K2 a"). Recorded as `confirmed_targets` in `V_eta_migration_targets.json`; [stranded sources] in `V_eta_OPEN_WORK.md` is the earlier decision this confirms.
+
+Decided by Jess Haley, 2026-10-23 [v1 passthroughs accepted]: these 13 classes stay as v1 documents for now: binnedspikeratevm, distance_metadata, oneepoch, openminds, openminds_stimulus, simple_calc, spike_clusters, spikewaves, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, SpikeInterfaceSortingOutputs, ontologyLabel; any corpus holding one is reported not done until that class is built (`openminds` and `stimulus_parameter` keep their decided targets) (answer "K22 a").
+
+Decided by Jess Haley, 2026-10-23 [sliceTetanus stays in NDI]: `sliceTetanus` stays in NDI's second pass until after the merge; moving it to DID's migrators would need re-proving on the corpora (answer "K23", as recommended).
+
+Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: what the migrator emits today is the end state for demoNDI and demoNDIMock (one `demo`, `mock` false/true), electrode_offset_voltage (a voltage observation of the probe, temperature as a condition), hartley_calc (receptive_field_calculation, two sampled bodies, spike-times body, anchor, software), openminds_element and openminds_subject (one term assertion), position_metadata (term observation, variable "position"), probe_location (term observation of the probe, atlas term) and subject_group (group entity plus member_of per member) (answers "K8, K9, K12, K16, K17, K18, K19 a"). Recorded only after the code was read and matched the description approved (DID-matlab 4667fb7). The other confirm-sheet answers of the same day (K5, K6, K7, K10, K11, K13, K14, K15, K20, K21) are NOT recorded: the code differs from what was described, and they go back to the team.

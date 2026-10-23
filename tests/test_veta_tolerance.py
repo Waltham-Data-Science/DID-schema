@@ -16,10 +16,20 @@ ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "V_eta")
 # or condition descriptor (its spacing, origin, coordinates, or quantity), not to a
 # value, so a bound would mean something new. Left out by decision, not omission.
 NOT_VALUES = {
-    "acquisition_epoch.keys",
-    "data.keys",
+    # data_body plan AMENDMENT 6 (2026-10-22): the axis key's descriptors are now a
+    # covariate's (`keys` -> `dimensions` + `covariates`); same decision, new name.
+    "acquisition_epoch.covariates",
+    "data.covariates",
     "data_body.conditions",
-    "subject_statement.conditions",
+    "statement.conditions",
+    # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,
+    # so it takes the condition's `approximate` and, like it, no tolerance.
+    # Since 2026-10-21 the list is `method.parameters` (one `method` block,
+    # V_eta_method_plan.md), which `relation` now carries too.
+    "clock_alignment_configuration.method.parameters",
+    "interaction.method.parameters",
+    "method.parameters",
+    "relation.method.parameters",
 }
 
 
@@ -63,7 +73,9 @@ def test_every_value_that_can_be_approximate_can_state_a_tolerance():
 def test_every_tolerance_is_a_non_negative_minus_plus_pair():
     _files, places = _places()
     tols = [(p, t) for p, t in places if t is not None]
-    assert len(tols) >= 60, len(tols)
+    # >= 50, not >= 60, since 2026-10-21: the deleted `visual_grating` held nine
+    # tolerance-bearing cells (V_eta_method_plan.md); 57 remained.
+    assert len(tols) >= 50, len(tols)
     for p, t in tols:
         assert t["type"] == "structure", p
         assert [x["name"] for x in t["fields"]] == ["minus", "plus"], p
@@ -77,6 +89,6 @@ def test_the_amendment_reaches_counts_scores_dates_and_the_dose_ratio():
     _files, places = _places()
     have = {p for p, t in places if t is not None}
     for p in ("count.value", "score.value", "date.value",
-              "visual_grating.value.contrast", "dose.value.amount_per_body_mass",
+              "dose.value.amount_per_body_mass",
               "dose.value.count"):
         assert p in have, p

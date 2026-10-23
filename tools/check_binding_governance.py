@@ -17,8 +17,8 @@ DIFFERENT binding shapes, declared in two places, checked by almost nothing:
   SHAPE 3  term_set       `vocabulary` + `term_set`, naming an openMINDS
                           instance library catalogued in the registry
                                                                 (3 fields)
-  SHAPE 4  node_form      the three pivot fields (subject_statement.variable,
-                          subject_interaction.method,
+  SHAPE 4  node_form      the three pivot fields (statement.variable,
+                          interaction.method,
                           interaction_purpose.purpose): a LEXICAL rule on the
                           value's `node` -- must be a well-formed CURIE -- and
                           no admissible set                      (3 fields)
@@ -65,9 +65,9 @@ WHAT IT CHECKS  (each finding is a COUNT with a denominator and a ratchet)
   B7  the D9 LEAF-SELECTION GAP -- the concrete cost of leaving #32 open. The
       signed `subjectmeasurement` fold says the typed leaf "must be chosen
       through the D9 registry"; every normative `subject_statement_bindings`
-      row binds to `term_assertion`, and the only dimensional row in the file
-      sits under `binding_examples`, which the registry's own notes call
-      illustrative. So the lookup resolves nothing for `age`, and DID-matlab
+      row binds to `term_assertion` (the four illustrative `binding_examples`
+      rows, one of them dimensional, were deleted 2026-10-21). So the lookup
+      resolves nothing for `age`, and DID-matlab
       shipped `jQuantityLeaf` as a documented keyword-table stand-in.
   B8  CURIE prefixes used by admissible sets that CURIE_lookups_meta.json does
       not register. This is the `time:` repair recurring: a CURIE whose prefix
@@ -111,15 +111,17 @@ REGISTRY_FILE = "binding_registry_meta.json"
 META_FILE = "did_schema_meta.json"
 CURIE_FILE = "CURIE_lookups_meta.json"
 
-# The registry's list-valued blocks, and whether they are NORMATIVE. The
-# registry's own `notes` say `binding_examples` "holds illustrative rows only
-# and is not swept data" -- so a lookup that resolves only against
-# binding_examples resolves nothing. B7 turns on exactly that distinction.
+# The registry's list-valued blocks, and whether they are NORMATIVE. Every list
+# is normative since the illustrative `binding_examples` block was deleted
+# (Jess Haley, 2026-10-21); the flag stays so a non-normative list would have to
+# be declared as one.
 REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
-    "binding_examples": False,
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # `entity.type` requires. Normative, and carries no strength of its own.
+    "entity_type_bindings": True,
 }
 
 # A CURIE-looking token: a prefix, a colon, then a local part. Deliberately
@@ -174,21 +176,37 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # B6: bound fields with no registry catalogue row (11 of 14 today: only the
 # three `dataset` openMINDS fields are catalogued).
 # 15 -> 17 (2026-09-30, jess): `study.factors` and `study.design`, bound
-# {strength: preferred, node_form: curie} exactly like `subject_statement.variable`
-# and `subject_interaction.method`, which are also uncatalogued. Cataloguing a
+# {strength: preferred, node_form: curie} exactly like `statement.variable`
+# and `interaction.method`, which are also uncatalogued. Cataloguing a
 # node_form-only binding in the registry is a separate question, open for all four.
 # 17 -> 18 (2026-09-30, jess): `directed_relation.roles`, bound inline to the CRediT
 # roles + `corresponding author` (the same inline_set shape as channels.type).
 # 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
 # subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
-# node_form: curie} like `study.factors` and `subject_statement.variable`.
+# node_form: curie} like `study.factors` and `statement.variable`.
 # 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
-# and the `variable` of keys (data, acquisition_epoch), conditions (subject_statement,
-# data_body) and method parameters (subject_interaction, method_parameters,
+# and the `variable` of keys (data, acquisition_epoch; covariates since 2026-10-22,
+# data_body plan AMENDMENT 6, beside the dimensions' bound `term`), conditions (statement,
+# data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 28
+# 28 -> 93 (2026-10-21, jess; V_eta_source_unit_plan.md, to sign): every
+# dimensioned value's `source_unit` is now an ontology_term bound {strength:
+# preferred, node_form: curie} like `statement.variable` -- 65 more bound
+# declarations, uncatalogued for the same reason as `variable`.
+# 93 -> 94 (2026-10-22, Jess Haley [clock alignment relation bound]):
+# `clock_alignment.relation` is bound to its relation_bindings rows, like
+# directed_relation.relation, which is uncatalogued for the same reason.
+# 94 -> 114 (2026-10-22, Jess Haley, tenet audit): +8 entry and covariate `unit`
+# slots ([units bound]), +2 `response_unit` ([remaining units bound]), +9 for the
+# one fit entry's `model` and two `unit`s on model_fit, tuning_curve and
+# contrast_sensitivity ([one fit entry], [remaining units bound]), +1 the
+# `irradiance` cell's `source_unit` ([irradiance]); all bound {strength:
+# preferred, node_form: curie} like `source_unit`, uncatalogued for its reason.
+# 114 -> 115 (2026-10-22, Jess Haley [harmonic response unit bound]):
+# `harmonic_component.response_unit`, bound like tuning_curve's.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 115
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
@@ -198,8 +216,10 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 28
 # in fact and uncatalogued by this measure. Raised by the number of fields added.
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
-# does not register, matched CASE-INSENSITIVELY (the generous reading).
-# NCBITaxon, CL, CHEBI (registry root_nodes) + BFO, RO (relation nodes).
+# does not register, matched CASE-INSENSITIVELY by key, spelling or synonym (the
+# reading signed 2026-10-19, V_eta_prefix_spelling_plan.md). The 5 it was set to
+# (NCBITaxon, CL, CHEBI, BFO, RO) were all registered by section 6 on
+# 2026-10-08; it reads 0 today and the ceiling is left where it was.
 BASELINE_UNREGISTERED_PREFIXES = 5
 
 # B9: bindings an ontology-aware validator would have nothing to resolve
@@ -473,8 +493,6 @@ def run(veta=VETA):
             "registry_lists": {k: len(reg.get(k, [])) for k in REGISTRY_LISTS},
             "registry_rows_normative": sum(
                 len(reg.get(k, [])) for k, norm in REGISTRY_LISTS.items() if norm),
-            "registry_rows_illustrative": sum(
-                len(reg.get(k, [])) for k, norm in REGISTRY_LISTS.items() if not norm),
             "curie_prefixes_registered": len(curie.get("prefixes", {})),
         },
         "inventory": [],
@@ -601,13 +619,15 @@ def run(veta=VETA):
 
     # -- B7 -----------------------------------------------------------------
     ssb = reg.get("subject_statement_bindings", [])
-    ex = reg.get("binding_examples", [])
     by_class_norm = {}
     for e in ssb:
-        by_class_norm.setdefault(e.get("class"), 0)
-        by_class_norm[e.get("class")] += 1
+        # a row may name more than one class (Developmental Stage: observation
+        # or calculation; Jess Haley 2026-10-22 [developmental stage])
+        c = e.get("class")
+        c = " | ".join(c) if isinstance(c, list) else c
+        by_class_norm.setdefault(c, 0)
+        by_class_norm[c] += 1
     dim_norm = [e for e in ssb if e.get("class") != "term_assertion"]
-    dim_ex = [e for e in ex if e.get("class") != "term_assertion"]
     r["findings"]["B7_d9_leaf_selection_gap"] = {
         # the count IS the gap: how many dimensional leaves a strict registry
         # lookup can resolve. 0 means the signed subjectmeasurement fold cannot
@@ -616,15 +636,23 @@ def run(veta=VETA):
         "normative_rows": len(ssb),
         "normative_rows_by_target_class": by_class_norm,
         "normative_dimensional_rows": len(dim_norm),
-        "illustrative_rows": len(ex),
-        "illustrative_dimensional_rows": [
-            {"variable": e.get("variable", {}).get("name"), "class": e.get("class")}
-            for e in dim_ex],
     }
 
     # -- B8 -----------------------------------------------------------------
     prefixes = set(curie.get("prefixes", {}))
-    lower = {p.lower() for p in prefixes}
+    # A reader recognises a prefix by the entry's key, its `spelling` or any of
+    # its `synonyms`, ignoring case (signed 2026-10-19,
+    # V_eta_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
+    # its key. `written_as` entries are spelled through another entry, so their
+    # spelling names that entry, not them.
+    entries = curie.get("prefixes", {})
+    spelled = {e.get("spelling", k) for k, e in entries.items()
+               if "written_as" not in e}
+    lower = {p.lower() for p in prefixes} | {s.lower() for s in spelled}
+    for k, e in entries.items():
+        lower |= {s.lower() for s in e.get("synonyms", [])}
+        if "legacy_rewrite" in e:
+            lower.add(e["legacy_rewrite"]["legacy_prefix"].lower())
     seen = {}
     scopes = [("field bindings", [row["binding"] for row in rows])]
     for k, norm in REGISTRY_LISTS.items():
@@ -638,12 +666,14 @@ def run(veta=VETA):
             seen[pfx]["scopes"].add(scope)
     unreg_ci = sorted(p for p in seen if p.lower() not in lower)
     unreg_cs = sorted(p for p in seen if p not in prefixes)
+    not_spelled = sorted(p for p in seen if p.lower() in lower and p not in spelled)
     r["findings"]["B8_unregistered_curie_prefixes"] = {
         "count": len(unreg_ci),
         "prefixes_seen": sorted(seen),
         "registered": sorted(prefixes),
         "unregistered_case_insensitive": unreg_ci,
         "unregistered_case_sensitive": unreg_cs,
+        "registered_but_not_written_as_spelling": not_spelled,
         "detail": {p: {"tokens": sorted(seen[p]["tokens"]),
                        "scopes": sorted(seen[p]["scopes"])}
                    for p in unreg_cs},
@@ -725,7 +755,6 @@ def report(r):
     print(f'    field declarations inspected       : {d["field_declarations"]}  (nested sub-fields included)')
     print(f'    fields carrying constraints.binding: {d["bound_fields"]}')
     print(f'    registry rows, NORMATIVE            : {d["registry_rows_normative"]}  {{k: v for k, v in d["registry_lists"].items() if REGISTRY_LISTS[k]}}')
-    print(f'    registry rows, ILLUSTRATIVE         : {d["registry_rows_illustrative"]}  {{k: v for k, v in d["registry_lists"].items() if not REGISTRY_LISTS[k]}}')
     print(f'    CURIE prefixes registered           : {d["curie_prefixes_registered"]}')
     print("    corpus documents inspected          : 0 -- NO corpus report is checked")
     print("                                          into either repo. Every count")

@@ -125,7 +125,7 @@ per-class migrator.
     },
     "probe_location": {
         "location": {
-            "node": "uberon:0002436",
+            "node": "UBERON:0002436",
             "name": "primary visual cortex"
         }
     }

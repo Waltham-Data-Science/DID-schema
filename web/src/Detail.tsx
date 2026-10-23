@@ -4,7 +4,7 @@ import type {
   IndexEntry,
   FieldDef,
   SchemaDocument,
-  DecisionFamily,
+  ClassDecision,
   DecisionsDoc,
 } from "./types";
 import { superclassName } from "./types";
@@ -102,9 +102,7 @@ export function Detail({ entry }: Props) {
   };
   const maturity = dc.maturity_level ?? entry.maturity_level ?? null;
 
-  const family = dec
-    ? dec.families.find((f) => f.name === dec.by_class[dc.class_name])
-    : undefined;
+  const family = dec ? dec.by_class[dc.class_name] : undefined;
 
   return (
     <div className="detail">
@@ -355,46 +353,27 @@ function formatValue(v: unknown): string {
 
 // WHY THIS BANNER SITS ABOVE THE HEADER. The `wip` badge beside the class name
 // says the class is unfinished; it does not say whether anyone has DECIDED what
-// it should become. Those read the same and are not: 18 families are settled,
-// signed off and merely queued for build. Someone landing on
-// `session_relative_reference` from a search should not have to find the status
-// board to learn that its model was agreed days ago.
-function DecisionBanner({ fam }: { fam: DecisionFamily }) {
-  const cls =
-    fam.state === "signed_awaiting_build"
-      ? ""
-      : fam.state === "awaiting_signature"
-        ? "decision-unsigned"
-        : "decision-proposed";
-  const head =
-    fam.state === "signed_awaiting_build"
-      ? "DECIDED and signed off — awaiting build"
-      : fam.state === "awaiting_signature"
-        ? "Decided in a walkthrough — awaiting a signature"
-        : fam.state === "proposed_unreviewed"
-          ? "PROPOSED by Claude alone — not a decision"
-          : "No proposal yet";
+// it should become. Those read the same and are not. A class is decided only
+// when it cites a decision line that exists; the banner shows that line.
+function DecisionBanner({ fam }: { fam: ClassDecision }) {
+  const decided = fam.state === "decided";
   return (
-    <div className={`decision-banner ${cls}`}>
+    <div className={`decision-banner ${decided ? "" : "decision-proposed"}`}>
       <div className="decision-banner-head">
-        {head} · <code>{fam.name}</code>
+        {decided ? "DECIDED" : "PROPOSED (not decided) — awaiting review"}
+        {fam.decided_in && (
+          <> · <code>[{fam.decided_in.tag}]</code></>
+        )}
       </div>
-      <div>{fam.decision}</div>
-      {fam.plan && (
+      {fam.decided_in && (
         <div className="section-note">
-          Recorded in <code>schemas/{fam.plan}</code>
-          {fam.open_members.length > 0 && (
-            <>
-              {" "}· still open in this family:{" "}
-              {fam.open_members.map((m) => (
-                <code key={m}>{m} </code>
-              ))}
-            </>
-          )}
+          Decided in <code>{fam.decided_in.document}:{fam.decided_in.line}</code>
         </div>
       )}
-      {fam.signoff && (
-        <div className="decision-banner-signoff">TEAM-SIGN-OFF: {fam.signoff}</div>
+      {fam.decision && (
+        <div className="decision-banner-signoff">
+          {fam.decided_in?.kind}: {fam.decision}
+        </div>
       )}
     </div>
   );

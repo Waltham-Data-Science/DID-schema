@@ -318,7 +318,7 @@ Three reading notes:
 | `term_assertion` | ④ | SIGNED | openminds_family_record.md:20 (strain_id edge on term_assertion) |
 | `term_calculation` | ④ | DECIDED-UNSIGNED | V_eta_spatial_transcriptomics_plan.md:115-117 item 27 |
 | `term_manipulation` | ④ | SIGNED | go_forward_class_audit.md:717 via table :709 (treatment) |
-| `term_observation` | ④ | SIGNED | OPEN_WORK.md:2969 [stranded sources]; go_forward_class_audit.md:717 via table :708-709; :719 |
+| `term_observation` | ④ | SIGNED | OPEN_WORK.md:789 [stranded sources]; go_forward_class_audit.md:717 via table :708-709; :719 |
 | `time_assertion` | ④ | SIGNED | tenet_audit.md:520 [time dtype] |
 | `time_observation` | ④ | SIGNED | tenet_audit.md:520 [time dtype]; ensemble_plan.md:218; logical_observation_plan.md:420 |
 | `timed_sequence_manipulation` | ④ | SIGNED, REVISED-UNSIGNED | stimulus_model_plan.md:224 [stimulus]; #73 item 30 replaces its timed_sequence_id with value_id — "team sign-off owed" (V_eta_spatial_transcriptomics_plan.md:123-125) |
@@ -334,7 +334,7 @@ Three reading notes:
 | `absolute_time_reference` | ⑤ | SIGNED, REVISED-UNSIGNED | time_reference_model_plan.md:468 (as `absolute_reference`); renamed unsigned by #73 item 10 (V_eta_spatial_transcriptomics_plan.md:58) |
 | `relative_time_reference` | ⑤ | SIGNED, REVISED-UNSIGNED | time_reference_model_plan.md:468 (as `relative_reference`); renamed unsigned by #73 item 10 (V_eta_spatial_transcriptomics_plan.md:58) |
 | `time_reference` | ⑤ | SIGNED | time_reference_model_plan.md:468 [time_reference] ("clock_tolerance on the root") |
-| `opaque_body` | ⑥ | SIGNED, REVISED-UNSIGNED | OPEN_WORK.md:2969 [stranded sources] ("generic_file folds to term_observation + opaque_body"); #73 items 17/25 unsigned |
+| `opaque_body` | ⑥ | SIGNED, REVISED-UNSIGNED | OPEN_WORK.md:789 [stranded sources] ("generic_file folds to term_observation + opaque_body"); #73 items 17/25 unsigned |
 | `sampled_body` | ⑥ | SIGNED, REVISED-UNSIGNED | data_body_model_plan.md:648 [data_body]; revised unsigned by #73 items 14/17 (V_eta_spatial_transcriptomics_plan.md:70,:80) |
 | `acquisition_channels` | ⑦ | SIGNED | clock_alignment_cluster_plan.md:493 [sync configuration] ("devices become `acquisition_channels_#` edges"; edge targets class acquisition_channels in built clock_alignment_configuration.json) |
 | `acquisition_metadata_file` | ⑦ | SIGNED | ingested_payload_findings.md:276 [daq ingested payloads] |

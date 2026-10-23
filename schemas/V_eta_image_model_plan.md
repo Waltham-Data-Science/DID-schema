@@ -220,3 +220,7 @@ axes[4]  variable: channel      n: 2     regular: false
    (plane 1 = STA, plane 2 = p-value), read from the prior session's shallow clone of
    `VH-Lab/NDIcalc-vis-matlab` @ `65718ed`. **RE-VERIFY before the build** — the repo is out of
    session scope and `add_repo` was not approved on 2026-08-08.
+
+## 2026-10-23 — which `ngrid` sentence governs
+
+Decided by Jess Haley, 2026-10-23 [ngrid block into sampled_body]: `ngrid` is dissolved as a class (no V2 document is an `ngrid`), and its contents go into the `sampled_body` of the document that carried the block, so the [image / ngrid] sign-off and the R4 section "`ngrid` → phases into `sampled_body`" are one answer, not two (answer "K1 a"). As built: DID-matlab `+did2/+convert/+migrators_j/+super/ngrid.m` carries the block unchanged so `coordinates` reach the concrete migrator, and `hartley_calc` and `ontology_image` fold it through `private/jNgridBody.m`.

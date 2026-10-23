@@ -68,7 +68,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: web-build-${{ github.ref }}
+  # Keyed on the commit: a push never cancels another commit's run;
+  # only a duplicate run of the same commit is cancelled.
+  group: web-build-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:

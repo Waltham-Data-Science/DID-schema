@@ -336,7 +336,7 @@ def build(blob, den):
         for r in mine:
             gov = r["governance"]
             gcls = ("disputed" if "DISPUT" in gov.upper()
-                    else "sig" if gov == "signed" else "unsig")
+                    else "sig" if gov in ("decided", "signed") else "unsig")
             mine_to_answer = r.get("answer_from") == "team"
             # THE QUESTION IS THE HEADING. The class name is demoted to a label
             # above it: the reader is answering a question about a class, not

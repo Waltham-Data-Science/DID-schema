@@ -13,14 +13,14 @@
         {
             "name": "referent_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document the origin is ON: an image, a probe, a subject (bregma), an atlas. REQUIRED -- a coordinate system always says whose space it is (item 9).",
+            "documentation": "The document the reference point is ON: an image, a probe, a subject (bregma), an atlas. REQUIRED -- a coordinate system always says whose space it is (item 9).",
             "must_refer_to_document_class": "base"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "origin",
+            "name": "reference_point",
             "type": "ontology_term",
             "blank_value": {
                 "node": "",
@@ -34,8 +34,11 @@
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": null,
-            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma). The same concept as a key's `origin`; a term here because a root coordinate system is not measured within another one.",
+            "ontology": {
+                "node": "NCIT:C45793",
+                "name": "Reference Point"
+            },
+            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma), as a term: the coordinate system's reference point (NCIT:C45793; `origin` until 2026-10-22, Jess Haley [coordinate system names]). A term here because a root coordinate system is not measured within another one.",
             "constraints": {},
             "fields": [
                 {
@@ -67,7 +70,7 @@
             ]
         },
         {
-            "name": "dimensions",
+            "name": "axes",
             "type": "structure",
             "blank_value": [],
             "default_value": [],
@@ -76,7 +79,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "One entry per coordinate, in coordinate order. Cartesian only. Transforms between coordinate systems are NOT part of one.",
+            "documentation": "One entry per coordinate axis, in coordinate order (`dimensions` until 2026-10-22, Jess Haley [coordinate system names]: a value's `dimensions` are its array's, a different thing). Cartesian only. Transforms between coordinate systems are NOT part of one.",
             "constraints": {},
             "fields": [
                 {
@@ -179,7 +182,10 @@
                     "blank_value": {},
                     "default_value": {
                         "meters": 0.0,
-                        "source_unit": "",
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
                         "source_value": 0.0,
                         "approximate": false,
                         "tolerance": {}
@@ -207,16 +213,55 @@
                         },
                         {
                             "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit exactly as given by the source (lossless provenance).",
-                            "constraints": {}
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
                         },
                         {
                             "name": "source_value",

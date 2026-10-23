@@ -94,17 +94,18 @@ def test_second_pass_overlay_beats_a_stale_ledger():
                               _row("no", targets=["stimulus_presentation"],
                                    decided=["item_manipulation"]))
     assert v == "SECOND_PASS"
-    assert "item_manipulation" in detail
+    assert "manipulation + item" in detail
+    assert "method" in detail
 
 
-def test_second_pass_is_not_counted_a_bar2_failure(tmp_path):
+def test_second_pass_does_not_make_a_corpus_not_done(tmp_path):
     led = _ledger(tmp_path, [
         _row("no", targets=["stimulus_presentation"],
              decided=["item_manipulation"]) | {"v1_class": "stimulus_presentation"},
         _row("yes", decided=["subject"]) | {"v1_class": "subject"},
     ])
     _write(tmp_path, "SPonly", {"stimulus_presentation": 11, "subject": 3})
-    # only a SECOND_PASS class + an AT_DECIDED class, Bar-1 clean -> no hard gap
+    # only a SECOND_PASS class + an AT_DECIDED class, integrity clean -> no hard gap
     rc = B.run([str(tmp_path)], ledger_path=led)
     assert rc == 0
 
@@ -127,7 +128,7 @@ def _ledger(tmp, rows):
     return p
 
 
-def test_end_to_end_not_at_bar2(tmp_path):
+def test_end_to_end_not_done(tmp_path):
     led = _ledger(tmp_path, [
         _row("no", targets=["stimulus_presentation"],
              decided=["item_manipulation"]) | {"v1_class": "stimulus_presentation"},
@@ -139,14 +140,14 @@ def test_end_to_end_not_at_bar2(tmp_path):
     assert rc == 1  # a gap exists
 
 
-def test_end_to_end_clean_corpus_is_at_bar2(tmp_path):
+def test_end_to_end_clean_corpus_is_done(tmp_path):
     led = _ledger(tmp_path, [
         _row("yes", decided=["subject"]) | {"v1_class": "subject"},
         _row("yes", decided=["session"]) | {"v1_class": "session"},
     ])
     _write(tmp_path, "Clean", {"subject": 3, "session": 1})
     rc = B.run([str(tmp_path)], ledger_path=led)
-    assert rc == 0  # every present class AT_DECIDED and Bar-1 clean
+    assert rc == 0  # every present class AT_DECIDED and integrity clean
 
 
 def test_no_reports_returns_2(tmp_path):
@@ -163,3 +164,8 @@ def test_tool_runs_as_script(tmp_path):
     assert out.returncode == 0
     assert "DENOMINATOR" in out.stdout
     assert "corpus S" in out.stdout
+    # The retired words (2026-10-21, Jess Haley: "Bar-2 means done"): the
+    # report says INTEGRITY and DONE, never BAR-1 / BAR-2.
+    assert "INTEGRITY" in out.stdout
+    assert "DONE on the DID side" in out.stdout
+    assert "BAR-" not in out.stdout.upper().replace("BAR2_GAP", "")

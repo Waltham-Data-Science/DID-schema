@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000578",
+                "node": "IAO:0000578",
                 "name": "centrally registered identifier"
             },
             "documentation": "The epoch identifier that this document refers to.",

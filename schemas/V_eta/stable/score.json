@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -25,7 +25,10 @@
                     },
                     "scale_min": 0.0,
                     "scale_max": 0.0,
-                    "source_unit": "",
+                    "source_unit": {
+                        "node": "",
+                        "name": ""
+                    },
                     "source_value": 0.0,
                     "approximate": false,
                     "tolerance": {}
@@ -36,7 +39,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed score value; value.scale names the rubric. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
+            "documentation": "A typed score value; value.scale names the rubric. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time covariate along a time dimension: in the statement's `dimensions` and `covariates` when inline, on each body's when stored in a body (#73 item 21; keys until 2026-10-22, data_body plan AMENDMENT 6).",
             "constraints": {},
             "fields": [
                 {
@@ -127,16 +130,55 @@
                 },
                 {
                     "name": "source_unit",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit or scale exactly as the source gave it, when it differs from `scale` (e.g. '%'). Blank when the source used the scale.",
-                    "constraints": {}
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "source_value",

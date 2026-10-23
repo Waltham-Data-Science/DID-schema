@@ -104,7 +104,9 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
-    "binding_examples": False,
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # `entity.type` requires. Normative, and carries no strength of its own.
+    "entity_type_bindings": True,
 }
 
 # The derived column is written LAST in the row, so a reader can see at a glance
@@ -227,13 +229,12 @@ def run(veta=VETA, registry_path=None, check=False, out=print):
     plan, errors = derive(reg, index)
 
     rows_total = sum(len(reg.get(k, [])) for k in REGISTRY_LISTS)
-    normative = sum(len(reg.get(k, [])) for k, n in REGISTRY_LISTS.items() if n)
     derived_rows = [p for p in plan if p[3] is not None]
     catalogued = {(p[2].get("class"), p[2].get("field")) for p in derived_rows}
     uncatalogued = sorted(k for k in index if k not in catalogued)
 
     # RULE 5: the denominator, first and unconditional.
-    out(f'DENOMINATOR: {den["bound_field_declarations"]} bound field declaration(s) read from {den["document_class_files_read"]} document_class file(s) ({den["field_declarations_walked"]} field declarations walked, {den["bound_field_declarations_nested"]} of the bindings NESTED); {len(REGISTRY_LISTS)} registry list(s), {rows_total} row(s) ({normative} normative, {rows_total - normative} illustrative)')
+    out(f'DENOMINATOR: {den["bound_field_declarations"]} bound field declaration(s) read from {den["document_class_files_read"]} document_class file(s) ({den["field_declarations_walked"]} field declarations walked, {den["bound_field_declarations_nested"]} of the bindings NESTED); {len(REGISTRY_LISTS)} registry list(s), {rows_total} row(s)')
     out(f'  rows naming a class AND a field (derivable) : {len(derived_rows)}')
     out(f'  rows naming no field (must carry none)      : {len(plan) - len(derived_rows)}')
     out(f'  bound fields with NO registry row           : {len(uncatalogued)}  (reported, never repaired -- adding a catalogue row is a decision)')

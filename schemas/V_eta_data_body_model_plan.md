@@ -17,6 +17,9 @@
 > | `ADDENDUM — the storage-mode walkthrough` | closes OPEN items 3, 4 and 7; a body is emitted only when bytes are attached; axes live with the thing whose extent they describe |
 > | `AMENDMENT 1 — the axis carries its own unit` | **REVERSES** `THERE IS NO \`unit\` FIELD`; angles are radians; #32 and #115 leave the critical path |
 > | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
+> | `AMENDMENT 3 — one entry for keys, conditions and method parameters` | renames the value forms: a key's `labels`/`values` become `term`/`quantity`; a condition's `term.value`/`count.value` flatten (2026-10-19, decided with Jess; built) |
+> | `AMENDMENT 4 — a \`matrix\` value form` | a condition or method parameter may hold one numeric N-D array (`matrix`); noise colours are `NCIT:C75765` Arbitrary Unit plus a bit-depth count (2026-10-21, Jess; PROPOSAL built ahead of signature) |
+> | `AMENDMENT 5 — a value is inline or in bodies, never neither` | ONE rule on `value` (`value_inline_or_body`) replaces the required inline `value` of nine classes; a `receptive_field` can now be body-backed; a statement may also take its value through `value_id` (2026-10-21, Jess; signed; built) |
 >
 > **The axis entry has NO remaining prerequisite.** Anything below that says
 > otherwise is superseded.
@@ -778,6 +781,16 @@ one (`application/x-nbf` + `gzip`).
 **DIRECTION DECIDED, VOCABULARY NOT.** OPEN item 2 stands: the full value set needs a
 corpus sweep before either field is bound.
 
+**AMENDED 2026-10-14 (Jess, lightsheet migrator point 4; no sign-off line): `format` is a
+bound `ontology_term`, not an IANA media type.** IANA is the only registry for media types,
+so a lab format (OME-Zarr has no registration) could only ever be an `application/x-`
+string; v1 already records formats as CURIEs (`fileReference` / `generic_file`
+`format_ontology`: `EDAM:format_3620`, `EMPTY:0000253`), so those migrate as written. EDAM
+format terms first (`EDAM:format_3591` TIFF, `EDAM:format_3997` MPEG-4, `EDAM:format_2333`
+binary, `EDAM:format_3915` Zarr), an EMPTY term where EDAM has none (OME-Zarr, minted as a
+kind of `EDAM:format_3915`). Bound `{strength: preferred, node_form: curie}`, like
+`variable`; the admissible set is not enumerated. `compression` is unchanged.
+
 ## 3. `content_hash` HASHES THE BYTES AS STORED
 
 With `format` + `compression` declared, "the stored bytes" is unambiguous, and it is
@@ -1164,3 +1177,377 @@ RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved unde
 RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **104 NDI templates** on origin/main (was 102); **172 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 176). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `004585cec`: 1,305 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1305). Only the denominator moved. Re-derive, do not quote.
+
+
+# AMENDMENT 3 — one entry for keys, conditions and method parameters. Jess, 2026-10-19.
+
+Decided with Jess Haley in the Haley import's term pass. **SIGNED 2026-10-19** -- the
+`TEAM-SIGN-OFF [data_body amendment 3]` line is at the end of this section.
+
+# AMENDMENT 4 — a `matrix` value form on the single-value entry. Jess, 2026-10-21.
+
+**A PROPOSAL, built ahead of signature at Jess Haley's request (2026-10-21).** It
+closes `V_eta_method_plan.md` open follow-up (b). It lives here, not in the method
+plan, because the entry it changes is AMENDMENT 3's, shared by `conditions` and
+`method.parameters`; the method plan points here.
+
+## WHAT PROMPTED IT
+
+Noise stimuli (sparse noise, reverse correlation; vhlab NewStim stochastic grid
+stimuli) become `method` documents (`V_eta_method_plan.md`). Their settings include
+values that are lists or matrices, which none of `term` / `quantity` / `count` /
+`text` can hold:
+
+| setting | shape |
+|---|---|
+| colour palette | n x 3 |
+| colour weights | n |
+| background colour | 3 (an RGB triple) |
+| random-state seed | 35 numbers (MATLAB's legacy `rand('state')` vector) |
+
+## THE SHAPE
+
+The single-value entry gains a fifth value form:
+
+```
+variable, unit, source_unit, approximate
++ ONE value form:  term | quantity {value, source_value} | count | text | matrix
+```
+
+- **`matrix`**: type `matrix`, `mustBeScalar: false`, blank `[]`. A numeric N-D
+  array, **row-major as JSON nested arrays, every dimension written**: an n x 3
+  palette is `[[r, g, b], ...]` with one inner array per row, a 1 x n row is
+  `[[a, b, c]]` and an n x 1 column is `[[a], [b], [c]]`. A flat `[a, b, c]`
+  cannot say row or column (MATLAB's `jsondecode` reads it as a column), so the
+  writer never emits one; a reader treats a flat array from another tool as a
+  column. (Corrected 2026-10-21 from "a vector is `[a, b, c]`" when did2.build's
+  round-trip tests showed the orientation was lost; VH-Lab/DID-matlab 415368f.)
+  Its unit is the entry's `unit` (absent for a unitless number), as for `quantity`.
+- **The whole array is ONE value of the entry's `variable`.** A palette is not
+  split into n entries; the variable names the whole thing ("colour palette").
+- **No `source_value` beside it.** `quantity.source_value` keeps a scalar exactly as
+  the source spelled it; a numeric array has no spelling to keep. A source in a
+  non-canonical unit is converted, and `source_unit` says what it was.
+- **Keys do NOT get `matrix`.** AMENDMENT 3 says a key's positions are terms or
+  quantities, one scalar per position along one axis. A key whose positions are
+  themselves vectors (a palette as an axis of n colours) is a different question
+  and is NOT decided here.
+
+## NOISE COLOURS (Jess, 2026-10-21)
+
+- Colour values are in **`NCIT:C75765` "Arbitrary Unit"** (registered in
+  `V_eta_term_registry.json`). A colour channel is a device level, not a physical
+  quantity.
+- The scale goes in the data, not in a convention: a separate **"bit depth"**
+  parameter, a `count` (8), so that 255 = full scale is recorded on the document.
+
+## VARIABLE TERMS
+
+Registered, because an existing term matches: **`NCIT:C64220` "Random Seed"** --
+*"A number (or vector) used to generate random numbers in a system."*
+
+**MISSING -- no matching term found (EBI OLS, exact search, 2026-10-21); NOT minted
+here**, naming them is a decision:
+
+| variable | nearest found | why it is not a match |
+|---|---|---|
+| colour palette | -- | nothing |
+| colour weights | -- | nothing |
+| background colour | `NCIT:C37927` Color | the generic quality, not the background's |
+| bit depth | -- | nothing ("color depth" finds only vision tests) |
+
+## WHAT IT TOUCHES
+
+Built in `tools/build_v_eta.py` section 12.15 (`_entry_subs`), so `_PARAMS_SHAPE`
+(section 12.20) inherits it and stays the single source: `matrix` appears on both
+`conditions` mounts (`statement`, `data_body`) and on every `method.parameters`
+(`interaction`, `relation`, `clock_alignment_configuration`, the `method` document).
+Writers and readers follow in DID-matlab (`did2.build`, the validator).
+
+To be signed: a condition or method parameter may hold one numeric N-D array as a fifth value form `matrix` (row-major JSON nested arrays with every dimension written, in the entry's unit, no source_value; keys excluded); noise colours are in NCIT:C75765 Arbitrary Unit with a separate bit-depth count parameter; NCIT:C64220 Random Seed registered as the seed variable.
+
+TEAM-SIGN-OFF [data_body amendment 4]: jess@walthamdatascience.com / 2026-10-21 -- a condition or method parameter may hold one numeric N-D array as a fifth value form matrix (row-major, every dimension written, in the entry's unit, no source_value, not on keys); noise colours in NCIT:C75765 Arbitrary Unit plus a bit-depth count; NCIT:C64220 Random Seed as the seed variable
+
+AMENDMENT 2 gave keys and conditions the same four descriptors and kept their value forms
+apart. Laid side by side with `method_parameters` (which the 2026-08-09 sign-off says was
+"modelled on the `axis` entry"), the three lists still spelled each value form
+differently:
+
+| | key | condition | method parameter |
+|---|---|---|---|
+| category | `labels` | `term.value` | `term` |
+| number | `values.values` / `.source_values` | `quantity.value.value` / `.source_value` | `value.value` / `.source_value` |
+| integer | -- | `count.value` | -- |
+| free text | -- | -- | `text` |
+| `approximate` | yes | yes | no |
+
+AMENDMENT 2's own argument -- *"three placements for one concept is the disease, not the
+cure"* -- applies to the value forms as it did to the unit. So every entry is now
+
+```
+variable, unit, source_unit, approximate
++ ONE value form:  term | quantity {value, source_value} | count | text
+```
+
+- **A condition and a method parameter are the SAME entry, holding ONE value** (every
+  form scalar). `quantity.source_value` is TEXT, kept verbatim, as the method-parameters
+  plan already required (v1 writes a threshold as the string `"0.030"`).
+- **A key is that entry holding n positions.** Its `term` is an array of n terms (was
+  `labels`) and its `quantity` is `{value, source_value}` as two arrays of n (was
+  `values {values, source_values}`). A key's positions are terms or quantities only, and
+  a key's `source_value` stays NUMERIC: an irregular time key can hold thousands of
+  positions. `regular` keys (`origin` + `spacing`) are unchanged.
+- **The axis/condition split stands.** A key INDEXES a value; a condition QUALIFIES it.
+  This amendment shares their spelling, not their job.
+
+Built in `tools/build_v_eta.py` section 12.15 (2 key lists, 2 `conditions` mounts, 3
+`method_parameters` mounts). Writers and readers follow in DID-matlab (`did2.build`, the
+validator, the migrators) and NDI-matlab (the Haley import, `ndi.value`).
+
+TEAM-SIGN-OFF [data_body amendment 3]: jess@walthamdatascience.com / 2026-10-19 -- conditions and method parameters are one entry {variable, unit, source_unit, approximate} plus one of term, quantity {value, source_value as text}, count or text; a key is that entry holding n positions (term, quantity {value, source_value numeric}), labels and values renamed.
+
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+
+# AMENDMENT 5 — a value is inline or in bodies, never neither. Jess, 2026-10-21.
+
+**DECIDED by Jess Haley, 2026-10-21, and SIGNED the same day** -- the
+`TEAM-SIGN-OFF [data_body amendment 5]` line is at the end of this section, followed by a
+
+Clarification (Jess Haley, 2026-10-21): a statement may also take its value from a shared
+value document through `value_id` (`statement.json`: "When present, this statement's own
+value and value descriptors are empty: the shared document states them"); the shared
+document itself is inline or in bodies. So the check passes when `value` is filled, OR
+`data_body` is true, OR a non-empty `value_id` edge is present. This follows from the
+existing `value_id` decision and is not a new decision.
+
+Decided by Jess Haley, 2026-10-21 [data_type only for plain arrays]: "`data_type` is required only when a value's bytes are a plain array -- a `sampled_body`, or an untyped inline array; when its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed."
+
+Why it came up: with this amendment a value with no inline `value` must say
+`data_body: true`, and `data_type_when_bytes` then demanded a `data_type` for every such
+value. Two kinds of value have bytes with no single datum type: the spike sorter's output
+(an `observation` with a `count` value kind, whose sorter files are an `opaque_body`;
+DID-matlab `jSorterOutput.m` left `data_body` unset to avoid the demand) and raw
+acquisition files (Intan `.rhd` and the like, linked as `opaque_body`). The rule
+`data_type_when_bytes` on `value` now says so. A body's kind is not visible on its owner,
+so a per-document check cannot tell a sampled owner from an opaque one; the
+`sampled_body` half is a batch check.
+dated clarification about `value_id`. (Until c8260da this paragraph read "NOT SIGNED";
+HISTORICAL-SIGNOFF-CLAIM.)
+
+## THE RULE
+
+A value is either **inline** (its `value` field filled) or **in data bodies**
+(`data_body: true`, the bytes in `sampled_body` / `opaque_body` documents pointing at it
+through `owner_id`), **never neither**. It is ONE rule on the parent `value` class,
+`value_inline_or_body`, declared beside `data_type_when_bytes` in the same rules format.
+It does not say whether a value may be both; that is not decided here.
+
+## WHAT IT REPLACES
+
+Nine value classes made their inline `value` required (`mustBeNonEmpty: true`): `term`,
+`date`, `logical`, `polynomial`, `model_fit`, `tuning_curve`, `contrast_sensitivity`,
+`harmonic_component`, `receptive_field`. A required inline value refuses every
+body-backed document of that class, which this plan's storage-mode walkthrough already
+allows for every value. All nine are now `mustBeNonEmpty: false`; the rule on `value`
+carries the requirement for them and for the other 36 direct subclasses of `value`, whose
+inline `value` was already optional (their field declarations are unchanged).
+
+## WHAT PROMPTED IT
+
+`receptive_field.value` was a REQUIRED structure with NO sub-fields: #73 item 57 moved the
+method to the statement and audit 2 D11 moved the plane labels to body conditions, so
+nothing was left inline and no document could satisfy it. DID-matlab's `hartley_calc`
+migrator therefore passes all 210 20211116 documents through (guard `foldExpressible()`,
+ab02782 on DID-matlab `claude/port-88`, `hartley_calc.m:259,687`), while the signed `[receptive field fold]`
+(`V_eta_ngrid_family_findings.md`) keeps the payload in two `sampled_body` documents. With
+this rule a `receptive_field` document is `data_body: true` with an empty `value`, and
+the fold can emit it.
+
+## WHERE IT IS CHECKED
+
+- did-schema: `tools/validate_v_eta.py` rule R16 checks that `value` declares the rule and
+  that no class under `value` makes its inline `value` required; its
+  `value_inline_or_body(doc)` is the reference statement of the document check, pinned by
+  `tests/test_validate_v_eta.py`.
+- DID-matlab: `did2.build` checks it by name (`+did2/+build/private/checkRules.m`, case
+  `value_inline_or_body`, pinned by `testBuild.testValueInlineOrBody`); the `did2` validator
+  and `hartley_calc` (dropping its `foldExpressible()` passthrough) follow separately.
+
+To be signed: a value is inline (its `value` field filled) or in data bodies (`data_body: true`), never neither -- one rule `value_inline_or_body` on the parent `value` class, replacing `mustBeNonEmpty: true` on the `value` field of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field.
+
+TEAM-SIGN-OFF [data_body amendment 5]: jess@walthamdatascience.com / 2026-10-21 -- a value is inline (its value field filled) or in data bodies (data_body: true), never neither: one rule value_inline_or_body on the parent value class, replacing the required inline value of term, date, logical, polynomial, model_fit, tuning_curve, contrast_sensitivity, harmonic_component and receptive_field
+
+## 2026-10-21 — sorter output by location
+
+Decided by Jess Haley, 2026-10-21 [sorter output by location]: a v1 sorter output that names an external directory (kilosort/kiasort) migrates to an opaque_body whose single member records that directory by location, with the curated-output MD5 as the member's checksum and format EMPTY:0000315 "directory of files".
+
+Decided by Jess Haley, 2026-10-14 [format is an ontology term]: "`format` is a bound `ontology_term`, not an IANA media type ... EDAM format terms first ..., an EMPTY term where EDAM has none (OME-Zarr, minted as a kind of `EDAM:format_3915`)" (the AMENDED 2026-10-14 note above, confirmed by Jess Haley 2026-10-21, answer "4A"). This is the decision behind EMPTY:0000259 "OME-Zarr".
+
+Decided by Jess Haley, 2026-10-22 [NDI binary format]: the ingested stimulus metadata archive (v1 `daqmetadatareader_epochdata_ingested` `data.bin`, a `.nbf.tgz`) gets a new EMPTY format term rather than EDAM:format_2333 "Binary format" (answer "5b"). Evidence (Waltham-Data-Science/NDI-compress 37c8c05, `+ndi/+compress/write_ndibinary.m`): `.nbf.tgz` is NDI's own "NDI binary" format, `ndi_binary_version` 1, a gzip-compressed tar of an `.nbh` header and an `.nbf` data file; `compress_metadata` stores the parameter structs as JSON text in it, and `compress_ephys`, `compress_digital`, `compress_time` and `compress_eventmarktext` write the same format. Proposed (not decided): ONE generic term "NDI binary format" for every `.nbf.tgz`, not a metadata-only term.
+
+# AMENDMENT 6 — dimensions and covariates replace keys. Jess, 2026-10-22.
+
+**Why.** A value could describe each position along an axis only through its
+key, one per dimension. Anything else that varies along an axis had nowhere to
+go, so it grew as one-off fields on one value kind (`item.value.offset`, the
+per-trial end of a timed sequence; `item.value.control_item`, the control).
+Separating the axis from what is known along it removes both, and gives every
+other per-position fact (an electrode's depth per channel, a frame's quality, a
+trial's reward) a place without a new field. This is the NetCDF/CF and xarray
+model: dimensions, and auxiliary coordinates along them.
+
+**The shape, on `data` (value documents and data bodies alike, wherever `keys`
+was).**
+
+- `dimensions`: one entry per axis of the stored array, in array order
+  (dimension k IS array axis k). Each entry:
+  - `term` (ontology_term, required): what the axis is. Not unique: a channel x
+    channel matrix has two `channel` dimensions.
+  - `n` (integer, required): the axis length.
+  - `chunk` (sampled_body only): unchanged.
+- `covariates`: what is known about the value's positions along one or more
+  dimensions. Each entry is the AMENDMENT 3 entry with:
+  - `variable` (ontology_term, required).
+  - `along` (integer list, required, NON-EMPTY, distinct): 0-based indices into
+    `dimensions`.
+  - `unit`, `source_unit`, `approximate` as on every entry; `cyclic` only on a
+    numeric covariate along exactly one dimension.
+  - EXACTLY ONE value form:
+    - `origin` + `spacing` (each `{value, source_value}`): positions
+      origin + k * spacing; numeric; along exactly one dimension.
+    - `quantity` `{value, source_value}`: numbers in `unit`.
+    - `count`: integers.
+    - `term`: terms `{node, name}` or labels `{name}`.
+    - `text`: strings.
+    - `logical`: true / false (new).
+    - `matrix`: a whole numeric array at each position (AMENDMENT 4).
+    - `document`: the 0-based position of a `key_id` entry; position k is entry
+      k of that document's value (was the key's `positions_from`); along
+      exactly one dimension.
+  - Shape: the extents of the `along` dimensions, in that order; for `matrix`,
+    those extents followed by the array's own shape.
+- `datum_order`: unchanged; it orders the dimensions.
+
+**Rules.**
+- A covariate is never `along: []`. A fact true of the whole value is a
+  `condition`, and conditions STAY ON THE STATEMENT: a value document may be
+  shared by several statements (item 30), and conditions describe each
+  statement's circumstances.
+- A dimension may have no covariate (a plain index).
+- Covariates describe positions; they are not further measurements. A standard
+  error is its own value at the same positions, not a covariate.
+- A variable appears at most once across a statement's conditions, its value's
+  covariates, and any one of its bodies' covariates (the existing batch check,
+  with covariates in place of keys).
+
+**Removed.** `keys`; the entry's `n` (on the dimension now) and `regular` (the
+presence of `origin`/`spacing` says it); `positions_from` (now `document`);
+`complete` (sparse or ragged data is one `row` dimension with a covariate per
+former key, the long format); `item.value.offset` and `item.value.control_item`.
+`acquisition_epoch`'s own copy of the key entry becomes the same `dimensions` +
+`covariates`.
+
+**A stimulus presentation** (v1 `stimulus_presentation`, now an `item` value):
+one dimension, a presentation; covariates `onset time` (always), `offset time`
+(when v1 recorded ends) and `control condition` (XCO:0000099, `logical`; see
+the stimulus-response plan's [control as covariate]).
+
+Decided by Jess Haley, 2026-10-22 [covariates]: `data` carries `dimensions` and `covariates` in place of `keys`, as above. Her question that opened it: "why can't we come up with a way to specify additional covariates along one or more of a value's axes?"; then "Forget what's signed. What's truly the best shape"; the list name "Covariates"; built "Before" the merge.
+
+Decided by Jess Haley, 2026-10-22 [conditions stay on the statement]: conditions are not moved onto the value; a covariate always runs along at least one dimension. Her "Ok" to the revised proposal, after asking "Is there any reason moving conditions off the statement is going to be a problem?" (answer: a shared value document, item 30).
+
+Decided by Jess Haley, 2026-10-22 [along by index]: `along` lists dimension indices, not names ("I'm still not sold on along referencing the name of the dimension term rather than the index"), and a dimension carries a term ("Why do dimensions not have terms?"; required: "3y"). The value form that takes positions from another document is `document` ("Why isn't it just 'document'?").
+
+Decided by Jess Haley, 2026-10-22 [matrix covariate]: a `matrix` covariate holds a whole array at each position; dimensions stay exactly the value's own axes (answer "B").
+
+Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus presentation's times are the covariate `onset time`, not `time` and not `stimulus onset time` ("Actually I think onset time would be correct. Stimulus is redundant?"); the end is `offset time`.
+
+Decided by Jess Haley, 2026-10-22 [no complete]: `complete` is deleted; sparse data is one row dimension with covariates (answer "1a").
+
+Decided by Jess Haley, 2026-10-22 [bare dimension]: a dimension may have no covariate (answer "2a").
+
+Decided by Jess Haley, 2026-10-22 [epoch covariates]: `acquisition_epoch`'s copy of the key entry moves to `dimensions` + `covariates` (answer "4y").
+
+Decided by Jess Haley, 2026-10-22 [tenets follow covariates]: the tenets are updated to the covariate model ("If we need to update the tenets following the covariate changes, let's do that.").
+
+Decided by Jess Haley, 2026-10-22 [covariate terms]: terms for the presentation dimension, `onset time` and `offset time` are found by T19 order (an existing ontology term first, an EMPTY term only where none fits) and brought back as one list (answer "4y").
+
+Proposed (not decided) [covariate terms chosen]: from the T19 search of 2026-10-22 (scratch write-up; 503 registry terms, 49 prefixes, 402 EMPTY classes, 59 OLS4 queries; CogPO, CogAt and NEMO not searched): the presentation dimension is OBI:0000807 "presentation of stimulus" (its definition says "organism", a weak point for slices and cultures); `onset time` and `offset time` are new EMPTY:0000368 / EMPTY:0000369 (empty-ontology #24, unmerged), because NDI's stimulus decoder records `onset`/`offset` apart from `stimopen`/`stimclose`, so SIO:000669 "start time" / NCIT:C78441 "Start Time" would name `stimopen`; the sparse `row` dimension is SIO:000752 "row" (needs a new `sio` prefix). Until confirmed, builds write these four as labels (`{name}`, no node). `onset time` and `offset time` are registered as `staged` (name decided by [onset time], node still to be confirmed) because the Haley import, whose term registry is armed, writes `offset time` for encounter exit times; `presentation` and `row` have no row. Open with it: whether EMPTY:0000140 "encounter onset time" becomes a subclass of, or is replaced by, `onset time` (T19).
+
+Decided by Jess Haley, 2026-10-22 [presentation dimension term]: the dimension of a stimulus presentation sequence is OBI:0000807 "presentation of stimulus" (answer "1A"), replacing the label `presentation`. Supersedes that part of the proposed [covariate terms chosen].
+
+Decided by Jess Haley, 2026-10-22 [onset and offset terms]: `onset time` and `offset time` are new EMPTY:0000368 and EMPTY:0000369 (empty-ontology #24), not SIO or NCIT start/end time, which name the start of the period around the stimulus (`stimopen`); EMPTY:0000140 "encounter onset time" is made obsolete, replaced by `onset time` (answer "2a-ii"; asked first "Does no existing ontology use onset time?" -- OLS4: clinical uses only). Supersedes that part of [covariate terms chosen].
+
+Decided by Jess Haley, 2026-10-22 [row term deferred]: the term for a sparse `row` dimension is chosen when a writer first produces sparse data; nothing does today (answer "3c").
+
+Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning curve over several independent variables whose conditions form a full grid has one dimension per variable, each with its covariate, and the response an array over them; otherwise one `stimulus condition` dimension with a covariate per variable (answer "4c"; the corpora hold no such curve -- 34,690 tuning curves in 221,827 v1 documents, all over one variable). The `stimulus condition` term is to be brought back before use.
+
+Decided by Jess Haley, 2026-10-22 [covariate details]: `cyclic` only on `origin`+`spacing` and `quantity` covariates (5.1a); a missing member of a tiled sampled body takes the body's `fill_value` and is refused without one (5.2a); `acquisition_epoch` dimensions carry no `chunk` (5.3a); a dimension's term is bound `preferred`, and each corpus report counts dimensions whose term has no node, so dimension terms move to `required` with variables under OPEN_WORK #129 after the merge (answer "B" to 5.4).
+
+Decided by Jess Haley, 2026-10-22 [covariate rules named]: the covariate shape rule (extents of `along`, then a matrix's own shape) and the one-variable-across-conditions-and-covariates rule are named schema rules (6.1a); a covariate that only repeats its dimension's positions 0..n-1 is not written (6.2a); `datum_order` stays required only on a sampled body of more than one dimension (6.3a); migration reports count the v1 `stimulus_control_id` edges dropped by [control as covariate] (answer "A" to 6.4).
+
+Decided by Jess Haley, 2026-10-22 [stimulus condition term]: the `stimulus condition` dimension of [tuning grid] (one position per distinct combination of stimulus parameter values, when the conditions do not form a full grid) is XCO:0000000 "experimental condition", the parent of XCO:0000099 control condition; no ontology term names a combination of factor levels (answer "A").
+
+Decided by Jess Haley, 2026-10-22 [index covariates]: a covariate that only lists a dimension's positions is not written whether they count from 0 or from 1 (1..n, or origin 1 / spacing 1 with no unit and no recorded scale), extending [covariate rules named] 6.2a; an origin/spacing that comes from a recorded scale or carries a unit is kept. Migration and corpus digests render the new counts (dimensions without a node; dropped `stimulus_control_id` edges) with denominators. Answer "yes to all three". Built: DID-matlab 9c9cab9 (index covariates), b5ded13 (digests).
+
+## 2026-10-22 -- tenet audit: units, entries and value kinds
+
+Decided by Jess Haley, 2026-10-22 [units bound]: `unit` on covariates, conditions and method parameters binds to registered unit terms, and the canonical-unit list is restored as a gate in tools/, read by check_term_registry (answer "C2a"). Built: every entry and covariate `unit` is bound {strength: preferred, node_form: curie}; tools/canonical_units.py holds the list (the canonical slot of each value kind and its unit term) and check_term_registry.py R11 checks the value-kind cells against it, the listed unit terms against the registry, and the unit fields bound. 25 of the 34 canonical units have no registered term yet (volt, ampere, mmHg, ...); R11 lists them and chooses none.
+
+Decided by Jess Haley, 2026-10-22 [remaining units bound]: `response_unit` (tuning_curve, contrast_sensitivity) and the fit entry's unit fields are bound too, and the missing units are registered: spikes per second, and dF/F as a dimensionless ratio (answer "M1a"). Built: those fields are bound; "spikes per second" and "dF/F" are registered STAGED (by name, no node): no ontology term matches either exactly (candidates noted on the rows: NCIT:C94877 Count per Second; om:one, UO:0010006 ratio), so the node is still to be chosen.
+
+Decided by Jess Haley, 2026-10-22 [logical entries]: the `logical` form is added to conditions and method parameters (answer "F2a"). Built on all six entry lists (statement and data_body conditions; interaction, method, relation and clock_alignment_configuration method parameters), one shape (validate_v_eta R13).
+
+Decided by Jess Haley, 2026-10-22 [irradiance]: a new `irradiance` value kind, canonical W/m2; `intensity` stays dimensionless; T12's example says a measured light intensity uses `irradiance` (answer "G4a"). Built: `irradiance` (draft), slot `watts_per_square_meter`, om:wattPerSquareMetre registered.
+
+Decided by Jess Haley, 2026-10-22 [ratio slots named by unit]: concentration's `mass_fraction` becomes `grams_per_gram`, `volume_fraction` becomes `liters_per_liter`, and `od600` becomes `optical_density`, with the wavelength (600 nm) as a condition or in the source unit "OD600"; the Haley OD600 and formulation writers change (answer "O2a").
+
+Decided by Jess Haley, 2026-10-22 [missing integers]: integer slots accept NaN for a missing position, stored as a literal NaN; the validator accepts a whole number or NaN (answer "O4a"). Built: stated on the meta-schema's `type` (no integer slot sets `mustNotHaveNaN`).
+
+Decided by Jess Haley, 2026-10-22 [audit mechanical fixes 2]: rule `variable_once` covers a body's conditions; decision 6.3a gets a named rule (`datum_order` required on a multi-dimensional sampled body) and the "Empty means F" documentation is fixed; the pattern-syntax documentation says the syntax is that of the class behind `software_id`; the acquisition_channels stale note and its two uses are fixed; the stale `acquisition_system` under `entity` and `acquisition_metadata_reader_#` prose is fixed (the daq decisions document here; daqsystem.m, vintage/map.m and isaQuery.m comments in DID-matlab and NDI) (answer "E2 yes"). Built here: the two rules (`variable_once` on data, `datum_order_multidimensional` on sampled_body) and the `datum_order` documentation; the documentation items follow in the documentation commit of this batch.
+
+RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
+
+Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]: the audit's mechanical fixes: `interaction.software_id`'s documentation (optional on calculations); the `matrix` documentation drops "a vector is [a, b, c]"; tuning_curve's "stimulus condition term still to be chosen" becomes XCO:0000000; the Gene Expression binding row is re-keyed off the retired spatial_gene_expression_pyramid; om:RelativeHumidity's definition; the stale names in the tenets (timed_sequence, datum_type, `<value>_<direction>` leaves in T11, subject and web_resource in T9, the T15 table's key_labels_id, strain and build_v_eta.py, T2's method "proposed", T2's clock_alignment input_id exception); about 15 field documentations with retired names; EMPTY:0000140 marked obsolete in the registry, its row removed once NDI stops writing it (answer "E yes"). Built across this batch: the registry and binding-row items with [vocabulary nodes], the matrix and tuning_curve documentation with [units bound], the field documentations and software_id here, and the tenet names with the tenet text. om:RelativeHumidity's definition is now empty: OM gives that class no English definition (om-2.0.rdf), and the one it carried belonged to mass flow.
+
+Decided by Jess Haley, 2026-10-22 [harmonic response unit bound]: `harmonic_component.response_unit` is bound like `tuning_curve.response_unit` (preferred, CURIE node) — the same kind of field, which [remaining units bound] did not name (answer "4a").
+
+Decided by Jess Haley, 2026-10-22 [response variable]: what a tuning response measures goes in the statement's existing `variable` (firing rate, dF/F, ...); `response_type` keeps the statistic (mean, peak, F0, F1, F2); `response_unit` is the plain unit, so a spike rate is `om:hertz` (T19), not a "spikes per second" unit (answer "J1b", on the explanation that `tuning_curve_calculation` inherits `statement.variable` and the tuning migrators leave it empty). Built here: the staged "spikes per second" registry row is removed and the `response_unit` documentation says so. Built: did-schema (node wikidata:Q71762818, [response variable nodes]); DID-matlab 77e5595 (tuning migrators fill `variable` from v1 `response_units` and write `om:hertz`), e21ee2c (where the source does not say: [unstated response variable]).
+
+Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F is the response variable, not a unit: a calcium-imaging tuning response has `variable` = dF/F and `response_unit` = `om:one` (dimensionless), as [response variable] does for firing rate (answer "J2 sounds good"). Built here: the staged "dF/F" unit row is removed. Built: DID-matlab 77e5595 (tuning migrators write variable EMPTY:0000397 and unit om:one).
+
+Decided by Jess Haley, 2026-10-22 [response variable nodes]: the firing-rate `variable` is wikidata:Q71762818 "neural firing rate" (a subclass of biological quantity, Q71759392; no Wikidata definition, so the registry writes one); dF/F is a new EMPTY term, EMPTY:0000397 "dF/F" (no term in OLS4 or Wikidata; empty-ontology #25 b88953a), with "ΔF/F" as an abbreviation (answer "a"). Built: did-schema registry rows; empty-ontology #25 b88953a; DID-matlab 77e5595, e21ee2c (tuning migrators write these variables).
+
+Decided by Jess Haley, 2026-10-23 [unstated response variable]: where a v1 tuning or contrast-sensitivity source does not state what was measured (empty or unrecognised `response_units`), `variable` is the general term EMPTY:0000398 "neural response" and the unit is left out; `variable` cannot be empty (statement.variable is mustBeNonEmpty, and a blank term is quarantined as vacuous), and a calculator label is not what was measured. Each migration reports the count of documents set from response_units, given the general term because the source is empty, and given it because the spelling is unrecognised; the corpus census digest prints those counts (answer "if you think b is right, do it", to option (b) as proposed). Corpus measurement (DID tuning agent, 2026-10-22): all 47,747 Soph and 126 20211116 tuning documents have empty `response_units`. Built: did-schema registry row; empty-ontology #25 7902807; DID-matlab e21ee2c (fallback term, report counts, census digest).
+
+Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the `pressure` canonical slot stays `mmhg`, its unit om:millimetreOfMercury ("The millimetre of mercury is a unit of pressure defined as 1.0e-3 metre of mercury."), not pascal: physiology reports pressure in mmHg, and the source unit is kept either way (answer "J3a"). Built: registry row and canonical-unit node.
+
+Decided by Jess Haley, 2026-10-22 [pH unit one]: the `ph` canonical slot's unit is om:one ("Unit one is a unit of dimension one."); the value kind names the quantity, the unit stays plain, as [response variable] and [dF/F as variable] do; no UO prefix is registered (answer "J4c"). Built: registry row om:one (shared with dF/F responses) and canonical-unit node. SUPERSEDED the same day by [pH unit is UO pH].
+
+Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the `ph` canonical slot's unit is UO:0000196 "pH" ("A dimensionless concentration notation which denotes the acidity of a solution in terms of activity of hydrogen ions (H+)."), replacing [pH unit one]: T14 makes a canonical unit the one the field's practitioners use, and OM has pH only as the quantity om:Acidity, with no unit. The UO prefix is registered for this unit; other units stay OM (answer "agreed on J3 and J4", after review against T14). [pressure in mmHg] is reconfirmed on the same review: T14 names `mmhg`, and pascal was already reversed on 2026-09-29 (review/73/audit2_SUMMARY.md D10 (e)). Built: UO prefix in CURIE_lookups_meta.json, registry row UO:0000196, canonical-unit node; om:one stays for dF/F.
+
+Decided by Jess Haley, 2026-10-22 [humidity in percent]: the `humidity` canonical slot `percent_relative_humidity` keeps its name; its unit is om:percent ("The percent is a unit of dimension one defined as 1/100."): OM's relative humidity unit "commonly has unit" percent, T14 names the slot, and the value kind says what the percent is of (answer "J5a", confirmed "ok"). Built: registry row om:percent; the canonical unit's name is "percent" (R11: it equals the registry name).
+
+Decided by Jess Haley, 2026-10-22 [unit names are labels]: a canonical unit's name in tools/canonical_units.py is its registered ontology label, as R11 already requires (answer "J8a"). Six slots take these units: `liters_per_liter` NCIT:C105495 "Liter Per Liter"; `particles_per_liter` om:reciprocalLitre "reciprocal litre" ("particles" is the variable, not the unit); `osmolar` NCIT:C67425 "Unit of Osmotic Concentration"; `optical_density` NCIT:C73686 "Absorbance Unit" (already registered); `degrees_per_second` NCIT:C166097 "Degrees Per Second"; `arbitrary_units` NCIT:C75765 "Arbitrary Unit" (already registered). Slot names are unchanged. Built: registry rows and canonical-unit names and nodes.
+
+Decided by Jess Haley, 2026-10-22 [molar kept]: the `molar` slot's unit is om:molar ("Molar is a unit of amount of substance concentration defined as 1 mole per litre."); om:molePerLitre, the same quantity under a second OM name, is not registered (answer "J9 keep molar"). Built: registry row and canonical-unit node.
+
+Decided by Jess Haley, 2026-10-22 [exact OM units]: the fifteen canonical units with an exact OM match are registered (answer "approve all 15."): volts om:volt, amperes om:ampere, grams_per_gram om:gramPerGram, meters_per_second om:metrePerSecond-Time, meters_per_second_squared om:metrePerSecond-TimeSquared, square_meters om:squareMetre, newtons om:newton, joules om:joule, watts om:watt, coulombs om:coulomb, ohms om:ohm, siemens om:siemens, farads om:farad, moles om:mole, decibels om:decibel. Definitions are OM's; om:gramPerGram and om:decibel have none in OM, so NCIT:C70453 and NCIT:C102407 supply them. Built: registry rows and canonical-unit nodes.
+
+Decided by Jess Haley, 2026-10-22 [prefixed source units]: eight source units sources write are registered as OM units (answer "approve all 8"): mV om:millivolt, µV/uV om:microvolt, kg om:kilogram, kHz om:kilohertz, mA om:milliampere, µA/uA om:microampere, nA om:nanoampere, pA om:picoampere. OM defines four; millivolt, microvolt and kilogram are defined here from their prefix. Built: registry rows; DID-matlab 0333788 (jSourceUnit writes these nodes, and om:volt, om:ampere, om:decibel for V, A, dB).

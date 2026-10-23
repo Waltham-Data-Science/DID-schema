@@ -60,8 +60,8 @@ BARE_ROW = {
     "v1_class": "fixture_class", "veta_class": "fixture_class", "targets": [],
     "decided_targets": [], "second_pass": [], "no_target_reason": None,
     "decided_signoff": None, "no_target_signoff": None,
-    "decided_targets_source": None, "decided_by_family": None,
-    "governance_gap": None, "families_naming_this_class": [],
+    "decided_targets_source": None, "decided_by_citation": None,
+    "governance_gap": None, "decision_citations": [],
     "build_state": {
         "schema_targets_named": 0, "schema_targets_built": [],
         "schema_targets_missing": [], "migrator_emits_decided_targets": False,
@@ -306,7 +306,7 @@ class TestTheRejectedDerivation(unittest.TestCase):
     """
 
     def test_reachability_would_credit_valid_interval(self):
-        """`resolveValidIntervals.m` MINTS `logical_observation` and the pass is
+        """`resolveValidIntervals.m` MINTS a statement and the pass is
         dormant by team decision, so a walk that credits mint sites credits a
         rung for code that cannot run. The mint site's presence is the
         evidence; the declaration is what distinguishes it from a live one."""
@@ -318,8 +318,12 @@ class TestTheRejectedDerivation(unittest.TestCase):
             self.skipTest("resolveValidIntervals.m absent from this checkout")
         with open(src, errors="replace") as fh:
             text = fh.read()
+        # RE-POINTED 2026-10-21: DID-matlab #218 (after the #88 port, merge
+        # 92200cd) spells the dormant mint `struct('class_name', 'observation',
+        # ...)` -- the #88 direction class; `logical_observation` was retired
+        # (#73 item 52). The site is still there, so the argument still holds.
         self.assertIn(
-            "'class_name', 'logical_observation'", text,
+            "'class_name', 'observation'", text,
             "if this mint site is gone the rejected-derivation argument needs "
             "re-deriving rather than deleting")
         coverage.batch_pass_declarations()

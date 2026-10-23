@@ -83,7 +83,7 @@ anchor is reused across the N column-observations produced from one row
       "superclasses": [ { "class_name": "subject_observation" }, { "class_name": "mass" } ] },
   "depends_on": [ { "name": "subject_id", "value": "…" }, { "name": "time_reference_1", "value": "…" } ],
   "subject_interaction": {
-      "method":   { "node": "ncit:C41355", "name": "measurement" },
+      "method":   { "node": "NCIT:C41355", "name": "measurement" },
       "variable": { "node": "schema:weight", "name": "weight" },
       "target_structure": [] },
   "mass": { "value": [ { "kilograms": 0.0243, "source_unit": "g", "source_value": 24.3, "approximate": false } ] }
@@ -95,10 +95,10 @@ anchor is reused across the N column-observations produced from one row
       "superclasses": [ { "class_name": "observation" } ] },
   "depends_on": [ { "name": "subject_id", "value": "…" }, { "name": "time_reference_1", "value": "…" } ],
   "subject_interaction": {
-      "method":   { "node": "ncit:C41355", "name": "measurement" },
-      "variable": { "node": "uberon:0000105", "name": "life cycle stage" },
+      "method":   { "node": "NCIT:C41355", "name": "measurement" },
+      "variable": { "node": "UBERON:0000105", "name": "life cycle stage" },
       "target_structure": [] },
-  "term_observation": { "value": { "node": "fbdv:00005336", "name": "larval stage" } }
+  "term_observation": { "value": { "node": "FBdv:00005336", "name": "larval stage" } }
 }
 ```
 

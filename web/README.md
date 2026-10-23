@@ -1,7 +1,7 @@
 # DID schema web app
 
 Browser-based viewer, editor, and submission tool for DID/NDI document
-schemas. Targets `schemas/V_delta/`. Tracking issue: #28.
+schemas. Shows V_eta (`schemas/V_eta/`); the earlier versions are retired. Tracking issue: #28.
 
 Status: **Steps 1--4 of issue #28 are in.** The site has a working viewer,
 a schema editor with live meta-schema validation, "Download JSON", and

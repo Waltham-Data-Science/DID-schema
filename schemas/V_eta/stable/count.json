@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -28,7 +28,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed count value; what is counted is the statement's `variable`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time key: in the statement's `keys` when inline, on each body's `keys` when stored in a body (#73 item 21).",
+            "documentation": "A typed count value; what is counted is the statement's `variable`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time covariate along a time dimension: in the statement's `dimensions` and `covariates` when inline, on each body's when stored in a body (#73 item 21; keys until 2026-10-22, data_body plan AMENDMENT 6).",
             "constraints": {},
             "fields": [
                 {

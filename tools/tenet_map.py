@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (16 since T16, 2026-10-03).
+"""The tenet -> class map: which classes each of Brainstorm J's tenets shaped (19 since T19, 2026-10-20).
 
 WHY THIS IS A CURATED TABLE AND NOT A DERIVATION. The link from a tenet to the
 classes it shaped exists only in prose, and it is not recoverable mechanically:
@@ -19,7 +19,7 @@ claim in front of a reader is worse than a shorter table.
 
 THREE THINGS THIS TOOL DOES THAT A ROW-COUNTER WOULD NOT:
 
-  1. It states its denominator: 16 tenets declared, N with at least one row, and
+  1. It states its denominator: 19 tenets declared, N with at least one row, and
      it NAMES the tenets with none. A tenet rendering as an empty panel and a
      tenet nobody has mapped look identical in a viewer; they are not the same
      fact, and the one that is unmapped is the one worth knowing about.
@@ -57,7 +57,7 @@ LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
-TENET_IDS = [f"T{i}" for i in range(1, 17)]
+TENET_IDS = [f"T{i}" for i in range(1, 20)]
 
 # A string that cannot occur in a plan document, used to ask the substantiation
 # lookup whether it is capable of saying no. Not a constant anyone should ever
@@ -68,7 +68,7 @@ CANARY = "ZZ-NO-SUCH-ANCHOR-8f21c4-DO-NOT-ADD-THIS-STRING-TO-ANY-DOCUMENT"
 class Row:
     """One curated tenet -> classes mapping, with the citation that carries it.
 
-    tenet    T1..T16
+    tenet    T1..T19
     change   the one-line before/after, in the tenet's own terms
     before   the did_v1 (or superseded V_eta) classes as they stood
     after    what they became
@@ -116,8 +116,8 @@ TENET_MAP = [
         "The tenet is doing negative work here -- it is the reason a class was "
         "kept OFF the subject spine."),
     Row("T2",
-        "`validity` was the only data_type naming a SEMANTIC rather than a kind "
-        "of value. The semantic moved onto `subject_statement.variable`, where "
+        "`validity` was the only value naming a SEMANTIC rather than a kind "
+        "of value. The semantic moved onto `statement.variable`, where "
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
         ["logical"],
@@ -131,10 +131,10 @@ TENET_MAP = [
         "needs it (#73 item 50), so the other directions of `temperature` do "
         "not exist until a use appears.",
         ["treatment"],
-        ["temperature", "temperature_observation", "temperature_manipulation"],
+        ["temperature", "observation", "manipulation"],
         "V_eta_tenets.md",
         "A leaf class = a direction × a data type",
-        "T3 is the factoring move: data_type x direction, so a new stance on "
+        "T3 is the factoring move: value x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
     Row("T4",
         "An ensemble's membership stops being a list inside a document and "
@@ -217,7 +217,7 @@ TENET_MAP = [
         ["oridirtuning_calc", "contrasttuning_calc",
          "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
          "speedtuning_calc", "tuningcurve_calc"],
-        ["tuning_curve_calculation", "subject_calculation"],
+        ["tuning_curve_calculation", "calculation"],
         "V_eta_tuning_model_plan.md",
         "REVERSE R2/R3's LEAF COLLAPSE",
         "The 11,448-orphan run is what this tenet is made of: id preservation "
@@ -287,7 +287,9 @@ TENET_MAP = [
         "`control_designation` -- a name for the content, not for the box the "
         "content came in. (#73 review item 67 then folded it into "
         "`item.value.control_item` (was `timed_sequence`): which condition is the control is a "
-        "design fact.)",
+        "design fact. Since 2026-10-22 it is the `control condition` covariate along the "
+        "presentation dimension of that `item` value; `control_item` is deleted "
+        "([control as covariate], data_body plan AMENDMENT 6).)",
         ["control_stimulus_ids"],
         ["item"],
         "V_eta_tenet_audit.md",
@@ -320,7 +322,7 @@ TENET_MAP = [
         "composites emitted no query path at all. Declaring the cell inline is "
         "what made the values indexable.",
         ["stimulus_tuningcurve"],
-        ["tuning_curve", "voltage", "visual_grating"],
+        ["tuning_curve", "voltage", "dose"],
         "V_eta_tenet_audit.md",
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "
@@ -333,7 +335,7 @@ TENET_MAP = [
         "(NDI breaks cost ties by rule order), a calculation N `input_id` entries "
         "whose order is not.",
         ["syncgraph"],
-        ["clock_alignment_policy", "subject_calculation", "item",
+        ["clock_alignment_policy", "calculation", "item",
          "relative_time_reference"],
         "V_eta_tenets.md",
         "a repeated edge repeats that one name",
@@ -347,11 +349,47 @@ TENET_MAP = [
         "state, the method how it was done -- so a transfer is `location` = the "
         "plate kind, and the method tells the incubator from the bench.",
         ["treatment_transfer"],
-        ["term_manipulation", "temperature_manipulation", "dose_manipulation"],
+        ["manipulation", "term", "temperature", "dose"],
         "V_eta_tenets.md",
         "`variable` names a property, `value` its state, `method` how it was done",
         "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab "
         "import_V2_decisions.md #58)."),
+    Row("T17",
+        "A video of an assay plate shows the plate, its patches and the worms. "
+        "T17 keeps it one statement, about the plate, and names the three ways a "
+        "statement reaches other subjects: `distributive` along `member_of` (true "
+        "of each member), assertions along `part_of` (true of each part), and "
+        "interactions along `contained_in` only as CONTEXT for the overlapping time.",
+        [],
+        ["statement", "directed_relation"],
+        "V_eta_tenets.md",
+        "A statement describes only its subject; the graph decides what else it holds of",
+        "Written 2026-10-08 from the Haley videos question; the reader is "
+        "NDI-matlab ndi.subject (statements, 'inherited', 'context')."),
+    Row("T18",
+        "A session made on its own joins a dataset and brings its own entity for "
+        "something the dataset already records. T18 joins the two records with an "
+        "`undirected_relation` `same_as`, written in the dataset only on an identifier "
+        "that names the thing itself, and deletes or rewrites no id; a second thing "
+        "of one kind is `instance_of` the kind instead.",
+        [],
+        ["undirected_relation", "directed_relation"],
+        "V_eta_tenets.md",
+        "`same_as` joins two records of one thing; it never joins two things of one kind",
+        "Signed 2026-10-19 (V_eta_duplicate_entities_plan.md); the reader is "
+        "NDI-matlab ndi.entity (search and assertions follow a same_as group)."),
+    Row("T19",
+        "The Haley import's terms named what the document already said (`C. elegans "
+        "head`, `C. elegans behavioral assay: arena mask`) or took a species ontology "
+        "for a general meaning. T19 picks the most general term that means exactly "
+        "what is stated, names nothing the document carries elsewhere, and keeps each "
+        "condition's term complete on its own.",
+        [],
+        ["statement", "interaction"],
+        "V_eta_tenets.md",
+        "A term is as general as its meaning allows; the document carries the rest",
+        "Written 2026-10-20 at Jess Haley's request; not signed. The terms are "
+        "the Haley import's (NDI-matlab haleyTerm)."),
 ]
 
 

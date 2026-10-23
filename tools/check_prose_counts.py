@@ -7,7 +7,7 @@ This project's most expensive recurring defect is not a wrong schema. It is:
 a fact lives in code or in a generated artifact, a NUMBER ABOUT that fact lives
 in prose, and the prose drifts. On 2026-08-12 alone two hand sweeps corrected
 roughly twenty numeric claims across `CLAUDE.md` and `schemas/V_eta_OPEN_WORK.md`
--- 224 vs 241 V_eta class names, 38 vs 41 `data_type` subclasses, 34 vs 38
+-- 224 vs 241 V_eta class names, 38 vs 41 `value` subclasses, 34 vs 38
 registry rows, 8 vs 14 vs 13 bound fields, 17 vs 15 phase-8 deletions, 60 vs 67
 tombstones compared, 45 vs 46 `time_reference` sites, 915 vs 1,002 NDI files.
 Every one was found by a human or an agent reading carefully. NONE was found by
@@ -25,7 +25,7 @@ THE CENTRAL DESIGN PROBLEM -- these documents quote wrong numbers ON PURPOSE
 The house style for a correction is to write BOTH numbers:
 
     the registry is **38 rows, not 34**
-    `data_type` now has **41** direct subclasses, not 38
+    `value` now has **41** direct subclasses, not 38
     (**15 deleted** -- this line said 17 until 2026-08-10)
 
 The wrong number is load-bearing: it records what the error was and what it
@@ -117,7 +117,7 @@ VETA = os.path.join(SCHEMA_DIR, "V_eta")
 LEDGER = os.path.join(SCHEMA_DIR, "V_eta_coverage_ledger.json")
 GROUND_TRUTH = os.path.join(SCHEMA_DIR, "V_eta_ndi_ground_truth.json")
 REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
-BUILDER = os.path.join(HERE, "build_v_eta.py")
+BUILDER = os.path.join(HERE, "veta_record.py")   # build_v_eta.py's literals, 2026-10-21
 
 
 # --------------------------------------------------------------------------
@@ -148,7 +148,7 @@ class Unavailable(Exception):
 def _veta_docs():
     """(json file count, [document_class block, ...]) over the BUILT V_eta set."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is not built -- run tools/build_v_eta.py")
+        raise Unavailable("schemas/V_eta is missing")
     files, blocks = 0, []
     for root, _dirs, names in os.walk(VETA):
         for n in sorted(names):
@@ -180,7 +180,7 @@ def derive_data_type_subclasses():
     out = set()
     for b in blocks:
         for sup in b.get("superclasses") or []:
-            if (isinstance(sup, dict) and sup.get("class_name") == "data_type"
+            if (isinstance(sup, dict) and sup.get("class_name") == "value"
                     and isinstance(b.get("class_name"), str)):
                 out.add(b["class_name"])
     return len(out)
@@ -214,11 +214,11 @@ def derive_ledger_rows():
 
 
 def derive_registry_rows():
-    """Every row in binding_registry_meta.json, normative AND illustrative.
+    """Every row in binding_registry_meta.json.
 
-    The 34-vs-38 correction was exactly this: `binding_examples` is a row list
-    and was not being counted. So the derivation counts LIST-valued keys, which
-    cannot forget one."""
+    The 34-vs-38 correction was exactly this: `binding_examples` (deleted
+    2026-10-21) was a row list and was not being counted. So the derivation
+    counts LIST-valued keys, which cannot forget one."""
     reg = _load_json(REGISTRY, "binding_registry_meta.json")
     return sum(len(v) for v in reg.values() if isinstance(v, list))
 
@@ -230,7 +230,7 @@ def derive_bound_fields():
     prints it as its own denominator. Re-implementing it here is how the
     top-level-only sweep missed the two nested bindings and reported 14."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is not built -- run tools/build_v_eta.py")
+        raise Unavailable("schemas/V_eta is missing")
     sys.path.insert(0, HERE)
     try:
         import regen_binding_strengths
@@ -284,13 +284,13 @@ def derive_plan_documents():
 
 
 def derive_phase8_deleted():
-    """`_DELETE_PHASE8` read from build_v_eta.py's AST.
+    """`_DELETE_PHASE8` read from tools/veta_record.py's AST (build_v_eta.py's until 2026-10-21).
 
     Parsed, not grepped: the set literal is surrounded by comments naming the
     two classes that were REMOVED from it, and a grep for quoted strings counts
     those too."""
     if not os.path.exists(BUILDER):
-        raise Unavailable("tools/build_v_eta.py is absent")
+        raise Unavailable("tools/veta_record.py is absent")
     with open(BUILDER, encoding="utf-8") as fh:
         tree = ast.parse(fh.read())
     for node in ast.walk(tree):
@@ -299,7 +299,7 @@ def derive_phase8_deleted():
         for target in node.targets:
             if isinstance(target, ast.Name) and target.id == "_DELETE_PHASE8":
                 return len(ast.literal_eval(node.value))
-    raise Unavailable("_DELETE_PHASE8 not found in build_v_eta.py")
+    raise Unavailable("_DELETE_PHASE8 not found in tools/veta_record.py")
 
 
 def derive_tombstones_compared():
@@ -351,7 +351,7 @@ NOUNS = [
          derive_veta_class_names,
          [_N + r"\s+(?:distinct\s+)?V_eta class names"]),
 
-    Noun("data_type_subclasses", "direct subclasses of `data_type`",
+    Noun("data_type_subclasses", "direct subclasses of `value`",
          derive_data_type_subclasses,
          [_N + r"\s*\**\s*direct subclasses"]),
 
@@ -408,7 +408,7 @@ NOUNS = [
          [_N + r"\s+markdown files?(?:\(s\))?\s+under\s+`?schemas/",
           _N + r"\s+markdown file\(s\)\s+under\s+`?schemas/"]),
 
-    Noun("phase8_deleted", "classes in build_v_eta.py `_DELETE_PHASE8`",
+    Noun("phase8_deleted", "classes in veta_record.py `_DELETE_PHASE8`",
          derive_phase8_deleted,
          [r"\*\*" + _N + r"\s+deleted\*\*",
           _N + r"\s+deleted classes\b",
@@ -430,7 +430,7 @@ BY_KEY = {n.key: n for n in NOUNS}
 # punctuation, emphasis and a very small filler set. Deliberately tight: an
 # earlier draft allowed the cue anywhere in the preceding 46 characters, and
 # that demoted `**38 direct subclasses**` in the sentence
-# "NOT `data_type` -- that is a CLASS with **38 direct subclasses**", i.e. it
+# "NOT `value` -- that is a CLASS with **38 direct subclasses**", i.e. it
 # silently exempted a LIVE claim. Narrow demotion errs toward checking.
 
 _FILLER = r"[\s*_`~\"'(),.:;—–-]*"

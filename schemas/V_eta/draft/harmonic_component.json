@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "draft"
@@ -17,7 +17,7 @@
             "type": "structure",
             "blank_value": {},
             "default_value": {},
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
@@ -121,8 +121,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Unit of the response values (e.g. spikes per second, dF/F), a term like every other unit.",
-                    "constraints": {},
+                    "documentation": "Unit of the response values (e.g. hertz for a spike rate; what is measured, such as firing rate, goes in the statement's `variable`: Jess Haley 2026-10-22 [response variable]), a term like every other unit.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

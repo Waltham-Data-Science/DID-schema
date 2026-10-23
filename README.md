@@ -6,51 +6,38 @@
 
 ## Schema format overview
 
-Every schema file is a JSON object with exactly six top-level keys:
+The schema in use is **V_eta**. Each document class is one JSON file under `schemas/V_eta/<tier>/<class_name>.json`, where the tier is `stable`, `draft` or `deprecated` (v1 tombstones that migrated documents validate through). A class file has four top-level keys:
 
-- **`classname`** -- unique name of the document type (e.g., `"base"`, `"probe_location"`)
-- **`class_version`** -- semantic version string `"MAJOR.MINOR.PATCH"`
-- **`superclasses`** -- array of superclass references (classname + schema path)
-- **`depends_on`** -- array of dependency objects (name, mustBeNonEmpty, documentation)
-- **`file`** -- array of file record objects (name, documentation)
-- **`fields`** -- array of field definition objects
+- **`document_class`** -- `class_name`, `class_version` (semantic version `"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), and `maturity_level`
+- **`depends_on`** -- the class's edges to other documents (name, mustBeNonEmpty, documentation)
+- **`file`** -- the files a document of the class may carry (name, documentation)
+- **`fields`** -- field definition objects, nested for structures
 
-Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`. Supported types are `did_uid`, `char`, `integer`, `double`, `matrix`, `timestamp`, `boolean`, and `structure`.
+Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`, plus `fields` for a structure.
 
-See [schemas/V_alpha_SPEC.md](schemas/V_alpha_SPEC.md) for the V_alpha specification and [schemas/V_beta_SPEC.md](schemas/V_beta_SPEC.md) for the V_beta specification (V_alpha plus snake_case naming requirements).
+`schemas/V_eta/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/V_eta/stable/*_meta.json`; the term registry's source is `schemas/V_eta_term_registry.json`.
 
-The current sandbox iteration is **V_eta** (see [schemas/V_eta_SPEC.md](schemas/V_eta_SPEC.md)), which implements **Brainstorm J** from the `ndi-next-steps` thread: a subject-centric, statement-based reduction — thin subjects × one `subject_statement` family × data-type composites × typed relations, with vocabularies enforced by ontology bindings (the principles are in [schemas/V_eta_tenets.md](schemas/V_eta_tenets.md)). V_eta develops from **Brainstorm I** (V_zeta — a single `subject_interaction` spine with direction on the class and identity on the `variable` term; retained as an archived reference, see [schemas/V_zeta_SPEC.md](schemas/V_zeta_SPEC.md)), which in turn supersedes V_epsilon (Brainstorm E). Within each `V_*` directory, `index.json` is the resolution source of truth.
+The model in one paragraph: every identifiable thing is an `entity` with a bound `type`; what is said about it is a statement (`assertion`, `observation`, `manipulation` or `calculation`) whose value kind is a mixin in its `superclasses`; relations are `directed_relation` documents; values are inline or in data bodies (`sampled_body`, `opaque_body`). The principles are in [schemas/V_eta_tenets.md](schemas/V_eta_tenets.md), and each decision is recorded in a plan document under `schemas/` (`Decided by <name>, <date> [<tag>]` lines). [schemas/V_eta_SPEC.md](schemas/V_eta_SPEC.md) predates the 2026-10-08 entity merge; where it disagrees with the tenets or a plan document, those win.
+
+The earlier versions (`V_alpha` .. `V_zeta`) are retired: their schema trees are deleted, and only their `*_SPEC.md` / `*_notes.md` files remain in `schemas/` as history.
 
 ## Directory layout
-
-Each document type is a directory under `schemas/` containing its schema definition:
 
 ```
 did-schema/
 |
-+-- README.md
-+-- pyproject.toml
-|
++-- README.md, CLAUDE.md (how to work in this repository)
 +-- schemas/
-|   +-- meta/
-|   |   +-- did_schema_meta.json        <- meta-schema (JSON Schema Draft 7)
-|   +-- base/
-|   |   +-- schema.json                 <- schema for the base document type
-|   +-- probe/
-|       +-- probe_location/
-|           +-- schema.json             <- schema for probe_location document type
-|
-+-- tests/
-    +-- conftest.py
-    +-- test_meta_schema.py
-    +-- test_schemas.py
-    +-- test_documents.py
-    +-- fixtures/
-        +-- valid_base_document.json
-        +-- invalid_base_document_missing_id.json
-        +-- invalid_base_document_bad_datestamp.json
-        +-- valid_probe_location_document.json
-        +-- invalid_schema_missing_classname.json
+|   +-- V_eta/
+|   |   +-- index.json                  <- class index (tier, version, superclasses, disposition)
+|   |   +-- stable/  draft/  deprecated/  <- one <class_name>.json per class; *_meta.json registries
+|   |   +-- conversions/from_did_v1/    <- per-class v1 -> V_eta conversion notes
+|   +-- V_eta_term_registry.json        <- source of the term registry
+|   +-- V_eta_*_plan.md, V_eta_tenets.md  <- decisions and principles
+|   +-- V_eta_STATUS.md, V_eta_coverage_ledger.*, ...  <- generated (do not hand-edit)
++-- tools/                              <- gates.py and the tools it runs
++-- tests/                              <- pytest suite
++-- web/                                <- schema viewer (see web/README.md)
 ```
 
 ## Versioning
@@ -63,32 +50,24 @@ Every field has both a `blank_value` and a `default_value`. The `blank_value` is
 
 ## Validation
 
-Validation is explicit and deferred -- documents do not validate themselves on construction. Consumer tooling (MATLAB, Python, etc.) calls a validate function explicitly, or the database layer triggers validation before insert. Schema files are validated against the meta-schema at load time.
+Validation is explicit and deferred -- documents do not validate themselves on construction. Consumer tooling (MATLAB, Python, etc.) calls a validate function explicitly, or the database layer triggers validation before insert. Class files are checked by `tools/validate_v_eta.py`, which `tools/gates.py` runs.
 
-## Path tokens
-
-Schema files use `$NDISCHEMAPATH` tokens in path references (e.g., superclass references). These are resolved at runtime by consumer tooling. For example, `$NDISCHEMAPATH/base/schema.json` resolves to the base schema file.
-
-## Running the tests
-
-```bash
-pip install pytest jsonschema
-pytest
-```
-
-Or install as a project with test dependencies:
+## Running the tests and gates
 
 ```bash
 pip install -e ".[test]"
-pytest
+python3 tools/gates.py            # regenerate every derived artifact, then run every gate (includes pytest)
+python3 tools/gates.py --check    # the same in a scratch mirror; writes nothing
 ```
 
-## Adding a new document type
+Some gates read the sibling repositories (NDI-matlab, DID-matlab, empty-ontology); point `NDI_MATLAB`, `DID_MATLAB` and `EMPTY_ONTOLOGY` at the checkouts you mean (see `CLAUDE.md`, section 3).
 
-1. Create a directory under `schemas/` (e.g., `schemas/mytype/` or `schemas/category/mytype/`).
-2. Add `schema.json` with the six required top-level keys.
-3. Add test fixtures under `tests/fixtures/` if needed.
-4. Run `pytest` to verify the new schema passes meta-validation.
+## Adding or changing a class
+
+1. Edit or add `schemas/V_eta/<tier>/<class_name>.json` (JSON, indent 4).
+2. For a new class, add a hand-written `disposition` to its entry in `schemas/V_eta/index.json`; the other index fields are derived.
+3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites the derived files (`index.json`, the built registries); do not hand-edit those.
+4. Record the decision behind the change in the plan document it belongs to.
 
 ## Contributing
 

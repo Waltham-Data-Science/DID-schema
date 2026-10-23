@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "The reader program itself, as a `software` entity -- the R1 replacement for an NDI class-handle string.",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A REGULAR EXPRESSION matching the epoch file this reader parses for the epoch's parameters (e.g. \".*\\\\.tsv\\\\>\"). Named apart from epoch_file_pattern's `file_pattern`, which uses NDI's #-stem syntax (#73 audit 2 D13). <- v1 `tab_separated_file_parameter`.",
+            "documentation": "The pattern matching the epoch file this reader parses for the epoch's parameters (e.g. '.*\\.tsv\\>', 'stims.mat', '#_\\d{6}_\\d{6}\\._epochprobemap\\.txt\\>'). SYNTAX: whatever the class behind `software_id` applies, the same as epoch_file_pattern's `file_pattern` (Jess Haley 2026-10-22 [audit mechanical fixes 2]; the two names do not mark two syntaxes). <- v1 `tab_separated_file_parameter`.",
             "constraints": {}
         }
     ]

@@ -17,7 +17,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
-            "must_refer_to_document_class": "subject",
+            "must_refer_to_document_class": "entity",
             "ndi_mustBeNonEmpty": true
         },
         {
@@ -40,7 +40,7 @@
             "mustNotHaveNaN": true,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000578",
+                "node": "IAO:0000578",
                 "name": "centrally registered identifier"
             },
             "documentation": "The cluster index assigned to this neuron by a spike sorter.",

@@ -278,6 +278,13 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     already carries an RRID, DOI, SWHID or Wikidata id. Before the DID-matlab change lands, a
     corpus run must confirm every v1 `app` fills os and interpreter (a required edge
     quarantines a calculation that left them empty).
+    **Amended twice:** `interpreter_id` became optional 2026-10-04 (a compiled program has
+    no interpreter; `V_eta_study_plan.md`), and `operating_system_id` became optional
+    2026-10-21 (no v1 calculation records an operating system, so a required edge left
+    every migrated v1 calculation unconvertible; decision line below).
+
+Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `operating_system_id` is optional: required when the operating system is known, absent when the source never recorded it (as `interpreter_id` already is, made optional 2026-10-04)."
+
 54. **Names live on the classes that have one; `base.name` is did_v1-only** (2026-09-25).
     A name is a property of some things, not of every document: observations, bodies and
     relations have none, and V_eta's `base.name` filled up with `migrated_*` placeholders
@@ -593,3 +600,15 @@ The change:
 validate.
 
 TEAM-SIGN-OFF [formulation strain ingredient]: jess@walthamdatascience.com / 2026-10-02 -- formulation.ingredient_id may also refer to a strain, as recorded in section G.
+
+Decided by Jess Haley, 2026-10-21 [ontology image is an observation of its region]: a migrated v1 ontologyImage raster is one observation with the `intensity` value kind and variable NCIT:C221750 "Imaging Signal Intensity"; when its ontology node is an anatomical area, the observation's entity is that area's region part (per [region parts]), and any non-area node is a condition on the same observation. This replaces item 51's separate term observation for ontologyImage.
+
+Decided by Jess Haley, 2026-10-21 [non-area image node]: on a migrated ontologyImage observation, an ontology node that is not an anatomical area is a condition whose variable is an existing ontology term, not a new EMPTY term (answer "1b"). Proposed (not decided): the term is NCIT:C211970 "Image Annotation" ("A label that is assigned to an image, or a region of interest within an image, to provide in-context information"), chosen by Claude from an OLS search for the team's review.
+
+Proposed (not decided), built ahead of decision at Jess Haley's instruction of 2026-10-21 ("build the recommended option first, confirm later") [calculation-software-optional]: a calculation's `software_id` is optional: present when the source recorded the software, absent when it never did (as `operating_system_id` and `interpreter_id` already are). Raised by v1 `imageStack` masks: NDI `origin/main` `imageStack.json` has no `app` block and the Haley writer (`+setup/+conv/+haley/doImport.m`, the arena and lawn masks) records no software, so a required `software_id` would mean inventing one. The alternative was to name a software after the method, as `jModelFit.m` and `jCalculation.m` do.
+
+Decided by Jess Haley, 2026-10-22 [calculation-software-optional decided]: option (a) of [calculation-software-optional] above: a calculation's `software_id` is optional, present when the source recorded the software and absent when it never did. Her note: "Haley V2 import could list my analysis package as the software entity" (for the native import, not the migration).
+
+Decided by Jess Haley, 2026-10-22 [non-area image node, revisited]: [non-area image node] (2026-10-21) is reopened and NOT decided. Her reason: "Ontology label was meant to add conditions or other qualifiers to the image that couldn't be held by the image schema. I think we need to wait and see what those values actually are." NCIT:C211970 "Image Annotation" is not used. Until real values are seen, a migrated ontologyImage's non-area node is kept on the observation as a condition with a plain label variable ("ontology node") and counted, so nothing is lost and the cases are visible.
+
+Decided by Jess Haley, 2026-10-22 [coordinate system names]: `coordinate_system.dimensions` is renamed `axes`, and `coordinate_system.origin` is renamed `reference_point` (NCIT:C45793); `data` is unchanged (answer "a"). Built: the two renames; `reference_point` carries NCIT:C45793 Reference Point as its field ontology.

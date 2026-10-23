@@ -107,6 +107,18 @@ rewrite what was signed. The note goes BESIDE it, which is also why the window
 is asymmetric -- signatures are appended at the bottom of a document and there
 is often nothing above them.
 
+THE FOURTH RULE -- an in-text "not signed" in the tenets
+---------------------------------------------------------
+Found by the 2026-10-22 tenet audit: six amendments in `V_eta_tenets.md` said
+"not signed" (or "proposed ... not signed") inline, beside signatures that
+existed in the same document or in the method and term-registry plans. Rule 1
+only reads the "NO TEAM-SIGN-OFF LINE" form, so none was caught. Jess Haley,
+2026-10-22 [tenet signature text]: this tool also catches an in-text "not
+signed". The rule is scoped to IN_TEXT_DOCS (the tenets): elsewhere "decided,
+not signed" is often still true of an amendment, and a document-wide rule would
+be wrong more often than right. Every match in a scoped document fails unless
+`HISTORICAL-SIGNOFF-CLAIM` is within two lines.
+
 Usage:  python3 tools/check_signoff_header_staleness.py
         python3 tools/check_signoff_header_staleness.py --enforce
 """
@@ -136,6 +148,10 @@ UNSIGNED_CLAIM_RE = re.compile(r"\bno\s+signature\s+yet\b", re.IGNORECASE)
 # docstring. Matched ONLY on lines that are themselves signatures.
 BUILD_CLAIM_RE = re.compile(r"\bnot\s+(?:yet\s+)?built\b", re.IGNORECASE)
 BUILD_STATE = "BUILD-STATE:"
+
+# RULE 4 -- an in-text "not signed" / "not yet signed" in a scoped document.
+NOT_SIGNED_RE = re.compile(r"\bnot\s+(?:yet\s+)?signed\b", re.IGNORECASE)
+IN_TEXT_DOCS = ("V_eta_tenets.md",)
 # The note goes AFTER the signature, because a signature is appended at the
 # bottom of a document and there is frequently nothing above it. Asymmetric on
 # purpose; 2 lines of slack above covers a note written as a lead-in.
@@ -146,16 +162,23 @@ BUILD_WINDOW_AFTER = 20
 def families_awaiting_signature():
     """Read the GENERATED decisions doc, not a hardcoded expectation.
 
-    Returns (count, total) or (None, None) if the artifact is unreadable -- which
-    is itself reported rather than silently treated as zero."""
+    The decision families were replaced on 2026-10-21 by per-class citations
+    (tools/decision_citations.py). A class "awaiting a signature" is now one
+    that CITES a decision line which does not resolve; a class with no citation
+    is simply proposed, and claims nothing.
+
+    Returns (count, total) -- classes whose citations all fail to resolve, out
+    of the classes that cite anything -- or (None, None) if the artifact is
+    unreadable, which is itself reported rather than silently treated as zero."""
     try:
         import json
         with open(DECISIONS, encoding="utf-8") as fh:
-            fams = json.load(fh)["families"]
-    except (OSError, KeyError, ValueError):
+            recs = list(json.load(fh)["by_class"].values())
+    except (OSError, KeyError, ValueError, AttributeError):
         return None, None
-    awaiting = [f for f in fams if f.get("state") == "awaiting_signature"]
-    return len(awaiting), len(fams)
+    citing = [r for r in recs if r.get("citations")]
+    awaiting = [r for r in citing if r.get("state") != "decided"]
+    return len(awaiting), len(citing)
 
 
 def scan_tools_for_unsigned_claims():
@@ -207,6 +230,29 @@ def scan_signoff_build_claims(paths):
                 continue
             rows.append((path, i + 1, ln.strip()[:160]))
     return rows, claims
+
+
+def scan_in_text_not_signed(paths):
+    """RULE 4. Returns (rows, documents read, claims found)."""
+    rows, read, claims = [], 0, 0
+    for path in sorted(paths):
+        if os.path.basename(path) not in IN_TEXT_DOCS:
+            continue
+        try:
+            with open(path, encoding="utf-8") as fh:
+                lines = fh.read().splitlines()
+        except OSError:
+            continue
+        read += 1
+        for i, ln in enumerate(lines):
+            if not NOT_SIGNED_RE.search(ln):
+                continue
+            claims += 1
+            window = lines[max(0, i - 2):i + 3]
+            if any(EXEMPT in w for w in window):
+                continue
+            rows.append((path, i + 1, ln.strip()[:160]))
+    return rows, read, claims
 
 
 def scan(paths):
@@ -265,22 +311,29 @@ def main():
         print("V_eta_decisions.json is unreadable -- the tool-source rule could "
               "not run. That is a failure, not a pass.")
         return 1
-    print(f'DECISIONS ARTIFACT: {total} family/families, {awaiting} awaiting a signature')
+    print(f'DECISIONS ARTIFACT: {total} class(es) cite a decision line, {awaiting} of them do not resolve')
     if awaiting == 0:
         tool_rows, tool_files = scan_tools_for_unsigned_claims()
         print(f'TOOL SOURCE: {tool_files} .py file(s) under tools/ scanned for "no signature yet"')
     else:
-        print(f'TOOL SOURCE: not scanned -- {awaiting} family/families really are awaiting a signature, so the claim may be true somewhere.')
+        print(f'TOOL SOURCE: not scanned -- {awaiting} class(es) cite a decision line that does not resolve, so the claim may be true somewhere.')
 
     # RULE 3: a build claim in a signature's tail.
     build_rows, build_claims = scan_signoff_build_claims(paths)
+    text_rows, text_docs, text_claims = scan_in_text_not_signed(paths)
+    print(f'IN-TEXT "NOT SIGNED": {text_docs} of {len(IN_TEXT_DOCS)} scoped document(s) read, '
+          f'{text_claims} claim(s) found, {len(text_rows)} not exempted')
+    if text_docs < len(IN_TEXT_DOCS):
+        print("A scoped document was not read. That is a failure, not a pass.")
+        return 1
+    rows = rows + text_rows
     print(f'SIGNATURE BUILD CLAIMS: {build_claims} TEAM-SIGN-OFF line(s) assert NOT (YET) BUILT; {len(build_rows)} carry no adjacent {BUILD_STATE} note')
     print()
 
     if not rows and not tool_rows and not build_rows:
         print(f'No signed plan document claims to be unsigned. ({signed} checked)')
         if awaiting == 0:
-            print("No tool source claims a family is awaiting a signature.")
+            print("No tool source claims a decision is awaiting a signature.")
         print(f'Every signature build claim carries a {BUILD_STATE} note. ({build_claims} checked)')
         return 0
 

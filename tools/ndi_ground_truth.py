@@ -707,34 +707,48 @@ def _parse(d, path):
     }
 
 
+# schemas/V_alpha was deleted 2026-10-21 (OPEN_WORK #128). Its field names were
+# extracted first into this file, one entry per deleted snapshot file, so every
+# comparison below reads exactly what it read from the directory. An entry that
+# is not an object counts as unparseable, as an unreadable file did.
+ALPHA_SNAPSHOT = os.path.join(HERE, "v_alpha_fields.json")
+
+
+def _alpha_files():
+    """[(file name, entry or None)] from the V_alpha extract, sorted by name;
+    [] when the extract is absent."""
+    try:
+        files = json.loads(Path(ALPHA_SNAPSHOT).read_text())["files"]
+    except (OSError, json.JSONDecodeError, KeyError):
+        return []
+    return [(n, e if isinstance(e, dict) else None) for n, e in sorted(files.items())]
+
+
 def v_alpha_divergence(truth):
     """Classes whose V_alpha snapshot disagrees with the real template. V_alpha is
     NOT authoritative -- this list exists to size the damage, not to arbitrate."""
     rows = []
     ALPHA_SCAN.update({"candidates": 0, "unparseable": 0, "parsed": 0})
-    adir = os.path.join(REPO, "schemas", "V_alpha")
-    if not os.path.isdir(adir):
+    entries = _alpha_files()
+    if not entries:
         return rows
     by_snake = {snake(k): k for k in truth}
-    names = [n for n in sorted(os.listdir(adir)) if n.endswith(".json")]
-    ALPHA_SCAN["candidates"] = len(names)
-    for n in names:
+    ALPHA_SCAN["candidates"] = len(entries)
+    for n, d in entries:
         # COUNTED, because `V_alpha divergences: N` is printed and N is what
         # this loop survives. A snapshot file that would not parse used to
         # remove its class from the comparison entirely, and a divergence that
         # is never computed is reported identically to a divergence that does
         # not exist -- in the direction of "the snapshot agrees with NDI".
-        try:
-            d = json.loads(Path(os.path.join(adir, n)).read_text())
-        except (OSError, json.JSONDecodeError):
+        if d is None:
             ALPHA_SCAN["unparseable"] += 1
             continue
         ALPHA_SCAN["parsed"] += 1
-        cn = d.get("_classname") or n[:-5]
+        cn = d.get("class") or n[:-5]
         key = by_snake.get(snake(cn))
         if not key:
             continue
-        ours = {snake(f["_name"]) for f in d.get("_fields", []) if f.get("_name")}
+        ours = {snake(f) for f in d.get("fields", []) if f}
         theirs = set(truth[key]["fields"])
         if ours != theirs:
             rows.append({
@@ -766,7 +780,7 @@ def migrator_reads(truth, did_path):
         # Strip MATLAB comments and superclass/mixin cell literals before matching.
         # Both produced false positives on the first pass: `image_stack` was flagged
         # for `image_format` occurring only in a comment, and `treatment_drug` for
-        # `{'dose'}` -- which is a V_eta data_type mixin passed to jStartInteraction,
+        # `{'dose'}` -- which is a V_eta value mixin passed to jStartInteraction,
         # not a did_v1 field read at all.
         src = "\n".join(re.sub(r"(?<!\.)%.*$", "", ln) for ln in src.splitlines())
         src = re.sub(r"\{\s*'[a-z0-9_']*(?:'\s*,\s*'[a-z0-9_]*)*'\s*\}", " ", src)
@@ -945,23 +959,19 @@ def _alpha_names(ndi_class):
     """Field names our V_alpha snapshot claims for this class -- the vocabulary a
     migrator would have picked up if it was written from the snapshot."""
     if not _ALPHA_CACHE:
-        adir = os.path.join(REPO, "schemas", "V_alpha")
-        if os.path.isdir(adir):
-            names = [n for n in os.listdir(adir) if n.endswith(".json")]
-            ALPHA_SCAN["cache_candidates"] = len(names)
-            for n in names:
+        entries = _alpha_files()
+        if entries:
+            ALPHA_SCAN["cache_candidates"] = len(entries)
+            for n, d in entries:
                 # COUNTED for the same reason as `v_alpha_divergence`: this
                 # cache is what `v_alpha_classes_compared` is summed from, so a
                 # file that will not parse subtracts a class from the number
                 # that says how much was compared.
-                try:
-                    d = json.loads(Path(os.path.join(adir, n)).read_text())
-                except (OSError, json.JSONDecodeError):
+                if d is None:
                     ALPHA_SCAN["cache_unparseable"] += 1
                     continue
-                cn = d.get("_classname") or n[:-5]
-                _ALPHA_CACHE[snake(cn)] = {
-                    snake(f["_name"]) for f in d.get("_fields", []) if f.get("_name")}
+                cn = d.get("class") or n[:-5]
+                _ALPHA_CACHE[snake(cn)] = {snake(f) for f in d.get("fields", []) if f}
             ALPHA_SCAN["cache_parsed"] = len(_ALPHA_CACHE)
     return _ALPHA_CACHE.get(snake(ndi_class), set())
 

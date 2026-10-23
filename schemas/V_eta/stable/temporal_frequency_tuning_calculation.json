@@ -35,7 +35,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The independent-variable value at which the peak response occurs (v1 `pref`). Same unit as the curve's independent variable.",
+                    "documentation": "The independent-variable value at which the peak response occurs (v1 `pref`). In hertz (Jess Haley 2026-10-22 [calculator units]).",
                     "constraints": {}
                 },
                 {

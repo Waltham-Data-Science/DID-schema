@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "draft"
@@ -17,12 +17,12 @@
             "type": "structure",
             "blank_value": {},
             "default_value": {},
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A polynomial, as its coefficients. One entry, or a keyed list of them: `keys` says what each entry is (#73 review D1).",
+            "documentation": "A polynomial, as its coefficients. One entry, or a list of them along the value's `dimensions`, whose `covariates` say what each entry is (#73 review D1; `keys` until 2026-10-22).",
             "constraints": {},
             "fields": [
                 {
@@ -48,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "numel(coefficients) - 1. DERIVABLE, and kept anyway: the did2 query layer has no length predicate, so `degree > 1` -- which alignments are non-linear, the interesting question about a clock mapping -- is expressible ONLY if degree is stored. Same test that kept the key entry's `n` and dropped `ngrid.data_size`: derivable AT QUERY TIME, not derivable in code. CHECKED against coefficients, so it is an index rather than a second source of truth.",
+                    "documentation": "numel(coefficients) - 1. DERIVABLE, and kept anyway: the did2 query layer has no length predicate, so `degree > 1` -- which alignments are non-linear, the interesting question about a clock mapping -- is expressible ONLY if degree is stored. Same test that kept the dimension's `n` and dropped `ngrid.data_size`: derivable AT QUERY TIME, not derivable in code. CHECKED against coefficients, so it is an index rather than a second source of truth.",
                     "constraints": {}
                 }
             ]

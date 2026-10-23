@@ -594,3 +594,28 @@ RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_
 RE-DERIVED 2026-09-23 (sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 1,180 .m files (was 1,179). Re-derive with `python3 tools/check_prose_counts.py`, do not quote directly.
 
 RE-DERIVED 2026-09-25 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `0a2cdeccb`: 102 NDI templates on origin/main; 1,181 .m files (was 1,180; `git ls-tree -r origin/main | grep -c '\.m$'` = 1181). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **104 NDI templates** on origin/main (was 102). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `004585cec`: 1,305 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1305). Only the denominator moved. Re-derive, do not quote.
+
+Decided by Jess Haley, 2026-10-21 [response parameters as a shared method]: v1 stimulus_response_scalar_parameters_basic becomes one standalone `method` document per source parameters document (id preserved), shared by every response that used it through `method_id`; responses carry no inline method. This supersedes the 2026-08-08 sign-off's "_parameters_basic FOLDS inline to method_parameters" (the line above), and on #88 the response is a `calculation` with the `harmonic_component` value kind.
+
+Decided by Jess Haley, 2026-10-21 [control input told apart by its document]: a migrated response keeps both its stimulus presentation and its control record (v1 control_stimulus_ids) in the unordered `input_id`, with no separate control edge; the two are told apart by what each referenced document is, as with the time-reference family rule.
+
+Decided by Jess Haley, 2026-10-21 [empty response settings]: a response settings field the v1 writer left empty is written with the meaning NDI defines for empty (tuning_response.m:161-166): prestimulus_normalization empty becomes 0 ("[] or 0: no normalization"); prestimulus_time empty is left out, because no baseline period was used. Empty is never written as NaN.
+
+Decided by Jess Haley, 2026-10-21 [control record is a calculation]: a migrated v1 `control_stimulus_ids` document becomes a calculation whose input is the stimulus presentation and whose value names which item is the control; responses keep pointing at it in `input_id`, per [control input told apart by its document]. The same fact also stays on the item as `value.control_item`. (Answer "Yes" to the proposed option (a).)
+
+Proposed (not decided), built ahead of decision while Jess Haley was away (her instruction of 2026-10-22: "Keep doing as much as you can without me"), [control record with no control]: a v1 `control_stimulus_ids` record whose control is NaN (no trial was a control; B 129 of 1,242, 20211116 10 of 11) is not left as a v1 document. It becomes a calculation with the `logical` value kind, variable "control stimulus present", value false, its input the presentation and its base.id kept, so responses that point at it in `input_id` still resolve ([control input told apart by its document]). Nothing is invented: the record states that the source named no control. The alternative was to leave it as v1, which keeps those corpora from being done.
+
+Decided by Jess Haley, 2026-10-22 [control as covariate]: the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer "1a".
+
+Decided by Jess Haley, 2026-10-22 [presentation times from the file]: NDI's second pass reads each presentation's onset and offset from v1 `presentation_time.bin` (where the current v1 decoder writes them) into the `onset time` / `offset time` covariates, and the file stays attached to the presentation as its raw source (answer "7.1c"). Control records that cannot be placed stay v1 and are counted (7.2a); a presentation with no subject still carries the control covariate (7.3a).
+
+
+Decided by Jess Haley, 2026-10-22 [presentation file declared]: `presentation_time.bin` is an optional declared file on `item` and `manipulation`, because the stimulus fold keeps it attached ([presentation times from the file], 7.1c) and did2.validate.fileList would otherwise flag it undeclared (answer "both ok"). Built: the file record on both classes.

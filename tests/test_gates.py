@@ -74,14 +74,14 @@ def test_the_four_orderings_this_repo_gets_wrong_by_hand():
     reordered or dropped, and a general property does not say which pair broke.
 
     Each is a REAL read, not a convention:
-      ndi_ground_truth -> build_v_eta   the build stamps ndi_mustBeNonEmpty from it
-      build_v_eta      -> coverage      the ledger grades V_eta/index.json
+      ndi_ground_truth -> validate_v_eta the validator stamps ndi_mustBeNonEmpty from it
+      validate_v_eta   -> coverage      the ledger grades V_eta/index.json
       coverage         -> status_board  the board joins the ledger JSON
       status_board     -> the signoff gate, which reads V_eta_decisions.json
     """
     pos = {n: i for i, n in enumerate(g.ORDER)}
-    pairs = [("ndi_ground_truth", "build_v_eta"),
-             ("build_v_eta", "coverage"),
+    pairs = [("ndi_ground_truth", "validate_v_eta"),
+             ("validate_v_eta", "coverage"),
              ("coverage", "status_board"),
              ("status_board", "check_signoff_header_staleness")]
     assert len(pairs) == 4
@@ -360,7 +360,7 @@ def test_check_mode_writes_nothing_into_the_repository():
         assert before, "nothing to watch in the clone"
 
         p = subprocess.run([sys.executable, os.path.join(clone, "tools", "gates.py"),
-                            "--check", "--only", "build_v_eta",
+                            "--check", "--only", "validate_v_eta",
                             "--only", "regen_final_class_set"],
                            capture_output=True, text=True, cwd=clone, check=False)
         after = _dirty(clone)
@@ -375,7 +375,7 @@ def test_check_mode_writes_nothing_into_the_repository():
         # It must also have actually DONE something -- a --check that ran no
         # step would trivially satisfy the assertions above.
         assert "ARTIFACT DIFF" in p.stdout, p.stdout
-        assert "build_v_eta" in p.stdout
+        assert "validate_v_eta" in p.stdout
         assert "WORKING-TREE GUARD" in p.stdout
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -392,7 +392,7 @@ def test_check_mode_reports_a_stale_artifact_as_a_difference():
         with open(target, "a") as fh:
             fh.write("\n## FABRICATED CATEGORY (9999)\n")
         p = subprocess.run([sys.executable, os.path.join(clone, "tools", "gates.py"),
-                            "--check", "--only", "build_v_eta",
+                            "--check", "--only", "validate_v_eta",
                             "--only", "regen_final_class_set"],
                            capture_output=True, text=True, cwd=clone, check=False)
         assert p.returncode != 0, p.stdout

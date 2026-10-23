@@ -13,14 +13,14 @@
         {
             "name": "child_id",
             "mustBeNonEmpty": true,
-            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "parent_id",
             "mustBeNonEmpty": true,
-            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "entity,subject_statement,data_type"
+            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "entity,statement,value"
         },
         {
             "name": "time_reference_id",
@@ -36,7 +36,7 @@
             "name": "epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "OPTIONAL scope: the recording this relation was observed in, for relations whose truth is per-epoch. The ensemble's `member_of` edges are the signed case -- the recorded neuron set changes epoch to epoch, so the roster is preserved as one edge per (member, epoch) rather than lost to the cache. NOT a restatement of `time_reference_id`: that says WHEN the relation happened, this says WHICH RECORDING it holds in. Empty for every timeless or session-wide relation (part_of, has_author, derived_from), which is why it is optional.",
-            "must_refer_to_document_class": "epoch"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -65,119 +65,115 @@
                     "values": [
                         {
                             "node": "BFO:0000050",
-                            "name": "part_of"
+                            "name": "part of"
                         },
                         {
-                            "node": "RO:0001018",
-                            "name": "contained_in"
+                            "node": "schema:isPartOf",
+                            "name": "isPartOf"
+                        },
+                        {
+                            "node": "RO:0001025",
+                            "name": "located in"
                         },
                         {
                             "node": "RO:0002350",
-                            "name": "member_of"
+                            "name": "member of"
                         },
                         {
-                            "node": "RO:0001000",
-                            "name": "derived_from"
+                            "node": "prov:wasDerivedFrom",
+                            "name": "wasDerivedFrom"
                         },
                         {
-                            "node": "",
-                            "name": "sample_of"
+                            "node": "ENVO:01003004",
+                            "name": "derives from part of"
                         },
                         {
-                            "node": "",
-                            "name": "aliquot_of"
+                            "node": "RO:0002437",
+                            "name": "biotically interacts with"
                         },
                         {
-                            "node": "",
-                            "name": "passage_of"
+                            "node": "schema:author",
+                            "name": "author"
                         },
                         {
-                            "node": "",
-                            "name": "encountered"
+                            "node": "schema:citation",
+                            "name": "citation"
                         },
                         {
-                            "node": "",
-                            "name": "measured_distance_to"
+                            "node": "schema:funding",
+                            "name": "funding"
                         },
                         {
-                            "node": "",
-                            "name": "has_author"
+                            "node": "schema:funder",
+                            "name": "funder"
                         },
                         {
-                            "node": "",
-                            "name": "cites"
+                            "node": "schema:affiliation",
+                            "name": "affiliation"
                         },
                         {
-                            "node": "",
-                            "name": "funded_by"
+                            "node": "schema:subjectOf",
+                            "name": "subjectOf"
                         },
                         {
-                            "node": "",
-                            "name": "issued_by"
+                            "node": "schema:maintainer",
+                            "name": "maintainer"
                         },
                         {
-                            "node": "",
-                            "name": "affiliated_with"
+                            "node": "schema:contributor",
+                            "name": "contributor"
                         },
                         {
-                            "node": "",
-                            "name": "documented_by"
+                            "node": "schema:copyrightHolder",
+                            "name": "copyrightHolder"
                         },
                         {
-                            "node": "",
-                            "name": "stored_at"
+                            "node": "SIO:000497",
+                            "name": "is version of"
                         },
                         {
-                            "node": "",
-                            "name": "hosted_by"
+                            "node": "schema:isBasedOn",
+                            "name": "isBasedOn"
                         },
                         {
-                            "node": "",
-                            "name": "has_custodian"
+                            "node": "EMPTY:0000378",
+                            "name": "follows protocol"
                         },
                         {
-                            "node": "",
-                            "name": "contributed_by"
+                            "node": "schema:parentOrganization",
+                            "name": "parentOrganization"
                         },
                         {
-                            "node": "",
-                            "name": "copyright_holder"
+                            "node": "EMPTY:0000382",
+                            "name": "instance of"
                         },
                         {
-                            "node": "",
-                            "name": "alternative_of"
+                            "node": "schema:fundedItem",
+                            "name": "fundedItem"
                         },
                         {
-                            "node": "",
-                            "name": "input_data"
-                        },
-                        {
-                            "node": "",
-                            "name": "has_homepage"
-                        },
-                        {
-                            "node": "",
-                            "name": "follows_protocol"
-                        },
-                        {
-                            "node": "",
-                            "name": "suborganization_of"
-                        },
-                        {
-                            "node": "",
-                            "name": "instance_of"
-                        },
-                        {
-                            "node": "",
-                            "name": "awarded_to"
-                        },
-                        {
-                            "node": "",
+                            "node": "EMPTY:0000386",
                             "name": "orthologous gene mapping"
                         },
                         {
-                            "node": "",
+                            "node": "EMPTY:0000381",
                             "name": "gene alias mapping"
+                        },
+                        {
+                            "node": "OBI:0000647",
+                            "name": "has_supplier"
+                        },
+                        {
+                            "node": "schema:producer",
+                            "name": "producer"
+                        },
+                        {
+                            "node": "schema:provider",
+                            "name": "provider"
+                        },
+                        {
+                            "node": "EMPTY:0000379",
+                            "name": "distributed as"
                         }
                     ],
                     "strength": "preferred",
@@ -214,16 +210,16 @@
             ]
         },
         {
-            "name": "sequence",
+            "name": "order",
             "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "blank_value": -1,
+            "default_value": -1,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge). Empty for unordered relations.",
+            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge, a member's position on an ordered group's `member_of` edge, T20). Counts from 0 (T14): the first author is 0 (Decided by Jess Haley, 2026-10-21 [author order from 0], V_eta_study_plan.md). -1 (the blank) = unordered, as for `data.covariates.document`: 0 is a real position. Named `sequence` until the T20 rename (TEAM-SIGN-OFF [tenet T20, group entities], 2026-10-21).",
             "constraints": {}
         },
         {
@@ -249,63 +245,63 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "",
+                            "node": "credit:conceptualization",
                             "name": "conceptualization"
                         },
                         {
-                            "node": "",
+                            "node": "credit:data-curation",
                             "name": "data curation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:formal-analysis",
                             "name": "formal analysis"
                         },
                         {
-                            "node": "",
+                            "node": "credit:funding-acquisition",
                             "name": "funding acquisition"
                         },
                         {
-                            "node": "",
+                            "node": "credit:investigation",
                             "name": "investigation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:methodology",
                             "name": "methodology"
                         },
                         {
-                            "node": "",
+                            "node": "credit:project-administration",
                             "name": "project administration"
                         },
                         {
-                            "node": "",
+                            "node": "credit:resources",
                             "name": "resources"
                         },
                         {
-                            "node": "",
+                            "node": "credit:software",
                             "name": "software"
                         },
                         {
-                            "node": "",
+                            "node": "credit:supervision",
                             "name": "supervision"
                         },
                         {
-                            "node": "",
+                            "node": "credit:validation",
                             "name": "validation"
                         },
                         {
-                            "node": "",
+                            "node": "credit:visualization",
                             "name": "visualization"
                         },
                         {
-                            "node": "",
+                            "node": "credit:writing-original-draft",
                             "name": "writing - original draft"
                         },
                         {
-                            "node": "",
+                            "node": "credit:writing-review-editing",
                             "name": "writing - review & editing"
                         },
                         {
-                            "node": "",
+                            "node": "NCIT:C164481",
                             "name": "corresponding author"
                         }
                     ],
@@ -352,7 +348,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Optional; meaningful only when the subject is a group (`subject.type` group). True: this relation holds of EACH member, as well as of the group (a cohort moved to a plate: each worm was moved). Absent or false: it holds of the group as a whole and of no member by implication (a cohort's size).",
+            "documentation": "Optional; meaningful only when the subject is a group (`entity.type` group). True: this relation holds of EACH member, as well as of the group (a cohort moved to a plate: each worm was moved). Absent or false: it holds of the group as a whole and of no member by implication (a cohort's size).",
             "constraints": {}
         }
     ]

@@ -1,0 +1,678 @@
+{
+ "description": "Field names of the 86 class files in schemas/V_alpha, DID-schema's own first snapshot, extracted 2026-10-21 when the V_alpha..V_zeta trees were deleted (OPEN_WORK #128). tools/ndi_ground_truth.py compares them with NDI's templates (v_alpha_divergence, migrator_reads) to size the damage the snapshot did; it is history, not evidence. Keyed by the deleted file's name; `class` is its _classname (or the file stem), `fields` its _fields[]._name in order.",
+ "files": {
+  "SpikeInterfaceSortingOutputs.json": {
+   "class": "SpikeInterfaceSortingOutputs",
+   "fields": [
+    "sorter_name",
+    "num_units",
+    "sample_rate",
+    "sorter_parameters"
+   ]
+  },
+  "app.json": {
+   "class": "app",
+   "fields": [
+    "app_name",
+    "app_version",
+    "url",
+    "os",
+    "os_version",
+    "interpreter",
+    "interpreter_version"
+   ]
+  },
+  "base.json": {
+   "class": "base",
+   "fields": [
+    "id",
+    "session_id",
+    "name",
+    "datestamp"
+   ]
+  },
+  "binaryseries_parameters.json": {
+   "class": "binaryseries_parameters",
+   "fields": [
+    "data_type",
+    "sample_rate",
+    "num_channels",
+    "byte_order",
+    "header_bytes"
+   ]
+  },
+  "binnedspikeratevm.json": {
+   "class": "binnedspikeratevm",
+   "fields": [
+    "bin_size",
+    "num_bins"
+   ]
+  },
+  "control_stimulus_ids.json": {
+   "class": "control_stimulus_ids",
+   "fields": [
+    "control_ids",
+    "num_control_ids"
+   ]
+  },
+  "daqmetadatareader.json": {
+   "class": "daqmetadatareader",
+   "fields": [
+    "reader_class",
+    "metadata_names"
+   ]
+  },
+  "daqmetadatareader_epochdata_ingested.json": {
+   "class": "daqmetadatareader_epochdata_ingested",
+   "fields": [
+    "ingestion_status"
+   ]
+  },
+  "daqreader.json": {
+   "class": "daqreader",
+   "fields": [
+    "ndi_daqreader_class"
+   ]
+  },
+  "daqreader_epochdata_ingested.json": {
+   "class": "daqreader_epochdata_ingested",
+   "fields": [
+    "ingestion_status"
+   ]
+  },
+  "daqreader_mfdaq_epochdata_ingested.json": {
+   "class": "daqreader_mfdaq_epochdata_ingested",
+   "fields": [
+    "ingestion_status"
+   ]
+  },
+  "daqreader_ndr.json": {
+   "class": "daqreader_ndr",
+   "fields": [
+    "file_type",
+    "file_extension"
+   ]
+  },
+  "daqsystem.json": {
+   "class": "daqsystem",
+   "fields": [
+    "ndi_daqsystem_class"
+   ]
+  },
+  "dataset_remote.json": {
+   "class": "dataset_remote",
+   "fields": [
+    "remote_url",
+    "remote_type",
+    "dataset_id"
+   ]
+  },
+  "dataset_session_info.json": {
+   "class": "dataset_session_info",
+   "fields": [
+    "dataset_id",
+    "session_index",
+    "reference_path"
+   ]
+  },
+  "demoNDI.json": {
+   "class": "demoNDI",
+   "fields": [
+    "demo_param1",
+    "demo_param2"
+   ]
+  },
+  "demoNDIMock.json": {
+   "class": "demoNDIMock",
+   "fields": [
+    "mock_value",
+    "mock_label"
+   ]
+  },
+  "did_schema_meta.json": {
+   "class": "did_schema_meta",
+   "fields": []
+  },
+  "directory.json": {
+   "class": "directory",
+   "fields": [
+    "dirname",
+    "directory_role",
+    "num_entries",
+    "manifest_format"
+   ]
+  },
+  "distance_metadata.json": {
+   "class": "distance_metadata",
+   "fields": [
+    "distance",
+    "distance_units"
+   ]
+  },
+  "electrode_offset_voltage.json": {
+   "class": "electrode_offset_voltage",
+   "fields": [
+    "offset_voltages",
+    "voltage_units"
+   ]
+  },
+  "element.json": {
+   "class": "element",
+   "fields": [
+    "ndi_element_class",
+    "element_name",
+    "reference",
+    "element_type",
+    "direct"
+   ]
+  },
+  "element_epoch.json": {
+   "class": "element_epoch",
+   "fields": [
+    "epoch_clock",
+    "t0",
+    "t1"
+   ]
+  },
+  "epochclocktimes.json": {
+   "class": "epochclocktimes",
+   "fields": [
+    "epoch_clock",
+    "t0",
+    "t1"
+   ]
+  },
+  "epochfiles_ingested.json": {
+   "class": "epochfiles_ingested",
+   "fields": [
+    "ingestion_status",
+    "num_files_ingested"
+   ]
+  },
+  "epochid.json": {
+   "class": "epochid",
+   "fields": [
+    "epochid"
+   ]
+  },
+  "filenavigator.json": {
+   "class": "filenavigator",
+   "fields": [
+    "ndi_filenavigator_class",
+    "fileparameters",
+    "epochprobemap_class",
+    "epochprobemap_fileparameters"
+   ]
+  },
+  "filter.json": {
+   "class": "filter",
+   "fields": [
+    "label",
+    "filter_type",
+    "algorithm",
+    "parameters"
+   ]
+  },
+  "fitcurve.json": {
+   "class": "fitcurve",
+   "fields": [
+    "fit_function",
+    "fit_parameters",
+    "goodness_of_fit",
+    "goodness_of_fit_type"
+   ]
+  },
+  "generic_file.json": {
+   "class": "generic_file",
+   "fields": [
+    "filename",
+    "mimetype",
+    "description"
+   ]
+  },
+  "image.json": {
+   "class": "image",
+   "fields": [
+    "image_type",
+    "image_format",
+    "x_resolution",
+    "y_resolution",
+    "resolution_units"
+   ]
+  },
+  "imageCollection.json": {
+   "class": "imageCollection",
+   "fields": [
+    "num_images",
+    "image_format",
+    "description"
+   ]
+  },
+  "imageStack.json": {
+   "class": "imageStack",
+   "fields": [
+    "num_frames",
+    "x_pixels",
+    "y_pixels",
+    "image_format"
+   ]
+  },
+  "imageStack_parameters.json": {
+   "class": "imageStack_parameters",
+   "fields": [
+    "z_step",
+    "z_units",
+    "x_pixel_size",
+    "y_pixel_size",
+    "pixel_units"
+   ]
+  },
+  "jrclust_clusters.json": {
+   "class": "jrclust_clusters",
+   "fields": [
+    "num_clusters",
+    "jrclust_version"
+   ]
+  },
+  "measurement.json": {
+   "class": "measurement",
+   "fields": [
+    "measurement_class",
+    "parameters"
+   ]
+  },
+  "metadata_editor.json": {
+   "class": "metadata_editor",
+   "fields": [
+    "editor_class",
+    "target_classname"
+   ]
+  },
+  "mock.json": {
+   "class": "mock",
+   "fields": [
+    "ismock"
+   ]
+  },
+  "neuron_extracellular.json": {
+   "class": "neuron_extracellular",
+   "fields": [
+    "cluster_id",
+    "quality",
+    "num_spikes",
+    "mean_firing_rate"
+   ]
+  },
+  "ngrid.json": {
+   "class": "ngrid",
+   "fields": [
+    "ndims",
+    "dim_sizes",
+    "dim_labels",
+    "data_type"
+   ]
+  },
+  "oneepoch.json": {
+   "class": "oneepoch",
+   "fields": [
+    "epoch_clock",
+    "t0",
+    "t1"
+   ]
+  },
+  "ontologyImage.json": {
+   "class": "ontologyImage",
+   "fields": [
+    "ontology_name",
+    "ontology_region"
+   ]
+  },
+  "ontologyLabel.json": {
+   "class": "ontologyLabel",
+   "fields": [
+    "ontology_name",
+    "label",
+    "label_id"
+   ]
+  },
+  "ontologyTableRow.json": {
+   "class": "ontologyTableRow",
+   "fields": [
+    "names",
+    "variableNames",
+    "ontologyNodes",
+    "data"
+   ]
+  },
+  "openminds.json": {
+   "class": "openminds",
+   "fields": [
+    "openminds_type",
+    "openminds_data",
+    "openminds_version"
+   ]
+  },
+  "openminds_element.json": {
+   "class": "openminds_element",
+   "fields": []
+  },
+  "openminds_stimulus.json": {
+   "class": "openminds_stimulus",
+   "fields": []
+  },
+  "openminds_subject.json": {
+   "class": "openminds_subject",
+   "fields": []
+  },
+  "orientation_direction_tuning.json": {
+   "class": "orientation_direction_tuning",
+   "fields": [
+    "preferred_direction",
+    "preferred_orientation",
+    "direction_selectivity_index",
+    "orientation_selectivity_index",
+    "tuning_width"
+   ]
+  },
+  "position_metadata.json": {
+   "class": "position_metadata",
+   "fields": [
+    "x",
+    "y",
+    "z",
+    "position_units",
+    "coordinate_system"
+   ]
+  },
+  "probe_geometry.json": {
+   "class": "probe_geometry",
+   "fields": [
+    "num_channels",
+    "channel_positions",
+    "position_units",
+    "probe_type"
+   ]
+  },
+  "probe_location.json": {
+   "class": "probe_location",
+   "fields": [
+    "ontology_name",
+    "name"
+   ]
+  },
+  "projectvar.json": {
+   "class": "projectvar",
+   "fields": [
+    "project",
+    "user",
+    "lab",
+    "description",
+    "data"
+   ]
+  },
+  "pyraview.json": {
+   "class": "pyraview",
+   "fields": [
+    "label",
+    "nativeRate",
+    "nativeStartTime",
+    "channels",
+    "dataType",
+    "decimationLevels",
+    "decimationSamplingRates",
+    "decimationStartTimes"
+   ]
+  },
+  "session.json": {
+   "class": "session",
+   "fields": [
+    "reference",
+    "type",
+    "date",
+    "purpose"
+   ]
+  },
+  "session_in_a_dataset.json": {
+   "class": "session_in_a_dataset",
+   "fields": [
+    "dataset_id"
+   ]
+  },
+  "simple_calc.json": {
+   "class": "simple_calc",
+   "fields": [
+    "calculator_name",
+    "result_value",
+    "result_units"
+   ]
+  },
+  "site2channelmap.json": {
+   "class": "site2channelmap",
+   "fields": [
+    "site_to_channel",
+    "num_sites"
+   ]
+  },
+  "sorting_parameters.json": {
+   "class": "sorting_parameters",
+   "fields": [
+    "sorter_name",
+    "graphical_mode",
+    "num_pca_features",
+    "interpolation",
+    "min_clusters",
+    "max_clusters",
+    "num_start"
+   ]
+  },
+  "spike_clusters.json": {
+   "class": "spike_clusters",
+   "fields": [
+    "num_clusters",
+    "num_spikes"
+   ]
+  },
+  "spike_extraction_parameters.json": {
+   "class": "spike_extraction_parameters",
+   "fields": [
+    "threshold",
+    "threshold_type",
+    "filter_low",
+    "filter_high"
+   ]
+  },
+  "spike_extraction_parameters_modification.json": {
+   "class": "spike_extraction_parameters_modification",
+   "fields": [
+    "modified_fields",
+    "modification_reason"
+   ]
+  },
+  "spikewaves.json": {
+   "class": "spikewaves",
+   "fields": [
+    "num_spikes",
+    "samples_per_spike",
+    "sample_rate"
+   ]
+  },
+  "stimulus_bath.json": {
+   "class": "stimulus_bath",
+   "fields": [
+    "solution_name",
+    "concentration",
+    "concentration_units"
+   ]
+  },
+  "stimulus_parameter.json": {
+   "class": "stimulus_parameter",
+   "fields": [
+    "parameter_name",
+    "parameter_values",
+    "parameter_units"
+   ]
+  },
+  "stimulus_parameter_table.json": {
+   "class": "stimulus_parameter_table",
+   "fields": [
+    "parameter_names",
+    "table_data",
+    "num_stimuli"
+   ]
+  },
+  "stimulus_presentation.json": {
+   "class": "stimulus_presentation",
+   "fields": [
+    "stimulus_type",
+    "presentation_order",
+    "num_trials"
+   ]
+  },
+  "stimulus_response.json": {
+   "class": "stimulus_response",
+   "fields": [
+    "response_type"
+   ]
+  },
+  "stimulus_response_scalar.json": {
+   "class": "stimulus_response_scalar",
+   "fields": [
+    "stimulus_values",
+    "response_values",
+    "response_units"
+   ]
+  },
+  "stimulus_response_scalar_parameters.json": {
+   "class": "stimulus_response_scalar_parameters",
+   "fields": []
+  },
+  "stimulus_response_scalar_parameters_basic.json": {
+   "class": "stimulus_response_scalar_parameters_basic",
+   "fields": [
+    "response_window_start",
+    "response_window_end",
+    "freq_response"
+   ]
+  },
+  "stimulus_tuningcurve.json": {
+   "class": "stimulus_tuningcurve",
+   "fields": [
+    "independent_variable",
+    "independent_values",
+    "response_mean",
+    "response_stderr"
+   ]
+  },
+  "subject.json": {
+   "class": "subject",
+   "fields": [
+    "local_identifier",
+    "description"
+   ]
+  },
+  "subject_group.json": {
+   "class": "subject_group",
+   "fields": [
+    "group_name",
+    "description",
+    "subject_ids"
+   ]
+  },
+  "syncgraph.json": {
+   "class": "syncgraph",
+   "fields": [
+    "ndi_syncgraph_class"
+   ]
+  },
+  "syncrule.json": {
+   "class": "syncrule",
+   "fields": [
+    "ndi_syncrule_class",
+    "parameters"
+   ]
+  },
+  "syncrule_mapping.json": {
+   "class": "syncrule_mapping",
+   "fields": [
+    "mapping_data",
+    "mapping_status"
+   ]
+  },
+  "treatment.json": {
+   "class": "treatment",
+   "fields": [
+    "ontologyName",
+    "name",
+    "numeric_value",
+    "string_value"
+   ]
+  },
+  "treatment_drug.json": {
+   "class": "treatment_drug",
+   "fields": [
+    "drug_name",
+    "dose",
+    "dose_units",
+    "route"
+   ]
+  },
+  "tuningcurve_calc.json": {
+   "class": "tuningcurve_calc",
+   "fields": [
+    "calculator_name",
+    "result_data"
+   ]
+  },
+  "valid_interval.json": {
+   "class": "valid_interval",
+   "fields": [
+    "timeref_structt0",
+    "t0",
+    "timeref_structt1",
+    "t1"
+   ]
+  },
+  "virus_injection.json": {
+   "class": "virus_injection",
+   "fields": [
+    "virus_name",
+    "serotype",
+    "titer",
+    "titer_units",
+    "volume",
+    "volume_units",
+    "injection_site"
+   ]
+  },
+  "vmneuralresponseresiduals.json": {
+   "class": "vmneuralresponseresiduals",
+   "fields": [
+    "mean_residual"
+   ]
+  },
+  "vmspikefilteringparameters.json": {
+   "class": "vmspikefilteringparameters",
+   "fields": [
+    "filter_type",
+    "filter_window"
+   ]
+  },
+  "vmspikefit.json": {
+   "class": "vmspikefit",
+   "fields": [
+    "fit_function",
+    "fit_parameters",
+    "r_squared"
+   ]
+  },
+  "vmspikesummary.json": {
+   "class": "vmspikesummary",
+   "fields": [
+    "mean_vm",
+    "mean_firing_rate",
+    "num_spikes",
+    "recording_duration"
+   ]
+  }
+ }
+}

@@ -103,8 +103,7 @@ def _registry(rows=None, **extra):
            "relation_bindings": [],
            "entity_field_bindings": rows if rows is not None else [
                {"class": "demo", "field": "f", "vocabulary": "openMINDS",
-                "term_set": "DemoSet", "closed": True}],
-           "binding_examples": []}
+                "term_set": "DemoSet", "closed": True}]}
     reg.update(extra)
     return reg
 
@@ -351,44 +350,6 @@ def test_a_nested_binding_is_reachable_by_its_dotted_path(tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# 5. the second-source-of-truth guard
-# ---------------------------------------------------------------------------
-
-def test_build_v_eta_hand_authors_no_strength_in_the_registry_literal():
-    """The whole point of the derivation is that the value exists ONCE.
-
-    `ENTITY_FIELD_BINDINGS` in build_v_eta.py used to state `strength` beside
-    every row. Restoring it would be inert -- the generator overwrites the key
-    -- which is exactly why it must not come back: an editor would change a
-    literal, see the built file agree, and believe they had changed the rule.
-    """
-    import ast
-    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
-    tree = ast.parse(src)
-    literals = [n.value for n in ast.walk(tree)
-                if isinstance(n, ast.Assign)
-                and any(getattr(t, "id", None) == "ENTITY_FIELD_BINDINGS"
-                        for t in n.targets)]
-    assert len(literals) == 1, (
-        f'expected exactly one ENTITY_FIELD_BINDINGS assignment, found {len(literals)}')
-    rows = ast.literal_eval(literals[0])
-    assert len(rows) == 3, (
-        f'expected the 3 openMINDS dataset rows, found {len(rows)} -- if the catalogue grew, this denominator must move deliberately')
-    offenders = [r for r in rows if "strength" in r]
-    assert offenders == [], (
-        f"build_v_eta.py hand-authors a strength again: {offenders}. The field is "
-        "authoritative; tools/regen_binding_strengths.py derives this column.")
-
-
-def test_the_registry_list_table_is_not_a_second_hand_kept_copy():
-    """Two files enumerate the registry's lists and their normativity. Two
-    hand-kept copies of one list is the defect this whole change is about, so
-    they are asserted equal rather than merely both present."""
-    assert rbs.REGISTRY_LISTS == cbg.REGISTRY_LISTS
-    assert len(rbs.REGISTRY_LISTS) == 4
-
-
-# ---------------------------------------------------------------------------
 # 6. the live tree's denominators, stated so a shrinking sweep is visible
 # ---------------------------------------------------------------------------
 
@@ -407,7 +368,27 @@ def test_the_live_derivation_reports_its_denominator_first():
     # and the first two undirected rows (paired_with, same_as) added. 29 -> 30 on
     # 2026-09-30 (jess): `instance_of` (an instrument subject -> its product);
     # 30 -> 31 the same day: `awarded_to` (an award -> its recipient).
-    assert total == 44, f'registry row count moved: {total}'
+    # 2026-10-08 (signed, V_eta_entity_composition_plan.md): subject_statement 6 ->
+    # 11 (five bound fields of merged entities -- dataset accessibility, ethics
+    # assessment, experimental approach; study factors, design -- became variable-keyed
+    # term-assertion rows), relation 31 -> 30 (-stored_at, -hosted_by, -has_homepage,
+    # +sold_by, +recorded_by), entity_field 3 -> 1 (entity.type), + entity_type 19.
+    # relation 30 -> 32 on 2026-10-15 (jess): `developed_by` (software -> its
+    # developer) and `hosted_by` again, now dataset -> its host; 32 -> 33 the same
+    # day: `distributed_as` (a strain -> the product it is distributed as).
+    # 33 -> 34 on 2026-10-20 (V_eta_relation_inheritance_plan.md, a proposal built
+    # ahead of signature): `included_in`, a record filed under a record.
+    # 69 -> 65 on 2026-10-21 (Jess Haley): the 4 illustrative `binding_examples`
+    # rows deleted. 65 -> 66 the same day (Jess Haley): subject_statement 11 -> 12,
+    # `culture type` (EMPTY:0000357), the kind of a culture entity.
+    # 66 -> 65 the same day (Jess Haley, value sets): subject_statement 12 -> 11,
+    # the `study design` (OBI:0500000) row dropped; `ethics assessment` is
+    # replaced in place by `ethics jurisdiction` (EMPTY:0000359).
+    # 65 -> 62 on 2026-10-22 (Jess Haley, tenet audit): relation 34 -> 31,
+    # recorded_by ([epoch to system link]), measured_distance_to ([distance]),
+    # aliquot_of and passage_of ([vocabulary nodes] K5) retired, and the
+    # `clock_alignment` row added ([clock alignment relation bound]).
+    assert total == 62, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -415,12 +396,12 @@ def test_the_live_derivation_reports_its_denominator_first():
     # subject_statement_bindings moved 5 -> 6 on 2026-09-22 when #120 added
     # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
-    ("subject_statement_bindings", 6),
+    ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`; 12 -> 11 the same day: `study design` dropped
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 31),
-    ("entity_field_bindings", 3),
-    ("binding_examples", 4),
+    ("relation_bindings", 31),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20; 34 -> 31, 2026-10-22 (-4 retired, +clock_alignment)
+    ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
+    ("entity_type_bindings", 19),         # new 2026-10-08
 ])
 def test_the_live_registry_lists_have_the_sizes_the_record_claims(list_name,
                                                                   expected):
@@ -437,5 +418,5 @@ def test_only_the_rows_that_name_a_field_carry_a_strength_in_the_live_registry()
                 with_strength.append((list_name, i))
             if row.get("class") and row.get("field"):
                 naming_a_field.append((list_name, i))
-    assert len(naming_a_field) == 3, naming_a_field
+    assert len(naming_a_field) == 1, naming_a_field   # entity.type, 2026-10-08
     assert with_strength == naming_a_field

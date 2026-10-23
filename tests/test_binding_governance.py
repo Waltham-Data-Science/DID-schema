@@ -181,9 +181,6 @@ def synthetic(tmp_path):
             {"variable": {"node": "", "name": "odd"}, "class": "term_assertion",
              "ontology": "ZZZ", "root_node": "ZZZ:1"},
         ],
-        "binding_examples": [
-            {"variable": {"node": "", "name": "body mass"}, "class": "mass_observation"},
-        ],
         "relation_bindings": [],
         "entity_field_bindings": [
             {"class": "gamma", "field": "g", "vocabulary": "openMINDS",
@@ -282,15 +279,14 @@ def test_synthetic_b6_uncatalogued(synthetic):
 
 
 def test_synthetic_b7_leaf_selection_gap(synthetic):
-    """The jQuantityLeaf case. Both normative rows bind to `term_assertion`; the
-    only dimensional row is illustrative. A strict registry lookup for a
+    """The jQuantityLeaf case. Both normative rows bind to `term_assertion`.
+    A strict registry lookup for a
     dimensional leaf therefore resolves NOTHING -- which is why DID-matlab
     shipped a keyword-table stand-in."""
     f = TOOL.run(synthetic)["findings"]["B7_d9_leaf_selection_gap"]
     assert f["normative_rows"] == 2, f
     assert f["normative_dimensional_rows"] == 0, f
     assert f["count"] == 1, f
-    assert [e["variable"] for e in f["illustrative_dimensional_rows"]] == ["body mass"], f
 
 
 def test_synthetic_b8_unregistered_prefix(synthetic):
@@ -300,9 +296,37 @@ def test_synthetic_b8_unregistered_prefix(synthetic):
     assert "UBERON" in f["prefixes_seen"] and "ZZZ" in f["prefixes_seen"], f
     assert f["unregistered_case_insensitive"] == ["ZZZ"], f
     assert "UBERON" in f["unregistered_case_sensitive"], (
-        "the registered prefix is lowercase `uberon` and the CURIE is `UBERON:` "
-        "-- whether the lookup is case-sensitive is undecided, so BOTH readings "
-        "must be reported")
+        "the registered key is lowercase `uberon` and the CURIE is `UBERON:`; "
+        "the case-sensitive reading is still reported beside the signed one")
+    # the synthetic entry has no `spelling`, so it is spelled `uberon` and
+    # `UBERON:` is registered but not written the way the registry spells it
+    assert f["registered_but_not_written_as_spelling"] == ["UBERON"], f
+
+
+def test_b8_reads_spelling_and_synonyms(tmp_path):
+    """Signed 2026-10-19 (V_eta_prefix_spelling_plan.md): a reader matches a
+    prefix by key, spelling or synonym, ignoring case. `PMID:` is registered
+    (a synonym and the spelling of `pubmed`), `WBStrain:` is registered (the
+    legacy rewrite on `wormbase`), and only `ZZZ:` is not."""
+    root = tmp_path / "V_eta"
+    for tier in ("stable", "draft", "deprecated"):
+        (root / tier).mkdir(parents=True)
+    (root / "stable" / "did_schema_meta.json").write_text(json.dumps({"$defs": {
+        "field_definition": {"properties": {"constraints": {"properties": {}}}}}}))
+    (root / "stable" / "CURIE_lookups_meta.json").write_text(json.dumps({"prefixes": {
+        "pubmed": {"uri_base": "x", "spelling": "PMID", "synonyms": ["pmid"]},
+        "wormbase": {"uri_base": "y", "spelling": "WormBase", "synonyms": [],
+                     "legacy_rewrite": {"legacy_prefix": "WBStrain",
+                                        "id_prefix": "WBStrain"}}}}))
+    (root / "stable" / "binding_registry_meta.json").write_text(json.dumps({
+        "subject_statement_bindings": [
+            {"variable": {"node": "", "name": n}, "class": "term_assertion",
+             "root_node": node}
+            for n, node in (("a", "PMID:1"), ("b", "WBStrain:00004246"),
+                            ("c", "wormbase:WBStrain1"), ("d", "ZZZ:1"))]}))
+    f = TOOL.run(root)["findings"]["B8_unregistered_curie_prefixes"]
+    assert f["unregistered_case_insensitive"] == ["ZZZ"], f
+    assert f["registered_but_not_written_as_spelling"] == ["WBStrain", "wormbase"], f
 
 
 def test_synthetic_b9_counts_what_a_validator_could_not_resolve(synthetic):
@@ -332,7 +356,7 @@ def test_b5_catches_a_strength_in_a_list_it_never_used_to_read():
     `entity_field_bindings` only, so this row -- a second copy of an
     authoritative fact -- would have been stored, ignored, and reported as part
     of a clean sweep."""
-    rows = [_row("subject_statement", "variable", strength="preferred")]
+    rows = [_row("statement", "variable", strength="preferred")]
     reg = {"subject_statement_bindings": [
         {"variable": {"node": "", "name": "species"}, "class": "term_assertion",
          "strength": "required"}]}
@@ -371,14 +395,14 @@ def test_b5_reports_the_field_side_too():
     """A field carrying a binding that NO registry row of any list resolves to.
     Fine under the team's call -- the field is authoritative -- and reported,
     because it is the population that would silently grow a second copy."""
-    rows = [_row("subject_statement", "variable", strength="preferred"),
+    rows = [_row("statement", "variable", strength="preferred"),
             _row("dataset", "accessibility", strength="required")]
     reg = {"entity_field_bindings": [
         {"class": "dataset", "field": "accessibility", "strength": "required"}]}
     f = TOOL.strength_agreement(rows, reg)
     assert f["bound_fields_stating_a_strength"] == 2, f
     assert [(x["class"], x["field"]) for x in f["bound_fields_with_no_registry_row"]] \
-        == [("subject_statement", "variable")], f
+        == [("statement", "variable")], f
     assert f["count"] == 0, "an uncatalogued field is not a disagreement"
 
 
@@ -436,8 +460,10 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     `node_form: curie` is the part of "a resolvable term reference" that needs
     no ontology; MEMBERSHIP still does, and is out of scope (NDIC.txt moved to
     VH-Lab/ndi-ontology-matlab, 2c19bf24c)."""
-    want = {("subject_statement", "variable"),
-            ("subject_interaction", "method"),
+    # `interaction.method` became the block `method: {term, parameters}` on
+    # 2026-10-21 (V_eta_method_plan.md); the bound term is now `method.term`.
+    want = {("statement", "variable"),
+            ("interaction", "method.term"),
             ("interaction_purpose", "purpose")}
     got = {(i["class"], i["field"]): i for i in LIVE["inventory"]}
     assert want <= set(got), sorted(got)

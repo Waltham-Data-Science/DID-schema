@@ -14,7 +14,7 @@
             "name": "software_id",
             "mustBeNonEmpty": false,
             "documentation": "The implementation that applies this rule (the v1 filenavigator class name became an edge, not a string field).",
-            "must_refer_to_document_class": "software"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "SYNTAX: NDI's #-stem pattern syntax, not a plain regular expression (`#` matches the epoch's common stem). Which files comprise ONE epoch, as declared patterns ({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 form was a string handed to eval. `#` matches an unknown common stem, so a group of files sharing it is one epoch.",
+            "documentation": "Which files comprise ONE epoch, as declared patterns. SYNTAX: whatever the class behind `software_id` applies (Jess Haley 2026-10-22 [audit mechanical fixes 2]); for ndi.file.navigator, a regular expression in which `#` stands for the epoch's common stem, so vhlab's literal names and regexes ('reference.txt', '.*\\.rhd\\>') and the Haley import's '.*_1\\.mp4\\>' are all of it. PARSED, never eval'd: the v1 form was a string handed to eval.",
             "constraints": {}
         },
         {

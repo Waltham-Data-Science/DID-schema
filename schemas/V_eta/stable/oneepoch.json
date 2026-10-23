@@ -17,7 +17,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The element whose epochs were concatenated, promoted to a subject with its id preserved by migrators_j.element. REQUIRED: NDI marks it so and element.m:392 always sets it.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [

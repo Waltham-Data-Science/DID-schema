@@ -27,7 +27,12 @@ def _relation_rows(node):
 def test_a_recipe_can_cite_its_source():
     with REGISTRY.open() as f:
         rows = _relation_rows(json.load(f))
-    row = [r for r in rows if r["relation"]["name"] == "documented_by"]
+    # documented_by, by node; its stored name is the label (Jess Haley 2026-10-22
+    # [vocabulary nodes] L1)
+    row = [r for r in rows if r["relation"]["node"] == "schema:subjectOf"]
     assert len(row) == 1
+    assert row[0]["relation"]["name"] == "subjectOf"
     assert row[0]["child_types"] == ["entity", "formulation"]
-    assert row[0]["parent_types"] == ["web_resource"]
+    # web_resource retired 2026-10-08 (signed): a recipe cites a protocol or a publication
+    # and code: a dataset is documented by its analysis code (2026-10-08)
+    assert row[0]["parent_types"] == ["protocol", "publication", "software"]

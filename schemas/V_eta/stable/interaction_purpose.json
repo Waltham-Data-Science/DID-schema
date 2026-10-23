@@ -14,7 +14,7 @@
             "name": "interaction_id",
             "mustBeNonEmpty": false,
             "documentation": "The interaction(s) this purpose applies to.",
-            "must_refer_to_document_class": "subject_interaction",
+            "must_refer_to_document_class": "interaction",
             "multiple": true,
             "min_count": 1,
             "ordered": false

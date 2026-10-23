@@ -29,8 +29,14 @@ def _relation_rows(node):
 def test_contained_in_may_carry_a_time_reference():
     with REGISTRY.open() as f:
         rows = _relation_rows(json.load(f))
-    row = [r for r in rows if r["relation"]["name"] == "contained_in"]
+    # by node: RO:0001025 located in since 2026-10-22, RO:0001018 is obsolete in
+    # RO (Jess Haley [vocabulary nodes] K1); the stored name is its label (L1)
+    row = [r for r in rows if r["relation"]["node"] == "RO:0001025"]
     assert len(row) == 1
-    assert row[0]["relation"]["node"] == "RO:0001018"
+    assert row[0]["relation"]["name"] == "located in"
+    # physical entities only; records use included_in ([contained_in endpoints]);
+    # entity types by their label (L2), culture has no node
+    phys = ["organism", "culture", "tissue", "cell", "material entity", "device", "Group"]
+    assert row[0]["child_types"] == phys and row[0]["parent_types"] == phys
     assert row[0]["timed"] is True
     assert row[0]["ordered"] is False

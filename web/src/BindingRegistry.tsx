@@ -62,7 +62,6 @@ export function BindingRegistry({ entry }: Props) {
   if (!reg) return <div className="detail-loading">Loading...</div>;
 
   const bindings = reg.subject_statement_bindings ?? [];
-  const examples = reg.binding_examples ?? [];
   const relations = reg.relation_bindings ?? [];
 
   return (
@@ -92,31 +91,18 @@ export function BindingRegistry({ entry }: Props) {
         </h3>
         <p className="section-note">
           Each maps a variable (and, on interactions, a method) to the concrete
-          subject_statement leaf <code>class</code> that carries the statement
+          statement leaf <code>class</code> that carries the statement
           (e.g. <code>mass_observation</code>, <code>dose_manipulation</code>,{" "}
           <code>term_assertion</code>). The leaf fixes the value type — no{" "}
-          <code>data_type</code> — and a term-valued leaf additionally pins its
+          <code>value</code> — and a term-valued leaf additionally pins its
           admissible term set (<code>values</code> or an <code>ontology</code>{" "}
           subtree). Rows flagged <span className="flag-tag">subject-defining</span>{" "}
           are the kind ingestion invariant (D9): a subject is expected to carry ≥1
-          assertion whose variable matches one. The rest are populated by the
-          D3/D6 corpus sweep.
+          assertion whose variable matches one.
         </p>
         <BindingTable bindings={bindings} emptyLabel="No bindings declared." />
       </section>
 
-      <section>
-        <h3>
-          Binding examples <span className="count-pill">{examples.length}</span>
-        </h3>
-        <p className="section-note">
-          Illustrative only — <em>not</em> swept data. These show the binding
-          shapes: a term leaf with an ontology subtree, a term leaf with an
-          enumerated set of ontology terms, a dimensional leaf (no spec), and a
-          method+variable interaction.
-        </p>
-        <BindingTable bindings={examples} emptyLabel="No examples." />
-      </section>
 
       <section>
         <h3>

@@ -42,6 +42,7 @@ here calls `coverage.py`'s own helpers to decide what the answer should be:
 import json
 import os
 import re
+import sys
 
 import pytest
 
@@ -93,6 +94,15 @@ def _md_row(cls):
     raise AssertionError(f"no rendered ledger row for `{cls}`")
 
 
+def _cov():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "cov_supersession", os.path.join(REPO_ROOT, "tools", "coverage.py"))
+    cov = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cov)
+    return cov
+
+
 def _built_classes():
     with open(INDEX) as fh:
         return {e["class_name"] for e in json.load(fh)["schemas"]}
@@ -127,7 +137,7 @@ PINNED_DECIDED_TARGETS = {
     # test_binaryseries_parameters_records_both_mounts_not_one for why collapsing
     # to either single class is the regression this pin exists to catch.
     "binaryseries_parameters": (
-        ["subject_statement", "sampled_body"],
+        ["statement", "sampled_body"],
         "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
@@ -140,6 +150,11 @@ PINNED_DISSOLUTIONS = {
     "stimulus_response_scalar_parameters": (
         "V_eta_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE"),
+    # MOVED HERE FROM PINNED_DISPUTED, 2026-10-23: the team ruled the two
+    # sentences one answer (Decided by Jess Haley [ngrid block into
+    # sampled_body]): no document is an ngrid; its contents go into the
+    # carrying document's sampled_body.
+    "ngrid": ("V_eta_image_model_plan.md", "is dissolved as a class"),
 }
 
 # NEITHER DICTIONARY ABOVE, and pinned instead as DISPUTED. In both cases ONE
@@ -150,14 +165,9 @@ PINNED_DISSOLUTIONS = {
 # `binaryseries_parameters` immediately. A tool must record the disagreement,
 # not settle it -- so `sampled_body` is recorded for neither.
 PINNED_DISPUTED = {
-    "ngrid": ("V_eta_image_model_plan.md",
-              "ngrid is DISSOLVED (deleted, not migrated)",
-              "phases into `sampled_body`"),
-    # `binaryseries_parameters` WAS HERE and is now in PINNED_DECIDED_TARGETS:
-    # the team ruled 2026-08-11 that the signature governs. `ngrid` is NOT
-    # affected -- nothing was decided about it, and the two rows only ever shared
-    # a shape. It is left alone here on purpose, so that this dictionary going
-    # empty would be a visible event rather than a quiet one.
+    # EMPTY since 2026-10-23, and that is a visible event: `ngrid` moved to
+    # PINNED_DISSOLUTIONS on its own ruling ([ngrid block into sampled_body]),
+    # as `binaryseries_parameters` moved to PINNED_DECIDED_TARGETS on 2026-08-11.
 }
 
 
@@ -187,7 +197,9 @@ def _signoff_lines(plan):
             else:
                 s, in_comment = head, True
                 break
-        if s.lstrip().startswith("TEAM-SIGN-OFF"):
+        # Either form of decision line (CLAUDE.md Operating Rule 4): an older
+        # `TEAM-SIGN-OFF` line, or `Decided by <team member>, <date> [<tag>]:`.
+        if s.lstrip().startswith(("TEAM-SIGN-OFF", "Decided by ")):
             out.append((n, s))
     return out
 
@@ -306,11 +318,15 @@ def test_recorded_decided_target_survives_in_both_artifacts(cls):
     assert hits, f"{cls}: {plan} has no TEAM-SIGN-OFF line containing {fragment!r}"
 
     row = next(r for r in _rows() if r["v1_class"] == cls)
-    assert sorted(row["decided_targets"]) == sorted(want), (
+    # Compared by coverage.target_key: on #88 the signed `item_manipulation`
+    # is spelled `manipulation + item`, and that is the same target, not a
+    # different one. The key still requires direction AND kind to match.
+    key = _cov().target_key
+    assert sorted(key(t) for t in row["decided_targets"]) == sorted(key(t) for t in want), (
         f'{cls}: ledger records decided_targets={row["decided_targets"]}, signed record says {want} ({plan}:{hits[0]})')
 
     cell, _acct = _md_row(cls)
-    for t in want:
+    for t in row["decided_targets"]:
         assert f"`{t}`" in cell, (
             f"{cls}: `{t}` is a recorded decided target but does not appear in the "
             f"rendered target cell {cell!r}")
@@ -332,20 +348,20 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     Why both, spelled out so a future reader can check the reasoning rather than
     trust it. The signature (`V_eta_go_forward_class_audit.md`:3) routes:
 
-        `data_type`                 -> "the statement's"        UNCONDITIONAL
+        `value`                 -> "the statement's"        UNCONDITIONAL
         `time_type` / `data_dim` /
         `samples_regular_intervals` -> an AXIS ENTRY
 
-    and the axis entry mounts on `subject_statement` when `storage_mode` is
+    and the axis entry mounts on `statement` when `storage_mode` is
     inline and on `sampled_body` when it is body -- mutually exclusive, per
     document (`V_eta_data_body_model_plan.md`:136-137). So `sampled_body` alone
     (the section heading at :459, which the team ruled does NOT govern) silently
     drops the statement mount that the signature names unconditionally, and
-    `subject_statement` alone drops the body mount entirely.
+    `statement` alone drops the body mount entirely.
     """
     row = next(r for r in _rows() if r["v1_class"] == "binaryseries_parameters")
     got = set(row["decided_targets"])
-    assert got == {"subject_statement", "sampled_body"}, (
+    assert got == {"statement", "sampled_body"}, (
         f"binaryseries_parameters records decided_targets={sorted(got)}. The signature "
         "routes to TWO mounts; recording one of them drops the other.")
 
@@ -369,20 +385,19 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
             "reading has lost its source and must be re-derived, not kept")
 
 
-def test_ngrid_is_still_disputed_and_was_not_swept_along():
-    """The `binaryseries_parameters` ruling settled ONE row, not a shape.
+def test_ngrid_was_resolved_by_its_own_ruling():
+    """`ngrid` left DISPUTED only on a decision that names it.
 
-    Both rows were filed as DISPUTED together, for the same reason, in the same
-    sweep. That makes it cheap for a later tidy-up to "finish the job" and give
-    `ngrid` a target on the strength of a decision that never mentioned it -- the
-    exact move operating rule 4 forbids. `ngrid`'s own sign-off still says
-    DISSOLVED while its R4 section still says it phases into `sampled_body`, and
-    nobody has ruled between them.
+    The `binaryseries_parameters` ruling of 2026-08-11 settled one row, not the
+    shape; `ngrid` stayed contested until the team ruled on it directly
+    (2026-10-23, [ngrid block into sampled_body]). That line must still be
+    there, and the class must still name no target of its own.
     """
+    hits = [n for n, ln in _signoff_lines("V_eta_image_model_plan.md")
+            if "[ngrid block into sampled_body]" in ln]
+    assert hits, "the ruling that resolved ngrid is no longer in V_eta_image_model_plan.md"
     row = next(r for r in _rows() if r["v1_class"] == "ngrid")
-    assert row["no_target_reason"] == "disputed", (
-        "ngrid: no_target_reason={!r} -- if this row was resolved, it needs its "
-        "own signed ruling, not this one".format(row["no_target_reason"]))
+    assert row["no_target_reason"] == "dissolved", row["no_target_reason"]
     assert not row["decided_targets"], (
         "ngrid now names {} as a decided target. No decision says so.".format(row["decided_targets"]))
 
@@ -391,8 +406,16 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     """A target nobody can find is a typo, not a plan."""
     built = _built_classes()
     rows = _rows()
+    # A name retired by the 2026-10-08 composition (signed) resolves through
+    # coverage.py's supersession table (`software` -> `entity`,
+    # `time_observation` -> `observation` + `time`); what it resolves to must exist.
+    # On #88 a target may be SPELLED in the composed form
+    # (`observation + intensity`, `entity (software)`); coverage.target_parts
+    # names the classes either spelling needs, and each must exist.
+    parts = _cov().target_parts
     bad = [(r["v1_class"], t) for r in rows
-           for t in r["decided_targets"] if t not in built]
+           for t in r["decided_targets"]
+           if not all(x in built for x in parts(t, built))]
     assert not bad, (
         f'DENOMINATOR: {len(rows)} rows, {len(built)} built classes. Decided targets naming no built class: {bad}')
 
@@ -442,7 +465,7 @@ def test_build_state_reports_schema_and_migrator_separately():
 
     The authored `flags` prose says "DECIDED AND SIGNED, BUILD NOT DONE" on
     eight rows. For `app` the schema half is DONE -- `software` is built and
-    shipping, plus an `execution_environment` block on `subject_interaction` --
+    shipping, plus an `execution_environment` block on `interaction` --
     and only the migrator is outstanding. A reader acting on the
     undifferentiated sentence re-authors schema that already exists.
     """
@@ -470,12 +493,15 @@ def test_app_schema_half_is_reported_as_built():
     present, so the two halves cannot be read as one verdict.
     """
     row = next(r for r in _rows() if r["v1_class"] == "app")
-    assert row["decided_targets"] == ["software"], row["decided_targets"]
-    assert "software" in _built_classes(), (
-        "`software` is not in the built set -- re-check this test's premise "
+    # Spelled `entity (software)` on #88 (an entity of type software).
+    assert row["decided_targets"] == ["entity (software)"], row["decided_targets"]
+    # `software` is an `entity` type since 2026-10-08 (signed), so the target
+    # is built when `entity` is.
+    assert "entity" in _built_classes(), (
+        "`entity` is not in the built set -- re-check this test's premise "
         "before relaxing it")
     bs = row["build_state"]
-    assert bs["schema_targets_built"] == ["software"], bs
+    assert bs["schema_targets_built"] == ["entity (software)"], bs
     assert bs["schema_targets_missing"] == [], bs
     assert bs["migrator_emits_decided_targets"] is False, bs
     _cell, acct = _md_row("app")
@@ -520,82 +546,61 @@ def test_a_corrupted_signoff_citation_stops_the_ledger():
 
 
 def test_the_board_does_not_assert_what_it_never_read():
-    """The status board's unchecked-family prose must be measured.
+    """The status board's target-build claims must be measured.
 
     It used to print "No member of these families carries a `decided_targets`
     entry in the coverage ledger" about eleven families. Measured 2026-08-11
-    that was FALSE for five of them -- all four members of `spike processing
-    parameters` carry `decided_targets: [method_parameters]`, and `stimulus
-    response` carries two more. The lookup only ever touched
-    `open_class_state`, which does not cover a `retire` v1 source row, so it
-    was a claim about the ledger produced without reading the ledger.
+    that was FALSE for five of them; the lookup never touched the ledger.
+    RETARGETED 2026-10-21 to the per-class citation table that replaced the
+    families: a class reported `no target recorded` must really carry no
+    non-self decided target in the ledger.
     """
     status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
     with open(status) as fh:
         text = fh.read()
     banned = ("No member of these families carries a `decided_targets` entry "
               "in the coverage ledger")
-    assert banned not in text, (
-        "the board still asserts that no member of the unchecked families "
-        "carries a decided target -- a statement it does not measure")
-
-    # And the families it DOES report as unchecked must really be unchecked:
-    # not one of their members may carry a non-self decided target.
+    assert banned not in text
     rows = {r["v1_class"]: r for r in _rows()}
-    m = re.search(r"\*\*The other (\d+) are unchecked, NOT clean\.\*\*(.*?)\n\n"
-                  r"Only the", text, re.DOTALL)
-    assert m, "could not find the unchecked-families block in V_eta_STATUS.md"
-    named = re.findall(r"^- \*\*(.+?)\*\* \(\d+ class", m.group(2), re.MULTILINE)
-    assert len(named) == int(m.group(1)), (
-        f'the board says {m.group(1)} families are unchecked and then lists {len(named)}')
-    listed = re.findall(r"`([A-Za-z_][\w]*)`", m.group(2))
-    wrong = [c for c in listed
-             if c in rows
+    sec = text.split("## Every decision citation", 1)[1].split("\n## ", 1)[0]
+    blank = re.findall(r"^\| `([^`]+)` \| [^|]+ \| no target recorded \|",
+                       sec, re.MULTILINE)
+    assert blank, "precondition: some cited classes record no target"
+    wrong = [c for c in blank if c in rows
              and [t for t in rows[c]["decided_targets"] if t != c]]
     assert not wrong, (
-        f'DENOMINATOR: {len(listed)} class(es) named in the unchecked block, {sum(1 for c in listed if c in rows)} present in the ledger. These carry a decided target and must not be reported as contributing nothing: {wrong}')
+        f"DENOMINATOR: {len(blank)} class(es) reported `no target recorded`. "
+        f"These carry a decided target in the ledger: {wrong}")
 
 
-def test_the_family_prose_is_swept_against_the_signatures():
-    """The `ngrid` split must be looked for, not stumbled on.
+def test_the_board_quotes_the_decision_line_not_prose():
+    """REPLACES test_the_family_prose_is_swept_against_the_signatures.
 
-    Two independent readers got `ngrid` wrong on the same day, each from the
-    same document, because the FAMILIES one-liner (Claude-authored prose in a
-    tool) named a target class the signature does not. Sweeping for that shape
-    found a second instance in the first pass. A one-off correction leaves the
-    third one to be discovered the same way.
+    The family one-liner was Claude-authored prose standing beside the team's
+    words, and `ngrid` was misfiled twice because of it. The families are gone
+    (2026-10-21) and the board now prints the decision line's OWN text, so
+    there is no prose left to sweep. This asserts that: every decided open
+    class's decision cell is a prefix of the line its citation resolves to.
     """
+    sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+    import decision_citations as dc
     status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
     with open(status) as fh:
         text = fh.read()
-    heading = "## Class names the family table asserts that its sign-off does not say"
-    assert heading in text, "the family-prose sweep is not rendered in the board at all"
-
-    # SCOPE THE ASSERTIONS TO THE SWEEP'S OWN SECTION. The first draft of this
-    # test searched the WHOLE of V_eta_STATUS.md for "image / ngrid" and
-    # "sampled_body" -- both of which appear in the family table two sections
-    # up -- so a mutation that narrowed the sweep until it reported NOTHING
-    # still passed. Caught by mutating it (M13); the test agreed with the
-    # broken code because it was reading a different part of the file.
-    section = text.split(heading, 1)[1].split("\n## ", 1)[0]
-
-    m = re.search(r"DENOMINATOR: (\d+) signed families checked;.*?"
-                  r"(\d+) family/name pair\(s\) are\s+UNSIGNED", section, re.DOTALL)
-    assert m, "the sweep does not state its denominator"
-    assert int(m.group(1)) >= 15, (
-        f"the sweep claims to have checked only {m.group(1)} families -- too few to be the "
-        "real set")
-    assert int(m.group(2)) > 0, (
-        "the sweep reports 0 unsigned family/name pairs. Two are known and "
-        "documented (`ngrid` and `binaryseries_parameters`, both naming "
-        "`sampled_body`), so a zero here means the sweep was narrowed, not that "
-        "the record was fixed.")
-    # The rows it exists for must be in ITS OWN table.
-    assert "| **image / ngrid** |" in section, (
-        "the sweep no longer reports the family it was built from")
-    assert "`sampled_body`" in section, (
-        "`sampled_body` -- the unsigned class name in BOTH contested rows -- is "
-        "not reported by the sweep")
+    assert "## Class names the family table asserts" not in text
+    sec = text.split("## Decided, awaiting build -- the open classes", 1)[1]
+    sec = sec.split("\n## ", 1)[0]
+    rows = re.findall(r"^\| `([^`]+)` \| [^|]+ \| [^|]+ \| (.+) \|$", sec,
+                      re.MULTILINE)
+    assert rows, "the decided open-class table is empty or reworded"
+    for cls, cell in rows:
+        dec = dc.decision_for([cls])
+        assert dec["decided_by"], cls
+        line = " ".join(dec["decided_by"]["decision"].split())
+        # The board closes a code span or quote its cut left open; drop that,
+        # then the ellipsis, before comparing.
+        shown = cell.rstrip('`"').removesuffix("...")
+        assert line.startswith(shown.rstrip()), (cls, shown[:60], line[:60])
 
 
 def test_a_row_whose_migrator_emits_its_decided_target_says_so():

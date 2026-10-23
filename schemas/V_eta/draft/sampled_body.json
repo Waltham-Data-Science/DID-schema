@@ -29,29 +29,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in practice whenever `datum_type` is multi-byte; meaningless, and left empty, for single-byte data.",
+            "documentation": "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in practice whenever `data_type` is multi-byte; meaningless, and left empty, for single-byte data.",
             "constraints": {
                 "enum": [
                     "little",
                     "big"
-                ]
-            }
-        },
-        {
-            "name": "datum_order",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "'C' | 'F' -- the order of DATA within the array: C is row-major (last key fastest), F is column-major (first key fastest, MATLAB's native layout). REQUIRED in practice whenever there is more than one key; meaningless, and left empty, for a 1-D body.",
-            "constraints": {
-                "enum": [
-                    "C",
-                    "F"
                 ]
             }
         },
@@ -65,11 +47,21 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What every position of a MISSING chunk holds, for a dense body (`complete` true) whose file series omits members: ONE value, written as a literal read according to the owner's `datum_type` (\"NaN\", \"-32768\", \"1+2j\") -- exact for every datum type, which a double is not for int64/uint64 or complex (#73 audit 2 D13).",
+            "documentation": "What every position of a MISSING chunk holds, for a body whose file series omits members (`complete` is deleted, data_body plan AMENDMENT 6 [no complete]): ONE value, written as a literal read according to the owner's `data_type` (\"NaN\", \"-32768\", \"1+2j\") -- exact for every datum type, which a double is not for int64/uint64 or complex (#73 audit 2 D13).",
             "constraints": {}
         }
     ],
     "require_inherited": [
-        "keys"
+        "dimensions"
+    ],
+    "rules": [
+        {
+            "name": "datum_order_multidimensional",
+            "fields": [
+                "datum_order",
+                "dimensions"
+            ],
+            "statement": "A sampled body with more than one dimension states `datum_order` ('C' or 'F'); with one dimension or none it is left empty (Jess Haley 2026-10-22 [covariate rules named] 6.3a; named by [audit mechanical fixes 2])."
+        }
     ]
 }

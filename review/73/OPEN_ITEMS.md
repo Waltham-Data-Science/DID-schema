@@ -223,6 +223,144 @@ migrators (+ NGFF dtype strings in `jDatumType`); NDI `+ndi/+vintage` entries fo
 `fromOMEZarr`). Note for the NDI PR: the planned `chunk_index` side-field is unnecessary under
 "a missing member is an empty chunk".
 
+### Lightsheet migrator points (DID-matlab 1aece9a; walked 2026-10-14, signed below)
+
+The migrator build (VH-Lab/DID-matlab#218, `lightsheet_zarr_pyramid.m` / `lightsheet_zarr_level.m`)
+took the most literal reading on 11 points; walked with Jess one at a time.
+
+- **Point 3 -- the store's file record (DECIDED, Jess 2026-10-14; build in progress).** The
+  migrator made its own empty store body and dropped `source_file_id`, so the v1
+  `fileReference` (the store's path, size, checksum) migrated linked to nothing. Per signed
+  #73 item 25 (an external file is an unheld body of the statement whose value it stores;
+  item 18 puts `fileReference` among the eight v1 classes replaced by the review's design,
+  superseding the 2026-09-22 "persists" sign-off), the `fileReference` a pyramid names
+  becomes that pyramid observation's store body (id kept, recorded by location, not
+  ingested), joined by a batch pass; the migrator makes no store body. L4 holds: the
+  record's checksum is the store's `.zattrs` MD5, so it is not `content_hash`. Other
+  `fileReference` documents (the `.gef` sources) are the same decision, a separate build.
+- **Point 2 -- keys (DECIDED, Jess 2026-10-14: accept).** Keys go on each level's
+  `sampled_body`, not the observation: `data.keys` says a value with `data_body` true has
+  each body carry its own array's keys, and every level is a different array (size, voxel
+  size). L1's "keys [t, c, z, y, x] on the observation" predates that rule.
+- **Point 7 -- which level is the measurement (DECIDED, Jess 2026-10-14: accept).** By
+  `level` (level 0 = the measurement, every other level `redundant` with its reduction as
+  the body's `summary statistic`), not by `reduction_function`: NDI's `makePyramid.m`
+  stamps `'none'` only on a level SHARED by several reductions (:15-18, :293-300), so a
+  store ingested with one reduction has its full-resolution level 0 stamped `'mean'`.
+  Level 0 is the full-resolution array by OME-Zarr's convention.
+- **Point 6 -- body file numbering (DECIDED, Jess 2026-10-14: keep signed item 17, 0-based).**
+  V_eta `body_data` members stay numbered from 0 (`body_data_0` = chunk 0 = manifest slot 0;
+  T14). The clash is DID's: `addFileSeries` refuses member 0 (`document.m:1034`) and
+  `seriesMemberOf` reads `NAME_1` as slot 0, because item 17's DID-matlab follow-up was never
+  built. Build it there: the series member base comes from the document's vintage (V_eta 0,
+  v1 1 -- the only v1 series classes on NDI main are `lightsheetZarrLevel`, `demoNDISeries`,
+  `demoNDISeriesMixed`), and the level migrator renames `chunk.bin_k` -> `body_data_{k-1}`
+  (the manifest's slots, already zero-based, do not move).
+- **Point 1 -- the pyramid's time reference (DECIDED, Jess 2026-10-14: A).** The pyramid
+  carries no time, and the migrator dropped the observation's required `time_reference_id`
+  (min_count 1, enforced by `did2.build`, not by the cache). It now does what 29 other
+  migrators do for a statement with no time of its own: `jSessionAnchor(preBody, 'during')`
+  emits a pass-1 session anchor and `resolveSessionAnchors` re-anchors it to the session
+  document -- "imaged during this session". The schema keeps min_count 1.
+  **REVISED 2026-10-14 (Jess: A).** That route does not exist on this schema: `jSessionAnchor`
+  emits `session_relative_reference` and `resolveSessionAnchors` writes `relative_reference`
+  (`:548`), both deleted 2026-09-25 (#65 increment 3b); their 29 callers quarantine in CI, and
+  pass 1 validates each document as it is made (`v1_to_v2.m:302-303`). Same meaning, new
+  route: the pyramid observation carries a transient marker, and a batch pass finds the
+  session document, mints a `relative_time_reference` (`relative_to` the session, relation
+  'during') and sets the observation's `time_reference_id`; point 5's `version` assertion
+  gets one the same way. Built in the lightsheet pass so the migrator port can reuse it.
+- **Point 4 -- store bodies and their format (DECIDED, Jess 2026-10-14).** (a) A SmartSPIM
+  pyramid's `fileReference` (a folder of raw TIFF slices, stitched into level 0) is ALSO an
+  unheld `opaque_body` of the pyramid observation -- no keys (not one array), not
+  `redundant` (it holds the unstitched slices), described as the levels' raw source. (b)
+  `data_body.format` becomes a bound `ontology_term` (EDAM format terms; EMPTY where EDAM
+  has none), replacing the IANA string: EDAM:format_3591 TIFF, EDAM:format_3997 MPEG-4,
+  EDAM:format_2333 binary, and a new EMPTY term for OME-Zarr (a kind of EDAM:format_3915
+  Zarr). OLS search 2026-10-14 found no OME-Zarr / NGFF term in any ontology. Amends the
+  data_body plan's addendum sec.2.
+- **Point 5 -- the software entity (DECIDED, Jess 2026-10-14: A).** `pipeline_version` is the
+  writer's "tag for the pyramid" (`makePyramid.m:28`), not a program name. The `software`
+  entity is named for the program that writes every v1 pyramid, NDI's lightsheet pyramid
+  builder (`ndi.fun.doc.lightsheet.makePyramid`), and `pipeline_version` is a `version`
+  `text_assertion` about it -- as `ndi.setup.V2.entityDocuments` records a version.
+- **Point 8 -- the levels' units and channel names (DECIDED, Jess 2026-10-14: A).** A v1 level
+  carries only `voxel_size_units` (NDI hard-codes 'micrometer', `makePyramid.m:220,353`);
+  the per-axis `axes_units` (a time unit on `t`) and `channel_names` are on the pyramid
+  only. The pyramid migrator carries both on the observation (transient), and the point-3
+  batch pass copies them onto the keys of every level body that observation owns -- `t`'s
+  unit, `c`'s positions named by channel, z/y/x checked against the pyramid -- then
+  removes them. Each level's keys are complete on their own (item 3: a body carries the
+  keys of its own array).
+- **Point 9 -- the pyramid's label, name and type (DECIDED, Jess 2026-10-14: accept).** `label`
+  (a human label, default the acquisition folder), `pyramid_name` (the OME-Zarr multiscales
+  name) and `pyramid_type` (its downsampling method, which each reduced level also records
+  as its `summary statistic`, point 7) describe the store, so they go in the store body's
+  `description`; with point 4 a SmartSPIM pyramid has one too. Cost: no structured search
+  by label. `byte_order` goes on each level's `sampled_body`, whose bytes it describes.
+- **Point 10 -- terms with no CURIE (DECIDED, Jess 2026-10-14: C).** (a) Fix
+  `tools/check_empty_ontology_nodes.py`, which counts only the literal `jOntologyTerm('', ...)`
+  (`:356`) and so missed every empty node passed through `did2.build`; the gate stayed at 60.
+  (b) Fill now (OLS, 2026-10-14): units `UO:0000017` micrometer, `UO:0000010` second;
+  reductions `NCIT:C25564` maximum, `NCIT:C53319` arithmetic mean; the observation's variable
+  `NCIT:C184706` "Fluorescence Intensity" (was the name `fluorescence`, term worksheet row
+  41). The axis names (time, channel, z, y, x) and `summary statistic` stay names-only for
+  the term worksheet, as in the Haley import.
+- **Point 11 -- the level's id (DECIDED, Jess 2026-10-14: A).** Nothing on NDI `origin/main`
+  points at a level by edge (`git grep lightsheetZarrLevel_id` finds none; `levelTable.m:51`
+  finds levels by `isa` query), and the batch orphan check guards database edges. But the
+  level body got a NEW id (`lightsheet_zarr_level.m:183`; `did2.build.sampledBody` had no `Id`
+  option), so an id held outside the database's edges (GUI state, an upload record, a
+  script) would stop resolving. The level's `sampled_body` keeps the v1 level's `base.id`,
+  as the calculator folds keep theirs.
+
+TEAM-SIGN-OFF [lightsheet migrator points 1-11]: jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.
+
+### Lightsheet reader questions (NDI lightsheet readers; decided 2026-10-15, signed below)
+
+Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
+
+- **R1 -- what marks a migrated pyramid (DECIDED, Jess: the method).** The observation's
+  `method` is `FBbi:00000369` "selective plane illumination fluorescence microscopy" (OLS,
+  2026-10-15), set on every pyramid, OME-Zarr and SmartSPIM alike. Readers find a migrated
+  pyramid by it. The `software` entity (point 5) stays as the record of who built the
+  pyramid; it is no longer the reader's marker.
+- **R2 -- level numbers (DECIDED, Jess: resolution identifies a level).** The level index is
+  not carried (point 11's level body keeps the id, not the number). A level with no stored
+  chunks migrates to nothing, so readers rank the levels of each reduction by resolution and
+  the numbers they show can differ from v1's. Nothing to build.
+- **R3 -- `label`, `pyramid_name`, `pyramid_type` (DECIDED, Jess).** `label` goes in the
+  observation's `notes` and stays there. `pyramid_name` (the NGFF multiscales name) stays in
+  the store body's `description`. `pyramid_type` is dropped: it repeats the levels'
+  `summary statistic`, and an earlier writer labelled mean pyramids `gaussian`.
+- **R4 -- axes with no spacing (accepted as built).** A channel axis is categorical (names),
+  and a space or time axis with no source `scale` has index positions 0..n-1 with no unit.
+  The reader's level table shows those as voxel size 1 and translation 0, which is what the
+  index positions imply. AMENDED (Jess, same day): a space or time axis with no `scale` is
+  written `regular: true`, `origin` 0, `spacing` 1, no unit, instead of listing the indices;
+  the channel axis stays categorical.
+- **R5 -- deleting a migrated pyramid (accepted as built).** The store body is owned by the
+  pyramid's observation, so deleting the observation deletes the store record too (left, it
+  would be an orphan). The stored bytes are not touched; in v1 the fileReference survived.
+- **R6 -- a level's data type (accepted as built).** The type is on the pyramid's observation
+  (type per statement, extent per body, `V_eta_data_body_model_plan.md`); a reader gets a
+  level's type through its `owner_id`.
+
+TEAM-SIGN-OFF [lightsheet reader questions R1-R6]: jess@walthamdatascience.com / 2026-10-19 -- R1-R6 as recorded above: a migrated pyramid is marked by its method FBbi:00000369; levels are identified by resolution, not number; label in the observation's notes, the multiscales name on the store body, pyramid_type dropped; a no-scale axis is regular (origin 0, spacing 1, no unit); deleting a pyramid deletes its store record, not its bytes; a level's data type is on its pyramid.
+
+### Spec facts with no place (Haley import stage-2 report; decided 2026-10-15, signed below)
+
+- **Software -> its maker: new `developed_by`** (software -> organization; Jess). The import's
+  spec names each program's `vendor` (StreamPix -> NorPix, WormLab -> MBF, MATLAB ->
+  MathWorks, Photoshop / Illustrator -> Adobe). `sold_by` was rejected: it claims a sale,
+  which free and open-source software never had. Matches openMINDS Software `developer`.
+- **A dataset -> who hosts a copy of it: `hosted_by` again** (dataset -> organization; Jess).
+  The old `hosted_by` (web_resource -> organization) went with web_resource in the
+  2026-10-08 entity merge; a stored copy became one of the dataset's identifiers, so the
+  host is now the dataset's (the NDI Cloud page's host `ndi_cloud`).
+
+TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]: jess@walthamdatascience.com / 2026-10-19 -- software is developed_by its maker (software -> organization, not sold_by); a dataset is hosted_by the organization hosting a copy of it (dataset -> organization); a strain is distributed_as its stock product (strain -> product), replacing derived_from.
+
 ## Worksheets to fill (beside this file)
 - `veta_term_worksheet_73.csv` — 71 terms to find or mint (axis, direction, origin, assay,
   variable). Ontology registries were unreachable from the review container.

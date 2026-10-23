@@ -13,9 +13,12 @@
     "depends_on": [
         {
             "name": "owner_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document this body holds the value of: a statement, or a standalone data_type document (a shared image, waveform or term list; item 20). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a data_type document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also data_types.",
-            "must_refer_to_document_class": "subject_statement,data_type"
+            "mustBeNonEmpty": false,
+            "documentation": "The document this body holds the value of: a statement, or a standalone value document (a shared image, waveform or term list; item 20). The edge repeats (T15) when one body holds part of the value of several statements: a raw recording file is shared by the observations of every electrode recorded in it, each observation's channels named by its acquisition_channels_id (Jess Haley, 2026-10-21, V_eta_recording_observation_plan.md). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "statement,value",
+            "multiple": true,
+            "min_count": 1,
+            "ordered": false
         }
     ],
     "file": [
@@ -28,16 +31,55 @@
     "fields": [
         {
             "name": "format",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Container format of the carried bytes as an IANA media type (e.g. 'application/pdf', 'image/tiff'; `application/x-...` for lab formats with no registration). NOT a file extension (data_body plan sec.2). A descriptor only.",
-            "constraints": {}
+            "documentation": "Container format of the carried bytes, as a file-format term: EDAM format terms (e.g. EDAM:format_3591 TIFF, EDAM:format_3997 MPEG-4, EDAM:format_2333 binary), EMPTY where EDAM has none (OME-Zarr). NOT a file extension and NOT a media-type string (data_body plan sec.2, amended 2026-10-14). A descriptor only.",
+            "constraints": {
+                "binding": {
+                    "strength": "preferred",
+                    "node_form": "curie"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
         },
         {
             "name": "compression",
@@ -173,7 +215,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `subject_statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's keys and conditions and this body's (a batch check: the owner does not list its bodies).",
+            "documentation": "One-value facts true of every value in THIS body but not of every body of its owner (a reduced pyramid level's `summary statistic: maximum`; a lossy or preview copy). The same entry shape as `statement.conditions`. A fact true of every body belongs on the owner instead; a variable appears at most once across the owner's conditions and covariates and this body's (a batch check: the owner does not list its bodies). Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text`, `logical` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
             "constraints": {},
             "fields": [
                 {
@@ -244,8 +286,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of the condition's numeric value(s), for the whole condition (as on a key). Absent for a categorical condition.",
-                    "constraints": {},
+                    "documentation": "Canonical unit of `quantity.value`, for the whole condition. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/V_eta_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -277,16 +324,55 @@
                 },
                 {
                     "name": "source_unit",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit as the source gave it. Omitted when already canonical.",
-                    "constraints": {}
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "approximate",
@@ -303,84 +389,47 @@
                 },
                 {
                     "name": "term",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Categorical value(s): an ontology-term array.",
+                    "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists.",
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "value",
-                            "type": "ontology_term",
-                            "blank_value": [],
-                            "default_value": [],
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
+                            "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The typed value: length 1 -- a condition is ONE value, true of every value it qualifies (AMENDMENT 2; a per-reading label is a key).",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "node",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "name",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The human-readable label.",
-                                    "constraints": {}
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "count",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Integer value(s).",
-                    "constraints": {},
-                    "fields": [
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
                         {
-                            "name": "value",
-                            "type": "integer",
-                            "blank_value": [],
-                            "default_value": [],
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
+                            "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The count(s). Length 1: a condition is held fixed for the body.",
+                            "documentation": "The human-readable label.",
                             "constraints": {}
                         }
                     ]
@@ -395,51 +444,88 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Dimensioned numeric value(s), in `unit`.",
+                    "documentation": "A numeric value, in `unit`, plus what the source wrote.",
                     "constraints": {},
                     "fields": [
                         {
                             "name": "value",
-                            "type": "structure",
-                            "blank_value": [],
-                            "default_value": [],
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
+                            "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Length 1: a condition is held fixed for the body.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "value",
-                                    "type": "double",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Canonical value, in `unit`.",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "source_value",
-                                    "type": "double",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "The number as the source gave it, in `source_unit`.",
-                                    "constraints": {}
-                                }
-                            ]
+                            "documentation": "Canonical value, in `unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
+                            "constraints": {}
                         }
                     ]
+                },
+                {
+                    "name": "count",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "An integer value.",
+                    "constraints": {}
+                },
+                {
+                    "name": "text",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A free-text value.",
+                    "constraints": {}
+                },
+                {
+                    "name": "logical",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A true/false value (Jess Haley 2026-10-22 [logical entries]): whether a setting was on, whether a condition held. One value form.",
+                    "constraints": {}
+                },
+                {
+                    "name": "matrix",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A numeric N-D array value, in `unit` (absent for unitless numbers): row-major as JSON nested arrays, every dimension written: an n x 3 palette is [[r, g, b], ...], one inner array per row, and a vector is written with its dimension as one row [[a, b, c]] or one column [[a], [b], [c]], never a flat [a, b, c], which cannot say which (data_body plan AMENDMENT 4, corrected 2026-10-21). The whole array is ONE value of the entry's `variable`; it is not split into entries. (data_body AMENDMENT 4, 2026-10-21.)",
+                    "constraints": {}
                 }
             ]
         }

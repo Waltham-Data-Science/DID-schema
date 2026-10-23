@@ -1,0 +1,220 @@
+{
+    "document_class": {
+        "class_name": "lightsheet_zarr_pyramid",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject imaged. NDI's schema: mustbenotempty 1.",
+            "must_refer_to_document_class": "entity",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The imaging element (the microscope), promoted to a subject with its id preserved. NDI's schema: mustbenotempty 0.",
+            "must_refer_to_document_class": "entity",
+            "ndi_mustBeNonEmpty": false
+        },
+        {
+            "name": "source_file_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The fileReference naming the source OME-Zarr store. NDI's schema: mustbenotempty 0.",
+            "must_refer_to_document_class": "file_reference",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "label",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human-readable name for this pyramid.",
+            "constraints": {}
+        },
+        {
+            "name": "pyramid_name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NGFF multiscales.name of the source store.",
+            "constraints": {}
+        },
+        {
+            "name": "pyramid_type",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NGFF multiscales.type, verbatim.",
+            "constraints": {}
+        },
+        {
+            "name": "axes_order",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The axis order of every level (e.g. 'tczyx').",
+            "constraints": {}
+        },
+        {
+            "name": "axes_units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis unit strings, comma-separated, in axes_order.",
+            "constraints": {}
+        },
+        {
+            "name": "channel_names",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Channel names, comma-separated, in the order of the c axis.",
+            "constraints": {}
+        },
+        {
+            "name": "n_channels",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of channels.",
+            "constraints": {}
+        },
+        {
+            "name": "shape_level0",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Shape of the finest array, in axes_order.",
+            "constraints": {}
+        },
+        {
+            "name": "voxel_size_level0",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis voxel size at level 0.",
+            "constraints": {}
+        },
+        {
+            "name": "voxel_size_units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The unit of voxel_size_level0 and each level's voxel_size.",
+            "constraints": {}
+        },
+        {
+            "name": "translation_level0",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis translation at level 0.",
+            "constraints": {}
+        },
+        {
+            "name": "dtype",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NGFF .zarray dtype string (e.g. '<u2'), shared by every level.",
+            "constraints": {}
+        },
+        {
+            "name": "pipeline_version",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The pipeline that produced the pyramid.",
+            "constraints": {}
+        },
+        {
+            "name": "byte_order",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Byte order of the level chunks: 'little' or 'big'.",
+            "constraints": {}
+        }
+    ]
+}

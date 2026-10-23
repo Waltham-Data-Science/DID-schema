@@ -56,7 +56,30 @@ def test_coverage_citation_reader_applies_the_same_two_rules():
                         if ln.startswith("TEAM-SIGN-OFF [spatial_transcriptomics_family]"))
     assert sup_line not in gf
     mp = [n for n, _ in cv._signoff_lines("V_eta_method_parameters_plan.md")]
-    # The real signature at :18 is accepted and the fenced QUOTATION at :694 is not.
+    # The real signature at :32 is accepted and the fenced QUOTATION at :708 is not.
+    # (:18 and :694 until the 2026-10-19 amendment note was added at the top; :24
+    # and :700 until the 2026-10-21 `method` amendment note, V_eta_method_plan.md.)
     # Asserted as membership, not `== [18]`: a later genuine signature appended to
     # the document (the #73 audit 2 D4 amendment) must not break this test.
-    assert 18 in mp and 694 not in mp
+    assert 32 in mp and 708 not in mp
+
+
+def test_rule_4_catches_an_in_text_not_signed_in_the_tenets(tmp_path):
+    """Jess Haley 2026-10-22 [tenet signature text]: an amendment in the tenets
+    that says "not signed" inline is caught; the historical marker exempts a
+    quotation; a document outside the scope is not read."""
+    import importlib.util
+    import os
+    spec = importlib.util.spec_from_file_location(
+        "_staleness4", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                    "tools", "check_signoff_header_staleness.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    tenets = tmp_path / "V_eta_tenets.md"
+    tenets.write_text("T2 amendment (2026-10-21, not signed): x\n\n\n\n"
+                      "it said not yet signed HISTORICAL-SIGNOFF-CLAIM\n")
+    other = tmp_path / "V_eta_other_plan.md"
+    other.write_text("decided, not signed\n")
+    rows, read, claims = mod.scan_in_text_not_signed([str(tenets), str(other)])
+    assert (read, claims, len(rows)) == (1, 2, 1)
+    assert rows[0][1] == 1

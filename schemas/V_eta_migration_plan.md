@@ -1,6 +1,9 @@
 # V_eta migration plan — `did_v1` → V_eta (Brainstorm J)
 
-**Status:** proposal, awaiting team approval. Nothing here is built yet.
+**Status:** historical. This was the opening proposal ("nothing here is built yet" when it was
+written); V_eta has since been built and reshaped many times. For current state read
+`V_eta_STATUS.md` and the coverage ledger; for decisions, the individual plan documents and
+their `TEAM-SIGN-OFF` lines. HISTORICAL-SIGNOFF-CLAIM.
 **Implements:** Brainstorm **J** — "the subject model, and one class family for
 everything about a subject"
 (`ndi-next-steps/Summer 2026/1_Ingestion/20260615/Brainstorm_J_Subject_Model.md`,
@@ -360,6 +363,8 @@ it lives in the NDI second pass, mirroring bath resolution):
   unresolved: **located** (emit a `term_observation` value, do *not* mint a
   subject) — the conservative choice, since minting a spurious subject is harder
   to undo than promoting a value later.
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+
 - **Corpus reality check first.** Before building this, the discovery reports
   must quantify how many `did_v1` rows actually carry an anatomical locus
   (`treatment.string_value` UBERON CURIEs — the Dab optogenetic-tetanus rows —
@@ -519,6 +524,8 @@ default we can quietly pick.
   → **D9**. `element` dissolution at the schema layer is deferred (`ndi.element`
   stays an NDI-matlab implementation detail; migrators populate no individuated
   referent in pass 1). (A.10)
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+
 - **D3 — Path S scope for the first pass. Resolved + measured.** *Measure before
   we build.* Discovery on B/Dab (`V_eta_discovery_notes.md`) found the
   attributed-locus volume is **small — 49 loci in Dab (all distinct subjects), 0

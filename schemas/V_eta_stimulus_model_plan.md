@@ -15,6 +15,23 @@ the control stimulus); control trials are the playlist positions equal to it. v1
 per-trial pairing is dropped: nothing reads it since NDI#912 reduced it back to "which
 stimulus is the blank" (`tuning_response.m:293-298`). The signed text is left as signed.
 
+**AMENDMENT (2026-10-21, Jess Haley, `V_eta_method_plan.md`; a PROPOSAL built ahead of
+signature, not signed). Distinct stimuli are `method` documents, not `visual_grating` /
+`image` documents.** The model below keeps its shape -- a presentation becomes an `item`
+(the deduplicated, ordered list of distinct stimuli plus the index-array playlist; it was
+`timed_sequence` until 2026-10-04) on an `item_manipulation` -- but WHAT the playlist
+points at changes. A stimulus given as a RECIPE (a grating, a bar, a sparse-noise frame, a
+blank) is one standalone `method` document per distinct stimulus: a method `term`
+("drifting sinusoidal grating") plus its `parameters` (orientation, spatial frequency,
+temporal frequency, contrast, waveform ...). A stimulus given as WHAT WAS DELIVERED (a
+movie's frames, a current trace) is the value for that quantity. So the "`visual_grating`
+/ `image` / ..." standalone documents named below, the deduplicated `visual_grating`
+documents in the 2026-08-17 reconciliation, and the Hartley worked example's gratings
+are all `method` documents under this amendment; `visual_grating` and `spatial_frequency`
+are deleted from the schema. Why: a playlist mixes stimulus kinds, so the manipulation's
+one method cannot name each, and a class per stimulus kind does not generalise beyond
+visual neuroscience. The signed text and its sign-offs are left as signed.
+
 ## The model (final)
 
 A stimulus presentation is an **ordered, timed list of referenced stimulus values shown to a
@@ -353,3 +370,27 @@ it a family of its own would make TWO families claim `stimulus_presentation`,
 which `status_board.py --check` fails on by design.
 
 TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]: jess@walthamdatascience.com / 2026-09-29 -- the amendment above is agreed: per-trial onsets are the `timed_sequence`'s own time key (irregular; inline or in a body the sequence owns), per-trial offsets are its `offset` field, and a `timed_sequence_manipulation` only points at the sequence (`value_id`).
+
+## Who received a presentation: decisions of 2026-10-21 (Jess Haley, in conversation; not a TEAM-SIGN-OFF line)
+
+These came out of the NDI second pass that folds `stimulus_presentation` (NDI-matlab #1021:
+`f9eb2d474` stimulator route, `59f8069fb` grating guard). They are recorded here because
+they hold for every migrated dataset, not for one.
+
+1. **The animal is found in the presentation's own session, from the lab's records, strongest
+   first:** a stimulus response that names the presentation, then the elements recorded in
+   the presentation's epoch, then the animal the lab's probe map assigns the stimulator to.
+   The stimulator route never leaves the session, because an epoch belongs to one session.
+2. **Several animals in one session get one manipulation on the session's cohort, marked
+   `distributive`, never N copies.** The cohort is a standing group (the animals recorded
+   together in that session), reused by every presentation in it. This is the T17
+   amendment in `V_eta_tenets.md`, signed 2026-10-21 ([tenet amendments 2026-10-21]). Its build is part of the migrator port
+   (OPEN_WORK #79).
+3. **A blank counts as a blank whatever its stimulus class** (`isblank` = 1). A blank shows
+   nothing, so its class does not change what the animal saw.
+4. **Stimulator links that lead to different animals are refused and listed**, not resolved
+   through the cohort: conflicting records are not a shared event.
+
+## 2026-10-21 — a presentation with no subject
+
+Decided by Jess Haley, 2026-10-21 [presentation with no subject]: a stimulus presentation whose subject cannot be resolved becomes a standalone item (what was shown, in order and time) with no manipulation, rather than staying a v1 leftover.

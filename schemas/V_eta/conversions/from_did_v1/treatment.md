@@ -86,9 +86,9 @@ First match wins; resolved against the term's ontology branch, not a string matc
     "base": { "id": "aabb1122ccdd3344_1122334455667788", "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
         "name": "v1_cooling", "datestamp": "2024-06-01T12:00:00.000Z" },
     "subject_interaction": {
-        "method":           { "node": "ncit:C60658", "name": "cooling" },
-        "variable":         { "node": "ndic:0000nnnn", "name": "focal cortical cooling" },
-        "target_structure": [ { "node": "uberon:0002436", "name": "primary visual cortex" } ]
+        "method":           { "node": "NCIT:C60658", "name": "cooling" },
+        "variable":         { "node": "NDIC:0000nnnn", "name": "focal cortical cooling" },
+        "target_structure": [ { "node": "UBERON:0002436", "name": "primary visual cortex" } ]
     },
     "subject_manipulation": { "notes": "Peltier, V1" },
     "temperature": { "value": [ { "celsius": 12.0, "source_unit": "°C", "source_value": 12.0, "approximate": false } ] }

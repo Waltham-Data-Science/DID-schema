@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "data_type"
+                "class_name": "value"
             }
         ],
         "maturity_level": "stable"
@@ -14,7 +14,7 @@
             "name": "ingredient_id",
             "mustBeNonEmpty": false,
             "documentation": "What went in, in the order of `value.ingredients` (entry k describes edge k; the order carries no other meaning). A stock you made is a formulation; a live strain grown or suspended in it (bacteria in broth) is a `strain`.",
-            "must_refer_to_document_class": "chemical,formulation,strain",
+            "must_refer_to_document_class": "chemical,formulation,entity",
             "multiple": true,
             "ordered": true,
             "min_count": 0
@@ -23,7 +23,7 @@
             "name": "product_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the bought product/lot, for a mixture bought ready-made (PBS tablets, saline).",
-            "must_refer_to_document_class": "product"
+            "must_refer_to_document_class": "entity"
         }
     ],
     "file": [],
@@ -57,7 +57,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `subject_statement.variable`.",
+                    "documentation": "Optional: what kind of mixture this is -- the standard recipe or medium it is (e.g. S-Complete, LB, NGM). It classifies the formulation; what it IS stays its ingredients (or its product). Left out for a one-off mixture (a day's dilution). Bound like `statement.variable`.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -112,7 +112,10 @@
                             "blank_value": 0.0,
                             "default_value": {
                                 "grams": 0.0,
-                                "source_unit": "",
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
                                 "source_value": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
@@ -140,16 +143,55 @@
                                 },
                                 {
                                     "name": "source_unit",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit exactly as given by the source (lossless provenance).",
-                                    "constraints": {}
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "source_value",
@@ -230,7 +272,10 @@
                             "blank_value": 0.0,
                             "default_value": {
                                 "liters": 0.0,
-                                "source_unit": "",
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
                                 "source_value": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
@@ -258,16 +303,55 @@
                                 },
                                 {
                                     "name": "source_unit",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit exactly as given by the source (lossless provenance).",
-                                    "constraints": {}
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "source_value",
@@ -348,7 +432,10 @@
                             "blank_value": 0.0,
                             "default_value": {
                                 "moles": 0.0,
-                                "source_unit": "",
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
                                 "source_value": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
@@ -376,16 +463,55 @@
                                 },
                                 {
                                     "name": "source_unit",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit exactly as given by the source (lossless provenance).",
-                                    "constraints": {}
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "source_value",
@@ -557,11 +683,15 @@
                             "default_value": {
                                 "molar": 0.0,
                                 "grams_per_liter": 0.0,
-                                "mass_fraction": 0.0,
-                                "volume_fraction": 0.0,
+                                "grams_per_gram": 0.0,
+                                "liters_per_liter": 0.0,
                                 "particles_per_liter": 0.0,
                                 "osmolar": 0.0,
-                                "source_unit": "",
+                                "optical_density": 0.0,
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
                                 "source_value": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
@@ -601,7 +731,7 @@
                                     "constraints": {}
                                 },
                                 {
-                                    "name": "mass_fraction",
+                                    "name": "grams_per_gram",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
@@ -610,11 +740,11 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                                    "documentation": "Canonical concentration as a mass fraction, in grams per gram (OPTIONAL; `mass_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
                                     "constraints": {}
                                 },
                                 {
-                                    "name": "volume_fraction",
+                                    "name": "liters_per_liter",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
@@ -623,7 +753,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                                    "documentation": "Canonical concentration as a volume fraction, in liters per liter (OPTIONAL; `volume_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
                                     "constraints": {}
                                 },
                                 {
@@ -653,17 +783,69 @@
                                     "constraints": {}
                                 },
                                 {
-                                    "name": "source_unit",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "name": "optical_density",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                                    "documentation": "Canonical optical density (absorbance, dimensionless; OPTIONAL). The wavelength (600 nm for OD600) is a condition of the statement, or is said by the source unit \"OD600\" (`source_unit`); `od600` until 2026-10-22, Jess Haley [ratio slots named by unit].",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "source_unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "source_value",
@@ -746,7 +928,10 @@
                     "blank_value": 0.0,
                     "default_value": {
                         "ph": 0.0,
-                        "source_unit": "",
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
                         "source_value": 0.0,
                         "approximate": false,
                         "tolerance": {}
@@ -774,16 +959,55 @@
                         },
                         {
                             "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit exactly as given by the source (lossless provenance).",
-                            "constraints": {}
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
                         },
                         {
                             "name": "source_value",
@@ -865,11 +1089,15 @@
                     "default_value": {
                         "molar": 0.0,
                         "grams_per_liter": 0.0,
-                        "mass_fraction": 0.0,
-                        "volume_fraction": 0.0,
+                        "grams_per_gram": 0.0,
+                        "liters_per_liter": 0.0,
                         "particles_per_liter": 0.0,
                         "osmolar": 0.0,
-                        "source_unit": "",
+                        "optical_density": 0.0,
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
                         "source_value": 0.0,
                         "approximate": false,
                         "tolerance": {}
@@ -909,7 +1137,7 @@
                             "constraints": {}
                         },
                         {
-                            "name": "mass_fraction",
+                            "name": "grams_per_gram",
                             "type": "double",
                             "blank_value": 0.0,
                             "default_value": 0.0,
@@ -918,11 +1146,11 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                            "documentation": "Canonical concentration as a mass fraction, in grams per gram (OPTIONAL; `mass_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
                             "constraints": {}
                         },
                         {
-                            "name": "volume_fraction",
+                            "name": "liters_per_liter",
                             "type": "double",
                             "blank_value": 0.0,
                             "default_value": 0.0,
@@ -931,7 +1159,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                            "documentation": "Canonical concentration as a volume fraction, in liters per liter (OPTIONAL; `volume_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
                             "constraints": {}
                         },
                         {
@@ -961,17 +1189,69 @@
                             "constraints": {}
                         },
                         {
-                            "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
+                            "name": "optical_density",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "documentation": "Canonical optical density (absorbance, dimensionless; OPTIONAL). The wavelength (600 nm for OD600) is a condition of the statement, or is said by the source unit \"OD600\" (`source_unit`); `od600` until 2026-10-22, Jess Haley [ratio slots named by unit].",
                             "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
                         },
                         {
                             "name": "source_value",

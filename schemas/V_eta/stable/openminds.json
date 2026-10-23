@@ -52,7 +52,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000578",
+                "node": "IAO:0000578",
                 "name": "centrally registered identifier"
             },
             "documentation": "openMINDS instance IRI (e.g., 'https://openminds.om-i.org/instances/geneticStrainType/wildtype'). Identifies a particular openMINDS object instance rather than its type.",

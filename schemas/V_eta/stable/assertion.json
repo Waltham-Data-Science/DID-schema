@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "assertion",
+        "class_version": "3.0.0",
+        "superclasses": [
+            {
+                "class_name": "statement"
+            }
+        ],
+        "maturity_level": "stable",
+        "value_kind": {
+            "root": "value",
+            "count": 1
+        }
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [],
+    "rules": [
+        {
+            "name": "assertion_no_time_dimension",
+            "fields": [
+                "dimensions.term",
+                "covariates.variable"
+            ],
+            "statement": "An assertion has no time dimension: no dimension of its value or its bodies is time, and no covariate is a time along one (a timeless fact; what varies in time is an interaction, T2; Jess Haley 2026-10-22 [rules and clock_alignment tenet])."
+        }
+    ]
+}

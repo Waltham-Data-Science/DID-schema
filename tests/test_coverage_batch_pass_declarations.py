@@ -55,8 +55,8 @@ BARE_ROW = {
     "v1_class": "fixture_class", "veta_class": "fixture_class", "targets": [],
     "decided_targets": [], "second_pass": [], "no_target_reason": None,
     "decided_signoff": None, "no_target_signoff": None,
-    "decided_targets_source": None, "decided_by_family": None,
-    "governance_gap": None, "families_naming_this_class": [],
+    "decided_targets_source": None, "decided_by_citation": None,
+    "governance_gap": None, "decision_citations": [],
     "build_state": {
         "schema_targets_named": 0, "schema_targets_built": [],
         "schema_targets_missing": [], "migrator_emits_decided_targets": False,
@@ -158,11 +158,14 @@ class TestTheLiveScan(unittest.TestCase):
         self.assertEqual([e["pass"] for e in idx["generic_file"]],
                          ["foldGenericFiles"])
         self.assertEqual(idx["generic_file"][0]["form"], "document")
-        # shape (3), an INLINE field block rather than a minted document
+        # was shape (3), an INLINE field block. Since DID-matlab #218 18e864d
+        # (Jess Haley, 2026-10-21 [response parameters as a shared method]) the
+        # pass converts each parameters document IN PLACE into one shared
+        # `method` document, so it now declares a minted document.
         k = "stimulus_response_scalar_parameters_basic"
         self.assertIn(k, idx)
-        self.assertEqual(idx[k][0]["form"], "inline")
-        self.assertEqual(idx[k][0]["targets"], ["method_parameters"])
+        self.assertEqual(idx[k][0]["form"], "document")
+        self.assertEqual(idx[k][0]["targets"], ["method"])
         # the honesty case: declared, dormant, emitting nothing
         self.assertEqual(idx["valid_interval"][0]["form"], "nothing")
         self.assertTrue(idx["valid_interval"][0]["reason"])
@@ -333,18 +336,50 @@ class TestTheCommittedLedger(unittest.TestCase):
 
     def test_the_rows_this_channel_moved_are_pinned(self):
         # PINNED BY NAME. rung 1: two rows a batch pass CONSUMES (epochid via
-        # epochMint, generic_file via foldGenericFiles). rung 3: three rows a
+        # epochMint, generic_file via foldGenericFiles). rung 3: four rows a
         # batch pass EMITS the decided target for -- stimulus_response_scalar_
         # parameters_basic (resolveResponseParameters -> method_parameters),
         # epochfiles_ingested (resolveEpochProbemap -> ingestion_manifest, #66
         # increment 3), and, since the confirm sheet 2026-08-22, stimulus_bath
-        # (resolveDeferredBaths -> dose_manipulation).
+        # (resolveDeferredBaths -> dose_manipulation), and, since lightsheet
+        # point 3 (2026-10-14), fileReference (foldGenericFiles -> opaque_body).
+        # THREE since 2026-10-21: stimulus_response_scalar_parameters_basic LEFT.
+        # Its decided target is now `method` (the class `method_parameters` was
+        # renamed, V_eta_method_plan.md) while resolveResponseParameters still
+        # declares it emits `method_parameters` against the pinned pre-#73
+        # schema, so the channel no longer credits it. It returns when the pass
+        # moves with the rest of #73.
+        # TWO since later on 2026-10-21: stimulus_bath LEFT. Its decided target
+        # is now `manipulation` + `formulation` (Jess Haley: a bath is a
+        # manipulation whose value is the formulation, through `value_id`, not
+        # a dose; V_eta_go_forward_class_audit.md), while the sibling's
+        # resolveDeferredBaths still declares `dose_manipulation`. It returns
+        # when the sibling branch CI reads declares the new emission (DID-matlab
+        # claude/port-88 does).
+        # THREE again since DID-matlab #218 8e2ef6d (2026-10-21): stimulus_bath
+        # RETURNED, as predicted above -- resolveDeferredBaths now declares
+        # `manipulation+formulation`, which matches its decided target.
+        # FOUR since DID-matlab #218 18e864d (2026-10-21):
+        # stimulus_response_scalar_parameters_basic RETURNED, as predicted above:
+        # resolveResponseParameters now declares `-> document: method`, its
+        # decided target ([response parameters as a shared method]).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
+        # FIVE since DID-matlab #218 a3b491e (2026-10-21): element joined.
+        # resolveEpochProbemap now declares element's recording observations and
+        # their opaque bodies ([epoch files as data bodies]).
+        # SIX since DID-matlab #218 7c3aeff (2026-10-21):
+        # daqmetadatareader_epochdata_ingested joined. resolveEpochProbemap now
+        # declares its archive as the stimulator manipulation's opaque_body
+        # ([ingested epoch documents retired], item 61).
+        # SEVEN since did-schema 2026-10-23: generic_file joined. Its emitted
+        # set was confirmed ([generic_file emitted set]), so the pass's
+        # declaration now matches a decided set.
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "stimulus_bath",
+            ["daqmetadatareader_epochdata_ingested", "element",
+             "epochfiles_ingested", "fileReference", "generic_file", "stimulus_bath",
              "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):
@@ -365,8 +400,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         for name in ("epochid", "generic_file"):
             why = rows[name]["stage"]["ladder"][0]["why"]
             self.assertIn("BATCH POST-PASS", why, name)
-        for name in ("stimulus_response_scalar_parameters_basic",
-                     "epochfiles_ingested"):
+        for name in ("epochfiles_ingested",):
             why3 = rows[name]["stage"]["ladder"][2]["why"]
             self.assertIn("BATCH POST-PASS", why3, name)
 
