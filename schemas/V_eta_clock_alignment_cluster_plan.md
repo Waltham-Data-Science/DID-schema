@@ -659,3 +659,5 @@ RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lights
 RE-DERIVED 2026-10-14 (DID-matlab `1aece9a`, the lightsheet migrators `lightsheet_zarr_pyramid.m`, `lightsheet_zarr_level.m` and `private/jLightsheetKeys.m`; `check_prose_counts` re-derives all nouns): **95 migrator .m file(s)** in `+migrators_j` (was 93). Nothing in this repository changed either count. Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `004585cec`: 1,305 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1305). Only the denominator moved. Re-derive, do not quote.

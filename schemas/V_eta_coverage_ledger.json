@@ -766,7 +766,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1281,
+              "line": 1283,
               "kind": "TEAM-SIGN-OFF",
               "tag": "data_body amendment 4",
               "date": "2026-10-21",
@@ -774,7 +774,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1319,
+              "line": 1321,
               "kind": "TEAM-SIGN-OFF",
               "tag": "data_body amendment 3",
               "date": "2026-10-19",
@@ -782,7 +782,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1337,
+              "line": 1339,
               "kind": "Decided by",
               "tag": "data_type only for plain arrays",
               "date": "2026-10-21",
@@ -790,7 +790,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1392,
+              "line": 1394,
               "kind": "TEAM-SIGN-OFF",
               "tag": "data_body amendment 5",
               "date": "2026-10-21",
@@ -798,7 +798,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1396,
+              "line": 1398,
               "kind": "Decided by",
               "tag": "sorter output by location",
               "date": "2026-10-21",
@@ -806,7 +806,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1398,
+              "line": 1400,
               "kind": "Decided by",
               "tag": "format is an ontology term",
               "date": "2026-10-14",
@@ -814,7 +814,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1400,
+              "line": 1402,
               "kind": "Decided by",
               "tag": "NDI binary format",
               "date": "2026-10-22",
@@ -822,7 +822,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1469,
+              "line": 1471,
               "kind": "Decided by",
               "tag": "covariates",
               "date": "2026-10-22",
@@ -830,7 +830,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1471,
+              "line": 1473,
               "kind": "Decided by",
               "tag": "conditions stay on the statement",
               "date": "2026-10-22",
@@ -838,7 +838,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1473,
+              "line": 1475,
               "kind": "Decided by",
               "tag": "along by index",
               "date": "2026-10-22",
@@ -846,7 +846,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1475,
+              "line": 1477,
               "kind": "Decided by",
               "tag": "matrix covariate",
               "date": "2026-10-22",
@@ -854,7 +854,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1477,
+              "line": 1479,
               "kind": "Decided by",
               "tag": "onset time",
               "date": "2026-10-22",
@@ -862,7 +862,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1479,
+              "line": 1481,
               "kind": "Decided by",
               "tag": "no complete",
               "date": "2026-10-22",
@@ -870,7 +870,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1481,
+              "line": 1483,
               "kind": "Decided by",
               "tag": "bare dimension",
               "date": "2026-10-22",
@@ -878,7 +878,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1483,
+              "line": 1485,
               "kind": "Decided by",
               "tag": "epoch covariates",
               "date": "2026-10-22",
@@ -886,7 +886,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1485,
+              "line": 1487,
               "kind": "Decided by",
               "tag": "tenets follow covariates",
               "date": "2026-10-22",
@@ -894,7 +894,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1487,
+              "line": 1489,
               "kind": "Decided by",
               "tag": "covariate terms",
               "date": "2026-10-22",
@@ -902,7 +902,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1491,
+              "line": 1493,
               "kind": "Decided by",
               "tag": "presentation dimension term",
               "date": "2026-10-22",
@@ -910,7 +910,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1493,
+              "line": 1495,
               "kind": "Decided by",
               "tag": "onset and offset terms",
               "date": "2026-10-22",
@@ -918,7 +918,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1495,
+              "line": 1497,
               "kind": "Decided by",
               "tag": "row term deferred",
               "date": "2026-10-22",
@@ -926,7 +926,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1497,
+              "line": 1499,
               "kind": "Decided by",
               "tag": "tuning grid",
               "date": "2026-10-22",
@@ -934,7 +934,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1499,
+              "line": 1501,
               "kind": "Decided by",
               "tag": "covariate details",
               "date": "2026-10-22",
@@ -942,7 +942,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1501,
+              "line": 1503,
               "kind": "Decided by",
               "tag": "covariate rules named",
               "date": "2026-10-22",
@@ -950,7 +950,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1503,
+              "line": 1505,
               "kind": "Decided by",
               "tag": "stimulus condition term",
               "date": "2026-10-22",
@@ -958,7 +958,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1505,
+              "line": 1507,
               "kind": "Decided by",
               "tag": "index covariates",
               "date": "2026-10-22",
@@ -966,7 +966,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1509,
+              "line": 1511,
               "kind": "Decided by",
               "tag": "units bound",
               "date": "2026-10-22",
@@ -974,7 +974,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1511,
+              "line": 1513,
               "kind": "Decided by",
               "tag": "remaining units bound",
               "date": "2026-10-22",
@@ -982,7 +982,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1513,
+              "line": 1515,
               "kind": "Decided by",
               "tag": "logical entries",
               "date": "2026-10-22",
@@ -990,7 +990,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1515,
+              "line": 1517,
               "kind": "Decided by",
               "tag": "irradiance",
               "date": "2026-10-22",
@@ -998,7 +998,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1517,
+              "line": 1519,
               "kind": "Decided by",
               "tag": "ratio slots named by unit",
               "date": "2026-10-22",
@@ -1006,7 +1006,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1519,
+              "line": 1521,
               "kind": "Decided by",
               "tag": "missing integers",
               "date": "2026-10-22",
@@ -1014,7 +1014,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1521,
+              "line": 1523,
               "kind": "Decided by",
               "tag": "audit mechanical fixes 2",
               "date": "2026-10-22",
@@ -1022,7 +1022,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1525,
+              "line": 1527,
               "kind": "Decided by",
               "tag": "audit mechanical fixes",
               "date": "2026-10-22",
@@ -1030,7 +1030,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1527,
+              "line": 1529,
               "kind": "Decided by",
               "tag": "harmonic response unit bound",
               "date": "2026-10-22",
@@ -1038,7 +1038,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1529,
+              "line": 1531,
               "kind": "Decided by",
               "tag": "response variable",
               "date": "2026-10-22",
@@ -1046,7 +1046,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1531,
+              "line": 1533,
               "kind": "Decided by",
               "tag": "dF/F as variable",
               "date": "2026-10-22",
@@ -1054,7 +1054,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1533,
+              "line": 1535,
               "kind": "Decided by",
               "tag": "response variable nodes",
               "date": "2026-10-22",
@@ -1062,7 +1062,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1535,
+              "line": 1537,
               "kind": "Decided by",
               "tag": "unstated response variable",
               "date": "2026-10-23",
@@ -1070,7 +1070,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1537,
+              "line": 1539,
               "kind": "Decided by",
               "tag": "pressure in mmHg",
               "date": "2026-10-22",
@@ -1078,7 +1078,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1539,
+              "line": 1541,
               "kind": "Decided by",
               "tag": "pH unit one",
               "date": "2026-10-22",
@@ -1086,7 +1086,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1541,
+              "line": 1543,
               "kind": "Decided by",
               "tag": "pH unit is UO pH",
               "date": "2026-10-22",
@@ -1094,7 +1094,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1543,
+              "line": 1545,
               "kind": "Decided by",
               "tag": "humidity in percent",
               "date": "2026-10-22",
@@ -1102,7 +1102,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1545,
+              "line": 1547,
               "kind": "Decided by",
               "tag": "unit names are labels",
               "date": "2026-10-22",
@@ -1110,7 +1110,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1547,
+              "line": 1549,
               "kind": "Decided by",
               "tag": "molar kept",
               "date": "2026-10-22",
@@ -1118,7 +1118,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1549,
+              "line": 1551,
               "kind": "Decided by",
               "tag": "exact OM units",
               "date": "2026-10-22",
@@ -1126,7 +1126,7 @@
             },
             {
               "document": "V_eta_data_body_model_plan.md",
-              "line": 1551,
+              "line": 1553,
               "kind": "Decided by",
               "tag": "prefixed source units",
               "date": "2026-10-22",
@@ -1262,7 +1262,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1504,
+              "line": 1506,
               "kind": "Decided by",
               "tag": "epoch dissolution before merge",
               "date": "2026-10-22",
@@ -1270,7 +1270,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1506,
+              "line": 1508,
               "kind": "Decided by",
               "tag": "spike train body by bytes",
               "date": "2026-10-22",
@@ -1278,7 +1278,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1508,
+              "line": 1510,
               "kind": "Decided by",
               "tag": "spike dimension term",
               "date": "2026-10-22",
@@ -1286,7 +1286,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1510,
+              "line": 1512,
               "kind": "Decided by",
               "tag": "JH position and distance",
               "date": "2026-10-22",
@@ -1294,7 +1294,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1512,
+              "line": 1514,
               "kind": "Decided by",
               "tag": "ingested epochs found",
               "date": "2026-10-22",
@@ -1302,7 +1302,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1514,
+              "line": 1516,
               "kind": "Decided by",
               "tag": "JH signed distance in pixels",
               "date": "2026-10-23",
@@ -1310,7 +1310,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1516,
+              "line": 1518,
               "kind": "Decided by",
               "tag": "JH signed distance in metres",
               "date": "2026-10-23",
@@ -1318,7 +1318,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1518,
+              "line": 1520,
               "kind": "Decided by",
               "tag": "JH build choices",
               "date": "2026-10-23",
@@ -1326,7 +1326,7 @@
             },
             {
               "document": "V_eta_epoch_plan.md",
-              "line": 1520,
+              "line": 1522,
               "kind": "Decided by",
               "tag": "imageStack scale label kept",
               "date": "2026-10-23",
@@ -2134,7 +2134,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 604,
+              "line": 606,
               "kind": "Decided by",
               "tag": "response parameters as a shared method",
               "date": "2026-10-21",
@@ -2142,7 +2142,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 606,
+              "line": 608,
               "kind": "Decided by",
               "tag": "control input told apart by its document",
               "date": "2026-10-21",
@@ -2150,7 +2150,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 608,
+              "line": 610,
               "kind": "Decided by",
               "tag": "empty response settings",
               "date": "2026-10-21",
@@ -2158,7 +2158,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 610,
+              "line": 612,
               "kind": "Decided by",
               "tag": "control record is a calculation",
               "date": "2026-10-21",
@@ -2166,7 +2166,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 616,
+              "line": 618,
               "kind": "Decided by",
               "tag": "presentation times from the file",
               "date": "2026-10-22",
@@ -2174,7 +2174,7 @@
             },
             {
               "document": "V_eta_stimulus_response_model_plan.md",
-              "line": 619,
+              "line": 621,
               "kind": "Decided by",
               "tag": "presentation file declared",
               "date": "2026-10-22",
@@ -3954,7 +3954,7 @@
         "document": "V_eta_stimulus_response_model_plan.md",
         "tag": "control as covariate",
         "resolved": true,
-        "line": 614,
+        "line": 616,
         "kind": "Decided by",
         "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
         "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
@@ -3968,7 +3968,7 @@
           "document": "V_eta_stimulus_response_model_plan.md",
           "tag": "control as covariate",
           "resolved": true,
-          "line": 614,
+          "line": 616,
           "kind": "Decided by",
           "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
           "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",

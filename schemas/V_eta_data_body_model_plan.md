@@ -1190,6 +1190,8 @@ RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lights
 
 RE-DERIVED 2026-10-19 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `358b2fbf`: 1,300 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1300). Only the denominator moved. Re-derive, do not quote.
 
+RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `004585cec`: 1,305 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1305). Only the denominator moved. Re-derive, do not quote.
+
 
 # AMENDMENT 3 — one entry for keys, conditions and method parameters. Jess, 2026-10-19.
 
