@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 282 decision line(s) accepted, 2 rejected; 41 cited by a class, 241 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 283 decision line(s) accepted, 2 rejected; 41 cited by a class, 242 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -434,7 +434,8 @@ field). If one decides a class's disposition, that class should cite it.
 - JH position and distance. "Decided by Jess Haley, 2026-10-22 [JH position and" (V_eta_epoch_plan.md:1510).
 - ingested epochs found. "Decided by Jess Haley, 2026-10-22 [ingested epochs found]" (V_eta_epoch_plan.md:1512).
 - JH signed distance in pixels. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1514).
-- JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1516).
+- JH signed distance in metres. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1516).
+- JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1518).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).

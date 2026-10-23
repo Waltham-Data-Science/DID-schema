@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 282,
+          "accepted_lines": 283,
           "accepted_lines_by_kind": {
-            "Decided by": 165,
+            "Decided by": 166,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1311,6 +1311,14 @@
             {
               "document": "V_eta_epoch_plan.md",
               "line": 1516,
+              "kind": "Decided by",
+              "tag": "JH signed distance in metres",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [JH signed distance in"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1518,
               "kind": "Decided by",
               "tag": "JH build choices",
               "date": "2026-10-23",
