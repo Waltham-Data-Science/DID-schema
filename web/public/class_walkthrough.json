@@ -223,22 +223,22 @@
         "text": "if isfield(v1, 'base') && isstruct(v1.base) && isfield(v1.base, 'session_id')"
        },
        {
-        "line": 2704,
+        "line": 2702,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2802,
+        "line": 2800,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 3025,
+        "line": 3023,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        },
        {
-        "line": 3051,
+        "line": 3049,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -282,7 +282,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 178,
+        "line": 176,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name) ..."
        }
@@ -2159,12 +2159,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2543,
+        "line": 2541,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2635,
+        "line": 2633,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2322,12 +2322,12 @@
         "text": "if isfield(v1, 'epochid') && isstruct(v1.epochid) && isfield(v1.epochid, 'epochid')"
        },
        {
-        "line": 2325,
+        "line": 2323,
         "spelling": "epochid",
         "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        },
        {
-        "line": 2330,
+        "line": 2328,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
@@ -4934,7 +4934,7 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 4,
+      "site_count": 5,
       "sites": [
        {
         "line": 694,
@@ -4955,13 +4955,18 @@
         "line": 2222,
         "spelling": "session",
         "text": "%   ...), so the rows below keep comparing on 'session' and 'epoch'. The"
+       },
+       {
+        "line": 2236,
+        "spelling": "session",
+        "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
       ]
      },
      {
       "pass": "mintSessionDuring",
       "path": "src/did/+did2/+convert/mintSessionDuring.m",
-      "site_count": 4,
+      "site_count": 3,
       "sites": [
        {
         "line": 36,
@@ -4976,12 +4981,7 @@
        {
         "line": 129,
         "spelling": "session",
-        "text": "tf = strcmpi(char(t.name), 'session');"
-       },
-       {
-        "line": 131,
-        "spelling": "session",
-        "text": "tf = strcmpi(char(t), 'session');"
+        "text": "tf = did2.build.isVocabulary(t, 'entity_type', 'session');   % by node (L2)"
        }
       ]
      },
@@ -5010,19 +5010,24 @@
        {
         "line": 365,
         "spelling": "session",
-        "text": "tf = isstruct(t) && isfield(t, 'name') && strcmpi(char(t.name), 'session');"
+        "text": "tf = isstruct(t) && did2.build.isVocabulary(t, 'entity_type', 'session');   % by node (L2)"
        }
       ]
      },
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 1,
+      "site_count": 2,
       "sites": [
        {
         "line": 471,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
+       },
+       {
+        "line": 2866,
+        "spelling": "session",
+        "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
       ]
      },
@@ -6722,12 +6727,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2484,
+        "line": 2482,
         "spelling": "subject",
         "text": "if isstruct(bodies{k}) && isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
        },
        {
-        "line": 2485,
+        "line": 2483,
         "spelling": "subject",
         "text": "subjBlock = 'subject';                       % pre-#73"
        }
@@ -7033,7 +7038,7 @@
         "text": "'syncrule_mapping', ..."
        },
        {
-        "line": 2300,
+        "line": 2298,
         "spelling": "syncrule_mapping",
         "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
        }

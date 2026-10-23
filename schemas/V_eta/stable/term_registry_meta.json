@@ -5539,6 +5539,15 @@
             "obsolete": false
         },
         {
+            "name": "neural response",
+            "node": "EMPTY:0000398",
+            "definition": "The activity of a neuron or population of neurons measured in response to a stimulus.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-23 [unstated response variable], V_eta_data_body_model_plan.md: the `variable` of a tuning or contrast-sensitivity calculation whose source does not state the quantity; EMPTY:0000398 minted in empty-ontology #25 (7902807; not yet merged there)",
+            "first_used_in": "tuning_curve_calculation / contrast_sensitivity_calculation variable (DID-matlab tuning migrators)",
+            "obsolete": false
+        },
+        {
             "name": "Butterworth filter",
             "node": "wikidata:Q1018162",
             "definition": "A filter design whose gain is as flat as possible in the passband, falling monotonically through the transition.",
