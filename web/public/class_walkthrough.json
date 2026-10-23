@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2799,
+        "line": 2811,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2876,
+        "line": 2888,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1696,7 +1696,7 @@
         "text": "if strcmp(classOf{k}, 'distance_metadata')"
        },
        {
-        "line": 2269,
+        "line": 2272,
         "spelling": "distance_metadata",
         "text": "if ~isfield(b, 'distance_metadata') || ~isstruct(b.distance_metadata) ..."
        }
@@ -2344,12 +2344,12 @@
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2751,
+        "line": 2763,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2752,
+        "line": 2764,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -5025,7 +5025,7 @@
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 2866,
+        "line": 2878,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
