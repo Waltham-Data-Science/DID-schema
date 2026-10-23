@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 194 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 36 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 22 |
-| build: migrator lines inspected | 57062 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 36970 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 20092 |
+| build: migrator lines inspected | 57253 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 37154 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 20099 |
 | build: classes queried | 6 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
@@ -186,8 +186,8 @@ artifact are therefore a FLOOR.
 
 | unresolved `document_class` write | class name expression |
 |---|---|
-| `DID-matlab:convert/resolveEpochProbemap.m:1568` | `entry.class` |
-| `DID-matlab:convert/resolveEpochProbemap.m:949` | `kind.className` |
+| `DID-matlab:convert/resolveEpochProbemap.m:1569` | `entry.class` |
+| `DID-matlab:convert/resolveEpochProbemap.m:950` | `kind.className` |
 | `DID-matlab:convert/resolveLawnPlateSubjects.m:1031` | `entry{1}` |
 | `DID-matlab:convert/universalRenames.m:240` | `v2ClassName;` |
 | `DID-matlab:migrators_j/image_stack.m:263` | `calculation + kind` |
@@ -247,7 +247,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 #### (b) built, awaiting corpus proof -- 4
 
-- `app` (decided) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:663 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:105 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1118 (named)`; mentioned in 141 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:127 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:375 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:376 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:459 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:464 (comment_mention)` ...; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveEpochProbemap.m:1273 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)` ...; target(s) BUILT: `entity (software)`
+- `app` (decided) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:663 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:105 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1118 (named)`; mentioned in 141 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:127 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:375 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:376 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:459 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:464 (comment_mention)` ...; mentioned in 39 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveEpochProbemap.m:1274 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)`, `DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)` ...; target(s) BUILT: `entity (software)`
 - `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:276 (named)`; mentioned in 15 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:308 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:537 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:538 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:189 (comment_mention)` ...; target(s) BUILT: `statement`, `sampled_body`
 - `daqmetadatareader_epochdata_ingested` (decided) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1097 (guard)`, `DID-matlab:convert/epochMint.m:2049 (field_read)`, `DID-matlab:convert/resolveEpochProbemap.m:395 (guard)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1128 (named)`, `DID-matlab:convert/epochMint.m:2048 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:592 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; mentioned in 12 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:1028 (comment_mention)`, `DID-matlab:convert/epochMint.m:1034 (comment_mention)`, `DID-matlab:convert/epochMint.m:1238 (comment_mention)`, `DID-matlab:convert/epochMint.m:216 (comment_mention)`, `DID-matlab:convert/epochMint.m:217 (comment_mention)`, `DID-matlab:convert/epochMint.m:24 (comment_mention)` ...; target(s) BUILT: `opaque_body`
 - `stimulus_presentation` (decided) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 4 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (guard)`, `NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:360 (field_read)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:960 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToItem.m:961 (field_read)`; mentioned in 30 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:916 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:917 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:113 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:35 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:49 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:77 (comment_mention)` ...; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/universalRenames.m:471 (comment_mention)`, `DID-matlab:convert/v1_to_v2.m:1177 (comment_mention)`; target(s) BUILT: `item`, `manipulation + item`
@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 283 decision line(s) accepted, 2 rejected; 41 cited by a class, 242 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 284 decision line(s) accepted, 2 rejected; 41 cited by a class, 243 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -436,6 +436,7 @@ field). If one decides a class's disposition, that class should cite it.
 - JH signed distance in pixels. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1514).
 - JH signed distance in metres. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1516).
 - JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1518).
+- imageStack scale label kept. "Decided by Jess Haley, 2026-10-23 [imageStack scale label" (V_eta_epoch_plan.md:1520).
 - filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).

@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 283,
+          "accepted_lines": 284,
           "accepted_lines_by_kind": {
-            "Decided by": 166,
+            "Decided by": 167,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1323,6 +1323,14 @@
               "tag": "JH build choices",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [JH build choices]: the"
+            },
+            {
+              "document": "V_eta_epoch_plan.md",
+              "line": 1520,
+              "kind": "Decided by",
+              "tag": "imageStack scale label kept",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [imageStack scale label"
             },
             {
               "document": "V_eta_frequency_filter_model_plan.md",

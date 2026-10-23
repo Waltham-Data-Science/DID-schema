@@ -323,12 +323,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2811,
+        "line": 2818,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2888,
+        "line": 2895,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1696,7 +1696,7 @@
         "text": "if strcmp(classOf{k}, 'distance_metadata')"
        },
        {
-        "line": 2272,
+        "line": 2278,
         "spelling": "distance_metadata",
         "text": "if ~isfield(b, 'distance_metadata') || ~isstruct(b.distance_metadata) ..."
        }
@@ -2181,17 +2181,17 @@
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 1672,
+        "line": 1673,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1915,
+        "line": 1916,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1934,
+        "line": 1935,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2339,17 +2339,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1938,
+        "line": 1939,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2763,
+        "line": 2770,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2764,
+        "line": 2771,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -5025,7 +5025,7 @@
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 2878,
+        "line": 2885,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }

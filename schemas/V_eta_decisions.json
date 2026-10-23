@@ -1849,12 +1849,12 @@
         ],
         "packages_missing": [],
         "files_read": 230,
-        "lines_read": 57062,
+        "lines_read": 57253,
         "classes_queried": 6,
         "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
-          "DID-matlab:convert/resolveEpochProbemap.m:1568 (entry.class)",
-          "DID-matlab:convert/resolveEpochProbemap.m:949 (kind.className)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1569 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:950 (kind.className)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1031 (entry{1})",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/image_stack.m:263 (calculation + kind)",
@@ -1893,8 +1893,8 @@
           "batch_post_pass": 36
         },
         "lines_read_by_group": {
-          "per_document_migrator": 36970,
-          "batch_post_pass": 20092
+          "per_document_migrator": 37154,
+          "batch_post_pass": 20099
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 0,
@@ -1926,8 +1926,8 @@
             "DID-matlab:migrators_j/treatment.m:100 (manipulation + kind)"
           ],
           "batch_post_pass": [
-            "DID-matlab:convert/resolveEpochProbemap.m:1568 (entry.class)",
-            "DID-matlab:convert/resolveEpochProbemap.m:949 (kind.className)",
+            "DID-matlab:convert/resolveEpochProbemap.m:1569 (entry.class)",
+            "DID-matlab:convert/resolveEpochProbemap.m:950 (kind.className)",
             "DID-matlab:convert/resolveLawnPlateSubjects.m:1031 (entry{1})",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
@@ -2053,7 +2053,7 @@
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-          "DID-matlab:convert/resolveEpochProbemap.m:1273 (comment_mention)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1274 (comment_mention)",
           "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"
@@ -2104,7 +2104,7 @@
             "comment_mentions": [
               "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
               "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-              "DID-matlab:convert/resolveEpochProbemap.m:1273 (comment_mention)",
+              "DID-matlab:convert/resolveEpochProbemap.m:1274 (comment_mention)",
               "DID-matlab:convert/resolveOpenmindsCitations.m:886 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:576 (comment_mention)"
