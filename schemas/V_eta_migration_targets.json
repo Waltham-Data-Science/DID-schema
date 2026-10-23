@@ -329,6 +329,14 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "demo"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K8 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "demo_ndi_mock": {
@@ -342,6 +350,14 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "demo"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K8 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "distance_metadata": {
@@ -371,6 +387,15 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "observation + voltage",
+          "relative_time_reference"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K9 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "element": {
@@ -634,6 +659,18 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "receptive_field_calculation",
+          "sampled_body",
+          "assertion + text",
+          "entity",
+          "relative_time_reference"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K12 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "image": {
@@ -1031,6 +1068,14 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "assertion + term"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K16 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "openminds_stimulus": {
@@ -1061,6 +1106,14 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "assertion + term"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K16 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "oridirtuning_calc": {
@@ -1123,6 +1176,15 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "observation + term",
+          "relative_time_reference"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K17 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "probe_geometry": {
@@ -1161,6 +1223,15 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "observation + term",
+          "relative_time_reference"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K18 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "projectvar": {
@@ -1672,6 +1743,15 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "directed_relation",
+          "entity"
+        ],
+        "confirmed": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: answered YES (\"K19 a\") to the emitted set, and the migrator code was then read and found to match the description approved.",
+        "signoff": "V_eta_go_forward_class_audit.md [confirm sheet matches]",
+        "why": "THE EMITTED SET, confirmed. Recorded by Claude at the decider's instruction; the decision is the team's. Fed through the same rung 2 and rung 3 checks as any decided set."
       }
     },
     "subjectmeasurement": {
