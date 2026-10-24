@@ -14,8 +14,8 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 176 |
-| settled (persist) | 92 |
+| target classes | 177 |
+| settled (persist) | 93 |
 | settled (retire) | 78 |
 | **still open (`in_progress`)** | **6** |
 | **`retire` with no migrator YET** | **2** |

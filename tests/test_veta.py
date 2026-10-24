@@ -44,7 +44,7 @@ VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json",
-              "term_registry_meta.json"}
+              "term_registry_meta.json", "class_disposition_meta.json"}
 
 
 def _load(path):

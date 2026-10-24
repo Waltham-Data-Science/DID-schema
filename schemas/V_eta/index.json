@@ -34,6 +34,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "class_disposition_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_eta/stable/class_disposition_meta.json",
+            "is_meta": true,
+            "disposition": "persist"
+        },
+        {
             "class_name": "did_schema_meta",
             "tier": "stable",
             "class_version": null,
