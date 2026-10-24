@@ -1103,10 +1103,10 @@ Decided by Jess Haley, 2026-10-24 [optional additions]: "be able to add new info
 
 Proposed (not decided) [corpus code bins]: existing corpus-specific migrator code is sorted A generic / B dataset map / C workbook default; audit committed in `review/corpus-code-audit-2026-10-24/` (2026-10-24), bins pending your and Steve's confirmation.
 
-Decided by Jess Haley, 2026-10-23 [V_delta removed]: "there should be no mention of v_delta"; "Remove V_delta from anywhere it could confuse future claude or human users and cause regressions from V_eta". V_eta is the only migration target; V_delta's read-time conversion, migration target, database stamp, fixtures and documentation are removed from DID-matlab and NDI-matlab. Build pending: DID-matlab, NDI-matlab (the V_delta removal PRs)
+Decided by Jess Haley, 2026-10-23 [V_delta removed]: "there should be no mention of v_delta"; "Remove V_delta from anywhere it could confuse future claude or human users and cause regressions from V_eta". V_eta is the only migration target; V_delta's read-time conversion, migration target, database stamp, fixtures and documentation are removed from DID-matlab and NDI-matlab. Built: NDI-matlab f27302632 (#1054), DID-matlab a502c76 (#226)
 
-Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI reads a v1 document exactly as stored; the v1 constructors' own `depends_on` field tidying stays, as v1 behaviour. Build pending: NDI-matlab (the V_delta removal PR)
+Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI reads a v1 document exactly as stored; the v1 constructors' own `depends_on` field tidying stays, as v1 behaviour. Built: NDI-matlab f27302632 (#1054)
 
-Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Build pending: NDI-matlab (the V_delta removal PR)
+Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Built: NDI-matlab f27302632 (#1054)
 
-Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Build pending: DID-matlab (the V_delta removal PR)
+Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Built: DID-matlab a502c76 (#226)
