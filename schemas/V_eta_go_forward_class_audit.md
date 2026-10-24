@@ -1118,3 +1118,7 @@ Decided by Jess Haley, 2026-10-24 [image_collection retired]: ("Retire image col
 Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: ("Yes stamp V1") a v1 document the generic migration carries through unchanged stays a v1 document, stamped v1, rather than becoming a V_eta document of a retired class (at DID-matlab a502c76 the migration rows emit 29 classes marked `retire` this way). Build pending: DID-matlab (generic migration keeps the v1 stamp on passed-through documents)
 
 Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired]: ("You can do step 2 to refuse retired classes") `did2.build` refuses to create a new document of a class whose `disposition` is `retire`, naming its replacement where one is recorded; reading v1 and the generic migration are not affected. Build pending: did-schema (the derived `stable/class_disposition_meta.json`, which arms the refusal; DID-matlab half built in 57e2327, #230)
+
+Decided by Jess Haley, 2026-10-23 [warn on v1 open]: (answer "1. yes") opening a dataset that still holds unmigrated v1 documents warns once. Built: NDI-matlab 9ec09fd (#1057: `NDI:V2:v1DocumentsPresent`, test TestWarnOnV1Open)
+
+Decided by Jess Haley, 2026-10-23 [compat write layer removed]: (answer "3a") the `ndi.compat` write layer, which writes reshaped `probe_location` and `treatment` documents into v1 databases, is removed; v1 data is written as v1. Built: NDI-matlab 9ec09fd (#1057, test TestV1WriteShape)
