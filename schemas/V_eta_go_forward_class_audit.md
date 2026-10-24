@@ -1092,3 +1092,21 @@ Decided by Jess Haley, 2026-10-23 [sliceTetanus stays in NDI]: `sliceTetanus` st
 Decided by Jess Haley, 2026-10-23 [confirm sheet matches]: what the migrator emits today is the end state for demoNDI and demoNDIMock (one `demo`, `mock` false/true), electrode_offset_voltage (a voltage observation of the probe, temperature as a condition), hartley_calc (receptive_field_calculation, two sampled bodies, spike-times body, anchor, software), openminds_element and openminds_subject (one term assertion), position_metadata (term observation, variable "position"), probe_location (term observation of the probe, atlas term) and subject_group (group entity plus member_of per member) (answers "K8, K9, K12, K16, K17, K18, K19 a"). Recorded only after the code was read and matched the description approved (DID-matlab 4667fb7). The other confirm-sheet answers of the same day (K5, K6, K7, K10, K11, K13, K14, K15, K20, K21) are NOT recorded: the code differs from what was described, and they go back to the team.
 
 Decided by Jess Haley, 2026-10-23 [sibling lock]: did-schema's chain builds and checks against exact, locked sibling commits instead of moving refs ("lock now, copy the V1 templates into did-schema at the freeze"; "yes, do both"). `tools/sibling_lock.json` names NDI-matlab's and DID-matlab's head and `main` commits; `tools/sibling_lock.py --update` moves them in a deliberate commit; CI checks out the locked heads and no longer resolves branches, so [NDI ref fallback]'s did-schema half no longer applies. Copying the V1 templates and ground truth into did-schema at the V1 freeze removes the NDI `main` dependency altogether. Built: did-schema 030d611
+
+Decided by Jess Haley, 2026-10-23 [migration not generalizable]: "migration from V1 to V2 is NOT generalizable and new imports and human decisions will need to be made" — generic migration is mechanical and lossless only, then frozen; a publishable V2 dataset comes from a per-dataset import with recorded human decisions.
+
+Decided by Jess Haley, 2026-10-24 [migration kept]: "many datasets might exist as only v1" — generic migration is kept as the first stage of an import from v1, not dropped.
+
+Decided by Jess Haley, 2026-10-24 [v1 import stages]: V2 reads v1 as stored; generic stage is lossless plumbing; meaning comes from a per-dataset decision workbook with defaults; one pipeline, two inputs (raw source or v1 documents).
+
+Decided by Jess Haley, 2026-10-24 [optional additions]: "be able to add new information that didn't have a v1 home into a migrated V2" — common, optional V2 decisions in the workbook, built through the same builder and validator, logged as added at import.
+
+Proposed (not decided) [corpus code bins]: existing corpus-specific migrator code is sorted A generic / B dataset map / C workbook default; audit committed in `review/corpus-code-audit-2026-10-24/` (2026-10-24), bins pending your and Steve's confirmation.
+
+Decided by Jess Haley, 2026-10-23 [V_delta removed]: "there should be no mention of v_delta"; "Remove V_delta from anywhere it could confuse future claude or human users and cause regressions from V_eta". V_eta is the only migration target; V_delta's read-time conversion, migration target, database stamp, fixtures and documentation are removed from DID-matlab and NDI-matlab. Built: NDI-matlab f27302632 (#1054), DID-matlab a502c76 (#226)
+
+Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI reads a v1 document exactly as stored; the v1 constructors' own `depends_on` field tidying stays, as v1 behaviour. Built: NDI-matlab f27302632 (#1054)
+
+Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Built: NDI-matlab f27302632 (#1054)
+
+Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Built: DID-matlab a502c76 (#226)
