@@ -554,12 +554,15 @@ def test_the_precondition_is_the_synced_subtree_and_not_its_parent():
 
 
 @pytest.mark.parametrize("flag", ["--ci"])
-def test_ci_reports_the_step_as_not_runnable_rather_than_passed(tmp_path, flag):
+def test_ci_reports_the_step_as_not_runnable_rather_than_passed(tmp_path, flag,
+                                                                monkeypatch):
     """The distinction this repository insists on: not runnable is COUNTED and
     NAMED, and is never rendered as a pass. Driven through the real driver with
     the step's path precondition pointed at something that does not exist."""
     import contextlib
     import io
+    # The sibling lock is not this test's subject (tests/test_sibling_lock.py).
+    monkeypatch.setattr(g, "verify_lock", lambda out=print: 0)
     s = g.BY_NAME["check_web_assets_fresh"]
     saved = s.needs_paths
     try:
@@ -576,11 +579,13 @@ def test_ci_reports_the_step_as_not_runnable_rather_than_passed(tmp_path, flag):
     assert rc == 0, out
 
 
-def test_without_ci_the_step_is_attempted_rather_than_quietly_dropped():
+def test_without_ci_the_step_is_attempted_rather_than_quietly_dropped(monkeypatch):
     """A developer running the chain on a machine with no synced tree must SEE
     the failure. Only `--ci` converts the absence into a report."""
     import contextlib
     import io
+    # The sibling lock is not this test's subject (tests/test_sibling_lock.py).
+    monkeypatch.setattr(g, "verify_lock", lambda out=print: 0)
     s = g.BY_NAME["check_web_assets_fresh"]
     saved_paths, saved_argv = s.needs_paths, s.argv
     try:

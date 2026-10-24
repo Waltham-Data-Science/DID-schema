@@ -204,9 +204,13 @@ def test_ndi_templates_records_which_ref_it_actually_read(tmp_path):
     print(f'DENOMINATOR: {len(s["refs_tried"])} ref(s) tried and failed, '
           f'read {s["ref_used"]}')
     assert s["ref_used"] == "worktree"
-    assert len(s["refs_tried"]) == 2, (
-        "origin/main and main both failed and neither was recorded, so the "
-        "report cannot say it fell back to the working tree")
+    # One candidate under the sibling lock (the locked sha), two without one
+    # (origin/main, main). Every candidate that failed must be recorded.
+    candidates = ngt.sibling_lock.main_refs("NDI-matlab")
+    assert len(s["refs_tried"]) == len(candidates) >= 1, (
+        f"{len(candidates)} ref candidate(s) failed and only "
+        f"{len(s['refs_tried'])} were recorded, so the report cannot say it "
+        "fell back to the working tree")
 
 
 # ---------------------------------------------------------------------------
@@ -254,7 +258,8 @@ def test_writer_dependency_sweep_says_when_it_listed_nothing():
         "result. The function's own comment says an implausible call-site count "
         "is what caught its regex bug; a zero with no denominator cannot be "
         "judged implausible at all.")
-    assert len(s["refs_tried"]) == 2
+    # Every candidate tried is recorded: one under the sibling lock, two without.
+    assert len(s["refs_tried"]) == len(ngt.sibling_lock.main_refs("NDI-matlab"))
 
 
 def test_the_ground_truth_tool_prints_the_template_denominator():

@@ -59,7 +59,8 @@ import time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable or "python3"
-
+sys.path.insert(0, os.path.join(REPO, "tools"))
+import sibling_lock  # noqa: E402
 
 # --------------------------------------------------------------------------
 # THE STEPS
@@ -105,6 +106,17 @@ SIBLINGS = {"NDI-matlab": find_repo("NDI-matlab", "NDI_MATLAB"),
 # A path that cannot exist, used to say "absent" to a child in the one language
 # every one of these tools understands.
 _NO_SIBLING = os.path.join(REPO, ".gates-no-such-sibling")
+
+
+def verify_lock(out=print):
+    """THE SIBLING LOCK, printed first and checked before anything runs.
+
+    `tools/sibling_lock.json` names the commit each sibling's working tree must
+    be at and the commit every `origin/main` read reads. The tools read the
+    locked main themselves; the working trees are VERIFIED here, never moved
+    (see tools/sibling_lock.py for why verify rather than materialise). Returns
+    the number of problems; a missing lock is one."""
+    return sibling_lock.verify(paths=SIBLINGS, out=out)
 
 
 def child_env():
@@ -1074,6 +1086,7 @@ def explain(root=REPO, out=print):
     out(f'DENOMINATOR: {len(needs)} of {len(STEPS)} steps read a sibling repository')
     for n, p in sorted(SIBLINGS.items()):
         out(f'  {n:<12} {p or "NOT FOUND"}')
+    verify_lock(out=out)
     for s in needs:
         src = s.source_path()
         unnamed = []
@@ -1135,6 +1148,11 @@ def main(argv=None):
                                  if a.check else "regenerate + gate"))
     print(f'DENOMINATOR: {len(steps)} steps will run ({len(gens)} generate, {len(steps) - len(gens)} gate); {len(EDGES)} dependency edges, {ok_edges} substantiated')
     print("            order: {}".format(" -> ".join(order)))
+    # WHICH COMMITS ARE BEING MEASURED, before anything is measured. A run
+    # against a sibling that is not at the locked commit would regenerate the
+    # artifacts from a tree nobody committed to -- in regenerate mode it would
+    # WRITE them -- so it stops here, with the command that fixes it.
+    lock_bad = verify_lock()
     unavailable = [s.name for s in steps if s.unavailable]
     if unavailable:
         print(f'            NOT RUNNABLE HERE ({len(unavailable)}): {", ".join(unavailable)}')
@@ -1151,6 +1169,11 @@ def main(argv=None):
 
     if ok_edges != len(EDGES):
         print(f'FAIL: {len(EDGES) - ok_edges} dependency edge(s) could not be substantiated. Run --explain.')
+        return 1
+    if lock_bad:
+        print(f'FAIL: the sibling lock reports {lock_bad} problem(s); nothing was run. '
+              "Fix the checkout as printed above, or move the lock deliberately "
+              "(python3 tools/sibling_lock.py --update, regenerate, commit both).")
         return 1
 
     mirror = None

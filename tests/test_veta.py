@@ -2687,12 +2687,15 @@ def test_ndi_clocktype_transcription_matches_ndi():
     ndi = os.environ.get("NDI_MATLAB_PATH", "/home/user/NDI-matlab")
     if not os.path.isdir(os.path.join(ndi, ".git")):
         pytest.skip(f"NDI-matlab not checked out at {ndi}")
+    # NDI `origin/main` at the LOCKED sha (tools/sibling_lock.json), like
+    # every tool that reads it.
+    rev = _load_tool("sibling_lock").main_refs("NDI-matlab")[0][1]
     try:
         src = subprocess.run(
-            ["git", "show", "origin/main:src/ndi/+ndi/+time/clocktype.m"],
+            ["git", "show", f"{rev}:src/ndi/+ndi/+time/clocktype.m"],
             cwd=ndi, capture_output=True, text=True, check=True).stdout
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
-        pytest.skip(f"cannot read clocktype.m from origin/main: {exc}")
+        pytest.skip(f"cannot read clocktype.m from origin/main ({rev}): {exc}")
     # the `case {...}` list inside setclocktype() is the authority: the docstring
     # tables are prose and could disagree with the code.
     m = re.search(r"case \{('.*?')\}\s*\n", src, re.DOTALL)

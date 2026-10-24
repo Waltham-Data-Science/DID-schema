@@ -39,6 +39,10 @@ sys.path.insert(0, HERE)
 # reopen.
 import decision_citations as dc  # noqa: E402
 
+# THE SIBLING LOCK (tools/sibling_lock.json): NDI `origin/main` is read at the
+# LOCKED sha, so the v1 universe moves only when the lock does.
+import sibling_lock  # noqa: E402
+
 SCHEMA_ROOT = os.path.dirname(HERE)
 INDEX = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
 LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
@@ -253,19 +257,20 @@ _MIG_HELPERS = {
 
 
 def _ndi_main_templates():
-    """NDI production v1 templates read from `origin/main` (falling back to `main`)
-    via git, NOT the checked-out working tree -- a V_eta feature branch of NDI can
-    lag main and silently drop classes main has since added (ensemble,
-    kilosort_clusters, ...). Returns ({class_name: 'path @ref'}, ref) or (None, None)
+    """NDI production v1 templates read from `origin/main` AT THE LOCKED SHA
+    (`tools/sibling_lock.json`; `origin/main` then `main` only when there is no
+    lock) via git, NOT the checked-out working tree -- a V_eta feature branch
+    of NDI can lag main and silently drop classes main has since added
+    (ensemble, kilosort_clusters, ...). Returns ({class_name: 'path @ref'}, ref) or (None, None)
     if git/main is unavailable, so the caller falls back to the working tree."""
     if not NDI:
         return None, None
     import subprocess
     ddir = "src/ndi/ndi_common/database_documents"
-    for ref in ("origin/main", "main"):
+    for ref, rev in sibling_lock.main_refs("NDI-matlab"):
         try:
             files = subprocess.run(
-                ["git", "-C", NDI, "ls-tree", "-r", "--name-only", ref, "--", ddir],
+                ["git", "-C", NDI, "ls-tree", "-r", "--name-only", rev, "--", ddir],
                 capture_output=True, text=True, check=True).stdout.splitlines()
         except (OSError, subprocess.CalledProcessError) as exc:
             # RECORDED, not merely skipped. The fallback chain is
@@ -273,7 +278,7 @@ def _ndi_main_templates():
             # says why that is not neutral: a V_eta feature branch of NDI lags
             # main and ships FEWER classes. Which one was actually read is a
             # fact about every number in the ledger.
-            TEMPLATE_SCAN["refs_tried"].append(f"{ref}: {type(exc).__name__}")
+            TEMPLATE_SCAN["refs_tried"].append(f"{ref} @ {rev}: {type(exc).__name__}")
             continue
         out = {}
         wanted = [f for f in files if f.endswith(".json")]
@@ -285,7 +290,7 @@ def _ndi_main_templates():
             # template that would not show or would not parse used to make that
             # universe smaller and leave every percentage reading better.
             try:
-                blob = subprocess.run(["git", "-C", NDI, "show", f"{ref}:{f}"],
+                blob = subprocess.run(["git", "-C", NDI, "show", f"{rev}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
             except (OSError, subprocess.CalledProcessError):
                 TEMPLATE_SCAN["unreadable"] += 1
@@ -301,10 +306,10 @@ def _ndi_main_templates():
             else:
                 TEMPLATE_SCAN["not_a_document_class"] += 1
         if out:
-            TEMPLATE_SCAN["source"] = ref
+            TEMPLATE_SCAN["source"] = ref if rev == ref else f"{ref}@{rev}"
             TEMPLATE_SCAN["classes"] = len(out)
             return out, ref
-        TEMPLATE_SCAN["refs_tried"].append(f"{ref}: 0 classes")
+        TEMPLATE_SCAN["refs_tried"].append(f"{ref} @ {rev}: 0 classes")
     return None, None
 
 

@@ -124,6 +124,14 @@ Do not run these one at a time. Run the chain:
 `--ci` is what CI runs: it implies `--check` and reports, rather than fails,
 steps whose inputs are not on a runner.
 
+**The chain measures the commits in the sibling lock, `tools/sibling_lock.json`**
+(see "The sibling lock" in §3). `gates.py` prints the locked commits first and
+refuses to run when a sibling checkout is not at its locked head. Moving the
+lock is a deliberate commit:
+
+    python3 tools/sibling_lock.py --check    # are the checkouts at the lock?
+    python3 tools/sibling_lock.py --update   # record the siblings' HEAD and origin/main
+
 Other tools worth knowing:
 
 - `python3 tools/confirm_sheet.py`: the classes whose migrator runs but whose
@@ -160,7 +168,7 @@ being re-provisioned.
 |---|---|---|---|
 | did-schema (Waltham-Data-Science) | `main` | #88 (and #120) | V_eta JSON, registries, plan documents, gate tools |
 | DID-matlab (VH-Lab) | `V2` | #218 | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
-| NDI-matlab (VH-Lab) | `V2` | #1021 | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates are the v1 truth |
+| NDI-matlab (VH-Lab) | `V2` | #1021 | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates (at the locked sha, `tools/sibling_lock.json`) are the v1 truth |
 | empty-ontology (Waltham-Data-Science) | `V2` | none (#22-#25 merged) | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
 | ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11, #12, #14 merged) | ontology lookups, `NDIC.txt` |
 
@@ -176,41 +184,70 @@ If the local checkout may be behind, `git fetch` and compare with `origin`
 before measuring anything. A measurement taken on a rewound tree looks exactly
 like a measurement.
 
-### How this repository's CI picks sibling refs
+### The sibling lock
+
+*(Decided by Jess Haley, 2026-10-23, in conversation: lock the exact sibling
+commits in a committed file, and build and check against those; updating the
+lock is a deliberate commit.)* NDI `origin/main` used to be read live, and it
+moved twice on 2026-10-23, turning `check_prose_counts` red and changing
+generated files with no change here (commits dc650e8, 5cba5a4).
+
+`tools/sibling_lock.json` records, for NDI-matlab and DID-matlab:
+
+- `head`: the commit the sibling's working tree must be at (the siblings' `V2`
+  line, recorded in `head_ref`);
+- `main`: the commit every read of that sibling's `origin/main` reads instead.
+
+How each is used (`tools/sibling_lock.py` docstring has the reasons):
+
+- **`main` is read, not checked out.** `coverage.py`, `ndi_ground_truth.py`,
+  `check_prose_counts.py` (`ndi_m_files`) and `check_citations.py` ask
+  `sibling_lock.main_refs(<sibling>)` for the rev, and git reads the locked sha.
+  Artifacts still say `origin/main`; the ground truth also records the sha as
+  `ndi_main_commit`. With no lock the tools fall back to the live
+  `origin/main`, then `main`, and the chain refuses to run.
+- **`head` is verified, never moved.** `gates.py` (and
+  `sibling_lock.py --check`) fail on a present sibling whose HEAD is not the
+  locked head, and print the `git checkout --detach <sha>` that fixes it. A
+  locked `main` the clone does not hold also fails (`git fetch`). An absent
+  sibling is NOT CHECKED. The live `origin/main` having moved past the lock is
+  printed as a note, never read.
+- **To move the lock:** put the siblings where you mean (`git fetch`, check out
+  the new heads), run `python3 tools/sibling_lock.py --update`, then
+  `python3 tools/gates.py`, and commit the lock with the regenerated artifacts.
+
+### How this repository's CI checks out the siblings
 
 `.github/workflows/tests.yml` runs `python3 tools/gates.py --ci` and owns no
 gate list of its own (`tests/test_gates.py` fails if one comes back). It clones
-NDI-matlab and DID-matlab in full and checks out, for each, the first that
-exists:
+NDI-matlab and DID-matlab in full and checks out, for each, the locked `head`
+(`python3 tools/sibling_lock.py --get <sibling> head`), detached. There is no
+branch resolution and no fallback: a missing lock, or a locked commit a clone
+does not hold, fails the step. It then runs `sibling_lock.py --check`.
 
-1. a branch with the same name as the branch under test;
-2. the PR's base branch;
-3. the integration ref `V2` (both siblings' V2 line; `claude/v2-object-layer`
-   until NDI #1021 merged on 2026-10-23);
-4. the sibling's default branch (`main`, which lacks the V2 code).
-
-A request that names the sibling's default branch is tried last. The step
-prints which ref it took and says FALLBACK when it fell back. Decided (Jess
-Haley, 2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]):
-DID-matlab's workflows resolve NDI-matlab by the same-name branch, then `V2`,
-then `main`; the integration branch `claude/v2-object-layer` left that order and
-this repository's `tests.yml` in the first commits after the merge.
+(DID-matlab's own workflows still resolve NDI-matlab by branch name: Decided
+(Jess Haley, 2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]),
+the same-name branch, then `V2`, then `main`.)
 
 Three details are load-bearing and fail quietly if they regress (all asserted
 by `tests/test_ci_runs_the_whole_chain.py`): the clone is full, not shallow,
-because `coverage.py` and `ndi_ground_truth.py` read NDI `origin/main`; the
-checkout is a feature branch, while `origin/main` is still reachable; and
-`NDI_MATLAB` / `DID_MATLAB` are exported.
+because `coverage.py` and `ndi_ground_truth.py` read NDI's locked `main`, which
+is not the checked-out commit, and the ground truth walks history from it; the
+checkout is the locked head (the `V2` line), while the locked `main` is still
+reachable, and the step fails if it is not; and `NDI_MATLAB` / `DID_MATLAB` are
+exported.
 
-CI checks out no empty-ontology or ndi-ontology-matlab. `check_term_registry`
-reports its rule R7 (EMPTY labels match the ontology) as NOT CHECKED there.
+CI checks out no empty-ontology or ndi-ontology-matlab, and the lock does not
+cover them. `check_term_registry` reports its rule R7 (EMPTY labels match the
+ontology) as NOT CHECKED there.
 
 Locally, `tools/gates.py` finds siblings through `$NDI_MATLAB` / `$DID_MATLAB`
 first (an explicitly set variable is authoritative, even if empty), then
 `/home/user/<repo>`, then `../<repo>`. Set the variables to the checkout you
-mean. Otherwise you measure whatever `/home/user/<repo>` happens to have
-checked out. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling
-`empty-ontology` folder.
+mean, and put that checkout at the locked head; the chain will not run
+otherwise. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling
+`empty-ontology` folder. The sibling folders must be named `NDI-matlab` and
+`DID-matlab`: generated paths include the folder name.
 
 ### How the siblings' CI picks a did-schema ref
 
