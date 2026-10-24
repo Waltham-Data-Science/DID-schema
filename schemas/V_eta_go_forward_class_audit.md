@@ -1110,3 +1110,5 @@ Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI read
 Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Built: NDI-matlab f27302632 (#1054)
 
 Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Built: DID-matlab a502c76 (#226)
+
+Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("yes close 112") did-schema keeps committing the sibling-dependent generated files (coverage ledger, status board, decisions JSON, class walkthrough); the sibling lock ([sibling lock], `tools/sibling_lock.json`) removes the drift that issue #112 (2026-10-22, "queue (a) for right after the merge") was opened to remove, since those files now change only when the lock is moved deliberately. Issue #112 is closed as superseded.

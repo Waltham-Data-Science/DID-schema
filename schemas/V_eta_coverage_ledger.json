@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 294,
+          "accepted_lines": 295,
           "accepted_lines_by_kind": {
-            "Decided by": 177,
+            "Decided by": 178,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1811,6 +1811,14 @@
               "tag": "V2 stamp",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [V2 stamp]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1114,
+              "kind": "Decided by",
+              "tag": "#112 superseded",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
