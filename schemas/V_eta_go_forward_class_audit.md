@@ -1101,7 +1101,7 @@ Decided by Jess Haley, 2026-10-24 [v1 import stages]: V2 reads v1 as stored; gen
 
 Decided by Jess Haley, 2026-10-24 [optional additions]: "be able to add new information that didn't have a v1 home into a migrated V2" — common, optional V2 decisions in the workbook, built through the same builder and validator, logged as added at import.
 
-Proposed (not decided) [corpus code bins]: existing corpus-specific migrator code is sorted A generic / B dataset map / C workbook default; audit running, bins pending your and Steve's confirmation.
+Proposed (not decided) [corpus code bins]: existing corpus-specific migrator code is sorted A generic / B dataset map / C workbook default; audit committed in `review/corpus-code-audit-2026-10-24/` (2026-10-24), bins pending your and Steve's confirmation.
 
 Decided by Jess Haley, 2026-10-23 [V_delta removed]: "there should be no mention of v_delta"; "Remove V_delta from anywhere it could confuse future claude or human users and cause regressions from V_eta". V_eta is the only migration target; V_delta's read-time conversion, migration target, database stamp, fixtures and documentation are removed from DID-matlab and NDI-matlab. Build pending: DID-matlab, NDI-matlab (the V_delta removal PRs)
 
