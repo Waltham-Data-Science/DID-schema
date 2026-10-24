@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 296,
+          "accepted_lines": 294,
           "accepted_lines_by_kind": {
-            "Decided by": 179,
+            "Decided by": 177,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1800,29 +1800,13 @@
               "document": "V_eta_go_forward_class_audit.md",
               "line": 1110,
               "kind": "Decided by",
-              "tag": "warn on v1 open",
-              "date": "2026-10-23",
-              "anchor": "Decided by Jess Haley, 2026-10-23 [warn on v1 open]: (answer"
-            },
-            {
-              "document": "V_eta_go_forward_class_audit.md",
-              "line": 1112,
-              "kind": "Decided by",
-              "tag": "compat write layer removed",
-              "date": "2026-10-23",
-              "anchor": "Decided by Jess Haley, 2026-10-23 [compat write layer"
-            },
-            {
-              "document": "V_eta_go_forward_class_audit.md",
-              "line": 1114,
-              "kind": "Decided by",
               "tag": "cloud migrate refuses",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
-              "line": 1116,
+              "line": 1112,
               "kind": "Decided by",
               "tag": "V2 stamp",
               "date": "2026-10-23",

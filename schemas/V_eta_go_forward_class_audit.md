@@ -1107,10 +1107,6 @@ Decided by Jess Haley, 2026-10-23 [V_delta removed]: "there should be no mention
 
 Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI reads a v1 document exactly as stored; the v1 constructors' own `depends_on` field tidying stays, as v1 behaviour. Build pending: NDI-matlab (the V_delta removal PR)
 
-Decided by Jess Haley, 2026-10-23 [warn on v1 open]: (answer "1. yes") opening a dataset that still holds unmigrated v1 documents warns once. Build pending: NDI-matlab (not yet built)
-
-Decided by Jess Haley, 2026-10-23 [compat write layer removed]: (answer "3a") the `ndi.compat` write layer, which writes reshaped `probe_location` and `treatment` documents into v1 databases, is removed; v1 data is written as v1. Build pending: NDI-matlab (follow-up, not yet built)
-
 Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Build pending: NDI-matlab (the V_delta removal PR)
 
 Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Build pending: DID-matlab (the V_delta removal PR)
