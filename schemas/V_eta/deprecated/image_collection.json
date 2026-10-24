@@ -7,7 +7,7 @@
                 "class_name": "base"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "deprecated"
     },
     "depends_on": [
         {

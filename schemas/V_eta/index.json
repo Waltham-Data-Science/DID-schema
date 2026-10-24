@@ -901,13 +901,13 @@
         },
         {
             "class_name": "image_collection",
-            "tier": "stable",
+            "tier": "deprecated",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "deprecated",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/image_collection.json",
+            "path": "schemas/V_eta/deprecated/image_collection.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },

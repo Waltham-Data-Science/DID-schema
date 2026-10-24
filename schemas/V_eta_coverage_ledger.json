@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 295,
+          "accepted_lines": 298,
           "accepted_lines_by_kind": {
-            "Decided by": 178,
+            "Decided by": 181,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1819,6 +1819,30 @@
               "tag": "#112 superseded",
               "date": "2026-10-24",
               "anchor": "Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1116,
+              "kind": "Decided by",
+              "tag": "image_collection retired",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [image_collection"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1118,
+              "kind": "Decided by",
+              "tag": "passthrough stays v1",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1120,
+              "kind": "Decided by",
+              "tag": "V2 builder refuses retired",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [V2 builder refuses"
             },
             {
               "document": "V_eta_image_model_plan.md",

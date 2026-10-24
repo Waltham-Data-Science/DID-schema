@@ -1112,3 +1112,9 @@ Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.mi
 Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Built: DID-matlab a502c76 (#226)
 
 Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("yes close 112") did-schema keeps committing the sibling-dependent generated files (coverage ledger, status board, decisions JSON, class walkthrough); the sibling lock ([sibling lock], `tools/sibling_lock.json`) removes the drift that issue #112 (2026-10-22, "queue (a) for right after the merge") was opened to remove, since those files now change only when the lock is moved deliberately. Issue #112 is closed as superseded.
+
+Decided by Jess Haley, 2026-10-24 [image_collection retired]: ("Retire image collection") `image_collection` is a tombstone, as [stranded sources] (V_eta_OPEN_WORK.md, 2026-08-11) already said: its class file moves from `stable/` to `deprecated/` so it can no longer be written as a V2 class; v1 `imageCollection` documents are read as stored.
+
+Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: ("Yes stamp V1") a v1 document the generic migration carries through unchanged stays a v1 document, stamped v1, rather than becoming a V_eta document of a retired class (at DID-matlab a502c76 the migration rows emit 29 classes marked `retire` this way). Build pending: DID-matlab (generic migration keeps the v1 stamp on passed-through documents)
+
+Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired]: ("You can do step 2 to refuse retired classes") `did2.build` refuses to create a new document of a class whose `disposition` is `retire`, naming its replacement where one is recorded; reading v1 and the generic migration are not affected. Build pending: DID-matlab (did2.build refusal)
