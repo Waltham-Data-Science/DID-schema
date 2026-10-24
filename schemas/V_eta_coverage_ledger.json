@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 285,
+          "accepted_lines": 286,
           "accepted_lines_by_kind": {
-            "Decided by": 168,
+            "Decided by": 169,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1739,6 +1739,14 @@
               "tag": "confirm sheet matches",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [confirm sheet matches]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1094,
+              "kind": "Decided by",
+              "tag": "sibling lock",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [sibling lock]"
             },
             {
               "document": "V_eta_image_model_plan.md",
