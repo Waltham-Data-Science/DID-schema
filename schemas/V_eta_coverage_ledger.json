@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 286,
+          "accepted_lines": 290,
           "accepted_lines_by_kind": {
-            "Decided by": 169,
+            "Decided by": 173,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1747,6 +1747,38 @@
               "tag": "sibling lock",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [sibling lock]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1096,
+              "kind": "Decided by",
+              "tag": "migration not generalizable",
+              "date": "2026-10-23",
+              "anchor": "Decided by Jess Haley, 2026-10-23 [migration not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1098,
+              "kind": "Decided by",
+              "tag": "migration kept",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [migration kept]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1100,
+              "kind": "Decided by",
+              "tag": "v1 import stages",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [v1 import stages]: V2"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1102,
+              "kind": "Decided by",
+              "tag": "optional additions",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [optional additions]"
             },
             {
               "document": "V_eta_image_model_plan.md",

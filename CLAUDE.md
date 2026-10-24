@@ -89,6 +89,13 @@ names: "Bar-1" there means integrity, "Bar-2" means done.)*
   decided final V_eta shape (no husks, no preserved raw bridges, no
   passed-through v1 tombstones, no superseded emissions), AND corpus-proven.
   Only the classes that corpus contains count.
+- **Done, for a migrated corpus** *(2026-10-24, `V_eta_go_forward_class_audit.md`
+  [migration not generalizable], [v1 import stages])*: integrity AND lossless
+  (every v1 item is carried, at a V_eta shape or unchanged as v1). Generic
+  migration is plumbing and is frozen; a v1 document carried unchanged is not a
+  defect of the generic stage. A *publishable* V2 dataset is a per-dataset
+  import whose meaning decisions are recorded in its decision workbook; the
+  definition above applies to that import, not to the generic stage.
 - Report each corpus as **done** or **not done**, with the list of what is
   missing, the number and the run. Never report integrity as done.
 - Every corpus figure recorded before the migrator port landed on DID-matlab
