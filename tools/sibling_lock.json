@@ -1,17 +1,17 @@
 {
     "why": "The chain regenerates committed artifacts against NDI-matlab and DID-matlab. Their refs move without any change here (NDI origin/main gained .m files twice on 2026-10-23), so the chain builds and checks against these exact commits. Moving them is a deliberate commit (tools/sibling_lock.py --update). Decided by Jess Haley, 2026-10-23, in conversation.",
-    "date": "2026-10-23",
+    "date": "2026-10-24",
     "siblings": {
         "DID-matlab": {
             "url": "https://github.com/VH-Lab/DID-matlab.git",
             "head_ref": "V2",
-            "head": "7efd113301f5b78ba2835fd11d30947e633994eb",
-            "main": "057f64167f6088cd553d2cee73d6b76f266f6258"
+            "head": "a502c76fc03bced56d79832c780fd1af5dcd2ce2",
+            "main": "f4a4905bd31e8e8463b6faae74ea5799da955fb5"
         },
         "NDI-matlab": {
             "url": "https://github.com/VH-Lab/NDI-matlab.git",
             "head_ref": "V2",
-            "head": "670f362686c520768f8e915107aa3ccfed3635ec",
+            "head": "f27302632736c42999f790026d861eb976618a49",
             "main": "3cb19a85fb77453e1e656728828b08a54c406e96"
         }
     }
