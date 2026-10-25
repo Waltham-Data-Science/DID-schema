@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 309,
+          "accepted_lines": 310,
           "accepted_lines_by_kind": {
-            "Decided by": 192,
+            "Decided by": 193,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1931,6 +1931,14 @@
               "tag": "no invented values",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [no invented values]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1144,
+              "kind": "Decided by",
+              "tag": "dataset name not invented",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [dataset name not"
             },
             {
               "document": "V_eta_image_model_plan.md",

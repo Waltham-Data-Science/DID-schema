@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 309 decision line(s) accepted, 2 rejected; 41 cited by a class, 268 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 310 decision line(s) accepted, 2 rejected; 41 cited by a class, 269 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -512,6 +512,7 @@ field). If one decides a class's disposition, that class should cite it.
 - subject local identifier is an identifier. "Decided by Jess Haley, 2026-10-25 [subject local identifier" (V_eta_go_forward_class_audit.md:1138).
 - NewStim recipes are a default. "Decided by Jess Haley, 2026-10-25 [NewStim recipes are a" (V_eta_go_forward_class_audit.md:1140).
 - no invented values. "Decided by Jess Haley, 2026-10-25 [no invented values]" (V_eta_go_forward_class_audit.md:1142).
+- dataset name not invented. "Decided by Jess Haley, 2026-10-25 [dataset name not" (V_eta_go_forward_class_audit.md:1144).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:97).
