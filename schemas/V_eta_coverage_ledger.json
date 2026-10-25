@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 323,
+          "accepted_lines": 324,
           "accepted_lines_by_kind": {
-            "Decided by": 206,
+            "Decided by": 207,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2043,6 +2043,14 @@
               "tag": "notes on three classes",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [notes on three classes]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1172,
+              "kind": "Decided by",
+              "tag": "retired classes leave V2",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [retired classes leave"
             },
             {
               "document": "V_eta_image_model_plan.md",
