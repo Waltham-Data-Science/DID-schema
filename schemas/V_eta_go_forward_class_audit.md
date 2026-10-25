@@ -1110,3 +1110,13 @@ Decided by Jess Haley, 2026-10-23 [v1 read as stored]: (answer "2a") V2 NDI read
 Decided by Jess Haley, 2026-10-23 [cloud migrate refuses]: (answer "4a") `ndi.migrate.cloud` refuses to write until it runs the whole pipeline `ndi.migrate.local` runs; its dry-run report still works. Built: NDI-matlab f27302632 (#1054)
 
 Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" and (answer "5b") a database is stamped `V2` and any other stamp is refused; a file stamped `V_delta` is re-created by re-running its import. Built: DID-matlab a502c76 (#226)
+
+Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("yes close 112") did-schema keeps committing the sibling-dependent generated files (coverage ledger, status board, decisions JSON, class walkthrough); the sibling lock ([sibling lock], `tools/sibling_lock.json`) removes the drift that issue #112 (2026-10-22, "queue (a) for right after the merge") was opened to remove, since those files now change only when the lock is moved deliberately. Issue #112 is closed as superseded.
+
+Decided by Jess Haley, 2026-10-24 [image_collection retired]: ("Retire image collection") `image_collection` is a tombstone, as [stranded sources] (V_eta_OPEN_WORK.md, 2026-08-11) already said: its class file moves from `stable/` to `deprecated/` so it can no longer be written as a V2 class; v1 `imageCollection` documents are read as stored.
+
+Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired]: ("You can do step 2 to refuse retired classes") `did2.build` refuses to create a new document of a class whose `disposition` is `retire`, naming its replacement where one is recorded; reading v1 and the generic migration are not affected. Built: DID-matlab 57e2327 (#230: did2.build refusal, strict mode RetiredClasses), did-schema (#127: D5 in tools/validate_v_eta.py derives `stable/class_disposition_meta.json`, which arms it; confirmed by Jess Haley, 2026-10-25: "Okay")
+
+Decided by Jess Haley, 2026-10-23 [warn on v1 open]: (answer "1. yes") opening a dataset that still holds unmigrated v1 documents warns once. Built: NDI-matlab 9ec09fd (#1057: `NDI:V2:v1DocumentsPresent`, test TestWarnOnV1Open)
+
+Decided by Jess Haley, 2026-10-23 [compat write layer removed]: (answer "3a") the `ndi.compat` write layer, which writes reshaped `probe_location` and `treatment` documents into v1 databases, is removed; v1 data is written as v1. Built: NDI-matlab 9ec09fd (#1057, test TestV1WriteShape)

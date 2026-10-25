@@ -27,6 +27,13 @@ written, not hand-edited:
       [clock alignment relation bound]).
   D4  `ndi_mustBeNonEmpty` on depends_on entries: NDI's required-ness from
       schemas/V_eta_ndi_ground_truth.json (tools/ndi_required_stamp.py).
+  D5  stable/class_disposition_meta.json: every class in stable/ or draft/
+      whose index.json `disposition` is `retire`, with the classes it is
+      replaced by (schemas/V_eta_migration_targets.json `decided_targets`,
+      authored) and its index `disposition_note`. DID-matlab's did2.build
+      refuses to build a listed class (strict mode RetiredClasses, DID-matlab
+      #230; Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired],
+      V_eta_go_forward_class_audit.md).
 Default mode writes them; --check writes nothing and fails if any differs.
 The registry's `strength` column is derived too, by
 tools/regen_binding_strengths.py (its own gates step).
@@ -71,7 +78,7 @@ META_FILES = REC.META_FILES
 # Files written by something other than json.dump(indent=4): ndi_reserved_keys
 # is NDI's file copied verbatim, the term registry copy keeps non-ASCII text.
 VERBATIM = {"ndi_reserved_keys.json"}
-NON_ASCII = {"term_registry_meta.json"}
+NON_ASCII = {"term_registry_meta.json", "class_disposition_meta.json"}
 DISPOSITIONS = {"persist", "retire", "in_progress"}
 PASSES = {"assertions", "distributive", "context", "nothing"}
 ENTRY_LISTS = ("conditions", "parameters")
@@ -663,6 +670,35 @@ def d2_term_registry(t):
     return {os.path.join(t.veta, "stable", "term_registry_meta.json"): dumps(out, False)}, []
 
 
+def d5_class_disposition(t, index_text):
+    """The retired classes still in stable/ or draft/, for did2.build to refuse.
+
+    Reads the index D1 is about to write (index_text), so a class moved to
+    deprecated/ in the same change drops out of the list at once."""
+    idx = json.loads(index_text)
+    targets = load(os.path.join(ROOT, "schemas", "V_eta_migration_targets.json"))["classes"]
+    rows = []
+    for e in idx["schemas"]:
+        if e.get("is_meta") or e.get("tier") not in ("stable", "draft") or e.get("disposition") != "retire":
+            continue
+        name = e["class_name"]
+        repl = [x for x in (targets.get(name, {}).get("decided_targets") or []) if x != name]
+        rows.append({"class_name": name, "replaced_by": repl, "decision": "",
+                     "note": e.get("disposition_note", "")})
+    out = {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
+        "title": "Classes did2.build refuses to build (disposition: retire)",
+        "description": ("DERIVED by tools/validate_v_eta.py (D5) from schemas/V_eta/index.json "
+                        "and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess "
+                        "Haley, 2026-10-24 [V2 builder refuses retired] "
+                        "(V_eta_go_forward_class_audit.md). Reading v1 and the generic "
+                        "migration are not affected."),
+        "retired": rows,
+    }
+    return {os.path.join(t.veta, "stable", "class_disposition_meta.json"): dumps(out, False)}, []
+
+
 def d3_relation_values(t, reg):
     out, bad = {}, []
     for carrier in ("directed_relation", "undirected_relation", "clock_alignment"):
@@ -744,7 +780,9 @@ def main(argv=None):
                ("D2 term_registry_meta.json", lambda: d2_term_registry(t)),
                ("D3 relation binding values", lambda: d3_relation_values(t, reg)),
                ("D4 ndi_mustBeNonEmpty stamp",
-                lambda: d4_ndi_stamp(t, not a.quiet_stamp, dict(writes)))]
+                lambda: d4_ndi_stamp(t, not a.quiet_stamp, dict(writes))),
+               ("D5 class_disposition_meta.json",
+                lambda: d5_class_disposition(t, d1_index(t)[0][os.path.join(t.veta, "index.json")]))]
     writes = {}
     for label, fn in derived:
         files, bad = fn()

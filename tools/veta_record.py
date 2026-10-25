@@ -20,6 +20,7 @@ TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {
     "CURIE_lookups_meta.json",
     "binding_registry_meta.json",
+    "class_disposition_meta.json",
     "did_schema_meta.json",
     "ndi_reserved_keys.json",
     "term_registry_meta.json",

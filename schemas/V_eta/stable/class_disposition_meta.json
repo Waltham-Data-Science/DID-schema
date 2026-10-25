@@ -1,0 +1,531 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
+    "title": "Classes did2.build refuses to build (disposition: retire)",
+    "description": "DERIVED by tools/validate_v_eta.py (D5) from schemas/V_eta/index.json and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired] (V_eta_go_forward_class_audit.md). Reading v1 and the generic migration are not affected.",
+    "retired": [
+        {
+            "class_name": "acquisition_epoch",
+            "replaced_by": [],
+            "decision": "",
+            "note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). V_eta_epoch_plan.md [JH position and distance]"
+        },
+        {
+            "class_name": "binnedspikeratevm",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "calculator",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "cell_type_labels",
+            "replaced_by": [
+                "calculation + term",
+                "calculation + label",
+                "directed_relation",
+                "entity (dataset)"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "control_stimulus_ids",
+            "replaced_by": [],
+            "decision": "",
+            "note": "consumed → item.control_item (#73 item 67; was timed_sequence)"
+        },
+        {
+            "class_name": "daqmetadatareader",
+            "replaced_by": [
+                "epoch_parameter_reader"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "daqreader",
+            "replaced_by": [
+                "entity (software)"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "daqreader_epochdata_ingested",
+            "replaced_by": [
+                "relative_time_reference"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "daqreader_image_epochdata_ingested",
+            "replaced_by": [
+                "observation + intensity",
+                "relative_time_reference",
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "daqsystem",
+            "replaced_by": [
+                "acquisition_system"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "distance_metadata",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "electrode_offset_voltage",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "element",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "ensemble",
+            "replaced_by": [
+                "entity (subject)",
+                "directed_relation",
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "Retired 2026-10-22 (Jess Haley [ensemble retired], V_eta_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (V_eta_migration_targets.json ensemble.how)."
+        },
+        {
+            "class_name": "epochfiles_ingested",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "epochid",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "file_reference",
+            "replaced_by": [
+                "opaque_body"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "filenavigator",
+            "replaced_by": [
+                "epoch_file_pattern"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "filter",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "fitcurve",
+            "replaced_by": [
+                "calculation + model_fit"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "gene_expression",
+            "replaced_by": [],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "gene_list",
+            "replaced_by": [
+                "term",
+                "sampled_body",
+                "directed_relation",
+                "entity (dataset)"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "gene_list_mapping",
+            "replaced_by": [
+                "directed_relation",
+                "score",
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "generic_file",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "hartley_calc",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, signed 2026-08-17). Tombstone kept so unmigrated documents validate"
+        },
+        {
+            "class_name": "hartley_reverse_correlation",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
+        },
+        {
+            "class_name": "jrclust_clusters",
+            "replaced_by": [
+                "calculation + label"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "kiasort_clusters",
+            "replaced_by": [
+                "calculation + label"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "kilosort_clusters",
+            "replaced_by": [
+                "calculation + label"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "measurement",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "neuron_extracellular",
+            "replaced_by": [
+                "entity (subject)",
+                "directed_relation",
+                "calculation + label",
+                "calculation + score",
+                "calculation + voltage",
+                "relative_time_reference",
+                "entity (software)"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "ngrid",
+            "replaced_by": [],
+            "decision": "",
+            "note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
+        },
+        {
+            "class_name": "oneepoch",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "ontology_image",
+            "replaced_by": [
+                "observation + intensity",
+                "observation + term",
+                "sampled_body",
+                "relative_time_reference"
+            ],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "ontology_label",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "ontology_table_row",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "openminds",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "openminds_element",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "openminds_stimulus",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "openminds_subject",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "position_metadata",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "probe_geometry",
+            "replaced_by": [
+                "observation + position",
+                "assertion + term",
+                "relative_time_reference"
+            ],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "probe_location",
+            "replaced_by": [],
+            "decision": "",
+            "note": "→ observations (needs-NDI / D10-11)"
+        },
+        {
+            "class_name": "pyraview",
+            "replaced_by": [
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "2.D → data_body fold"
+        },
+        {
+            "class_name": "reverse_correlation",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
+        },
+        {
+            "class_name": "simple_calc",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "site2channelmap",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "sorting_parameters",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "spatial_gene_expression_cells",
+            "replaced_by": [
+                "calculation + label",
+                "calculation + position",
+                "calculation + area",
+                "calculation + count",
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "spatial_gene_expression_pyramid",
+            "replaced_by": [
+                "observation + count",
+                "sampled_body",
+                "coordinate_system",
+                "calculation + count",
+                "entity (software)"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "spatial_gene_expression_tiles",
+            "replaced_by": [
+                "sampled_body"
+            ],
+            "decision": "",
+            "note": "#73: replaced by the spatial-transcriptomics design"
+        },
+        {
+            "class_name": "spike_clusters",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "spike_extraction_parameters",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "spike_extraction_parameters_modification",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "spike_interface_sorting_outputs",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "spikewaves",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_parameter",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_response",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_response_scalar",
+            "replaced_by": [
+                "calculation + harmonic_component"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_response_scalar_parameters",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_response_scalar_parameters_basic",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "subjectmeasurement",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "syncgraph",
+            "replaced_by": [
+                "clock_alignment_policy"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "syncrule",
+            "replaced_by": [
+                "clock_alignment_configuration"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "syncrule_mapping",
+            "replaced_by": [
+                "clock_alignment"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "tuning_fit",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "valid_interval",
+            "replaced_by": [
+                "observation + time"
+            ],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
+            "class_name": "vmneuralresponseresiduals",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "vmspikefilteringparameters",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "vmspikefit",
+            "replaced_by": [
+                "calculation + model_fit"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "vmspikesummary",
+            "replaced_by": [],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        }
+    ]
+}
