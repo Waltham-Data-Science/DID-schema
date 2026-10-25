@@ -60,6 +60,8 @@ Decision tags are quoted as `file:line [tag]`, all under `/home/user/DID-schema/
 | C23 | Fixed per-class variable labels emitted with no node: `jSorterOutput`/`jrclust_clusters` "spike cluster assignment", `neuron_extracellular` "spike sorter cluster index"/"spike sort quality"/"mean spike waveform", `stimulus_response_scalar` "stimulus response"/"stimulus", `hartley_calc` "represented quantity" {response estimate, significance}, `probe_geometry` "probe model", `jModelFit` "model fit", `jClockAlignmentBodies` "temporally aligned with", `syncrule` parameter names, `jContrastSensitivityValue` "spatial frequency", `treatment_transfer` default method "transfer" | One vocabulary choice per class (the variable names what the class means). | mostly none found; [sorter keys] `V_eta_go_forward_class_audit.md:1049` for the sorters | the class unit tests in testMigratorsJ* |
 | C24 | `+migrators_j/virus_injection.m` (~15-20) | A dilution of **0** → NaN (not recorded). | `V_eta_go_forward_class_audit.md:865` [virus-location] | testMigratorsJ; **no corpus** |
 
+*Correction, 2026-10-25, row C15: the code matches [non-area image node, revisited] (2026-10-22), which keeps a non-area node as the condition "ontology node" and counts it. The row's "still applies the 2026-10-21 rule" is wrong.*
+
 ## Bin A (PROPOSED): generic structural rule. Keep in the generic stage
 
 | # | file:function | what it decides | decision | coverage |

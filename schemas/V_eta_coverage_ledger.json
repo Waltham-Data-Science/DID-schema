@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 303,
+          "accepted_lines": 306,
           "accepted_lines_by_kind": {
-            "Decided by": 186,
+            "Decided by": 189,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1883,6 +1883,30 @@
               "tag": "V_eta stamp not accepted",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [V_eta stamp not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1132,
+              "kind": "Decided by",
+              "tag": "termNumberKind is per-dataset",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [termNumberKind is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1134,
+              "kind": "Decided by",
+              "tag": "WBStrain prefix is generic",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [WBStrain prefix is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1136,
+              "kind": "Decided by",
+              "tag": "generic stage is lossless",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [generic stage is"
             },
             {
               "document": "V_eta_image_model_plan.md",
