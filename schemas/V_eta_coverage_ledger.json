@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 314,
+          "accepted_lines": 315,
           "accepted_lines_by_kind": {
-            "Decided by": 197,
+            "Decided by": 198,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1971,6 +1971,14 @@
               "tag": "sliceTetanus to Dab map",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [sliceTetanus to Dab"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1154,
+              "kind": "Decided by",
+              "tag": "Soph paused",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [Soph paused]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
