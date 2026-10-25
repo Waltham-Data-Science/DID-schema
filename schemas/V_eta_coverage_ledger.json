@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 299,
+          "accepted_lines": 302,
           "accepted_lines_by_kind": {
-            "Decided by": 182,
+            "Decided by": 185,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1851,6 +1851,30 @@
               "tag": "compat write layer removed",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [compat write layer"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1124,
+              "kind": "Decided by",
+              "tag": "passthrough stays v1",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1126,
+              "kind": "Decided by",
+              "tag": "passthrough stays v1: how",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [passthrough stays v1"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1128,
+              "kind": "Decided by",
+              "tag": "document stamps",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [document stamps]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
