@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 317,
+          "accepted_lines": 318,
           "accepted_lines_by_kind": {
-            "Decided by": 200,
+            "Decided by": 201,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1995,6 +1995,14 @@
               "tag": "hartley method implied",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [hartley method implied]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1160,
+              "kind": "Decided by",
+              "tag": "schema set renamed did_v2",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [schema set renamed"
             },
             {
               "document": "V_eta_image_model_plan.md",
