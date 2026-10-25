@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 306,
+          "accepted_lines": 309,
           "accepted_lines_by_kind": {
-            "Decided by": 189,
+            "Decided by": 192,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1907,6 +1907,30 @@
               "tag": "generic stage is lossless",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [generic stage is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1138,
+              "kind": "Decided by",
+              "tag": "subject local identifier is an identifier",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [subject local identifier"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1140,
+              "kind": "Decided by",
+              "tag": "NewStim recipes are a default",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [NewStim recipes are a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1142,
+              "kind": "Decided by",
+              "tag": "no invented values",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no invented values]"
             },
             {
               "document": "V_eta_image_model_plan.md",
