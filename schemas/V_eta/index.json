@@ -1,6 +1,6 @@
 {
     "set_version": "V_eta",
-    "schema_version_value": "V_eta",
+    "schema_version_value": "did_v2",
     "based_on": "V_zeta",
     "tiers": [
         "stable",
