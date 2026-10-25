@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 315,
+          "accepted_lines": 317,
           "accepted_lines_by_kind": {
-            "Decided by": 198,
+            "Decided by": 200,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1979,6 +1979,22 @@
               "tag": "Soph paused",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [Soph paused]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1156,
+              "kind": "Decided by",
+              "tag": "lossless first, homes after",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [lossless first, homes"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1158,
+              "kind": "Decided by",
+              "tag": "hartley method implied",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [hartley method implied]"
             },
             {
               "document": "V_eta_image_model_plan.md",
