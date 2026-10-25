@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 320 decision line(s) accepted, 2 rejected; 41 cited by a class, 279 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 322 decision line(s) accepted, 2 rejected; 41 cited by a class, 281 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -523,6 +523,8 @@ field). If one decides a class's disposition, that class should cite it.
 - schema set renamed did_v2. "Decided by Jess Haley, 2026-10-25 [schema set renamed" (V_eta_go_forward_class_audit.md:1160).
 - pyramid type kept as text. "Decided by Jess Haley, 2026-10-25 [pyramid type kept as" (V_eta_go_forward_class_audit.md:1162).
 - no-source pyramid carried as v1. "Decided by Jess Haley, 2026-10-25 [no-source pyramid" (V_eta_go_forward_class_audit.md:1164).
+- one free-text field: notes. "Decided by Jess Haley, 2026-10-25 [one free-text field" (V_eta_go_forward_class_audit.md:1166).
+- no-source pyramid gets a file-less store body. "Decided by Jess Haley, 2026-10-25 [no-source pyramid gets a" (V_eta_go_forward_class_audit.md:1168).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:97).

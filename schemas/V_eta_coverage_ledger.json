@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 320,
+          "accepted_lines": 322,
           "accepted_lines_by_kind": {
-            "Decided by": 203,
+            "Decided by": 205,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2019,6 +2019,22 @@
               "tag": "no-source pyramid carried as v1",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [no-source pyramid"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1166,
+              "kind": "Decided by",
+              "tag": "one free-text field: notes",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [one free-text field"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1168,
+              "kind": "Decided by",
+              "tag": "no-source pyramid gets a file-less store body",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no-source pyramid gets a"
             },
             {
               "document": "V_eta_image_model_plan.md",
