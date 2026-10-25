@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 310,
+          "accepted_lines": 314,
           "accepted_lines_by_kind": {
-            "Decided by": 193,
+            "Decided by": 197,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1939,6 +1939,38 @@
               "tag": "dataset name not invented",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [dataset name not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1146,
+              "kind": "Decided by",
+              "tag": "NDI CI picks DID branch",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [NDI CI picks DID"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1148,
+              "kind": "Decided by",
+              "tag": "merge when green",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [merge when green]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1150,
+              "kind": "Decided by",
+              "tag": "partly placed is carried as v1",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [partly placed is carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1152,
+              "kind": "Decided by",
+              "tag": "sliceTetanus to Dab map",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [sliceTetanus to Dab"
             },
             {
               "document": "V_eta_image_model_plan.md",
