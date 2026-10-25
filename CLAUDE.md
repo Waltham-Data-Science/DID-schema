@@ -434,29 +434,34 @@ or the status board.
 
 ## 6. Open caveats (true at the heads named in the notes)
 
-- **No corpus is reported done.** On DID-matlab 82453f4 (Test code run
-  39907038888, 2026-10-23) every corpus passes integrity, and the done report
+Re-checked 2026-10-25 at DID-matlab `V2` 0949d61 and NDI-matlab `V2` 13dbcdc.
+
+- **No corpus is reported done.** On DID-matlab 0949d61 (Test code run
+  40176326172, 2026-10-25) every corpus passes integrity, and the done report
   reads "DONE on the DID side; PENDING the NDI e2e for the second-pass
-  class(es)" for 20211116, B, Dab, JH and Soph. 13 v1 classes stay as v1
+  class(es)" for 20211116, B, Dab, JH and Soph, and "DONE on the DID side
+  (pending stage-4 corpus-proof)" for PRED. 13 v1 classes stay as v1
   documents by decision ([v1 passthroughs accepted]), so a corpus holding one
   is not done.
 - **`BindingConformance` is disarmed by default.** DID-matlab
   `+did2/+schema/cache.m` reads it with `envFlag('DID_ENFORCE_BINDING_CONFORMANCE')`,
-  so it is on only when set. `RequiredDependencies`, `NonVacuousFields` and
-  `TermRegistry` are armed by default (`~envFlagIsOff(...)`).
+  so it is on only when set. `RequiredDependencies`, `NonVacuousFields`,
+  `TermRegistry`, `RetiredClasses` and `ValueInlineOrBody` are armed by default
+  (`~envFlagIsOff(...)`).
 - **Variable bindings are `preferred`, not `required`** (OPEN_WORK #129).
-- **The value rule (`value_inline_or_body`) is decided, not signed**
-  (`V_eta_data_body_model_plan.md`, AMENDMENT 5).
 - **NDI `+daq/reader.m` reads `document_properties.epochid.epochid`** for
   ingested epochs. Whether this breaks on a migrated ingested corpus is
   unverified.
 - **`readtimeseries` has no test on migrated data.** The corpus zips are
-  document-only and carry no binary files. Unverified whether that changed.
+  document-only and carry no binary files. NDI tests that name it
+  (`TestAddedEpoch`, `TestEnsembleMembership`) check the epoch query and the
+  fixture shape; none reads a time series from a migrated session.
 - **Migrated `element` name and reference are stored together** as
-  `'%s (ref %s)'` in `local_identifier`, without escaping
-  (NDI `+vintage/elementFields.m`).
+  `'%s (ref %s)'` in `local_identifier`, without escaping (written by DID-matlab
+  `+migrators_j/element.m` and `resolveEpochProbemap.m`; read back by NDI
+  `+vintage/elementFields.m`).
 - **`imageStack_parameters` and the demo-series classes have no target and no
   dissolution recorded.** See the coverage ledger's no-target census.
 - **`binnedspikeratevm`'s unit (Hz vs spikes per bin) cannot be read**: the
-  `vhlab_voltage2firingrate` writer is in no repository we hold. Unverified
-  whether that is still true.
+  `vhlab_voltage2firingrate` writer is in no repository we hold (NDI-matlab
+  holds only its templates under `ndi_common/database_documents/apps/`).
