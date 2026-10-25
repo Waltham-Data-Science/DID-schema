@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 319,
+          "accepted_lines": 320,
           "accepted_lines_by_kind": {
-            "Decided by": 202,
+            "Decided by": 203,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2011,6 +2011,14 @@
               "tag": "pyramid type kept as text",
               "date": "2026-10-25",
               "anchor": "Decided by Jess Haley, 2026-10-25 [pyramid type kept as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1164,
+              "kind": "Decided by",
+              "tag": "no-source pyramid carried as v1",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no-source pyramid"
             },
             {
               "document": "V_eta_image_model_plan.md",
