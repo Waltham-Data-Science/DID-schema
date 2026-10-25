@@ -358,7 +358,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 326 decision line(s) accepted, 2 rejected; 41 cited by a class, 285 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 329 decision line(s) accepted, 2 rejected; 41 cited by a class, 288 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -529,9 +529,12 @@ field). If one decides a class's disposition, that class should cite it.
 - retired classes leave V2. "Decided by Jess Haley, 2026-10-25 [retired classes leave" (V_eta_go_forward_class_audit.md:1172).
 - v1 set in did-schema. "Decided by Jess Haley, 2026-10-25 [v1 set in did-schema]: (" (V_eta_go_forward_class_audit.md:1174).
 - markdown out of schemas. "Decided by Jess Haley, 2026-10-25 [markdown out of" (V_eta_go_forward_class_audit.md:1176).
+- neuron derived from its sorting run. "Decided by Jess Haley, 2026-10-25 [neuron derived from its" (V_eta_go_forward_class_audit.md:1178).
+- session membership records linked or ingested. "Decided by Jess Haley, 2026-10-25 [session membership" (V_eta_go_forward_class_audit.md:1180).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
-- nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:97).
+- linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
+- nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:99).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
 - non-grating stimuli as methods. "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as" (V_eta_method_plan.md:190).

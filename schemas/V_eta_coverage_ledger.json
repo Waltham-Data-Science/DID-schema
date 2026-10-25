@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 326,
+          "accepted_lines": 329,
           "accepted_lines_by_kind": {
-            "Decided by": 209,
+            "Decided by": 212,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2069,6 +2069,22 @@
               "anchor": "Decided by Jess Haley, 2026-10-25 [markdown out of"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1178,
+              "kind": "Decided by",
+              "tag": "neuron derived from its sorting run",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [neuron derived from its"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1180,
+              "kind": "Decided by",
+              "tag": "session membership records linked or ingested",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [session membership"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -2087,6 +2103,14 @@
             {
               "document": "V_eta_linked_session_plan.md",
               "line": 97,
+              "kind": "Decided by",
+              "tag": "linked_session withdrawn",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [linked_session"
+            },
+            {
+              "document": "V_eta_linked_session_plan.md",
+              "line": 99,
               "kind": "Decided by",
               "tag": "nested studies",
               "date": "2026-10-23",
