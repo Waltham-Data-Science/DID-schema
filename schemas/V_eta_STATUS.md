@@ -352,7 +352,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 382 decision line(s) accepted, 2 rejected; 41 cited by a class, 341 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 383 decision line(s) accepted, 2 rejected; 41 cited by a class, 342 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -578,6 +578,7 @@ field). If one decides a class's disposition, that class should cite it.
 - unlabelled units need a map. "Decided by Jess Haley, 2026-10-26 [unlabelled units need a" (V_eta_go_forward_class_audit.md:1282).
 - element types have no default. "Decided by Jess Haley, 2026-10-26 [element types have no" (V_eta_go_forward_class_audit.md:1284).
 - dependents of a carried document carry. "Decided by Jess Haley, 2026-10-26 [dependents of a carried" (V_eta_go_forward_class_audit.md:1286).
+- electrode spellings and imaging types are devices. "Decided by Jess Haley, 2026-10-26 [electrode spellings and" (V_eta_go_forward_class_audit.md:1288).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
