@@ -39,7 +39,7 @@ Last updated 2026-10-26.
 | Dataset-specific logic out of the generic migration | done for Haley (covered by the Haley V2 import) and JH; **Babu is now covered by nothing** (see question 7) |
 | Schema set renamed `did_v2` (did-schema part) | done (#132); siblings still accept both names |
 | Carry register and its gate | did-schema #134, CI green, waiting to merge |
-| Dataset map: may edit V2 documents | decided (#141) |
+| Dataset map: may edit V2 documents; one file per dataset in NDI-matlab, its own step | decided (#141) |
 
 ## What's next, in order
 
@@ -64,9 +64,8 @@ Last updated 2026-10-26.
 
 Dataset map:
 
-1. Where does a map live and run? Proposed: one map file per dataset in
-   NDI-matlab, next to that dataset's importer and decision log, applied by
-   its own step on the written V2 database.
+1. (Decided, [dataset map location]: one file per dataset in NDI-matlab,
+   applied by its own step on the written V2 database.)
 2. Does the Haley dataset need a map, or does its V2 import cover
    everything?
 3. May a map row match on label words, or only on exact v1 values?
