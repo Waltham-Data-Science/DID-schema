@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 348,
+          "accepted_lines": 350,
           "accepted_lines_by_kind": {
-            "Decided by": 231,
+            "Decided by": 233,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2235,6 +2235,22 @@
               "tag": "writer default is not set",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [writer default is not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1220,
+              "kind": "Decided by",
+              "tag": "one correct reading",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [one correct reading]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1222,
+              "kind": "Decided by",
+              "tag": "run environment on interactions",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [run environment on"
             },
             {
               "document": "V_eta_image_model_plan.md",
