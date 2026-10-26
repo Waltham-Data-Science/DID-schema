@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 395,
+          "accepted_lines": 397,
           "accepted_lines_by_kind": {
-            "Decided by": 278,
+            "Decided by": 280,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2611,6 +2611,22 @@
               "tag": "pipeline defects are not carries",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [pipeline defects are not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1314,
+              "kind": "Decided by",
+              "tag": "unresolved recorded elements make a standalone item",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [unresolved recorded"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1316,
+              "kind": "Decided by",
+              "tag": "extra field on an ingested stimulus file is malformed",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [extra field on an"
             },
             {
               "document": "V_eta_image_model_plan.md",
