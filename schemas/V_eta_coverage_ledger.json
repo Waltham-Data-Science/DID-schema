@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 354,
+          "accepted_lines": 356,
           "accepted_lines_by_kind": {
-            "Decided by": 237,
+            "Decided by": 239,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2283,6 +2283,22 @@
               "tag": "term-stated unit is generic",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [term-stated unit is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1232,
+              "kind": "Decided by",
+              "tag": "software_id is what produced the statement",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [software_id is what"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1234,
+              "kind": "Decided by",
+              "tag": "stimulus_presentation retired",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [stimulus_presentation"
             },
             {
               "document": "V_eta_image_model_plan.md",
