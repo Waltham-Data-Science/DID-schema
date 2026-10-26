@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 379,
+          "accepted_lines": 382,
           "accepted_lines_by_kind": {
-            "Decided by": 262,
+            "Decided by": 265,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2483,6 +2483,30 @@
               "tag": "sorted units are cells or groups",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [sorted units are cells"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1282,
+              "kind": "Decided by",
+              "tag": "unlabelled units need a map",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [unlabelled units need a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1284,
+              "kind": "Decided by",
+              "tag": "element types have no default",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [element types have no"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1286,
+              "kind": "Decided by",
+              "tag": "dependents of a carried document carry",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dependents of a carried"
             },
             {
               "document": "V_eta_image_model_plan.md",
