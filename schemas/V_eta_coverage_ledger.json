@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 346,
+          "accepted_lines": 347,
           "accepted_lines_by_kind": {
-            "Decided by": 229,
+            "Decided by": 230,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2219,6 +2219,14 @@
               "tag": "device clocks on one epoch",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [device clocks on one"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1216,
+              "kind": "Decided by",
+              "tag": "clock terms get nodes",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [clock terms get nodes]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
