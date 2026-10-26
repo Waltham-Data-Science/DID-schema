@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 341,
+          "accepted_lines": 342,
           "accepted_lines_by_kind": {
-            "Decided by": 224,
+            "Decided by": 225,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2179,6 +2179,14 @@
               "tag": "spelling is notation",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [spelling is notation]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1206,
+              "kind": "Decided by",
+              "tag": "Haley logic leaves the generic migration",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [Haley logic leaves the"
             },
             {
               "document": "V_eta_image_model_plan.md",
