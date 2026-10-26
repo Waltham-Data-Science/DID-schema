@@ -1407,7 +1407,7 @@
         "stimulus_element_id",
         "the responding subjects"
       ],
-      "when": "its subject resolves to several animals that cannot be one shared event: stimulator links lead to different animals (conflicting records), or several animals with no session cohort supplied (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'several animals: ...')",
+      "when": "the lab's records name DIFFERENT animals for one presentation (e.g. the probe map assigns the stimulator to one animal, the epoch's recorded elements to another): conflicting records are not a shared event (V_eta_stimulus_model_plan.md operating rule 4). Several animals recorded together in the session are NOT carried: they get one manipulation on the session's standing cohort (rule 2) (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -1419,7 +1419,7 @@
       ],
       "decides": "which animal (or the cohort) received the stimulus; the v1 records disagree",
       "resolved_by": "the dataset map entry for that presentation (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-083",
@@ -1565,7 +1565,7 @@
         "control_stimulus_ids.control_stimulus_id_method",
         "app"
       ],
-      "when": "no base.id or session; control_stimulus_id_method is not a block; a trial has no control (NaN or empty); the pairing has another length than the trials or names a non-trial; or its app block is not a block, holds non-text, names no program, or gives an OS or interpreter version with no name (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "when": "no base.id or session; control_stimulus_id_method is not a block; a trial's control is empty (a NaN control is NOT carried: NDI's writer writes NaN for 'no control', [NaN control means no control]); the pairing has another length than the trials or names a non-trial; or its app block is not a block, holds non-text, names no program, or gives an OS or interpreter version with no name (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
       "kind": "malformed",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
