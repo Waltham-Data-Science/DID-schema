@@ -40,7 +40,7 @@ def _load_tool(name):
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json",
@@ -125,7 +125,7 @@ def test_index_agrees_with_disk():
     on_disk = set(RECORDS) | {f[:-5] for f in META_FILES}
     in_index = {e["class_name"] for e in INDEX["schemas"]}
     assert on_disk == in_index, f"index/disk drift: {on_disk ^ in_index}"
-    assert INDEX["set_version"] == "V_eta"
+    assert INDEX["set_version"] == "did_v2"
     assert INDEX["based_on"] == "V_zeta"
 
 
@@ -2241,7 +2241,7 @@ def _decisions():
 
 def test_decisions_artifact_exists_and_covers_every_open_class():
     dec = _decisions()
-    with open(os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json")) as fh:
+    with open(os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json")) as fh:
         idx = json.load(fh)
     open_classes = {s["class_name"] for s in idx["schemas"]
                     if s.get("disposition") == "in_progress"}
@@ -3993,7 +3993,7 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
     retire -> persist with no one deciding it. `ngrid` moved from in_progress to
     retire in the same fix: both readings of its disputed record end with no V_eta
     class."""
-    idx = _load(os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json"))
+    idx = _load(os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json"))
     found = {}
 
     def walk(x):
@@ -4553,7 +4553,7 @@ def test_a6_no_class_declares_the_removed_fields():
 
 def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(root, "schemas", "V_eta", "stable",
+    with open(os.path.join(root, "schemas", "did_v2", "stable",
                            "CURIE_lookups_meta.json")) as fh:
         xco = json.load(fh)["prefixes"]["xco"]
     assert xco["spelling"] == "XCO" and xco["uri_base"].endswith("/obo/XCO_")

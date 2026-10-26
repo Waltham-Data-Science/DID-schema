@@ -1,4 +1,4 @@
-"""tools/validate_v_eta.py: the JSON under schemas/V_eta is the source (#128).
+"""tools/validate_v_eta.py: the JSON under schemas/did_v2 is the source (#128).
 
 Each test plants ONE defect in a scratch copy of the tree and asserts the
 validator names it. A rule that passes on the real tree and on every planted
@@ -16,7 +16,7 @@ from contextlib import redirect_stdout
 import pytest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO, "schemas", "V_eta")
+VETA = os.path.join(REPO, "schemas", "did_v2")
 _spec = importlib.util.spec_from_file_location(
     "_validate_v_eta", os.path.join(REPO, "tools", "validate_v_eta.py"))
 V = importlib.util.module_from_spec(_spec)

@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-STABLE = Path(__file__).resolve().parent.parent / "schemas/V_eta/stable"
+STABLE = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable"
 
 
 def test_a_formulation_can_say_what_kind_of_mixture_it_is():

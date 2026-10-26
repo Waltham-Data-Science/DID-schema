@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
     "title": "Classes did2.build refuses to build (disposition: retire)",
-    "description": "DERIVED by tools/validate_v_eta.py (D5) from schemas/V_eta/index.json and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired] (V_eta_go_forward_class_audit.md). Reading v1 and the generic migration are not affected.",
+    "description": "DERIVED by tools/validate_v_eta.py (D5) from schemas/did_v2/index.json and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired] (V_eta_go_forward_class_audit.md). Reading v1 and the generic migration are not affected.",
     "retired": [
         {
             "class_name": "acquisition_epoch",

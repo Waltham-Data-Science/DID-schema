@@ -456,7 +456,7 @@ def test_refresh_records_a_v_eta_index_it_could_not_read(monkeypatch):
     import refresh_migration_targets as rmt
 
     def boom():
-        raise FileNotFoundError("schemas/V_eta/index.json")
+        raise FileNotFoundError("schemas/did_v2/index.json")
 
     monkeypatch.setattr(rmt.COV, "veta_index", boom)
     rmt.VETA_INDEX.update({"classes": 0, "read": False, "why": None})

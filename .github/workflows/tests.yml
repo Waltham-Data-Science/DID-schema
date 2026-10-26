@@ -20,7 +20,7 @@ jobs:
   # artifacts CLAUDE.md calls "CHECKED IN CI" were, three of them, not.
   #
   # `--ci` implies `--check`: everything is regenerated into a scratch mirror
-  # and diffed against the checkout, so a hand-edited schemas/V_eta or a stale
+  # and diffed against the checkout, so a hand-edited schemas/did_v2 or a stale
   # V_eta_final_class_set.md now fails here. Nothing is written back.
   #
   # THIS COMMENT USED TO SAY the five sibling-reading steps were "the concrete
@@ -171,7 +171,7 @@ jobs:
       # NEW HERE, and the reason the driver is a superset rather than a
       # rearrangement: build_v_eta and regen_final_class_set now run and their
       # output is diffed. Before this, CI never rebuilt the schema set at all,
-      # so a hand-edit to schemas/V_eta/*.json passed every gate.
+      # so a hand-edit to schemas/did_v2/*.json passed every gate.
       - name: Regenerate-and-gate chain (tools/gates.py)
         run: python3 tools/gates.py --ci
 

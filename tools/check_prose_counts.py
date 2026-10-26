@@ -113,7 +113,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_DIR = os.path.join(REPO, "schemas")
-VETA = os.path.join(SCHEMA_DIR, "V_eta")
+VETA = os.path.join(SCHEMA_DIR, "did_v2")
 LEDGER = os.path.join(SCHEMA_DIR, "V_eta_coverage_ledger.json")
 GROUND_TRUTH = os.path.join(SCHEMA_DIR, "V_eta_ndi_ground_truth.json")
 REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
@@ -148,7 +148,7 @@ class Unavailable(Exception):
 def _veta_docs():
     """(json file count, [document_class block, ...]) over the BUILT V_eta set."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is missing")
+        raise Unavailable("schemas/did_v2 is missing")
     files, blocks = 0, []
     for root, _dirs, names in os.walk(VETA):
         for n in sorted(names):
@@ -230,7 +230,7 @@ def derive_bound_fields():
     prints it as its own denominator. Re-implementing it here is how the
     top-level-only sweep missed the two nested bindings and reported 14."""
     if not os.path.isdir(VETA):
-        raise Unavailable("schemas/V_eta is missing")
+        raise Unavailable("schemas/did_v2 is missing")
     sys.path.insert(0, HERE)
     try:
         import regen_binding_strengths
@@ -351,10 +351,10 @@ class Noun:
 _N = r"(?<![\w.])(\d[\d,]*)"
 
 NOUNS = [
-    Noun("veta_schema_files", "json files under schemas/V_eta/",
+    Noun("veta_schema_files", "json files under schemas/did_v2/",
          derive_veta_schema_files,
-         [_N + r"\s+json files?(?:\(s\))?\s+under\s+`?schemas/V_eta",
-          _N + r"\s+json file\(s\)\s+under\s+`?schemas/V_eta"]),
+         [_N + r"\s+json files?(?:\(s\))?\s+under\s+`?schemas/did_v2",
+          _N + r"\s+json file\(s\)\s+under\s+`?schemas/did_v2"]),
 
     Noun("veta_class_names", "distinct V_eta class names",
          derive_veta_class_names,
@@ -470,7 +470,7 @@ DATEISH_RE = re.compile(r"^-\d")
 
 
 # A COUNT OVER A NARROWED SET IS A DIFFERENT COUNT, and the corpus says so out
-# loud: `245 json files under schemas/V_eta read (examples/ excluded)` is not a
+# loud: `245 json files under schemas/did_v2 read (examples/ excluded)` is not a
 # stale 247, it is 247 minus the two examples. Such a claim is REPORTED as
 # SCOPED and left unchecked -- adjudicating it would need the vocabulary to
 # model every narrowing anyone might write, and guessing is how a checker

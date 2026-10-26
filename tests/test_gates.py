@@ -121,7 +121,7 @@ def test_ci_owns_no_second_list_of_gates():
     """CI and the driver must be ONE list, not two that agree today.
 
     They were two, and they had diverged: the workflow ran 8 of the 16 steps and
-    never rebuilt the schema set at all, so a hand-edit under schemas/V_eta
+    never rebuilt the schema set at all, so a hand-edit under schemas/did_v2
     passed every gate -- while CLAUDE.md said the generated artifacts were
     "CHECKED IN CI and fail when stale". This asserts the workflow invokes no
     gate of its own: every `run:` that reaches for a tool, pytest or ruff must

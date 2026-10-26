@@ -160,7 +160,7 @@ def test_derivations_match_an_independent_recomputation():
     reddens. Each expected value is recomputed here by a DIFFERENT route --
     shell/glob/json rather than the tool's own walk -- so a derivation replaced
     by `return <whatever the prose says>` disagrees with something."""
-    veta = os.path.join(REPO_ROOT, "schemas", "V_eta")
+    veta = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
     files = subprocess.run(["find", veta, "-name", "*.json"],
                            capture_output=True, text=True, check=True)
@@ -298,10 +298,10 @@ def _require_didmatlab():
 
 
 def test_a_scoped_count_is_exempt_and_reported(tmp_path):
-    """`245 json files under schemas/V_eta read (examples/ excluded)` is a
+    """`245 json files under schemas/did_v2 read (examples/ excluded)` is a
     different count, not a stale one."""
     derived = C.derive_veta_schema_files()
-    text = (f"DENOMINATOR: {derived - 2} json files under schemas/V_eta read "
+    text = (f"DENOMINATOR: {derived - 2} json files under schemas/did_v2 read "
             "(examples/ excluded)\n")
     claims, (agree, disagree, _sup, undecidable), _ = _adjudicate_text(
         tmp_path, text, "veta_schema_files")

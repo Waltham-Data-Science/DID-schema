@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REG = ROOT / "schemas" / "V_eta" / "stable" / "binding_registry_meta.json"
-BASE = ROOT / "schemas" / "V_eta" / "stable" / "base.json"
+REG = ROOT / "schemas" / "did_v2" / "stable" / "binding_registry_meta.json"
+BASE = ROOT / "schemas" / "did_v2" / "stable" / "base.json"
 PASSES = {"assertions", "distributive", "context", "nothing"}
 # entity types are stored by their ontology label since 2026-10-22 (Jess Haley
 # [vocabulary nodes] L2); culture has no node and keeps its name

@@ -52,7 +52,7 @@ import os
 from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 # The seven concrete classes the collapse targets, SPLIT 2026-08-11 into the
 # ones that must still be present and the ones that must now be GONE. Named
@@ -89,7 +89,7 @@ def _built():
     """The built CLASS set. `examples/` is EXCLUDED, and that exclusion was
     missing until 2026-08-11, when `test_the_collapsed_reference_classes_stay_
     deleted` reported `utc_reference` "came back" after the class file had been
-    deleted. It had not. `schemas/V_eta/examples/utc_reference_grid.json` is an
+    deleted. It had not. `schemas/did_v2/examples/utc_reference_grid.json` is an
     example DOCUMENT INSTANCE and carries a `document_class` block naming its
     class, so a glob over `V_eta/*/*.json` reads it as a class declaration.
 

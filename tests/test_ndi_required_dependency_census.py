@@ -29,7 +29,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 GT_PATH = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
@@ -106,7 +106,7 @@ def _targets_map():
 def _run_stamp(**kw):
     """Run the stamp over a THROWAWAY COPY of the built tree.
 
-    Never over `schemas/V_eta` itself: the tree is a checked-in generated
+    Never over `schemas/did_v2` itself: the tree is a checked-in generated
     artifact and a test that mutates it would make the staleness gate report a
     diff that the test, not the schema, produced."""
     tmp = os.path.join(REPO_ROOT, "schemas", ".V_eta_cause_test")

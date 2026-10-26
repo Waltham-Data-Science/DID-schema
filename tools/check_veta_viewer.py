@@ -5,7 +5,7 @@ WHY THIS EXISTS
 ---------------
 The web viewer's V_eta shape panel (`web/src/veta/`, issue #72) renders the
 go-forward class set straight from the files: Vite globs
-`schemas/V_eta/**/*.json` and imports `schemas/V_eta_final_class_set.md` and
+`schemas/did_v2/**/*.json` and imports `schemas/V_eta_final_class_set.md` and
 `schemas/V_eta_tenets.md` as raw text AT BUILD TIME. No class data is copied
 into the viewer, so the bundle cannot be a stale snapshot of its own commit.
 

@@ -55,12 +55,12 @@ def make_repo(tmp_path, names=None, final_set=None, tenets=None):
     for f in ("sources.ts", "grammar.json"):
         shutil.copy(os.path.join(REPO_ROOT, "web", "src", "veta", f), veta / f)
     names = names if names is not None else [f"class_{i}" for i in range(7)] + ["gone_one"]
-    stable = root / "schemas" / "V_eta" / "stable"
+    stable = root / "schemas" / "did_v2" / "stable"
     stable.mkdir(parents=True)
     for n in names:
         (stable / f"{n}.json").write_text(json.dumps(_class(n)))
-    (root / "schemas" / "V_eta" / "index.json").write_text(json.dumps(
-        {"schemas": [{"class_name": n, "path": f"schemas/V_eta/stable/{n}.json"}
+    (root / "schemas" / "did_v2" / "index.json").write_text(json.dumps(
+        {"schemas": [{"class_name": n, "path": f"schemas/did_v2/stable/{n}.json"}
                      for n in names]}))
     if final_set is None:
         final_set = _final_set([[f"class_{i}"] for i in range(7)], ["gone_one"])
@@ -79,7 +79,7 @@ def test_a_clean_fixture_passes(tmp_path):
 
 def test_a_class_in_no_category_fails(tmp_path):
     root = make_repo(tmp_path)
-    (root / "schemas" / "V_eta" / "stable" / "orphan_class.json").write_text(
+    (root / "schemas" / "did_v2" / "stable" / "orphan_class.json").write_text(
         json.dumps(_class("orphan_class")))
     fails = cv.check(str(root))
     assert any("orphan_class" in f and "in no category" in f for f in fails)
@@ -121,7 +121,7 @@ def test_a_missing_tenet_fails(tmp_path):
 def test_the_glob_is_derived_from_sources_ts(tmp_path):
     root = make_repo(tmp_path)
     src = root / "web" / "src" / "veta" / "sources.ts"
-    src.write_text(src.read_text().replace("V_eta/**/*.json", "V_zeta/**/*.json"))
+    src.write_text(src.read_text().replace("did_v2/**/*.json", "V_zeta/**/*.json"))
     fails = cv.check(str(root))
     assert any("sources.ts globs" in f for f in fails)
 

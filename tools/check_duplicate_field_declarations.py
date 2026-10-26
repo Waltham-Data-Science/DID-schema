@@ -127,7 +127,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-SCHEMA_ROOT = os.path.join(REPO, "schemas", "V_eta")
+SCHEMA_ROOT = os.path.join(REPO, "schemas", "did_v2")
 
 # The did_v1 truth, extracted from NDI origin/main by tools/ndi_ground_truth.py.
 # READ, never written here. Its absence is an ERROR, not a fallback: a split that

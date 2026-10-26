@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The record the V_eta builder left behind: the data tools still read.
 
-Until 2026-10-21 `tools/build_v_eta.py` rebuilt `schemas/V_eta/` from V_zeta by
+Until 2026-10-21 `tools/build_v_eta.py` rebuilt `schemas/did_v2/` from V_zeta by
 replaying ~43 dated sections, and several tools parsed literals out of its
 source (RENAME, `_DELETE_PHASE8`, ...). The built JSON is now the source
 (OPEN_WORK #128, Jess Haley 2026-10-21) and `tools/validate_v_eta.py` checks

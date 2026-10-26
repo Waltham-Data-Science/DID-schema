@@ -7,7 +7,7 @@ group holds of each member.
 import json
 from pathlib import Path
 
-STABLE = Path(__file__).resolve().parent.parent / "schemas/V_eta/stable"
+STABLE = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable"
 
 
 def _fields(cls):

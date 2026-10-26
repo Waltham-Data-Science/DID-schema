@@ -14,9 +14,9 @@
 // inputs as plain string literals here -- Vite requires it, and so does the
 // gate.
 
-// Every JSON file under schemas/V_eta/, keyed by its path relative to this
-// module (e.g. "../../../schemas/V_eta/stable/strain.json").
-export const VETA_FILES = import.meta.glob("../../../schemas/V_eta/**/*.json", {
+// Every JSON file under schemas/did_v2/, keyed by its path relative to this
+// module (e.g. "../../../schemas/did_v2/stable/strain.json").
+export const VETA_FILES = import.meta.glob("../../../schemas/did_v2/**/*.json", {
   eager: true,
   import: "default",
 }) as Record<string, unknown>;
@@ -29,5 +29,5 @@ export { default as FINAL_CLASS_SET_MD } from "../../../schemas/V_eta_final_clas
 export { default as TENETS_MD } from "../../../schemas/V_eta_tenets.md?raw";
 
 // The prefix every VETA_FILES key starts with, so a key can be turned back
-// into a repository path ("schemas/V_eta/stable/strain.json").
+// into a repository path ("schemas/did_v2/stable/strain.json").
 export const VETA_KEY_PREFIX = "../../../";

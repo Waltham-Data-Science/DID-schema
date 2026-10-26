@@ -90,10 +90,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-VETA = os.path.join(REPO, "schemas", "V_eta")
+VETA = os.path.join(REPO, "schemas", "did_v2")
 TIERS = ("stable", "draft", "deprecated")
 
-REGISTRY_REL = os.path.join("schemas", "V_eta", "stable",
+REGISTRY_REL = os.path.join("schemas", "did_v2", "stable",
                             "binding_registry_meta.json")
 
 # The registry's list-valued blocks. Same set and same normativity flags as
