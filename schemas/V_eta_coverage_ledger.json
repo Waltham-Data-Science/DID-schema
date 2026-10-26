@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 332,
+          "accepted_lines": 335,
           "accepted_lines_by_kind": {
-            "Decided by": 215,
+            "Decided by": 218,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2107,6 +2107,30 @@
               "tag": "control selection on the presentation method",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [control selection on the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1188,
+              "kind": "Decided by",
+              "tag": "lossless means round trip",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [lossless means round"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1190,
+              "kind": "Decided by",
+              "tag": "hartley leftovers checked",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [hartley leftovers"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1192,
+              "kind": "Decided by",
+              "tag": "restated values checked",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [restated values"
             },
             {
               "document": "V_eta_image_model_plan.md",
