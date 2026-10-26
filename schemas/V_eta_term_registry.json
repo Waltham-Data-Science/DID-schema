@@ -5624,6 +5624,2157 @@
       "decided": "Jess Haley, 2026-10-22 [calculator units], V_eta_tuning_model_plan.md: the unit of a spatial-frequency preferred value (C1); no ontology term found (OLS4: OM, UO, NCIT), node not chosen",
       "first_used_in": "spatial_frequency_tuning_calculation preferred values",
       "obsolete": false
+    },
+    {
+      "name": "database ingestion",
+      "node": "EMPTY:0000399",
+      "definition": "A process in which the records held in one database are copied into another database, which thereafter holds them itself.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "obsolete": false
+    },
+    {
+      "name": "database linking",
+      "node": "EMPTY:0000400",
+      "definition": "A process in which one database records a reference to another database stored elsewhere, whose records stay where they are and are read from there.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "obsolete": false
+    },
+    {
+      "name": "software class",
+      "node": "EMPTY:0000401",
+      "definition": "A class defined in a software library, named by its fully qualified name, whose constructor creates an object from a list of arguments.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "obsolete": false
+    },
+    {
+      "name": "Pathname",
+      "node": "NCIT:C47922",
+      "definition": "The specification of a node (file or directory) in a hierarchical file system, usually specified by listing the nodes top-down.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "obsolete": false
+    },
+    {
+      "name": "value range",
+      "node": "EMPTY:0000402",
+      "definition": "The lowest and highest values that the values of a data body may take, given as a pair [minimum maximum].",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a data body condition (V_eta_go_forward_class_audit.md [image file details placed])",
+      "obsolete": false
+    },
+    {
+      "name": "UTC",
+      "node": "wikidata:Q1536",
+      "definition": "Principal time standard that underlies civil times on Earth.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "obsolete": false
+    },
+    {
+      "name": "device local time",
+      "node": "EMPTY:0000403",
+      "definition": "A time scale kept by a recording device that runs only within one recording epoch, so that times on it cannot be compared across epochs.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "obsolete": false
+    },
+    {
+      "name": "device global time",
+      "node": "EMPTY:0000404",
+      "definition": "A time scale kept by a recording device that runs continuously across its recording epochs, so that times on it can be compared across those epochs of that device.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "obsolete": false
+    },
+    {
+      "name": "experiment global time",
+      "node": "EMPTY:0000405",
+      "definition": "A time scale shared by all the devices of an experiment, to which their own clocks are aligned, so that times from different devices can be compared.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "obsolete": false
+    },
+    {
+      "name": "Technique",
+      "node": "NCIT:C16847",
+      "definition": "A practiced and regimented skill or series of actions.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Scientific Data Type",
+      "node": "NCIT:C175886",
+      "definition": "The category of scientific data generated from an experiment or a study and/or recorded in a document or file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding variable (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "3D computer graphic modeling",
+      "node": "openminds:technique/3DComputerGraphicModeling",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "3D polarized light imaging",
+      "node": "openminds:technique/3DPolarizedLightImaging",
+      "definition": "'3D polarized light imaging' (synonym: 3D-PLI) is a 3D reconstruction process of high-resoluted image data originating from polorized light microscopy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "3D scanning",
+      "node": "openminds:technique/3DScanning",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "CLARITY/TDE",
+      "node": "openminds:technique/CLARITY_TDE",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "DAB staining",
+      "node": "openminds:technique/DABStaining",
+      "definition": "In a 'DAB staining', the organic compound DAB (3, 3'-diaminobenzidine) is oxidized in presence of peroxidase and hydrogen peroxide resulting in deposition of a brown, alcohol-insoluble precipitate which can be used in immunohistochemical and blotting applications.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "DAPi staining",
+      "node": "openminds:technique/DAPiStaining",
+      "definition": "A nuclear-specific staining technique where DAPi (4′,6-diamidino-2-phenylindole) is used as a dye.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "DNA methylation analysis",
+      "node": "openminds:technique/DNAMethylationAnalysis",
+      "definition": "A 'DNA methylation analysis' studies chromosomal patterns of DNA or histone modification by methyl groups ([modified from Nature.com](https://www.nature.com/subjects/methylation-analysis)).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "DNA sequencing",
+      "node": "openminds:technique/DNASequencing",
+      "definition": "'DNA sequencing' refers to a group of techniques that are used to determine the order of nucleotides (nucleic acid sequence) in DNA. [adapted from [wikipedia](https://en.wikipedia.org/wiki/DNA_sequencing)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Golgi staining",
+      "node": "openminds:technique/GolgiStaining",
+      "definition": "'Golgi staining' includes several silver staining techniques in which fixed tissue is impregnated with silver nitrate and potassium dichromate resulting in the complete staining of some nerve cells while other cells are not stained at all. [adapted from InterLex](http://uri.interlex.org/ilx_0104713)",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "H&E staining",
+      "node": "openminds:technique/HEStaining",
+      "definition": "An 'H&E staining' combines the two histological stains hematoxylin and eosin which highlight a large portion of microscopic anatomy in a tissue. It is therefore the most widely used stain in medical and histopathological diagnosis.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "HPC simulation",
+      "node": "openminds:technique/HPCSimulation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Hoechst staining",
+      "node": "openminds:technique/HoechstStaining",
+      "definition": "A nuclear-specific staining technique where a Hoechst dye is used.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Nissl staining",
+      "node": "openminds:technique/NisslStaining",
+      "definition": "The term 'Nissl staining' refers to various basic dyes (e.g., aniline, thionine, cresyl violet) that selectively label negatively charged molecules (e.g., DNA, RNA) and are therefore typically used to highlight important structural features of cell bodies.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "PCR-based genotyping",
+      "node": "openminds:technique/PCRBasedGenotyping",
+      "definition": "Any genotyping technique that uses polymerase chain reaction (PCR) to amplify specific DNA regions and determine genetic variants through amplification-associated detection methods, potentially incorporating restriction enzyme digestion, fragment analysis, or sequencing.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "RNA sequencing",
+      "node": "openminds:technique/RNASequencing",
+      "definition": "'RNA sequencing' refers to a group of techniques that are used to (directly or indirectly) determine the order of nucleotides (nucleic acid sequence) in RNA.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Raman spectroscopy",
+      "node": "openminds:technique/RamanSpectroscopy",
+      "definition": "A spectroscopic technique where scattered light is used to measure the vibrational energy modes of a sample. It relies upon inelastic scattering of photons (Raman scattering) and can provide both chemical and structural information.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "SDS-digested freeze-fracture replica labeling",
+      "node": "openminds:technique/SDSDigestedFreezeFractureReplicaLabeling",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "SWITCH immunohistochemistry",
+      "node": "openminds:technique/SWITCHImmunohistochemistry",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "TDE clearing",
+      "node": "openminds:technique/TDEClearing",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "Timm's staining",
+      "node": "openminds:technique/TimmsStaining",
+      "definition": "A technique used to selectively visualize a variety of metals (e.g. zinc, copper, iron) in biological tissue based on sulphide-precipitation of metals in the tissue.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "activity modulation technique",
+      "node": "openminds:technique/activityModulationTechnique",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "anaesthesia administration",
+      "node": "openminds:technique/anaesthesiaAdministration",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "anaesthesia monitoring",
+      "node": "openminds:technique/anaesthesiaMonitoring",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "anaesthesia technique",
+      "node": "openminds:technique/anaesthesiaTechnique",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "angiography",
+      "node": "openminds:technique/angiography",
+      "definition": "Imaging technique for anatomical and structural details of the vascular system [adapted from [National Library of Medicine](https://www.ncbi.nlm.nih.gov/books/NBK557477/)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "anterograde tracing",
+      "node": "openminds:technique/anterogradeTracing",
+      "definition": "Anterograde tracing is a technique used to trace axonal projections from their source (the cell body or soma) to their point of termination (the synapse).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "anthropometry",
+      "node": "openminds:technique/anthropometry",
+      "definition": "A measurement technique that involves systematically measuring the physical dimensions, size, weight, and proportions of the human or other primate body.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "archival data retrieval",
+      "node": "openminds:technique/archivalDataRetrieval",
+      "definition": "A secondary data collection technique that involves systematically extracting information from existing records, documents, or datasets to investigate research questions.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "autoradiography",
+      "node": "openminds:technique/autoradiography",
+      "definition": "'Autoradiography' is a photography technique that creates images of a radioactive source (e.g., molecules or fragments of molecules that have been radioactively labeled) by the direct exposure to an imaging media (e.g., X-ray film or nuclear emulsion)",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "avidin-biotin complex staining",
+      "node": "openminds:technique/avidinBiotinComplexStaining",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "beta-galactosidase staining",
+      "node": "openminds:technique/beta-galactosidaseStaining",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "biocytin staining",
+      "node": "openminds:technique/biocytinStaining",
+      "definition": "In 'biocytin staining' the chemical compound biocytin is used to highlight morphological details of nerve cells.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "blood sampling",
+      "node": "openminds:technique/bloodSampling",
+      "definition": "'Blood sampling' is the process of obtaining blood from a body for purpose of medical diagnosis and/or evaluation of an indication for treatment, further medical tests or other procedures.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "calcium imaging",
+      "node": "openminds:technique/calciumImaging",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "callosotomy",
+      "node": "openminds:technique/callosotomy",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "cartesian k-space sampling technique",
+      "node": "openminds:technique/cartesianK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a rectilinear grid.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "cell attached patch clamp",
+      "node": "openminds:technique/cellAttachedPatchClamp",
+      "definition": "'Cell-attached patch clamp' is an intracellular electrophysiology technique that fully preserves the intracellular integrity by forming a megaohm or gigaohm seal, leaving the cell membrane intact.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "chemiluminescence immunoassay",
+      "node": "openminds:technique/chemiluminescenceImmunoassay",
+      "definition": "An immunoassay that detects or quantifies a target substance by measuring light emitted from a chemical reaction associated with an antibody–antigen binding event.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "closed-ended questioning",
+      "node": "openminds:technique/closedEndedQuestioning",
+      "definition": "A data collection technique in which respondents are presented with predefined questions using standardized wording and order, with answers restricted to predefined response options or categories without allowing free-text responses.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "coherent anti-Stokes Raman spectroscopy",
+      "node": "openminds:technique/coherentAntiStokesRamanSpectroscopy",
+      "definition": "A nonlinear Raman spectroscopy technique that employs multiple photons to address molecular vibrations, and produces a coherent signal. It uses a Stokes frequency stimulation beam and an anti-Stokes frequency beam is observed [adapted from [Wikipedia](https://en.wikipedia.org/wiki/Coherent_anti-Stokes_Raman_spectroscopy)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "coherent Stokes Raman spectroscopy",
+      "node": "openminds:technique/coherentStokesRamanSpectroscopy",
+      "definition": "A nonlinear Raman spectroscopy technique that employs multiple photons to address molecular vibrations, and produces a coherent signal. It uses an anti-Stokes frequency stimulation beam and a Stokes frequency beam is observed [adapted from [Wikipedia](https://en.wikipedia.org/wiki/Coherent_anti-Stokes_Raman_spectroscopy)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "computer tomography",
+      "node": "openminds:technique/computerTomography",
+      "definition": "'Computer tomogoraphy' is a noninvasive medical imaging technique where a computer generates multiple X-ray scans to obtain detailed internal 3D image of the body.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "confocal microscopy",
+      "node": "openminds:technique/confocalMicroscopy",
+      "definition": "Confocal microscopy is a specialized fluorescence microscopy technique that uses pinholes to reject out-of-focus light.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "contrast agent administration",
+      "node": "openminds:technique/contrastAgentAdministration",
+      "definition": "A 'contrast agent administration' is a (typically) oral or intraveneous administration of a chemical compound to improve the visibility of internal body structures of a subject in a subsequent imaging technique.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "contrast enhancement",
+      "node": "openminds:technique/contrastEnhancement",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "cortico-cortical evoked potential mapping",
+      "node": "openminds:technique/cortico-corticalEvokedPotentialMapping",
+      "definition": "Cortico-cortical evoked potential (CCEP) mapping is used to identify the effective connectivity between distinct neuronal populations based on multiple CCEP measurements across (parts of) the brain in response to direct electrical stimulation (typically at various locations).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "craniotomy",
+      "node": "openminds:technique/craniotomy",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "cryosectioning",
+      "node": "openminds:technique/cryosectioning",
+      "definition": "Cutting of specimen in cryo/freezing conditions typically resulting in micromillimeter thin slices.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "current clamp",
+      "node": "openminds:technique/currentClamp",
+      "definition": "Current clamp is a technique in which the amount of current injected into the cell is controlled, which allows for the detection of changes in the transmembrane voltage resulting from ion channel activity.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "darkfield microscopy",
+      "node": "openminds:technique/darkfieldMicroscopy",
+      "definition": "Darkfield microscopy is an optical microscopy technique in which illumination light is transmitted through the sample so that it does not directly enter the optics and contrast is generated by the differential scattering of light within the specimen.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "differential interference contrast microscopy",
+      "node": "openminds:technique/differentialInterferenceContrastMicroscopy",
+      "definition": "An optical microscopy technique, used to enhance the contrast in unstained, transparent samples [taken from [Wikipedia](https://en.wikipedia.org/wiki/Differential_interference_contrast_microscopy)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "diffusion fixation technique",
+      "node": "openminds:technique/diffusionFixationTechnique",
+      "definition": "Diffusion fixation is a fixation technique to preserve specimen permanently as faithfully as possible compared to the living state by submerging specimen in a fixative.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "diffusion spectrum magnetic resonance imaging",
+      "node": "openminds:technique/diffusionSpectrumMagneticResonanceImaging",
+      "definition": "Advanced magnetic resonance imaging (MRI) and image processing technique that enhances the contrast of fiber crossings and complex intravoxel fiber orientation distributions [[Zhang et al., 2018](https://doi.org/10.1371/journal.pone.0203271), [Wedeen et al., 2008](https://doi.org/10.1016/j.neuroimage.2008.03.036), [Wedeen et al., 2000](https://cds.ismrm.org/ismrm-2000/PDF1/0082.pdf)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "diffusion tensor imaging",
+      "node": "openminds:technique/diffusionTensorImaging",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "diffusion-weighted imaging",
+      "node": "openminds:technique/diffusionWeightedImaging",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "dual-view inverted selective plane illumination microscopy",
+      "node": "openminds:technique/dualViewInvertedSelectivePlaneIlluminationMicroscopy",
+      "definition": "Dual-view inverted selective plane illumination microscopy is a specialized light sheet microscopy technique that allows for dual views of the samples while mounted on an inverted microscope.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electrocardiography",
+      "node": "openminds:technique/electrocardiography",
+      "definition": "Electrocardiography is a non-invasive technique used to record the electrical activity of a heart using electrodes placed on the skin. [adapted from [Wikipedia](https://en.wikipedia.org/wiki/Electrocardiography)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electrocorticography",
+      "node": "openminds:technique/electrocorticography",
+      "definition": "'Electrocorticography', short ECoG, is an intracranial electroencephalography technique in which electrodes are placed (subdural or epidural) on the exposed surface of the brain to record electrical activity from the cerebral cortex.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electroencephalography",
+      "node": "openminds:technique/electroencephalography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electromyography",
+      "node": "openminds:technique/electromyography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electron microscopy",
+      "node": "openminds:technique/electronMicroscopy",
+      "definition": "Electron microscopy describes any microscopy technique that uses electrons to generate contrast.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electron tomography",
+      "node": "openminds:technique/electronTomography",
+      "definition": "Electron tomography is a microscopy technique that takes a series of images of a thick sample at different angles (tilts) so that tomography can be applied to increase the resolution of the ticker sample.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electrooculography",
+      "node": "openminds:technique/electrooculography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "electroporation",
+      "node": "openminds:technique/electroporation",
+      "definition": "A microbiology technique in which an electrical field is applied to cells in order to increase the permeability of the cell membrane.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "enzyme-linked immunosorbent assay",
+      "node": "openminds:technique/enzymeLinkedImmunosorbentAssay",
+      "definition": "An immunoassay that detects or quantifies a target substance using antigen–antibody binding on a solid surface and an enzyme-linked reagent that generates a measurable signal upon reaction with a substrate.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "epidermal electrophysiology technique",
+      "node": "openminds:technique/epidermalElectrophysiologyTechnique",
+      "definition": "The term 'epidermal electrophysiology technique' describes a subclass of non-invasive electrophysiology techniques where one or several electrodes are placed on the outermost cell layer of an organism (epidermis) to measure electrical properties.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "epidural electrocorticography",
+      "node": "openminds:technique/epiduralElectrocorticography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "epifluorescent microscopy",
+      "node": "openminds:technique/epifluorescentMicroscopy",
+      "definition": "Epifluorescent microscopy comprises all widefield microscopy techniques in which fluorescent molecules of an entire sample are excited through a permanent exposure of a light source of a specific wavelength.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "expert-reporting",
+      "node": "openminds:technique/expertReporting",
+      "definition": "A data collection technique in which an individual with specialized expertise provides information, evaluations, or judgments about a subject, system, or phenomenon based on professional knowledge or experience.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "extracellular electrophysiology",
+      "node": "openminds:technique/extracellularElectrophysiology",
+      "definition": "In 'extracellular electrophysiology' electrodes are inserted into living tissue, but remain outside the cells in the extracellular environment to measure or stimulate electrical activity coming from adjacent cells, usually neurons.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "eye movement tracking",
+      "node": "openminds:technique/eyeMovementTracking",
+      "definition": "'Eye movement tracking' refers to a group of techniques used to record the eye movement and/or position of a living specimen over a given period of time.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "fixation technique",
+      "node": "openminds:technique/fixationTechnique",
+      "definition": "Fixation is a technique to preserve specimen permanently as faithfully as possible compared to the living state.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "fluorescence polarization immunoassay",
+      "node": "openminds:technique/fluorescencePolarizationImmunoassay",
+      "definition": "An immunoassay that detects or quantifies a target substance by measuring changes in the polarization of fluorescence emitted by labeled molecules as their rotational mobility changes upon binding to antibodies.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "focused ion beam scanning electron microscopy",
+      "node": "openminds:technique/focusedIonBeamScanningElectronMicroscopy",
+      "definition": "Focused ion beam scanning electron microscopy is a serial section scanning electron microscopy technique where a focused ion beam is used to ablate the surface of a specimen.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "functional magnetic resonance imaging",
+      "node": "openminds:technique/functionalMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that generates multiple images over time of some physiological processes of a specimen.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "gene expression measurement",
+      "node": "openminds:technique/geneExpressionMeasurement",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "gene knockin",
+      "node": "openminds:technique/geneKnockin",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "gene knockout",
+      "node": "openminds:technique/geneKnockout",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "genome-wide association study",
+      "node": "openminds:technique/genomeWideAssociationStudy",
+      "definition": "A 'genome-wide association study' is an analysis technique comparing the allele frequencies of all available (or a whole genome representative set of) polymorphic markers in unrelated individuals with a specific symptom or disease condition, and those of healthy controls to identify markers associated with a specific disease or condition.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "genotyping",
+      "node": "openminds:technique/genotyping",
+      "definition": "Any experimental or computational method used to determine or infer the alleles or genetic variants present at one or more genomic loci in a biological organism or sample, based on molecular measurements or previously obtained genetic data.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "heavy metal negative staining",
+      "node": "openminds:technique/heavyMetalNegativeStaining",
+      "definition": "In a 'heavy metal negative staining', a thin and amorphous film of heavy metal salts (e.g. uranyl acetate) is applied on a sample to reveal its structural details for electron microscopy.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-resolution scanning",
+      "node": "openminds:technique/high-resolutionScanning",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-speed video recording",
+      "node": "openminds:technique/high-speedVideoRecording",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-density electroencephalography",
+      "node": "openminds:technique/highDensityElectroencephalography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-field functional magnetic resonance imaging",
+      "node": "openminds:technique/highFieldFunctionalMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that generates multiple images over time of some physiological processes of a specimen typically employing a magnetic field strength of 3 Tesla (or higher but below 7 Tesla).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-field magnetic resonance imaging",
+      "node": "openminds:technique/highFieldMagneticResonanceImaging",
+      "definition": "Any medical imaging technique that typically uses a magnetic field strength of 3 Tesla (or higher but below 7 Tesla) to generate images of a specimen based on the principle of nuclear magnetic resonance.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-field structural magnetic resonance imaging",
+      "node": "openminds:technique/highFieldStructuralMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that typically uses a magnetic field strength of 3 Tesla (or higher but below 7 Tesla) to generate images with static information of the scanned body.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "high-throughput scanning",
+      "node": "openminds:technique/highThroughputScanning",
+      "definition": "'High-throughput scanning' is a technique for automatic creation of analog or digital images of a large number of samples.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "histochemistry",
+      "node": "openminds:technique/histochemistry",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "immunoassay",
+      "node": "openminds:technique/immunoassay",
+      "definition": "An analytical assay that uses the specific binding between antibodies and antigens to detect or quantify a target substance in a biological or chemical sample.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "immunohistochemistry",
+      "node": "openminds:technique/immunohistochemistry",
+      "definition": "In 'immunohistochemistry' antigens or haptens are detected and visualized in cells of a tissue sections by exploiting the principle of antibodies binding specifically to antigens in biological tissues.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "immunoprecipitation",
+      "node": "openminds:technique/immunoprecipitation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "implant surgery",
+      "node": "openminds:technique/implantSurgery",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "in situ hybridisation",
+      "node": "openminds:technique/inSituHybridisation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "informant-reporting",
+      "node": "openminds:technique/informantReporting",
+      "definition": "A data collection technique in which an individual provides information about another individual or subject based on their observations, experiences, or knowledge.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "infrared differential interference contrast video microscopy",
+      "node": "openminds:technique/infraredDifferentialInterferenceContrastVideoMicroscopy",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "injection",
+      "node": "openminds:technique/injection",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "intracellular electrophysiology",
+      "node": "openminds:technique/intracellularElectrophysiology",
+      "definition": "A technique used to measure electrical properties of a single cell, e.g. a neuron.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "intracellular injection",
+      "node": "openminds:technique/intracellularInjection",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "intracranial electroencephalography",
+      "node": "openminds:technique/intracranialElectroencephalography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "intraperitoneal injection",
+      "node": "openminds:technique/intraperitonealInjection",
+      "definition": "An 'intraperitoneal injection' is the administration of a substance into the peritoneum (abdominal cavity) via a needle or tube.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "intravenous injection",
+      "node": "openminds:technique/intravenousInjection",
+      "definition": "An 'intravenous injection' is the administration of a substance into a vein or veins via a needle or tube.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "iontophoresis",
+      "node": "openminds:technique/iontophoresis",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "iontophoretic microinjection",
+      "node": "openminds:technique/iontophoreticMicroinjection",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "light microscopy",
+      "node": "openminds:technique/lightMicroscopy",
+      "definition": "Light microscopy, also referred to as optical microscopy, comprises any type of microscopy technique that uses visible light to generate magnified images of small objects.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "light sheet fluorescence microscopy",
+      "node": "openminds:technique/lightSheetFluorescenceMicroscopy",
+      "definition": "Lightsheet fluorescence microscopy is a fluorescence microscopy technique that uses a thin sheet of light to excite only fluorophores within the plane of illumination.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "magnetic resonance imaging",
+      "node": "openminds:technique/magneticResonanceImaging",
+      "definition": "Any medical imaging technique that uses strong magnetic fields, magnetic field gradients, and radio waves to generate images of a specimen based on the principle of nuclear magnetic resonance.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "magnetic resonance spectroscopy",
+      "node": "openminds:technique/magneticResonanceSpectroscopy",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "magnetization transfer imaging",
+      "node": "openminds:technique/magnetizationTransferImaging",
+      "definition": "A magnetic resonance imaging technique that exploits the contrast between tissues where 1H protons are (i) bound to macromolecules, (ii) in free water, and (iii) in water of hydration layer between macromolecules and free water.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "magnetoencephalography",
+      "node": "openminds:technique/magnetoencephalography",
+      "definition": "'Magnetoencephalography' is a noninvasive neuroimaging technique for studying brain activity by recording magnetic fields produced by electrical currents occurring naturally in the brain, using very sensitive magnetometers. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Magnetoencephalography)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "mass spectrometry",
+      "node": "openminds:technique/massSpectrometry",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "mass spectrometry-based genotyping",
+      "node": "openminds:technique/massSpectrometryBasedGenotyping",
+      "definition": "Any genotyping technique that identifies genetic variants by measuring mass differences between allele-specific nucleic acid products using mass spectrometry, often following PCR amplification or primer extension.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "micro computed tomography",
+      "node": "openminds:technique/microComputedTomography",
+      "definition": "'Micro computed tomography' uses X-rays to create cross-sections of physical objects with resolution in the micrometer range that can be used to recreate 3-dimensional models [adapted from [Wikipedia](https://en.wikipedia.org/wiki/X-ray_microtomography)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "microarray-based SNP genotyping",
+      "node": "openminds:technique/microarrayBasedSNPGenotyping",
+      "definition": "Any genotyping technique that uses DNA microarrays with predefined probes to determine single-nucleotide polymorphism (SNP) genotypes through allele-specific hybridization or associated detection reactions, potentially incorporating DNA amplification.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "microsatellite genotyping",
+      "node": "openminds:technique/microsatelliteGenotyping",
+      "definition": "Any genotyping technique that determines allelic variation at microsatellite loci by analyzing differences in short tandem DNA repeats, typically using PCR amplification followed by fragment-length analysis or sequencing.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "microtome sectioning",
+      "node": "openminds:technique/microtomeSectioning",
+      "definition": "A technique used to cut specimen in thin slices using a microtome.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "mixed-format questioning",
+      "node": "openminds:technique/mixedFormatQuestioning",
+      "definition": "A data collection technique in which respondents are presented with predefined questions using standardized wording and order, with answers collected through a combination of predefined response options or categories and unrestricted free-text responses.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "motion capture",
+      "node": "openminds:technique/motionCapture",
+      "definition": "'Motion capture' refers to a group of techniques used to measure the movement and/or position of an object, specimen, or anatomical parts of a specimen over a given period of time.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "multi-compartment modeling",
+      "node": "openminds:technique/multi-compartmentModeling",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "multi-electrode extracellular electrophysiology",
+      "node": "openminds:technique/multiElectrodeExtracellularElectrophysiology",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "multi photon fluorescence microscopy",
+      "node": "openminds:technique/multiPhotonFluorescenceMicroscopy",
+      "definition": "Multi photon fluorescence microscopy is a fluorescence microscopy technique for living tissue which is based on the simultaneous excitation by two or more photons with longer wavelength than the emitted light.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "multiple whole cell patch clamp",
+      "node": "openminds:technique/multipleWholeCellPatchClamp",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "myelin staining",
+      "node": "openminds:technique/myelinStaining",
+      "definition": "A technique used to selectively alter the appearance of myelin (sheaths) that surround the nerve cell axons.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "myelin water imaging",
+      "node": "openminds:technique/myelinWaterImaging",
+      "definition": "A magnetic resonance imaging technique that provides in vivo measurement of myelin.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "near infrared spectroscopy",
+      "node": "openminds:technique/nearInfraredSpectroscopy",
+      "definition": "A noninvasive technique that uses the differential absorption properties of hemoglobin and myoglobin to evaluate tissue oxygenation and indirectly can measure regional hemodynamics and blood flow [taken from [Interlex](http://uri.interlex.org/base/ilx_0488397)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "neuromorphic simulation",
+      "node": "openminds:technique/neuromorphicSimulation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "nonlinear optical microscopy",
+      "node": "openminds:technique/nonlinearOpticalMicroscopy",
+      "definition": "Microscopic imaging techniques that utilize nonlinear responses of light-matter interactions which occur with high-intensity illumination, such as from lasers, and specialized light signal detection instrumentation to produce images without the need for dyes or fluorescent labels. [taken from [Interlex](http://uri.interlex.org/base/ilx_0436517)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "nucleic acid extraction",
+      "node": "openminds:technique/nucleicAcidExtraction",
+      "definition": "'Nucleic acid extraction' refers to a group of techniques that all separate nucleic acids from proteins and lipids using three major processes: isolation, purification, and concentration.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "open-ended questioning",
+      "node": "openminds:technique/openEndedQuestioning",
+      "definition": "A data collection technique in which respondents are presented with predefined questions using standardized wording and order, with answers recorded exclusively as unrestricted free-text responses without predefined response options or categories.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "optical coherence tomography",
+      "node": "openminds:technique/opticalCoherenceTomography",
+      "definition": "Imaging technique that combines interferometry with short-coherence-length light to obtain micrometer-level depth resolution. Transverse scanning of the light beam is used to form two- and three-dimensional images, reflected from biological tissue or scattering media [Adapted from [Wikipedia](https://en.wikipedia.org/wiki/Optical_coherence_tomography)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "optical coherence tomography angiography",
+      "node": "openminds:technique/opticalCoherenceTomographyAngiography",
+      "definition": "Imaging technique that uses laser light reflectance of the surface from moving red blood cells to create detailed images of blood vessels over time [Adapted from [EyeWiki](https://eyewiki.aao.org/Optical_Coherence_Tomography_Angiography)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "optogenetic inhibition",
+      "node": "openminds:technique/optogeneticInhibition",
+      "definition": "Optogenetic inhibition is a genetic technique in which the activity of specific neuron populations is decreased using light of a particular wavelength. This can be achieved by expressing light-sensitive ion channels, pumps or enzymes specifically in the target neurons.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "oral administration",
+      "node": "openminds:technique/oralAdministration",
+      "definition": "In an 'oral administration' a substance is taken through the mouth.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "organ extraction",
+      "node": "openminds:technique/organExtraction",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "patch clamp",
+      "node": "openminds:technique/patchClamp",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "performance-based testing",
+      "node": "openminds:technique/performanceBasedTesting",
+      "definition": "An assessment technique that evaluates the abilities, skills, or functional performance of a subject through the direct observation and standardized measurement of performance on predefined tasks.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "perfusion fixation technique",
+      "node": "openminds:technique/perfusionFixationTechnique",
+      "definition": "Perfusion fixation is a fixation technique to preserve specimen permanently as faithfully as possible compared to the living state by using the vascular system to distribute fixatives throughout the tissue.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "perfusion technique",
+      "node": "openminds:technique/perfusionTechnique",
+      "definition": "Perfusion is a technique to distribute fluid through the circulatory system or lymphatic system to an organ or a tissue.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "perturbational complexity index measurement",
+      "node": "openminds:technique/perturbationalComplexityIndexMeasurement",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "phase contrast microscopy",
+      "node": "openminds:technique/phaseContrastMicroscopy",
+      "definition": "Optical microscopy technique that converts phase shifts in light passing through a transparent specimen to brightness changes in the image [taken from [Wikipedia](https://en.wikipedia.org/wiki/Phase-contrast_microscopy)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "phase‐contrast x‐ray computed tomography",
+      "node": "openminds:technique/phaseContrastXRayComputedTomography",
+      "definition": "'Phase-contrast x-ray computed tomography' is a non-invasive x-ray imaging technique for three-dimensional observation of organic matter without application of a contrast medium ([Momose, Takeda, and Itai (1995)](https://doi.org/10.1063/1.1145931)).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "phase-contrast x-ray imaging",
+      "node": "openminds:technique/phaseContrastXRayImaging",
+      "definition": "'Phase-contrast x-ray imaging' is a general term for different x-ray techniques that use changes in the phase of an x-ray beam passing through an object leading to images with improved soft tissue contrast without the application of a contrast medium. (adapted from [Wikipedia](https://en.wikipedia.org/wiki/Phase-contrast_X-ray_imaging))",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "photoactivation",
+      "node": "openminds:technique/photoactivation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "photoinactivation",
+      "node": "openminds:technique/photoinactivation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "photoplethysmography",
+      "node": "openminds:technique/photoplethysmography",
+      "definition": "Photoplethysmography is a non-invasive technique to optically detect blood volume changes in the micro-vascular bed of tissue by measuring the transmissive absorption and/or the reflection of light by the skin.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "physiological monitoring",
+      "node": "openminds:technique/physiologicalMonitoring",
+      "definition": "A measurement technique that involves continuously or repeatedly recording physiological parameters of a living organism to assess its physiological state and changes over time.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "polarized light microscopy",
+      "node": "openminds:technique/polarizedLightMicroscopy",
+      "definition": "Polarized light microscopy comprises all optical microscopy techniques involving polarized light.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "population receptive field mapping",
+      "node": "openminds:technique/populationReceptiveFieldMapping",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "positron emission tomography",
+      "node": "openminds:technique/positronEmissionTomography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "pressure injection",
+      "node": "openminds:technique/pressureInjection",
+      "definition": "Pressure injection uses either air compression or mechanical pressure to eject a substance from a micropipette (from Veith et al., 2016; J.Vis.Exp. (109):53724; doi: 10.3791/53724).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "primary antibody staining",
+      "node": "openminds:technique/primaryAntibodyStaining",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "pseudo-continuous arterial spin labeling",
+      "node": "openminds:technique/pseudoContinuousArterialSpinLabeling",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "psychological testing",
+      "node": "openminds:technique/psychologicalTesting",
+      "definition": "'Psychological testing' is a psychometric measurement to evaluate a person's response to a psychological test according to carefully prescribed guidelines. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Psychological_testing)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "pupillometry",
+      "node": "openminds:technique/pupillometry",
+      "definition": "Pupillometry is the measurement of minute fluctuations in pupil diameter in response to a stimulus.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "quantification",
+      "node": "openminds:technique/quantification",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "quantitative magnetic resonance imaging",
+      "node": "openminds:technique/quantitativeMagneticResonanceImaging",
+      "definition": "Any magnetic resonance imaging technique that generates images of a specimen based on the physical parameters of the local tissue microstructural environment.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "quantitative susceptibility mapping",
+      "node": "openminds:technique/quantitativeSusceptibilityMapping",
+      "definition": "MRI technique, where the voxel intensity is linear proportional to the underlying tissue [adapted from [Wikipedia](https://en.wikipedia.org/wiki/Quantitative_susceptibility_mapping)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "radial k-space sampling technique",
+      "node": "openminds:technique/radialK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a radial pattern.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "radioimmunoassay",
+      "node": "openminds:technique/radioimmunoassay",
+      "definition": "An immunoassay that detects or quantifies a target substance by measuring radioactivity associated with the binding of radiolabeled antigens or antibodies in an antigen–antibody reaction.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "receptive field mapping",
+      "node": "openminds:technique/receptiveFieldMapping",
+      "definition": "In 'receptive field mapping' a distinct set of physiological stimuli is used to evoke a sensory neuronal response in specific organisms to define its respective sensory space (receptive field).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "reporter gene based expression measurement",
+      "node": "openminds:technique/reporterGeneBasedExpressionMeasurement",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "reporter protein based expression measurement",
+      "node": "openminds:technique/reporterProteinBasedExpressionMeasurement",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "restriction enzyme-based genotyping",
+      "node": "openminds:technique/restrictionEnzymeBasedGenotyping",
+      "definition": "Any genotyping technique that uses restriction enzymes to identify genetic variants through differences in DNA fragment patterns, potentially incorporating PCR amplification as in restriction fragment length polymorphism analysis.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "retinotopic mapping",
+      "node": "openminds:technique/retinotopicMapping",
+      "definition": "In 'retinotopic mapping' the retina is repeatedly stimulated in such a way that the response of neurons, particularly within the visual stream, can be mapped to the location of the stimulus on the retina.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "retrograde tracing",
+      "node": "openminds:technique/retrogradeTracing",
+      "definition": "Retrograde tracing is a technique used to trace neural connections from their point of termination (the synapse) to their source (the cell body).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "rule-based modeling",
+      "node": "openminds:technique/rule-basedModeling",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "scanning electron microscopy",
+      "node": "openminds:technique/scanningElectronMicroscopy",
+      "definition": "Scanning electron microscopy is a microscopy technique to produce images of a specimen by scanning the surface with focused beam of electrons.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "scattered light imaging",
+      "node": "openminds:technique/scatteredLightImaging",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "secondary antibody staining",
+      "node": "openminds:technique/secondaryAntibodyStaining",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "self-reporting",
+      "node": "openminds:technique/selfReporting",
+      "definition": "A data collection technique in which individuals provide information about their own characteristics, behaviors, experiences, attitudes, or conditions through questionnaires, interviews, or other reporting instruments.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "semi-structured questioning",
+      "node": "openminds:technique/semiStructuredQuestioning",
+      "definition": "A data collection technique in which respondents are presented with questions guided by a predefined framework or set of topics, allowing flexibility in question wording, order, and follow-up questions to explore responses in greater depth.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "sequencing-based genotyping",
+      "node": "openminds:technique/sequencingBasedGenotyping",
+      "definition": "Any genotyping technique that determines genetic variants through the analysis of DNA sequence data, encompassing targeted, whole-exome, and whole-genome approaches and potentially incorporating PCR-based amplification.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "serial block face scanning electron microscopy",
+      "node": "openminds:technique/serialBlockFaceScanningElectronMicroscopy",
+      "definition": "Serial block face scanning electron microscopy is a serial section scanning electron microscopy technique where an ultramicrotome is used to remove the surface layer of a specimen.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "serial section transmission electron microscopy",
+      "node": "openminds:technique/serialSectionTransmissionElectronMicroscopy",
+      "definition": "Serial section transmission electron microscopy is a microscopy technique in which a beam of electrons is transmitted through multiple successive slices of a volumetric sample to produce images of the slices (e.g. for later 3D reconstruction).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "sharp electrode intracellular electrophysiology",
+      "node": "openminds:technique/sharpElectrodeIntracellularElectrophysiology",
+      "definition": "An intracellular electrophysiology technique where a microelectrode/micropipette is used to measure electrical properties of a single cell, e.g. a neuron.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "silver staining",
+      "node": "openminds:technique/silverStaining",
+      "definition": "A technique where the appearance of biological subcellular targets (e.g. proteins, RNA or DNA) is selectively alter by use of silver.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "simulation",
+      "node": "openminds:technique/simulation",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "single cell RNA sequencing",
+      "node": "openminds:technique/singleCellRNASequencing",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "single electrode extracellular electrophysiology",
+      "node": "openminds:technique/singleElectrodeExtracellularElectrophysiology",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "single electrode juxtacellular electrophysiology",
+      "node": "openminds:technique/singleElectrodeJuxtacellularElectrophysiology",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "single gene analysis",
+      "node": "openminds:technique/singleGeneAnalysis",
+      "definition": "A 'single gene analysis' is a genetic test (sequencing technique) to check for any genetic changes in a specific gene.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "single nucleotide polymorphism detection",
+      "node": "openminds:technique/singleNucleotidePolymorphismDetection",
+      "definition": "'Single nucleotide polymorphism detection' refers to a group of techniques that are used to scan for new polymorphisms and to determine the allele(s) of a known polymorphism in target sequences (adapted from [Kwok and Chen, 2003](https://doi.org/10.21775/cimb.005.043)).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "sodium MRI",
+      "node": "openminds:technique/sodiumMRI",
+      "definition": "'Sodium MRI' is a specialised magnetic resonance imaging technique that uses strong magnetic fields, magnetic field gradients, and radio waves to generate images of the distribution of sodium in the body. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Sodium_MRI)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "sonography",
+      "node": "openminds:technique/sonography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "spiral-in k-space sampling technique",
+      "node": "openminds:technique/spiral-inK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a pattern that spirals into the centre of k-space.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "spiral-out k-space sampling technique",
+      "node": "openminds:technique/spiral-outK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a pattern that spirals out from the centre of k-space.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "spiral k-space sampling technique",
+      "node": "openminds:technique/spiralK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a spiral pattern.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "standardization",
+      "node": "openminds:technique/standardization",
+      "definition": "'Standardization' is the process of providing (meta)data according to a consensus of different parties (e.g., firms, users, interest groups, organizations and governments).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "stereoelectroencephalography",
+      "node": "openminds:technique/stereoelectroencephalography",
+      "definition": "In 'stereoelectroencephalography' depth electrodes (typically linear electrode arrays) are stereotactically implanted in the brain of a subject in order to record or stimulate electrographic activity of otherwise inaccessible brain regions. [cf. [wikipedia](https://en.wikipedia.org/wiki/Stereoelectroencephalography), or [Gholipour et al. 2020](https://doi.org/10.1016/j.clineuro.2019.105640)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "stereology",
+      "node": "openminds:technique/stereology",
+      "definition": "An imaging assay that is used for the three-dimensional interpretation of planar sections of materials or tissues.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "stereotactic surgery",
+      "node": "openminds:technique/stereotacticSurgery",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "structural magnetic resonance imaging",
+      "node": "openminds:technique/structuralMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that uses strong magnetic fields, magnetic field gradients, and radio waves to generate images with static information of the scanned body.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "structural neuroimaging",
+      "node": "openminds:technique/structuralNeuroimaging",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "structured questioning",
+      "node": "openminds:technique/structuredQuestioning",
+      "definition": "A data collection technique in which respondents are presented with a predetermined set of questions using standardized wording and order, ensuring consistency and comparability of questions across respondents.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "subcutaneous injection",
+      "node": "openminds:technique/subcutaneousInjection",
+      "definition": "An 'subcutenous injection' is the administration of a substance under all the layers of the skin via a needle or tube.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "subdural electrocorticography",
+      "node": "openminds:technique/subduralElectrocorticography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "super resolution microscopy",
+      "node": "openminds:technique/superResolutionMicroscopy",
+      "definition": "Techniques in optical microscopy that allow images to have resolutions higher than those imposed by the diffraction limit, due to the diffraction of light [taken from [Wikipedia](https://en.wikipedia.org/wiki/Super-resolution_microscopy)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "susceptibility weighted imaging",
+      "node": "openminds:technique/susceptibilityWeightedImaging",
+      "definition": "MRI sequence, used with fully flow compensated, long echo, gradient recalled echo (GRE) pulse sequence. Acquires images sensitive to venous blood, hemorrhage and iron storage. [adapted from [Wikipedia](https://en.wikipedia.org/wiki/Susceptibility_weighted_imaging)].",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "targeted sequencing-based genotyping",
+      "node": "openminds:technique/targetedSequencingBasedGenotyping",
+      "definition": "Any sequencing-based genotyping technique that determines genetic variants within predefined genomic regions using targeted amplification or enrichment followed by DNA sequencing, encompassing whole-exome sequencing-based genotyping.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "tetrode extracellular electrophysiology",
+      "node": "openminds:technique/tetrodeExtracellularElectrophysiology",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "time-of-flight magnetic resonance angiography",
+      "node": "openminds:technique/time-of-flightMagneticResonanceAngiography",
+      "definition": "'Time-of-flight magnetic resonance angiography' is a non-invasive, non-contrast-enhanced technique used to visualize both arterial and venous vessels with high spatial resolution. Note: it provides no information regarding directionality nor flow velocity quantification. [adapted from:  [Ferreira and Ramalho, 2013](https://doi.org/10.1002/9781118434550.ch7)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "tissue clearing",
+      "node": "openminds:technique/tissueClearing",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "tract tracing",
+      "node": "openminds:technique/tractTracing",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "transcardial perfusion fixation technique",
+      "node": "openminds:technique/transcardialPerfusionFixationTechnique",
+      "definition": "Transcardial perfusion fixation is a technique to distribute fixatives throughout tissue via the heart.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "transcardial perfusion technique",
+      "node": "openminds:technique/transcardialPerfusionTechnique",
+      "definition": "Transcardial perfusion is a technique to distribute fluid throughout tissue via the heart.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "transmission electron microscopy",
+      "node": "openminds:technique/transmissionElectronMicroscopy",
+      "definition": "Transmission electron microscopy is a microscopy technique in which a beam of electrons is transmitted through a specimen to produce an image.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "two-photon fluorescence microscopy",
+      "node": "openminds:technique/twoPhotonFluorescenceMicroscopy",
+      "definition": "Two-photon fluorescence microscopy is a fluorescence microscopy technique for living tissue which is based on the simultaneous excitation by two photons with longer wavelength than the emitted light.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "ultra high-field functional magnetic resonance imaging",
+      "node": "openminds:technique/ultraHighFieldFunctionalMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that generates multiple images over time of some physiological processes of a specimen typically employing a magnetic field strength of 7 Tesla (or higher).",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "ultra high-field magnetic resonance imaging",
+      "node": "openminds:technique/ultraHighFieldMagneticResonanceImaging",
+      "definition": "Any medical imaging technique that typically uses a magnetic field strength of 7 Tesla (or higher) to generate images of a specimen based on the principle of nuclear magnetic resonance.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "ultra high-field magnetic resonance spectroscopy",
+      "node": "openminds:technique/ultraHighFieldMagneticResonanceSpectroscopy",
+      "definition": "'Ultra high-field magnetic resonance spectroscopy' comprises all MRS techniques conducted with a MRI scanner with a magnetic field strength equal or above 7 Tesla.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "ultra high-field structural magnetic resonance imaging",
+      "node": "openminds:technique/ultraHighFieldStructuralMagneticResonanceImaging",
+      "definition": "A magnetic resonance imaging technique that typically uses a magnetic field strength of 7 Tesla (or higher) to generate images with static information of the scanned body.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "unstructured questioning",
+      "node": "openminds:technique/unstructuredQuestioning",
+      "definition": "A data collection technique in which questions are formulated and adapted flexibly during the interaction without a predetermined wording or order, allowing respondents' answers to guide the development of subsequent questions.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "vibratome sectioning",
+      "node": "openminds:technique/vibratomeSectioning",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "video-oculography",
+      "node": "openminds:technique/video-oculography",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "virus-mediated transfection",
+      "node": "openminds:technique/virus-mediatedTransfection",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "voltage clamp",
+      "node": "openminds:technique/voltageClamp",
+      "definition": "'Voltage clamp' comprises all experimental techniques in which the membrane potential (voltage) is constantly changed to a desired value by adding the necessary current to the cell.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "voltage sensitive dye imaging",
+      "node": "openminds:technique/voltageSensitiveDyeImaging",
+      "definition": "'Voltage sensitive dye imaging' is an experimental technique to measure neuronal population activity from in vivo brains or live brain slices by transducing changes in the cell membrane potential into changes of fluorescence emission by an employed exogenous chemical agent.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "weighted correlation network analysis",
+      "node": "openminds:technique/weightedCorrelationNetworkAnalysis",
+      "definition": "Weighted correlation network analysis is a widely used data mining method for studying networks based on pairwise correlations between variables. While it can be applied to most high-dimensional data sets, it has been most widely used in genomic applications. [adopted from: [wikipedia](https://en.wikipedia.org/wiki/Weighted_correlation_network_analysis)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "whole cell patch clamp",
+      "node": "openminds:technique/wholeCellPatchClamp",
+      "definition": "'Whole cell patch clamp' is a patch clamp technique where the pipette is sealed onto a cell membrane applying enough suction to rupture the membrane patch in order to provide access from the interior of the pipette to the intracellular space of the cell.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "whole-exome sequencing-based genotyping",
+      "node": "openminds:technique/wholeExomeSequencingBasedGenotyping",
+      "definition": "Any targeted sequencing-based genotyping technique that determines genetic variants primarily within protein-coding genomic regions through the analysis of whole-exome sequencing data.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "whole genome sequencing",
+      "node": "openminds:technique/wholeGenomeSequencing",
+      "definition": "'Whole genome sequencing' is a genetic test (sequencing technique) to determine the entire, or nearly the entire, DNA sequence of an organism's genome at a single time. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Whole_genome_sequencing)]",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "whole-genome sequencing-based genotyping",
+      "node": "openminds:technique/wholeGenomeSequencingBasedGenotyping",
+      "definition": "Any sequencing-based genotyping technique that determines genetic variants across coding and non-coding genomic regions through the analysis of whole-genome sequencing data, without restricting sequencing to predefined genomic targets.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "widefield fluorescence microscopy",
+      "node": "openminds:technique/widefieldFluorescenceMicroscopy",
+      "definition": "'Widefield fluorescence microscopy' comprises all microscopy techniques in which fluorescent molecules of an entire sample are excited through a permanent exposure of a light source of a specific wavelength.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "zigzag k-space sampling technique",
+      "node": "openminds:technique/zigzagK-spaceSamplingTechnique",
+      "definition": "A k-space sampling strategy that follows a zigzag pattern.",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) technique, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "derived data",
+      "node": "openminds:semanticDataType/derivedData",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) semanticDataType, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "experimental data",
+      "node": "openminds:semanticDataType/experimentalData",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) semanticDataType, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "raw data",
+      "node": "openminds:semanticDataType/rawData",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) semanticDataType, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
+    },
+    {
+      "name": "simulated data",
+      "node": "openminds:semanticDataType/simulatedData",
+      "definition": "",
+      "status": "decided",
+      "decided": "adopted from openMINDS (latest) semanticDataType, Jess Haley 2026-10-26 [census terms]",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "obsolete": false
     }
   ]
 }
