@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 357,
+          "accepted_lines": 358,
           "accepted_lines_by_kind": {
-            "Decided by": 240,
+            "Decided by": 241,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2307,6 +2307,14 @@
               "tag": "ingested stimulus file is a body of the presentation",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [ingested stimulus file"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1238,
+              "kind": "Decided by",
+              "tag": "one-reading quick answers",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [one-reading quick"
             },
             {
               "document": "V_eta_image_model_plan.md",
