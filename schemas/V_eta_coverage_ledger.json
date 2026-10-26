@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 372,
+          "accepted_lines": 376,
           "accepted_lines_by_kind": {
-            "Decided by": 255,
+            "Decided by": 259,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2427,6 +2427,38 @@
               "tag": "unnamed groups named by the map",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [unnamed groups named by"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1268,
+              "kind": "Decided by",
+              "tag": "vehicle rate needs a map",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [vehicle rate needs a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1270,
+              "kind": "Decided by",
+              "tag": "second measurement value needs a map",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [second measurement value"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1272,
+              "kind": "Decided by",
+              "tag": "ingested session membership",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [ingested session"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1274,
+              "kind": "Decided by",
+              "tag": "data_limits not a pair is malformed",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [data_limits not a pair"
             },
             {
               "document": "V_eta_image_model_plan.md",
