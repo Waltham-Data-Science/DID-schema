@@ -1123,6 +1123,20 @@
       "decides": "which name the dataset knew the session by",
       "resolved_by": "the dataset map entry for that session (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-061",
+      "v1_class": "pyraview",
+      "fields": [
+        "filter.parameters.sampleFrequency"
+      ],
+      "when": "an all-pass filter states a sampleFrequency that differs from the pyraview's native_rate (NDI's writer sets both from one variable, makePyraviewDoc.m:53-58, :157, so only a non-writer input differs)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "pass-through filter sample frequency"
+      },
+      "kind_basis": "stated"
     }
   ]
 }
