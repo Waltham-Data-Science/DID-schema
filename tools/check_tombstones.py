@@ -94,7 +94,7 @@ from pathlib import Path
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 GT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
-VETA = os.path.join(REPO, "schemas", "V_eta")
+VETA = os.path.join(REPO, "schemas", "did_v2")
 DIDM = os.environ.get("DID_MATLAB", os.path.join(os.path.dirname(REPO), "DID-matlab"))
 
 # NDI ships test/demo scaffolding as production templates; no corpus holds these.

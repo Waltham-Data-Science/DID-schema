@@ -15,7 +15,7 @@ The motivating case, and the reason it is not about enforcement:
 
     NDI    ndi_common/schema_documents/data/ontologyLabel_schema.json
            {"name": "document_id", "mustbenotempty": 1}
-    V_eta  schemas/V_eta/stable/ontology_label.json
+    V_eta  schemas/did_v2/stable/ontology_label.json
            {"name": "document_id", "mustBeNonEmpty": false}  -> base
 
 `ontology_label` is `disposition: retire` -- a GUARDED PASSTHROUGH deferred to

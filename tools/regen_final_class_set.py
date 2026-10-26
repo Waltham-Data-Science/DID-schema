@@ -14,8 +14,8 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-INDEX = os.path.join(ROOT, "schemas", "V_eta", "index.json")
-REGISTRY = os.path.join(ROOT, "schemas", "V_eta", "stable",
+INDEX = os.path.join(ROOT, "schemas", "did_v2", "index.json")
+REGISTRY = os.path.join(ROOT, "schemas", "did_v2", "stable",
                         "binding_registry_meta.json")
 OUT = os.path.join(ROOT, "schemas", "V_eta_final_class_set.md")
 

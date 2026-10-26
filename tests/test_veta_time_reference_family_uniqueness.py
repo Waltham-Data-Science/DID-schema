@@ -42,7 +42,7 @@ import json
 import os
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 # The three, named rather than derived. Deriving "every family whose target is a
 # time_reference" would let a family drop out of the rule the day a target class

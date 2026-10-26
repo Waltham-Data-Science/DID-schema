@@ -1,4 +1,4 @@
-// Copies every versioned schema set (schemas/V_*) that has an index.json into
+// Copies every versioned schema set (schemas/V_* and schemas/did_v*) that has an index.json into
 // web/public/schemas/<set>, and writes a versions.json manifest the app uses
 // to populate the set-version selector. Runs automatically before `npm run
 // dev` and `npm run build`.
@@ -19,6 +19,8 @@ const GREEK = [
   "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta",
   "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi",
 ];
+// did_v<N> sets (the V_eta set was renamed did_v2, 2026-10-26) are unknown to
+// GREEK and so sort last, which makes did_v2 the default.
 function rank(name) {
   const m = /^V_([a-z]+)$/.exec(name);
   const i = m ? GREEK.indexOf(m[1]) : -1;
@@ -30,7 +32,7 @@ const versions = entries
   .filter(
     (d) =>
       d.isDirectory() &&
-      /^V_/.test(d.name) &&
+      /^(V_|did_v)/.test(d.name) &&
       existsSync(resolve(schemasDir, d.name, "index.json")),
   )
   .map((d) => d.name)

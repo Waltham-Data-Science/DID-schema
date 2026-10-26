@@ -50,7 +50,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMAS = os.path.join(REPO_ROOT, "schemas")
 LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
 LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
-INDEX = os.path.join(SCHEMAS, "V_eta", "index.json")
+INDEX = os.path.join(SCHEMAS, "did_v2", "index.json")
 
 
 def _ledger():

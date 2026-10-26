@@ -239,7 +239,7 @@ _FOLDED_BY = {
 
 def load_dispositions():
     """{class_name: disposition} from the built V_eta index, or {} with a why."""
-    path = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
+    path = os.path.join(SCHEMA_ROOT, "schemas", "did_v2", "index.json")
     try:
         with open(path) as fh:
             idx = json.load(fh)

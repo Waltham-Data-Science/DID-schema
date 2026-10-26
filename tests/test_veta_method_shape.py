@@ -11,7 +11,7 @@ import glob
 import json
 import os
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "V_eta")
+ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "did_v2")
 
 
 def _shape(fields):

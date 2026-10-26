@@ -13,7 +13,7 @@ per meaning, so this checks, and fails on any of:
   R4  a node whose prefix the CURIE registry does not know, or that is not
       written in the registry's `spelling` (V_eta_prefix_spelling_plan.md)
   R5  a term we mint (EMPTY) or a staged term with no definition
-  R6  the built schemas/V_eta/stable/term_registry_meta.json listing other
+  R6  the built schemas/did_v2/stable/term_registry_meta.json listing other
       terms than the source (run tools/validate_v_eta.py)
   R7  an EMPTY term whose name or definition is not the ontology's own label
       or definition, read from an empty-ontology checkout ($EMPTY_ONTOLOGY,
@@ -63,8 +63,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
-BUILT = os.path.join(ROOT, "schemas", "V_eta", "stable", "term_registry_meta.json")
-CURIES = os.path.join(ROOT, "schemas", "V_eta", "stable", "CURIE_lookups_meta.json")
+BUILT = os.path.join(ROOT, "schemas", "did_v2", "stable", "term_registry_meta.json")
+CURIES = os.path.join(ROOT, "schemas", "did_v2", "stable", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
 ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
             "obsolete", "number_unit"]
@@ -284,7 +284,7 @@ def check_canonical_units(terms):
     import canonical_units as cu
     classes = {}
     for tier in ("stable", "draft", "deprecated"):
-        for f in glob.glob(os.path.join(ROOT, "schemas", "V_eta", tier, "*.json")):
+        for f in glob.glob(os.path.join(ROOT, "schemas", "did_v2", tier, "*.json")):
             d = _load(f)
             if "document_class" in d:
                 classes[d["document_class"]["class_name"]] = d
@@ -317,7 +317,7 @@ def main():
     else:
         print(f"R7: {n_empty} EMPTY term(s) compared with {owl_path}")
         failures = failures + check_empty(terms, owl)
-    bindings_path = os.path.join(ROOT, "schemas", "V_eta", "stable",
+    bindings_path = os.path.join(ROOT, "schemas", "did_v2", "stable",
                                  "binding_registry_meta.json")
     if os.path.exists(bindings_path):
         bindings = _load(bindings_path)

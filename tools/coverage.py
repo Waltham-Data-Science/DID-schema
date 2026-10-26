@@ -44,7 +44,7 @@ import decision_citations as dc  # noqa: E402
 import sibling_lock  # noqa: E402
 
 SCHEMA_ROOT = os.path.dirname(HERE)
-INDEX = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
+INDEX = os.path.join(SCHEMA_ROOT, "schemas", "did_v2", "index.json")
 LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
 TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
 

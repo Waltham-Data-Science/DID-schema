@@ -186,7 +186,7 @@ export function ClassDetail({ v1Class, index, onSelect, onBack }: Props) {
       </Step>
 
       <Step n="7" title="The built schema for each target"
-        source={`schemas/V_eta — the built tree, read through the set index (${index.length} classes)`}>
+        source={`schemas/did_v2 — the built tree, read through the set index (${index.length} classes)`}>
         <TargetSchemas targets={targets} index={index} onSelect={onSelect} />
       </Step>
 
@@ -663,7 +663,7 @@ function BuildStatePanel({ row }: { row: CoverageRow | null }) {
               : <span className="muted">{DASH}</span>}
           </td>
           <td className="doc-cell">
-            Present in the built <code>schemas/V_eta</code> tree. A fact about
+            Present in the built <code>schemas/did_v2</code> tree. A fact about
             this repository only.
           </td>
         </tr>

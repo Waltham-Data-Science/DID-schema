@@ -7,7 +7,7 @@
     python3 tools/gates.py --explain  print the derived order and the
                                       evidence for every edge, run nothing
 
-WHY THIS EXISTS. A schema change is an edit to `schemas/V_eta/` (the JSON is
+WHY THIS EXISTS. A schema change is an edit to `schemas/did_v2/` (the JSON is
 the source since 2026-10-21, checked by `tools/validate_v_eta.py`; until then
 `tools/build_v_eta.py` was the file every change went through), and the
 cost of an edit is not the file: it is that FOUR generated
@@ -253,13 +253,13 @@ STEPS = [
          writes=["schemas/V_eta_ndi_ground_truth.json"],
          requires=["NDI-matlab", "DID-matlab"]),
 
-    # The JSON under schemas/V_eta is the source (OPEN_WORK #128, 2026-10-21).
+    # The JSON under schemas/did_v2 is the source (OPEN_WORK #128, 2026-10-21).
     # This step checks every rule build_v_eta.py used to guarantee and writes
     # the four derived pieces (index.json, the term registry copy, the relation
     # value sets, the NDI required-ness stamp); --check writes nothing.
     Step("validate_v_eta", _t("validate_v_eta.py", "--quiet-stamp"), "generate",
          r"^V_eta validated: (\d+) schemas", "schemas validated",
-         writes=["schemas/V_eta"],
+         writes=["schemas/did_v2"],
          check_argv=_t("validate_v_eta.py", "--check", "--quiet-stamp")),
 
     # #32. The registry's `strength` column is DERIVED from the field
@@ -269,7 +269,7 @@ STEPS = [
     Step("regen_binding_strengths", _t("regen_binding_strengths.py"), "generate",
          r"^DENOMINATOR: (\d+) bound field declaration\(s\) read",
          "bound field declarations",
-         writes=["schemas/V_eta/stable/binding_registry_meta.json"],
+         writes=["schemas/did_v2/stable/binding_registry_meta.json"],
          check_argv=_t("regen_binding_strengths.py", "--check")),
 
     # CHECK-ONLY, ALWAYS. `V_eta_migration_targets.json` is half CURATED and
@@ -547,7 +547,7 @@ STEPS = [
          writes=["web/public/tenets.json"],
          check_argv=_t("tenet_map.py", "--check")),
 
-    # THE V_eta SHAPE PANEL (issue #72). The panel reads schemas/V_eta/**/*.json
+    # THE V_eta SHAPE PANEL (issue #72). The panel reads schemas/did_v2/**/*.json
     # and two schemas/*.md files at BUILD TIME (web/src/veta/sources.ts), so
     # there is no served copy for `check_web_assets_fresh` to compare. What
     # can drift is the inputs against EACH OTHER -- a class built but placed
@@ -617,12 +617,12 @@ EDGES = [
          "in the ground truth.",
          "tools/check_tombstones.py", r"V_eta_ndi_ground_truth\.json"),
 
-    Edge("validate_v_eta", "check_tombstones", "schemas/V_eta",
+    Edge("validate_v_eta", "check_tombstones", "schemas/did_v2",
          "the other side of each comparison is the BUILT tombstone, read from "
          "V_eta/index.json.",
-         "tools/check_tombstones.py", r'"V_eta"'),
+         "tools/check_tombstones.py", r'"did_v2"'),
 
-    Edge("validate_v_eta", "refresh_migration_targets", "schemas/V_eta",
+    Edge("validate_v_eta", "refresh_migration_targets", "schemas/did_v2",
          "its INSTRUMENT CHECK asks whether every derived target name exists in "
          "the built V_eta set (via coverage.veta_index).",
          "tools/refresh_migration_targets.py", r"veta_index"),
@@ -632,21 +632,21 @@ EDGES = [
          "the ledger's `how`/target column comes from the curated targets file.",
          "tools/coverage.py", r"V_eta_migration_targets\.json"),
 
-    Edge("validate_v_eta", "coverage", "schemas/V_eta",
-         "coverage.py reads schemas/V_eta/index.json to decide which v1 class "
+    Edge("validate_v_eta", "coverage", "schemas/did_v2",
+         "coverage.py reads schemas/did_v2/index.json to decide which v1 class "
          "has a V_eta home. Run it before the validator and the ledger grades the "
          "previous schema set.",
-         "tools/coverage.py", r'"V_eta", "index\.json"'),
+         "tools/coverage.py", r'"did_v2", "index\.json"'),
 
-    Edge("validate_v_eta", "regen_final_class_set", "schemas/V_eta",
+    Edge("validate_v_eta", "regen_final_class_set", "schemas/did_v2",
          "the persist set IS the `disposition` markers in the built "
          "V_eta/index.json -- there is no other source for it.",
-         "tools/regen_final_class_set.py", r'"V_eta", "index\.json"'),
+         "tools/regen_final_class_set.py", r'"did_v2", "index\.json"'),
 
-    Edge("validate_v_eta", "check_veta_viewer", "schemas/V_eta",
+    Edge("validate_v_eta", "check_veta_viewer", "schemas/did_v2",
          "the V_eta shape panel globs the BUILT tree; gating it before the "
          "build grades the previous schema set.",
-         "web/src/veta/grammar.json", r'"schemas/V_eta/\*\*/\*\.json"'),
+         "web/src/veta/grammar.json", r'"schemas/did_v2/\*\*/\*\.json"'),
 
     Edge("regen_final_class_set", "check_veta_viewer",
          "schemas/V_eta_final_class_set.md",
@@ -654,9 +654,9 @@ EDGES = [
          "final-set document; a stale one places classes wrongly.",
          "web/src/veta/grammar.json", r"V_eta_final_class_set\.md"),
 
-    Edge("validate_v_eta", "status_board", "schemas/V_eta",
+    Edge("validate_v_eta", "status_board", "schemas/did_v2",
          "the board's class state is read from the built V_eta/index.json.",
-         "tools/status_board.py", r'"V_eta", "index\.json"'),
+         "tools/status_board.py", r'"did_v2", "index\.json"'),
 
     Edge("coverage", "status_board", "schemas/V_eta_coverage_ledger.json",
          "the board joins its class rows against the ledger JSON coverage.py "
@@ -690,11 +690,11 @@ EDGES = [
     # this chain has not yet regenerated and the verdict describes yesterday's
     # tree -- which is the failure the prose already has, arriving in the tool
     # that exists to find it.
-    Edge("validate_v_eta", "check_prose_counts", "schemas/V_eta",
+    Edge("validate_v_eta", "check_prose_counts", "schemas/did_v2",
          "the V_eta file count, the distinct class names, the `value` "
          "direct subclasses and the bound-field count are all walked out of "
          "the BUILT tree.",
-         "tools/check_prose_counts.py", r'"V_eta"'),
+         "tools/check_prose_counts.py", r'"did_v2"'),
 
     Edge("coverage", "check_prose_counts", "schemas/V_eta_coverage_ledger.json",
          "the `ledger_rows` derivation is `len(ledger['rows'])`. Read the "
@@ -710,16 +710,16 @@ EDGES = [
          "tools/check_prose_counts.py", r"V_eta_ndi_ground_truth\.json"),
 
     Edge("regen_binding_strengths", "check_prose_counts",
-         "schemas/V_eta/stable/binding_registry_meta.json",
+         "schemas/did_v2/stable/binding_registry_meta.json",
          "`registry_rows` counts the registry's row lists, and the registry is "
          "rewritten by the strength derivation. The 34-vs-38 correction was "
          "exactly a miscount of those lists, so grading it against a stale "
          "copy would re-create the defect.",
          "tools/check_prose_counts.py", r"binding_registry_meta\.json"),
 
-    Edge("validate_v_eta", "check_duplicate_field_declarations", "schemas/V_eta",
+    Edge("validate_v_eta", "check_duplicate_field_declarations", "schemas/did_v2",
          "it walks every class chain in the built schema root.",
-         "tools/check_duplicate_field_declarations.py", r'"V_eta"'),
+         "tools/check_duplicate_field_declarations.py", r'"did_v2"'),
 
     Edge("ndi_ground_truth", "check_duplicate_field_declarations",
          "schemas/V_eta_ndi_ground_truth.json",
@@ -731,9 +731,9 @@ EDGES = [
          "tools/check_duplicate_field_declarations.py",
          r"V_eta_ndi_ground_truth\.json"),
 
-    Edge("validate_v_eta", "check_constraint_refinement", "schemas/V_eta",
+    Edge("validate_v_eta", "check_constraint_refinement", "schemas/did_v2",
          "same sweep, one level deeper -- it opens the built declarations.",
-         "tools/check_constraint_refinement.py", r'"V_eta"'),
+         "tools/check_constraint_refinement.py", r'"did_v2"'),
 
     # ADDED 2026-08-12. This reader had NO ground-truth edge while its four
     # siblings did -- validate_v_eta, check_migrator_vocabulary, check_tombstones
@@ -761,12 +761,12 @@ EDGES = [
          r"V_eta_ndi_ground_truth\.json"),
 
     Edge("validate_v_eta", "check_term_registry",
-         "schemas/V_eta/stable/term_registry_meta.json",
+         "schemas/did_v2/stable/term_registry_meta.json",
          "R6 compares the built copy against the authored source; check it "
          "before the validator and a source edit reads as a stale copy.",
          "tools/check_term_registry.py", r"term_registry_meta\.json"),
 
-    Edge("validate_v_eta", "check_carry_register", "schemas/V_eta/index.json",
+    Edge("validate_v_eta", "check_carry_register", "schemas/did_v2/index.json",
          "C4 walks every class through index.json to find a field a not_modelled "
          "row forbids; read before the validator rewrites it and a new class is "
          "not looked at.",
@@ -777,50 +777,50 @@ EDGES = [
          "read before coverage.py writes it and a new v1 class reads as unknown.",
          "tools/check_carry_register.py", r"V_eta_coverage_ledger\.json"),
 
-    Edge("validate_v_eta", "check_binding_governance", "schemas/V_eta",
+    Edge("validate_v_eta", "check_binding_governance", "schemas/did_v2",
          "the binding registry it audits is checked and partly derived by the validator.",
-         "tools/check_binding_governance.py", r'"V_eta"'),
+         "tools/check_binding_governance.py", r'"did_v2"'),
 
     # ---- #32: the derived strength column --------------------------------
-    Edge("validate_v_eta", "regen_binding_strengths", "schemas/V_eta",
+    Edge("validate_v_eta", "regen_binding_strengths", "schemas/did_v2",
          "the validator writes the relation fields' bound value sets (D3) from "
          "the registry, and regen reads every field binding. Regenerate before "
          "it and the column describes the PREVIOUS schema set.",
-         "tools/regen_binding_strengths.py", r'"V_eta"'),
+         "tools/regen_binding_strengths.py", r'"did_v2"'),
 
     Edge("regen_binding_strengths", "check_binding_governance",
-         "schemas/V_eta/stable/binding_registry_meta.json",
+         "schemas/did_v2/stable/binding_registry_meta.json",
          "B5 compares each registry row's strength against the field's. Audit "
          "the registry before the column is derived and B5 grades a column "
          "that may be stale.",
          "tools/check_binding_governance.py", r"binding_registry_meta\.json"),
 
     Edge("regen_binding_strengths", "pytest",
-         "schemas/V_eta/stable/binding_registry_meta.json",
+         "schemas/did_v2/stable/binding_registry_meta.json",
          "test_veta.py::test_field_and_registry_strengths_agree opens the "
          "registry by path and compares it to the field declarations; run "
          "before the derivation and it tests the previous column.",
          "tests/test_veta.py", r"binding_registry_meta\.json"),
 
-    Edge("validate_v_eta", "check_empty_ontology_nodes", "schemas/V_eta",
+    Edge("validate_v_eta", "check_empty_ontology_nodes", "schemas/did_v2",
          "the schema half of the sweep walks the built ontology_term fields.",
-         "tools/check_empty_ontology_nodes.py", r'"V_eta"'),
+         "tools/check_empty_ontology_nodes.py", r'"did_v2"'),
 
-    Edge("validate_v_eta", "pytest", "schemas/V_eta",
+    Edge("validate_v_eta", "pytest", "schemas/did_v2",
          "most of tests/test_veta.py asserts against the BUILT tree; running "
          "pytest before the validator tests the previous schema set and passes.",
-         "tests/test_veta.py", r'"V_eta"'),
+         "tests/test_veta.py", r'"did_v2"'),
 
     # ---- the served copies -----------------------------------------------
     # All three producers write something the viewer serves a COPY of, so the
     # freshness comparison has to happen after they have run: grade the copies
     # first and they are compared against the artifacts as they were BEFORE
     # this chain regenerated them, which is a pass that means nothing.
-    Edge("validate_v_eta", "check_web_assets_fresh", "schemas/V_eta",
-         "the whole V_eta set is copied into web/public/schemas/V_eta; the "
+    Edge("validate_v_eta", "check_web_assets_fresh", "schemas/did_v2",
+         "the whole V_eta set is copied into web/public/schemas/did_v2; the "
          "checker names V_eta as the set the viewer defaults to and fails when "
          "the contract stops serving it.",
-         "tools/check_web_assets_fresh.py", r'GATED_SET = "V_eta"'),
+         "tools/check_web_assets_fresh.py", r'GATED_SET = "did_v2"'),
 
     Edge("coverage", "check_web_assets_fresh",
          "schemas/V_eta_coverage_ledger.json",
@@ -846,7 +846,7 @@ EDGES = [
          "the shape we assumed rather than the shape NDI writes.",
          "tools/gen_class_walkthrough.py", r"V_eta_ndi_ground_truth\.json"),
 
-    Edge("validate_v_eta", "tenet_map", "schemas/V_eta",
+    Edge("validate_v_eta", "tenet_map", "schemas/did_v2",
          "every class a tenet row names is checked against the BUILT index "
          "before the row is allowed to render, which is what stops the table "
          "showing leadership a rename of a class that no longer exists -- it "

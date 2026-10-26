@@ -9,7 +9,7 @@ import type { TenetRow, TenetsDoc } from "../types";
 
 // THE V_eta SHAPE, READ FROM THE SCHEMA TREE AT BUILD TIME.
 //
-// Every class on this page comes from schemas/V_eta/**/*.json, every category
+// Every class on this page comes from schemas/did_v2/**/*.json, every category
 // from schemas/V_eta_final_class_set.md, every tenet from
 // schemas/V_eta_tenets.md -- see sources.ts. There is no class data in this
 // file. Change a schema, rebuild, and this page changes with it.
@@ -88,7 +88,7 @@ export default function VetaViewer({ onOpenSchema }: Props) {
         <h2>V_eta schema shape</h2>
         <p className="registry-description">
           The go-forward V_eta class set, rendered directly from{" "}
-          <code>schemas/V_eta/</code> at build time as an inheritance tree from{" "}
+          <code>schemas/did_v2/</code> at build time as an inheritance tree from{" "}
           <code>base</code>. Nothing here is copied in: edit a schema, rebuild,
           and this page follows.
         </p>

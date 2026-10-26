@@ -30,7 +30,19 @@
         {
             "name": "software_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the software that produced this value, an entity of type software (name + version + citation id). The agent of a computation; distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Optional on calculations too (Jess Haley 2026-10-22 [calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md; calculation.require_inherited is empty): a migrated calculation whose source records no software has none.",
+            "documentation": "Optional: the software that PRODUCED this statement, an entity of type software (name + version + citation id) (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [software_id is what produced the statement]): for a calculation the program that computed it; for an acquired observation the program that acquired it; for a decoded stimulus presentation the decoder that produced the playlist from the stimulus files (NDI `decoder.m` stamps its `app`), not the program that presented the stimulus. One meaning everywhere; no separate 'recorded by' link. `operating_system_id` and `interpreter_id` describe the same run ([run environment on interactions]). Distinct from instrument_id (a measuring device) and from input_id (the input data, on calculations). Optional on calculations too (Jess Haley 2026-10-22 [calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md; calculation.require_inherited is empty): a migrated calculation whose source records no software has none.",
+            "must_refer_to_document_class": "entity"
+        },
+        {
+            "name": "interpreter_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the interpreter the producing run executed on (e.g. MATLAB R2023b, Python 3.11), as a `software` entity (name + version). Present whenever the producing program runs in one; absent for a compiled program, which has none (#73 item 53, made optional 2026-10-04; replaces the environment entity's interpreter / interpreter_version). The run's, not the calculator's supported interpreters. On `interaction` since 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md [run environment on interactions]; moved from `calculation`): a manipulation or an observation has it too, e.g. the machine a stimulus program ran on. It describes the same run as `software_id`, the run that produced this statement ([software_id is what produced the statement]). Not on `method` ([small unread settings]).",
+            "must_refer_to_document_class": "entity"
+        },
+        {
+            "name": "operating_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the operating system the producing run executed on (e.g. macOS 14.5), as a `software` entity (name + version). Present whenever the operating system is known; absent when the source never recorded it, as no v1 calculation does (#73 item 53, made optional 2026-10-21; replaces the environment entity's os / os_version). The run's OS, not the OS the software supports (openMINDS SoftwareVersion.operatingSystem). On `interaction` since 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md [run environment on interactions]; moved from `calculation`): a manipulation or an observation has it too, e.g. the machine a stimulus program ran on. It describes the same run as `software_id`, the run that produced this statement ([software_id is what produced the statement]). Not on `method` ([small unread settings]).",
             "must_refer_to_document_class": "entity"
         },
         {

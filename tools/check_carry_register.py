@@ -43,7 +43,7 @@ import decision_citations as dc  # noqa: E402
 
 REGISTER = os.path.join(ROOT, "schemas", "V_eta_carry_register.json")
 LEDGER = os.path.join(ROOT, "schemas", "V_eta_coverage_ledger.json")
-VETA = os.path.join(ROOT, "schemas", "V_eta")
+VETA = os.path.join(ROOT, "schemas", "did_v2")
 INDEX = os.path.join(VETA, "index.json")
 
 KINDS = ["awaiting_home", "needs_mapping", "not_modelled", "malformed"]

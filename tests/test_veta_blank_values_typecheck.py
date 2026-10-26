@@ -45,7 +45,7 @@ import os
 import pathlib
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 # Not schemas: the build's index and topic manifests carry no `fields`.
 NON_SCHEMA = {"index.json", "topics.json"}
@@ -268,7 +268,7 @@ def _scan():
 
 
 def _denominator(stats):
-    return (f"DENOMINATOR: {stats['files']} schema file(s) under schemas/V_eta/ "
+    return (f"DENOMINATOR: {stats['files']} schema file(s) under schemas/did_v2/ "
             f"({stats['files_with_fields']} declaring `fields`), "
             f"{stats['fields']} field entr(ies) read INCLUDING nested, "
             f"{len(stats['by_type'])} distinct declared type(s); "

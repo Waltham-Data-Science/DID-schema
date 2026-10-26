@@ -68,7 +68,7 @@ SYNC_JS = '''
 import { cp, writeFile } from "node:fs/promises";
 const schemasDir = resolve(repoRoot, "schemas");
 const publicSchemas = resolve(publicDir, "schemas");
-const versions = entries.filter((d) => /^V_/.test(d.name) &&
+const versions = entries.filter((d) => /^(V_|did_v)/.test(d.name) &&
   existsSync(resolve(schemasDir, d.name, "index.json"))).map((d) => d.name);
 for (const v of versions) {
   await cp(resolve(schemasDir, v), resolve(publicSchemas, v), { recursive: true });
@@ -92,8 +92,8 @@ def make_repo(tmp_path, sync_js=SYNC_JS):
     root = str(tmp_path / "repo")
     _write(os.path.join(root, "web", "scripts", "sync-schemas.mjs"), sync_js)
     _write(os.path.join(root, "schemas", "V_zeta", "index.json"), '{"set": "zeta"}\n')
-    _write(os.path.join(root, "schemas", "V_eta", "index.json"), '{"set": "eta"}\n')
-    _write(os.path.join(root, "schemas", "V_eta", "stable", "strain.json"), '{"c": 1}\n')
+    _write(os.path.join(root, "schemas", "did_v2", "index.json"), '{"set": "eta"}\n')
+    _write(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"), '{"c": 1}\n')
     _write(os.path.join(root, "schemas", "V_eta_coverage_ledger.json"), '{"rows": 102}\n')
     _write(os.path.join(root, "schemas", "V_eta_decisions.json"), '{"families": 9}\n')
     sync(root)
@@ -183,9 +183,9 @@ def test_a_stale_served_file_reddens(tmp_path):
 
 def test_a_stale_served_schema_reddens_too(tmp_path):
     """Not just the two named JSONs: the whole copied schema set is graded, and
-    seven of the nine real findings were files under schemas/V_eta."""
+    seven of the nine real findings were files under schemas/did_v2."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "V_eta", "stable", "strain.json"),
+    _write(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"),
            '{"c": 2}\n')
     rc, out = run(root)
     assert rc != 0, out
@@ -208,7 +208,7 @@ def test_a_served_copy_whose_source_was_deleted_is_an_ORPHAN_not_an_unknown(tmp_
     classes since deleted from `schemas/`; calling them 'unexplained' would
     hide that the viewer is still serving a class that no longer exists."""
     root = make_repo(tmp_path)
-    os.remove(os.path.join(root, "schemas", "V_eta", "stable", "strain.json"))
+    os.remove(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"))
     rc, out = run(root)
     assert rc != 0, out
     assert "ORPHANED -- served, but the source no longer exists: 1" in out, out
@@ -220,7 +220,7 @@ def test_a_source_with_no_served_copy_is_reported(tmp_path):
     since the last sync is invisible in the viewer, and invisible is exactly
     what a check over the served files alone would also be."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "V_eta", "stable", "logical.json"), "{}\n")
+    _write(os.path.join(root, "schemas", "did_v2", "stable", "logical.json"), "{}\n")
     rc, out = run(root)
     assert rc != 0, out
     assert "UNSERVED -- the contract serves it, no served copy exists: 1" in out, out
@@ -269,7 +269,7 @@ def test_the_versions_manifest_is_checked_against_the_sets_that_exist(tmp_path):
     in its output that this is less than a byte comparison."""
     root = make_repo(tmp_path)
     _write(os.path.join(root, "web", "public", "schemas", "versions.json"),
-           json.dumps({"versions": ["V_eta"], "default": "V_eta"}) + "\n")
+           json.dumps({"versions": ["did_v2"], "default": "did_v2"}) + "\n")
     rc, out = run(root)
     assert rc != 0, out
     assert "WRITTEN-IN-PLACE problems: 1" in out, out

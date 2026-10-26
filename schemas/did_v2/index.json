@@ -1,5 +1,5 @@
 {
-    "set_version": "V_eta",
+    "set_version": "did_v2",
     "schema_version_value": "did_v2",
     "based_on": "V_zeta",
     "tiers": [
@@ -19,7 +19,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/CURIE_lookups_meta.json",
+            "path": "schemas/did_v2/stable/CURIE_lookups_meta.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -29,7 +29,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/binding_registry_meta.json",
+            "path": "schemas/did_v2/stable/binding_registry_meta.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -39,7 +39,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/class_disposition_meta.json",
+            "path": "schemas/did_v2/stable/class_disposition_meta.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -49,7 +49,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/did_schema_meta.json",
+            "path": "schemas/did_v2/stable/did_schema_meta.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -59,7 +59,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/ndi_reserved_keys.json",
+            "path": "schemas/did_v2/stable/ndi_reserved_keys.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -69,7 +69,7 @@
             "class_version": null,
             "maturity_level": null,
             "superclasses": [],
-            "path": "schemas/V_eta/stable/term_registry_meta.json",
+            "path": "schemas/did_v2/stable/term_registry_meta.json",
             "is_meta": true,
             "disposition": "persist"
         },
@@ -81,7 +81,7 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/absolute_time_reference.json",
+            "path": "schemas/did_v2/stable/absolute_time_reference.json",
             "disposition": "persist"
         },
         {
@@ -92,7 +92,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/acceleration.json",
+            "path": "schemas/did_v2/stable/acceleration.json",
             "disposition": "persist"
         },
         {
@@ -103,7 +103,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/acquisition_channels.json",
+            "path": "schemas/did_v2/stable/acquisition_channels.json",
             "disposition": "persist"
         },
         {
@@ -115,7 +115,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/acquisition_epoch.json",
+            "path": "schemas/did_v2/stable/acquisition_epoch.json",
             "disposition": "retire",
             "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). V_eta_epoch_plan.md [JH position and distance]"
         },
@@ -127,7 +127,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/acquisition_reader.json",
+            "path": "schemas/did_v2/stable/acquisition_reader.json",
             "disposition": "persist"
         },
         {
@@ -138,7 +138,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/acquisition_system.json",
+            "path": "schemas/did_v2/stable/acquisition_system.json",
             "disposition": "persist"
         },
         {
@@ -149,7 +149,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/angle.json",
+            "path": "schemas/did_v2/stable/angle.json",
             "disposition": "persist"
         },
         {
@@ -160,7 +160,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/angular_velocity.json",
+            "path": "schemas/did_v2/stable/angular_velocity.json",
             "disposition": "persist"
         },
         {
@@ -171,7 +171,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/app.json",
+            "path": "schemas/did_v2/stable/app.json",
             "disposition": "in_progress",
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
@@ -183,7 +183,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/area.json",
+            "path": "schemas/did_v2/stable/area.json",
             "disposition": "persist"
         },
         {
@@ -194,7 +194,7 @@
             "superclasses": [
                 "statement"
             ],
-            "path": "schemas/V_eta/stable/assertion.json",
+            "path": "schemas/did_v2/stable/assertion.json",
             "disposition": "persist"
         },
         {
@@ -203,7 +203,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [],
-            "path": "schemas/V_eta/stable/base.json",
+            "path": "schemas/did_v2/stable/base.json",
             "disposition": "persist"
         },
         {
@@ -214,7 +214,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/binaryseries_parameters.json",
+            "path": "schemas/did_v2/stable/binaryseries_parameters.json",
             "disposition": "in_progress",
             "disposition_note": "R5 proposed \u2192 acquisition_layout (awaiting review)"
         },
@@ -228,7 +228,7 @@
                 "epochid",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/binnedspikeratevm.json",
+            "path": "schemas/did_v2/stable/binnedspikeratevm.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -240,7 +240,7 @@
             "superclasses": [
                 "interaction"
             ],
-            "path": "schemas/V_eta/stable/calculation.json",
+            "path": "schemas/did_v2/stable/calculation.json",
             "disposition": "persist"
         },
         {
@@ -252,7 +252,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/calculator.json",
+            "path": "schemas/did_v2/stable/calculator.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -264,7 +264,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/capacitance.json",
+            "path": "schemas/did_v2/stable/capacitance.json",
             "disposition": "persist"
         },
         {
@@ -275,7 +275,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/cell_type_labels.json",
+            "path": "schemas/did_v2/stable/cell_type_labels.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -287,7 +287,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/charge.json",
+            "path": "schemas/did_v2/stable/charge.json",
             "disposition": "persist"
         },
         {
@@ -298,7 +298,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/chemical.json",
+            "path": "schemas/did_v2/stable/chemical.json",
             "disposition": "persist"
         },
         {
@@ -310,7 +310,7 @@
                 "relation",
                 "polynomial"
             ],
-            "path": "schemas/V_eta/draft/clock_alignment.json",
+            "path": "schemas/did_v2/draft/clock_alignment.json",
             "disposition": "persist"
         },
         {
@@ -321,7 +321,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/clock_alignment_configuration.json",
+            "path": "schemas/did_v2/draft/clock_alignment_configuration.json",
             "disposition": "persist"
         },
         {
@@ -332,7 +332,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/clock_alignment_policy.json",
+            "path": "schemas/did_v2/draft/clock_alignment_policy.json",
             "disposition": "persist"
         },
         {
@@ -343,7 +343,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/concentration.json",
+            "path": "schemas/did_v2/stable/concentration.json",
             "disposition": "persist"
         },
         {
@@ -354,7 +354,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/conductance.json",
+            "path": "schemas/did_v2/stable/conductance.json",
             "disposition": "persist"
         },
         {
@@ -365,7 +365,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/contrast_sensitivity.json",
+            "path": "schemas/did_v2/stable/contrast_sensitivity.json",
             "disposition": "persist"
         },
         {
@@ -377,7 +377,7 @@
                 "calculation",
                 "contrast_sensitivity"
             ],
-            "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
+            "path": "schemas/did_v2/stable/contrast_sensitivity_calculation.json",
             "disposition": "persist"
         },
         {
@@ -388,7 +388,7 @@
             "superclasses": [
                 "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/contrast_tuning_calculation.json",
+            "path": "schemas/did_v2/stable/contrast_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -400,7 +400,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/control_stimulus_ids.json",
+            "path": "schemas/did_v2/stable/control_stimulus_ids.json",
             "disposition": "retire",
             "disposition_note": "consumed \u2192 item.control_item (#73 item 67; was timed_sequence)"
         },
@@ -412,7 +412,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/coordinate_system.json",
+            "path": "schemas/did_v2/draft/coordinate_system.json",
             "disposition": "persist"
         },
         {
@@ -423,7 +423,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/count.json",
+            "path": "schemas/did_v2/stable/count.json",
             "disposition": "persist"
         },
         {
@@ -434,7 +434,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/current.json",
+            "path": "schemas/did_v2/stable/current.json",
             "disposition": "persist"
         },
         {
@@ -445,7 +445,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqmetadatareader.json",
+            "path": "schemas/did_v2/stable/daqmetadatareader.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -458,9 +458,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 daqmetadatareader_epoch_cache (awaiting review)"
+            "path": "schemas/did_v2/stable/daqmetadatareader_epochdata_ingested.json",
+            "disposition": "retire",
+            "disposition_note": "becomes an opaque_body owned by the epoch's stimulus-presentation manipulation (NDI second pass); with no matching presentation it is carried as v1. V_eta_go_forward_class_audit.md [ingested stimulus file is a body of the presentation]"
         },
         {
             "class_name": "daqreader",
@@ -470,7 +470,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqreader.json",
+            "path": "schemas/did_v2/stable/daqreader.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -483,7 +483,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
+            "path": "schemas/did_v2/stable/daqreader_epochdata_ingested.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -497,7 +497,7 @@
                 "daqreader_epochdata_ingested",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
+            "path": "schemas/did_v2/stable/daqreader_image_epochdata_ingested.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -509,7 +509,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqsystem.json",
+            "path": "schemas/did_v2/stable/daqsystem.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -521,7 +521,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/data.json",
+            "path": "schemas/did_v2/stable/data.json",
             "disposition": "persist"
         },
         {
@@ -532,7 +532,7 @@
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/V_eta/draft/data_body.json",
+            "path": "schemas/did_v2/draft/data_body.json",
             "disposition": "persist"
         },
         {
@@ -543,7 +543,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/date.json",
+            "path": "schemas/did_v2/stable/date.json",
             "disposition": "persist"
         },
         {
@@ -554,7 +554,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/demo.json",
+            "path": "schemas/did_v2/stable/demo.json",
             "disposition": "persist"
         },
         {
@@ -565,7 +565,7 @@
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/V_eta/stable/directed_relation.json",
+            "path": "schemas/did_v2/stable/directed_relation.json",
             "disposition": "persist"
         },
         {
@@ -576,7 +576,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/distance_metadata.json",
+            "path": "schemas/did_v2/stable/distance_metadata.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -588,7 +588,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/dose.json",
+            "path": "schemas/did_v2/stable/dose.json",
             "disposition": "persist"
         },
         {
@@ -599,7 +599,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/electrode_offset_voltage.json",
+            "path": "schemas/did_v2/stable/electrode_offset_voltage.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -611,7 +611,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/element.json",
+            "path": "schemas/did_v2/stable/element.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -623,7 +623,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/energy.json",
+            "path": "schemas/did_v2/stable/energy.json",
             "disposition": "persist"
         },
         {
@@ -636,7 +636,7 @@
                 "epochid",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/ensemble.json",
+            "path": "schemas/did_v2/stable/ensemble.json",
             "disposition": "retire",
             "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], V_eta_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (V_eta_migration_targets.json ensemble.how)."
         },
@@ -648,7 +648,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/entity.json",
+            "path": "schemas/did_v2/stable/entity.json",
             "disposition": "persist"
         },
         {
@@ -659,7 +659,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epoch_file_pattern.json",
+            "path": "schemas/did_v2/stable/epoch_file_pattern.json",
             "disposition": "persist"
         },
         {
@@ -670,7 +670,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epoch_parameter_reader.json",
+            "path": "schemas/did_v2/stable/epoch_parameter_reader.json",
             "disposition": "persist"
         },
         {
@@ -681,7 +681,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epochfiles_ingested.json",
+            "path": "schemas/did_v2/stable/epochfiles_ingested.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -693,7 +693,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epochid.json",
+            "path": "schemas/did_v2/stable/epochid.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -705,7 +705,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/file_reference.json",
+            "path": "schemas/did_v2/stable/file_reference.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -717,7 +717,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/filenavigator.json",
+            "path": "schemas/did_v2/stable/filenavigator.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -729,7 +729,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/filter.json",
+            "path": "schemas/did_v2/stable/filter.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -741,7 +741,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/fitcurve.json",
+            "path": "schemas/did_v2/stable/fitcurve.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -753,7 +753,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/force.json",
+            "path": "schemas/did_v2/stable/force.json",
             "disposition": "persist"
         },
         {
@@ -764,7 +764,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/formulation.json",
+            "path": "schemas/did_v2/stable/formulation.json",
             "disposition": "persist"
         },
         {
@@ -775,7 +775,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/frequency.json",
+            "path": "schemas/did_v2/stable/frequency.json",
             "disposition": "persist"
         },
         {
@@ -786,7 +786,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/frequency_filter.json",
+            "path": "schemas/did_v2/stable/frequency_filter.json",
             "disposition": "persist"
         },
         {
@@ -797,7 +797,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/gain.json",
+            "path": "schemas/did_v2/stable/gain.json",
             "disposition": "persist"
         },
         {
@@ -808,7 +808,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/gene_expression.json",
+            "path": "schemas/did_v2/stable/gene_expression.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -820,7 +820,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/gene_list.json",
+            "path": "schemas/did_v2/stable/gene_list.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -832,7 +832,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/gene_list_mapping.json",
+            "path": "schemas/did_v2/stable/gene_list_mapping.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -844,7 +844,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/generic_file.json",
+            "path": "schemas/did_v2/stable/generic_file.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -856,7 +856,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/harmonic_component.json",
+            "path": "schemas/did_v2/draft/harmonic_component.json",
             "disposition": "persist"
         },
         {
@@ -868,7 +868,7 @@
                 "calculator",
                 "hartley_reverse_correlation"
             ],
-            "path": "schemas/V_eta/stable/hartley_calc.json",
+            "path": "schemas/did_v2/stable/hartley_calc.json",
             "disposition": "retire",
             "disposition_note": "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, signed 2026-08-17). Tombstone kept so unmigrated documents validate"
         },
@@ -881,7 +881,7 @@
                 "base",
                 "reverse_correlation"
             ],
-            "path": "schemas/V_eta/stable/hartley_reverse_correlation.json",
+            "path": "schemas/did_v2/stable/hartley_reverse_correlation.json",
             "disposition": "retire",
             "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
@@ -893,7 +893,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/humidity.json",
+            "path": "schemas/did_v2/draft/humidity.json",
             "disposition": "persist"
         },
         {
@@ -905,7 +905,7 @@
                 "base",
                 "image_stack_parameters"
             ],
-            "path": "schemas/V_eta/deprecated/image.json",
+            "path": "schemas/did_v2/deprecated/image.json",
             "disposition": "retire",
             "disposition_note": "did_v1 class (NDI data/image.json), restored as a tombstone when the V_eta `image` data_type retired (#73 item 51). A raster goes by what its pixels measure (intensity_observation, label_calculation, term_observation, ...)"
         },
@@ -917,7 +917,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/image_collection.json",
+            "path": "schemas/did_v2/deprecated/image_collection.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -930,7 +930,7 @@
                 "base",
                 "image_stack_parameters"
             ],
-            "path": "schemas/V_eta/deprecated/image_stack.json",
+            "path": "schemas/did_v2/deprecated/image_stack.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -942,7 +942,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
+            "path": "schemas/did_v2/deprecated/image_stack_parameters.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -954,7 +954,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ingestion_manifest.json",
+            "path": "schemas/did_v2/stable/ingestion_manifest.json",
             "disposition": "persist"
         },
         {
@@ -965,7 +965,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/intensity.json",
+            "path": "schemas/did_v2/stable/intensity.json",
             "disposition": "persist"
         },
         {
@@ -976,7 +976,7 @@
             "superclasses": [
                 "statement"
             ],
-            "path": "schemas/V_eta/stable/interaction.json",
+            "path": "schemas/did_v2/stable/interaction.json",
             "disposition": "persist"
         },
         {
@@ -987,7 +987,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/interaction_purpose.json",
+            "path": "schemas/did_v2/stable/interaction_purpose.json",
             "disposition": "in_progress",
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
@@ -999,7 +999,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/irradiance.json",
+            "path": "schemas/did_v2/draft/irradiance.json",
             "disposition": "persist"
         },
         {
@@ -1010,7 +1010,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/item.json",
+            "path": "schemas/did_v2/draft/item.json",
             "disposition": "persist"
         },
         {
@@ -1022,7 +1022,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/jrclust_clusters.json",
+            "path": "schemas/did_v2/stable/jrclust_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1035,7 +1035,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/kiasort_clusters.json",
+            "path": "schemas/did_v2/stable/kiasort_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1048,7 +1048,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/kilosort_clusters.json",
+            "path": "schemas/did_v2/stable/kilosort_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1060,7 +1060,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/label.json",
+            "path": "schemas/did_v2/draft/label.json",
             "disposition": "persist"
         },
         {
@@ -1071,7 +1071,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/length.json",
+            "path": "schemas/did_v2/stable/length.json",
             "disposition": "persist"
         },
         {
@@ -1082,7 +1082,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/lightsheet_zarr_level.json",
+            "path": "schemas/did_v2/deprecated/lightsheet_zarr_level.json",
             "disposition": "retire",
             "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
         },
@@ -1094,7 +1094,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/lightsheet_zarr_pyramid.json",
+            "path": "schemas/did_v2/deprecated/lightsheet_zarr_pyramid.json",
             "disposition": "retire",
             "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
         },
@@ -1106,7 +1106,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/linked_session.json",
+            "path": "schemas/did_v2/draft/linked_session.json",
             "disposition": "persist"
         },
         {
@@ -1117,7 +1117,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/logical.json",
+            "path": "schemas/did_v2/draft/logical.json",
             "disposition": "persist"
         },
         {
@@ -1128,7 +1128,7 @@
             "superclasses": [
                 "interaction"
             ],
-            "path": "schemas/V_eta/stable/manipulation.json",
+            "path": "schemas/did_v2/stable/manipulation.json",
             "disposition": "persist"
         },
         {
@@ -1139,7 +1139,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/mass.json",
+            "path": "schemas/did_v2/stable/mass.json",
             "disposition": "persist"
         },
         {
@@ -1150,7 +1150,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/measurement.json",
+            "path": "schemas/did_v2/stable/measurement.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1162,7 +1162,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/method.json",
+            "path": "schemas/did_v2/stable/method.json",
             "disposition": "persist"
         },
         {
@@ -1173,7 +1173,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/model_fit.json",
+            "path": "schemas/did_v2/draft/model_fit.json",
             "disposition": "persist"
         },
         {
@@ -1185,7 +1185,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/neuron_extracellular.json",
+            "path": "schemas/did_v2/stable/neuron_extracellular.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1197,7 +1197,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ngrid.json",
+            "path": "schemas/did_v2/stable/ngrid.json",
             "disposition": "retire",
             "disposition_note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
         },
@@ -1209,7 +1209,7 @@
             "superclasses": [
                 "interaction"
             ],
-            "path": "schemas/V_eta/stable/observation.json",
+            "path": "schemas/did_v2/stable/observation.json",
             "disposition": "persist"
         },
         {
@@ -1221,7 +1221,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/oneepoch.json",
+            "path": "schemas/did_v2/stable/oneepoch.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1234,7 +1234,7 @@
                 "base",
                 "ngrid"
             ],
-            "path": "schemas/V_eta/stable/ontology_image.json",
+            "path": "schemas/did_v2/stable/ontology_image.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1246,7 +1246,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ontology_label.json",
+            "path": "schemas/did_v2/stable/ontology_label.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1258,7 +1258,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ontology_table_row.json",
+            "path": "schemas/did_v2/stable/ontology_table_row.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1270,7 +1270,7 @@
             "superclasses": [
                 "data_body"
             ],
-            "path": "schemas/V_eta/draft/opaque_body.json",
+            "path": "schemas/did_v2/draft/opaque_body.json",
             "disposition": "persist"
         },
         {
@@ -1281,7 +1281,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/openminds.json",
+            "path": "schemas/did_v2/stable/openminds.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1294,7 +1294,7 @@
                 "base",
                 "openminds"
             ],
-            "path": "schemas/V_eta/stable/openminds_element.json",
+            "path": "schemas/did_v2/stable/openminds_element.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1308,7 +1308,7 @@
                 "openminds",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/openminds_stimulus.json",
+            "path": "schemas/did_v2/stable/openminds_stimulus.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1321,7 +1321,7 @@
                 "base",
                 "openminds"
             ],
-            "path": "schemas/V_eta/stable/openminds_subject.json",
+            "path": "schemas/did_v2/stable/openminds_subject.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1333,7 +1333,7 @@
             "superclasses": [
                 "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/orientation_direction_tuning_calculation.json",
+            "path": "schemas/did_v2/stable/orientation_direction_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1344,7 +1344,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/ph.json",
+            "path": "schemas/did_v2/stable/ph.json",
             "disposition": "persist"
         },
         {
@@ -1355,7 +1355,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/polynomial.json",
+            "path": "schemas/did_v2/draft/polynomial.json",
             "disposition": "persist"
         },
         {
@@ -1366,7 +1366,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/position.json",
+            "path": "schemas/did_v2/draft/position.json",
             "disposition": "persist"
         },
         {
@@ -1377,7 +1377,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/position_metadata.json",
+            "path": "schemas/did_v2/stable/position_metadata.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1389,7 +1389,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/power.json",
+            "path": "schemas/did_v2/stable/power.json",
             "disposition": "persist"
         },
         {
@@ -1400,7 +1400,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/pressure.json",
+            "path": "schemas/did_v2/stable/pressure.json",
             "disposition": "persist"
         },
         {
@@ -1411,7 +1411,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/probe_geometry.json",
+            "path": "schemas/did_v2/stable/probe_geometry.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1423,7 +1423,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/probe_location.json",
+            "path": "schemas/did_v2/stable/probe_location.json",
             "disposition": "retire",
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
@@ -1435,7 +1435,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/projectvar.json",
+            "path": "schemas/did_v2/deprecated/projectvar.json",
             "disposition": "in_progress",
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
@@ -1449,7 +1449,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/pyraview.json",
+            "path": "schemas/did_v2/stable/pyraview.json",
             "disposition": "retire",
             "disposition_note": "2.D \u2192 data_body fold"
         },
@@ -1461,7 +1461,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/receptive_field.json",
+            "path": "schemas/did_v2/stable/receptive_field.json",
             "disposition": "persist"
         },
         {
@@ -1473,7 +1473,7 @@
                 "calculation",
                 "receptive_field"
             ],
-            "path": "schemas/V_eta/stable/receptive_field_calculation.json",
+            "path": "schemas/did_v2/stable/receptive_field_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1484,7 +1484,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/relation.json",
+            "path": "schemas/did_v2/stable/relation.json",
             "disposition": "persist"
         },
         {
@@ -1495,7 +1495,7 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/relative_time_reference.json",
+            "path": "schemas/did_v2/stable/relative_time_reference.json",
             "disposition": "persist"
         },
         {
@@ -1506,7 +1506,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/resistance.json",
+            "path": "schemas/did_v2/stable/resistance.json",
             "disposition": "persist"
         },
         {
@@ -1518,7 +1518,7 @@
                 "base",
                 "ngrid"
             ],
-            "path": "schemas/V_eta/stable/reverse_correlation.json",
+            "path": "schemas/did_v2/stable/reverse_correlation.json",
             "disposition": "retire",
             "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
@@ -1530,7 +1530,7 @@
             "superclasses": [
                 "data_body"
             ],
-            "path": "schemas/V_eta/draft/sampled_body.json",
+            "path": "schemas/did_v2/draft/sampled_body.json",
             "disposition": "persist"
         },
         {
@@ -1541,7 +1541,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/score.json",
+            "path": "schemas/did_v2/stable/score.json",
             "disposition": "persist"
         },
         {
@@ -1553,7 +1553,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/simple_calc.json",
+            "path": "schemas/did_v2/stable/simple_calc.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1565,7 +1565,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/site2channelmap.json",
+            "path": "schemas/did_v2/stable/site2channelmap.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1578,7 +1578,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/sorting_parameters.json",
+            "path": "schemas/did_v2/stable/sorting_parameters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1590,7 +1590,7 @@
             "superclasses": [
                 "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/spatial_frequency_tuning_calculation.json",
+            "path": "schemas/did_v2/stable/spatial_frequency_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1601,7 +1601,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spatial_gene_expression_cells.json",
+            "path": "schemas/did_v2/stable/spatial_gene_expression_cells.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -1614,7 +1614,7 @@
                 "base",
                 "gene_expression"
             ],
-            "path": "schemas/V_eta/stable/spatial_gene_expression_pyramid.json",
+            "path": "schemas/did_v2/stable/spatial_gene_expression_pyramid.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -1626,7 +1626,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spatial_gene_expression_tiles.json",
+            "path": "schemas/did_v2/stable/spatial_gene_expression_tiles.json",
             "disposition": "retire",
             "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
@@ -1638,7 +1638,7 @@
             "superclasses": [
                 "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/speed_tuning_calculation.json",
+            "path": "schemas/did_v2/stable/speed_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1650,7 +1650,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/spike_clusters.json",
+            "path": "schemas/did_v2/stable/spike_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1663,7 +1663,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/spike_extraction_parameters.json",
+            "path": "schemas/did_v2/stable/spike_extraction_parameters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1676,7 +1676,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json",
+            "path": "schemas/did_v2/stable/spike_extraction_parameters_modification.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1688,7 +1688,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spike_interface_sorting_outputs.json",
+            "path": "schemas/did_v2/stable/spike_interface_sorting_outputs.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1702,7 +1702,7 @@
                 "epochid",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/spikewaves.json",
+            "path": "schemas/did_v2/stable/spikewaves.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1714,7 +1714,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/statement.json",
+            "path": "schemas/did_v2/stable/statement.json",
             "disposition": "persist"
         },
         {
@@ -1726,7 +1726,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/stimulus_parameter.json",
+            "path": "schemas/did_v2/stable/stimulus_parameter.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1739,7 +1739,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/deprecated/stimulus_parameter_table.json",
+            "path": "schemas/did_v2/deprecated/stimulus_parameter_table.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1753,9 +1753,9 @@
                 "app",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/stimulus_presentation.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "path": "schemas/did_v2/stable/stimulus_presentation.json",
+            "disposition": "retire",
+            "disposition_note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. V_eta_go_forward_class_audit.md [stimulus_presentation retired]"
         },
         {
             "class_name": "stimulus_response",
@@ -1765,7 +1765,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response.json",
+            "path": "schemas/did_v2/stable/stimulus_response.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1778,7 +1778,7 @@
                 "base",
                 "stimulus_response"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar.json",
+            "path": "schemas/did_v2/stable/stimulus_response_scalar.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1790,7 +1790,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters.json",
+            "path": "schemas/did_v2/stable/stimulus_response_scalar_parameters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1803,7 +1803,7 @@
                 "base",
                 "stimulus_response_scalar_parameters"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters_basic.json",
+            "path": "schemas/did_v2/stable/stimulus_response_scalar_parameters_basic.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1815,7 +1815,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/subjectmeasurement.json",
+            "path": "schemas/did_v2/stable/subjectmeasurement.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1827,7 +1827,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/substance_amount.json",
+            "path": "schemas/did_v2/stable/substance_amount.json",
             "disposition": "persist"
         },
         {
@@ -1838,7 +1838,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncgraph.json",
+            "path": "schemas/did_v2/stable/syncgraph.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -1850,7 +1850,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncrule.json",
+            "path": "schemas/did_v2/stable/syncrule.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -1862,7 +1862,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncrule_mapping.json",
+            "path": "schemas/did_v2/stable/syncrule_mapping.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -1874,7 +1874,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/temperature.json",
+            "path": "schemas/did_v2/stable/temperature.json",
             "disposition": "persist"
         },
         {
@@ -1885,7 +1885,7 @@
             "superclasses": [
                 "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/temporal_frequency_tuning_calculation.json",
+            "path": "schemas/did_v2/stable/temporal_frequency_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1896,7 +1896,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/term.json",
+            "path": "schemas/did_v2/stable/term.json",
             "disposition": "persist"
         },
         {
@@ -1907,7 +1907,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/draft/text.json",
+            "path": "schemas/did_v2/draft/text.json",
             "disposition": "persist"
         },
         {
@@ -1918,7 +1918,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/time.json",
+            "path": "schemas/did_v2/stable/time.json",
             "disposition": "persist"
         },
         {
@@ -1929,7 +1929,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/time_reference.json",
+            "path": "schemas/did_v2/stable/time_reference.json",
             "disposition": "persist"
         },
         {
@@ -1940,7 +1940,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/tuning_curve.json",
+            "path": "schemas/did_v2/stable/tuning_curve.json",
             "disposition": "persist"
         },
         {
@@ -1952,7 +1952,7 @@
                 "calculation",
                 "tuning_curve"
             ],
-            "path": "schemas/V_eta/stable/tuning_curve_calculation.json",
+            "path": "schemas/did_v2/stable/tuning_curve_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1963,7 +1963,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/tuning_fit.json",
+            "path": "schemas/did_v2/stable/tuning_fit.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1975,7 +1975,7 @@
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/V_eta/stable/undirected_relation.json",
+            "path": "schemas/did_v2/stable/undirected_relation.json",
             "disposition": "persist"
         },
         {
@@ -1987,7 +1987,7 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/valid_interval.json",
+            "path": "schemas/did_v2/stable/valid_interval.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1999,7 +1999,7 @@
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/V_eta/stable/value.json",
+            "path": "schemas/did_v2/stable/value.json",
             "disposition": "persist"
         },
         {
@@ -2010,7 +2010,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/velocity.json",
+            "path": "schemas/did_v2/stable/velocity.json",
             "disposition": "persist"
         },
         {
@@ -2021,7 +2021,7 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/vmneuralresponseresiduals.json",
+            "path": "schemas/did_v2/stable/vmneuralresponseresiduals.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2035,7 +2035,7 @@
                 "epochid",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/vmspikefilteringparameters.json",
+            "path": "schemas/did_v2/stable/vmspikefilteringparameters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2049,7 +2049,7 @@
                 "epochid",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/vmspikefit.json",
+            "path": "schemas/did_v2/stable/vmspikefit.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2062,7 +2062,7 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/vmspikesummary.json",
+            "path": "schemas/did_v2/stable/vmspikesummary.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2074,7 +2074,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/voltage.json",
+            "path": "schemas/did_v2/stable/voltage.json",
             "disposition": "persist"
         },
         {
@@ -2085,7 +2085,7 @@
             "superclasses": [
                 "value"
             ],
-            "path": "schemas/V_eta/stable/volume.json",
+            "path": "schemas/did_v2/stable/volume.json",
             "disposition": "persist"
         }
     ]

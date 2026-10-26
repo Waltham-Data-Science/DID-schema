@@ -100,7 +100,7 @@ It also reads SCHEMA DECLARATIONS ONLY. It does not read the corpus -- no corpus
 report is checked into this repository -- so nothing here is a document count,
 and how many real documents a LOOSENED row would admit is UNMEASURED.
 
-WHAT IT FOUND ON THE FIRST RUN (2026-08-10, schemas/V_eta as built)
+WHAT IT FOUND ON THE FIRST RUN (2026-08-10, schemas/did_v2 as built)
 --------------------------------------------------------------------
 Recorded so a later run can be compared against it. These are counts, not
 dispositions -- every row below is for the team to decide.
@@ -165,7 +165,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-SCHEMA_ROOT = os.path.join(REPO, "schemas", "V_eta")
+SCHEMA_ROOT = os.path.join(REPO, "schemas", "did_v2")
 
 # The did_v1 truth, extracted from NDI origin/main by tools/ndi_ground_truth.py.
 # READ, never written here. Its absence is REPORTED, not worked around: a
@@ -173,7 +173,7 @@ SCHEMA_ROOT = os.path.join(REPO, "schemas", "V_eta")
 # is the exact failure mode this repository keeps paying for.
 GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 
-# Tiers named by schemas/V_eta/index.json. Read all three, and REPORT which of
+# Tiers named by schemas/did_v2/index.json. Read all three, and REPORT which of
 # them was actually found on disk, so "0 rows" and "read nothing" cannot look
 # alike from the output.
 TIERS = ("stable", "draft", "deprecated")

@@ -34,7 +34,7 @@ import json
 import os
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 EDGE = "acquisition_system_id"
 HOLDER = "acquisition_channels"

@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
     "title": "Classes did2.build refuses to build (disposition: retire)",
-    "description": "DERIVED by tools/validate_v_eta.py (D5) from schemas/V_eta/index.json and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired] (V_eta_go_forward_class_audit.md). Reading v1 and the generic migration are not affected.",
+    "description": "DERIVED by tools/validate_v_eta.py (D5) from schemas/did_v2/index.json and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired] (V_eta_go_forward_class_audit.md). Reading v1 and the generic migration are not affected.",
     "retired": [
         {
             "class_name": "acquisition_epoch",
@@ -46,6 +46,14 @@
             ],
             "decision": "",
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
+            "class_name": "daqmetadatareader_epochdata_ingested",
+            "replaced_by": [
+                "opaque_body"
+            ],
+            "decision": "",
+            "note": "becomes an opaque_body owned by the epoch's stimulus-presentation manipulation (NDI second pass); with no matching presentation it is carried as v1. V_eta_go_forward_class_audit.md [ingested stimulus file is a body of the presentation]"
         },
         {
             "class_name": "daqreader",
@@ -426,6 +434,12 @@
             "replaced_by": [],
             "decision": "",
             "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_presentation",
+            "replaced_by": [],
+            "decision": "",
+            "note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. V_eta_go_forward_class_audit.md [stimulus_presentation retired]"
         },
         {
             "class_name": "stimulus_response",

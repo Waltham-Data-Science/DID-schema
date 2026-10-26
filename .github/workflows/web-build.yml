@@ -40,6 +40,7 @@ on:
       # repeating the paths here rather than narrowing to `web/**` is what
       # keeps a ledger-only commit from skipping the compile.
       - "schemas/V_*/**"
+      - "schemas/did_v*/**"
       - "schemas/V_*_coverage_ledger.json"
       - "schemas/V_*_decisions.json"
       # The V_eta shape panel imports these two at build time (?raw) -- see
@@ -52,6 +53,7 @@ on:
     paths:
       - "web/**"
       - "schemas/V_*/**"
+      - "schemas/did_v*/**"
       - "schemas/V_*_coverage_ledger.json"
       - "schemas/V_*_decisions.json"
       # The V_eta shape panel imports these two at build time (?raw) -- see
@@ -101,7 +103,7 @@ jobs:
           n=$(find dist/assets -name '*.js' | wc -l)
           echo "DENOMINATOR: $(find dist -type f | wc -l) file(s) in dist/, $n JS chunk(s)"
           test "$n" -ge 1 || { echo "no JS chunk in dist/assets"; exit 1; }
-      # The V_eta shape panel reads schemas/V_eta/**/*.json and two markdown
+      # The V_eta shape panel reads schemas/did_v2/**/*.json and two markdown
       # files AT BUILD TIME (issue #72). A glob that resolved to nothing would
       # still build, so check the OUTPUT: every file on disk reached the bundle,
       # and nothing in the bundle is absent from disk.
