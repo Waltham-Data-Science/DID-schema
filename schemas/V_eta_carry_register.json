@@ -1,0 +1,499 @@
+{
+  "description": "The carry register (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class, its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (V2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the V2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (V2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
+  "kinds": [
+    "awaiting_home",
+    "needs_mapping",
+    "not_modelled",
+    "malformed"
+  ],
+  "rows": [
+    {
+      "id": "carry-001",
+      "v1_class": "probe_geometry",
+      "fields": [
+        "probe_geometry.shank_id",
+        "probe_geometry.contact_shape",
+        "probe_geometry.contact_shape_width",
+        "probe_geometry.contact_shape_height",
+        "probe_geometry.contact_shape_radius",
+        "probe_geometry.manufacturer",
+        "probe_geometry.has_planar_contour",
+        "probe_geometry.contour_x",
+        "probe_geometry.contour_y"
+      ],
+      "when": "any of these is set",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "probe contact geometry carried"
+      },
+      "open_work": 130,
+      "home": "a V2 contact-geometry model (none yet)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-002",
+      "v1_class": "sorting_parameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-003",
+      "v1_class": "spike_extraction_parameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-004",
+      "v1_class": "spike_extraction_parameters_modification",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-005",
+      "v1_class": "vmspikefilteringparameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-006",
+      "v1_class": "filter",
+      "fields": [
+        "filter.parameters"
+      ],
+      "when": "the filter order is fractional",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-007",
+      "v1_class": "filter",
+      "fields": [
+        "filter.label"
+      ],
+      "when": "the `label` differs from its `type`",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "open_work": 131,
+      "home": "none decided: a filter's label beside its type",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-008",
+      "v1_class": "syncrule",
+      "fields": [
+        "syncrule.parameters"
+      ],
+      "when": "a setting the migrator does not read cannot be written as a method parameter",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-009",
+      "v1_class": "element_epoch",
+      "fields": [
+        "t0_t1"
+      ],
+      "when": "`t0_t1` does not match its clocks, or is missing or not numeric",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-010",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "lightsheetZarrLevel.codec_params"
+      ],
+      "when": "the level's codec settings go beyond the codec name",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "compression block and empty levels"
+      },
+      "open_work": 132,
+      "home": "data_body.compression as a {term, parameters} block (field type change; DID-matlab and NDI-matlab first)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-011",
+      "v1_class": "image",
+      "fields": [
+        "data_limits"
+      ],
+      "when": "`data_limits` differs from its data type's range, until the generic migration writes it as a value range condition on the body",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "image file details placed"
+      },
+      "open_work": 133,
+      "home": "a value range (EMPTY:0000402) condition on the data body (Build pending: DID-matlab)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-012",
+      "v1_class": "imageStack",
+      "fields": [
+        "data_limits"
+      ],
+      "when": "`data_limits` differs from its data type's range, until the generic migration writes it as a value range condition on the body",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "image file details placed"
+      },
+      "open_work": 133,
+      "home": "a value range (EMPTY:0000402) condition on the data body (Build pending: DID-matlab)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-013",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageCollection_id"
+      ],
+      "when": "it has an `imageCollection_id` edge, until the generic migration writes it as a member_of relation to a group entity",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "image file details placed"
+      },
+      "open_work": 134,
+      "home": "member_of a group entity (T20) (Build pending: DID-matlab)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-014",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.stimulus_properties"
+      ],
+      "when": "its `stimulus_properties` values differ from the presentation's generator settings",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "hartley leftovers checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-015",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.dimension_labels"
+      ],
+      "when": "`dimension_labels` is not empty",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "hartley leftovers checked"
+      },
+      "open_work": 135,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-016",
+      "v1_class": "calculator",
+      "fields": [
+        "depends_on (inner copy in the calculator block)"
+      ],
+      "when": "the calculator block's inner `depends_on` copy differs from the top-level edges",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-017",
+      "v1_class": "daqreader_ndr",
+      "fields": [
+        "daqreader_ndr.ndi_daqreader_ndr_class"
+      ],
+      "when": "the NDR reader class differs from the one the reader string implies",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-018",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.number_of_samples_per_channel",
+        "neuron_extracellular.number_of_channels"
+      ],
+      "when": "the counts differ from the mean waveform's axis lengths",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-019",
+      "v1_class": "lightsheetZarrPyramid",
+      "fields": [
+        "dtype",
+        "source file"
+      ],
+      "when": "no source file and no dtype, so the store body's format is unknown (DID-matlab #247 lightsheet_zarr_pyramid.m: reportNote carried_as_v1)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "no-source pyramid gets a file-less store body"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-020",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.name"
+      ],
+      "when": "a medium or air treatment (Babu: the substance the worms live on), whose reading as exposure or dose the v1 document does not decide",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "exposure (a manipulation: the medium the subjects live on)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "whether the substance is the medium the subjects live on or a dose given to them; the v1 document does not say",
+      "resolved_by": "the Babu dataset map entry, e.g. \"Babu: MICRO:0000480 -> exposure\" ([one correct reading])",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-021",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug"
+      ],
+      "when": "a heat-only treatment (Babu), whose reading as a temperature manipulation or a dose the v1 document does not decide",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "temperature manipulation",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "whether the treatment is heat alone; the v1 document does not say",
+      "resolved_by": "the Babu dataset map entry for its heat treatments (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-022",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.name",
+        "treatment.numeric_value"
+      ],
+      "when": "its term is not a ChEBI substance and does not state its number's kind, so its kind, direction or unit would be chosen from label words (DID-matlab treatment.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "manipulation (dose)",
+        "manipulation (exposure)",
+        "manipulation (temperature)",
+        "manipulation (term)",
+        "observation"
+      ],
+      "decides": "what the treatment means in its dataset; the v1 document states only a label and a number",
+      "resolved_by": "the dataset map entry for that treatment term (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-023",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.numeric_value"
+      ],
+      "when": "a ChEBI substance with no recorded location (DID-matlab jTreatmentBodies.m, route 'unknown')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation (immersion: the subject sat in it)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "where the treatment was given; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-024",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "the recorded location (its site term)"
+      ],
+      "when": "a ChEBI substance whose recorded location is not an UBERON body site (DID-matlab jTreatmentBodies.m, route 'needs_mapping'); carry-020 is the Babu case",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "dose (a manipulation: a substance given)",
+        "exposure (a manipulation: the medium the subjects live on)",
+        "temperature manipulation"
+      ],
+      "decides": "what the non-body location means in its dataset",
+      "resolved_by": "the dataset map entry for that location (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-025",
+      "v1_class": "imageStack",
+      "fields": [
+        "image_stack.label"
+      ],
+      "when": "its label marks it as a mask or a label map, which only label words show (DID-matlab image_stack.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "calculation (logical mask)",
+        "calculation (label map, EMPTY:0000132)",
+        "observation (intensity)"
+      ],
+      "decides": "what the image's pixels are, in its dataset",
+      "resolved_by": "the dataset map entry for that image label (not yet written; JH is covered by the Haley V2 import)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-026",
+      "v1_class": "ontologyTableRow",
+      "fields": [
+        "ontologyTableRow.names",
+        "ontologyTableRow.variableNames",
+        "ontologyTableRow.ontologyNodes",
+        "ontologyTableRow.data"
+      ],
+      "when": "the row has a subject_id edge; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "assertion",
+        "observation",
+        "manipulation"
+      ],
+      "decides": "the table's column map in its dataset (entity, direction, value kind and unit per column)",
+      "resolved_by": "the dataset map's column rows for that table (not yet written)",
+      "kind_basis": "stated"
+    }
+  ]
+}
