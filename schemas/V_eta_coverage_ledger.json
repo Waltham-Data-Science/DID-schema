@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 383,
+          "accepted_lines": 384,
           "accepted_lines_by_kind": {
-            "Decided by": 266,
+            "Decided by": 267,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2515,6 +2515,14 @@
               "tag": "electrode spellings and imaging types are devices",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [electrode spellings and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1290,
+              "kind": "Decided by",
+              "tag": "event lines and environment probes are devices",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [event lines and"
             },
             {
               "document": "V_eta_image_model_plan.md",
