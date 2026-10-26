@@ -739,7 +739,7 @@
       "fields": [
         "hartley_calc.stimulus_properties"
       ],
-      "when": "its `stimulus_properties` cannot be compared with the presentation's generator settings: not one struct, no stimulus_presentation_id, a key outside the generator settings, or the presentation not in the batch (DID-matlab hartley_calc.m); carry-014 is the case where they differ",
+      "when": "its `stimulus_properties` cannot be compared with the presentation's generator settings: not one struct, no stimulus_presentation_id, or a key outside the generator settings (DID-matlab hartley_calc.m); carry-014 is the case where they differ, carry-065 the case where the presentation is not in the batch",
       "kind": "malformed",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -1198,6 +1198,39 @@
       "decides": "whatever converts the document it depends on",
       "resolved_by": "the row that resolves the carried document it depends on",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-065",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.stimulus_properties"
+      ],
+      "when": "the presentation its stimulus_presentation_id names is not in the migrated batch, so its stimulus_properties cannot be compared (DID-matlab hartley_calc.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "presentation outside the batch needs a map"
+      },
+      "homes": [
+        "the hartley calculation, once its presentation is migrated with it"
+      ],
+      "decides": "migrating the hartley_calc together with its presentation",
+      "resolved_by": "a migration run that holds the presentation, or the dataset map entry",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-066",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.is_linked"
+      ],
+      "when": "`is_linked` is empty: NDI's template leaves it empty (session_in_a_dataset.json:16) and its writer always sets 1 or 0 (ndi.dataset, dataset.m:92, :170)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "missing is_linked is malformed"
+      },
+      "kind_basis": "stated"
     }
   ]
 }
