@@ -647,14 +647,14 @@
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "no invented values"
+        "tag": "unnamed groups named by the map"
       },
       "homes": [
         "entity of type group whose local_identifier the dataset map gives"
       ],
       "decides": "the group's identifier, which the v1 document does not state",
       "resolved_by": "the dataset map entry naming that group (not yet written)",
-      "kind_basis": "decided"
+      "kind_basis": "stated"
     },
     {
       "id": "carry-035",
