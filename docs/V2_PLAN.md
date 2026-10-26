@@ -41,6 +41,37 @@ Last updated 2026-10-26.
 | Carry register and its gate | done (did-schema #134) |
 | Dataset map: may edit V2 documents; one file per dataset in NDI-matlab, its own step | decided (#141) |
 
+## The road to a complete generic migration
+
+Agreed by Jess Haley, 2026-10-26 ("This sounds like a good plan. Make sure
+is documented somewhere."). The decisions it builds are [carry register],
+[awaiting home is tracked], [migrators read raw v1], [renames carry is
+temporary], [early migration pieces fixed] and [migration reliability
+practices].
+
+**Done** for the generic migration means, per corpus: integrity (nothing
+quarantined, orphaned or fragmented) AND lossless (every v1 item converted
+or carried unchanged as v1), AND every carry has a register row (the check
+fails otherwise), AND every class passes its round-trip check, AND no
+dataset-specific logic is left in the generic stage. Each corpus is
+reported done or not done, with what is missing.
+
+One PR per repository per phase; the quick CI on pushes; the corpora once
+per phase.
+
+| phase | repo | what | needs from Jess |
+|---|---|---|---|
+| 0 | did-schema | merge the carry register (#151) | the proposed row kinds (one batch); the narrow register questions, two at a time |
+| 1 | DID-matlab | carry notes cite register rows, citation check strict; deterministic ids; carry counts by row; TermRegistry on during migration; stamp check; delete `resolveLawnPlateSubjects`. One corpus run: the baseline later runs are diffed against | nothing new |
+| 2 | DID-matlab | shared raw-v1 reading helpers; each class switched to raw v1 with its round-trip check (one agent per class family, merged in turn); superclass migrators, old `+migrators` and `ensureClassBlocks` removed; declared pass order; `universalRenames` deleted | answers as classes raise them |
+| 3 | NDI-matlab (beside 2) | second-pass carries cite rows; element name and reference stored reversibly (#142); declared pass order | the element shape (#142) |
+| 4 | all, siblings first | `description` -> `notes`; retired classes leave; the `V_eta` name dropped; did-schema then removes the old shapes. Batched with phase 2's corpus run | nothing new |
+| 5 | all | one final corpus run; each corpus reported done or not done | review |
+
+The general questions below (bath variable, element entity types, 20211116,
+ingested sessions, `chooseLevel`, the ingested-file lookup) are answered
+alongside, two at a time.
+
 ## What's next, in order
 
 1. **Carry notes cite the register.** DID-matlab and NDI-matlab make every
