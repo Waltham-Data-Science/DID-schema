@@ -46,9 +46,16 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 |
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 |
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
-| 133 | write an image's differing `data_limits` as a value range on its body (carry-011, carry-012) -> https://github.com/Waltham-Data-Science/DID-schema/issues/138 |
 | 134 | write an `imageStack`'s `imageCollection_id` as `member_of` a group (carry-013) -> https://github.com/Waltham-Data-Science/DID-schema/issues/139 |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
+| 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
+| 137 | a home for `stimulus_response_scalar` stimulator epoch and control links (carry-050) -> https://github.com/Waltham-Data-Science/DID-schema/issues/144 |
+| 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
+| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
+| 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
+| 141 | an author with several affiliations in `metadata_editor` (carry-054) -> https://github.com/Waltham-Data-Science/DID-schema/issues/148 |
+| 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
+| 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 
 Open items without a row number:
 
@@ -77,6 +84,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 133 | an image's differing `data_limits`: a valid [min max] pair is written as a value range (DID-matlab image_stack.m, on V2 via f6486be); what remains is a malformed `data_limits` (carry-011, carry-012), Jess Haley 2026-10-26 [data_limits not a pair is malformed] (issue #138) |
 | 1-8, 10-24, 26, 33, 36, 39-42, 44, 49, 50, 55 | subject only: descriptions lost in the 2026-08-08 re-provisioning |
 | 25 | software follow-ups: `softwareDedup.m` and the openMINDS crosswalk exist |
 | 27 | R5 infra renames: a phantom; all five items were decided away or rejected (reconciliation 2026-10-21) |

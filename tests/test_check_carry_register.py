@@ -137,3 +137,10 @@ def test_the_live_register():
     assert len(tree) > 0
     fails, n = ccr.check_do_not(rows, tree)
     assert fails == [] and n > 0
+
+
+def test_any_class_row_is_allowed_and_a_wrong_class_is_not():
+    # [renames carry is temporary] (Jess Haley, 2026-10-26): `*` = any class.
+    assert ccr.check_v1_classes([row("malformed", v1_class="*")], {"filter"}) == []
+    fails = ccr.check_v1_classes([row("malformed", v1_class="nope")], {"filter"})
+    assert len(fails) == 1 and "nope" in fails[0]

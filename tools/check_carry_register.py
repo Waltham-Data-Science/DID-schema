@@ -18,7 +18,8 @@ missing a field". This checks, and fails on any of:
         malformed      nothing more
       and no other keys.
   C2  a row's `v1_class` that is not a v1 source class of the coverage ledger
-      (schemas/V_eta_coverage_ledger.json)
+      (schemas/V_eta_coverage_ledger.json); `*` is allowed for a reason that can hit any
+      class ([renames carry is temporary])
   C3  a row's decision that does not resolve to an accepted decision line
       (tools/decision_citations.py resolve(): a `Decided by` line by a team
       member, or a TEAM-SIGN-OFF line, carrying the tag)
@@ -136,11 +137,16 @@ def check_shape(reg):
     return out
 
 
+ANY_CLASS = "*"
+
+
 def check_v1_classes(rows, v1_classes):
-    """C2."""
+    """C2. `*` is a reason that can hit any class ([renames carry is
+    temporary], Jess Haley, 2026-10-26)."""
     return [f"C2 {r['id']}: v1_class {r['v1_class']!r} is not a v1 source class "
             f"of the coverage ledger" for r in rows
-            if isinstance(r, dict) and r.get("v1_class") not in v1_classes]
+            if isinstance(r, dict) and r.get("v1_class") != ANY_CLASS
+            and r.get("v1_class") not in v1_classes]
 
 
 def check_decisions(rows, resolve=dc.resolve):
