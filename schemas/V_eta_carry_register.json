@@ -1,5 +1,5 @@
 {
-  "description": "The carry register (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (V2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the V2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (V2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
+  "description": "The carry register (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (V2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the V2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (V2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
   "kinds": [
     "awaiting_home",
     "needs_mapping",
@@ -515,7 +515,7 @@
       ],
       "decides": "where the treatment was given; the v1 document does not say",
       "resolved_by": "the dataset map entry for that treatment (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-028",
@@ -537,7 +537,7 @@
       ],
       "decides": "what the non-body location means in its dataset",
       "resolved_by": "the dataset map entry for that location (not yet written; Babu: carry-020)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-029",
@@ -558,7 +558,7 @@
       ],
       "decides": "where the virus was given; the v1 document does not say",
       "resolved_by": "the dataset map entry for that injection (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-030",
@@ -580,7 +580,7 @@
       ],
       "decides": "what the non-body location means in its dataset",
       "resolved_by": "the dataset map entry for that location (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-031",
@@ -594,7 +594,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "generic stage is lossless"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-032",
@@ -616,7 +616,7 @@
       ],
       "decides": "what the treatment row states in its dataset; the v1 document states only a label and a value",
       "resolved_by": "the dataset map entry for that treatment term (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-033",
@@ -635,7 +635,7 @@
       ],
       "decides": "the subject's identifier, which the v1 document does not state",
       "resolved_by": "the dataset map entry naming that subject (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-034",
@@ -654,7 +654,7 @@
       ],
       "decides": "the group's identifier, which the v1 document does not state",
       "resolved_by": "the dataset map entry naming that group (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-035",
@@ -675,7 +675,7 @@
       ],
       "decides": "which clock the timestamp is on, and so its unit; the v1 document does not say",
       "resolved_by": "the dataset map entry for that transfer's clock (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-036",
@@ -691,7 +691,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "device clocks on one epoch"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-037",
@@ -706,7 +706,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "compression block and empty levels"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-038",
@@ -721,7 +721,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "no invented values"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-039",
@@ -735,7 +735,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "generic stage is lossless"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-040",
@@ -749,7 +749,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "hartley leftovers checked"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-041",
@@ -764,7 +764,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "writer default is not set"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-042",
@@ -784,7 +784,7 @@
       ],
       "decides": "which filter algorithm and band the spelling names",
       "resolved_by": "the dataset map entry for that spelling (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-043",
@@ -805,7 +805,7 @@
       ],
       "decides": "which closed-list term the form's value means",
       "resolved_by": "the dataset map entry for that form value (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-044",
@@ -824,7 +824,7 @@
       ],
       "decides": "which jurisdiction or approval the free-text assessment names",
       "resolved_by": "the dataset map entry for that assessment (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-045",
@@ -851,7 +851,7 @@
           "epochid"
         ]
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-046",
@@ -873,7 +873,7 @@
           "epochid"
         ]
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-047",
@@ -892,7 +892,7 @@
       ],
       "decides": "which presentation's stimulus file it is",
       "resolved_by": "the dataset map entry for that epoch (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-048",
@@ -912,7 +912,7 @@
       ],
       "decides": "the element's identifier, which the v1 document does not state",
       "resolved_by": "the dataset map entry naming that element (not yet written)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-049",
@@ -945,7 +945,7 @@
       },
       "open_work": 137,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-051",
@@ -961,7 +961,7 @@
       },
       "open_work": 138,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-052",
@@ -977,7 +977,7 @@
       },
       "open_work": 139,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-053",
@@ -994,7 +994,7 @@
       },
       "open_work": 140,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-054",
@@ -1010,7 +1010,7 @@
       },
       "open_work": 141,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-055",
@@ -1027,7 +1027,7 @@
       },
       "open_work": 142,
       "home": "none decided: two fields, or the reference as its own assertion",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-056",
@@ -1043,7 +1043,7 @@
       },
       "open_work": 143,
       "home": "none decided (per tuning class)",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     }
   ]
 }
