@@ -46,6 +46,9 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 |
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 |
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
+| 133 | write an image's differing `data_limits` as a value range on its body (carry-011, carry-012) -> https://github.com/Waltham-Data-Science/DID-schema/issues/138 |
+| 134 | write an `imageStack`'s `imageCollection_id` as `member_of` a group (carry-013) -> https://github.com/Waltham-Data-Science/DID-schema/issues/139 |
+| 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
 
 Open items without a row number:
 
