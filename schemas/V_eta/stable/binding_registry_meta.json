@@ -2889,7 +2889,7 @@
         {
             "type": "recording epoch",
             "node": "EMPTY:0000383",
-            "description": "one recording: the files one acquisition system wrote for one stretch of time",
+            "description": "one recording: the files written for one stretch of time, by one or more acquisition systems",
             "requires": [
                 "local_identifier"
             ]
