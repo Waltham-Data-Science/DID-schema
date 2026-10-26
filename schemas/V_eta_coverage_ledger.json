@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 368,
+          "accepted_lines": 369,
           "accepted_lines_by_kind": {
-            "Decided by": 251,
+            "Decided by": 252,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2395,6 +2395,14 @@
               "tag": "renames carry is temporary",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [renames carry is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1260,
+              "kind": "Decided by",
+              "tag": "early migration pieces fixed",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [early migration pieces"
             },
             {
               "document": "V_eta_image_model_plan.md",
