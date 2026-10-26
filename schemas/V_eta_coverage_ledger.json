@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 376,
+          "accepted_lines": 378,
           "accepted_lines_by_kind": {
-            "Decided by": 259,
+            "Decided by": 261,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2459,6 +2459,22 @@
               "tag": "data_limits not a pair is malformed",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [data_limits not a pair"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1276,
+              "kind": "Decided by",
+              "tag": "pass-through filter sample frequency",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [pass-through filter"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1278,
+              "kind": "Decided by",
+              "tag": "untied epochs keep the session anchor",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [untied epochs keep the"
             },
             {
               "document": "V_eta_image_model_plan.md",
