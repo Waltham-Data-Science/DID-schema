@@ -56,6 +56,14 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 141 | an author with several affiliations in `metadata_editor` (carry-054) -> https://github.com/Waltham-Data-Science/DID-schema/issues/148 |
 | 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
+| 144 | a home for a linked session's `session_reference` (carry-074) -> https://github.com/Waltham-Data-Science/DID-schema/issues/153 |
+| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 |
+| 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/155 |
+| 147 | homes for `control_stimulus_ids` fields the control calculation does not write (carry-089) -> https://github.com/Waltham-Data-Science/DID-schema/issues/156 |
+| 148 | control pairing for a standalone item or a frame sequence (carry-090) -> https://github.com/Waltham-Data-Science/DID-schema/issues/157 |
+| 149 | homes for openMINDS Strain and fragment fields (carry-092, carry-094) -> https://github.com/Waltham-Data-Science/DID-schema/issues/158 |
+| 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 |
+| 151 | a label on a document with no subject or no time reference (carry-096) -> https://github.com/Waltham-Data-Science/DID-schema/issues/160 |
 
 Open items without a row number:
 

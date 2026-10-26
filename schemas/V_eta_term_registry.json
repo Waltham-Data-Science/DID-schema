@@ -8661,6 +8661,99 @@
       "first_used_in": "Dabrowska (NDI-matlab ndi.setup.conv.dabrowska doImport)",
       "obsolete": false,
       "number_unit": false
+    },
+    {
+      "name": "primary visual cortex",
+      "node": "UBERON:0002436",
+      "definition": "The visual area of the brain that is specialized for processing information about static and moving objects. The primary visual cortex, which is defined by its function or stage in the visual system, is approximately equivalent to the striate cortex, also known as Brodmann area 17, which is defined by its anatomical location.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (a v1 site or region value: probe_location, treatment_drug, virus_injection, ontology_image); NDI-matlab probe_location_schema.json and probeLocations4probes.m name it",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "microelectrode voltage offset",
+      "node": "EMPTY:0000056",
+      "definition": "A voltage offset measured at the end of a voltage record, in V",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (electrode_offset_voltage.m variable, written today as the label 'electrode offset voltage'); the existing EMPTY term carried over from NDIC:17 'Microelectrode voltage offset'",
+      "obsolete": false,
+      "number_unit": {
+        "node": "om:volt",
+        "name": "volt"
+      }
+    },
+    {
+      "name": "Temperature",
+      "node": "NCIT:C25206",
+      "definition": "A measure of the average kinetic energy of a system of particles. Temperature may be quantified, in the context of thermodynamics, as the potential of one system to transfer thermal energy to another system until both systems reach a state of thermal equilibrium.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (electrode_offset_voltage.m condition, written today as the label 'temperature')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Spatial Frequency",
+      "node": "NCIT:C75389",
+      "definition": "The number of occurrences of something within a given spatial interval.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (tuning calculators' dimension and covariate, written today as the label 'spatial frequency')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Temporal Frequency",
+      "node": "NCIT:C25515",
+      "definition": "The number of occurrences of something within a given time period.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (speed_tuning covariate, written today as the label 'temporal frequency')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Contrast",
+      "node": "NCIT:C70754",
+      "definition": "The degree of difference between the lightest and darkest areas of an image or object.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (contrast tuning dimension and covariate, written today as the label 'contrast')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Direction",
+      "node": "NCIT:C42677",
+      "definition": "The spatial relation between something and the course along which it points or moves.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (direction tuning dimension and covariate, written today as the label 'direction')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Z-Coordinate",
+      "node": "NCIT:C44479",
+      "definition": "A third coordinate that is used together with horizontal (x) and vertical (y) coordinates to specify an exact point in a three dimensional space.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (image_stack z axis, written today as the label 'z'; X-Coordinate and Y-Coordinate are registered)",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "transplantation",
+      "node": "OBI:0000105",
+      "definition": "a protocol application to replace an organ or tissue of an organism",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab generic migration (treatment_transfer method, written today as the label 'transplantation')",
+      "obsolete": false,
+      "number_unit": false
     }
   ]
 }
