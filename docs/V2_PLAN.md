@@ -66,8 +66,7 @@ Dataset map:
 
 1. (Decided, [dataset map location]: one file per dataset in NDI-matlab,
    applied by its own step on the written V2 database.)
-2. Does the Haley dataset need a map, or does its V2 import cover
-   everything?
+2. (Decided, [no Haley map]: no; the Haley V2 import covers Haley.)
 3. May a map row match on label words, or only on exact v1 values?
 4. An opto animal with a target-location treatment but no tetanus run:
    carry it as v1, or record a term assertion on the animal?
