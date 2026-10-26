@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 391,
+          "accepted_lines": 393,
           "accepted_lines_by_kind": {
-            "Decided by": 274,
+            "Decided by": 276,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2579,6 +2579,22 @@
               "tag": "bath is two statements",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [bath is two statements]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1306,
+              "kind": "Decided by",
+              "tag": "chooseLevel skips empty levels",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [chooseLevel skips empty"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1308,
+              "kind": "Decided by",
+              "tag": "ingested stimulus reader finds the body",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [ingested stimulus reader"
             },
             {
               "document": "V_eta_image_model_plan.md",
