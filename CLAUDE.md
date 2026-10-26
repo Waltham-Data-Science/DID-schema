@@ -49,9 +49,14 @@ person's.)*
   *(2026-10-22, Jess Haley.)* When the build lives in another repository, the
   line is committed at once and ends `Build pending: <repo> (<what>)`; when the
   build lands, that becomes `Built: <repo> <commit>`. Never hold a decision
-  line in an uncommitted tree waiting for a sibling. Before a PR merges,
-  `python3 tools/decision_citations.py --pending --strict` must report 0.
-  `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
+  line in an uncommitted tree waiting for a sibling. A `Build pending` line
+  may reach `main` once the team has decided it. Before a PR merges, every
+  `Build pending` line it adds or changes must name a repository and what is
+  left to build there. A build that lands marks its line `Built:` in the same
+  or the next did-schema PR. `python3 tools/decision_citations.py --pending`
+  lists what is still open. *(2026-10-26, Jess Haley: replaces "`--pending
+  --strict` must report 0", which no PR could meet while builds wait on
+  later work.)* `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
   kept) and reports, without counting, a line by anyone else or a line with no
   tag.
 - **Never upgrade a proposal.** Anything the team has not explicitly decided is
