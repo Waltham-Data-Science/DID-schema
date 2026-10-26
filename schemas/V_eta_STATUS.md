@@ -352,7 +352,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 388 decision line(s) accepted, 2 rejected; 41 cited by a class, 347 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 391 decision line(s) accepted, 2 rejected; 41 cited by a class, 350 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -584,6 +584,9 @@ field). If one decides a class's disposition, that class should cite it.
 - location carries need a map. "Decided by Jess Haley, 2026-10-26 [location carries need a" (V_eta_go_forward_class_audit.md:1294).
 - presentation outside the batch needs a map. "Decided by Jess Haley, 2026-10-26 [presentation outside the" (V_eta_go_forward_class_audit.md:1296).
 - missing is_linked is malformed. "Decided by Jess Haley, 2026-10-26 [missing is_linked is" (V_eta_go_forward_class_audit.md:1298).
+- term labels stay as the ontology spells them. "Decided by Jess Haley, 2026-10-26 [term labels stay as the" (V_eta_go_forward_class_audit.md:1300).
+- element local identifier is name and reference. "Decided by Jess Haley, 2026-10-26 [element local identifier" (V_eta_go_forward_class_audit.md:1302).
+- bath is two statements. "Decided by Jess Haley, 2026-10-26 [bath is two statements]" (V_eta_go_forward_class_audit.md:1304).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

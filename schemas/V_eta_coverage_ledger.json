@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 388,
+          "accepted_lines": 391,
           "accepted_lines_by_kind": {
-            "Decided by": 271,
+            "Decided by": 274,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2555,6 +2555,30 @@
               "tag": "missing is_linked is malformed",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [missing is_linked is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1300,
+              "kind": "Decided by",
+              "tag": "term labels stay as the ontology spells them",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [term labels stay as the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1302,
+              "kind": "Decided by",
+              "tag": "element local identifier is name and reference",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [element local identifier"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1304,
+              "kind": "Decided by",
+              "tag": "bath is two statements",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [bath is two statements]"
             },
             {
               "document": "V_eta_image_model_plan.md",
