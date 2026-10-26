@@ -190,3 +190,21 @@ Decided by Jess Haley, 2026-10-22 [registry holds nodes]: "the registry needs no
 Decided by Jess Haley, 2026-10-22 [synonyms]: a synonym is a genuine alternative name for the same thing ("average" for "mean") or a standard abbreviation; old labels and lab-specific vocabulary (column and code names) are not synonyms and live in the labs' mapping files. Exact when always interchangeable, related when close but not interchangeable ("start time" is related to onset time), abbreviations typed OMO:0003000, a label from a published release kept as an OMO:0003008 previous name. The rules are written in empty-ontology `docs/conventions.md`; built in empty-ontology PR #25 (`24d316a`, `bad373f`, `0e6570a`, `91d70f7`).
 
 Decided by Jess Haley, 2026-10-22 [ethics assessment to jurisdiction]: v1 metadata-editor `EthicsAssessment` values map to ethics jurisdiction (EMPTY:0000359): "EU compliant" and "EU compliant +" to European Union (the "+", an additional assessment by the data-sharing initiative, kept as a note), "US compliant" to United States; "not required" and any other value give no statement and a counted note (openMINDS v4 ethics_assessment instances); the obsolete EMPTY:0000355 is no longer written (answer "agreed, b"). Built: DID-matlab ee3161a (entityDoc.m, ethicsJurisdiction.m; metadata_editor.m passes `ethics_assessment` only as a key to entityDoc, so it was covered by ee3161a), 71a94ad (end-to-end test). NDI-matlab needs no change (checked at f84f50d5f): its V2 setup takes `ethics_jurisdiction` directly (+setup/+V2/entityDocuments.m, datasetMetadata.m) and reads no v1 EthicsAssessment; v1 metadata-editor documents are migrated only by DID's metadata_editor migrator.
+
+## 2026-10-26 -- a term states the unit of its number (`number_unit`)
+
+Built for the decision `V_eta_go_forward_class_audit.md` [term-stated unit is generic]
+(the line "Decided by Jess Haley, 2026-10-26 [term-stated unit is generic]" there; this
+section records the build and decides nothing): when a term's definition states the unit
+its accompanying number takes, the term's registry row says so, and a migrator reads the
+unit from the row instead of from its own code.
+
+- Every row carries `number_unit` (R10, one row shape, because DID-matlab
+  `did2.schema.termIndex` concatenates the rows): `false`, or `{node, name}` naming a
+  registered unit term (an OM or UO node, under its registered name).
+  `tools/check_term_registry.py` rule R12 checks it.
+- First case: EMPTY:0000199 "treatment: grating direction-of-motion visual stimulation",
+  defined "... (provided in hours)", now registered with `number_unit`
+  `{om:hour, hour}`.
+- Build pending: DID-matlab (`treatment.m` `termNumberKind` reads the row instead of its
+  own table).

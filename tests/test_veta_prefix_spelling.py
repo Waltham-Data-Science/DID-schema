@@ -123,6 +123,22 @@ def test_the_new_entries_of_section_3a():
     assert px["fbdv"]["spelling"] == "FBdv"
 
 
+def test_the_openminds_prefix():
+    """Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [census terms] T2:
+    openMINDS controlled terms are identified by openMINDS's own stable ids under
+    a newly registered `openminds:` prefix. An instance's @id is
+    https://openminds.om-i.org/instances/<terminology>/<name>, so the node is
+    `openminds:<terminology>/<name>` and expands back to the @id."""
+    e = _prefixes()["openminds"]
+    assert e["spelling"] == "openminds" and e["uri_style"] == "direct"
+    assert e["uri_base"] == "https://openminds.om-i.org/instances/"
+    for local in ("technique/calciumImaging", "semanticDataType/derivedData",
+                  "technique/cortico-corticalEvokedPotentialMapping"):
+        assert re.match(e["pattern"], local), local
+    for bad in ("calciumImaging", "technique/", "technique/a b"):
+        assert not re.match(e["pattern"], bad), bad
+
+
 def test_the_registry_says_how_prefixes_are_written():
     d = _registry()["description"]
     assert ("Prefixes are matched case-insensitively and written as each entry's "

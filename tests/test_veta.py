@@ -1122,6 +1122,11 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
         # carries a CLOSED list of registered value terms (Jess Haley, 2026-10-21)
         "ethics jurisdiction": "EMPTY:0000359",
         "experimental approach": "EMPTY:0000356",
+        # technique and data type, each a closed list of openMINDS terms by
+        # openMINDS's own ids (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md
+        # [dataset form terms], [census terms] T2)
+        "Technique": "NCIT:C16847",
+        "Scientific Data Type": "NCIT:C175886",
     }
     assert set(expected) <= set(rows), sorted(rows)
     assert "ethics assessment" not in rows
@@ -1233,7 +1238,12 @@ def test_software_crosswalks_to_openminds_softwareversion():
                        ("programmingLanguage", "interpreter_id")):
         assert props[prop]["target_kind"] == "projection"
         assert edge in props[prop]["notes"]
-    edges = {e["name"]: e for e in RECORDS["calculation"][1]["depends_on"]}
+    # on `interaction` since 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md
+    # [run environment on interactions]): a manipulation and an observation have
+    # them too; `calculation` inherits them and no longer declares them
+    edges = {e["name"]: e for e in RECORDS["interaction"][1]["depends_on"]}
+    calc = {e["name"] for e in RECORDS["calculation"][1]["depends_on"]}
+    assert not calc & {"interpreter_id", "operating_system_id"}, calc
     for edge in ("interpreter_id", "operating_system_id"):
         assert edges[edge]["must_refer_to_document_class"] == "entity"
     # neither is required: the interpreter since 2026-10-04 (a compiled program,

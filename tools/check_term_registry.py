@@ -38,6 +38,12 @@ per meaning, so this checks, and fails on any of:
       different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
       something still writes it), and the node it names is registered.
 
+  R12 `number_unit` is false, or {node, name} naming a registered unit term
+      (an OM or UO node, registered under that name): the unit a term's
+      definition says its accompanying number takes, read by the generic
+      migration from the registry rather than from migrator code (Jess Haley,
+      2026-10-26, V_eta_go_forward_class_audit.md [term-stated unit is generic]).
+
   R11 the canonical-unit list (tools/canonical_units.py; T14; Jess Haley
       2026-10-22 [units bound]): every value-kind cell declares the listed
       canonical slots, every listed unit term with a node is registered under
@@ -61,7 +67,9 @@ BUILT = os.path.join(ROOT, "schemas", "V_eta", "stable", "term_registry_meta.jso
 CURIES = os.path.join(ROOT, "schemas", "V_eta", "stable", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
 ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
-            "obsolete"]
+            "obsolete", "number_unit"]
+# R12: the prefixes of unit terms (OM, T14; UO for pH, [pH unit is UO pH])
+UNIT_PREFIXES = ("om", "uo")
 
 
 def prefix_index(curies):
@@ -119,6 +127,7 @@ def check(source, built, curies):
                 failures.append(f'R2 {where}: the name is already used for {by_name[name.lower()] or "a staged term"}')
             by_name.setdefault(name.lower(), node)
     failures += _obsolete(terms, names)
+    failures += _number_unit(terms, names)
     if built is None:
         failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
@@ -146,6 +155,37 @@ def _obsolete(terms, names):
         pre, _, local = c.partition(":")
         if f"{names.get(pre.lower(), pre)}:{local}".lower() not in nodes:
             out.append(f"R10 {where}: obsolete, but the term to consider ({c}) is not registered")
+    return out
+
+
+def _number_unit(terms, names):
+    """R12: `number_unit` is false, or {node, name} of a registered unit term."""
+    out, by_key = [], {}
+    for t in terms:
+        node = (t.get("node") or "").strip()
+        if node:
+            pre, _, local = node.partition(":")
+            by_key[f"{names.get(pre.lower(), pre.lower())}:{local}"] = t
+    for i, t in enumerate(terms):
+        nu = t.get("number_unit", False)
+        if nu is False:
+            continue
+        where = f'term {i + 1} ("{t.get("name")}")'
+        if not (isinstance(nu, dict) and set(nu) == {"node", "name"}
+                and all(isinstance(v, str) and v for v in nu.values())):
+            out.append(f"R12 {where}: `number_unit` is {nu!r}, not false or {{node, name}}")
+            continue
+        pre, _, local = nu["node"].partition(":")
+        key = names.get(pre.lower())
+        reg = by_key.get(f"{key}:{local}") if key else None
+        if reg is None:
+            out.append(f"R12 {where}: number_unit {nu['node']} is not a registered term")
+        elif key not in UNIT_PREFIXES:
+            out.append(f"R12 {where}: number_unit {nu['node']} is not a unit term "
+                       f"(prefix not one of {', '.join(UNIT_PREFIXES)})")
+        elif reg.get("name") != nu["name"]:
+            out.append(f"R12 {where}: number_unit {nu['node']} is named {nu['name']!r}, "
+                       f"registered as {reg.get('name')!r}")
     return out
 
 
@@ -300,6 +340,8 @@ def main():
     failures = failures + cfail
     n_obs = sum(1 for t in terms if t.get("obsolete"))
     print(f"R10: {len(terms)} row(s) checked for one shape; {n_obs} obsolete term(s)")
+    n_nu = sum(1 for t in terms if t.get("number_unit"))
+    print(f"R12: {len(terms)} row(s) checked; {n_nu} state the unit of their number")
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

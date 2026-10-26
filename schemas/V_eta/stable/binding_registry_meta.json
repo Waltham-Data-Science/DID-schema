@@ -1144,6 +1144,956 @@
         },
         {
             "variable": {
+                "node": "NCIT:C16847",
+                "name": "Technique"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "Data Set",
+            "subject_defining": false,
+            "node_form": "curie",
+            "values": [
+                {
+                    "node": "openminds:technique/3DComputerGraphicModeling",
+                    "name": "3D computer graphic modeling"
+                },
+                {
+                    "node": "openminds:technique/3DPolarizedLightImaging",
+                    "name": "3D polarized light imaging"
+                },
+                {
+                    "node": "openminds:technique/3DScanning",
+                    "name": "3D scanning"
+                },
+                {
+                    "node": "openminds:technique/CLARITY_TDE",
+                    "name": "CLARITY/TDE"
+                },
+                {
+                    "node": "openminds:technique/DABStaining",
+                    "name": "DAB staining"
+                },
+                {
+                    "node": "openminds:technique/DAPiStaining",
+                    "name": "DAPi staining"
+                },
+                {
+                    "node": "openminds:technique/DNAMethylationAnalysis",
+                    "name": "DNA methylation analysis"
+                },
+                {
+                    "node": "openminds:technique/DNASequencing",
+                    "name": "DNA sequencing"
+                },
+                {
+                    "node": "openminds:technique/GolgiStaining",
+                    "name": "Golgi staining"
+                },
+                {
+                    "node": "openminds:technique/HEStaining",
+                    "name": "H&E staining"
+                },
+                {
+                    "node": "openminds:technique/HPCSimulation",
+                    "name": "HPC simulation"
+                },
+                {
+                    "node": "openminds:technique/HoechstStaining",
+                    "name": "Hoechst staining"
+                },
+                {
+                    "node": "openminds:technique/NisslStaining",
+                    "name": "Nissl staining"
+                },
+                {
+                    "node": "openminds:technique/PCRBasedGenotyping",
+                    "name": "PCR-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/RNASequencing",
+                    "name": "RNA sequencing"
+                },
+                {
+                    "node": "openminds:technique/RamanSpectroscopy",
+                    "name": "Raman spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/SDSDigestedFreezeFractureReplicaLabeling",
+                    "name": "SDS-digested freeze-fracture replica labeling"
+                },
+                {
+                    "node": "openminds:technique/SWITCHImmunohistochemistry",
+                    "name": "SWITCH immunohistochemistry"
+                },
+                {
+                    "node": "openminds:technique/TDEClearing",
+                    "name": "TDE clearing"
+                },
+                {
+                    "node": "openminds:technique/TimmsStaining",
+                    "name": "Timm's staining"
+                },
+                {
+                    "node": "openminds:technique/activityModulationTechnique",
+                    "name": "activity modulation technique"
+                },
+                {
+                    "node": "openminds:technique/anaesthesiaAdministration",
+                    "name": "anaesthesia administration"
+                },
+                {
+                    "node": "openminds:technique/anaesthesiaMonitoring",
+                    "name": "anaesthesia monitoring"
+                },
+                {
+                    "node": "openminds:technique/anaesthesiaTechnique",
+                    "name": "anaesthesia technique"
+                },
+                {
+                    "node": "openminds:technique/angiography",
+                    "name": "angiography"
+                },
+                {
+                    "node": "openminds:technique/anterogradeTracing",
+                    "name": "anterograde tracing"
+                },
+                {
+                    "node": "openminds:technique/anthropometry",
+                    "name": "anthropometry"
+                },
+                {
+                    "node": "openminds:technique/archivalDataRetrieval",
+                    "name": "archival data retrieval"
+                },
+                {
+                    "node": "openminds:technique/autoradiography",
+                    "name": "autoradiography"
+                },
+                {
+                    "node": "openminds:technique/avidinBiotinComplexStaining",
+                    "name": "avidin-biotin complex staining"
+                },
+                {
+                    "node": "openminds:technique/beta-galactosidaseStaining",
+                    "name": "beta-galactosidase staining"
+                },
+                {
+                    "node": "openminds:technique/biocytinStaining",
+                    "name": "biocytin staining"
+                },
+                {
+                    "node": "openminds:technique/bloodSampling",
+                    "name": "blood sampling"
+                },
+                {
+                    "node": "NCIT:C19827",
+                    "name": "Brightfield Microscopy"
+                },
+                {
+                    "node": "openminds:technique/calciumImaging",
+                    "name": "calcium imaging"
+                },
+                {
+                    "node": "openminds:technique/callosotomy",
+                    "name": "callosotomy"
+                },
+                {
+                    "node": "openminds:technique/cartesianK-spaceSamplingTechnique",
+                    "name": "cartesian k-space sampling technique"
+                },
+                {
+                    "node": "openminds:technique/cellAttachedPatchClamp",
+                    "name": "cell attached patch clamp"
+                },
+                {
+                    "node": "openminds:technique/chemiluminescenceImmunoassay",
+                    "name": "chemiluminescence immunoassay"
+                },
+                {
+                    "node": "openminds:technique/closedEndedQuestioning",
+                    "name": "closed-ended questioning"
+                },
+                {
+                    "node": "openminds:technique/coherentAntiStokesRamanSpectroscopy",
+                    "name": "coherent anti-Stokes Raman spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/coherentStokesRamanSpectroscopy",
+                    "name": "coherent Stokes Raman spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/computerTomography",
+                    "name": "computer tomography"
+                },
+                {
+                    "node": "openminds:technique/confocalMicroscopy",
+                    "name": "confocal microscopy"
+                },
+                {
+                    "node": "openminds:technique/contrastAgentAdministration",
+                    "name": "contrast agent administration"
+                },
+                {
+                    "node": "openminds:technique/contrastEnhancement",
+                    "name": "contrast enhancement"
+                },
+                {
+                    "node": "openminds:technique/cortico-corticalEvokedPotentialMapping",
+                    "name": "cortico-cortical evoked potential mapping"
+                },
+                {
+                    "node": "openminds:technique/craniotomy",
+                    "name": "craniotomy"
+                },
+                {
+                    "node": "openminds:technique/cryosectioning",
+                    "name": "cryosectioning"
+                },
+                {
+                    "node": "openminds:technique/currentClamp",
+                    "name": "current clamp"
+                },
+                {
+                    "node": "openminds:technique/darkfieldMicroscopy",
+                    "name": "darkfield microscopy"
+                },
+                {
+                    "node": "openminds:technique/differentialInterferenceContrastMicroscopy",
+                    "name": "differential interference contrast microscopy"
+                },
+                {
+                    "node": "openminds:technique/diffusionFixationTechnique",
+                    "name": "diffusion fixation technique"
+                },
+                {
+                    "node": "openminds:technique/diffusionSpectrumMagneticResonanceImaging",
+                    "name": "diffusion spectrum magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/diffusionTensorImaging",
+                    "name": "diffusion tensor imaging"
+                },
+                {
+                    "node": "openminds:technique/diffusionWeightedImaging",
+                    "name": "diffusion-weighted imaging"
+                },
+                {
+                    "node": "openminds:technique/dualViewInvertedSelectivePlaneIlluminationMicroscopy",
+                    "name": "dual-view inverted selective plane illumination microscopy"
+                },
+                {
+                    "node": "openminds:technique/electrocardiography",
+                    "name": "electrocardiography"
+                },
+                {
+                    "node": "openminds:technique/electrocorticography",
+                    "name": "electrocorticography"
+                },
+                {
+                    "node": "openminds:technique/electroencephalography",
+                    "name": "electroencephalography"
+                },
+                {
+                    "node": "openminds:technique/electromyography",
+                    "name": "electromyography"
+                },
+                {
+                    "node": "openminds:technique/electronMicroscopy",
+                    "name": "electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/electronTomography",
+                    "name": "electron tomography"
+                },
+                {
+                    "node": "openminds:technique/electrooculography",
+                    "name": "electrooculography"
+                },
+                {
+                    "node": "openminds:technique/electroporation",
+                    "name": "electroporation"
+                },
+                {
+                    "node": "openminds:technique/enzymeLinkedImmunosorbentAssay",
+                    "name": "enzyme-linked immunosorbent assay"
+                },
+                {
+                    "node": "openminds:technique/epidermalElectrophysiologyTechnique",
+                    "name": "epidermal electrophysiology technique"
+                },
+                {
+                    "node": "openminds:technique/epiduralElectrocorticography",
+                    "name": "epidural electrocorticography"
+                },
+                {
+                    "node": "openminds:technique/epifluorescentMicroscopy",
+                    "name": "epifluorescent microscopy"
+                },
+                {
+                    "node": "openminds:technique/expertReporting",
+                    "name": "expert-reporting"
+                },
+                {
+                    "node": "openminds:technique/extracellularElectrophysiology",
+                    "name": "extracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/eyeMovementTracking",
+                    "name": "eye movement tracking"
+                },
+                {
+                    "node": "openminds:technique/fixationTechnique",
+                    "name": "fixation technique"
+                },
+                {
+                    "node": "NCIT:C16856",
+                    "name": "Fluorescence Microscopy"
+                },
+                {
+                    "node": "openminds:technique/fluorescencePolarizationImmunoassay",
+                    "name": "fluorescence polarization immunoassay"
+                },
+                {
+                    "node": "openminds:technique/focusedIonBeamScanningElectronMicroscopy",
+                    "name": "focused ion beam scanning electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/functionalMagneticResonanceImaging",
+                    "name": "functional magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/geneExpressionMeasurement",
+                    "name": "gene expression measurement"
+                },
+                {
+                    "node": "openminds:technique/geneKnockin",
+                    "name": "gene knockin"
+                },
+                {
+                    "node": "openminds:technique/geneKnockout",
+                    "name": "gene knockout"
+                },
+                {
+                    "node": "openminds:technique/genomeWideAssociationStudy",
+                    "name": "genome-wide association study"
+                },
+                {
+                    "node": "openminds:technique/genotyping",
+                    "name": "genotyping"
+                },
+                {
+                    "node": "openminds:technique/heavyMetalNegativeStaining",
+                    "name": "heavy metal negative staining"
+                },
+                {
+                    "node": "openminds:technique/high-resolutionScanning",
+                    "name": "high-resolution scanning"
+                },
+                {
+                    "node": "openminds:technique/high-speedVideoRecording",
+                    "name": "high-speed video recording"
+                },
+                {
+                    "node": "openminds:technique/highDensityElectroencephalography",
+                    "name": "high-density electroencephalography"
+                },
+                {
+                    "node": "openminds:technique/highFieldFunctionalMagneticResonanceImaging",
+                    "name": "high-field functional magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/highFieldMagneticResonanceImaging",
+                    "name": "high-field magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/highFieldStructuralMagneticResonanceImaging",
+                    "name": "high-field structural magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/highThroughputScanning",
+                    "name": "high-throughput scanning"
+                },
+                {
+                    "node": "openminds:technique/histochemistry",
+                    "name": "histochemistry"
+                },
+                {
+                    "node": "openminds:technique/immunoassay",
+                    "name": "immunoassay"
+                },
+                {
+                    "node": "openminds:technique/immunohistochemistry",
+                    "name": "immunohistochemistry"
+                },
+                {
+                    "node": "openminds:technique/immunoprecipitation",
+                    "name": "immunoprecipitation"
+                },
+                {
+                    "node": "openminds:technique/implantSurgery",
+                    "name": "implant surgery"
+                },
+                {
+                    "node": "openminds:technique/inSituHybridisation",
+                    "name": "in situ hybridisation"
+                },
+                {
+                    "node": "openminds:technique/informantReporting",
+                    "name": "informant-reporting"
+                },
+                {
+                    "node": "openminds:technique/infraredDifferentialInterferenceContrastVideoMicroscopy",
+                    "name": "infrared differential interference contrast video microscopy"
+                },
+                {
+                    "node": "openminds:technique/injection",
+                    "name": "injection"
+                },
+                {
+                    "node": "openminds:technique/intracellularElectrophysiology",
+                    "name": "intracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/intracellularInjection",
+                    "name": "intracellular injection"
+                },
+                {
+                    "node": "openminds:technique/intracranialElectroencephalography",
+                    "name": "intracranial electroencephalography"
+                },
+                {
+                    "node": "openminds:technique/intraperitonealInjection",
+                    "name": "intraperitoneal injection"
+                },
+                {
+                    "node": "openminds:technique/intravenousInjection",
+                    "name": "intravenous injection"
+                },
+                {
+                    "node": "openminds:technique/iontophoresis",
+                    "name": "iontophoresis"
+                },
+                {
+                    "node": "openminds:technique/iontophoreticMicroinjection",
+                    "name": "iontophoretic microinjection"
+                },
+                {
+                    "node": "openminds:technique/lightMicroscopy",
+                    "name": "light microscopy"
+                },
+                {
+                    "node": "openminds:technique/lightSheetFluorescenceMicroscopy",
+                    "name": "light sheet fluorescence microscopy"
+                },
+                {
+                    "node": "openminds:technique/magneticResonanceImaging",
+                    "name": "magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/magneticResonanceSpectroscopy",
+                    "name": "magnetic resonance spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/magnetizationTransferImaging",
+                    "name": "magnetization transfer imaging"
+                },
+                {
+                    "node": "openminds:technique/magnetoencephalography",
+                    "name": "magnetoencephalography"
+                },
+                {
+                    "node": "openminds:technique/massSpectrometry",
+                    "name": "mass spectrometry"
+                },
+                {
+                    "node": "openminds:technique/massSpectrometryBasedGenotyping",
+                    "name": "mass spectrometry-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/microComputedTomography",
+                    "name": "micro computed tomography"
+                },
+                {
+                    "node": "openminds:technique/microarrayBasedSNPGenotyping",
+                    "name": "microarray-based SNP genotyping"
+                },
+                {
+                    "node": "openminds:technique/microsatelliteGenotyping",
+                    "name": "microsatellite genotyping"
+                },
+                {
+                    "node": "openminds:technique/microtomeSectioning",
+                    "name": "microtome sectioning"
+                },
+                {
+                    "node": "openminds:technique/mixedFormatQuestioning",
+                    "name": "mixed-format questioning"
+                },
+                {
+                    "node": "openminds:technique/motionCapture",
+                    "name": "motion capture"
+                },
+                {
+                    "node": "openminds:technique/multi-compartmentModeling",
+                    "name": "multi-compartment modeling"
+                },
+                {
+                    "node": "openminds:technique/multiElectrodeExtracellularElectrophysiology",
+                    "name": "multi-electrode extracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/multiPhotonFluorescenceMicroscopy",
+                    "name": "multi photon fluorescence microscopy"
+                },
+                {
+                    "node": "openminds:technique/multipleWholeCellPatchClamp",
+                    "name": "multiple whole cell patch clamp"
+                },
+                {
+                    "node": "openminds:technique/myelinStaining",
+                    "name": "myelin staining"
+                },
+                {
+                    "node": "openminds:technique/myelinWaterImaging",
+                    "name": "myelin water imaging"
+                },
+                {
+                    "node": "openminds:technique/nearInfraredSpectroscopy",
+                    "name": "near infrared spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/neuromorphicSimulation",
+                    "name": "neuromorphic simulation"
+                },
+                {
+                    "node": "openminds:technique/nonlinearOpticalMicroscopy",
+                    "name": "nonlinear optical microscopy"
+                },
+                {
+                    "node": "openminds:technique/nucleicAcidExtraction",
+                    "name": "nucleic acid extraction"
+                },
+                {
+                    "node": "openminds:technique/openEndedQuestioning",
+                    "name": "open-ended questioning"
+                },
+                {
+                    "node": "openminds:technique/opticalCoherenceTomography",
+                    "name": "optical coherence tomography"
+                },
+                {
+                    "node": "openminds:technique/opticalCoherenceTomographyAngiography",
+                    "name": "optical coherence tomography angiography"
+                },
+                {
+                    "node": "openminds:technique/optogeneticInhibition",
+                    "name": "optogenetic inhibition"
+                },
+                {
+                    "node": "openminds:technique/oralAdministration",
+                    "name": "oral administration"
+                },
+                {
+                    "node": "openminds:technique/organExtraction",
+                    "name": "organ extraction"
+                },
+                {
+                    "node": "openminds:technique/patchClamp",
+                    "name": "patch clamp"
+                },
+                {
+                    "node": "openminds:technique/performanceBasedTesting",
+                    "name": "performance-based testing"
+                },
+                {
+                    "node": "openminds:technique/perfusionFixationTechnique",
+                    "name": "perfusion fixation technique"
+                },
+                {
+                    "node": "openminds:technique/perfusionTechnique",
+                    "name": "perfusion technique"
+                },
+                {
+                    "node": "openminds:technique/perturbationalComplexityIndexMeasurement",
+                    "name": "perturbational complexity index measurement"
+                },
+                {
+                    "node": "openminds:technique/phaseContrastMicroscopy",
+                    "name": "phase contrast microscopy"
+                },
+                {
+                    "node": "openminds:technique/phaseContrastXRayComputedTomography",
+                    "name": "phase\u2010contrast x\u2010ray computed tomography"
+                },
+                {
+                    "node": "openminds:technique/phaseContrastXRayImaging",
+                    "name": "phase-contrast x-ray imaging"
+                },
+                {
+                    "node": "openminds:technique/photoactivation",
+                    "name": "photoactivation"
+                },
+                {
+                    "node": "openminds:technique/photoinactivation",
+                    "name": "photoinactivation"
+                },
+                {
+                    "node": "openminds:technique/photoplethysmography",
+                    "name": "photoplethysmography"
+                },
+                {
+                    "node": "openminds:technique/physiologicalMonitoring",
+                    "name": "physiological monitoring"
+                },
+                {
+                    "node": "openminds:technique/polarizedLightMicroscopy",
+                    "name": "polarized light microscopy"
+                },
+                {
+                    "node": "openminds:technique/populationReceptiveFieldMapping",
+                    "name": "population receptive field mapping"
+                },
+                {
+                    "node": "openminds:technique/positronEmissionTomography",
+                    "name": "positron emission tomography"
+                },
+                {
+                    "node": "openminds:technique/pressureInjection",
+                    "name": "pressure injection"
+                },
+                {
+                    "node": "openminds:technique/primaryAntibodyStaining",
+                    "name": "primary antibody staining"
+                },
+                {
+                    "node": "openminds:technique/pseudoContinuousArterialSpinLabeling",
+                    "name": "pseudo-continuous arterial spin labeling"
+                },
+                {
+                    "node": "openminds:technique/psychologicalTesting",
+                    "name": "psychological testing"
+                },
+                {
+                    "node": "openminds:technique/pupillometry",
+                    "name": "pupillometry"
+                },
+                {
+                    "node": "openminds:technique/quantification",
+                    "name": "quantification"
+                },
+                {
+                    "node": "openminds:technique/quantitativeMagneticResonanceImaging",
+                    "name": "quantitative magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/quantitativeSusceptibilityMapping",
+                    "name": "quantitative susceptibility mapping"
+                },
+                {
+                    "node": "openminds:technique/radialK-spaceSamplingTechnique",
+                    "name": "radial k-space sampling technique"
+                },
+                {
+                    "node": "openminds:technique/radioimmunoassay",
+                    "name": "radioimmunoassay"
+                },
+                {
+                    "node": "openminds:technique/receptiveFieldMapping",
+                    "name": "receptive field mapping"
+                },
+                {
+                    "node": "openminds:technique/reporterGeneBasedExpressionMeasurement",
+                    "name": "reporter gene based expression measurement"
+                },
+                {
+                    "node": "openminds:technique/reporterProteinBasedExpressionMeasurement",
+                    "name": "reporter protein based expression measurement"
+                },
+                {
+                    "node": "openminds:technique/restrictionEnzymeBasedGenotyping",
+                    "name": "restriction enzyme-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/retinotopicMapping",
+                    "name": "retinotopic mapping"
+                },
+                {
+                    "node": "openminds:technique/retrogradeTracing",
+                    "name": "retrograde tracing"
+                },
+                {
+                    "node": "openminds:technique/rule-basedModeling",
+                    "name": "rule-based modeling"
+                },
+                {
+                    "node": "openminds:technique/scanningElectronMicroscopy",
+                    "name": "scanning electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/scatteredLightImaging",
+                    "name": "scattered light imaging"
+                },
+                {
+                    "node": "openminds:technique/secondaryAntibodyStaining",
+                    "name": "secondary antibody staining"
+                },
+                {
+                    "node": "openminds:technique/selfReporting",
+                    "name": "self-reporting"
+                },
+                {
+                    "node": "openminds:technique/semiStructuredQuestioning",
+                    "name": "semi-structured questioning"
+                },
+                {
+                    "node": "openminds:technique/sequencingBasedGenotyping",
+                    "name": "sequencing-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/serialBlockFaceScanningElectronMicroscopy",
+                    "name": "serial block face scanning electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/serialSectionTransmissionElectronMicroscopy",
+                    "name": "serial section transmission electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/sharpElectrodeIntracellularElectrophysiology",
+                    "name": "sharp electrode intracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/silverStaining",
+                    "name": "silver staining"
+                },
+                {
+                    "node": "openminds:technique/simulation",
+                    "name": "simulation"
+                },
+                {
+                    "node": "openminds:technique/singleCellRNASequencing",
+                    "name": "single cell RNA sequencing"
+                },
+                {
+                    "node": "openminds:technique/singleElectrodeExtracellularElectrophysiology",
+                    "name": "single electrode extracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/singleElectrodeJuxtacellularElectrophysiology",
+                    "name": "single electrode juxtacellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/singleGeneAnalysis",
+                    "name": "single gene analysis"
+                },
+                {
+                    "node": "openminds:technique/singleNucleotidePolymorphismDetection",
+                    "name": "single nucleotide polymorphism detection"
+                },
+                {
+                    "node": "openminds:technique/sodiumMRI",
+                    "name": "sodium MRI"
+                },
+                {
+                    "node": "openminds:technique/sonography",
+                    "name": "sonography"
+                },
+                {
+                    "node": "openminds:technique/spiral-inK-spaceSamplingTechnique",
+                    "name": "spiral-in k-space sampling technique"
+                },
+                {
+                    "node": "openminds:technique/spiral-outK-spaceSamplingTechnique",
+                    "name": "spiral-out k-space sampling technique"
+                },
+                {
+                    "node": "openminds:technique/spiralK-spaceSamplingTechnique",
+                    "name": "spiral k-space sampling technique"
+                },
+                {
+                    "node": "openminds:technique/standardization",
+                    "name": "standardization"
+                },
+                {
+                    "node": "openminds:technique/stereoelectroencephalography",
+                    "name": "stereoelectroencephalography"
+                },
+                {
+                    "node": "openminds:technique/stereology",
+                    "name": "stereology"
+                },
+                {
+                    "node": "openminds:technique/stereotacticSurgery",
+                    "name": "stereotactic surgery"
+                },
+                {
+                    "node": "openminds:technique/structuralMagneticResonanceImaging",
+                    "name": "structural magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/structuralNeuroimaging",
+                    "name": "structural neuroimaging"
+                },
+                {
+                    "node": "openminds:technique/structuredQuestioning",
+                    "name": "structured questioning"
+                },
+                {
+                    "node": "openminds:technique/subcutaneousInjection",
+                    "name": "subcutaneous injection"
+                },
+                {
+                    "node": "openminds:technique/subduralElectrocorticography",
+                    "name": "subdural electrocorticography"
+                },
+                {
+                    "node": "openminds:technique/superResolutionMicroscopy",
+                    "name": "super resolution microscopy"
+                },
+                {
+                    "node": "openminds:technique/susceptibilityWeightedImaging",
+                    "name": "susceptibility weighted imaging"
+                },
+                {
+                    "node": "openminds:technique/targetedSequencingBasedGenotyping",
+                    "name": "targeted sequencing-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/tetrodeExtracellularElectrophysiology",
+                    "name": "tetrode extracellular electrophysiology"
+                },
+                {
+                    "node": "openminds:technique/time-of-flightMagneticResonanceAngiography",
+                    "name": "time-of-flight magnetic resonance angiography"
+                },
+                {
+                    "node": "openminds:technique/tissueClearing",
+                    "name": "tissue clearing"
+                },
+                {
+                    "node": "openminds:technique/tractTracing",
+                    "name": "tract tracing"
+                },
+                {
+                    "node": "openminds:technique/transcardialPerfusionFixationTechnique",
+                    "name": "transcardial perfusion fixation technique"
+                },
+                {
+                    "node": "openminds:technique/transcardialPerfusionTechnique",
+                    "name": "transcardial perfusion technique"
+                },
+                {
+                    "node": "openminds:technique/transmissionElectronMicroscopy",
+                    "name": "transmission electron microscopy"
+                },
+                {
+                    "node": "openminds:technique/twoPhotonFluorescenceMicroscopy",
+                    "name": "two-photon fluorescence microscopy"
+                },
+                {
+                    "node": "openminds:technique/ultraHighFieldFunctionalMagneticResonanceImaging",
+                    "name": "ultra high-field functional magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/ultraHighFieldMagneticResonanceImaging",
+                    "name": "ultra high-field magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/ultraHighFieldMagneticResonanceSpectroscopy",
+                    "name": "ultra high-field magnetic resonance spectroscopy"
+                },
+                {
+                    "node": "openminds:technique/ultraHighFieldStructuralMagneticResonanceImaging",
+                    "name": "ultra high-field structural magnetic resonance imaging"
+                },
+                {
+                    "node": "openminds:technique/unstructuredQuestioning",
+                    "name": "unstructured questioning"
+                },
+                {
+                    "node": "openminds:technique/vibratomeSectioning",
+                    "name": "vibratome sectioning"
+                },
+                {
+                    "node": "openminds:technique/video-oculography",
+                    "name": "video-oculography"
+                },
+                {
+                    "node": "EMPTY:0000301",
+                    "name": "video tracking"
+                },
+                {
+                    "node": "openminds:technique/virus-mediatedTransfection",
+                    "name": "virus-mediated transfection"
+                },
+                {
+                    "node": "openminds:technique/voltageClamp",
+                    "name": "voltage clamp"
+                },
+                {
+                    "node": "openminds:technique/voltageSensitiveDyeImaging",
+                    "name": "voltage sensitive dye imaging"
+                },
+                {
+                    "node": "openminds:technique/weightedCorrelationNetworkAnalysis",
+                    "name": "weighted correlation network analysis"
+                },
+                {
+                    "node": "openminds:technique/wholeCellPatchClamp",
+                    "name": "whole cell patch clamp"
+                },
+                {
+                    "node": "openminds:technique/wholeExomeSequencingBasedGenotyping",
+                    "name": "whole-exome sequencing-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/wholeGenomeSequencing",
+                    "name": "whole genome sequencing"
+                },
+                {
+                    "node": "openminds:technique/wholeGenomeSequencingBasedGenotyping",
+                    "name": "whole-genome sequencing-based genotyping"
+                },
+                {
+                    "node": "openminds:technique/widefieldFluorescenceMicroscopy",
+                    "name": "widefield fluorescence microscopy"
+                },
+                {
+                    "node": "openminds:technique/zigzagK-spaceSamplingTechnique",
+                    "name": "zigzag k-space sampling technique"
+                }
+            ]
+        },
+        {
+            "variable": {
+                "node": "NCIT:C175886",
+                "name": "Scientific Data Type"
+            },
+            "class": "assertion",
+            "value_kind": "term",
+            "entity_type": "Data Set",
+            "subject_defining": false,
+            "node_form": "curie",
+            "values": [
+                {
+                    "node": "openminds:semanticDataType/derivedData",
+                    "name": "derived data"
+                },
+                {
+                    "node": "openminds:semanticDataType/experimentalData",
+                    "name": "experimental data"
+                },
+                {
+                    "node": "openminds:semanticDataType/rawData",
+                    "name": "raw data"
+                },
+                {
+                    "node": "openminds:semanticDataType/simulatedData",
+                    "name": "simulated data"
+                }
+            ]
+        },
+        {
+            "variable": {
                 "node": "OBI:0000750",
                 "name": "study design independent variable"
             },
@@ -1939,7 +2889,7 @@
         {
             "type": "recording epoch",
             "node": "EMPTY:0000383",
-            "description": "one recording: the files one acquisition system wrote for one stretch of time",
+            "description": "one recording: the files written for one stretch of time, by one or more acquisition systems",
             "requires": [
                 "local_identifier"
             ]
