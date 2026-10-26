@@ -129,6 +129,14 @@ Migration:
     test note says dataset terms are "not openMINDS instance IRIs", which
     sits uneasily with T2.
 
+## Capitalisation (later)
+
+Raised by Jess Haley, 2026-10-26: should NDI terms be standardised to lower
+case (unless proper nouns), since matching ignores case? Proposed (not
+decided): keep the registry `name` as the ontology's label (checkable), and
+either (a) lower-case only for display, or (b) add an `ndi_name` column that
+writers use. Changing a stored name that code compares goes siblings first.
+
 ## Dab map questions (later)
 
 Saved 2026-10-26 (Jess Haley: "Save the dab questions for later. Our goal is

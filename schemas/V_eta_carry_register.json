@@ -423,7 +423,7 @@
       ],
       "decides": "where the treatment was given; the v1 document does not say",
       "resolved_by": "the dataset map entry for that treatment (not yet written)",
-      "kind_basis": "stated"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-024",
@@ -445,7 +445,7 @@
       ],
       "decides": "what the non-body location means in its dataset",
       "resolved_by": "the dataset map entry for that location (not yet written)",
-      "kind_basis": "stated"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-025",
