@@ -77,6 +77,13 @@ states how many things it inspected, first and unconditionally. A count without
 a denominator is not evidence. "Not measured" is a third state; it is never
 "no" and never "yes".
 
+**Answer first, record after.** In a conversation with a team member, reply
+before running the gate chain, committing or pushing. Record decisions and
+other edits right after the reply, and batch them. Run `tools/gates.py` once
+per batch, in the background, before the push. A decision is still committed
+promptly (rule 4), but never ahead of the answer the team member is waiting
+for. *(2026-10-26, Jess Haley.)*
+
 **Scope: do exactly what was asked, and stop.** "Look at X if you like" is not
 authorisation to change X. Ambiguity is resolved by asking, not by doing more.
 
