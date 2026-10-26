@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 343,
+          "accepted_lines": 344,
           "accepted_lines_by_kind": {
-            "Decided by": 226,
+            "Decided by": 227,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2195,6 +2195,14 @@
               "tag": "dataset-specific logic leaves the generic migration",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [dataset-specific logic"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1210,
+              "kind": "Decided by",
+              "tag": "site scaffolding not a loss",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [site scaffolding not a"
             },
             {
               "document": "V_eta_image_model_plan.md",
