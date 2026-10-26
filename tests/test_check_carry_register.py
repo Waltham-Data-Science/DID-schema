@@ -17,7 +17,7 @@ def row(kind, **kw):
     r = {"id": kw.pop("id", "carry-001"), "v1_class": "sorting_parameters",
          "fields": ["app.os"], "when": "w", "kind": kind, "kind_basis": "stated",
          "decision": dict(DEC)}
-    extra = {"awaiting_home": {"open_work": None, "home": "h"},
+    extra = {"awaiting_home": {"open_work": 128, "home": "h"},
              "needs_mapping": {"homes": ["a", "b"], "decides": "d", "resolved_by": "r"},
              "not_modelled": {"do_not": copy.deepcopy(DO_NOT)},
              "malformed": {}}.get(kind, {})
@@ -60,10 +60,26 @@ def test_a_row_missing_its_kind_keys_or_with_an_unknown_kind_fails():
     assert "used twice" in fails[2]
 
 
-def test_open_work_is_a_row_number_or_null():
+def test_open_work_is_a_row_number():
     assert ccr.check_shape(reg(row("awaiting_home", open_work=128))) == []
     fails = ccr.check_shape(reg(row("awaiting_home", open_work="#128")))
     assert len(fails) == 1 and "open_work" in fails[0]
+
+
+def test_awaiting_home_with_no_open_work_row_fails():
+    # Jess Haley, 2026-10-26: fail when the open work entry is missing.
+    fails = ccr.check_shape(reg(row("awaiting_home", open_work=None)))
+    assert len(fails) == 1 and "open_work" in fails[0]
+
+
+def test_open_work_number_must_be_an_open_row():
+    text = ("# t\n\n## OPEN\n\n| # | item |\n|---|---|\n| 128 | x -> issue |\n"
+            "\n## COMPLETED\n\n| 7 | done |\n\n## DECISIONS RECORDED\n| 9 | old |\n")
+    known = ccr.open_rows(text)
+    assert known == {128}
+    assert ccr.check_open_work([row("awaiting_home", open_work=128)], known) == ([], 1)
+    fails, n = ccr.check_open_work([row("awaiting_home", open_work=7)], known)
+    assert n == 1 and len(fails) == 1 and "#7" in fails[0]
 
 
 def test_an_unregistered_v1_class_fails():

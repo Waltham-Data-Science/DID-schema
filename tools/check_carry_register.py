@@ -11,8 +11,8 @@ missing a field". This checks, and fails on any of:
       a unique `id`, a `v1_class`, a non-empty `fields` list, `when`, a
       `kind` from `kinds`, a `kind_basis` (stated | decided | proposed) and a
       `decision` {document, tag}; and the keys its kind requires:
-        awaiting_home  `open_work` (an OPEN_WORK row number, or null when none
-                       is filed yet -- LISTED, not failed) and `home`
+        awaiting_home  `open_work` (an OPEN_WORK row number; null FAILS, so
+                       no home is awaited untracked) and `home`
         needs_mapping  `homes` (a non-empty list), `decides`, `resolved_by`
         not_modelled   `do_not` {line, class, fields}
         malformed      nothing more
@@ -26,15 +26,20 @@ missing a field". This checks, and fails on any of:
       hold (the rule could not be checked), or a class that DECLARES one of
       the forbidden fields or edges, itself or through a superclass. The
       failure quotes the `do_not` line.
+  C5  an `awaiting_home` row whose `open_work` number is not a row of the
+      "## OPEN" section of schemas/V_eta_OPEN_WORK.md (a completed row fails:
+      the home is no longer tracked as awaited).
+      (Jess Haley, 2026-10-26: "make the register check fail when missing
+      the open work entry".)
 
-It prints its denominator first. An `awaiting_home` row with no OPEN_WORK
-row and a `proposed` kind are reported, never failed: they are open, not
-wrong.
+It prints its denominator first. A `proposed` kind is reported, never
+failed: it is open, not wrong.
 
 Usage: python3 tools/check_carry_register.py
 """
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,6 +48,7 @@ import decision_citations as dc  # noqa: E402
 
 REGISTER = os.path.join(ROOT, "schemas", "V_eta_carry_register.json")
 LEDGER = os.path.join(ROOT, "schemas", "V_eta_coverage_ledger.json")
+OPEN_WORK = os.path.join(ROOT, "schemas", "V_eta_OPEN_WORK.md")
 VETA = os.path.join(ROOT, "schemas", "did_v2")
 INDEX = os.path.join(VETA, "index.json")
 
@@ -109,8 +115,8 @@ def check_shape(reg):
             out.append(f"C1 {where}: `decision` is not {{document, tag}}")
         if kind == "awaiting_home":
             ow = r["open_work"]
-            if ow is not None and not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
-                out.append(f"C1 {where}: `open_work` is {ow!r}, not a row number or null")
+            if not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
+                out.append(f"C1 {where}: `open_work` is {ow!r}, not an OPEN_WORK row number")
             if not _text(r["home"]):
                 out.append(f"C1 {where}: `home` is empty")
         elif kind == "needs_mapping":
@@ -203,6 +209,35 @@ def check_do_not(rows, tree):
     return out, n
 
 
+def open_rows(text):
+    """The row numbers listed in the OPEN_WORK index's "## OPEN" section (its
+    own table and the other-repository table), not the COMPLETED rows or the
+    verbatim decisions below them."""
+    head = text.split("\n## OPEN", 1)[-1].split("\n## ", 1)[0]
+    out = set()
+    for ln in head.splitlines():
+        m = re.match(r"\|\s*(\d+)\s*\|", ln)
+        if m:
+            out.add(int(m.group(1)))
+    return out
+
+
+def check_open_work(rows, known):
+    """C5. Returns (failures, rows checked)."""
+    out, n = [], 0
+    for r in rows:
+        if not (isinstance(r, dict) and r.get("kind") == "awaiting_home"):
+            continue
+        ow = r.get("open_work")
+        if not isinstance(ow, int) or isinstance(ow, bool):
+            continue  # C1 reports it
+        n += 1
+        if ow not in known:
+            out.append(f"C5 {r['id']}: open_work #{ow} is not an OPEN row of "
+                       f"schemas/V_eta_OPEN_WORK.md")
+    return out, n
+
+
 def main():
     reg = _load(REGISTER)
     rows = reg.get("rows") if isinstance(reg.get("rows"), list) else []
@@ -225,10 +260,12 @@ def main():
     print(f"C4: {n_nm} not_modelled row(s), {n} (class, field) pair(s) checked "
           f"against {len(tree)} class(es)")
     failures += nfail
-    for r in rows:
-        if isinstance(r, dict) and r.get("kind") == "awaiting_home" and r.get("open_work") is None:
-            print(f"  LISTED (not failed): {r['id']} {r['v1_class']} awaiting a home, "
-                  f"no OPEN_WORK row filed")
+    with open(OPEN_WORK, encoding="utf-8") as f:
+        known = open_rows(f.read())
+    ofail, n_ow = check_open_work(rows, known)
+    print(f"C5: {n_ow} awaiting_home open_work number(s) checked against "
+          f"{len(known)} OPEN row(s) of V_eta_OPEN_WORK.md")
+    failures += ofail
     n_prop = sum(1 for r in rows if isinstance(r, dict) and r.get("kind_basis") == "proposed")
     print(f"  kinds proposed by Claude, not stated by the decision: {n_prop} of {len(rows)}")
     for f in failures:
