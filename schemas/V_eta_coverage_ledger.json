@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 337,
+          "accepted_lines": 338,
           "accepted_lines_by_kind": {
-            "Decided by": 220,
+            "Decided by": 221,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2147,6 +2147,14 @@
               "tag": "probe contact geometry carried",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [probe contact geometry"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1198,
+              "kind": "Decided by",
+              "tag": "small unread settings",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [small unread settings]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
