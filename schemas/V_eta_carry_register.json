@@ -212,14 +212,12 @@
         "data_limits"
       ],
       "when": "`data_limits` differs from its data type's range and is not a finite [minimum maximum] pair (DID-matlab image_stack.m); a pair that differs is written as a value range (EMPTY:0000402) condition on the body since DID-matlab f6486be (#250)",
-      "kind": "awaiting_home",
+      "kind": "malformed",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "image file details placed"
+        "tag": "data_limits not a pair is malformed"
       },
-      "open_work": 133,
-      "home": "none decided for a data_limits that is not a [minimum maximum] pair; a pair that differs is written as a value range (EMPTY:0000402) condition on the data body",
-      "kind_basis": "decided"
+      "kind_basis": "stated"
     },
     {
       "id": "carry-012",
@@ -228,14 +226,12 @@
         "data_limits"
       ],
       "when": "`data_limits` differs from its data type's range and is not a finite [minimum maximum] pair (DID-matlab image_stack.m); a pair that differs is written as a value range (EMPTY:0000402) condition on the body since DID-matlab f6486be (#250)",
-      "kind": "awaiting_home",
+      "kind": "malformed",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "image file details placed"
+        "tag": "data_limits not a pair is malformed"
       },
-      "open_work": 133,
-      "home": "none decided for a data_limits that is not a [minimum maximum] pair; a pair that differs is written as a value range (EMPTY:0000402) condition on the data body",
-      "kind_basis": "decided"
+      "kind_basis": "stated"
     },
     {
       "id": "carry-013",
@@ -1044,6 +1040,89 @@
       "open_work": 143,
       "home": "none decided (per tuning class)",
       "kind_basis": "decided"
+    },
+    {
+      "id": "carry-057",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "the vehicle's per-body-mass amount (e.g. saline '1 mg/kg')"
+      ],
+      "when": "a vehicle row states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-058",
+      "v1_class": "measurement",
+      "fields": [
+        "a second numeric value, or a string beside the number"
+      ],
+      "when": "the measurement holds more than one value (DID-matlab private/jMeasurementFold.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "second measurement value needs a map"
+      },
+      "homes": [
+        "a second statement",
+        "a condition on the first statement",
+        "a note"
+      ],
+      "decides": "what the second value means in that dataset",
+      "resolved_by": "the dataset map entry for that measurement (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-059",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "a second numeric value, or a string beside the number"
+      ],
+      "when": "the measurement holds more than one value (DID-matlab private/jMeasurementFold.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "second measurement value needs a map"
+      },
+      "homes": [
+        "a second statement",
+        "a condition on the first statement",
+        "a note"
+      ],
+      "decides": "what the second value means in that dataset",
+      "resolved_by": "the dataset map entry for that measurement (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-060",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_reference",
+        "the creator class"
+      ],
+      "when": "an ingested session's `session_reference` differs from the session entity's local_identifier (DID-matlab private/jMembershipBodies.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ingested session membership"
+      },
+      "homes": [
+        "the session entity's local_identifier",
+        "a parameter of the part_of method"
+      ],
+      "decides": "which name the dataset knew the session by",
+      "resolved_by": "the dataset map entry for that session (not yet written)",
+      "kind_basis": "stated"
     }
   ]
 }
