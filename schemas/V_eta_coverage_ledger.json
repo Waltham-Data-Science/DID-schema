@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 360,
+          "accepted_lines": 363,
           "accepted_lines_by_kind": {
-            "Decided by": 243,
+            "Decided by": 246,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2331,6 +2331,30 @@
               "tag": "awaiting home is tracked",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [awaiting home is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1244,
+              "kind": "Decided by",
+              "tag": "dataset map edits V2",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dataset map edits V2]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1246,
+              "kind": "Decided by",
+              "tag": "dataset map location",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dataset map location]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1248,
+              "kind": "Decided by",
+              "tag": "no Haley map",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [no Haley map]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
