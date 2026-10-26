@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 365,
+          "accepted_lines": 366,
           "accepted_lines_by_kind": {
-            "Decided by": 248,
+            "Decided by": 249,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2371,6 +2371,14 @@
               "tag": "opto target without a run",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [opto target without a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1254,
+              "kind": "Decided by",
+              "tag": "fraction value kind",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [fraction value kind]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
