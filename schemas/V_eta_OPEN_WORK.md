@@ -43,6 +43,9 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 125 | spatial-transcriptomics tiles and cells onto the data_body fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/91 |
 | 126 | controlled-term bindings for the spatial-transcriptomics fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/107 |
 | 129 | bindings become `required`: `variable`, and a node on every term -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
+| 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 |
+| 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 |
+| 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
 
 Open items without a row number:
 

@@ -9,7 +9,7 @@ missing a field". This checks, and fails on any of:
   C1  the file's shape: `kinds` is exactly the four decided kinds
       (awaiting_home, needs_mapping, not_modelled, malformed); every row has
       a unique `id`, a `v1_class`, a non-empty `fields` list, `when`, a
-      `kind` from `kinds`, a `kind_basis` (stated | proposed) and a
+      `kind` from `kinds`, a `kind_basis` (stated | decided | proposed) and a
       `decision` {document, tag}; and the keys its kind requires:
         awaiting_home  `open_work` (an OPEN_WORK row number, or null when none
                        is filed yet -- LISTED, not failed) and `home`
@@ -47,7 +47,7 @@ VETA = os.path.join(ROOT, "schemas", "did_v2")
 INDEX = os.path.join(VETA, "index.json")
 
 KINDS = ["awaiting_home", "needs_mapping", "not_modelled", "malformed"]
-BASES = ("stated", "proposed")
+BASES = ("stated", "decided", "proposed")
 COMMON = {"id", "v1_class", "fields", "when", "kind", "kind_basis", "decision"}
 BY_KIND = {
     "awaiting_home": {"open_work", "home"},
