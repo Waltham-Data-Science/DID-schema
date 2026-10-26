@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 338,
+          "accepted_lines": 339,
           "accepted_lines_by_kind": {
-            "Decided by": 221,
+            "Decided by": 222,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2155,6 +2155,14 @@
               "tag": "small unread settings",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [small unread settings]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1200,
+              "kind": "Decided by",
+              "tag": "carry register",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [carry register]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
