@@ -1381,6 +1381,352 @@
       "open_work": 145,
       "home": "none decided",
       "kind_basis": "decided"
+    },
+    {
+      "id": "carry-080",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_presentation.<fields the decomposition does not write>",
+        "stimuli.<fields beside parameters>",
+        "parameters.<keys no recipe reads, or a second value where one is read>"
+      ],
+      "when": "it holds a field the item, its methods and covariates do not write (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'unplaced (carried as v1): ...')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 146,
+      "home": "none decided: per field, on the stimulus method or the item",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-081",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_element_id",
+        "the responding subjects"
+      ],
+      "when": "its subject resolves to several animals that cannot be one shared event: stimulator links lead to different animals (conflicting records), or several animals with no session cohort supplied (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'several animals: ...')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one correct reading"
+      },
+      "homes": [
+        "manipulation of one of the animals",
+        "manipulation on the session cohort, distributive"
+      ],
+      "decides": "which animal (or the cohort) received the stimulus; the v1 records disagree",
+      "resolved_by": "the dataset map entry for that presentation (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-082",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "the responding subject"
+      ],
+      "when": "the epoch records elements but none resolves to a subject (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'no responding animal; the epoch's N recorded element(s) resolve to no subject'); with no element at all it becomes a standalone item ([presentation with no subject])",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-083",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "base.datestamp",
+        "stimulus_presentation.stimuli",
+        "stimulus_presentation.presentation_order"
+      ],
+      "when": "base id, session_id or datestamp is missing; or there are no stimuli or no presentation_order; or presentation_order indexes outside the stimuli list (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-084",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_presentation.stimuli.parameters"
+      ],
+      "when": "a stimulus is of a NewStim kind with no recipe (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'a stimulus kind with no recipe, refused by class: ...')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_method_plan.md",
+        "tag": "non-grating stimuli as methods"
+      },
+      "open_work": 31,
+      "home": "a stimulus method (recipe) for that kind",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-085",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "the hartley_calc enumeration (item_ids, order, frame_times)"
+      ],
+      "when": "the frame sequence a hartley_calc supplies cannot be read: not one struct, no item_ids, an empty id, no order, an order entry outside item_ids, or frame_times of another length (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m readSequence)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-086",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "epochid.epochid",
+        "files"
+      ],
+      "when": "no base.id or session, no epoch id, or its files are not the one data.bin with a location (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m unplaced); the NDI writer (+daq/metadatareader.m ingest_epochfiles) always sets all of them",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-087",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "daqmetadatareader_epochdata_ingested.<any field>",
+        "depends_on other than daqmetadatareader_id and session_id"
+      ],
+      "when": "a field in its block or an edge the body does not write (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m unplaced); the NDI template's block is empty and the writer sets only daqmetadatareader_id",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-088",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "epochid.epochid",
+        "base.session_id"
+      ],
+      "when": "no stimulus-presentation manipulation has its session and epoch (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m, left_no_presentation); carry-047 is the case with several",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "homes": [
+        "opaque_body owned by a stimulus-presentation manipulation of that epoch"
+      ],
+      "decides": "which presentation the stimulus file belongs to, when none in its session and epoch was decomposed (e.g. it was carried as v1 or became a standalone item)",
+      "resolved_by": "the dataset map entry for that epoch (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-089",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "control_stimulus_ids.<fields beside control_stimulus_ids and control_stimulus_id_method>",
+        "app.<fields beyond name, version, url, os, interpreter>",
+        "depends_on other than stimulus_presentation_id and session_id"
+      ],
+      "when": "it holds a field or edge the control calculation does not write (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 147,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-090",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "control_stimulus_ids.control_stimulus_ids"
+      ],
+      "when": "its presentation became a standalone item (no subject) or a frame sequence (Hartley), so the control pairing calculation has no subject or no trials (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "control pairing is a calculation"
+      },
+      "open_work": 148,
+      "home": "none decided: a control pairing for a standalone item or a frame sequence",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-091",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "control_stimulus_ids.control_stimulus_ids",
+        "control_stimulus_ids.control_stimulus_id_method",
+        "app"
+      ],
+      "when": "no base.id or session; control_stimulus_id_method is not a block; a trial has no control (NaN or empty); the pairing has another length than the trials or names a non-trial; or its app block is not a block, holds non-text, names no program, or gives an OS or interpreter version with no name (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-092",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.<Strain fields this pass does not write: breedingType, stockNumber, diseaseModel, lookupLabel, digitalIdentifier, alternateIdentifier, ...>",
+        "a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType",
+        "a species or geneticStrainType reference not in the batch, or to a fragment that states nothing"
+      ],
+      "when": "a Strain holds a field the strain entity and its assertions do not write (NDI-matlab +migrate/+internal/strainAssembly.m, 'cannot place ...')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 149,
+      "home": "none decided: per Strain field",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-093",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.name"
+      ],
+      "when": "a Strain has no name, so the strain entity's required name would be invented (NDI-matlab +migrate/+internal/strainAssembly.m, 'missing name')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "no invented values"
+      },
+      "homes": [
+        "entity of type strain whose name the dataset map gives"
+      ],
+      "decides": "the strain's name, which the v1 document does not state",
+      "resolved_by": "the dataset map entry naming that strain (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-094",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.<Species or GeneticStrainType fields beyond name and one identifier>"
+      ],
+      "when": "a Species or GeneticStrainType fragment holds a field the strain's term does not write, or is referenced by a Strain carried as v1 (NDI-matlab +migrate/+internal/strainAssembly.m, fragments_retained)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 149,
+      "home": "none decided: the fragment's other fields (e.g. a Species definition or synonym)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-095",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "ontologyLabel.<fields beside ontology_node>",
+        "depends_on other than document_id"
+      ],
+      "when": "the label states a field or edge the term observation does not write (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, unresolved_unplaced_fields)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 150,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-096",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "depends_on document_id"
+      ],
+      "when": "the labelled document has no subject (e.g. an E. coli plate image) or no time reference, so no term observation of a subject can carry the label (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, blocked_target_has_no_subject, unresolved_target_no_time_reference)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "v1 passthroughs accepted"
+      },
+      "open_work": 151,
+      "home": "none decided: a label on a statement that has no subject or no time reference",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-097",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "depends_on document_id",
+        "ontologyLabel.ontology_node"
+      ],
+      "when": "no document_id edge, a document_id naming no document in the migrated set, or no ontology node (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-098",
+      "v1_class": "ontologyTableRow",
+      "fields": [
+        "ontologyTableRow.names",
+        "ontologyTableRow.variableNames",
+        "ontologyTableRow.ontologyNodes",
+        "ontologyTableRow.data"
+      ],
+      "when": "a row with no subject_id edge whose subject NDI's second pass does not resolve (no candidate, a candidate missing or not a subject, a local identifier missing or ambiguous, conflicting document-id candidates, or a document_id edge the fold would drop), or whose re-fold writes no statement (NDI-matlab +migrate/+internal/ontologyRowSubjects.m; local.m resolveOntologyRowSubjects); carry-026 is the row that has a subject_id edge",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "table rows into the dataset audit"
+      },
+      "homes": [
+        "assertion",
+        "observation",
+        "manipulation"
+      ],
+      "decides": "which entity the row is about, and the table's column map (entity, direction, value kind and unit per column)",
+      "resolved_by": "the dataset map's column rows for that table (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-099",
+      "v1_class": "ensemble",
+      "fields": [
+        "depends_on element_id",
+        "depends_on element_epoch_id",
+        "depends_on neuron_id_#"
+      ],
+      "when": "its element is no migrated entity, it has no neuron_id edge, no epoch to scope the membership by, a neuron not in the batch, or a neuron with no spike train in that epoch (NDI-matlab +migrate/+internal/ensembleMembership.m, ensemble_maps_kept_*); the NDI writer (+element/ensemble.m buildMapDoc) always sets them",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_ensemble_plan.md",
+        "tag": "ensemble retired"
+      },
+      "kind_basis": "proposed"
     }
   ]
 }
