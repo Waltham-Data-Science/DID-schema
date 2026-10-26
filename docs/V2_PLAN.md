@@ -70,8 +70,9 @@ Dataset map:
 3. (Decided, [map rows match exact values]: exact v1 values only.)
 4. (Decided, [opto target without a run]: a term assertion on the animal
    stating its target; no stimulation claimed.)
-5. Should Claude draft the Dab EPM / FPS column rows for review?
-6. Where does the Dab reproduction test live (NDI or DID)?
+5. (Drafted: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md`; its Dab questions
+   wait, see "Dab map questions (later)".)
+6. (Moved to "Dab map questions (later)".)
 7. Babu: a map, or a V2 import from the source data? Its media and heat
    routing is now covered by nothing.
 
@@ -97,6 +98,23 @@ Migration:
     test note says dataset terms are "not openMINDS instance IRIs", which
     sits uneasily with T2.
 
+## Dab map questions (later)
+
+Saved 2026-10-26 (Jess Haley: "Save the dab questions for later. Our goal is
+general migration right now."). Draft: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md`.
+
+- EPM "CNO or saline" column: what was given in this experiment (the general
+  question, a treatment with no amount, is asked separately).
+- EPM `TestIdentifier`: what is it (2..29, empty in 17 rows)?
+- EPM `ExperimentalGroupCode`: the importer's experiment number (1 or 2), not
+  a treatment group: a cohort group entity, or a label?
+- EPM `DataExclusionFlag` (animals 239, 258, "not expressing mCherry"): an
+  assertion, an observation, or a note?
+- FPS: its 7 open columns (in the draft).
+- Dab: should Claude draft the remaining Dab map rows (sliceTetanus as a pass,
+  the EMPTY:0000074 rule)?
+- Where the Dab reproduction test lives (NDI or DID).
+
 ## Working documents
 
 `docs/v2_working/` holds the research behind recent decisions. These are
@@ -111,6 +129,7 @@ proposals and measurements at the commits they name, not the record:
 | `TERMS_PROPOSAL.md` | the census terms proposal |
 | `MARKDOWN_PLAN.md` | which Markdown under `schemas/` to delete or move |
 | `DATASET_MAP_PROPOSAL.md` | the dataset map design draft |
+| `DAB_COLUMN_ROWS_DRAFT.md` | proposed Dab map rows for the EPM and FPS table columns |
 
 ## How we work
 
