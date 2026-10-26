@@ -49,6 +49,14 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 133 | write an image's differing `data_limits` as a value range on its body (carry-011, carry-012) -> https://github.com/Waltham-Data-Science/DID-schema/issues/138 |
 | 134 | write an `imageStack`'s `imageCollection_id` as `member_of` a group (carry-013) -> https://github.com/Waltham-Data-Science/DID-schema/issues/139 |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
+| 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
+| 137 | a home for `stimulus_response_scalar` stimulator epoch and control links (carry-050) -> https://github.com/Waltham-Data-Science/DID-schema/issues/144 |
+| 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
+| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
+| 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
+| 141 | an author with several affiliations in `metadata_editor` (carry-054) -> https://github.com/Waltham-Data-Science/DID-schema/issues/148 |
+| 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
+| 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 
 Open items without a row number:
 
