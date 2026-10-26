@@ -1231,6 +1231,124 @@
         "tag": "missing is_linked is malformed"
       },
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-067",
+      "v1_class": "image",
+      "fields": [
+        "depends_on document_id"
+      ],
+      "when": "the image has a `document_id` edge (DID-matlab image_stack.m, which migrators_j.image routes a v1 `image` to; 'unplaced: depends_on document_id'); carry-052 is the same case for imageStack",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "open_work": 139,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-068",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.is_linked"
+      ],
+      "when": "`is_linked` is stated but is not one logical or number (e.g. text that is not a number, or several values) (DID-matlab private/jMembershipBodies.m, 'is_linked not readable'); carry-066 is the empty case",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "missing is_linked is malformed"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-069",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_reference"
+      ],
+      "when": "an ingested session's `session_reference` cannot be compared with the session entity's local_identifier because that session is not in the migrated batch (DID-matlab private/jMembershipBodies.m); carry-060 is the case where it is compared and differs",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ingested session membership"
+      },
+      "homes": [
+        "dropped, when it equals the session entity's local_identifier",
+        "carried for the dataset map (carry-060), when it differs"
+      ],
+      "decides": "whether the reference equals the session's local_identifier, which needs the session",
+      "resolved_by": "a migration run that holds the session, or the dataset map entry for that session (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-070",
+      "v1_class": "treatment",
+      "fields": [
+        "a vehicle's per-body-mass amount"
+      ],
+      "when": "a vehicle states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS, via private/jTreatmentBodies.m 'vehicle amount placeholder'); carry-057 is the same case for treatment_drug",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-071",
+      "v1_class": "treatment",
+      "fields": [
+        "the dose's amounts"
+      ],
+      "when": "two amounts of the same kind for one dose disagree (DID-matlab private/jDoseValue.m CONFLICTS, via private/jTreatmentBodies.m 'conflicting amount'); carry-031 is the same case for treatment_drug",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-072",
+      "v1_class": "virus_injection",
+      "fields": [
+        "a vehicle's per-body-mass amount"
+      ],
+      "when": "a vehicle (e.g. the diluent) states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS, via private/jTreatmentBodies.m 'vehicle amount placeholder'); carry-057 is the same case for treatment_drug",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that injection (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-073",
+      "v1_class": "virus_injection",
+      "fields": [
+        "the dose's amounts"
+      ],
+      "when": "two amounts of the same kind for one dose disagree (DID-matlab private/jDoseValue.m CONFLICTS, via private/jTreatmentBodies.m 'conflicting amount'); carry-031 is the same case for treatment_drug",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
     }
   ]
 }
