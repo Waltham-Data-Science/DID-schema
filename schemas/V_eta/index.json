@@ -459,8 +459,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 daqmetadatareader_epoch_cache (awaiting review)"
+            "disposition": "retire",
+            "disposition_note": "becomes an opaque_body owned by the epoch's stimulus-presentation manipulation (NDI second pass); with no matching presentation it is carried as v1. V_eta_go_forward_class_audit.md [ingested stimulus file is a body of the presentation]"
         },
         {
             "class_name": "daqreader",
@@ -1754,8 +1754,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/stimulus_presentation.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "retire",
+            "disposition_note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. V_eta_go_forward_class_audit.md [stimulus_presentation retired]"
         },
         {
             "class_name": "stimulus_response",

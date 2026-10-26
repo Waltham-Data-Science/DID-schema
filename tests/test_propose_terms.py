@@ -13,9 +13,11 @@ CURIES = {"prefixes": {
 }}
 REGISTRY = {"terms": [
     {"name": "Arithmetic Mean", "node": "NCIT:C53319", "definition": "d", "status": "decided",
-     "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False},
+     "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
+     "number_unit": False},
     {"name": "body midpoint", "node": "", "definition": "d", "status": "staged",
-     "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False},
+     "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
+     "number_unit": False},
 ]}
 OWL = {"0000400": ("plate wiping", "Wiping a plate.")}
 WHO = {"decided": "J, 2026-10-21", "first_used_in": "Smith"}
@@ -49,7 +51,8 @@ def test_a_new_term_is_respelled_and_printed_in_registry_order():
     v, rows = run({"name": "Median", "node": "nci:C28007", "definition": "the middle"})
     assert v[0][0] == "ADD" and "respelled" in v[0][2]
     assert rows == [{"name": "Median", "node": "NCIT:C28007", "definition": "the middle",
-                     "status": "decided", **WHO, "obsolete": False}]
+                     "status": "decided", **WHO, "obsolete": False,
+                     "number_unit": False}]
     assert list(json.loads("[" + pt.render_rows(rows) + "]")[0]) == list(pt.KEYS)
 
 

@@ -229,3 +229,17 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
     for legacy in ("session_relative_reference", "session_bounded_reference",
                    "epoch_bounded_reference"):
         assert legacy not in entries, f"{legacy} came back; increment 3b deleted it"
+
+
+def test_the_rule_is_documented_as_clock_and_referent():
+    """Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [device clocks on
+    one epoch]: one document's time references are unique by clock AND referent.
+    The declared key stays `value.clock` until DID-matlab's readers take a
+    composite key (they read one dotted path; testFamilyUniqueness reads the live
+    schema), so the amendment is stated on every governed family, with what waits."""
+    fams = _families()
+    assert len(GOVERNED) == 3 and GOVERNED <= set(fams)
+    for key in sorted(GOVERNED):
+        doc = fams[key]["documentation"]
+        assert "[device clocks on one epoch]" in doc and "referent_id" in doc, key
+        assert "Build pending: DID-matlab" in doc, key

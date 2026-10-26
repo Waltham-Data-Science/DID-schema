@@ -326,9 +326,9 @@
       ]
     },
     "by_disposition": {
-      "retire": 74,
+      "retire": 76,
       "dissolved \u2192 subject": 1,
-      "in_progress": 5,
+      "in_progress": 3,
       "persist": 1,
       "consumed by migrator (no tombstone)": 30,
       "test/demo fixture (non-production)": 2,
@@ -4286,7 +4286,7 @@
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
       "veta_class": "daqmetadatareader_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -13922,7 +13922,7 @@
     {
       "v1_class": "stimulus_presentation",
       "veta_class": "stimulus_presentation",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,

@@ -17,9 +17,10 @@ def registry(*terms):
     return {"description": "test", "terms": list(terms)}
 
 
-def term(name, node, status="decided", definition="d", obsolete=False):
+def term(name, node, status="decided", definition="d", obsolete=False, number_unit=False):
     return {"name": name, "node": node, "status": status, "definition": definition,
-            "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete}
+            "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete,
+            "number_unit": number_unit}
 
 
 def run(src):
@@ -193,10 +194,20 @@ def test_the_decided_closed_value_lists():
     assert "wikidata:Q30" in nodes("ethics jurisdiction")       # United States
     ea = nodes("experimental approach")
     assert len(ea) == 40 and "ILX:0739413" in ea and "EDAM:topic_0202" in ea
+    # openMINDS (latest) technique 227 and semanticDataType 4, by openMINDS's own
+    # ids (Jess Haley 2026-10-26 [census terms] T2), except three technique names
+    # the registry already held (R2): brightfield and fluorescence microscopy, video tracking
+    tq = nodes("Technique")
+    assert len(tq) == 227 and len(set(tq)) == 227
+    assert sum(n.startswith("openminds:technique/") for n in tq) == 224
+    assert {"NCIT:C19827", "NCIT:C16856", "EMPTY:0000301"} <= set(tq)
+    assert nodes("Scientific Data Type") == [
+        "openminds:semanticDataType/derivedData", "openminds:semanticDataType/experimentalData",
+        "openminds:semanticDataType/rawData", "openminds:semanticDataType/simulatedData"]
     assert rows["Gene Expression"]["term_valued"] is False
     assert "study design" not in rows and "ethics assessment" not in rows
     failures, _, n = ctr.check_value_sets(ctr._load(ctr.SOURCE)["terms"], reg)
-    assert failures == [] and n == 4 + 1 + 2 + 206 + 40
+    assert failures == [] and n == 4 + 1 + 2 + 206 + 40 + 227 + 4
 
 
 def test_every_row_has_one_shape():
@@ -224,3 +235,29 @@ def test_an_obsolete_term_matches_the_ontologys_obsolete_label():
     assert ctr.check_empty(terms, owl) == []
     terms[0]["obsolete"] = False
     assert ctr.check_empty(terms, owl) != []
+
+
+def test_a_term_states_the_unit_of_its_number():
+    """R12 (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [term-stated
+    unit is generic]): when a term's definition states the unit its number takes,
+    the registry row says so, as a registered unit term, and a migrator reads it
+    there. First case: EMPTY:0000199, "(provided in hours)"."""
+    hour = term("hour", "om:hour")
+    ok = term("t", "EMPTY:0000199", number_unit={"node": "om:hour", "name": "hour"})
+    assert run(registry(hour, ok))[2] == []
+    bad = [term("u", "EMPTY:0000001", number_unit={"node": "om:minute", "name": "minute"}),
+           term("v", "EMPTY:0000002", number_unit={"node": "om:hour", "name": "hours"}),
+           term("w", "EMPTY:0000003", number_unit={"node": "NCIT:C28007", "name": "Median"}),
+           term("x", "EMPTY:0000004", number_unit="hours"),
+           term("Median", "NCIT:C28007")]
+    fails = [f for f in run(registry(hour, *bad))[2] if f.startswith("R12")]
+    assert len(fails) == 4, fails
+    assert "not a registered term" in fails[0] and "registered as 'hour'" in fails[1]
+    assert "not a unit term" in fails[2] and "not false or" in fails[3]
+
+
+def test_the_live_registry_states_hours_for_grating_training():
+    terms = ctr._load(ctr.SOURCE)["terms"]
+    row = [t for t in terms if t["node"] == "EMPTY:0000199"]
+    assert len(row) == 1 and row[0]["number_unit"] == {"node": "om:hour", "name": "hour"}
+    assert "(provided in hours)" in row[0]["definition"]

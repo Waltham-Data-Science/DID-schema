@@ -388,7 +388,10 @@ def test_the_live_derivation_reports_its_denominator_first():
     # recorded_by ([epoch to system link]), measured_distance_to ([distance]),
     # aliquot_of and passage_of ([vocabulary nodes] K5) retired, and the
     # `clock_alignment` row added ([clock alignment relation bound]).
-    assert total == 62, f'registry row count moved: {total}'
+    # 62 -> 64 on 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md
+    # [dataset form terms], [census terms] T2): subject_statement 11 -> 13,
+    # `Technique` (NCIT:C16847) and `Scientific Data Type` (NCIT:C175886).
+    assert total == 64, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -396,7 +399,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # subject_statement_bindings moved 5 -> 6 on 2026-09-22 when #120 added
     # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
     # [spatial_transcriptomics_family], option A on the #70 candidates comment).
-    ("subject_statement_bindings", 11),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`; 12 -> 11 the same day: `study design` dropped
+    ("subject_statement_bindings", 13),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`; 12 -> 11 the same day: `study design` dropped; 11 -> 13, 2026-10-26: technique and data type ([dataset form terms])
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
     ("relation_bindings", 31),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20; 34 -> 31, 2026-10-22 (-4 retired, +clock_alignment)
