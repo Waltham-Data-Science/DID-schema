@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 384,
+          "accepted_lines": 386,
           "accepted_lines_by_kind": {
-            "Decided by": 267,
+            "Decided by": 269,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2523,6 +2523,22 @@
               "tag": "event lines and environment probes are devices",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [event lines and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1292,
+              "kind": "Decided by",
+              "tag": "migrator writes the registry spelling",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [migrator writes the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1294,
+              "kind": "Decided by",
+              "tag": "location carries need a map",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [location carries need a"
             },
             {
               "document": "V_eta_image_model_plan.md",
