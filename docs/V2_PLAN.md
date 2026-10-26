@@ -68,8 +68,8 @@ Dataset map:
    applied by its own step on the written V2 database.)
 2. (Decided, [no Haley map]: no; the Haley V2 import covers Haley.)
 3. (Decided, [map rows match exact values]: exact v1 values only.)
-4. An opto animal with a target-location treatment but no tetanus run:
-   carry it as v1, or record a term assertion on the animal?
+4. (Decided, [opto target without a run]: a term assertion on the animal
+   stating its target; no stimulation claimed.)
 5. Should Claude draft the Dab EPM / FPS column rows for review?
 6. Where does the Dab reproduction test live (NDI or DID)?
 7. Babu: a map, or a V2 import from the source data? Its media and heat
