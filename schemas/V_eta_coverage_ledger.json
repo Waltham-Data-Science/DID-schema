@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 350,
+          "accepted_lines": 351,
           "accepted_lines_by_kind": {
-            "Decided by": 233,
+            "Decided by": 234,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2251,6 +2251,14 @@
               "tag": "run environment on interactions",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [run environment on"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1224,
+              "kind": "Decided by",
+              "tag": "control pairing is a calculation",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [control pairing is a"
             },
             {
               "document": "V_eta_image_model_plan.md",
