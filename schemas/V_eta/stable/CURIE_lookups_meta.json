@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.2.2",
+    "format_version": "1.2.3",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -791,6 +791,18 @@
             "synonyms": [
                 "prov-o"
             ]
+        },
+        "openminds": {
+            "label": "openMINDS controlled terms (instances)",
+            "uri_base": "https://openminds.om-i.org/instances/",
+            "uri_style": "direct",
+            "approximate": false,
+            "documentation": "openMINDS controlled-term instances, identified by openMINDS's own stable ids: the @id of an instance file under openMINDS_instances instances/latest/terminologies/<terminology>/ is https://openminds.om-i.org/instances/<terminology>/<name>, written openminds:<terminology>/<name> (e.g. openminds:technique/calciumImaging, openminds:semanticDataType/derivedData). Registered for the dataset technique and data type value sets (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [census terms] T2 and [dataset form terms]); read from openMINDS_instances main 3750716 (2026-10-21). Not in Bioregistry (bioregistry.io/api/registry/openminds: 'Prefix not found', 2026-10-26). Expansion rule: 'openminds:technique/X' -> 'https://openminds.om-i.org/instances/technique/X'.",
+            "pattern": "^[A-Za-z]+/[A-Za-z0-9_-]+$",
+            "pattern_source": "ours: the path of an openMINDS instance @id after /instances/ (<terminology>/<name>); all 231 technique and semanticDataType ids at openMINDS_instances 3750716 match it",
+            "spelling": "openminds",
+            "spelling_source": "the decision [census terms] (Jess Haley, 2026-10-26) names the prefix `openminds:`; openMINDS states no CURIE form of its own",
+            "synonyms": []
         }
     },
     "uri_styles": {
