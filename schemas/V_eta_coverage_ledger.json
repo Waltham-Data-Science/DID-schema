@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 370,
+          "accepted_lines": 371,
           "accepted_lines_by_kind": {
-            "Decided by": 253,
+            "Decided by": 254,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2411,6 +2411,14 @@
               "tag": "migration reliability practices",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [migration reliability"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1264,
+              "kind": "Decided by",
+              "tag": "carry register kinds 2",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [carry register kinds 2]"
             },
             {
               "document": "V_eta_image_model_plan.md",
