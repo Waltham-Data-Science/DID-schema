@@ -9,10 +9,10 @@ only one of them reaches the browser:
     the v1 source as NDI declares it   schemas/V_eta_ndi_ground_truth.json
     what consumes it                   DID-matlab +did2/+convert/**
     what it becomes, and is it built   schemas/V_eta_coverage_ledger.json
-                                       + the built schemas/V_eta tree
+                                       + the built schemas/did_v2 tree
 
 The ledger and the built tree are already served (public/coverage.json and
-public/schemas/V_eta). The other two are not, and this tool is what puts them
+public/schemas/did_v2). The other two are not, and this tool is what puts them
 where a browser can read them: web/public/class_walkthrough.json, committed, so
 `npm run build` on a runner with no Python and no sibling checkout still ships
 them. Nothing here is a new fact -- every field is a projection of a generated
@@ -29,7 +29,7 @@ were removed after the gate caught them:
     a reader nothing they wanted. A gate that fires on the size of somebody
     else's file is noise that teaches people to ignore gates.
   * the BUILT SCHEMA TABLE (class -> path/tier/maturity/disposition). It
-    duplicated `schemas/V_eta/index.json`, which the viewer already loads for
+    duplicated `schemas/did_v2/index.json`, which the viewer already loads for
     its class tree, and it coupled this asset to every `build_v_eta.py` run.
     The viewer joins against the index it already has.
 

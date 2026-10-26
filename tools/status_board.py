@@ -94,7 +94,7 @@ import sys
 from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX = os.path.join(REPO, "schemas", "V_eta", "index.json")
+INDEX = os.path.join(REPO, "schemas", "did_v2", "index.json")
 LEDGER = os.path.join(REPO, "schemas", "V_eta_coverage_ledger.json")
 OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # The machine-readable twin of the board, for the schema viewer.
@@ -1852,7 +1852,7 @@ def render_open_state(p, ocs):
     p(f'## What is actually left on the {len(rowsv)} open classes')
     p("")
     p("`in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is")
-    p("open because its hand-written `disposition` in `schemas/V_eta/index.json` is")
+    p("open because its hand-written `disposition` in `schemas/did_v2/index.json` is")
     p("`in_progress`, and it leaves the list only when a person changes that entry.")
     p("Nothing about a landed migrator, a passing test or a green corpus")
     p("moves it. The table below does not change that membership -- only the team")

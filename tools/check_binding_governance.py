@@ -104,7 +104,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-VETA = os.path.join(REPO, "schemas", "V_eta")
+VETA = os.path.join(REPO, "schemas", "did_v2")
 TIERS = ("stable", "draft", "deprecated")
 
 REGISTRY_FILE = "binding_registry_meta.json"

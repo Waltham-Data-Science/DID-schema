@@ -69,7 +69,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-VETA = os.path.join(REPO, "schemas", "V_eta")
+VETA = os.path.join(REPO, "schemas", "did_v2")
 TIERS = ("stable", "draft", "deprecated")
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
               "ndi_reserved_keys.json", "binding_registry_meta.json",

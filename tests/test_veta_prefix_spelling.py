@@ -14,7 +14,7 @@ import os
 import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-VETA = os.path.join(HERE, "..", "schemas", "V_eta")
+VETA = os.path.join(HERE, "..", "schemas", "did_v2")
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json", "term_registry_meta.json", "class_disposition_meta.json"}
 

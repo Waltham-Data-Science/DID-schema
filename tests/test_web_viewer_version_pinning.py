@@ -119,7 +119,7 @@ def test_every_set_the_picker_can_reach_actually_ships_a_meta_schema():
     schemas_dir = os.path.join(REPO_ROOT, "schemas")
     sets = sorted(
         d for d in os.listdir(schemas_dir)
-        if d.startswith("V_")
+        if d.startswith(("V_", "did_v"))
         and os.path.isfile(os.path.join(schemas_dir, d, "index.json")))
     assert sets, "no schema sets with an index.json -- nothing to check"
     missing = [

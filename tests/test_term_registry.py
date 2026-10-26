@@ -100,7 +100,7 @@ def test_a_binding_variable_the_registry_names_must_carry_its_node():
 
 
 def test_the_built_bindings_take_their_nodes_from_the_registry():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
                                  "binding_registry_meta.json"))
     nodes = {r["variable"]["name"]: r["variable"]["node"]
              for r in reg["subject_statement_bindings"]}
@@ -125,7 +125,7 @@ DECIDED_BINDING_VARIABLES = {
 
 
 def test_the_decided_binding_variables_carry_their_registered_term():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
                                  "binding_registry_meta.json"))
     nodes = {r["variable"]["name"]: r["variable"]["node"]
              for r in reg["subject_statement_bindings"]}
@@ -141,7 +141,7 @@ def test_the_decided_binding_variables_carry_their_registered_term():
 
 def test_no_binding_variable_is_unregistered():
     terms = [t for t in ctr._load(ctr.SOURCE)["terms"]]
-    built = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+    built = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
                                    "binding_registry_meta.json"))
     failures, report = ctr.check_bindings(terms, built)
     assert failures == []
@@ -178,7 +178,7 @@ def test_a_row_that_is_not_term_valued_is_not_a_gap():
 
 
 def test_the_decided_closed_value_lists():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "V_eta", "stable",
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
                                  "binding_registry_meta.json"))
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]}
 

@@ -33,7 +33,7 @@ else is **Proposed (not decided)**, whatever any prose says.
 ## What is actually left on the 4 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
-open because its hand-written `disposition` in `schemas/V_eta/index.json` is
+open because its hand-written `disposition` in `schemas/did_v2/index.json` is
 `in_progress`, and it leaves the list only when a person changes that entry.
 Nothing about a landed migrator, a passing test or a green corpus
 moves it. The table below does not change that membership -- only the team

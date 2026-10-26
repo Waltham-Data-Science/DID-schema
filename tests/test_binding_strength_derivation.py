@@ -36,7 +36,7 @@ import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 LIVE_REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
 
 

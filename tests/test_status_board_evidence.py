@@ -32,7 +32,7 @@ import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
-INDEX = os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json")
+INDEX = os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json")
 DECISIONS = os.path.join(REPO_ROOT, "schemas", "V_eta_decisions.json")
 STATUS = os.path.join(REPO_ROOT, "schemas", "V_eta_STATUS.md")
 
@@ -80,7 +80,7 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     the top of `tools/status_board.py` needs rewriting -- which is the point.
 
     Since 2026-10-21 (OPEN_WORK #128) the declaration is DATA: `disposition` in
-    schemas/V_eta/index.json, written by hand. Until then it was a literal in
+    schemas/did_v2/index.json, written by hand. Until then it was a literal in
     build_v_eta.py (`_DECIDED_PENDING` / `_IN_PROGRESS`). validate_v_eta.py
     rewrites every other index field from the class files and keeps this one,
     so it is still a declaration and never a measurement.

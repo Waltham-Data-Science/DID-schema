@@ -117,7 +117,7 @@ Never quote a count from prose. Re-derive it with the tool that prints it.
 | `schemas/V_eta_final_class_set.md` | the persist set, by category | `tools/regen_final_class_set.py` |
 | `schemas/V_eta_ndi_ground_truth.json` | what NDI templates and writers declare | `tools/ndi_ground_truth.py` |
 | `schemas/V_eta_migration_targets.json` | per v1 class: emitted `targets` (generated) and authored `decided_targets`, `how`, `flags` | `tools/refresh_migration_targets.py` (the `targets` column only) |
-| `schemas/V_eta/index.json` | tier, version and superclasses of every class (derived); `disposition` (hand-written) | `tools/validate_v_eta.py` |
+| `schemas/did_v2/index.json` | tier, version and superclasses of every class (derived); `disposition` (hand-written) | `tools/validate_v_eta.py` |
 
 Do not run these one at a time. Run the chain:
 
@@ -290,7 +290,7 @@ breaks nothing; what waits is listed in the PR, not left implied.
 never in a checkout another agent or the main session is using. Two writers in
 one working tree leave half-built changes that nobody can safely commit.
 
-### The JSON under `schemas/V_eta/` is the source
+### The JSON under `schemas/did_v2/` is the source
 
 There is no build script. `tools/build_v_eta.py` and the `V_alpha`..`V_zeta`
 trees are deleted (OPEN_WORK #128). The tiers are `stable/`, `draft/` and
@@ -298,9 +298,9 @@ trees are deleted (OPEN_WORK #128). The tiers are `stable/`, `draft/` and
 
 **To change a class:**
 
-1. Edit its file under `schemas/V_eta/<tier>/` (JSON, indent 4).
+1. Edit its file under `schemas/did_v2/<tier>/` (JSON, indent 4).
 2. For a new class, add a hand-written `disposition` (`persist`, `retire` or
-   `in_progress`) to its entry in `schemas/V_eta/index.json`. The other index
+   `in_progress`) to its entry in `schemas/did_v2/index.json`. The other index
    fields are derived.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the rules the
    old builder enforced and rewrites the derived pieces: `index.json`,
@@ -314,7 +314,7 @@ retired name means deleting it there.
 ### The term registry (T19)
 
 - Source: `schemas/V_eta_term_registry.json`. Built copy:
-  `schemas/V_eta/stable/term_registry_meta.json` (derived; do not edit).
+  `schemas/did_v2/stable/term_registry_meta.json` (derived; do not edit).
 - It holds every ontology term a V2 import writes in a vocabulary slot.
   DID-matlab's `did2.build` refuses a term it does not hold (strict mode
   `TermRegistry`, armed by default; `did2.convert` turns it off while
@@ -330,7 +330,7 @@ retired name means deleting it there.
 
 ### The binding registry
 
-- `schemas/V_eta/stable/binding_registry_meta.json`. Its lists include
+- `schemas/did_v2/stable/binding_registry_meta.json`. Its lists include
   `subject_statement_bindings` (variable-keyed statement bindings),
   `relation_bindings` (each row declares `passes`), `entity_field_bindings`
   and `entity_type_bindings` (what each `entity.type` requires).

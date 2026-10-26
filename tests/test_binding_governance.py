@@ -29,7 +29,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 
 def _load_tool(name):

@@ -101,7 +101,7 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
             if not k:
                 verdicts.append(("FAIL", label, (f"R4 the CURIE registry does not know the "
                                  f"prefix {pre!r}: add it (did-schema "
-                                 f"schemas/V_eta/stable/CURIE_lookups_meta.json, with a "
+                                 f"schemas/did_v2/stable/CURIE_lookups_meta.json, with a "
                                  f"`spelling`; ndi-ontology-matlab for lookups) before the term")))
                 continue
             if k in by_key:

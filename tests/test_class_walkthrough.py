@@ -58,7 +58,7 @@ def test_the_asset_copies_no_volatile_fact():
     loads). Neither may come back."""
     a = _asset()
     assert "built_schemas" not in a, (
-        "the built-schema table duplicates schemas/V_eta/index.json, which the "
+        "the built-schema table duplicates schemas/did_v2/index.json, which the "
         "viewer already loads, and couples this asset to every build")
     # DENOMINATOR FIRST, and it is not decoration: the loop below asserts a
     # property of every migrator entry, so an asset with no entries would pass

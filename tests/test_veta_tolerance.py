@@ -10,7 +10,7 @@ import glob
 import json
 import os
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "V_eta")
+ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "did_v2")
 
 # group 4 of the 2026-10-02 audit: `approximate` there applies to a whole axis key
 # or condition descriptor (its spacing, origin, coordinates, or quantity), not to a

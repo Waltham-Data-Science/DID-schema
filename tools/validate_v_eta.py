@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Validate schemas/V_eta, which is the SOURCE (OPEN_WORK #128, 2026-10-21).
+"""Validate schemas/did_v2, which is the SOURCE (OPEN_WORK #128, 2026-10-21).
 
-Until 2026-10-21 `tools/build_v_eta.py` rebuilt `schemas/V_eta/` from V_zeta by
+Until 2026-10-21 `tools/build_v_eta.py` rebuilt `schemas/did_v2/` from V_zeta by
 replaying ~43 dated sections. The built JSON is now edited directly, and this
 tool checks every rule the builder used to guarantee by construction.
 
-A change to a class: edit its JSON under schemas/V_eta/<tier>/, add or edit
+A change to a class: edit its JSON under schemas/did_v2/<tier>/, add or edit
 its `index.json` entry's `disposition` if the class is new, then run
 `python3 tools/gates.py`.
 
@@ -58,7 +58,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-VETA = os.path.join(ROOT, "schemas", "V_eta")
+VETA = os.path.join(ROOT, "schemas", "did_v2")
 TERM_SOURCE = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
 GT_PATH = os.path.join(ROOT, "schemas", "V_eta_ndi_ground_truth.json")
 TARGETS_PATH = os.path.join(ROOT, "schemas", "V_eta_migration_targets.json")
@@ -636,7 +636,7 @@ def d1_index(t):
             if base in META_FILES:
                 schemas.append({"class_name": base[:-5], "tier": tier,
                                 "class_version": None, "maturity_level": None,
-                                "superclasses": [], "path": f"schemas/V_eta/{tier}/{base}",
+                                "superclasses": [], "path": f"schemas/did_v2/{tier}/{base}",
                                 "is_meta": True, "disposition": "persist"})
                 continue
             dc = load(f)["document_class"]
@@ -649,7 +649,7 @@ def d1_index(t):
                  "class_version": dc["class_version"],
                  "maturity_level": dc["maturity_level"],
                  "superclasses": [s["class_name"] for s in dc["superclasses"]],
-                 "path": f"schemas/V_eta/{tier}/{base}", "disposition": disp}
+                 "path": f"schemas/did_v2/{tier}/{base}", "disposition": disp}
             if "disposition_note" in prev:
                 e["disposition_note"] = prev["disposition_note"]
             schemas.append(e)
@@ -689,7 +689,7 @@ def d5_class_disposition(t, index_text):
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
         "title": "Classes did2.build refuses to build (disposition: retire)",
-        "description": ("DERIVED by tools/validate_v_eta.py (D5) from schemas/V_eta/index.json "
+        "description": ("DERIVED by tools/validate_v_eta.py (D5) from schemas/did_v2/index.json "
                         "and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess "
                         "Haley, 2026-10-24 [V2 builder refuses retired] "
                         "(V_eta_go_forward_class_audit.md). Reading v1 and the generic "
@@ -762,7 +762,7 @@ def main(argv=None):
     curie = t.meta["CURIE_lookups_meta.json"][2]
     ctx = {"tree": t, "meta": meta, "reg": reg, "curie": curie}
     print(f"DENOMINATOR: {len(t.classes)} class file(s) and {len(t.meta)} meta file(s) "
-          f"read from schemas/V_eta/{{{','.join(TIERS)}}}; {len(t.unreadable)} unreadable; "
+          f"read from schemas/did_v2/{{{','.join(TIERS)}}}; {len(t.unreadable)} unreadable; "
           f"{len(RULES)} rule(s), 4 derived piece(s)")
 
     failed = 0

@@ -62,7 +62,7 @@ interface RawIndexEntry {
 
 export interface VetaClass {
   name: string;
-  path: string; // repository-relative, e.g. schemas/V_eta/stable/strain.json
+  path: string; // repository-relative, e.g. schemas/did_v2/stable/strain.json
   tier: string; // stable | draft | deprecated
   version: string | null;
   maturity: string | null;
@@ -365,7 +365,7 @@ export function buildModel(
       nonClassFiles.push(path);
       continue;
     }
-    // schemas/V_eta/<tier>/<file>.json -- examples/ holds document INSTANCES
+    // schemas/did_v2/<tier>/<file>.json -- examples/ holds document INSTANCES
     // that carry a document_class too, so the tier is what decides.
     const tier = path.split("/")[2];
     if (!tiers.has(tier) || !isClassFile(data)) {

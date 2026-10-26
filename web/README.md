@@ -1,7 +1,7 @@
 # DID schema web app
 
 Browser-based viewer, editor, and submission tool for DID/NDI document
-schemas. Shows V_eta (`schemas/V_eta/`); the earlier versions are retired. Tracking issue: #28.
+schemas. Shows V_eta (`schemas/did_v2/`); the earlier versions are retired. Tracking issue: #28.
 
 Status: **Steps 1--4 of issue #28 are in.** The site has a working viewer,
 a schema editor with live meta-schema validation, "Download JSON", and
@@ -24,7 +24,7 @@ collapsed outline; tenet numbers in the text link to the tenet; and each tenet
 lists the classes it shaped (from `public/tenets.json`, `tools/tenet_map.py`),
 linked into the tree. The text is the document's own, only re-grouped.
 
-Nothing is copied in. `src/veta/sources.ts` globs `schemas/V_eta/**/*.json`
+Nothing is copied in. `src/veta/sources.ts` globs `schemas/did_v2/**/*.json`
 and imports the two markdown files `?raw`, so Vite reads them at build time:
 edit a class JSON, rebuild, and the panel follows with no code change.
 `src/veta/grammar.json` is the one description of how the two markdown files
@@ -39,7 +39,7 @@ Two gates keep it honest:
   the viewer's source.
 - `node scripts/check-veta-bundle.mjs` (after `npm run build`, in
   `web-build.yml` and `deploy-web.yml`): every JSON file under
-  `schemas/V_eta/` and every line of the two markdown files reached the
+  `schemas/did_v2/` and every line of the two markdown files reached the
   bundle.
 
 ## Develop

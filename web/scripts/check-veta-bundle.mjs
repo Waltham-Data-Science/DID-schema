@@ -1,14 +1,14 @@
 // After `npm run build`: did the V_eta shape panel's bundle really read the
 // schema tree it was built from?
 //
-// The panel imports schemas/V_eta/**/*.json with `import.meta.glob` and two
+// The panel imports schemas/did_v2/**/*.json with `import.meta.glob` and two
 // schemas/*.md files with `?raw` (src/veta/sources.ts). That makes the bundle
 // fresh BY CONSTRUCTION -- but "by construction" is a claim about a build tool's
 // behaviour, and a glob that resolved to nothing (a moved directory, a typo in
 // the pattern) produces a bundle that builds, deploys and renders an empty
 // panel. So this checks the output, not the intent:
 //
-//   * every JSON file under schemas/V_eta/ on disk appears as a glob key in the
+//   * every JSON file under schemas/did_v2/ on disk appears as a glob key in the
 //     bundle, and the bundle carries no key for a file that is not on disk;
 //   * every class file's class_name reaches the bundle;
 //   * every non-blank line of the two markdown inputs reaches the bundle.
@@ -50,12 +50,12 @@ const bundle = (await Promise.all(chunks.map((p) => readFile(p, "utf8")))).join(
 // undo that so a markdown line can be looked for verbatim.
 const unescaped = bundle.replace(/\\(['"`$\\])/g, "$1");
 
-const vetaDir = resolve(repoRoot, "schemas", "V_eta");
+const vetaDir = resolve(repoRoot, "schemas", "did_v2");
 const onDisk = (await walk(vetaDir))
   .filter((p) => p.endsWith(".json"))
   .map((p) => relative(repoRoot, p).split(sep).join("/"))
   .sort();
-const keyRe = /"\.\.\/\.\.\/\.\.\/(schemas\/V_eta\/[^"]+\.json)"/g;
+const keyRe = /"\.\.\/\.\.\/\.\.\/(schemas\/did_v2\/[^"]+\.json)"/g;
 const inBundle = [...new Set([...bundle.matchAll(keyRe)].map((m) => m[1]))].sort();
 
 const failures = [];

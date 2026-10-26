@@ -32,7 +32,7 @@ import os
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 GROUND_TRUTH = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
 
 FAMILY = (
