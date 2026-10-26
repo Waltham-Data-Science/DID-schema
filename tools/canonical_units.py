@@ -54,6 +54,9 @@ CANONICAL_UNITS = {
     "substance_amount": [("moles", "mole", "om:mole")],
     "intensity": [("arbitrary_units", "Arbitrary Unit", "NCIT:C75765")],
     "irradiance": [("watts_per_square_meter", "watt per square metre", "om:wattPerSquareMetre")],
+    # a part of a whole (Jess Haley 2026-10-26 [fraction value kind]); a percent is
+    # kept as its source_value with source_unit om:percent.
+    "fraction": [("fraction", "one", "om:one")],
     "ph": [("ph", "pH", "UO:0000196")],
     "gain": [("decibels", "decibel", "om:decibel")],
     "humidity": [("percent_relative_humidity", "percent", "om:percent")],

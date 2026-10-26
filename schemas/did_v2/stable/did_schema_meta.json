@@ -315,6 +315,7 @@
                         "score",
                         "intensity",
                         "irradiance",
+                        "fraction",
                         "velocity",
                         "acceleration",
                         "area",

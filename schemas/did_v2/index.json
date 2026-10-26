@@ -768,6 +768,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "fraction",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "value"
+            ],
+            "path": "schemas/did_v2/draft/fraction.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "frequency",
             "tier": "stable",
             "class_version": "1.0.0",
