@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 363,
+          "accepted_lines": 364,
           "accepted_lines_by_kind": {
-            "Decided by": 246,
+            "Decided by": 247,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2355,6 +2355,14 @@
               "tag": "no Haley map",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [no Haley map]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1250,
+              "kind": "Decided by",
+              "tag": "map rows match exact values",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [map rows match exact"
             },
             {
               "document": "V_eta_image_model_plan.md",
