@@ -193,10 +193,20 @@ def test_the_decided_closed_value_lists():
     assert "wikidata:Q30" in nodes("ethics jurisdiction")       # United States
     ea = nodes("experimental approach")
     assert len(ea) == 40 and "ILX:0739413" in ea and "EDAM:topic_0202" in ea
+    # openMINDS (latest) technique 227 and semanticDataType 4, by openMINDS's own
+    # ids (Jess Haley 2026-10-26 [census terms] T2), except three technique names
+    # the registry already held (R2): brightfield and fluorescence microscopy, video tracking
+    tq = nodes("Technique")
+    assert len(tq) == 227 and len(set(tq)) == 227
+    assert sum(n.startswith("openminds:technique/") for n in tq) == 224
+    assert {"NCIT:C19827", "NCIT:C16856", "EMPTY:0000301"} <= set(tq)
+    assert nodes("Scientific Data Type") == [
+        "openminds:semanticDataType/derivedData", "openminds:semanticDataType/experimentalData",
+        "openminds:semanticDataType/rawData", "openminds:semanticDataType/simulatedData"]
     assert rows["Gene Expression"]["term_valued"] is False
     assert "study design" not in rows and "ethics assessment" not in rows
     failures, _, n = ctr.check_value_sets(ctr._load(ctr.SOURCE)["terms"], reg)
-    assert failures == [] and n == 4 + 1 + 2 + 206 + 40
+    assert failures == [] and n == 4 + 1 + 2 + 206 + 40 + 227 + 4
 
 
 def test_every_row_has_one_shape():

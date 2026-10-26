@@ -1122,6 +1122,11 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
         # carries a CLOSED list of registered value terms (Jess Haley, 2026-10-21)
         "ethics jurisdiction": "EMPTY:0000359",
         "experimental approach": "EMPTY:0000356",
+        # technique and data type, each a closed list of openMINDS terms by
+        # openMINDS's own ids (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md
+        # [dataset form terms], [census terms] T2)
+        "Technique": "NCIT:C16847",
+        "Scientific Data Type": "NCIT:C175886",
     }
     assert set(expected) <= set(rows), sorted(rows)
     assert "ethics assessment" not in rows
