@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 366,
+          "accepted_lines": 368,
           "accepted_lines_by_kind": {
-            "Decided by": 249,
+            "Decided by": 251,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2379,6 +2379,22 @@
               "tag": "fraction value kind",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [fraction value kind]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1256,
+              "kind": "Decided by",
+              "tag": "migrators read raw v1",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [migrators read raw v1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1258,
+              "kind": "Decided by",
+              "tag": "renames carry is temporary",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [renames carry is"
             },
             {
               "document": "V_eta_image_model_plan.md",
@@ -7067,7 +7083,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "epoch extent -- row #113",
           "resolved": true,
-          "line": 837,
+          "line": 845,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-08-13 -- epochMint OWNS the epoch extent: it mints the relative_reference carrying the extent and clock frame, hung off the epoch's time_reference_#. pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT.",
           "anchor": "TEAM-SIGN-OFF [epoch extent -- row #113]",
@@ -8419,7 +8435,7 @@
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
         "resolved": true,
-        "line": 795,
+        "line": 803,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8433,7 +8449,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 795,
+          "line": 803,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8450,7 +8466,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 795,
+          "line": 803,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8459,7 +8475,7 @@
           "matched_name": "generic_file",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `generic_file`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:795. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `generic_file`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:803. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -8837,7 +8853,7 @@
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
         "resolved": true,
-        "line": 795,
+        "line": 803,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8851,7 +8867,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 795,
+          "line": 803,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8868,7 +8884,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 795,
+          "line": 803,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -8877,7 +8893,7 @@
           "matched_name": "imageCollection",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `imageCollection`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:795. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `imageCollection`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:803. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
