@@ -525,7 +525,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # the `irradiance` value kind (Jess Haley [irradiance]). Its cell carries only
     # the shared tolerance minima the other cells carry; the INERT list below is
     # checked, not assumed.
-    assert walked == 171, f'schema count moved; re-derive the inert set ({walked})'
+    # TWENTY-NINTH MOVEMENT, re-derived not bumped: 171 -> 172 on 2026-10-26,
+    # the `fraction` value kind (Jess Haley [fraction value kind]). Its cell
+    # carries only the shared tolerance minima the other cells carry; the INERT
+    # list below is checked, not assumed.
+    assert walked == 172, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

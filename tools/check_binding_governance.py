@@ -206,7 +206,9 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # preferred, node_form: curie} like `source_unit`, uncatalogued for its reason.
 # 114 -> 115 (2026-10-22, Jess Haley [harmonic response unit bound]):
 # `harmonic_component.response_unit`, bound like tuning_curve's.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 115
+# 115 -> 116 (2026-10-26, Jess Haley [fraction value kind]): the `fraction`
+# cell's `source_unit`, bound like every dimensioned value's.
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 116
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
