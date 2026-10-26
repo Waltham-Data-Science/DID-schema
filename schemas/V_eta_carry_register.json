@@ -1422,20 +1422,6 @@
       "kind_basis": "proposed"
     },
     {
-      "id": "carry-082",
-      "v1_class": "stimulus_presentation",
-      "fields": [
-        "the responding subject"
-      ],
-      "when": "the epoch records elements but none resolves to a subject (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'no responding animal; the epoch's N recorded element(s) resolve to no subject'); with no element at all it becomes a standalone item ([presentation with no subject])",
-      "kind": "malformed",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "generic stage is lossless"
-      },
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-083",
       "v1_class": "stimulus_presentation",
       "fields": [
@@ -1513,7 +1499,7 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "ingested stimulus file is a body of the presentation"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-088",
