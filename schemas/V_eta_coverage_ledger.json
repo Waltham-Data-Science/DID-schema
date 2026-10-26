@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 358,
+          "accepted_lines": 359,
           "accepted_lines_by_kind": {
-            "Decided by": 241,
+            "Decided by": 242,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2315,6 +2315,14 @@
               "tag": "one-reading quick answers",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [one-reading quick"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1240,
+              "kind": "Decided by",
+              "tag": "dataset map edits V2",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dataset map edits V2]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
