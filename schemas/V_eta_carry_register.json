@@ -1349,6 +1349,38 @@
         "tag": "generic stage is lossless"
       },
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-074",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_reference"
+      ],
+      "when": "a LINKED session's session_reference cannot be placed (DID-matlab private/jMembershipBodies.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "session membership records linked or ingested"
+      },
+      "open_work": 144,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-075",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_creator_inputN"
+      ],
+      "when": "a creator input is neither a copy nor a linked session's path (DID-matlab private/jMembershipBodies.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "session membership records linked or ingested"
+      },
+      "open_work": 145,
+      "home": "none decided",
+      "kind_basis": "decided"
     }
   ]
 }

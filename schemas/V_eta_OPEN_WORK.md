@@ -56,6 +56,8 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 141 | an author with several affiliations in `metadata_editor` (carry-054) -> https://github.com/Waltham-Data-Science/DID-schema/issues/148 |
 | 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
+| 144 | a home for a linked session's `session_reference` (carry-074) -> https://github.com/Waltham-Data-Science/DID-schema/issues/153 |
+| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 |
 
 Open items without a row number:
 
