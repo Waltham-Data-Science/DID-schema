@@ -363,6 +363,13 @@ STEPS = [
     Step("check_term_registry", _t("check_term_registry.py"), "gate",
          r"^term registry terms read: (\d+)", "registered terms"),
 
+    # [carry register] (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md):
+    # every reason the generic migration carries a v1 document whole as v1 is a
+    # row of schemas/V_eta_carry_register.json; each row's decision resolves, and
+    # no class declares a field a `not_modelled` row forbids.
+    Step("check_carry_register", _t("check_carry_register.py"), "gate",
+         r"^carry register rows read: (\d+)", "carry register rows"),
+
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",
          r"V_eta schema files inspected\s+: (\d+)", "schema files inspected",
          requires=["DID-matlab"]),
@@ -758,6 +765,17 @@ EDGES = [
          "R6 compares the built copy against the authored source; check it "
          "before the validator and a source edit reads as a stale copy.",
          "tools/check_term_registry.py", r"term_registry_meta\.json"),
+
+    Edge("validate_v_eta", "check_carry_register", "schemas/did_v2/index.json",
+         "C4 walks every class through index.json to find a field a not_modelled "
+         "row forbids; read before the validator rewrites it and a new class is "
+         "not looked at.",
+         "tools/check_carry_register.py", r"index\.json"),
+
+    Edge("coverage", "check_carry_register", "schemas/V_eta_coverage_ledger.json",
+         "C2 checks each row's v1_class against the ledger's v1 source classes; "
+         "read before coverage.py writes it and a new v1 class reads as unknown.",
+         "tools/check_carry_register.py", r"V_eta_coverage_ledger\.json"),
 
     Edge("validate_v_eta", "check_binding_governance", "schemas/did_v2",
          "the binding registry it audits is checked and partly derived by the validator.",
