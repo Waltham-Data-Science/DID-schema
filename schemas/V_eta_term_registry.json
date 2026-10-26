@@ -8651,6 +8651,16 @@
         "node": "om:hour",
         "name": "hour"
       }
+    },
+    {
+      "name": "optogenetic tetanus stimulation target location",
+      "node": "EMPTY:0000074",
+      "definition": "The specific anatomical region where tetanic light stimulation (TLS) is applied in optogenetic experiments to evoke neuronal activity. The value should be defined by the ONTOLOGY_NAME:ONTOLOGY_NODE (e.g. 'UBERON:0000123').",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [one-reading quick answers]",
+      "first_used_in": "Dabrowska (NDI-matlab ndi.setup.conv.dabrowska doImport)",
+      "obsolete": false,
+      "number_unit": false
     }
   ]
 }
