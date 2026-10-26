@@ -352,7 +352,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 299 decision line(s) accepted, 2 rejected; 41 cited by a class, 258 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 358 decision line(s) accepted, 2 rejected; 41 cited by a class, 317 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -496,9 +496,68 @@ field). If one decides a class's disposition, that class should cite it.
 - V2 builder refuses retired. "Decided by Jess Haley, 2026-10-24 [V2 builder refuses" (V_eta_go_forward_class_audit.md:1118).
 - warn on v1 open. "Decided by Jess Haley, 2026-10-23 [warn on v1 open]: (answer" (V_eta_go_forward_class_audit.md:1120).
 - compat write layer removed. "Decided by Jess Haley, 2026-10-23 [compat write layer" (V_eta_go_forward_class_audit.md:1122).
+- passthrough stays v1. "Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: (" (V_eta_go_forward_class_audit.md:1124).
+- passthrough stays v1: how. "Decided by Jess Haley, 2026-10-24 [passthrough stays v1" (V_eta_go_forward_class_audit.md:1126).
+- document stamps. "Decided by Jess Haley, 2026-10-25 [document stamps]: (" (V_eta_go_forward_class_audit.md:1128).
+- V_eta stamp not accepted. "Decided by Jess Haley, 2026-10-25 [V_eta stamp not" (V_eta_go_forward_class_audit.md:1130).
+- termNumberKind is per-dataset. "Decided by Jess Haley, 2026-10-25 [termNumberKind is" (V_eta_go_forward_class_audit.md:1132).
+- WBStrain prefix is generic. "Decided by Jess Haley, 2026-10-25 [WBStrain prefix is" (V_eta_go_forward_class_audit.md:1134).
+- generic stage is lossless. "Decided by Jess Haley, 2026-10-25 [generic stage is" (V_eta_go_forward_class_audit.md:1136).
+- subject local identifier is an identifier. "Decided by Jess Haley, 2026-10-25 [subject local identifier" (V_eta_go_forward_class_audit.md:1138).
+- NewStim recipes are a default. "Decided by Jess Haley, 2026-10-25 [NewStim recipes are a" (V_eta_go_forward_class_audit.md:1140).
+- no invented values. "Decided by Jess Haley, 2026-10-25 [no invented values]" (V_eta_go_forward_class_audit.md:1142).
+- dataset name not invented. "Decided by Jess Haley, 2026-10-25 [dataset name not" (V_eta_go_forward_class_audit.md:1144).
+- NDI CI picks DID branch. "Decided by Jess Haley, 2026-10-25 [NDI CI picks DID" (V_eta_go_forward_class_audit.md:1146).
+- merge when green. "Decided by Jess Haley, 2026-10-25 [merge when green]: (" (V_eta_go_forward_class_audit.md:1148).
+- partly placed is carried as v1. "Decided by Jess Haley, 2026-10-25 [partly placed is carried" (V_eta_go_forward_class_audit.md:1150).
+- sliceTetanus to Dab map. "Decided by Jess Haley, 2026-10-25 [sliceTetanus to Dab" (V_eta_go_forward_class_audit.md:1152).
+- Soph paused. "Decided by Jess Haley, 2026-10-25 [Soph paused]: (" (V_eta_go_forward_class_audit.md:1154).
+- lossless first, homes after. "Decided by Jess Haley, 2026-10-25 [lossless first, homes" (V_eta_go_forward_class_audit.md:1156).
+- hartley method implied. "Decided by Jess Haley, 2026-10-25 [hartley method implied]" (V_eta_go_forward_class_audit.md:1158).
+- schema set renamed did_v2. "Decided by Jess Haley, 2026-10-25 [schema set renamed" (V_eta_go_forward_class_audit.md:1160).
+- pyramid type kept as text. "Decided by Jess Haley, 2026-10-25 [pyramid type kept as" (V_eta_go_forward_class_audit.md:1162).
+- no-source pyramid carried as v1. "Decided by Jess Haley, 2026-10-25 [no-source pyramid" (V_eta_go_forward_class_audit.md:1164).
+- one free-text field: notes. "Decided by Jess Haley, 2026-10-25 [one free-text field" (V_eta_go_forward_class_audit.md:1166).
+- no-source pyramid gets a file-less store body. "Decided by Jess Haley, 2026-10-25 [no-source pyramid gets a" (V_eta_go_forward_class_audit.md:1168).
+- notes on three classes. "Decided by Jess Haley, 2026-10-25 [notes on three classes]" (V_eta_go_forward_class_audit.md:1170).
+- retired classes leave V2. "Decided by Jess Haley, 2026-10-25 [retired classes leave" (V_eta_go_forward_class_audit.md:1172).
+- v1 set in did-schema. "Decided by Jess Haley, 2026-10-25 [v1 set in did-schema]: (" (V_eta_go_forward_class_audit.md:1174).
+- markdown out of schemas. "Decided by Jess Haley, 2026-10-25 [markdown out of" (V_eta_go_forward_class_audit.md:1176).
+- neuron derived from its sorting run. "Decided by Jess Haley, 2026-10-25 [neuron derived from its" (V_eta_go_forward_class_audit.md:1178).
+- session membership records linked or ingested. "Decided by Jess Haley, 2026-10-25 [session membership" (V_eta_go_forward_class_audit.md:1180).
+- dataset form terms. "Decided by Jess Haley, 2026-10-25 [dataset form terms]: (" (V_eta_go_forward_class_audit.md:1182).
+- presentation app is software. "Decided by Jess Haley, 2026-10-26 [presentation app is" (V_eta_go_forward_class_audit.md:1184).
+- control selection on the presentation method. "Decided by Jess Haley, 2026-10-26 [control selection on the" (V_eta_go_forward_class_audit.md:1186).
+- lossless means round trip. "Decided by Jess Haley, 2026-10-26 [lossless means round" (V_eta_go_forward_class_audit.md:1188).
+- hartley leftovers checked. "Decided by Jess Haley, 2026-10-26 [hartley leftovers" (V_eta_go_forward_class_audit.md:1190).
+- restated values checked. "Decided by Jess Haley, 2026-10-26 [restated values" (V_eta_go_forward_class_audit.md:1192).
+- image file details placed. "Decided by Jess Haley, 2026-10-26 [image file details" (V_eta_go_forward_class_audit.md:1194).
+- probe contact geometry carried. "Decided by Jess Haley, 2026-10-26 [probe contact geometry" (V_eta_go_forward_class_audit.md:1196).
+- small unread settings. "Decided by Jess Haley, 2026-10-26 [small unread settings]: (" (V_eta_go_forward_class_audit.md:1198).
+- carry register. "Decided by Jess Haley, 2026-10-26 [carry register]: (" (V_eta_go_forward_class_audit.md:1200).
+- compression block and empty levels. "Decided by Jess Haley, 2026-10-26 [compression block and" (V_eta_go_forward_class_audit.md:1202).
+- spelling is notation. "Decided by Jess Haley, 2026-10-26 [spelling is notation]: (" (V_eta_go_forward_class_audit.md:1204).
+- Haley logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [Haley logic leaves the" (V_eta_go_forward_class_audit.md:1206).
+- dataset-specific logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [dataset-specific logic" (V_eta_go_forward_class_audit.md:1208).
+- site scaffolding not a loss. "Decided by Jess Haley, 2026-10-26 [site scaffolding not a" (V_eta_go_forward_class_audit.md:1210).
+- table rows into the dataset audit. "Decided by Jess Haley, 2026-10-26 [table rows into the" (V_eta_go_forward_class_audit.md:1212).
+- device clocks on one epoch. "Decided by Jess Haley, 2026-10-26 [device clocks on one" (V_eta_go_forward_class_audit.md:1214).
+- clock terms get nodes. "Decided by Jess Haley, 2026-10-26 [clock terms get nodes]: (" (V_eta_go_forward_class_audit.md:1216).
+- writer default is not set. "Decided by Jess Haley, 2026-10-26 [writer default is not" (V_eta_go_forward_class_audit.md:1218).
+- one correct reading. "Decided by Jess Haley, 2026-10-26 [one correct reading]: (" (V_eta_go_forward_class_audit.md:1220).
+- run environment on interactions. "Decided by Jess Haley, 2026-10-26 [run environment on" (V_eta_go_forward_class_audit.md:1222).
+- control pairing is a calculation. "Decided by Jess Haley, 2026-10-26 [control pairing is a" (V_eta_go_forward_class_audit.md:1224).
+- census terms. "Decided by Jess Haley, 2026-10-26 [census terms]: (" (V_eta_go_forward_class_audit.md:1226).
+- dataset audit batch 1 and 2. "Decided by Jess Haley, 2026-10-26 [dataset audit batch 1" (V_eta_go_forward_class_audit.md:1228).
+- term-stated unit is generic. "Decided by Jess Haley, 2026-10-26 [term-stated unit is" (V_eta_go_forward_class_audit.md:1230).
+- software_id is what produced the statement. "Decided by Jess Haley, 2026-10-26 [software_id is what" (V_eta_go_forward_class_audit.md:1232).
+- stimulus_presentation retired. "Decided by Jess Haley, 2026-10-26 [stimulus_presentation" (V_eta_go_forward_class_audit.md:1234).
+- ingested stimulus file is a body of the presentation. "Decided by Jess Haley, 2026-10-26 [ingested stimulus file" (V_eta_go_forward_class_audit.md:1236).
+- one-reading quick answers. "Decided by Jess Haley, 2026-10-26 [one-reading quick" (V_eta_go_forward_class_audit.md:1238).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
-- nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:97).
+- linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
+- nested studies. "Decided by Jess Haley, 2026-10-23 [nested studies]: a study" (V_eta_linked_session_plan.md:99).
 - parameter unit, #73 audit 2 D4. "TEAM-SIGN-OFF [parameter unit, #73 audit 2 D4]" (V_eta_method_parameters_plan.md:862).
 - method. "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com /" (V_eta_method_plan.md:188).
 - non-grating stimuli as methods. "Decided by Jess Haley, 2026-10-21 [non-grating stimuli as" (V_eta_method_plan.md:190).

@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 299,
+          "accepted_lines": 358,
           "accepted_lines_by_kind": {
-            "Decided by": 182,
+            "Decided by": 241,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -1853,6 +1853,470 @@
               "anchor": "Decided by Jess Haley, 2026-10-23 [compat write layer"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1124,
+              "kind": "Decided by",
+              "tag": "passthrough stays v1",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [passthrough stays v1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1126,
+              "kind": "Decided by",
+              "tag": "passthrough stays v1: how",
+              "date": "2026-10-24",
+              "anchor": "Decided by Jess Haley, 2026-10-24 [passthrough stays v1"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1128,
+              "kind": "Decided by",
+              "tag": "document stamps",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [document stamps]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1130,
+              "kind": "Decided by",
+              "tag": "V_eta stamp not accepted",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [V_eta stamp not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1132,
+              "kind": "Decided by",
+              "tag": "termNumberKind is per-dataset",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [termNumberKind is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1134,
+              "kind": "Decided by",
+              "tag": "WBStrain prefix is generic",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [WBStrain prefix is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1136,
+              "kind": "Decided by",
+              "tag": "generic stage is lossless",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [generic stage is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1138,
+              "kind": "Decided by",
+              "tag": "subject local identifier is an identifier",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [subject local identifier"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1140,
+              "kind": "Decided by",
+              "tag": "NewStim recipes are a default",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [NewStim recipes are a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1142,
+              "kind": "Decided by",
+              "tag": "no invented values",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no invented values]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1144,
+              "kind": "Decided by",
+              "tag": "dataset name not invented",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [dataset name not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1146,
+              "kind": "Decided by",
+              "tag": "NDI CI picks DID branch",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [NDI CI picks DID"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1148,
+              "kind": "Decided by",
+              "tag": "merge when green",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [merge when green]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1150,
+              "kind": "Decided by",
+              "tag": "partly placed is carried as v1",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [partly placed is carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1152,
+              "kind": "Decided by",
+              "tag": "sliceTetanus to Dab map",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [sliceTetanus to Dab"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1154,
+              "kind": "Decided by",
+              "tag": "Soph paused",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [Soph paused]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1156,
+              "kind": "Decided by",
+              "tag": "lossless first, homes after",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [lossless first, homes"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1158,
+              "kind": "Decided by",
+              "tag": "hartley method implied",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [hartley method implied]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1160,
+              "kind": "Decided by",
+              "tag": "schema set renamed did_v2",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [schema set renamed"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1162,
+              "kind": "Decided by",
+              "tag": "pyramid type kept as text",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [pyramid type kept as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1164,
+              "kind": "Decided by",
+              "tag": "no-source pyramid carried as v1",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no-source pyramid"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1166,
+              "kind": "Decided by",
+              "tag": "one free-text field: notes",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [one free-text field"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1168,
+              "kind": "Decided by",
+              "tag": "no-source pyramid gets a file-less store body",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [no-source pyramid gets a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1170,
+              "kind": "Decided by",
+              "tag": "notes on three classes",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [notes on three classes]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1172,
+              "kind": "Decided by",
+              "tag": "retired classes leave V2",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [retired classes leave"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1174,
+              "kind": "Decided by",
+              "tag": "v1 set in did-schema",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [v1 set in did-schema]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1176,
+              "kind": "Decided by",
+              "tag": "markdown out of schemas",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [markdown out of"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1178,
+              "kind": "Decided by",
+              "tag": "neuron derived from its sorting run",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [neuron derived from its"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1180,
+              "kind": "Decided by",
+              "tag": "session membership records linked or ingested",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [session membership"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1182,
+              "kind": "Decided by",
+              "tag": "dataset form terms",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [dataset form terms]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1184,
+              "kind": "Decided by",
+              "tag": "presentation app is software",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [presentation app is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1186,
+              "kind": "Decided by",
+              "tag": "control selection on the presentation method",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [control selection on the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1188,
+              "kind": "Decided by",
+              "tag": "lossless means round trip",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [lossless means round"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1190,
+              "kind": "Decided by",
+              "tag": "hartley leftovers checked",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [hartley leftovers"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1192,
+              "kind": "Decided by",
+              "tag": "restated values checked",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [restated values"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1194,
+              "kind": "Decided by",
+              "tag": "image file details placed",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [image file details"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1196,
+              "kind": "Decided by",
+              "tag": "probe contact geometry carried",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [probe contact geometry"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1198,
+              "kind": "Decided by",
+              "tag": "small unread settings",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [small unread settings]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1200,
+              "kind": "Decided by",
+              "tag": "carry register",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [carry register]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1202,
+              "kind": "Decided by",
+              "tag": "compression block and empty levels",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [compression block and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1204,
+              "kind": "Decided by",
+              "tag": "spelling is notation",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [spelling is notation]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1206,
+              "kind": "Decided by",
+              "tag": "Haley logic leaves the generic migration",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [Haley logic leaves the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1208,
+              "kind": "Decided by",
+              "tag": "dataset-specific logic leaves the generic migration",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dataset-specific logic"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1210,
+              "kind": "Decided by",
+              "tag": "site scaffolding not a loss",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [site scaffolding not a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1212,
+              "kind": "Decided by",
+              "tag": "table rows into the dataset audit",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [table rows into the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1214,
+              "kind": "Decided by",
+              "tag": "device clocks on one epoch",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [device clocks on one"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1216,
+              "kind": "Decided by",
+              "tag": "clock terms get nodes",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [clock terms get nodes]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1218,
+              "kind": "Decided by",
+              "tag": "writer default is not set",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [writer default is not"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1220,
+              "kind": "Decided by",
+              "tag": "one correct reading",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [one correct reading]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1222,
+              "kind": "Decided by",
+              "tag": "run environment on interactions",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [run environment on"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1224,
+              "kind": "Decided by",
+              "tag": "control pairing is a calculation",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [control pairing is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1226,
+              "kind": "Decided by",
+              "tag": "census terms",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [census terms]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1228,
+              "kind": "Decided by",
+              "tag": "dataset audit batch 1 and 2",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [dataset audit batch 1"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1230,
+              "kind": "Decided by",
+              "tag": "term-stated unit is generic",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [term-stated unit is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1232,
+              "kind": "Decided by",
+              "tag": "software_id is what produced the statement",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [software_id is what"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1234,
+              "kind": "Decided by",
+              "tag": "stimulus_presentation retired",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [stimulus_presentation"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1236,
+              "kind": "Decided by",
+              "tag": "ingested stimulus file is a body of the presentation",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [ingested stimulus file"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1238,
+              "kind": "Decided by",
+              "tag": "one-reading quick answers",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [one-reading quick"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -1871,6 +2335,14 @@
             {
               "document": "V_eta_linked_session_plan.md",
               "line": 97,
+              "kind": "Decided by",
+              "tag": "linked_session withdrawn",
+              "date": "2026-10-25",
+              "anchor": "Decided by Jess Haley, 2026-10-25 [linked_session"
+            },
+            {
+              "document": "V_eta_linked_session_plan.md",
+              "line": 99,
               "kind": "Decided by",
               "tag": "nested studies",
               "date": "2026-10-23",
