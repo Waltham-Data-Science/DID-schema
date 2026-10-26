@@ -1137,6 +1137,67 @@
         "tag": "pass-through filter sample frequency"
       },
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-062",
+      "v1_class": "element",
+      "fields": [
+        "element.type ('spikes')",
+        "the sorter's single/multi label (absent)"
+      ],
+      "when": "a sorted unit carries no single/multi label",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "unlabelled units need a map"
+      },
+      "homes": [
+        "cell (single unit)",
+        "Group of unidentified cells (multi-unit)"
+      ],
+      "decides": "whether the unit is single or multi; the sorter did not say",
+      "resolved_by": "the dataset map entry for that sorting (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-063",
+      "v1_class": "element",
+      "fields": [
+        "element.type",
+        "element.ndi_element_class"
+      ],
+      "when": "the type is not on the element type list, or is a probe type on an element whose class is not ndi.probe.* (e.g. a oneepoch or downsampled copy)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "element types have no default"
+      },
+      "homes": [
+        "an entity of the type the dataset map names",
+        "an observation of another entity (e.g. a position track of the animal)"
+      ],
+      "decides": "what the element is; the type string alone does not say",
+      "resolved_by": "the dataset map entry for that element type (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-064",
+      "v1_class": "*",
+      "fields": [
+        "the document's edge to a carried document"
+      ],
+      "when": "a document depends on a document that is carried as v1 (e.g. an element_epoch, position_metadata or spike train of a carried element)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dependents of a carried document carry"
+      },
+      "homes": [
+        "converted once the document it depends on converts"
+      ],
+      "decides": "whatever converts the document it depends on",
+      "resolved_by": "the row that resolves the carried document it depends on",
+      "kind_basis": "proposed"
     }
   ]
 }
