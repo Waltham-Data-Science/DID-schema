@@ -381,6 +381,119 @@
       "decides": "whether the treatment is heat alone; the v1 document does not say",
       "resolved_by": "the Babu dataset map entry for its heat treatments (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-022",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.name",
+        "treatment.numeric_value"
+      ],
+      "when": "its term is not a ChEBI substance and does not state its number's kind, so its kind, direction or unit would be chosen from label words (DID-matlab treatment.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "manipulation (dose)",
+        "manipulation (exposure)",
+        "manipulation (temperature)",
+        "manipulation (term)",
+        "observation"
+      ],
+      "decides": "what the treatment means in its dataset; the v1 document states only a label and a number",
+      "resolved_by": "the dataset map entry for that treatment term (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-023",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.numeric_value"
+      ],
+      "when": "a ChEBI substance with no recorded location (DID-matlab jTreatmentBodies.m, route 'unknown')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation (immersion: the subject sat in it)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "where the treatment was given; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-024",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "the recorded location (its site term)"
+      ],
+      "when": "a ChEBI substance whose recorded location is not an UBERON body site (DID-matlab jTreatmentBodies.m, route 'needs_mapping'); carry-020 is the Babu case",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "dose (a manipulation: a substance given)",
+        "exposure (a manipulation: the medium the subjects live on)",
+        "temperature manipulation"
+      ],
+      "decides": "what the non-body location means in its dataset",
+      "resolved_by": "the dataset map entry for that location (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-025",
+      "v1_class": "imageStack",
+      "fields": [
+        "image_stack.label"
+      ],
+      "when": "its label marks it as a mask or a label map, which only label words show (DID-matlab image_stack.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "calculation (logical mask)",
+        "calculation (label map, EMPTY:0000132)",
+        "observation (intensity)"
+      ],
+      "decides": "what the image's pixels are, in its dataset",
+      "resolved_by": "the dataset map entry for that image label (not yet written; JH is covered by the Haley V2 import)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-026",
+      "v1_class": "ontologyTableRow",
+      "fields": [
+        "ontologyTableRow.names",
+        "ontologyTableRow.variableNames",
+        "ontologyTableRow.ontologyNodes",
+        "ontologyTableRow.data"
+      ],
+      "when": "the row has a subject_id edge; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "assertion",
+        "observation",
+        "manipulation"
+      ],
+      "decides": "the table's column map in its dataset (entity, direction, value kind and unit per column)",
+      "resolved_by": "the dataset map's column rows for that table (not yet written)",
+      "kind_basis": "stated"
     }
   ]
 }
