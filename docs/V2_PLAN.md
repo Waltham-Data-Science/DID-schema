@@ -38,13 +38,13 @@ Last updated 2026-10-26.
 | Census builds | done: did-schema #131, empty-ontology #26 and #27, DID-matlab #250, NDI-matlab #1072 |
 | Dataset-specific logic out of the generic migration | done for Haley (covered by the Haley V2 import) and JH; **Babu is now covered by nothing** (see question 7) |
 | Schema set renamed `did_v2` (did-schema part) | done (#132); siblings still accept both names |
-| Carry register and its gate | did-schema #134, CI green, waiting to merge |
+| Carry register and its gate | done (did-schema #134) |
 | Dataset map: may edit V2 documents; one file per dataset in NDI-matlab, its own step | decided (#141) |
 
 ## What's next, in order
 
-1. **Merge the carry register** (#134). Then DID-matlab and NDI-matlab make
-   every carry note cite its register row, with a test.
+1. **Carry notes cite the register.** DID-matlab and NDI-matlab make every
+   carry note cite its register row (#134 is merged), with a test.
 2. **Build the dataset map.** First the open design questions (below), then
    the step that applies a map, then the Dab map (sliceTetanus moves out of
    the generic second pass, [sliceTetanus to Dab map]). The design draft is
