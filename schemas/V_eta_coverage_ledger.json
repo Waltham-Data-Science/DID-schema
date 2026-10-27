@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 418,
+          "accepted_lines": 427,
           "accepted_lines_by_kind": {
-            "Decided by": 301,
+            "Decided by": 310,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2770,6 +2770,78 @@
               "tag": "site frame is a coordinate system",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [site frame is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1360,
+              "kind": "Decided by",
+              "tag": "ground truth reads NDIcalc-vis templates",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [ground truth reads"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1362,
+              "kind": "Decided by",
+              "tag": "writer fields over the template are template fields",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [writer fields over the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1364,
+              "kind": "Decided by",
+              "tag": "tuning split covers the shared fold",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [tuning split covers the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1366,
+              "kind": "Decided by",
+              "tag": "unreached superclass migrators deleted",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unreached superclass"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1368,
+              "kind": "Decided by",
+              "tag": "unknown filter parameter is malformed",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unknown filter parameter"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1370,
+              "kind": "Decided by",
+              "tag": "five probe kinds from NCIT",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [five probe kinds from"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1372,
+              "kind": "Decided by",
+              "tag": "ecg and eeg are recorders",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [ecg and eeg are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1374,
+              "kind": "Decided by",
+              "tag": "imaging probes are microscopes or carried",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [imaging probes are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1376,
+              "kind": "Decided by",
+              "tag": "pyraview level keeps its file info",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [pyraview level keeps its"
             },
             {
               "document": "V_eta_image_model_plan.md",
