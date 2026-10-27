@@ -1651,14 +1651,17 @@
         "depends_on document_id"
       ],
       "when": "the labelled document has no subject (e.g. an E. coli plate image) or no time reference, so no term observation of a subject can carry the label (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, blocked_target_has_no_subject, unresolved_target_no_time_reference)",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "v1 passthroughs accepted"
+        "tag": "labels are a field on what they label"
       },
-      "open_work": 151,
-      "home": "none decided: a label on a statement that has no subject or no time reference",
-      "kind_basis": "proposed"
+      "homes": [
+        "a slot of the labelled document: its method, a variable, a condition or a method parameter"
+      ],
+      "decides": "which slot of the labelled document the label fills; the v1 document does not say",
+      "resolved_by": "each dataset's map entry naming that slot (not yet written)",
+      "kind_basis": "stated"
     },
     {
       "id": "carry-097",
