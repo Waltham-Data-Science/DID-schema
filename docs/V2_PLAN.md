@@ -328,6 +328,32 @@ one line; Claude's leaning is in brackets.
       they have a home]
     - d. A remote dataset's organization id (a cloud id) is written as the
       organization's name. Make it an identifier? [yes]
+24. **Phase 2 nearly complete** (DID-matlab `claude/phase2` 2599d51, quick
+    CI green: 2,015 run, 0 failed; 72 of 95 migrators read raw v1; every
+    off-template carry now cites carry-100). The other 23 stay on the old
+    path for now: 13 by choice or waiting on you (openMINDS, item 14;
+    `simple_calc`, `image`; `control_stimulus_ids`, 23b), and 10 for
+    reasons Claude can settle or that need code order (sibling code that
+    still compares the old class name goes first, as for ontology labels).
+    Questions:
+    - a. A carry for a wrong VALUE (not an extra field), e.g. a probe with
+      the wrong number of dimensions, a kilosort checksum in the wrong
+      case, a measurement with no statement: these cite no register row.
+      Add one generic row, "a value no NDI writer produces" (malformed),
+      as you did for extra fields? [yes]
+    - b. Four spike classes (spike waves, spike clusters, binned spike
+      rates, filter settings) still pass through with their `app` block.
+      Switching them means carrying them, and then everything computed
+      from them carries too. Keep them on the old path until their `app`
+      block has a V2 home? [yes]
+    - c. `dataset_session_info`, `fitcurve`, `vmspikefit`: no NDI writer
+      and no fixed template. Retire them like `simple_calc`? [yes]
+    - (No question, Claude's call: the four NDIcalc-vis tuning classes take
+      their templates from NDIcalc-vis-matlab 00e3e0f, the commit already
+      used for the tuning family; `file_reference`, the light-sheet zarr
+      classes and `ontology_table_row` switch after their NDI / DID batch
+      readers accept both class names; `pyraview` switches after the epoch
+      step stops re-running its migrator.)
 
 
 ## The goal
