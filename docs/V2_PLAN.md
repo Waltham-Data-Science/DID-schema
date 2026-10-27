@@ -164,6 +164,35 @@ one line; Claude's leaning is in brackets.
       which is now a V2 `method`. Is a v1 document allowed to point at a V2
       one? [yes: an edge is an id, and a mixed database is expected until
       every home is built]
+16. **Tuning calculations: most are still carried** (DID-matlab
+    `claude/phase2` 182b66ca, quick CI green; six classes read raw v1, and
+    each writer's own output round-trips with nothing lost). From a survey
+    of the corpus zips (not a corpus run): 6,148 orientation/direction and
+    1,431 contrast-sensitivity documents convert, but all 34,690 tuning
+    curves, 22,896 contrast tunings and 5,604 spatial / temporal frequency
+    tunings are carried (carry-056, OPEN_WORK #143), because each holds a
+    field V2 has no place for. Together with 15, this is most of what is
+    left.
+    - a. Homes for: the stimulus ids and presentation numbers a tuning
+      curve was computed from (`stimid`, `stimulus_presentation_number`);
+      its `log` and `stim_property_list`; the contrast fit's relative max
+      gain, saturation index and sensitivity; the spatial / temporal
+      frequency `abs` block. [stimulus ids and presentation numbers become
+      edges / a value column of the calculation; the fit numbers become
+      values of the fit; `log` and the property list become method
+      parameters; `abs` becomes a second value set. Claude to draft]
+    - b. The calculation's input edges are kept in order but lose their
+      v1 names. Keep the names? [keep them: the order is a writer habit,
+      not a rule]
+    - c. Method parameter names lose the difference between `_` and a
+      space. Accept as notation ([spelling is notation])? [accept]
+    - d. Template `hotelling2test` vs writer `Hotelling2Test`: the same
+      field ([spelling is notation])? [yes]
+    - e. The tuning migrators do not yet follow [method terms are general]
+      or [Naka-Rushton is one function]; they need the EMPTY terms of item
+      2. Build them as soon as item 2 is approved? [yes]
+    - (No question: the writers live in NDIcalc-vis-matlab, which the
+      sibling lock does not cover. Worth adding to the lock later.)
 
 
 ## The goal
