@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 424,
+          "accepted_lines": 425,
           "accepted_lines_by_kind": {
-            "Decided by": 307,
+            "Decided by": 308,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2818,6 +2818,14 @@
               "tag": "five probe kinds from NCIT",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [five probe kinds from"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1372,
+              "kind": "Decided by",
+              "tag": "ecg and eeg are recorders",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [ecg and eeg are"
             },
             {
               "document": "V_eta_image_model_plan.md",
