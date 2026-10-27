@@ -8877,6 +8877,16 @@
             "first_used_in": "DID-matlab element migration (NDI probe type 'n-trode')",
             "obsolete": false,
             "number_unit": false
+        },
+        {
+            "name": "number of electrodes",
+            "node": "EMPTY:0000408",
+            "definition": "The number of electrodes a device has.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [number of electrodes minted], V_eta_go_forward_class_audit.md: the electrode count of a device (an n-trode is a multielectrode array with its number of electrodes); EMPTY:0000408 minted in empty-ontology #29 (not yet merged there)",
+            "first_used_in": "no dataset yet: the electrode count of an NDI n-trode probe, DID-matlab element migration (build pending; [n-trode is a multielectrode array])",
+            "obsolete": false,
+            "number_unit": false
         }
     ]
 }
