@@ -5552,7 +5552,7 @@
     {
       "name": "recording epoch",
       "node": "EMPTY:0000383",
-      "definition": "One continuous stretch of recording by one acquisition system.",
+      "definition": "One continuous stretch of recording, whose files may be written by one or more acquisition systems.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `epoch` (L3); EMPTY:0000383 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`epoch`)",
@@ -8752,6 +8752,66 @@
       "status": "decided",
       "decided": "Proposed (not decided): node chosen by Claude, 2026-10-26, for the DID-matlab phase-1 unregistered-term census (28 of 117 fixtures), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
       "first_used_in": "DID-matlab generic migration (treatment_transfer method, written today as the label 'transplantation')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Numeric Value",
+      "node": "NCIT:C81274",
+      "definition": "Information in the form of a numeral contained in a data field.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-27, from the EMPTY terms proposal (docs/v2_working/EMPTY_TERMS_PROPOSAL.md), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab treatment migration: an unlabelled number ('numeric value')",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Model Number",
+      "node": "NCIT:C99285",
+      "definition": "The identifier assigned to a particular design of a device.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-27, from the EMPTY terms proposal (docs/v2_working/EMPTY_TERMS_PROPOSAL.md), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab probe_geometry: probe_model",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "clustered data set",
+      "node": "OBI:0000648",
+      "definition": "A data set that is produced as the output of a class discovery data transformation and consists of a data set with assigned discovered class labels.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-27, from the EMPTY terms proposal (docs/v2_working/EMPTY_TERMS_PROPOSAL.md), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab spike sorting outputs: spike cluster assignment",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "fraction",
+      "node": "UO:0000191",
+      "definition": "A dimensionless ratio unit which relates the part (the numerator) to the whole (the denominator).",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-27, from the EMPTY terms proposal (docs/v2_working/EMPTY_TERMS_PROPOSAL.md), under Jess Haley's 2026-10-26 \"yes, add the rows and terms\"",
+      "first_used_in": "DID-matlab virus_injection / treatment: dilution as a source unit",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "Spike sorting",
+      "node": "wikidata:Q2003571",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [method terms are general], V_eta_go_forward_class_audit.md: the method term of a spike-sorting calculation (the sorter is the software entity)",
+      "first_used_in": "DID-matlab sorter calculations (kilosort, kiasort, jrclust)",
+      "obsolete": false,
+      "number_unit": false
+    },
+    {
+      "name": "curve fitting data transformation",
+      "node": "OBI:0200072",
+      "definition": "A curve fitting is a data transformation that has objective curve fitting and that consists of finding a curve which matches a series of data points and possibly other constraints.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-26 [method terms are general], V_eta_go_forward_class_audit.md: the method term of a fit calculation",
+      "first_used_in": "DID-matlab tuning fit and vmspikefit calculations",
       "obsolete": false,
       "number_unit": false
     }
