@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 406,
+          "accepted_lines": 409,
           "accepted_lines_by_kind": {
-            "Decided by": 289,
+            "Decided by": 292,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2674,6 +2674,30 @@
               "tag": "member edge number is notation",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [member edge number is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1336,
+              "kind": "Decided by",
+              "tag": "afo prefix registered",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [afo prefix registered]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1338,
+              "kind": "Decided by",
+              "tag": "n-trode is a multielectrode array",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [n-trode is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1340,
+              "kind": "Decided by",
+              "tag": "site positions are coordinates",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [site positions are"
             },
             {
               "document": "V_eta_image_model_plan.md",

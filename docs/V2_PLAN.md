@@ -20,16 +20,9 @@ one line; Claude's leaning is in brackets.
    "Multi-electrode array sounds better to me as long as it's genuinely the
    same thing. Any other terms we should rethink against the v2 tenets?").
    OLS4 and Wikidata, 2026-10-27:
-   - i. Register the `afo` prefix? `AFO:AFR_0001158` "acquisition time"
-     ("the time when a signal is captured") and AFO's "cluster identifier"
-     then replace two proposed EMPTY terms. [yes]
-   - ii. n-trode becomes Wikidata Q1952355 "multielectrode array"
-     ("devices that contain multiple microelectrodes through which neural
-     signals are obtained or delivered"), with the number of electrodes as
-     a statement on the device; no n-trode term. [yes]
-   - iii. The three site-position terms (left-right, front-back, depth on
-     device) become the registered NCIT X-, Y- and Z-Coordinate, with the
-     device's own frame carried by the document. [yes]
+   - i, ii, iii decided 2026-10-27: [afo prefix registered] (with an AFO
+     reader in ndi-ontology-matlab), [n-trode is a multielectrode array],
+     [site positions are coordinates]. Builds pending.
    - Model fit: closest is BAO:0000434 "curve fit specification" ("Has curve
      fit parameters, curve fit method, properties like Hill coefficient");
      Claude to read its full definition before proposing it.
