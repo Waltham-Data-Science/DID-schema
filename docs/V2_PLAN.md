@@ -306,6 +306,29 @@ one line; Claude's leaning is in brackets.
       field name]
     - c. `distance_metadata` converts to a class marked "retire". Carry it
       instead until it has a V2 home? [yes]
+23. **Sessions, datasets, forms, presentations** (DID-matlab `claude/phase2`
+    3db719c0, quick CI green; 41 classes now read raw v1). From a survey
+    of the corpus zips: all 53 sessions, all 48 dataset memberships (open
+    question 11 above is now answered by the build), 4 remote-dataset
+    records and 1 form convert; 1,428 presentations are carried for NDI's
+    second pass. Questions:
+    - a. A converted record's own v1 id is kept nowhere when its V2 form
+      takes another document's id (each session entity takes the session
+      id; also membership, remote, form records; and 20a, the neuron). Keep
+      every v1 id somewhere, or accept it when nothing refers to that id?
+      [keep: one rule for all, a v1 id is never dropped; the cheapest home
+      is the converted document's `notes`-free identity field, Claude to
+      propose]
+    - b. `control_stimulus_ids` cannot switch yet: NDI's second pass reads
+      the control record from pass 1's output instead of from the v1
+      input. Make NDI read it from the input (as it does presentations)?
+      [yes]
+    - c. The dataset form's subject / species / strain / sex lists are
+      still dropped (an earlier decision). Still right under [lossless
+      means round trip]? [carry the form when they are not empty, until
+      they have a home]
+    - d. A remote dataset's organization id (a cloud id) is written as the
+      organization's name. Make it an identifier? [yes]
 
 
 ## The goal
