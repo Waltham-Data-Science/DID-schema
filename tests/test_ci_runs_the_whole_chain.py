@@ -44,6 +44,11 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 WORKFLOW = REPO / ".github" / "workflows" / "tests.yml"
 
 SIBLINGS = ("NDI-matlab", "DID-matlab")
+# Locked and cloned, but read by no gate yet: Jess Haley's decision of
+# 2026-10-27, `V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]. It has
+# no V2 line, so its locked head is its locked main.
+LOCKED_ONLY = ("NDIcalc-vis-matlab",)
+NDICALC_VIS_LOCKED = "00e3e0f10eb113aebcfb6428059403e9e6685df8"
 
 
 # PARSED FROM THE TEXT, NOT WITH PyYAML, AND THAT IS DELIBERATE. The first
@@ -75,7 +80,7 @@ def _chain_steps():
 
 def _checkout_step():
     for block in _chain_steps():
-        if all(n in block for n in SIBLINGS) and "run:" in block:
+        if all(n in block for n in SIBLINGS + LOCKED_ONLY) and "run:" in block:
             return block
     return None
 
@@ -120,7 +125,7 @@ def test_the_missing_locked_main_guard_is_still_there():
 
 def test_the_sibling_paths_are_exported_under_the_names_gates_reads():
     run = _checkout_step()
-    for var in ("NDI_MATLAB", "DID_MATLAB"):
+    for var in ("NDI_MATLAB", "DID_MATLAB", "NDICALC_VIS_MATLAB"):
         assert re.search(rf"{var}=", run), (
             f"`{var}` is not exported. gates.py's find_repo treats an "
             "explicitly set variable as authoritative and hands it to every "
@@ -173,3 +178,17 @@ def test_the_lock_names_both_siblings_with_a_head_off_main():
             "V2 line would measure a tree without it")
     assert lk.get("why") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", lk.get("date", "")), (
         "the lock carries no `why` or no date")
+
+
+def test_the_lock_names_ndicalc_vis_at_the_tuning_template_commit():
+    """NDIcalc-vis-matlab is locked at the commit the tuning templates are read
+    from (00e3e0f), on its `main`: it has no V2 line, so head and main are the
+    same commit. A lock that moved it without a deliberate edit here fails."""
+    sib = _lock()["siblings"]
+    print(f"DENOMINATOR: {len(sib)} sibling(s) in the lock, {len(LOCKED_ONLY)} locked-only required")
+    for name in LOCKED_ONLY:
+        assert name in sib, f"the lock is missing {name}"
+    rec = sib["NDIcalc-vis-matlab"]
+    assert rec["head"] == rec["main"] == NDICALC_VIS_LOCKED, rec
+    assert rec.get("head_ref") == "main", rec
+    assert rec.get("url") == "https://github.com/VH-Lab/NDIcalc-vis-matlab.git", rec

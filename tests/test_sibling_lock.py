@@ -151,9 +151,11 @@ def test_update_records_head_and_origin_main(tmp_path):
     ndi, a, b = _repo(tmp_path, "NDI-matlab")
     _git(ndi, "checkout", "-q", "-b", "V2", a)        # HEAD = A on V2, origin/main = B
     did, _da, db = _repo(tmp_path, "DID-matlab")
+    calc, _ca, cb = _repo(tmp_path, "NDIcalc-vis-matlab")   # on main, at origin/main
+    paths = {"NDI-matlab": str(ndi), "DID-matlab": str(did),
+             "NDIcalc-vis-matlab": str(calc)}
     path = str(tmp_path / "lock.json")
-    rc = SL.update(paths={"NDI-matlab": str(ndi), "DID-matlab": str(did)},
-                   path=path, today="2026-10-23", out=lambda s: None)
+    rc = SL.update(paths=paths, path=path, today="2026-10-23", out=lambda s: None)
     assert rc == 0
     with open(path) as fh:
         lk = json.load(fh)
@@ -162,22 +164,88 @@ def test_update_records_head_and_origin_main(tmp_path):
     assert lk["siblings"]["NDI-matlab"]["main"] == b
     assert lk["siblings"]["NDI-matlab"]["head_ref"] == "V2"
     assert lk["siblings"]["DID-matlab"]["head"] == db
+    # NDIcalc-vis has no V2 line: checked out at its main, head == main
+    calc_rec = lk["siblings"]["NDIcalc-vis-matlab"]
+    assert calc_rec["head"] == calc_rec["main"] == cb
+    assert calc_rec["head_ref"] == "main"
     # and what it wrote is a lock the verifier accepts for those checkouts
-    bad, out = _verify({"NDI-matlab": str(ndi), "DID-matlab": str(did)}, path)
+    bad, out = _verify(paths, path)
     assert bad == 0, out
 
 
 def test_update_keeps_an_absent_siblings_entry(tmp_path):
     ndi, a, b = _repo(tmp_path, "NDI-matlab")
     path = _write_lock(tmp_path / "lock.json",
-                       {"DID-matlab": {"head": a, "main": a, "head_ref": "V2"}})
-    rc = SL.update(paths={"NDI-matlab": str(ndi), "DID-matlab": None},
+                       {"DID-matlab": {"head": a, "main": a, "head_ref": "V2"},
+                        "NDIcalc-vis-matlab": {"head": a, "main": a,
+                                               "head_ref": "main"}})
+    rc = SL.update(paths={"NDI-matlab": str(ndi), "DID-matlab": None,
+                          "NDIcalc-vis-matlab": None},
                    path=path, today="2026-10-24", out=lambda s: None)
     assert rc == 0
     with open(path) as fh:
         sib = json.load(fh)["siblings"]
     assert sib["DID-matlab"]["head"] == a, "an absent sibling's entry was dropped"
+    assert sib["NDIcalc-vis-matlab"]["head"] == a, "an absent sibling's entry was dropped"
     assert sib["NDI-matlab"]["head"] == b
+
+
+def test_update_on_a_machine_without_an_unlocked_sibling_says_not_locked(tmp_path):
+    """A sibling the lock does not yet name and this machine does not hold is
+    NOT LOCKED, a non-zero exit -- not silently left out of the lock."""
+    ndi, _a, _b = _repo(tmp_path, "NDI-matlab")
+    did, _da, _db = _repo(tmp_path, "DID-matlab")
+    path = str(tmp_path / "lock.json")
+    lines = []
+    rc = SL.update(paths={"NDI-matlab": str(ndi), "DID-matlab": str(did),
+                          "NDIcalc-vis-matlab": None},
+                   path=path, today="2026-10-27", out=lines.append)
+    assert rc == 1, lines
+    assert any("NDIcalc-vis-matlab: NOT FOUND -- NOT LOCKED" in s for s in lines), lines
+
+
+# --------------------------------------------------------------------------
+# NDIcalc-vis-matlab, the third sibling (Jess Haley's decision of 2026-10-27,
+# `V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
+# --------------------------------------------------------------------------
+
+def test_ndicalc_vis_is_a_locked_sibling_found_through_its_own_variable(tmp_path, monkeypatch):
+    assert SL.SIBLINGS["NDIcalc-vis-matlab"] == (
+        "NDICALC_VIS_MATLAB", "https://github.com/VH-Lab/NDIcalc-vis-matlab.git")
+    calc, _a, _b = _repo(tmp_path, "NDIcalc-vis-matlab")
+    monkeypatch.setenv("NDICALC_VIS_MATLAB", str(calc))
+    assert SL.find_repo("NDIcalc-vis-matlab", "NDICALC_VIS_MATLAB") == str(calc)
+    # an explicitly set, empty variable is authoritative: absent
+    monkeypatch.setenv("NDICALC_VIS_MATLAB", "")
+    assert SL.find_repo("NDIcalc-vis-matlab", "NDICALC_VIS_MATLAB") is None
+
+
+def test_ndicalc_vis_head_equal_to_main_verifies_and_a_moved_checkout_does_not(tmp_path):
+    """Its head and main are the same locked commit (no V2 line). A checkout at
+    that commit passes; one at the live origin/main past it is a mismatch; an
+    absent one is NOT CHECKED."""
+    calc, a, _b = _repo(tmp_path, "NDIcalc-vis-matlab")     # HEAD = origin/main = B
+    lock = _write_lock(tmp_path / "lock.json", {
+        "NDIcalc-vis-matlab": {"head": a, "main": a, "head_ref": "main"}})
+    bad, out = _verify({"NDIcalc-vis-matlab": str(calc)}, lock)
+    assert bad == 1 and "HEAD MISMATCH" in out, out
+    _git(calc, "checkout", "-q", "--detach", a)
+    bad, out = _verify({"NDIcalc-vis-matlab": str(calc)}, lock)
+    assert bad == 0, out
+    assert "past the lock" in out, out
+    bad, out = _verify({"NDIcalc-vis-matlab": None}, lock)
+    assert bad == 0, out
+    assert "NOT CHECKED: no NDIcalc-vis-matlab checkout here" in out, out
+
+
+def test_gates_resolves_and_passes_down_every_locked_sibling():
+    """gates.py takes its sibling list from sibling_lock.SIBLINGS, so the lock
+    check sees the NDIcalc-vis checkout and every child is told where it is."""
+    g = _load("gates")
+    assert set(g.SIBLINGS) == set(SL.SIBLINGS)
+    env = g.child_env()
+    for var, _url in SL.SIBLINGS.values():
+        assert var in env and env[var] == env[var + "_PATH"], var
 
 
 # --------------------------------------------------------------------------

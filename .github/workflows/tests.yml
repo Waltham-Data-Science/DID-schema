@@ -73,13 +73,20 @@ jobs:
       # while the locked `main` stays reachable in the same clone -- the shape
       # of a developer's machine. `sibling_lock.py --check` then verifies both,
       # exactly as `tools/gates.py` does before it runs anything.
+      #
+      # NDIcalc-vis-matlab is the third locked sibling (Jess Haley's decision of
+      # 2026-10-27, `V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]):
+      # the commit the tuning templates are read from. It has no V2 line, so its
+      # locked head IS its locked main. No gate reads it yet; it is cloned here
+      # so `--check` verifies the lock against a real clone on every run.
       - name: Check out the sibling repositories at the locked commits
         run: |
           set -euo pipefail
           echo "SIBLING CHECKOUT (tools/sibling_lock.json)"
-          echo "  DENOMINATOR: 2 sibling repo(s) requested, each at its locked head"
+          echo "  DENOMINATOR: 3 sibling repo(s) requested, each at its locked head"
           rc=0
-          for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
+          for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab" \
+                      "NDIcalc-vis-matlab:VH-Lab/NDIcalc-vis-matlab"; do
             name="${spec%%:*}"; slug="${spec#*:}"
             dest="${GITHUB_WORKSPACE}/${name}"
             if ! head=$(python3 tools/sibling_lock.py --get "$name" head) \
@@ -120,6 +127,8 @@ jobs:
                           export NDI_MATLAB="$dest" ;;
               DID-matlab) echo "DID_MATLAB=${dest}" >> "$GITHUB_ENV"
                           export DID_MATLAB="$dest" ;;
+              NDIcalc-vis-matlab) echo "NDICALC_VIS_MATLAB=${dest}" >> "$GITHUB_ENV"
+                          export NDICALC_VIS_MATLAB="$dest" ;;
             esac
           done
           python3 tools/sibling_lock.py --check || rc=1
