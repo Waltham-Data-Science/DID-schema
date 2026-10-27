@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 425 decision line(s) accepted, 2 rejected; 42 cited by a class, 383 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 426 decision line(s) accepted, 2 rejected; 42 cited by a class, 384 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -628,6 +628,7 @@ field). If one decides a class's disposition, that class should cite it.
 - unknown filter parameter is malformed. "Decided by Jess Haley, 2026-10-27 [unknown filter parameter" (V_eta_go_forward_class_audit.md:1368).
 - five probe kinds from NCIT. "Decided by Jess Haley, 2026-10-27 [five probe kinds from" (V_eta_go_forward_class_audit.md:1370).
 - ecg and eeg are recorders. "Decided by Jess Haley, 2026-10-27 [ecg and eeg are" (V_eta_go_forward_class_audit.md:1372).
+- imaging probes are microscopes or carried. "Decided by Jess Haley, 2026-10-27 [imaging probes are" (V_eta_go_forward_class_audit.md:1374).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
