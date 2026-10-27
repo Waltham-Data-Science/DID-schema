@@ -99,7 +99,29 @@ one line; Claude's leaning is in brackets.
     - h. Documents universalRenames used to carry (an old `ndi_document`
       block beside `base`) now convert and lose the extra block. Which
       register rows should catch them? [Claude to propose rows]
-    - (No question: a document with no `base` gets random ids; being fixed.)
+    - (No question: a document with no `base` gets random ids; fixed on
+      `claude/phase2` d00e9c68 by `mintKey`.)
+12. **Phase 2, element switched to raw v1** (DID-matlab `claude/phase2`
+    d00e9c68, quick CI 40432385112 green; `element_epoch` not yet). It
+    builds [element local identifier is name and reference], the element
+    type decisions, sorted units and [dependents of a carried document
+    carry]. Questions:
+    - a. A document carried as v1 only so NDI's second pass can convert it
+      (`stimulus_presentation`, the ingested stimulus file) does NOT make
+      its dependents carry; otherwise every stimulus response would be
+      carried. Right? [yes]
+    - b. A multi-unit group's name: the decision says "the unit's name"; the
+      build writes `<name> | <reference>` like every element. OK? [yes:
+      the reference tells two units of one name apart]
+    - c. Quality labels other than single / multi (e.g. kilosort "good",
+      "mua") count as no label, so the unit is carried for a map. Or map
+      "good" to single and "mua" to multi in the generic stage? [carry:
+      their meaning depends on the sorter's settings]
+    - d. A unit's `direct` flag and `subject_id` are not kept when it has
+      an underlying element (both are recoverable from that element).
+      Accept? [yes]
+    - e. carry-055's description in the register still describes the old
+      `(ref X)` form. Update it to `<name> | <reference>`? [yes]
 
 
 ## The goal
