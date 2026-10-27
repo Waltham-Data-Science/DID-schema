@@ -9,6 +9,34 @@ Last updated 2026-10-27.
 
 ## Waiting for Jess
 
+### Held and open, 2026-10-27 evening (read this first after a container reset)
+
+- **Device-kind terms held (46, 47):** Wikidata answered HTTP 429 to every
+  search on 2026-10-27; retry, then bring as one batch: EEG (SCDO:0000419 is
+  the decided fallback), patch pipette, sharp electrode, stimulator, lick
+  spout, reward well, cell-attached recording mode. OLS4 had no fitting term
+  for any but EEG (OBI:0001128 "micropipette" is a liquid-measuring device).
+  Proposal ready: mint EMPTY terms now, add Wikidata ids later as
+  `equivalent` ([term equivalents recorded]). Jess: "hold these for a few
+  hours and try again".
+- **Open-issue questions:** the sort of all 56 open did-schema issues is in
+  `docs/v2_working/ISSUE_SORT_2026-10-27.md` (5 answered, 17 build, 29 need
+  Jess, 5 stale). Q1-Q3 answered 2026-10-27 (recorded); Q4-Q6 asked; Q7-Q29
+  not yet asked. Q29 is for Steve Van Hooser.
+- **Builds running (2026-10-27):** four agents on the pending builds:
+  did-schema (`claude/build-schema-2026-10-27`), DID-matlab tuning
+  (`claude/build-tuning-2026-10-27`), DID-matlab other
+  (`claude/build-other-N`), NDI-matlab (`claude/build-ndi-N`). Each opens
+  draft PRs; Claude reviews and merges when green.
+- **Plan to finish:** (1) answers recorded every ~10; (2) pending builds
+  (`python3 tools/decision_citations.py --pending`) built in parallel,
+  siblings first; (3) measurement gaps closed (whole-batch round trip, named
+  statements, bath link counters); (4) final corpus run, each corpus
+  reported done / not done; (5) dataset reimports (Babu, Haley, Soph) with
+  their decision workbooks, a separate track.
+- #176 stays HELD for Jess.
+
+
 Kept up to date while Jess is away (2026-10-27). Each item is answerable in
 one line; Claude's leaning is in brackets.
 

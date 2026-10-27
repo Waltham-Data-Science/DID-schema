@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 489 decision line(s) accepted, 2 rejected; 42 cited by a class, 447 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 492 decision line(s) accepted, 2 rejected; 42 cited by a class, 450 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -692,6 +692,9 @@ field). If one decides a class's disposition, that class should cite it.
 - treatment groups are a dataset decision. "Decided by Jess Haley, 2026-10-27 [treatment groups are a" (V_eta_go_forward_class_audit.md:1496).
 - fit classes kept; session list rebuilt. "Decided by Jess Haley, 2026-10-27 [fit classes kept" (V_eta_go_forward_class_audit.md:1498).
 - event lines are event channels. "Decided by Jess Haley, 2026-10-27 [event lines are event" (V_eta_go_forward_class_audit.md:1500).
+- labels are a field on what they label. "Decided by Jess Haley, 2026-10-27 [labels are a field on" (V_eta_go_forward_class_audit.md:1502).
+- ontologyLabel row split. "Decided by Jess Haley, 2026-10-27 [ontologyLabel row" (V_eta_go_forward_class_audit.md:1504).
+- openMINDS strain leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS strain" (V_eta_go_forward_class_audit.md:1506).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
