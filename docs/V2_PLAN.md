@@ -299,7 +299,12 @@ one line; Claude's leaning is in brackets.
     carried elements. Questions:
     - a. DID's bath step drops each bath's stimulator link and epoch on
       all 1,605 baths, while NDI's bath step keeps both. Keep them in DID
-      too (as NDI does)? [yes: one bath step, NDI's shape]
+      too (as NDI does)? [yes: one bath step, NDI's shape]. Found
+      2026-10-27: this is a real loss under [lossless means round trip] on
+      all 1,605 Dab baths; nothing records which epoch a bath belongs to
+      (the epoch string itself survives on the epoch entity). The "969
+      dropped" in the corpus report was a counting bug and is being fixed;
+      this bath link is the only real loss behind it.
     - b. 1,172 ACSF baths: the pH and osmolarity rows become the
       formulation's `ph` / `osmolarity` and lose their term ids and their
       place in the table. Accept? [accept: the term ids are fixed by the
