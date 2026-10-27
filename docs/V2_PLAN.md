@@ -12,27 +12,30 @@ Last updated 2026-10-27.
 Kept up to date while Jess is away (2026-10-27). Each item is answerable in
 one line; Claude's leaning is in brackets.
 
-1. **v1 element type** (`spikes` / `neuron` / `cell` all become entity type
-   `cell`, losing the original string): keep it as an assertion (variable
-   "element type", value the v1 string), or as a labelled note
-   `v1 element type "spikes"`? [assertion: structured and searchable;
-   notes are a last resort]
-2. **15 new EMPTY terms**, `docs/v2_working/EMPTY_TERMS_PROPOSAL.md`
-   section 2: n-trode; acquisition time; unit isolation quality; cluster
-   identifier; model fit; Naka-Rushton function; left-right / front-back /
-   depth position on device; peak search window duration; processing
-   segment duration; standard-deviation threshold; threshold crossing
-   direction; detection refractory period; analysis window duration; bath
-   solution. Approve as a batch? Hold "single unit" / "multi-unit" until
-   InterLex is checked (needs an API key)? [yes to both]
+1. (Decided 2026-10-27, [cell spellings are one meaning]: `spikes`, `neuron`
+   and `cell` all become entity type `cell`, nothing else kept; the round
+   trip counts them as equivalent. Build pending: DID-matlab.)
+2. **New EMPTY terms, rechecked** (Jess, 2026-10-27: "I'm surprised
+   acquisition time, model fit, and bath solution doesn't already exist";
+   "Multi-electrode array sounds better to me as long as it's genuinely the
+   same thing. Any other terms we should rethink against the v2 tenets?").
+   OLS4 and Wikidata, 2026-10-27:
+   - i, ii, iii decided 2026-10-27: [afo prefix registered] (with an AFO
+     reader in ndi-ontology-matlab), [n-trode is a multielectrode array],
+     [site positions are coordinates]. Builds pending.
+   - Model fit: closest is BAO:0000434 "curve fit specification" ("Has curve
+     fit parameters, curve fit method, properties like Hill coefficient");
+     Claude to read its full definition before proposing it.
+   - Bath solution: only REPRODUCE-ME "Bath Solution" (no id, no
+     definition, prefix not registered); stays a new term.
+   - The other 36 element-type values get the same check before any is
+     proposed.
 3. (Done: NDI-matlab #1074 merged, 38adc701b.)
 4. **Phase 2 pilot findings** (DID-matlab `claude/phase2`, subject family
    switched to raw v1 with its round-trip check, CI green):
-   - a. A v1 `subject` whose `base.name` is neither empty nor its local
-     identifier: V2 keeps no place for it, so the round trip reports it
-     lost. Carry the document as v1 (new register row; which kind?), or
-     accept? No NDI writer at main writes such a value. [carry, malformed:
-     not writer-shaped]
+   - a. (Decided 2026-10-27, [v1 name is the entity name]: a non-empty v1
+     `base.name` goes to `entity.name`, equal or not; 0 of 1,918 corpus
+     subjects differ. Build pending: DID-matlab.)
    - b. (Decided 2026-10-27, [fields outside the template are malformed]: carried whole as v1 under one generic row, carry-100.) A field outside the NDI template (e.g. a stray `subject.strain`):
      today dropped silently; the round trip now catches it. Carry as v1
      ([partly placed is carried as v1])? Which kind? [carry; malformed when
@@ -41,9 +44,8 @@ one line; Claude's leaning is in brackets.
      where the migrator now carries such a document with no register row
      yet). One answer, one generic register row ("a field outside the
      NDI template"), for all classes? [yes]
-   - c. A `subject_group` member edge named plain `subject_id` comes back
-     as `subject_id_1`: the same thing ([spelling is notation]), or keep
-     the original name? [same thing]
+   - c. (Decided 2026-10-27, [member edge number is notation]: `subject_id`
+     and `subject_id_1` are the same edge. Build pending: DID-matlab.)
 5. (Done: did-schema #162 merged (4b63810); DID-matlab phase 1 merged as
    #251 (1f83af39), all checks and both corpus jobs green: the baseline.
    NDI-matlab #1075 (its one test update) merged too (d88ea6cfb).)
@@ -361,35 +363,13 @@ one line; Claude's leaning is in brackets.
       readers accept both class names. `pyraview` is done: DID-matlab #256
       (dfd73b6); the epoch step already re-ran it on the raw v1 source, so
       it needed no code change there. 77 of 95; see item 27.)
-25. **Move the locked NDI and DID `main`?** (did-schema #178 moved only the
-    sibling heads, to DID-matlab e73aec7 and NDI-matlab 675742fe7.) The
-    locked mains stay at NDI 3cb19a85 and DID f4a4905. NDI's live `main` is
-    24 commits past the lock (now 441530d0f). Of the 25 files they change,
-    23 are GUI, install, update, release-workflow, docs and test files; the
-    other two are `Contents.m` and `session.m`, where `daqsystem_load` now
-    skips a match-all name pattern (a faster search, same result). No
-    template or writer changes. DID's live `main` is 27 commits past its
-    lock (now e4493aa); its 12 files are v1 database search code
-    (`+did`, SQLite search speed and `hasmember` quoting) and its tests,
-    with no `+did2` code.
-    Moving NDI's changes only the `.m`-file count quoted in two plan
-    documents. Move both mains now, in one small commit with those counts?
-    Claude recommends yes; nothing in the migration reads what changed.
-26. **Two tuning-family details, for your review (no build waits on
-    them).** DID-matlab #255 switched `contrast_tuning`,
-    `spatial_frequency_tuning`, `temporal_frequency_tuning` and
-    `speed_tuning` to raw v1; no corpus holds any of them, and NDI's second
-    pass does not read them.
-    - a. Their templates come from NDIcalc-vis-matlab 00e3e0f, which the
-      sibling lock does not cover (it locks only NDI-matlab and DID-matlab).
-      Add NDIcalc-vis-matlab to the lock? Claude recommends yes, in a later
-      small change.
-    - b. The switched tuning classes (the four above and the `*_calc`
-      classes, through `jCalculation`) cite carry-056 for a field outside
-      the template, where every other family cites
-      carry-100 ([fields outside the template are malformed]). Move the
-      tuning family to carry-100, keeping carry-056 for its real modelling
-      gaps? Claude recommends yes.
+25. (Decided 2026-10-27, [move the locked mains]. Build pending: did-schema.
+    Follow-up asked: merge `main` into V2 in NDI-matlab (86 commits, 3
+    conflicts: session.m, +lightsheet/view.m, a cloud file deleted on main)
+    and DID-matlab (34 commits, clean)? Decided 2026-10-27, [merge main
+    into V2]. Build pending.)
+26. (Decided 2026-10-27: a. [lock NDIcalc-vis-matlab]; b. [tuning stray
+    fields are malformed]. Builds pending.)
 27. **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
     pyraview (1 document); its counts are unchanged by the switch.
     - a. `files.file_info` (file location, uid, ingest flags) is on no
