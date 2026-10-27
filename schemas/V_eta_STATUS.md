@@ -46,13 +46,13 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 377 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 204 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 173 |
+| build: migrator files inspected | 391 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 206 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 185 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 6 |
-| build: migrator lines inspected | 69855 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 41582 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 28273 |
+| build: migrator lines inspected | 72635 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 42072 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 30563 |
 | build: classes queried | 4 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
@@ -139,11 +139,11 @@ is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.
 
 | idiom | shape | sites | per-document migrator | batch post-pass |
 |---|---|---|---|---|
-| 1 | `b.document_class = struct('class_name', '<class>', ...)` | 30 | 4 | 26 |
+| 1 | `b.document_class = struct('class_name', '<class>', ...)` | 33 | 4 | 29 |
 | 2 | `b.document_class = classBlock('<class>', {supers})` | 0 | 0 | 0 |
 | 3 | `b.document_class.class_name = '<class>';` | 5 | 5 | 0 |
 | 4 | `did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`, `did2.build.document('<class>', ...)` or a fixed-class builder | 71 | 43 | 28 |
-| 5 | a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)` | 43 | 43 | 0 |
+| 5 | a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)` | 42 | 42 | 0 |
 | - | class name is a VARIABLE -- unresolved here | 18 | 2 | 16 |
 
 **THE THREE IDIOMS ARE RE-MEASURED IN THE NEW ROOTS, NOT ASSUMED TO CARRY
@@ -241,7 +241,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 | class | decision | state | build evidence | minted (M+B) | field writes (M+B) | named (M+B) | comments (M+B) | survivors |
 |---|---|---|---|---|---|---|---|---|
-| `app` | decided | (b) | 20 consuming reference(s) (12 per-document migrator, 8 batch post-pass); decided target(s) built: `entity (software)` | - | 5 (1+4) | 10 (8+2) | 363 (226+137) | n/a -- not measured |
+| `app` | decided | (b) | 20 consuming reference(s) (12 per-document migrator, 8 batch post-pass); decided target(s) built: `entity (software)` | - | 5 (1+4) | 10 (8+2) | 386 (234+152) | n/a -- not measured |
 | `binaryseries_parameters` | decided | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `statement`, `sampled_body` | - | - | 4 (2+2) | 22 (17+5) | n/a -- not measured |
 | `interaction_purpose` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 | `projectvar` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
@@ -253,8 +253,8 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 #### (b) built, awaiting corpus proof -- 2
 
-- `app` (decided) -- consumed at 12 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:110 (guard)`, `DID-matlab:migrators_j/private/jMethodParameters.m:112 (field_read)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`, `NDI-matlab:ndi_second_pass/appSoftware.m:42 (guard)`, `NDI-matlab:ndi_second_pass/appSoftware.m:43 (field_read)` ...; consumed at 8 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:13 (guard)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:14 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:43 (guard)`, `DID-matlab:convert/+v1read/readApp.m:44 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:48 (field_read)`, `DID-matlab:convert/resolveValidIntervals.m:666 (guard)` ...; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:137 (field_write)`; a block of this name is WRITTEN at 4 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/calcParts.m:124 (field_write)`, `DID-matlab:convert/+roundtrip/private/methodDocParts.m:101 (field_write)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:21 (field_write)`, `DID-matlab:convert/universalRenames.m:312 (field_write)`; NAMED as a string value at 8 site(s), per-document migrator: `DID-matlab:migrators_j/jrclust_clusters.m:163 (named)`, `DID-matlab:migrators_j/kiasort_clusters.m:50 (named)`, `DID-matlab:migrators_j/kilosort_clusters.m:51 (named)`, `DID-matlab:migrators_j/neuron_extracellular.m:641 (named)`, `DID-matlab:migrators_j/private/jCalculation.m:248 (named)`, `DID-matlab:migrators_j/sorting_parameters.m:88 (named)` ...; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)`, `DID-matlab:convert/resolveValidIntervals.m:1121 (named)`; mentioned in 226 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:1044 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:140 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:156 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:393 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:394 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:484 (comment_mention)` ...; mentioned in 137 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)`, `DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/hartley_calc.m:14 (comment_mention)` ...; target(s) BUILT: `entity (software)`
-- `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 2 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:291 (named)`, `DID-matlab:migrators_j/binaryseries_parameters.m:307 (named)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)`, `DID-matlab:convert/rawV1Classes.m:382 (named)`; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:326 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:564 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:565 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:190 (comment_mention)` ...; mentioned in 5 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)`, `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:247 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:249 (comment_mention)`; target(s) BUILT: `statement`, `sampled_body`
+- `app` (decided) -- consumed at 12 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:110 (guard)`, `DID-matlab:migrators_j/private/jMethodParameters.m:112 (field_read)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`, `NDI-matlab:ndi_second_pass/appSoftware.m:42 (guard)`, `NDI-matlab:ndi_second_pass/appSoftware.m:43 (field_read)` ...; consumed at 8 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:13 (guard)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:14 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:43 (guard)`, `DID-matlab:convert/+v1read/readApp.m:44 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:48 (field_read)`, `DID-matlab:convert/resolveValidIntervals.m:666 (guard)` ...; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:137 (field_write)`; a block of this name is WRITTEN at 4 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/calcParts.m:124 (field_write)`, `DID-matlab:convert/+roundtrip/private/methodDocParts.m:101 (field_write)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:21 (field_write)`, `DID-matlab:convert/universalRenames.m:312 (field_write)`; NAMED as a string value at 8 site(s), per-document migrator: `DID-matlab:migrators_j/jrclust_clusters.m:163 (named)`, `DID-matlab:migrators_j/kiasort_clusters.m:50 (named)`, `DID-matlab:migrators_j/kilosort_clusters.m:51 (named)`, `DID-matlab:migrators_j/neuron_extracellular.m:641 (named)`, `DID-matlab:migrators_j/private/jCalculation.m:275 (named)`, `DID-matlab:migrators_j/sorting_parameters.m:88 (named)` ...; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)`, `DID-matlab:convert/resolveValidIntervals.m:1121 (named)`; mentioned in 234 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:1044 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:140 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:156 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:393 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:394 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:484 (comment_mention)` ...; mentioned in 152 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/contrast_tuning.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrast_tuning.m:8 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)` ...; target(s) BUILT: `entity (software)`
+- `binaryseries_parameters` (decided) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 2 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:291 (named)`, `DID-matlab:migrators_j/binaryseries_parameters.m:307 (named)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)`, `DID-matlab:convert/rawV1Classes.m:430 (named)`; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:326 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:564 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:565 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:190 (comment_mention)` ...; mentioned in 5 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)`, `DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:267 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:269 (comment_mention)`; target(s) BUILT: `statement`, `sampled_body`
 
 ## Proposed (not decided) -- awaiting review
 
@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 413 decision line(s) accepted, 2 rejected; 42 cited by a class, 371 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 418 decision line(s) accepted, 2 rejected; 42 cited by a class, 376 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -616,6 +616,11 @@ field). If one decides a class's disposition, that class should cite it.
 - merge main into V2. "Decided by Jess Haley, 2026-10-27 [merge main into V2]: (" (V_eta_go_forward_class_audit.md:1344).
 - lock NDIcalc-vis-matlab. "Decided by Jess Haley, 2026-10-27 [lock" (V_eta_go_forward_class_audit.md:1346).
 - tuning stray fields are malformed. "Decided by Jess Haley, 2026-10-27 [tuning stray fields are" (V_eta_go_forward_class_audit.md:1348).
+- cell spellings amended. "Decided by Jess Haley, 2026-10-27 [cell spellings amended]" (V_eta_go_forward_class_audit.md:1350).
+- element type is a device kind term. "Decided by Jess Haley, 2026-10-27 [element type is a device" (V_eta_go_forward_class_audit.md:1352).
+- ndi element class not kept. "Decided by Jess Haley, 2026-10-27 [ndi element class not" (V_eta_go_forward_class_audit.md:1354).
+- number of electrodes minted. "Decided by Jess Haley, 2026-10-27 [number of electrodes" (V_eta_go_forward_class_audit.md:1356).
+- site frame is a coordinate system. "Decided by Jess Haley, 2026-10-27 [site frame is a" (V_eta_go_forward_class_audit.md:1358).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
@@ -773,7 +778,7 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal in 34 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal in 35 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
 - `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today

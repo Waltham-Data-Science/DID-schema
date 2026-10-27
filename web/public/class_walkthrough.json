@@ -9,12 +9,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 363,
+        "line": 407,
         "spelling": "SpikeInterfaceSortingOutputs",
         "text": "'SpikeInterfaceSortingOutputs', ..."
        },
        {
-        "line": 400,
+        "line": 452,
         "spelling": "SpikeInterfaceSortingOutputs",
         "text": "'SpikeInterfaceSortingOutputs', 'spike_interface_sorting_outputs'; ..."
        }
@@ -236,27 +236,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 2053,
+        "line": 2069,
         "spelling": "base",
         "text": "if isfield(v1, 'base') && isstruct(v1.base) && isfield(v1.base, 'session_id')"
        },
        {
-        "line": 2983,
+        "line": 2999,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 3081,
+        "line": 3097,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 3438,
+        "line": 3454,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        },
        {
-        "line": 3464,
+        "line": 3480,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
        }
@@ -268,27 +268,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1263,
+        "line": 1264,
         "spelling": "base",
         "text": "&& ~any(strcmp(fns{k}, {'base', 'document_class', 'files', 'depends_on'}))"
        },
        {
-        "line": 1304,
+        "line": 1305,
         "spelling": "base",
         "text": "if ~isstruct(blk) || ~isscalar(blk) || any(strcmp(names{k}, {'base', 'document_class', 'files'}))"
        },
        {
-        "line": 1582,
+        "line": 1583,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1603,
+        "line": 1604,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 1690,
+        "line": 1691,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -541,7 +541,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 382,
+        "line": 430,
         "spelling": "binaryseries_parameters",
         "text": "'binaryseries_parameters', ..."
        }
@@ -745,12 +745,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 368,
+        "line": 412,
         "spelling": "cellTypeLabels",
         "text": "'cellTypeLabels', ..."
        },
        {
-        "line": 401,
+        "line": 453,
         "spelling": "cellTypeLabels",
         "text": "'cellTypeLabels',           'cell_type_labels'; ..."
        }
@@ -825,7 +825,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 396,
+        "line": 448,
         "spelling": "contrast_sensitivity_calc",
         "text": "'contrastsensitivity_calc', 'contrast_sensitivity_calc'; ..."
        }
@@ -860,7 +860,20 @@
   },
   "contrast_tuning": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 424,
+        "spelling": "contrast_tuning",
+        "text": "'contrast_tuning', ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -884,7 +897,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 395,
+        "line": 447,
         "spelling": "contrast_tuning_calc",
         "text": "'contrasttuning_calc',      'contrast_tuning_calc'; ..."
        }
@@ -985,7 +998,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 344,
+        "line": 388,
         "spelling": "daqmetadatareader",
         "text": "'daqmetadatareader', ..."
        }
@@ -1063,7 +1076,7 @@
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 2189,
+        "line": 2205,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1075,7 +1088,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 338,
+        "line": 382,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1165,7 +1178,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 342,
+        "line": 386,
         "spelling": "daqreader",
         "text": "'daqreader', ..."
        }
@@ -1212,7 +1225,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 364,
+        "line": 408,
         "spelling": "daqreader_epochdata_ingested",
         "text": "'daqreader_epochdata_ingested', ..."
        }
@@ -1282,7 +1295,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 365,
+        "line": 409,
         "spelling": "daqreader_image_epochdata_ingested",
         "text": "'daqreader_image_epochdata_ingested', ..."
        }
@@ -1352,7 +1365,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 335,
+        "line": 379,
         "spelling": "daqreader_mfdaq_epochdata_ingested",
         "text": "'daqreader_mfdaq_epochdata_ingested', ..."
        }
@@ -1485,7 +1498,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 343,
+        "line": 387,
         "spelling": "daqreader_ndr",
         "text": "'daqreader_ndr', ..."
        }
@@ -1568,7 +1581,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 340,
+        "line": 384,
         "spelling": "daqsystem",
         "text": "'daqsystem', ..."
        }
@@ -1631,7 +1644,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 387,
+        "line": 435,
         "spelling": "dataset_remote",
         "text": "'dataset_remote', ..."
        }
@@ -1750,12 +1763,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 380,
+        "line": 428,
         "spelling": "demoNDI",
         "text": "'demoNDI', ..."
        },
        {
-        "line": 408,
+        "line": 460,
         "spelling": "demoNDI",
         "text": "'demoNDI',                  'demo_ndi'; ..."
        }
@@ -1821,12 +1834,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 381,
+        "line": 429,
         "spelling": "demoNDIMock",
         "text": "'demoNDIMock', ..."
        },
        {
-        "line": 409,
+        "line": 461,
         "spelling": "demoNDIMock",
         "text": "'demoNDIMock',              'demo_ndi_mock'; ..."
        }
@@ -1946,7 +1959,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 354,
+        "line": 398,
         "spelling": "distance_metadata",
         "text": "'distance_metadata', ..."
        }
@@ -2045,7 +2058,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 357,
+        "line": 401,
         "spelling": "electrode_offset_voltage",
         "text": "'electrode_offset_voltage', ..."
        }
@@ -2136,7 +2149,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 330,
+        "line": 374,
         "spelling": "element",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -2237,7 +2250,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 330,
+        "line": 374,
         "spelling": "element_epoch",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -2437,22 +2450,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 2822,
+        "line": 2838,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2914,
+        "line": 2930,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 3330,
+        "line": 3346,
         "spelling": "epochfiles_ingested",
         "text": "case 'epochfiles_ingested'"
        },
        {
-        "line": 3331,
+        "line": 3347,
         "spelling": "epochfiles_ingested",
         "text": "if ~isfield(b, 'epochfiles_ingested') || ~isstruct(b.epochfiles_ingested)"
        }
@@ -2464,7 +2477,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 336,
+        "line": 380,
         "spelling": "epochfiles_ingested",
         "text": "'epochfiles_ingested', ..."
        }
@@ -2612,22 +2625,22 @@
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 1669,
+        "line": 1678,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 2049,
+        "line": 2065,
         "spelling": "epochid",
         "text": "if isfield(v1, 'epochid') && isstruct(v1.epochid) && isfield(v1.epochid, 'epochid')"
        },
        {
-        "line": 2604,
+        "line": 2620,
         "spelling": "epochid",
         "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        },
        {
-        "line": 2609,
+        "line": 2625,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
@@ -2687,27 +2700,56 @@
      {
       "pass": "foldGenericFiles",
       "path": "src/did/+did2/+convert/foldGenericFiles.m",
-      "site_count": 4,
+      "site_count": 2,
       "sites": [
        {
-        "line": 717,
-        "spelling": "file_reference",
-        "text": "isRecord = strcmp(classes, 'file_reference');"
-       },
-       {
-        "line": 815,
-        "spelling": "file_reference",
-        "text": "elseif ~strcmp(classes{idIdx(target)}, 'file_reference')"
-       },
-       {
-        "line": 1345,
+        "line": 1346,
         "spelling": "file_reference",
         "text": "blk = blockOf(rec, 'file_reference');"
        },
        {
-        "line": 1347,
+        "line": 1348,
         "spelling": "fileReference",
         "text": "blk = blockOf(rec, 'fileReference');"
+       }
+      ]
+     },
+     {
+      "pass": "isFileReferenceClass",
+      "path": "src/did/+did2/+convert/isFileReferenceClass.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 7,
+        "spelling": "fileReference",
+        "text": "%     'fileReference'    the v1 class name (NDI template"
+       },
+       {
+        "line": 12,
+        "spelling": "file_reference",
+        "text": "%     'file_reference'   the renamed spelling universalRenames gives it, which a"
+       },
+       {
+        "line": 29,
+        "spelling": "fileReference",
+        "text": "tf = ischar(className) && any(strcmp(className, {'file_reference', 'fileReference'}));"
+       }
+      ]
+     },
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 440,
+        "spelling": "fileReference",
+        "text": "'fileReference', ..."
+       },
+       {
+        "line": 463,
+        "spelling": "fileReference",
+        "text": "'fileReference',            'file_reference'; ..."
        }
       ]
      }
@@ -2774,7 +2816,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 341,
+        "line": 385,
         "spelling": "filenavigator",
         "text": "'filenavigator', ..."
        }
@@ -2965,12 +3007,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 369,
+        "line": 413,
         "spelling": "geneExpression",
         "text": "'geneExpression', ..."
        },
        {
-        "line": 402,
+        "line": 454,
         "spelling": "geneExpression",
         "text": "'geneExpression',           'gene_expression'; ..."
        }
@@ -3021,12 +3063,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 370,
+        "line": 414,
         "spelling": "geneList",
         "text": "'geneList', ..."
        },
        {
-        "line": 403,
+        "line": 455,
         "spelling": "geneList",
         "text": "'geneList',                 'gene_list'; ..."
        }
@@ -3089,12 +3131,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 371,
+        "line": 415,
         "spelling": "geneListMapping",
         "text": "'geneListMapping', ..."
        },
        {
-        "line": 404,
+        "line": 456,
         "spelling": "geneListMapping",
         "text": "'geneListMapping',          'gene_list_mapping'; ..."
        }
@@ -3169,17 +3211,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 89,
+        "line": 90,
         "spelling": "generic_file",
         "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
        },
        {
-        "line": 507,
+        "line": 508,
         "spelling": "generic_file",
         "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
        },
        {
-        "line": 563,
+        "line": 564,
         "spelling": "generic_file",
         "text": "blk = blockOf(b, 'generic_file');"
        }
@@ -3260,7 +3302,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 350,
+        "line": 394,
         "spelling": "hartley_calc",
         "text": "'hartley_calc', ..."
        }
@@ -3425,12 +3467,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 339,
+        "line": 383,
         "spelling": "imageStack",
         "text": "'imageStack', ..."
        },
        {
-        "line": 397,
+        "line": 449,
         "spelling": "imageStack",
         "text": "'imageStack',               'image_stack'; ..."
        }
@@ -3600,7 +3642,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 349,
+        "line": 393,
         "spelling": "jrclust_clusters",
         "text": "'jrclust_clusters', ..."
        }
@@ -3673,7 +3715,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 362,
+        "line": 406,
         "spelling": "kiasort_clusters",
         "text": "'kiasort_clusters', ..."
        }
@@ -3731,7 +3773,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 361,
+        "line": 405,
         "spelling": "kilosort_clusters",
         "text": "'kilosort_clusters', ..."
        }
@@ -3782,7 +3824,25 @@
   },
   "lightsheetZarrLevel": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 442,
+        "spelling": "lightsheetZarrLevel",
+        "text": "'lightsheetZarrLevel', ..."
+       },
+       {
+        "line": 465,
+        "spelling": "lightsheetZarrLevel",
+        "text": "'lightsheetZarrLevel',      'lightsheet_zarr_level'};"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -3868,7 +3928,25 @@
   },
   "lightsheetZarrPyramid": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 441,
+        "spelling": "lightsheetZarrPyramid",
+        "text": "'lightsheetZarrPyramid', ..."
+       },
+       {
+        "line": 464,
+        "spelling": "lightsheetZarrPyramid",
+        "text": "'lightsheetZarrPyramid',    'lightsheet_zarr_pyramid'; ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -3951,7 +4029,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 375,
+        "line": 419,
         "spelling": "measurement",
         "text": "'measurement', ..."
        }
@@ -4072,7 +4150,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 388,
+        "line": 436,
         "spelling": "metadata_editor",
         "text": "'metadata_editor', ..."
        }
@@ -4162,7 +4240,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 348,
+        "line": 392,
         "spelling": "neuron_extracellular",
         "text": "'neuron_extracellular', ..."
        }
@@ -4376,7 +4454,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 383,
+        "line": 431,
         "spelling": "oneepoch",
         "text": "'oneepoch', ..."
        }
@@ -4441,14 +4519,14 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 384,
+        "line": 432,
         "spelling": "ontologyImage",
         "text": "'ontologyImage', ..."
        },
        {
-        "line": 410,
+        "line": 462,
         "spelling": "ontologyImage",
-        "text": "'ontologyImage',            'ontology_image'};"
+        "text": "'ontologyImage',            'ontology_image'; ..."
        }
       ]
      }
@@ -4545,17 +4623,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 92,
+        "line": 93,
         "spelling": "ontologyLabel",
         "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
        },
        {
-        "line": 545,
+        "line": 546,
         "spelling": "ontology_label",
         "text": "labelBlock = blockOf(bodies{k}, 'ontology_label');"
        },
        {
-        "line": 547,
+        "line": 548,
         "spelling": "ontologyLabel",
         "text": "labelBlock = blockOf(bodies{k}, 'ontologyLabel');"
        }
@@ -4589,12 +4667,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 390,
+        "line": 438,
         "spelling": "ontologyLabel",
         "text": "'ontologyLabel', ..."
        },
        {
-        "line": 399,
+        "line": 451,
         "spelling": "ontologyLabel",
         "text": "'ontologyLabel',            'ontology_label'; ..."
        }
@@ -4939,7 +5017,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 331,
+        "line": 375,
         "spelling": "oridirtuning_calc",
         "text": "'tuningcurve_calc', 'contrasttuning_calc', 'oridirtuning_calc', ..."
        }
@@ -4969,7 +5047,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 379,
+        "line": 423,
         "spelling": "orientation_direction_tuning",
         "text": "'orientation_direction_tuning', ..."
        }
@@ -5057,7 +5135,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 353,
+        "line": 397,
         "spelling": "position_metadata",
         "text": "'position_metadata', ..."
        }
@@ -5144,7 +5222,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 355,
+        "line": 399,
         "spelling": "probe_geometry",
         "text": "'probe_geometry', ..."
        }
@@ -5286,7 +5364,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 347,
+        "line": 391,
         "spelling": "probe_location",
         "text": "'probe_location', ..."
        }
@@ -5407,27 +5485,39 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 1664,
+        "line": 1673,
         "spelling": "pyraview",
         "text": "&& isstruct(bodies{k}) && isfield(bodies{k}, 'pyraview')"
        },
        {
-        "line": 1667,
+        "line": 1676,
         "spelling": "pyraview",
         "text": "if ~strcmp(rows(k).class_name, 'pyraview'); continue; end"
        },
        {
-        "line": 1682,
+        "line": 1691,
         "spelling": "pyraview",
         "text": "migrator = armingMigratorFor(armingMigrators, 'pyraview');"
        },
        {
-        "line": 2036,
+        "line": 2052,
         "spelling": "pyraview",
         "text": "if ~isfield(q(k), 'class_name') || ~strcmp(q(k).class_name, 'pyraview') ..."
        },
        {
-        "line": 2195,
+        "line": 2211,
+        "spelling": "pyraview",
+        "text": "'pyraview', ..."
+       }
+      ]
+     },
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 439,
         "spelling": "pyraview",
         "text": "'pyraview', ..."
        }
@@ -5518,22 +5608,22 @@
         "text": "SESSION_ANCHOR = char([0 'session']);   % referent placeholder: the session document"
        },
        {
-        "line": 2029,
+        "line": 2045,
         "spelling": "session",
         "text": "if strcmp(classNameOf(b), 'session')"
        },
        {
-        "line": 2362,
+        "line": 2378,
         "spelling": "session",
         "text": "%   entity class with a bound type) answers its TYPE ('session', 'epoch',"
        },
        {
-        "line": 2363,
+        "line": 2379,
         "spelling": "session",
         "text": "%   ...), so the rows below keep comparing on 'session' and 'epoch'. The"
        },
        {
-        "line": 2377,
+        "line": 2393,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
@@ -5567,7 +5657,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 385,
+        "line": 433,
         "spelling": "session",
         "text": "'session', ..."
        }
@@ -5710,7 +5800,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 386,
+        "line": 434,
         "spelling": "session_in_a_dataset",
         "text": "'session_in_a_dataset', ..."
        }
@@ -5872,7 +5962,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 356,
+        "line": 400,
         "spelling": "site2channelmap",
         "text": "'site2channelmap', ..."
        }
@@ -5959,7 +6049,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 360,
+        "line": 404,
         "spelling": "sorting_parameters",
         "text": "'sorting_parameters', ..."
        }
@@ -6028,12 +6118,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 372,
+        "line": 416,
         "spelling": "spatialGeneExpressionCells",
         "text": "'spatialGeneExpressionCells', ..."
        },
        {
-        "line": 405,
+        "line": 457,
         "spelling": "spatialGeneExpressionCells",
         "text": "'spatialGeneExpressionCells',   'spatial_gene_expression_cells'; ..."
        }
@@ -6119,12 +6209,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 373,
+        "line": 417,
         "spelling": "spatialGeneExpressionPyramid",
         "text": "'spatialGeneExpressionPyramid', ..."
        },
        {
-        "line": 406,
+        "line": 458,
         "spelling": "spatialGeneExpressionPyramid",
         "text": "'spatialGeneExpressionPyramid', 'spatial_gene_expression_pyramid'; ..."
        }
@@ -6216,12 +6306,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 374,
+        "line": 418,
         "spelling": "spatialGeneExpressionTiles",
         "text": "'spatialGeneExpressionTiles', ..."
        },
        {
-        "line": 407,
+        "line": 459,
         "spelling": "spatialGeneExpressionTiles",
         "text": "'spatialGeneExpressionTiles',   'spatial_gene_expression_tiles'; ..."
        }
@@ -6317,7 +6407,20 @@
   },
   "spatial_frequency_tuning": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 425,
+        "spelling": "spatial_frequency_tuning",
+        "text": "'spatial_frequency_tuning', ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -6341,7 +6444,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 332,
+        "line": 376,
         "spelling": "spatial_frequency_tuning_calc",
         "text": "'spatial_frequency_tuning_calc', 'temporal_frequency_tuning_calc', ..."
        }
@@ -6364,7 +6467,20 @@
   },
   "speed_tuning": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 427,
+        "spelling": "speed_tuning",
+        "text": "'speed_tuning', ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -6388,7 +6504,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 398,
+        "line": 450,
         "spelling": "speed_tuning_calc",
         "text": "'speedtuning_calc',         'speed_tuning_calc'; ..."
        }
@@ -6511,7 +6627,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 358,
+        "line": 402,
         "spelling": "spike_extraction_parameters",
         "text": "'spike_extraction_parameters', ..."
        }
@@ -6613,7 +6729,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 359,
+        "line": 403,
         "spelling": "spike_extraction_parameters_modification",
         "text": "'spike_extraction_parameters_modification', ..."
        }
@@ -6827,7 +6943,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 352,
+        "line": 396,
         "spelling": "stimulus_bath",
         "text": "'stimulus_bath', ..."
        }
@@ -6923,7 +7039,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 377,
+        "line": 421,
         "spelling": "stimulus_parameter",
         "text": "'stimulus_parameter', ..."
        }
@@ -7060,7 +7176,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 389,
+        "line": 437,
         "spelling": "stimulus_presentation",
         "text": "'stimulus_presentation', ..."
        }
@@ -7245,7 +7361,7 @@
         "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
        },
        {
-        "line": 2191,
+        "line": 2207,
         "spelling": "stimulus_response_scalar",
         "text": "'stimulus_response_scalar', ..."
        }
@@ -7257,7 +7373,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 333,
+        "line": 377,
         "spelling": "stimulus_response_scalar",
         "text": "'contrastsensitivity_calc', 'stimulus_response_scalar', ..."
        }
@@ -7367,7 +7483,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 334,
+        "line": 378,
         "spelling": "stimulus_response_scalar_parameters_basic",
         "text": "'stimulus_response_scalar_parameters_basic', ..."
        }
@@ -7455,7 +7571,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 378,
+        "line": 422,
         "spelling": "stimulus_tuningcurve",
         "text": "'stimulus_tuningcurve', ..."
        }
@@ -7571,12 +7687,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2763,
+        "line": 2779,
         "spelling": "subject",
         "text": "if isstruct(bodies{k}) && isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
        },
        {
-        "line": 2764,
+        "line": 2780,
         "spelling": "subject",
         "text": "subjBlock = 'subject';                       % pre-#73"
        }
@@ -7588,7 +7704,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 329,
+        "line": 373,
         "spelling": "subject",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -7637,7 +7753,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 329,
+        "line": 373,
         "spelling": "subject_group",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -7712,7 +7828,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 376,
+        "line": 420,
         "spelling": "subjectmeasurement",
         "text": "'subjectmeasurement', ..."
        }
@@ -7771,7 +7887,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 346,
+        "line": 390,
         "spelling": "syncgraph",
         "text": "'syncgraph', ..."
        }
@@ -7841,7 +7957,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 345,
+        "line": 389,
         "spelling": "syncrule",
         "text": "'syncrule', ..."
        }
@@ -7922,17 +8038,17 @@
         "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
        },
        {
-        "line": 2193,
+        "line": 2209,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        },
        {
-        "line": 2486,
+        "line": 2502,
         "spelling": "syncrule_mapping",
         "text": "if isfield(body, 'syncrule_mapping') && isstruct(body.syncrule_mapping)"
        },
        {
-        "line": 2579,
+        "line": 2595,
         "spelling": "syncrule_mapping",
         "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
        }
@@ -7944,7 +8060,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 337,
+        "line": 381,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        }
@@ -8025,7 +8141,20 @@
   },
   "temporal_frequency_tuning": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "rawV1Classes",
+      "path": "src/did/+did2/+convert/rawV1Classes.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 426,
+        "spelling": "temporal_frequency_tuning",
+        "text": "'temporal_frequency_tuning', ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -8049,7 +8178,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 332,
+        "line": 376,
         "spelling": "temporal_frequency_tuning_calc",
         "text": "'spatial_frequency_tuning_calc', 'temporal_frequency_tuning_calc', ..."
        }
@@ -8079,7 +8208,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 329,
+        "line": 373,
         "spelling": "treatment",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -8148,7 +8277,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 329,
+        "line": 373,
         "spelling": "treatment_drug",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -8253,7 +8382,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 330,
+        "line": 374,
         "spelling": "treatment_transfer",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -8322,7 +8451,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 331,
+        "line": 375,
         "spelling": "tuningcurve_calc",
         "text": "'tuningcurve_calc', 'contrasttuning_calc', 'oridirtuning_calc', ..."
        }
@@ -8469,7 +8598,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 330,
+        "line": 374,
         "spelling": "virus_injection",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -8576,7 +8705,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 366,
+        "line": 410,
         "spelling": "vmneuralresponseresiduals",
         "text": "'vmneuralresponseresiduals', ..."
        }
@@ -8828,7 +8957,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 367,
+        "line": 411,
         "spelling": "vmspikesummary",
         "text": "'vmspikesummary', ..."
        }
@@ -8950,7 +9079,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 38,
+  "convert_package_files_scanned": 39,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 115,

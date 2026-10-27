@@ -5,13 +5,13 @@
         "DID-matlab": {
             "url": "https://github.com/VH-Lab/DID-matlab.git",
             "head_ref": "V2",
-            "head": "e73aec7ddf7fca9ed2e287515d73aec7835a31c3",
+            "head": "1447a432f65522b38b072598889618c5d14ccb11",
             "main": "e4493aaecbc9bd8ddeb08c9f8e8c2a1e41599db8"
         },
         "NDI-matlab": {
             "url": "https://github.com/VH-Lab/NDI-matlab.git",
             "head_ref": "V2",
-            "head": "675742fe7663d9a3e6f866c5f625ba68aa93c5ce",
+            "head": "a2ab2d152b446f5be09b06d79d7772f64ecc029a",
             "main": "441530d0f41cf09a03249eaad4800ecdbc450711"
         },
         "NDIcalc-vis-matlab": {
