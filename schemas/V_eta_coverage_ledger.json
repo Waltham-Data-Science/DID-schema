@@ -744,9 +744,9 @@
             }
           ],
           "classes_citing": 73,
-          "citations_total": 81,
+          "citations_total": 82,
           "citations_unresolved": [],
-          "lines_cited": 41,
+          "lines_cited": 42,
           "uncited_lines": [
             {
               "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -1331,14 +1331,6 @@
               "tag": "imageStack scale label kept",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [imageStack scale label"
-            },
-            {
-              "document": "V_eta_frequency_filter_model_plan.md",
-              "line": 201,
-              "kind": "Decided by",
-              "tag": "filters are methods",
-              "date": "2026-10-22",
-              "anchor": "Decided by Jess Haley, 2026-10-22 [filters are methods]"
             },
             {
               "document": "V_eta_frequency_filter_model_plan.md",
@@ -7985,14 +7977,14 @@
       "gap": false,
       "targets": [],
       "decided_targets": [
-        "frequency_filter"
+        "method"
       ],
       "decided_targets_source": "signoff_transcription",
       "decided_signoff": {
         "document": "V_eta_frequency_filter_model_plan.md",
-        "signoff_fragment": "Approved the frequency_filter model as written below",
-        "mapping_fragment": "v1 `filter` is a superclass block on `pyraview`. It becomes a separate `frequency_filter` document",
-        "account": "Becomes a separate `frequency_filter` document plus a `filter_id` edge from the observation the pyraview fold mints. Today the migrator only renames the block in place."
+        "signoff_fragment": "jFrequencyFilter writes a `method` document",
+        "mapping_fragment": "jFrequencyFilter writes a `method` document",
+        "account": "Becomes a `method` document (term the filter design; parameters the band, the passband edges in Hz, the order as a count, ripple and attenuation in dB), named by the bodies' `method_id` edge. Was a `frequency_filter` document plus `filter_id` until [filters are methods], 2026-10-22."
       },
       "target_source": "decided",
       "no_target_reason": null,
@@ -8003,7 +7995,7 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "frequency_filter"
+          "method"
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
@@ -8016,7 +8008,7 @@
         "helper_emits_decided_targets": false,
         "emitted_by_migrator": "pyraview",
         "emitted_by_targets": [
-          "frequency_filter"
+          "method"
         ],
         "emitted_by_emits_decided_targets": true
       },
@@ -8050,6 +8042,19 @@
           "why": null,
           "matched_name": "filter",
           "matched_on": "v1_class"
+        },
+        {
+          "document": "V_eta_frequency_filter_model_plan.md",
+          "tag": "filters are methods",
+          "resolved": true,
+          "line": 201,
+          "kind": "Decided by",
+          "decision": "`frequency_filter` is deleted (a V2 invention; 0 occurrences in the NDI ground truth; no tombstone). jFrequencyFilter writes a `method` document (term = the filter design; parameters the band, the passband and stopband edges in Hz, the filter order as a count, ripple and attenuation in dB), and a body's `filter_id` becomes `method_id` (answer \"N1a\"). NOT BUILT HERE YET, deliberately: DID-matlab's migrators still emit `frequency_filter` and `filter_id` (private/jFrequencyFilter.m, jSpikeExtractionSettings.m, vmspikefilteringparameters.m, pyraview.m, epochfiles_ingested.m, spike_extraction_parameters.m, hartley_calc.m, binaryseries_parameters.m; did2.build.sampledBody) and NDI's ensembleMembership reads `filter_id`, so deleting the class or renaming the edge now would fail their CI. The class and `sampled_body.filter_id` stay until DID-matlab's change lands; the deletion and the rename to `method_id` then land here in one commit. Built (did-schema part): did-schema branch claude/filters-are-methods (`frequency_filter` deleted with no tombstone and listed in tools/veta_record.py RETIRED_CLASSES; `sampled_body.filter_id` renamed `method_id`, must_refer_to `method`, and `filter_id` listed in RETIRED_EDGES). NDI-matlab: nothing to build; `git grep -n filter_id origin/V2` at NDI-matlab 9b99061 finds no hit, so the ensembleMembership read named above is gone. Build pending: DID-matlab (tests/+did2/+unittest/testMigratorsJMeasurementFilter.m still asserts a `frequency_filter` document and a `filter_id` edge in nine tests, and skips its two method-path tests when the loaded sampled_body declares no `filter_id`; then the frequency_filter path in private/jFrequencyFilter.m and did2.build.sampledBody's 'FilterId' go).",
+          "anchor": "Decided by Jess Haley, 2026-10-22 [filters are methods]",
+          "matches": 1,
+          "why": null,
+          "matched_name": "filter",
+          "matched_on": "v1_class"
         }
       ],
       "governance_gap": null,
@@ -8057,9 +8062,9 @@
         "state": "decided",
         "signoff": {
           "document": "V_eta_frequency_filter_model_plan.md",
-          "signoff_fragment": "Approved the frequency_filter model as written below",
-          "mapping_fragment": "v1 `filter` is a superclass block on `pyraview`. It becomes a separate `frequency_filter` document",
-          "account": "Becomes a separate `frequency_filter` document plus a `filter_id` edge from the observation the pyraview fold mints. Today the migrator only renames the block in place."
+          "signoff_fragment": "jFrequencyFilter writes a `method` document",
+          "mapping_fragment": "jFrequencyFilter writes a `method` document",
+          "account": "Becomes a `method` document (term the filter design; parameters the band, the passband edges in Hz, the order as a count, ripple and attenuation in dB), named by the bodies' `method_id` edge. Was a `frequency_filter` document plus `filter_id` until [filters are methods], 2026-10-22."
         },
         "why": "a decision line in `V_eta_frequency_filter_model_plan.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
@@ -8087,7 +8092,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "yes",
-            "why": "no migrator can be named after this class -- it is SUPERCLASS-ONLY and its content rides as a block on another class's document -- and the target map DECLARES the emission carried by `pyraview`'s migrator: `frequency_filter`. Authored with its citation, not inferred: 8 of the 9 rows whose decided target another migrator emits name a SHARED target, where nothing is attributable. NOT a corpus proof"
+            "why": "no migrator can be named after this class -- it is SUPERCLASS-ONLY and its content rides as a block on another class's document -- and the target map DECLARES the emission carried by `pyraview`'s migrator: `method`. Authored with its citation, not inferred: 8 of the 9 rows whose decided target another migrator emits name a SHARED target, where nothing is attributable. NOT a corpus proof"
           },
           {
             "stage": 4,

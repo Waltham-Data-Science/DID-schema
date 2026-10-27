@@ -192,10 +192,8 @@ KNOWN_DIVERGENT = {
     ("formulation", "value.ingredients.volume", "volume"),
     ("formulation", "value.osmolarity", "concentration"),
     ("frequency", "value", "frequency"),
-    ("frequency_filter", "passband.high", "frequency"),
-    ("frequency_filter", "passband.low", "frequency"),
-    ("frequency_filter", "stopband.high", "frequency"),
-    ("frequency_filter", "stopband.low", "frequency"),
+    # the four frequency_filter rows left with the class ([filters are
+    # methods], Jess Haley, 2026-10-22: the filter is a `method`)
     ("length", "value", "length"),
     ("mass", "value", "mass"),
     ("pyraview", "decimation_levels", "matrix"),

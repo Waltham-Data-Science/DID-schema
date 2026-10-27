@@ -4,7 +4,7 @@
   "summary": {
     "classes": 73,
     "classes_citing": 73,
-    "citations": 81,
+    "citations": 82,
     "citations_unresolved": 0,
     "open_classes": 6,
     "by_state": {
@@ -609,6 +609,14 @@
           "resolved": true,
           "line": 5,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_frequency_filter_model_plan.md",
+          "tag": "filters are methods",
+          "resolved": true,
+          "line": 201,
+          "kind": "Decided by",
           "why": null
         }
       ]

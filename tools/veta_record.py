@@ -236,6 +236,7 @@ RETIRED_CLASSES = {
     "force_observation",
     "formulation_manipulation",
     "frequency_assertion",
+    "frequency_filter",  # [filters are methods], Jess Haley 2026-10-22: a V2 invention, deleted with no tombstone
     "frequency_manipulation",
     "frequency_observation",
     "funding",
@@ -401,6 +402,7 @@ RETIRED_CLASSES = {
 
 # edge names retired with their class; validate_v_eta.py fails if one is declared
 RETIRED_EDGES = {
+    "filter_id",  # [filters are methods], Jess Haley 2026-10-22: a body's filter_id became method_id
     "method_parameters_id",
 }
 
