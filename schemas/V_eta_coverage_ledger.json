@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 421,
+          "accepted_lines": 423,
           "accepted_lines_by_kind": {
-            "Decided by": 304,
+            "Decided by": 306,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2794,6 +2794,22 @@
               "tag": "tuning split covers the shared fold",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [tuning split covers the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1366,
+              "kind": "Decided by",
+              "tag": "unreached superclass migrators deleted",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unreached superclass"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1368,
+              "kind": "Decided by",
+              "tag": "unknown filter parameter is malformed",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unknown filter parameter"
             },
             {
               "document": "V_eta_image_model_plan.md",

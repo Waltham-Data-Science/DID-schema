@@ -372,7 +372,12 @@ one line; Claude's leaning is in brackets.
     into V2]. Build pending.)
 26. (Decided 2026-10-27: a. [lock NDIcalc-vis-matlab]; b. [tuning stray
     fields are malformed]. Builds pending.)
-27. **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
+27. (b, c decided 2026-10-27: [unreached superclass migrators deleted],
+    [unknown filter parameter is malformed]. a asked again: no V2 redesign
+    is needed; V2 documents carry DID's `files` block, and `pyraview.m:323`
+    drops each level's `file_info` (its stored-binary uid). Copy it onto
+    the level body? [yes])
+    **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
     pyraview (1 document); its counts are unchanged by the switch.
     - a. `files.file_info` (file location, uid, ingest flags) is on no
       emitted document: each level body keeps only its file name. This
