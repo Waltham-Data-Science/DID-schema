@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 401,
+          "accepted_lines": 403,
           "accepted_lines_by_kind": {
-            "Decided by": 284,
+            "Decided by": 286,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2651,6 +2651,22 @@
               "tag": "Naka-Rushton is one function",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [Naka-Rushton is one"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1326,
+              "kind": "Decided by",
+              "tag": "fields outside the template are malformed",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [fields outside the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1328,
+              "kind": "Decided by",
+              "tag": "probe location terms",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [probe location terms]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",

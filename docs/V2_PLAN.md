@@ -33,7 +33,7 @@ one line; Claude's leaning is in brackets.
      lost. Carry the document as v1 (new register row; which kind?), or
      accept? No NDI writer at main writes such a value. [carry, malformed:
      not writer-shaped]
-   - b. A field outside the NDI template (e.g. a stray `subject.strain`):
+   - b. (Decided 2026-10-27, [fields outside the template are malformed]: carried whole as v1 under one generic row, carry-100.) A field outside the NDI template (e.g. a stray `subject.strain`):
      today dropped silently; the round trip now catches it. Carry as v1
      ([partly placed is carried as v1])? Which kind? [carry; malformed when
      no NDI writer writes it, else awaiting home]. The same question now
@@ -283,7 +283,7 @@ one line; Claude's leaning is in brackets.
     eight classes (DAQ systems, file navigators, readers, metadata readers,
     sync rules and graphs, probe locations) convert, and every one
     round-trips. Two questions:
-    - a. Probe locations: three of the four brain-region terms used in the
+    - a. (Decided 2026-10-27, [probe location terms]: the three rows are added.) Probe locations: three of the four brain-region terms used in the
       corpora (UBERON:0001880, UBERON:0002813, UBERON:0002812) are not in
       the term registry. Add them (existing ontology terms, T19 step 2)?
       [yes]

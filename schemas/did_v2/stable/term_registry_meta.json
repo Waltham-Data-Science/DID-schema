@@ -8817,6 +8817,36 @@
             "first_used_in": "DID-matlab tuning fit and vmspikefit calculations",
             "obsolete": false,
             "number_unit": false
+        },
+        {
+            "name": "bed nucleus of stria terminalis",
+            "node": "UBERON:0001880",
+            "definition": "A brain structure in the forebrain wrapped around the stria terminalis. It's largest extent can be found around the crossing of the anterior commissure[INCF].",
+            "status": "decided",
+            "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
+            "obsolete": false,
+            "number_unit": false
+        },
+        {
+            "name": "right cerebral hemisphere",
+            "node": "UBERON:0002813",
+            "definition": "A cerebral hemisphere that is in the right side of a brain.",
+            "status": "decided",
+            "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
+            "obsolete": false,
+            "number_unit": false
+        },
+        {
+            "name": "left cerebral hemisphere",
+            "node": "UBERON:0002812",
+            "definition": "A cerebral hemisphere that is in the left side of a brain.",
+            "status": "decided",
+            "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
+            "obsolete": false,
+            "number_unit": false
         }
     ]
 }
