@@ -42,7 +42,7 @@ one line; Claude's leaning is in brackets.
      the original name? [same thing]
 5. (Done: did-schema #162 merged (4b63810); DID-matlab phase 1 merged as
    #251 (1f83af39), all checks and both corpus jobs green: the baseline.
-   NDI-matlab #1075 (its one test update) is open.)
+   NDI-matlab #1075 (its one test update) merged too (d88ea6cfb).)
 6. (Done; see 3. did-schema #161 merged too. #162 waits on 9: merged
    alone it turns DID-matlab V2 red until phase 1 lands.)
 7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
@@ -128,6 +128,15 @@ one line; Claude's leaning is in brackets.
     - b. A colliding `depends_on` name still cites carry-049 (the old
       renames row); [renames carry is temporary] wants a class-specific
       row. Add one row per class as they come up? [yes]
+14. **openMINDS subjects** (10,401 corpus documents; next after tuning and
+    stimulus responses). [confirm sheet matches] makes each one a single
+    term assertion, but the v1 documents also hold `openminds_id`,
+    `matlab_type`, the term's definition and synonyms, and for a strain its
+    `openminds_1..3` links and 14 fields. A round trip would report all of
+    these lost. Keep them (where?), or accept them as recoverable from the
+    openMINDS term itself? [accept what the openMINDS term itself holds
+    (definition, synonyms); keep `openminds_id` as the term node; ask
+    again for the strain links]
 
 
 ## The goal
