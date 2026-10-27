@@ -529,7 +529,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # the `fraction` value kind (Jess Haley [fraction value kind]). Its cell
     # carries only the shared tolerance minima the other cells carry; the INERT
     # list below is checked, not assumed.
-    assert walked == 172, f'schema count moved; re-derive the inert set ({walked})'
+    # THIRTIETH MOVEMENT, re-derived not bumped: 172 -> 171 on 2026-10-26,
+    # `frequency_filter` deleted ([filters are methods], Jess Haley, 2026-10-22,
+    # V_eta_frequency_filter_model_plan.md; the filter is a `method`). Its cells
+    # were not in the INERT list, which is checked, not assumed.
+    assert walked == 171, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

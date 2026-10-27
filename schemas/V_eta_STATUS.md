@@ -14,8 +14,8 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 178 |
-| settled (persist) | 94 |
+| target classes | 177 |
+| settled (persist) | 93 |
 | settled (retire) | 80 |
 | **still open (`in_progress`)** | **4** |
 | **`retire` with no migrator YET** | **2** |
@@ -269,7 +269,7 @@ DENOMINATOR: 6 open class(es); 6 cite a decision line that exists. The decision 
 
 ## Every decision citation
 
-DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 73 class(es) cite 82 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
@@ -295,7 +295,7 @@ DENOMINATOR: 73 class(es) cite 81 decision line(s); 0 citation(s) do not resolve
 | `epochid` | retire | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
 | `fileReference` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `filenavigator` | retire | 1 of 1 | [file navigation]. "TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06" (V_eta_daq_family_decisions.md:343). |
-| `filter` | retire | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (V_eta_frequency_filter_model_plan.md:5). |
+| `filter` | retire | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (V_eta_frequency_filter_model_plan.md:5).; [filters are methods]. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201). |
 | `fitcurve` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneExpression` | retire | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneList` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
@@ -352,7 +352,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 399 decision line(s) accepted, 2 rejected; 41 cited by a class, 358 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 399 decision line(s) accepted, 2 rejected; 42 cited by a class, 357 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -431,7 +431,6 @@ field). If one decides a class's disposition, that class should cite it.
 - JH signed distance in metres. "Decided by Jess Haley, 2026-10-23 [JH signed distance in" (V_eta_epoch_plan.md:1520).
 - JH build choices. "Decided by Jess Haley, 2026-10-23 [JH build choices]: the" (V_eta_epoch_plan.md:1522).
 - imageStack scale label kept. "Decided by Jess Haley, 2026-10-23 [imageStack scale label" (V_eta_epoch_plan.md:1524).
-- filters are methods. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (V_eta_frequency_filter_model_plan.md:201).
 - filter terms from Wikidata. "Decided by Jess Haley, 2026-10-22 [filter terms from" (V_eta_frequency_filter_model_plan.md:203).
 - passband edges paired. "Decided by Jess Haley, 2026-10-22 [passband edges paired]" (V_eta_frequency_filter_model_plan.md:205).
 - dataseries_channel_map. "TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06" (V_eta_go_forward_class_audit.md:228).

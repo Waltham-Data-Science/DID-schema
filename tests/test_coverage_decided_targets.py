@@ -119,10 +119,13 @@ def _built_classes():
 # vanishes silently, which is what this file exists to prevent.
 # ---------------------------------------------------------------------------
 PINNED_DECIDED_TARGETS = {
+    # MOVED 2026-10-26, deliberately: [filters are methods] (Decided by Jess
+    # Haley, 2026-10-22, V_eta_frequency_filter_model_plan.md) supersedes the
+    # 2026-07-30 `frequency_filter` model; the filter is a `method` document.
     "filter": (
-        ["frequency_filter"],
+        ["method"],
         "V_eta_frequency_filter_model_plan.md",
-        "Approved the frequency_filter model as written below"),
+        "jFrequencyFilter writes a `method` document"),
     "epochfiles_ingested": (
         ["ingestion_manifest"],
         "V_eta_epoch_plan.md",

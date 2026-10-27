@@ -1128,24 +1128,21 @@ NO_TARGET_BY_DECISION = {
 # and shows up as a gap -- which is the honest state, and it is recoverable.
 # An unsigned target entered here would be Claude recording a decision.
 DECIDED_TARGETS_BY_SIGNOFF = {
-    # The sign-off approves "the frequency_filter model as written below", and
-    # the migration section of that same document (below the line, so inside
-    # what was approved) states the class mapping outright:
-    #   :178 "v1 `filter` is a superclass block on `pyraview`. It becomes a
-    #         separate `frequency_filter` document plus a `filter_id` edge from
-    #         the observation the pyraview fold already mints."
-    # CAVEAT, from the document itself: this sign-off line was TRANSCRIBED by
-    # Claude on the team's explicit verbal instruction (2026-07-30), and the
-    # document says so in the paragraph directly beneath it. The guarantee here
-    # is therefore only as good as that transcription -- noted, not hidden.
+    # [filters are methods] (Decided by Jess Haley, 2026-10-22,
+    # V_eta_frequency_filter_model_plan.md) SUPERSEDES the 2026-07-30 model
+    # this row used to cite ("a separate `frequency_filter` document plus a
+    # `filter_id` edge"): `frequency_filter` is deleted with no tombstone, the
+    # filter is a `method` document, and a body's `filter_id` is `method_id`.
+    # The class mapping is on the decision line itself.
     "filter": (
-        ["frequency_filter"], "V_eta_frequency_filter_model_plan.md",
-        "Approved the frequency_filter model as written below",
-        ("v1 `filter` is a superclass block on `pyraview`. It becomes a "
-        "separate `frequency_filter` document"),
-        ("Becomes a separate `frequency_filter` document plus a `filter_id` "
-        "edge from the observation the pyraview fold mints. Today the migrator "
-        "only renames the block in place.")),
+        ["method"], "V_eta_frequency_filter_model_plan.md",
+        "jFrequencyFilter writes a `method` document",
+        "jFrequencyFilter writes a `method` document",
+        ("Becomes a `method` document (term the filter design; parameters the "
+        "band, the passband edges in Hz, the order as a count, ripple and "
+        "attenuation in dB), named by the bodies' `method_id` edge. Was a "
+        "`frequency_filter` document plus `filter_id` until [filters are "
+        "methods], 2026-10-22.")),
 
     # "epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id
     #  RESTORED" -- a named class, in the signed line itself.
