@@ -254,6 +254,30 @@ one line; Claude's leaning is in brackets.
       both; no generic change]
     - (No question: `ontologyLabel` can switch only after NDI reads the v1
       class name; that NDI change is queued with phase 3.)
+20. **Spike sorting** (DID-matlab `claude/phase2` ee1b509a, quick CI
+    green; 25 classes now read raw v1). From a survey of the corpus zips:
+    all 210 Hartley calculations, 61 of 62 jrclust cluster files and all
+    1,511 extracellular neurons convert. Questions:
+    - a. A neuron's v1 document id ends up on no V2 document. Keep it
+      (e.g. on its waveform calculation)? [yes: a v1 id other documents
+      may cite is never dropped]
+    - b. Waveform sample times are stored as start + step, which rebuilds
+      them to about 1e-19, not exactly, on all 1,511. Store the times
+      themselves when start + step is not exact? [yes]
+    - c. The jrclust writer's file name `jrclust.prm` (`base.name`) is
+      dropped on 61 documents. Carry instead, as in 4a? [same answer as 4a]
+    - d. Each extracellular neuron also mints its own "cell" entity beside
+      the sorted-unit element, which [sorted units are cells or groups]
+      already makes a cell or group: two entities for one unit. Point the
+      neuron at the element's entity instead? [yes]
+    - e. The speed-tuning writer's three fits (full, no speed, full speed)
+      would all be called "Priebe fit". Tell them apart by their
+      constraints (as [Naka-Rushton is one function] does)? [yes; carried
+      until then]
+    - f. `simple_calc` (no corpus documents): model it or retire it?
+      [retire: no NDI writer at main writes it]
+    - (No question: the speed-tuning class was never converted before:
+      the old rename pass missed its v1 name. It is now read correctly.)
 
 
 ## The goal
