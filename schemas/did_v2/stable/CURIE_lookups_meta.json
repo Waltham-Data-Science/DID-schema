@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.2.3",
+    "format_version": "1.2.4",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -802,6 +802,18 @@
             "pattern_source": "ours: the path of an openMINDS instance @id after /instances/ (<terminology>/<name>); all 231 technique and semanticDataType ids at openMINDS_instances 3750716 match it",
             "spelling": "openminds",
             "spelling_source": "the decision [census terms] (Jess Haley, 2026-10-26) names the prefix `openminds:`; openMINDS states no CURIE form of its own",
+            "synonyms": []
+        },
+        "afo": {
+            "label": "Allotrope Foundation Ontology (Allotrope Merged Ontology Suite)",
+            "uri_base": "",
+            "uri_style": "local",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `afo`. Registered for AFO:AFR_0001158 acquisition time and AFO:AFR_0003339 cluster identifier (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md [afo prefix registered]). AFO spreads its terms over several namespaces, one per id prefix: AFR_ -> http://purl.allotrope.org/ontologies/result#, AFE_ -> equipment#, AFP_ -> process#, AFQ_ -> quality#, AFM_ -> material#, AFRL_ -> role#, AFFN_ -> function#, AFRE_ -> realizable#, AFC_ -> common#, AFSP_ -> spatial#, AFX_ -> property# (all under http://purl.allotrope.org/ontologies/; every one of the 3641 classes and 150 Allotrope properties OLS4 lists for `afo`, REC/2026/09, has exactly one namespace for its id prefix, read 2026-10-27). No single uri_base expands `AFO:<id>`, so the entry is `local` and gives no IRI rather than a wrong one. Expansion rule, by hand: 'AFO:AFR_0001158' -> 'http://purl.allotrope.org/ontologies/result#AFR_0001158'. Bioregistry's own CURIE form puts the namespace in the local id ('afo:result#AFR_0001158', uri_format http://purl.allotrope.org/ontologies/$1); the decision writes the id alone, as OLS4's preferred prefix `AFO` does. Allotrope's own Turtle uses one prefix per namespace (`af-r:`, `af-e:`, ...); those are not synonyms here, because `af-e:AFR_...` would read as the same term.",
+            "pattern": "^AF[A-Z]{1,3}_\\d{7}$",
+            "pattern_source": "ours: Bioregistry gives no pattern (https://bioregistry.io/api/registry/afo, 2026-10-27); all 3641 AFO classes OLS4 lists (ontology `afo`, REC/2026/09, read 2026-10-27) have local ids matching it (AFC, AFE, AFFN, AFM, AFP, AFQ, AFR, AFRE, AFRL, AFSP, each with 7 digits), as do its AFX_ properties",
+            "spelling": "AFO",
+            "spelling_source": "OLS4 `preferredPrefix` `AFO` (https://www.ebi.ac.uk/ols4/api/ontologies/afo, 2026-10-27) and the decision [afo prefix registered], which writes `AFO:AFR_0001158`; Allotrope states no single CURIE prefix of its own (its Turtle uses `af-r:`, `af-e:`, ...)",
             "synonyms": []
         }
     },
