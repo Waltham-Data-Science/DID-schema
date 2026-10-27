@@ -1856,8 +1856,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 377,
-        "lines_read": 69855,
+        "files_read": 391,
+        "lines_read": 72635,
         "classes_queried": 4,
         "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
@@ -1882,10 +1882,10 @@
         ],
         "n_unresolved_mint_sites": 18,
         "mint_sites_by_idiom": {
-          "1": 30,
+          "1": 33,
           "3": 5,
           "4": 71,
-          "5": 43
+          "5": 42
         },
         "groups": [
           "per_document_migrator",
@@ -1905,12 +1905,12 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 204,
-          "batch_post_pass": 173
+          "per_document_migrator": 206,
+          "batch_post_pass": 185
         },
         "lines_read_by_group": {
-          "per_document_migrator": 41582,
-          "batch_post_pass": 28273
+          "per_document_migrator": 42072,
+          "batch_post_pass": 30563
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 0,
@@ -1921,10 +1921,10 @@
             "1": 4,
             "3": 5,
             "4": 43,
-            "5": 43
+            "5": 42
           },
           "batch_post_pass": {
-            "1": 26,
+            "1": 29,
             "4": 28
           }
         },
@@ -1963,7 +1963,7 @@
         ],
         "n_files_excluded_by_package": {
           "+migrators": 6,
-          "+migrators_j": 165
+          "+migrators_j": 167
         },
         "n_files_excluded_v_zeta": 6,
         "files_excluded_v_zeta": [
@@ -2007,7 +2007,7 @@
         "classes_queried": 4
       },
       "batch_consumers": {
-        "files_scanned": 34,
+        "files_scanned": 35,
         "by_class": {}
       }
     },
@@ -2066,14 +2066,14 @@
           "DID-matlab:migrators_j/kilosort_clusters.m:51 (named)",
           "DID-matlab:migrators_j/neuron_extracellular.m:641 (named)"
         ],
-        "n_comment_mentions": 363,
+        "n_comment_mentions": 386,
         "comment_mentions": [
+          "DID-matlab:convert/+roundtrip/contrast_tuning.m:12 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/contrast_tuning.m:8 (comment_mention)",
           "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)",
           "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)",
           "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:14 (comment_mention)"
+          "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2098,10 +2098,10 @@
               "DID-matlab:migrators_j/kiasort_clusters.m:50 (named)",
               "DID-matlab:migrators_j/kilosort_clusters.m:51 (named)",
               "DID-matlab:migrators_j/neuron_extracellular.m:641 (named)",
-              "DID-matlab:migrators_j/private/jCalculation.m:248 (named)",
+              "DID-matlab:migrators_j/private/jCalculation.m:275 (named)",
               "DID-matlab:migrators_j/sorting_parameters.m:88 (named)"
             ],
-            "n_comment_mentions": 226,
+            "n_comment_mentions": 234,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:1044 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:140 (comment_mention)",
@@ -2135,14 +2135,14 @@
               "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)",
               "DID-matlab:convert/resolveValidIntervals.m:1121 (named)"
             ],
-            "n_comment_mentions": 137,
+            "n_comment_mentions": 152,
             "comment_mentions": [
+              "DID-matlab:convert/+roundtrip/contrast_tuning.m:12 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/contrast_tuning.m:8 (comment_mention)",
               "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)",
               "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)",
               "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:14 (comment_mention)"
+              "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)"
             ]
           }
         },
@@ -2181,7 +2181,7 @@
         "n_named_refs": 4,
         "named_refs": [
           "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)",
-          "DID-matlab:convert/rawV1Classes.m:382 (named)",
+          "DID-matlab:convert/rawV1Classes.m:430 (named)",
           "DID-matlab:migrators_j/binaryseries_parameters.m:291 (named)",
           "DID-matlab:migrators_j/binaryseries_parameters.m:307 (named)"
         ],
@@ -2190,8 +2190,8 @@
           "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)",
           "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
           "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:247 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:249 (comment_mention)",
+          "DID-matlab:convert/rawV1Classes.m:267 (comment_mention)",
+          "DID-matlab:convert/rawV1Classes.m:269 (comment_mention)",
           "DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)"
         ],
         "by_group": {
@@ -2227,15 +2227,15 @@
             "n_named_refs": 2,
             "named_refs": [
               "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)",
-              "DID-matlab:convert/rawV1Classes.m:382 (named)"
+              "DID-matlab:convert/rawV1Classes.m:430 (named)"
             ],
             "n_comment_mentions": 5,
             "comment_mentions": [
               "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)",
               "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
               "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:247 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:249 (comment_mention)"
+              "DID-matlab:convert/rawV1Classes.m:267 (comment_mention)",
+              "DID-matlab:convert/rawV1Classes.m:269 (comment_mention)"
             ]
           }
         },
