@@ -36,7 +36,11 @@ one line; Claude's leaning is in brackets.
    - b. A field outside the NDI template (e.g. a stray `subject.strain`):
      today dropped silently; the round trip now catches it. Carry as v1
      ([partly placed is carried as v1])? Which kind? [carry; malformed when
-     no NDI writer writes it, else awaiting home]
+     no NDI writer writes it, else awaiting home]. The same question now
+     comes up in every family (responses 15d; the ingested data cache,
+     where the migrator now carries such a document with no register row
+     yet). One answer, one generic register row ("a field outside the
+     NDI template"), for all classes? [yes]
    - c. A `subject_group` member edge named plain `subject_id` comes back
      as `subject_id_1`: the same thing ([spelling is notation]), or keep
      the original name? [same thing]
@@ -219,6 +223,37 @@ one line; Claude's leaning is in brackets.
     Also: the response plan stops storing `stimulator_epochid` because "the
     presentation carries it" (and `HOMES_RESPONSES_TUNING.md` question 1
     relies on that). That waits for this fix.
+18. **Phase 2 progress** (no answer needed): 20 of 95 DID-matlab migrators
+    read raw v1 (DID-matlab `claude/phase2` 5dab317d, quick CI green):
+    subjects, treatments, elements, element epochs, tuning, stimulus
+    responses, and the ingested data / sync family (13,124 corpus
+    documents surveyed, every one round-trips). The sync mapping row
+    (carry-036) now also keeps a mapping carried when a field would be
+    lost; its description will be updated to say so.
+19. **Images** (DID-matlab `claude/phase2-image`, quick CI green;
+    `imageStack` reads raw v1; all 14,014 image documents are JH). None of
+    the 7,007 corpus image stacks converts today: 2,444 Haley behaviour
+    stacks carry (carry-052), 4,563 Haley E. coli stacks pass through with
+    no register row, and their 7,007 labels follow them. Haley is covered
+    by the Haley V2 import, so this is about Babu-style stacks and the
+    record.
+    - a. The 4,563 E. coli stacks (no subject) pass through with no
+      register row. Cite carry-052 (or a new row) so every carry has a
+      reason? [yes, carry-052]
+    - b. When a writer labels the axes ("height", "width"), the axis
+      letters (`dimension_order`, e.g. "YX") are kept nowhere: every Babu
+      video loses them. Keep the letter on each dimension? [yes: it is how
+      the data array is laid out]
+    - c. An image-stack field the fold has no home for (and a non-empty
+      `base.name`) is still dropped silently. Carry with a row, as for
+      calculations (carry-056)? [yes]
+    - d. Babu's importer writes a frame rate where the time axis wants a
+      frame spacing (`+babu/import.m:445-446`), and Haley's E. coli
+      importer may swap width and height (`doImport.m:782`). Importer bugs,
+      for the Babu decision (open question 7) and the Haley re-run. [flag
+      both; no generic change]
+    - (No question: `ontologyLabel` can switch only after NDI reads the v1
+      class name; that NDI change is queued with phase 3.)
 
 
 ## The goal
