@@ -542,9 +542,9 @@
       "emitted_by": {
         "migrator": "pyraview",
         "targets": [
-          "frequency_filter"
+          "method"
         ],
-        "why": "`filter` is SUPERCLASS-ONLY: no document of that class exists, so no migrator can be named after it. `git grep -E \"(ndi\\.document|newdocument)\\s*\\(\\s*'filter'\" origin/main -- '*.m'` returns 0 files of 1,002, and the only 'filter' sites pass it as a BLOCK on an ndi.document('pyraview',...). The fold is real and tested: private/jFrequencyFilter.m (13,271 bytes), called at pyraview.m:89, edge attached at :172, ~12 tests in testMigratorsJMeasurementFilter.m with fixtures built from the writer (+gui/+app/+pyraview/filterData.m). Decision signed at V_eta_frequency_filter_model_plan.md:5."
+        "why": "`filter` is SUPERCLASS-ONLY: no document of that class exists, so no migrator can be named after it. `git grep -E \"(ndi\\.document|newdocument)\\s*\\(\\s*'filter'\" origin/main -- '*.m'` returns 0 files of 1,002, and the only 'filter' sites pass it as a BLOCK on an ndi.document('pyraview',...). The fold is real and tested: private/jFrequencyFilter.m (13,271 bytes), called at pyraview.m:89, edge attached at :172, ~12 tests in testMigratorsJMeasurementFilter.m with fixtures built from the writer (+gui/+app/+pyraview/filterData.m). Decision signed at V_eta_frequency_filter_model_plan.md:5. Target `frequency_filter` -> `method` on 2026-10-26: Decided by Jess Haley, 2026-10-22 [filters are methods] (V_eta_frequency_filter_model_plan.md) deletes frequency_filter; jFrequencyFilter writes a `method` document and the bodies a `method_id` edge when the loaded sampled_body declares method_id (`bodyTakesMethod`, DID-matlab V2)."
       },
       "target_completeness": {
         "state": "partial",

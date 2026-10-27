@@ -365,10 +365,17 @@ BASELINE_MIGRATORS = 60
 # [channel types]): every relation name and every entity type but `culture` has a
 # node, and the channel types are the 10 bound terms. Left (30): did_clocktype 8,
 # did_response_type 10, did_filter_algorithm 6 and did_filter_band 4 (the
-# frequency_filter class, whose deletion [filters are methods] waits for
+# frequency_filter class, whose deletion [filters are methods] then waited for
 # DID-matlab), did_entity_type 1 (`culture`, no node decided) and
 # did_relation_clock_alignment 1 (`temporally aligned with`, no node decided).
-BASELINE_SCHEMAS = 30
+#
+# LOWERED 30 -> 20 on 2026-10-26 ([filters are methods], Jess Haley,
+# 2026-10-22, V_eta_frequency_filter_model_plan.md): the frequency_filter class
+# is deleted, and with it did_filter_algorithm 6 and did_filter_band 4. The
+# filter is a `method`, whose design and band terms are registered nodes
+# (Wikidata items and EMPTY:0000387-0000396). Left (20): did_clocktype 8,
+# did_response_type 10, did_entity_type 1, did_relation_clock_alignment 1.
+BASELINE_SCHEMAS = 20
 
 CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
 # THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that

@@ -1476,3 +1476,5 @@ RE-DERIVED 2026-10-22 (Jess Haley [harmonic response unit bound]; `check_prose_c
 RE-DERIVED 2026-10-26 (Jess Haley [fraction value kind]; `check_prose_counts` re-derives all nouns): **117 fields carry a binding** (was 116; +`fraction.value.source_unit`). Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-26 (Jess Haley [dataset form terms], [census terms] T2; `check_prose_counts` re-derives all nouns): the registry has **64** rows (was 62; subject_statement 11 -> 13: `Technique` NCIT:C16847 and `Scientific Data Type` NCIT:C175886, each a closed list of openMINDS terms). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
+
+RE-DERIVED 2026-10-26 (Jess Haley [filters are methods], `V_eta_frequency_filter_model_plan.md`; `check_prose_counts` re-derives all nouns): **109 fields carry a binding** (was 117; -8, the deleted `frequency_filter` class's `algorithm`, `band` and six `source_unit` cells). Re-derive with `check_prose_counts`, do not quote.

@@ -174,7 +174,8 @@ CITATIONS = {
     # The two UNTAGGED sign-offs, cited by date (the old family join took the
     # document's first untagged line; these are those lines).
     "openminds": [("V_eta_openminds_family_record.md", "2026-08-08")],
-    "filter": [("V_eta_frequency_filter_model_plan.md", "2026-07-30")],
+    "filter": [("V_eta_frequency_filter_model_plan.md", "2026-07-30"),
+               ("V_eta_frequency_filter_model_plan.md", "filters are methods")],
     "app": [("V_eta_tenet_audit.md", "software")],
     "spike_extraction_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
     "spike_extraction_parameters_modification": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
