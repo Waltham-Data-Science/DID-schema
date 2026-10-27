@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 446 decision line(s) accepted, 2 rejected; 42 cited by a class, 404 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 456 decision line(s) accepted, 2 rejected; 42 cited by a class, 414 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -649,6 +649,16 @@ field). If one decides a class's disposition, that class should cite it.
 - bath ph and osmolarity are formulation fields. "Decided by Jess Haley, 2026-10-27 [bath ph and osmolarity" (V_eta_go_forward_class_audit.md:1410).
 - light-sheet level label is a note. "Decided by Jess Haley, 2026-10-27 [light-sheet level label" (V_eta_go_forward_class_audit.md:1412).
 - unreadable responses are malformed. "Decided by Jess Haley, 2026-10-27 [unreadable responses are" (V_eta_go_forward_class_audit.md:1414).
+- unbuilt spike classes carry as needs home. "Decided by Jess Haley, 2026-10-27 [unbuilt spike classes" (V_eta_go_forward_class_audit.md:1416).
+- input names rebuild from the input class. "Decided by Jess Haley, 2026-10-27 [input names rebuild from" (V_eta_go_forward_class_audit.md:1418).
+- neuron uses the sorted unit's cell. "Decided by Jess Haley, 2026-10-27 [neuron uses the sorted" (V_eta_go_forward_class_audit.md:1420).
+- sample times equal within one rounding step. "Decided by Jess Haley, 2026-10-27 [sample times equal" (V_eta_go_forward_class_audit.md:1422).
+- contrast SF bug is a dataset decision. "Decided by Jess Haley, 2026-10-27 [contrast SF bug is a" (V_eta_go_forward_class_audit.md:1424).
+- whole-batch round trip. "Decided by Jess Haley, 2026-10-27 [whole-batch round trip]" (V_eta_go_forward_class_audit.md:1426).
+- carried documents may point at converted ones. "Decided by Jess Haley, 2026-10-27 [carried documents may" (V_eta_go_forward_class_audit.md:1428).
+- simple_calc carries as needs home. "Decided by Jess Haley, 2026-10-27 [simple_calc carries as" (V_eta_go_forward_class_audit.md:1430).
+- empty prestimulus normalization is zero. "Decided by Jess Haley, 2026-10-27 [empty prestimulus" (V_eta_go_forward_class_audit.md:1432).
+- importer bugs are dataset decisions. "Decided by Jess Haley, 2026-10-27 [importer bugs are" (V_eta_go_forward_class_audit.md:1434).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
