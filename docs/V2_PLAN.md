@@ -137,6 +137,62 @@ one line; Claude's leaning is in brackets.
     openMINDS term itself? [accept what the openMINDS term itself holds
     (definition, synonyms); keep `openminds_id` as the term node; ask
     again for the strain links]
+15. **Stimulus responses: every real one is still carried** (DID-matlab
+    `claude/phase2-srs` c2869ab0, quick CI green; the family now reads raw
+    v1 and round-trips). NDI's only writer always sets the stimulator epoch
+    and the control link, and carry-050 carries any response that has
+    either ("awaiting a home", OPEN_WORK #137). So all 10,124 corpus
+    responses stay v1. This is the largest remaining gap after tuning.
+    - a. Homes: the control link points at the control-pairing calculation
+      ([control pairing is a calculation], already built in NDI); the
+      stimulator epoch becomes an edge to the presentation's epoch entity.
+      Build these so responses convert? [yes]
+    - b. The parameters document becomes a `method` but loses
+      `freq_response` (mean, F1, F2) on all 11,440. Make it a method
+      parameter? [yes: it is how the response was computed]
+    - c. A response the migrator cannot read (no element, unknown response
+      type, empty readings, wrong-length stimulus ids, an epoch with no
+      document) is passed through without a register row. Carry it with a
+      row (malformed)? [yes]
+    - d. A field outside NDI's template is dropped silently on conversion.
+      Carry the document instead, as for subjects (4b)? [yes, same answer
+      as 4b]
+    - e. A prestimulus normalization of `[]` is written as 0
+      ([empty response settings]), so the round trip cannot tell them
+      apart. Accept, since you decided they mean the same? [accept]
+    - f. A carried v1 response keeps its edge to its parameters document,
+      which is now a V2 `method`. Is a v1 document allowed to point at a V2
+      one? [yes: an edge is an id, and a mixed database is expected until
+      every home is built]
+16. **Tuning calculations: most are still carried** (DID-matlab
+    `claude/phase2` 182b66ca, quick CI green; six classes read raw v1, and
+    each writer's own output round-trips with nothing lost). From a survey
+    of the corpus zips (not a corpus run): 6,148 orientation/direction and
+    1,431 contrast-sensitivity documents convert, but all 34,690 tuning
+    curves, 22,896 contrast tunings and 5,604 spatial / temporal frequency
+    tunings are carried (carry-056, OPEN_WORK #143), because each holds a
+    field V2 has no place for. Together with 15, this is most of what is
+    left.
+    - a. Homes for: the stimulus ids and presentation numbers a tuning
+      curve was computed from (`stimid`, `stimulus_presentation_number`);
+      its `log` and `stim_property_list`; the contrast fit's relative max
+      gain, saturation index and sensitivity; the spatial / temporal
+      frequency `abs` block. [stimulus ids and presentation numbers become
+      edges / a value column of the calculation; the fit numbers become
+      values of the fit; `log` and the property list become method
+      parameters; `abs` becomes a second value set. Claude to draft]
+    - b. The calculation's input edges are kept in order but lose their
+      v1 names. Keep the names? [keep them: the order is a writer habit,
+      not a rule]
+    - c. Method parameter names lose the difference between `_` and a
+      space. Accept as notation ([spelling is notation])? [accept]
+    - d. Template `hotelling2test` vs writer `Hotelling2Test`: the same
+      field ([spelling is notation])? [yes]
+    - e. The tuning migrators do not yet follow [method terms are general]
+      or [Naka-Rushton is one function]; they need the EMPTY terms of item
+      2. Build them as soon as item 2 is approved? [yes]
+    - (No question: the writers live in NDIcalc-vis-matlab, which the
+      sibling lock does not cover. Worth adding to the lock later.)
 
 
 ## The goal
