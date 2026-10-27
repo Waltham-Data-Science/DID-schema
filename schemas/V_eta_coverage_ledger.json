@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 418,
+          "accepted_lines": 420,
           "accepted_lines_by_kind": {
-            "Decided by": 301,
+            "Decided by": 303,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2770,6 +2770,22 @@
               "tag": "site frame is a coordinate system",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [site frame is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1360,
+              "kind": "Decided by",
+              "tag": "ground truth reads NDIcalc-vis templates",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [ground truth reads"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1362,
+              "kind": "Decided by",
+              "tag": "writer fields over the template are template fields",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [writer fields over the"
             },
             {
               "document": "V_eta_image_model_plan.md",

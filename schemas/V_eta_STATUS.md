@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 418 decision line(s) accepted, 2 rejected; 42 cited by a class, 376 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 420 decision line(s) accepted, 2 rejected; 42 cited by a class, 378 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -621,6 +621,8 @@ field). If one decides a class's disposition, that class should cite it.
 - ndi element class not kept. "Decided by Jess Haley, 2026-10-27 [ndi element class not" (V_eta_go_forward_class_audit.md:1354).
 - number of electrodes minted. "Decided by Jess Haley, 2026-10-27 [number of electrodes" (V_eta_go_forward_class_audit.md:1356).
 - site frame is a coordinate system. "Decided by Jess Haley, 2026-10-27 [site frame is a" (V_eta_go_forward_class_audit.md:1358).
+- ground truth reads NDIcalc-vis templates. "Decided by Jess Haley, 2026-10-27 [ground truth reads" (V_eta_go_forward_class_audit.md:1360).
+- writer fields over the template are template fields. "Decided by Jess Haley, 2026-10-27 [writer fields over the" (V_eta_go_forward_class_audit.md:1362).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

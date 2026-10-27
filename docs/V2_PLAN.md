@@ -405,6 +405,8 @@ one line; Claude's leaning is in brackets.
     - a. The split also covers `hartley_calc` and `contrastsensitivity_calc`,
       which share the tuning fold, though the decision names only the
       tuning family. Keep? [yes: carry-100 already applies to every class]
+    - (b decided 2026-10-27, [writer fields over the template are template
+      fields]; 26c decided, [ground truth reads NDIcalc-vis templates].)
     - b. Fields the writer writes but the template omits (e.g.
       `tuningcurve_calc.stim_property_list`, the speed `control_stddev`)
       count as template fields, so an unhomed one is carry-056, not
