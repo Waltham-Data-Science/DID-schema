@@ -476,12 +476,12 @@
             ]
         },
         "ndicloud": {
-            "label": "NDI Cloud dataset",
+            "label": "NDI Cloud object",
             "uri_base": "",
             "uri_style": "local",
             "approximate": false,
             "pattern": "^[0-9a-f]{24}$",
-            "documentation": "A dataset's id on NDI Cloud ('ndicloud:68a1...'). Ours; not in Bioregistry. Replaces the `stored_at` relation.",
+            "documentation": "An object's id on NDI Cloud (a dataset or an organization), e.g. a dataset's 'ndicloud:68a1...' or an organization entity's global_identifier 'ndicloud:<org id>' (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md [cloud organization id is a global identifier]; widened from 'a dataset's id'). Ours; not in Bioregistry. Replaces the `stored_at` relation.",
             "spelling": "ndicloud",
             "spelling_source": "ours",
             "synonyms": []

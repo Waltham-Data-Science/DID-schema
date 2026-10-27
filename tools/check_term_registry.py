@@ -33,7 +33,7 @@ per meaning, so this checks, and fails on any of:
       the last is not a gap.
 
   R10 every entry carries the same keys (name, node, definition, status,
-      decided, first_used_in, obsolete): DID-matlab
+      decided, first_used_in, obsolete, number_unit, equivalent): DID-matlab
       did2.schema.termIndex concatenates the rows, which fails on rows of
       different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
       something still writes it), and the node it names is registered.
@@ -43,6 +43,14 @@ per meaning, so this checks, and fails on any of:
       definition says its accompanying number takes, read by the generic
       migration from the registry rather than from migrator code (Jess Haley,
       2026-10-26, V_eta_go_forward_class_audit.md [term-stated unit is generic]).
+
+  R13 `equivalent` (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md
+      [term equivalents recorded]) is a list of CURIE strings: the ids in other
+      vocabularies that mean the same thing as the term (e.g. openMINDS, Wikidata),
+      for variable nodes too. Each has a prefix the CURIE registry knows, written
+      in its spelling; none is the row's own node, none is listed twice in a row,
+      none is listed on two rows, and none is another row's node (that would be
+      two entries for one meaning, as R1).
 
   R11 the canonical-unit list (tools/canonical_units.py; T14; Jess Haley
       2026-10-22 [units bound]): every value-kind cell declares the listed
@@ -67,7 +75,7 @@ BUILT = os.path.join(ROOT, "schemas", "did_v2", "stable", "term_registry_meta.js
 CURIES = os.path.join(ROOT, "schemas", "did_v2", "stable", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
 ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
-            "obsolete", "number_unit"]
+            "obsolete", "number_unit", "equivalent"]
 # R12: the prefixes of unit terms (OM, T14; UO for pH, [pH unit is UO pH])
 UNIT_PREFIXES = ("om", "uo")
 
@@ -128,6 +136,7 @@ def check(source, built, curies):
             by_name.setdefault(name.lower(), node)
     failures += _obsolete(terms, names)
     failures += _number_unit(terms, names)
+    failures += _equivalent(terms, names, spelling)
     if built is None:
         failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
@@ -186,6 +195,48 @@ def _number_unit(terms, names):
         elif reg.get("name") != nu["name"]:
             out.append(f"R12 {where}: number_unit {nu['node']} is named {nu['name']!r}, "
                        f"registered as {reg.get('name')!r}")
+    return out
+
+
+def _equivalent(terms, names, spelling):
+    """R13: `equivalent` is a list of CURIEs in known prefixes, one meaning each."""
+    out, nodes, seen = [], {}, {}
+
+    def key(curie):
+        pre, _, local = curie.partition(":")
+        k = names.get(pre.lower())
+        return (f"{k}:{local}" if k and local else None), pre, k
+
+    for t in terms:
+        node = (t.get("node") or "").strip()
+        k = key(node)[0] if node else None
+        if k:
+            nodes[k] = t.get("name")
+    for i, t in enumerate(terms):
+        where = f'term {i + 1} ("{t.get("name")}")'
+        eq = t.get("equivalent", [])
+        if not (isinstance(eq, list) and all(isinstance(e, str) and e.strip() for e in eq)):
+            out.append(f"R13 {where}: `equivalent` is {eq!r}, not a list of CURIEs")
+            continue
+        own = key((t.get("node") or "").strip())[0]
+        row = set()
+        for e in eq:
+            k, pre, reg = key(e.strip())
+            if not k:
+                out.append(f"R13 {where}: equivalent {e} has a prefix the CURIE registry does not know")
+                continue
+            if pre != spelling[reg]:
+                out.append(f"R13 {where}: equivalent {e} is written {spelling[reg]}:{e.partition(':')[2]}")
+            if k == own:
+                out.append(f"R13 {where}: equivalent {e} is the term's own node")
+            elif k in nodes:
+                out.append(f'R13 {where}: equivalent {e} is registered as "{nodes[k]}"')
+            if k in row:
+                out.append(f"R13 {where}: equivalent {e} is listed twice")
+            elif k in seen:
+                out.append(f'R13 {where}: equivalent {e} is also an equivalent of "{seen[k]}"')
+            row.add(k)
+            seen.setdefault(k, t.get("name"))
     return out
 
 
@@ -342,6 +393,9 @@ def main():
     print(f"R10: {len(terms)} row(s) checked for one shape; {n_obs} obsolete term(s)")
     n_nu = sum(1 for t in terms if t.get("number_unit"))
     print(f"R12: {len(terms)} row(s) checked; {n_nu} state the unit of their number")
+    n_eq = sum(len(t.get("equivalent") or []) for t in terms)
+    n_eq_rows = sum(1 for t in terms if t.get("equivalent"))
+    print(f"R13: {len(terms)} row(s) checked; {n_eq} equivalent id(s) on {n_eq_rows} row(s)")
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

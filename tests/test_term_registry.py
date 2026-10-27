@@ -10,6 +10,7 @@ CURIES = {"prefixes": {
     "ncit": {"spelling": "NCIT", "synonyms": ["NCI"]},
     "empty": {"spelling": "EMPTY", "synonyms": []},
     "om": {"spelling": "om", "synonyms": []},
+    "wikidata": {"spelling": "wikidata", "synonyms": ["wd"]},
 }}
 
 
@@ -17,10 +18,11 @@ def registry(*terms):
     return {"description": "test", "terms": list(terms)}
 
 
-def term(name, node, status="decided", definition="d", obsolete=False, number_unit=False):
+def term(name, node, status="decided", definition="d", obsolete=False, number_unit=False,
+         equivalent=None):
     return {"name": name, "node": node, "status": status, "definition": definition,
             "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete,
-            "number_unit": number_unit}
+            "number_unit": number_unit, "equivalent": equivalent or []}
 
 
 def run(src):
@@ -261,3 +263,30 @@ def test_the_live_registry_states_hours_for_grating_training():
     row = [t for t in terms if t["node"] == "EMPTY:0000199"]
     assert len(row) == 1 and row[0]["number_unit"] == {"node": "om:hour", "name": "hour"}
     assert "(provided in hours)" in row[0]["definition"]
+
+
+def test_equivalents_are_curies_with_one_meaning_each():
+    """R13 (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md [term
+    equivalents recorded]): `equivalent` lists the ids in other vocabularies that
+    mean the same thing; each is a CURIE in a known prefix, written in its
+    spelling, and no id stands for two registered meanings."""
+    ok = term("Median", "NCIT:C28007", equivalent=["wikidata:Q226995"])
+    assert run(registry(ok, term("mean", "NCIT:C53319")))[2] == []
+    bad = [term("a", "NCIT:C1", equivalent=["XYZ:1"]),
+           term("b", "NCIT:C2", equivalent=["wd:Q2"]),
+           term("c", "NCIT:C3", equivalent=["NCIT:C3"]),
+           term("d", "NCIT:C4", equivalent=["NCIT:C1"]),
+           term("e", "NCIT:C5", equivalent=["wikidata:Q5", "wikidata:Q5"]),
+           term("f", "NCIT:C6", equivalent=["wikidata:Q5"]),
+           term("g", "NCIT:C7", equivalent="wikidata:Q7")]
+    fails = [f for f in run(registry(*bad))[2] if f.startswith("R13")]
+    assert len(fails) == 7, fails
+    assert "does not know" in fails[0] and "is written wikidata:Q2" in fails[1]
+    assert "own node" in fails[2] and 'registered as "a"' in fails[3]
+    assert "listed twice" in fails[4] and 'equivalent of "e"' in fails[5]
+    assert "not a list" in fails[6]
+
+
+def test_every_live_row_has_an_equivalent_list():
+    terms = ctr._load(ctr.SOURCE)["terms"]
+    assert terms and all(isinstance(t.get("equivalent"), list) for t in terms)

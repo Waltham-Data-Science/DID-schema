@@ -914,17 +914,18 @@
       "id": "carry-049",
       "v1_class": "*",
       "fields": [
+        "ndi_document (a legacy block beside `base`)",
         "any field universalRenames would discard"
       ],
-      "when": "the universal renames pass would discard a v1 value (e.g. `app.name` and `app.app_name` differ), so no migrator runs (DID-matlab v1_to_v2.m, note 'universalRenames would discard'). TEMPORARY: removed when the pass is deleted",
+      "when": "the v1 document has an `ndi_document` block beside `base` (a block from NDI before `ndi_document.json` was deleted, e.g. one `jrclust_clusters` in Soph), in any class: it is carried whole so the block is never lost ([old ndi_document blocks carry]). Also, until the universal renames pass is deleted, any other v1 value that pass would discard (e.g. `app.name` and `app.app_name` differ), so no migrator runs (DID-matlab v1_to_v2.m, note 'universalRenames would discard'; [renames carry is temporary], OPEN_WORK #136)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "renames carry is temporary"
+        "tag": "old ndi_document blocks carry"
       },
-      "open_work": 136,
-      "home": "none needed: migrators read raw v1 and the pass is deleted ([migrators read raw v1]); a remaining collision becomes a class-specific row",
-      "kind_basis": "stated"
+      "open_work": 157,
+      "home": "none decided for the `ndi_document` block; the universalRenames part needs none (migrators read raw v1 and the pass is deleted, [migrators read raw v1], OPEN_WORK #136)",
+      "kind_basis": "proposed"
     },
     {
       "id": "carry-050",
@@ -1015,7 +1016,7 @@
         "element.name",
         "element.reference"
       ],
-      "when": "name and reference cannot be packed reversibly as '%s (ref %s)' (DID-matlab element.m)",
+      "when": "name and reference cannot be packed reversibly as `<name> | <reference>` ([group identifier includes the reference]; DID-matlab element.m, did2.convert.elementLocalIdentifier)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -1727,6 +1728,143 @@
         "tag": "fields outside the template are malformed"
       },
       "kind_basis": "decided"
+    },
+    {
+      "id": "carry-101",
+      "v1_class": "spikewaves",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `spikewaves` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-102",
+      "v1_class": "spike_clusters",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `spike_clusters` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-103",
+      "v1_class": "binnedspikeratevm",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `binnedspikeratevm` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-104",
+      "v1_class": "simple_calc",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `simple_calc` (NDI-matlab +ndi/+calc/+example/simple.m) is carried whole as v1",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "simple_calc carries as needs home"
+      },
+      "open_work": 154,
+      "home": "none: designed only if a real dataset ever holds one",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-105",
+      "v1_class": "metadata_editor",
+      "fields": [
+        "metadata_editor.metadata_structure.Subjects",
+        "metadata_editor.metadata_structure.SpeciesList",
+        "metadata_editor.metadata_structure.StrainList",
+        "metadata_editor.metadata_structure.BiologicalSexList"
+      ],
+      "when": "any of these lists is non-empty (revises the earlier drop under [lossless means round trip]; DID-matlab metadata_editor.m drops them today)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "dataset form lists carried until homed"
+      },
+      "open_work": 155,
+      "home": "none decided (the decision line names \"likely rebuilt from the subjects\")",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-106",
+      "v1_class": "*",
+      "fields": [
+        "base.name"
+      ],
+      "when": "the v1 document becomes a statement (an assertion, observation, manipulation or calculation) and its `base.name` is not empty; a class with its own name field (`entity`, `method`, `acquisition_system`, `element`, `measurement`) takes the name there, and a data body takes it in `notes`, so neither carries",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "v1 name goes to the class's own name field"
+      },
+      "open_work": 156,
+      "home": "none decided; the number of such statements is counted in the next corpus run (DID-matlab)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-107",
+      "v1_class": "treatment_transfer",
+      "fields": [
+        "the whole document (the `treatment_transfer` block and its edges)"
+      ],
+      "when": "always: the generic stage converts no `treatment_transfer` (its only writer is NDI-matlab +setup/+conv/+babu/TreatmentCreator.m); supersedes, for the generic stage, [transfer method keeps its node] and the transfer cases of [broken transfer values are malformed]; carry-035 is a case of this row",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "treatment transfer stays v1"
+      },
+      "homes": [
+        "whatever the Babu reimport writes for a transfer"
+      ],
+      "decides": "what a transfer means in the Babu dataset, which the Babu reimport decides",
+      "resolved_by": "the Babu full reimport (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-108",
+      "v1_class": "treatment",
+      "fields": [
+        "depends_on manipulation_id"
+      ],
+      "when": "the treatment has a `manipulation_id` link: the lab's group number from `table2treatment`'s `group` column, stored only as a link to the group's first row (NDI-matlab +database/+metadata/table2treatment.m); treatments without the link convert as usual",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "treatment groups are a dataset decision"
+      },
+      "homes": [
+        "whatever each dataset's import decides its groups mean"
+      ],
+      "decides": "what the lab's group means for that dataset; the v1 document stores only a link to the group's first row",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
     }
   ]
 }

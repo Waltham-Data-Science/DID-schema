@@ -47,7 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_term_registry as ctr
 
 KEYS = ("name", "node", "definition", "status", "decided", "first_used_in", "obsolete",
-        "number_unit")
+        "number_unit", "equivalent")
 
 
 def read_batch(path):
@@ -170,7 +170,7 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
         row = {"name": name, "node": node, "definition": definition, "status": status,
                "decided": b.get("decided") or decided,
                "first_used_in": b.get("first_used_in") or first_used_in,
-               "obsolete": False, "number_unit": False}
+               "obsolete": False, "number_unit": False, "equivalent": []}
         missing = [k for k in ("decided", "first_used_in") if not row[k]]
         if missing:
             verdicts.append(("FAIL", label, (f"no {' or '.join(missing)}: give the column or "

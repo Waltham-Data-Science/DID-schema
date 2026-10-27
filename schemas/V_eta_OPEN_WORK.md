@@ -65,6 +65,12 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 |
 | 151 | a label on a document with no subject or no time reference (carry-096) -> https://github.com/Waltham-Data-Science/DID-schema/issues/160 |
 | 152 | `distance_metadata` and `ontology_table_row`: hand-written `how` / `flags` in the migration targets describe a removed migration -> https://github.com/Waltham-Data-Science/DID-schema/issues/179 |
+| 153 | homes for `spikewaves`, `spike_clusters` and `binnedspikeratevm`, carried as v1 (carry-101, carry-102, carry-103) -> https://github.com/Waltham-Data-Science/DID-schema/issues/197 |
+| 154 | a home for `simple_calc`, designed only if a real dataset holds one (carry-104) -> https://github.com/Waltham-Data-Science/DID-schema/issues/198 |
+| 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/199 |
+| 156 | a home for a statement's v1 name (carry-106) -> https://github.com/Waltham-Data-Science/DID-schema/issues/200 |
+| 157 | a home for a legacy `ndi_document` block beside `base` (carry-049) -> https://github.com/Waltham-Data-Science/DID-schema/issues/201 |
+| 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/202 |
 
 Open items without a row number:
 
