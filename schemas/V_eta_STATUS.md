@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 492 decision line(s) accepted, 2 rejected; 42 cited by a class, 450 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 518 decision line(s) accepted, 2 rejected; 42 cited by a class, 476 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -695,6 +695,32 @@ field). If one decides a class's disposition, that class should cite it.
 - labels are a field on what they label. "Decided by Jess Haley, 2026-10-27 [labels are a field on" (V_eta_go_forward_class_audit.md:1502).
 - ontologyLabel row split. "Decided by Jess Haley, 2026-10-27 [ontologyLabel row" (V_eta_go_forward_class_audit.md:1504).
 - openMINDS strain leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS strain" (V_eta_go_forward_class_audit.md:1506).
+- control pairing points at the presentation. "Decided by Jess Haley, 2026-10-27 [control pairing points" (V_eta_go_forward_class_audit.md:1508).
+- control record fields split. "Decided by Jess Haley, 2026-10-27 [control record fields" (V_eta_go_forward_class_audit.md:1510).
+- unread stimulus parameters are method parameters. "Decided by Jess Haley, 2026-10-27 [unread stimulus" (V_eta_go_forward_class_audit.md:1512).
+- session opener inputs. "Decided by Jess Haley, 2026-10-27 [session opener inputs]: (" (V_eta_go_forward_class_audit.md:1514).
+- linked session reference follows the ingested rule. "Decided by Jess Haley, 2026-10-27 [linked session reference" (V_eta_go_forward_class_audit.md:1516).
+- one affiliation relation each. "Decided by Jess Haley, 2026-10-27 [one affiliation relation" (V_eta_go_forward_class_audit.md:1518).
+- position and its metadata are one statement. "Decided by Jess Haley, 2026-10-27 [position and its" (V_eta_go_forward_class_audit.md:1520).
+- image stack link needs mapping. "Decided by Jess Haley, 2026-10-27 [image stack link needs" (V_eta_go_forward_class_audit.md:1522).
+- image label goes to notes. "Decided by Jess Haley, 2026-10-27 [image label goes to" (V_eta_go_forward_class_audit.md:1524).
+- hartley labels stay carried. "Decided by Jess Haley, 2026-10-27 [hartley labels stay" (V_eta_go_forward_class_audit.md:1526).
+- filter label is the method name. "Decided by Jess Haley, 2026-10-27 [filter label is the" (V_eta_go_forward_class_audit.md:1528).
+- contact geometry stays carried. "Decided by Jess Haley, 2026-10-27 [contact geometry stays" (V_eta_go_forward_class_audit.md:1530).
+- scanner test issue closed. "Decided by Jess Haley, 2026-10-27 [scanner test issue" (V_eta_go_forward_class_audit.md:1532).
+- old EMPTY labels generalised. "Decided by Jess Haley, 2026-10-27 [old EMPTY labels" (V_eta_go_forward_class_audit.md:1534).
+- no about edge for now. "Decided by Jess Haley, 2026-10-27 [no about edge for now]: (" (V_eta_go_forward_class_audit.md:1536).
+- old table rows counted and carried. "Decided by Jess Haley, 2026-10-27 [old table rows counted" (V_eta_go_forward_class_audit.md:1538).
+- binaryseries parameters fold as decided. "Decided by Jess Haley, 2026-10-27 [binaryseries parameters" (V_eta_go_forward_class_audit.md:1540).
+- Guard A amended. "Decided by Jess Haley, 2026-10-27 [Guard A amended]: (" (V_eta_go_forward_class_audit.md:1542).
+- documents without base carry. "Decided by Jess Haley, 2026-10-27 [documents without base" (V_eta_go_forward_class_audit.md:1544).
+- oneepoch is a redundant calculation. "Decided by Jess Haley, 2026-10-27 [oneepoch is a redundant" (V_eta_go_forward_class_audit.md:1546).
+- purpose class. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (V_eta_go_forward_class_audit.md:1548).
+- redeclarations only narrow. "Decided by Jess Haley, 2026-10-27 [redeclarations only" (V_eta_go_forward_class_audit.md:1550).
+- no value rollup now. "Decided by Jess Haley, 2026-10-27 [no value rollup now]: (" (V_eta_go_forward_class_audit.md:1552).
+- ngrid migrates to sampled bodies. "Decided by Jess Haley, 2026-10-27 [ngrid migrates to" (V_eta_go_forward_class_audit.md:1554).
+- allowed units are closed source_unit lists. "Decided by Jess Haley, 2026-10-27 [allowed units are closed" (V_eta_go_forward_class_audit.md:1556).
+- quantity reference type. "Decided by Jess Haley, 2026-10-27 [quantity reference" (V_eta_go_forward_class_audit.md:1558).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
