@@ -361,9 +361,7 @@
       }
     },
     "distance_metadata": {
-      "targets": [
-        "distance_metadata"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "RESHAPE ONLY, 1 -> 1: the flat v1 A/B endpoint fields collapse into the nested `endpoints` array + an `units` ontology_term, by delegating to the proven V_delta migrator (did2.convert.migrators.distance_metadata) and wrapping its single body. The distance itself is NOT here -- it lives in the linked `distance` timeseries element.",
@@ -677,11 +675,7 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference",
-        "assertion + text",
-        "calculation + label",
-        "entity",
-        "calculation + logical"
+        "relative_time_reference"
       ],
       "carried": [
         "entity (subject)"
@@ -711,11 +705,7 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference",
-        "assertion + text",
-        "calculation + label",
-        "entity",
-        "calculation + logical"
+        "relative_time_reference"
       ],
       "carried": [
         "entity (subject)"
@@ -821,7 +811,8 @@
         "assertion + text",
         "entity",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "opaque_body"
       ],
       "carried": [
         "entity (subject)"
@@ -860,7 +851,7 @@
         "unresolved_sites": [
           {
             "why": "value kind `leaf` passed to `jStatement` is not a literal",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:78"
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:109"
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
@@ -984,30 +975,7 @@
     },
     "ontology_table_row": {
       "targets": [
-        "assertion + term",
-        "assertion + date",
-        "observation + term",
-        "observation + mass",
-        "observation + length",
-        "observation + frequency",
-        "observation + acceleration",
-        "observation + velocity",
-        "observation + time",
-        "observation + volume",
-        "observation + temperature",
-        "observation + pressure",
-        "observation + voltage",
-        "observation + current",
-        "observation + concentration",
-        "observation + count",
-        "observation + score",
-        "observation + intensity",
-        "subject",
-        "session_bounded_reference",
-        "directed_relation",
-        "session_relative_reference",
-        "entity",
-        "relative_time_reference"
+        "ontology_table_row"
       ],
       "carried": [
         "entity (subject)"
@@ -1016,30 +984,8 @@
       "how": "each column of the legacy key/value table becomes its own statement: timeless facts -> term/assertion + date; timed numeric measures -> a data-type <dim>_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject",
       "flags": "DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
       "target_completeness": {
-        "state": "partial",
-        "unresolved_sites": [
-          {
-            "why": "class-name argument to `makeEncObs` is an expression (`measures{i, 2}`)",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:233"
-          },
-          {
-            "why": "class-name argument to `makeEncObs` is an expression (`measures{i, 2}`)",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:379"
-          },
-          {
-            "why": "value-kind `shapeClass` passed to `makeNumericObservation` is not a literal",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:574"
-          },
-          {
-            "why": "value-kind argument to `makeEncObs` is an expression (`measures{i, 3}`)",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:233"
-          },
-          {
-            "why": "value-kind argument to `makeEncObs` is an expression (`measures{i, 3}`)",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/ontology_table_row.m:379"
-          }
-        ],
-        "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
+        "state": "carry_forward",
+        "unresolved_sites": []
       }
     },
     "openminds": {
@@ -1248,7 +1194,6 @@
       "targets": [
         "observation + voltage",
         "sampled_body",
-        "frequency_filter",
         "relative_time_reference",
         "method"
       ],
@@ -1771,7 +1716,7 @@
         "unresolved_sites": [
           {
             "why": "value kind `leaf` passed to `jStatement` is not a literal",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:78"
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jMeasurementFold.m:109"
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
@@ -1816,9 +1761,7 @@
     },
     "syncrule_mapping": {
       "targets": [
-        "clock_alignment",
-        "syncrule_mapping",
-        "relative_time_reference"
+        "clock_alignment"
       ],
       "carried": [],
       "second_pass": [],
@@ -1906,7 +1849,7 @@
         "unresolved_sites": [
           {
             "why": "value kind `kind` passed to `jStatement` is not a literal",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/treatment.m:102"
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/treatment.m:134"
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
@@ -1929,7 +1872,6 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "manipulation + temperature",
         "relative_time_reference"
       ],
       "carried": [

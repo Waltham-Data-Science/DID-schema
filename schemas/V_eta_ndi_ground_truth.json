@@ -6,7 +6,7 @@
     "ndi_classes": 104,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 16,
+    "migrator_suspects": 17,
     "migrator_suspects_confirmed_vocabulary": 14,
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
@@ -1537,6 +1537,19 @@
         "stimids",
         "timepoints",
         "voltage_observations"
+      ]
+    },
+    {
+      "migrator": "daqreader_ndr.m",
+      "ndi_class": "daqreader_ndr",
+      "confidence": "possible",
+      "reads_names_absent_from_template": [],
+      "mentions_names_absent_from_template": [
+        "file_extension"
+      ],
+      "template_fields": [
+        "ndi_daqreader_ndr_class",
+        "ndr_reader_string"
       ]
     },
     {

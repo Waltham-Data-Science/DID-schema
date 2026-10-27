@@ -63,9 +63,13 @@ NDI_MIGRATE = os.path.join("src", "ndi", "+ndi", "+migrate")
 
 # Not passes: the per-document converter and the cross-cutting rename step run
 # inside v1_to_v2, not as batch post-passes, so they are not part of this
-# comparison. `readers` is a subpackage, not a pass.
+# comparison. `readers` is a subpackage, not a pass. `migrationTime` is a
+# timestamp helper, not a pass: it returns the run's creation time and pins it
+# (DID-matlab +did2/+convert/migrationTime.m, [no invented values]); NDI's
+# ndi.migrate.local pins it once around the pipeline, and the passes call it.
 NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
-              "migrators_e", "migrators_i", "migrators_j", "v"}
+              "migrators_e", "migrators_i", "migrators_j", "v",
+              "migrationTime"}
 
 # ---------------------------------------------------------------------------
 # THE DECLARED DIVERGENCES. Each entry is a pass that one side runs and the
