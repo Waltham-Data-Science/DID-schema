@@ -50,6 +50,26 @@ one line; Claude's leaning is in brackets.
    1 lands. OK to merge #162, then open and merge the DID-matlab phase-1 PR
    (which runs the corpora once: the baseline)? [yes]
 6. **Merge NDI-matlab #1074**: fully green (2,424 tests, 0 failed); see 3.
+7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
+   run 40423825794, 499 passed, 0 failed; full suite run 40423865456, 2,366
+   passed, 0 failed): the ingested stimulus reader finds the body,
+   `chooseLevel` skips empty levels, element identifier `<name> |
+   <reference>` (writer and reader; the old `(ref X)` form still reads),
+   light-sheet axes matched by node. Open its PR (runs the NDI corpora
+   once) once DID-matlab writes the new element identifier? [yes]
+8. **Ingested stimulus lookup reads description text**: the body has no
+   epoch field, so NDI finds it by the text `<epoch> <reader id> ...` in
+   `data_body.description`. It works (tested), but a queryable epoch field
+   or epoch time reference would be sturdier. Leave as is, or open a
+   follow-up? [open a follow-up; not urgent]
+9. **Blocking check, under way**: NDI's end-to-end tests fail 6 epoch /
+   time-reference tests when paired with DID-matlab phase 1 (run
+   40424875549). Being diagnosed before phase 1 can merge; no answer
+   needed yet.
+10. **Both siblings now read either file name** (`did_v2_*` first, then
+    `V_eta_*`): DID-matlab `claude/did-v2-names` (dbb5cc00, quick CI and
+    fixtures green), NDI-matlab `claude/did-v2-names` (e9e0daab). These ride
+    the phase PRs; then did-schema can rename its files.
 
 
 ## The goal
