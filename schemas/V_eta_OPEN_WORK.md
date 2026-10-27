@@ -64,6 +64,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 149 | homes for openMINDS Strain and fragment fields (carry-092, carry-094) -> https://github.com/Waltham-Data-Science/DID-schema/issues/158 |
 | 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 |
 | 151 | a label on a document with no subject or no time reference (carry-096) -> https://github.com/Waltham-Data-Science/DID-schema/issues/160 |
+| 152 | `distance_metadata` and `ontology_table_row`: hand-written `how` / `flags` in the migration targets describe a removed migration -> https://github.com/Waltham-Data-Science/DID-schema/issues/179 |
 
 Open items without a row number:
 
