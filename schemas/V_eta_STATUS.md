@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 430 decision line(s) accepted, 2 rejected; 42 cited by a class, 388 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 432 decision line(s) accepted, 2 rejected; 42 cited by a class, 390 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -633,6 +633,8 @@ field). If one decides a class's disposition, that class should cite it.
 - values no writer produces are malformed. "Decided by Jess Haley, 2026-10-27 [values no writer" (V_eta_go_forward_class_audit.md:1378).
 - carried file references are not folded. "Decided by Jess Haley, 2026-10-27 [carried file references" (V_eta_go_forward_class_audit.md:1380).
 - light-sheet level fields rebuild from the pyramid. "Decided by Jess Haley, 2026-10-27 [light-sheet level fields" (V_eta_go_forward_class_audit.md:1382).
+- one bath shape. "Decided by Jess Haley, 2026-10-27 [one bath shape]: (" (V_eta_go_forward_class_audit.md:1384).
+- group identifier includes the reference. "Decided by Jess Haley, 2026-10-27 [group identifier" (V_eta_go_forward_class_audit.md:1386).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

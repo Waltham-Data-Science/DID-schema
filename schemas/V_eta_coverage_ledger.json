@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 430,
+          "accepted_lines": 432,
           "accepted_lines_by_kind": {
-            "Decided by": 313,
+            "Decided by": 315,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2866,6 +2866,22 @@
               "tag": "light-sheet level fields rebuild from the pyramid",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [light-sheet level fields"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1384,
+              "kind": "Decided by",
+              "tag": "one bath shape",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [one bath shape]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1386,
+              "kind": "Decided by",
+              "tag": "group identifier includes the reference",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [group identifier"
             },
             {
               "document": "V_eta_image_model_plan.md",
