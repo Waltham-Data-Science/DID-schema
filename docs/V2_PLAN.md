@@ -197,6 +197,28 @@ one line; Claude's leaning is in brackets.
       2. Build them as soon as item 2 is approved? [yes]
     - (No question: the writers live in NDIcalc-vis-matlab, which the
       sibling lock does not cover. Worth adding to the lock later.)
+17. **A stimulus presentation's epoch is lost (found 2026-10-27; already
+    merged in NDI-matlab V2).** NDI's second pass turns a v1 presentation
+    into a manipulation anchored "during the session" and writes its epoch
+    id nowhere in V2 (`stimulusPresentationToItem.m`: read only into the
+    report; its lossless check never looks at the `epochid` block). Today
+    all 1,428 corpus presentations could still be rebuilt indirectly (from
+    the ingested stimulus file's description text, or from carried v1
+    responses), but those routes are fragile, and NDI's own stimulus code
+    (`tuning_response`, `decoder`) needs the presentation's epoch to turn
+    stimulus times into recording times. The fix needs your choice:
+    - (a) anchor the presentation to its epoch entity (which DID's epoch
+      step already makes), as the stimulus model plan describes; the
+      clock comes from `presentation_time.bin` when it is there, else the
+      epoch's own clock;
+    - (b) keep the session anchor and add an edge to the epoch entity
+      (a did-schema change);
+    - (c) carry every presentation as v1 until (a) or (b) is built.
+    [(a): it is the plan's own shape, and an epoch anchor is what NDI's
+    stimulus code needs. Until it is built, (c), so nothing is lost.]
+    Also: the response plan stops storing `stimulator_epochid` because "the
+    presentation carries it" (and `HOMES_RESPONSES_TUNING.md` question 1
+    relies on that). That waits for this fix.
 
 
 ## The goal
