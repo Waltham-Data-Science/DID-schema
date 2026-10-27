@@ -358,8 +358,9 @@ one line; Claude's leaning is in brackets.
       used for the tuning family. Done: DID-matlab #255 (6bfbb25), so 76 of
       95 read raw v1 and 19 remain; see item 26. `file_reference`, the light-sheet zarr
       classes and `ontology_table_row` switch after their NDI / DID batch
-      readers accept both class names; `pyraview` switches after the epoch
-      step stops re-running its migrator.)
+      readers accept both class names. `pyraview` is done: DID-matlab #256
+      (dfd73b6); the epoch step already re-ran it on the raw v1 source, so
+      it needed no code change there. 77 of 95; see item 27.)
 25. **Move the locked NDI and DID `main`?** (did-schema #178 moved only the
     sibling heads, to DID-matlab e73aec7 and NDI-matlab 675742fe7.) The
     locked mains stay at NDI 3cb19a85 and DID f4a4905. NDI's live `main` is
@@ -389,6 +390,23 @@ one line; Claude's leaning is in brackets.
       carry-100 ([fields outside the template are malformed]). Move the
       tuning family to carry-100, keeping carry-056 for its real modelling
       gaps? Claude recommends yes.
+27. **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
+    pyraview (1 document); its counts are unchanged by the switch.
+    - a. `files.file_info` (file location, uid, ingest flags) is on no
+      emitted document: each level body keeps only its file name. This
+      was already so before the switch. Is that a loss under
+      [lossless means round trip], or is `file_info` database bookkeeping
+      the V2 database rebuilds? If a loss, the level bodies should keep it.
+      Claude's recommendation: treat it as a loss and keep it, until
+      someone shows the database rebuilds it.
+    - b. Nothing reaches the old superclass migrators
+      `+migrators/epochclocktimes.m` and `filter.m` any more (at NDI's
+      locked main, only `pyraview` names either as a superclass). Delete
+      them? Claude recommends yes; it fits [early migration pieces fixed]
+      (1).
+    - c. `filter.parameters` is free in the template, and the migrator
+      reads five keys. Should an unknown key in it carry the document
+      (carry-100)? Claude recommends yes.
 
 
 ## The goal
