@@ -5,7 +5,28 @@ lines, mostly in `schemas/V_eta_go_forward_class_audit.md`. Open work is
 indexed in `schemas/V_eta_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-10-26.
+Last updated 2026-10-27.
+
+## Waiting for Jess
+
+Kept up to date while Jess is away (2026-10-27). Each item is answerable in
+one line; Claude's leaning is in brackets.
+
+1. **v1 element type** (`spikes` / `neuron` / `cell` all become entity type
+   `cell`, losing the original string): keep it as an assertion (variable
+   "element type", value the v1 string), or as a labelled note
+   `v1 element type "spikes"`? [assertion: structured and searchable;
+   notes are a last resort]
+2. **15 new EMPTY terms**, `docs/v2_working/EMPTY_TERMS_PROPOSAL.md`
+   section 2: n-trode; acquisition time; unit isolation quality; cluster
+   identifier; model fit; Naka-Rushton function; left-right / front-back /
+   depth position on device; peak search window duration; processing
+   segment duration; standard-deviation threshold; threshold crossing
+   direction; detection refractory period; analysis window duration; bath
+   solution. Approve as a batch? Hold "single unit" / "multi-unit" until
+   InterLex is checked (needs an API key)? [yes to both]
+3. **Merge NDI-matlab #1074** (second-pass carries cite the register;
+   defects reported apart) to V2 when green? [yes]
 
 ## The goal
 
