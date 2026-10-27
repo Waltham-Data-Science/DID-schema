@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 446,
+          "accepted_lines": 456,
           "accepted_lines_by_kind": {
-            "Decided by": 329,
+            "Decided by": 339,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2994,6 +2994,86 @@
               "tag": "unreadable responses are malformed",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [unreadable responses are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1416,
+              "kind": "Decided by",
+              "tag": "unbuilt spike classes carry as needs home",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unbuilt spike classes"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1418,
+              "kind": "Decided by",
+              "tag": "input names rebuild from the input class",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [input names rebuild from"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1420,
+              "kind": "Decided by",
+              "tag": "neuron uses the sorted unit's cell",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [neuron uses the sorted"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1422,
+              "kind": "Decided by",
+              "tag": "sample times equal within one rounding step",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [sample times equal"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1424,
+              "kind": "Decided by",
+              "tag": "contrast SF bug is a dataset decision",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [contrast SF bug is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1426,
+              "kind": "Decided by",
+              "tag": "whole-batch round trip",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [whole-batch round trip]"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1428,
+              "kind": "Decided by",
+              "tag": "carried documents may point at converted ones",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [carried documents may"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1430,
+              "kind": "Decided by",
+              "tag": "simple_calc carries as needs home",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [simple_calc carries as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1432,
+              "kind": "Decided by",
+              "tag": "empty prestimulus normalization is zero",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [empty prestimulus"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1434,
+              "kind": "Decided by",
+              "tag": "importer bugs are dataset decisions",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [importer bugs are"
             },
             {
               "document": "V_eta_image_model_plan.md",
