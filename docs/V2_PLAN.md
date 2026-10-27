@@ -36,7 +36,11 @@ one line; Claude's leaning is in brackets.
    - b. A field outside the NDI template (e.g. a stray `subject.strain`):
      today dropped silently; the round trip now catches it. Carry as v1
      ([partly placed is carried as v1])? Which kind? [carry; malformed when
-     no NDI writer writes it, else awaiting home]
+     no NDI writer writes it, else awaiting home]. The same question now
+     comes up in every family (responses 15d; the ingested data cache,
+     where the migrator now carries such a document with no register row
+     yet). One answer, one generic register row ("a field outside the
+     NDI template"), for all classes? [yes]
    - c. A `subject_group` member edge named plain `subject_id` comes back
      as `subject_id_1`: the same thing ([spelling is notation]), or keep
      the original name? [same thing]
@@ -219,6 +223,13 @@ one line; Claude's leaning is in brackets.
     Also: the response plan stops storing `stimulator_epochid` because "the
     presentation carries it" (and `HOMES_RESPONSES_TUNING.md` question 1
     relies on that). That waits for this fix.
+18. **Phase 2 progress** (no answer needed): 20 of 95 DID-matlab migrators
+    read raw v1 (DID-matlab `claude/phase2` 5dab317d, quick CI green):
+    subjects, treatments, elements, element epochs, tuning, stimulus
+    responses, and the ingested data / sync family (13,124 corpus
+    documents surveyed, every one round-trips). The sync mapping row
+    (carry-036) now also keeps a mapping carried when a field would be
+    lost; its description will be updated to say so.
 
 
 ## The goal
