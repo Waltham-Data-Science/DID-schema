@@ -407,6 +407,17 @@ one line; Claude's leaning is in brackets.
     - b. A `fileReference` carried as v1 (e.g. for an extra field) can still
       be folded into a store body by the batch pass. Exempt carried
       records from the fold? [yes]
+30. **Tuning carry split, built (DID-matlab #260): two scope choices to
+    confirm.** No corpus count changed (carry-056: 84 in 20211116, all
+    `tuningcurve_calc`; carry-100: 0 everywhere that ran; Soph not run).
+    - a. The split also covers `hartley_calc` and `contrastsensitivity_calc`,
+      which share the tuning fold, though the decision names only the
+      tuning family. Keep? [yes: carry-100 already applies to every class]
+    - b. Fields the writer writes but the template omits (e.g.
+      `tuningcurve_calc.stim_property_list`, the speed `control_stddev`)
+      count as template fields, so an unhomed one is carry-056, not
+      carry-100 ("where a template and its writer disagree, the writer
+      wins"). Keep? [yes]
 29. **Open from today's term decisions:**
     - a. Electrode count: no ontology has "number of electrodes". Mint it
       (EMPTY), or use NCIT "Count"? [mint]

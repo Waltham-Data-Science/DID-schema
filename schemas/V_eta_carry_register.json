@@ -1029,9 +1029,9 @@
       "id": "carry-056",
       "v1_class": "calculator",
       "fields": [
-        "calculator fields the tuning fold has no home for"
+        "a field the class's NDI template defines (or its writer writes over the template) that the tuning fold has no V2 home for yet: e.g. the contrast fits' relative_max_gain / saturation_index / sensitivity, the SF and TF `abs` block, stimulus_tuningcurve stimid / stimulus_presentation_number, tuningcurve_calc log / stim_property_list, the speed fit block names, a recognised response_units spelling"
       ],
-      "when": "a tuning calculator holds such a field (DID-matlab private/jCalculation.m)",
+      "when": "a tuning-family calculator or result document (and contrastsensitivity_calc, hartley_calc, which share the fold) holds such a field with a value, or a template field whose value the fold cannot place (DID-matlab private/jCalculation.m and private/jSpeedTuning.m, split by did2.convert.v1read.calculatorTemplate); a field, block or edge outside the class's NDI template is carry-100, not this row ([tuning stray fields are malformed])",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
