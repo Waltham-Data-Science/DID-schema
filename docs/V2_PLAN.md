@@ -33,7 +33,7 @@ one line; Claude's leaning is in brackets.
      lost. Carry the document as v1 (new register row; which kind?), or
      accept? No NDI writer at main writes such a value. [carry, malformed:
      not writer-shaped]
-   - b. A field outside the NDI template (e.g. a stray `subject.strain`):
+   - b. (Decided 2026-10-27, [fields outside the template are malformed]: carried whole as v1 under one generic row, carry-100.) A field outside the NDI template (e.g. a stray `subject.strain`):
      today dropped silently; the round trip now catches it. Carry as v1
      ([partly placed is carried as v1])? Which kind? [carry; malformed when
      no NDI writer writes it, else awaiting home]. The same question now
@@ -283,7 +283,7 @@ one line; Claude's leaning is in brackets.
     eight classes (DAQ systems, file navigators, readers, metadata readers,
     sync rules and graphs, probe locations) convert, and every one
     round-trips. Two questions:
-    - a. Probe locations: three of the four brain-region terms used in the
+    - a. (Decided 2026-10-27, [probe location terms]: the three rows are added.) Probe locations: three of the four brain-region terms used in the
       corpora (UBERON:0001880, UBERON:0002813, UBERON:0002812) are not in
       the term registry. Add them (existing ontology terms, T19 step 2)?
       [yes]
@@ -292,6 +292,20 @@ one line; Claude's leaning is in brackets.
       Keep it explicitly? [yes, cheap and exact]
     - (Other questions here are the same as 4a / 4b: a non-empty
       `base.name`, a field outside the template.)
+22. **Baths and position** (DID-matlab `claude/phase2` 25388d34, quick CI
+    green; 36 classes now read raw v1). From a survey of the corpus zips:
+    all 1,605 Dab baths convert; 2,078 JH positions stay carried (carry-053,
+    and JH is covered by its own import); 2,078 JH distances follow their
+    carried elements. Questions:
+    - a. DID's bath step drops each bath's stimulator link and epoch on
+      all 1,605 baths, while NDI's bath step keeps both. Keep them in DID
+      too (as NDI does)? [yes: one bath step, NDI's shape]
+    - b. 1,172 ACSF baths: the pH and osmolarity rows become the
+      formulation's `ph` / `osmolarity` and lose their term ids and their
+      place in the table. Accept? [accept: the term ids are fixed by the
+      field name]
+    - c. `distance_metadata` converts to a class marked "retire". Carry it
+      instead until it has a V2 home? [yes]
 
 
 ## The goal

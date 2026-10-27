@@ -1713,6 +1713,20 @@
         "tag": "ensemble retired"
       },
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-100",
+      "v1_class": "*",
+      "fields": [
+        "any field, block or edge the class's NDI template does not define"
+      ],
+      "when": "the v1 document holds a field, block or edge outside its class's NDI template at the locked main, which the migrator therefore does not read (DID-matlab migrators on the raw v1 path; NDI-matlab second pass)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "fields outside the template are malformed"
+      },
+      "kind_basis": "decided"
     }
   ]
 }
