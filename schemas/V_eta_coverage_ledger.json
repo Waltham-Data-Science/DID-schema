@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 439,
+          "accepted_lines": 442,
           "accepted_lines_by_kind": {
-            "Decided by": 322,
+            "Decided by": 325,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2938,6 +2938,30 @@
               "tag": "acquisition channels kept for wiring",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [acquisition channels"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1402,
+              "kind": "Decided by",
+              "tag": "handed-on documents do not carry dependents",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [handed-on documents do"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1404,
+              "kind": "Decided by",
+              "tag": "unit direct and subject rebuild from the probe",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [unit direct and subject"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1406,
+              "kind": "Decided by",
+              "tag": "broken transfer values are malformed",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [broken transfer values"
             },
             {
               "document": "V_eta_image_model_plan.md",

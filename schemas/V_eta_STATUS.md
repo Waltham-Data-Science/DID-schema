@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 439 decision line(s) accepted, 2 rejected; 42 cited by a class, 397 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 442 decision line(s) accepted, 2 rejected; 42 cited by a class, 400 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -642,6 +642,9 @@ field). If one decides a class's disposition, that class should cite it.
 - sync configuration links its rigs. "Decided by Jess Haley, 2026-10-27 [sync configuration links" (V_eta_go_forward_class_audit.md:1396).
 - sync rule direction is recorded. "Decided by Jess Haley, 2026-10-27 [sync rule direction is" (V_eta_go_forward_class_audit.md:1398).
 - acquisition channels kept for wiring. "Decided by Jess Haley, 2026-10-27 [acquisition channels" (V_eta_go_forward_class_audit.md:1400).
+- handed-on documents do not carry dependents. "Decided by Jess Haley, 2026-10-27 [handed-on documents do" (V_eta_go_forward_class_audit.md:1402).
+- unit direct and subject rebuild from the probe. "Decided by Jess Haley, 2026-10-27 [unit direct and subject" (V_eta_go_forward_class_audit.md:1404).
+- broken transfer values are malformed. "Decided by Jess Haley, 2026-10-27 [broken transfer values" (V_eta_go_forward_class_audit.md:1406).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
