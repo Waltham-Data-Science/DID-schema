@@ -143,10 +143,11 @@ one line; Claude's leaning is in brackets.
     and the control link, and carry-050 carries any response that has
     either ("awaiting a home", OPEN_WORK #137). So all 10,124 corpus
     responses stay v1. This is the largest remaining gap after tuning.
-    - a. Homes: the control link points at the control-pairing calculation
-      ([control pairing is a calculation], already built in NDI); the
-      stimulator epoch becomes an edge to the presentation's epoch entity.
-      Build these so responses convert? [yes]
+    - a. Homes for the two links: see `docs/v2_working/HOMES_RESPONSES_TUNING.md`
+      questions 1-2 (the stimulator epoch always equals the response's own
+      epoch, 10,124 of 10,124, so it need not be stored; the control link
+      becomes an input edge to the control-pairing calculation). [yes to
+      both]
     - b. The parameters document becomes a `method` but loses
       `freq_response` (mean, F1, F2) on all 11,440. Make it a method
       parameter? [yes: it is how the response was computed]
@@ -173,14 +174,17 @@ one line; Claude's leaning is in brackets.
     tunings are carried (carry-056, OPEN_WORK #143), because each holds a
     field V2 has no place for. Together with 15, this is most of what is
     left.
-    - a. Homes for: the stimulus ids and presentation numbers a tuning
-      curve was computed from (`stimid`, `stimulus_presentation_number`);
-      its `log` and `stim_property_list`; the contrast fit's relative max
-      gain, saturation index and sensitivity; the spatial / temporal
-      frequency `abs` block. [stimulus ids and presentation numbers become
-      edges / a value column of the calculation; the fit numbers become
-      values of the fit; `log` and the property list become method
-      parameters; `abs` becomes a second value set. Claude to draft]
+    - a. Homes for the missing fields: drafted in
+      `docs/v2_working/HOMES_RESPONSES_TUNING.md`, questions 3-7, each
+      answerable in one line (stimulus ids as a covariate, presentation
+      numbers rebuilt from them, `log` in notes, the property list as
+      conditions, three contrast metrics added to the fit, `abs` as a
+      second calculation). Only question 7 changes the schema.
+    - f. All 22,896 contrast tuning curves record the same spatial
+      frequency (0.04), which matches an NDI writer bug fixed later
+      (NDI-matlab 49a875c94: "all N_deal tuning curves were built at the
+      first value"). They are probably duplicates. Migrate them as they
+      are (lossless), and flag them for the Soph dataset map? [yes]
     - b. The calculation's input edges are kept in order but lose their
       v1 names. Keep the names? [keep them: the order is a writer habit,
       not a rule]
@@ -357,6 +361,7 @@ proposals and measurements at the commits they name, not the record:
 | `MARKDOWN_PLAN.md` | which Markdown under `schemas/` to delete or move |
 | `DATASET_MAP_PROPOSAL.md` | the dataset map design draft |
 | `DAB_COLUMN_ROWS_DRAFT.md` | proposed Dab map rows for the EPM and FPS table columns |
+| `HOMES_RESPONSES_TUNING.md` | proposed V2 homes for the stimulus response and tuning fields that keep about 73,000 documents in v1 |
 
 ## How we work
 
