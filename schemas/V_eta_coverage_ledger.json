@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 403,
+          "accepted_lines": 406,
           "accepted_lines_by_kind": {
-            "Decided by": 286,
+            "Decided by": 289,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2650,6 +2650,30 @@
               "tag": "probe location terms",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [probe location terms]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1330,
+              "kind": "Decided by",
+              "tag": "cell spellings are one meaning",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [cell spellings are one"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1332,
+              "kind": "Decided by",
+              "tag": "v1 name is the entity name",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [v1 name is the entity"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1334,
+              "kind": "Decided by",
+              "tag": "member edge number is notation",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [member edge number is"
             },
             {
               "document": "V_eta_image_model_plan.md",
