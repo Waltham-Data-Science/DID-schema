@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 429,
+          "accepted_lines": 430,
           "accepted_lines_by_kind": {
-            "Decided by": 312,
+            "Decided by": 313,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2858,6 +2858,14 @@
               "tag": "carried file references are not folded",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [carried file references"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1382,
+              "kind": "Decided by",
+              "tag": "light-sheet level fields rebuild from the pyramid",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [light-sheet level fields"
             },
             {
               "document": "V_eta_image_model_plan.md",
