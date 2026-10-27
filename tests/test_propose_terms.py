@@ -14,10 +14,10 @@ CURIES = {"prefixes": {
 REGISTRY = {"terms": [
     {"name": "Arithmetic Mean", "node": "NCIT:C53319", "definition": "d", "status": "decided",
      "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
-     "number_unit": False},
+     "number_unit": False, "equivalent": []},
     {"name": "body midpoint", "node": "", "definition": "d", "status": "staged",
      "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
-     "number_unit": False},
+     "number_unit": False, "equivalent": []},
 ]}
 OWL = {"0000400": ("plate wiping", "Wiping a plate.")}
 WHO = {"decided": "J, 2026-10-21", "first_used_in": "Smith"}
@@ -52,7 +52,7 @@ def test_a_new_term_is_respelled_and_printed_in_registry_order():
     assert v[0][0] == "ADD" and "respelled" in v[0][2]
     assert rows == [{"name": "Median", "node": "NCIT:C28007", "definition": "the middle",
                      "status": "decided", **WHO, "obsolete": False,
-                     "number_unit": False}]
+                     "number_unit": False, "equivalent": []}]
     assert list(json.loads("[" + pt.render_rows(rows) + "]")[0]) == list(pt.KEYS)
 
 

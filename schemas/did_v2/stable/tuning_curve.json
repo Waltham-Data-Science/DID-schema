@@ -1136,6 +1136,45 @@
                                     "ontology": null,
                                     "documentation": "p-value of the nested-model F test against the comparison fit (v1 `priebe_fit_nested_f_test_p_value`).",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "relative_max_gain",
+                                    "type": "double",
+                                    "blank_value": 0,
+                                    "default_value": 0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Relative maximum gain of a contrast fit (Heimel et al. 2005), named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_relative_max_gain`, NDIcalc-vis-matlab vis.contrast.indexes.fitindexes). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "saturation_index",
+                                    "type": "double",
+                                    "blank_value": 0,
+                                    "default_value": 0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Saturation index of a contrast fit, named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_saturation_index`; NDIcalc-vis-matlab fitindexes: only meaningful for fits with a saturation term, but provided always, so 0 under the RB fit). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "sensitivity",
+                                    "type": "matrix",
+                                    "blank_value": [],
+                                    "default_value": [],
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": false,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Contrast sensitivity of a contrast fit: 10 entries, entry i the sensitivity (1 / the contrast at which the fit reaches the criterion) at a criterion of i times the control response's standard deviation, i = 1..10; named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_sensitivity`, NDIcalc-vis-matlab fitindexes and contrastfit2sensitivity). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "constraints": {}
                                 }
                             ]
                         }
