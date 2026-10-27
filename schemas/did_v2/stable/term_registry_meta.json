@@ -8847,6 +8847,36 @@
             "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
             "obsolete": false,
             "number_unit": false
+        },
+        {
+            "name": "acquisition time",
+            "node": "AFO:AFR_0001158",
+            "definition": "The acquisition time is the time when a signal is captured.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [afo prefix registered], V_eta_go_forward_class_audit.md: replaces the proposed EMPTY term 'acquisition time'",
+            "first_used_in": "DID-matlab image_stack migration (written today as the label 'acquisition timestamp (<clock>)')",
+            "obsolete": false,
+            "number_unit": false
+        },
+        {
+            "name": "cluster identifier",
+            "node": "AFO:AFR_0003339",
+            "definition": "A cluster identifier is an identifier that identifies some cluster.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [afo prefix registered], V_eta_go_forward_class_audit.md: replaces the proposed EMPTY term 'cluster identifier'",
+            "first_used_in": "DID-matlab neuron_extracellular migration (written today as the label 'spike sorter cluster index')",
+            "obsolete": false,
+            "number_unit": false
+        },
+        {
+            "name": "multielectrode array",
+            "node": "wikidata:Q1952355",
+            "definition": "devices that contain multiple microelectrodes through which neural signals are obtained or delivered, essentially serving as neural interfaces that connect neurons to electronic circuitry",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [n-trode is a multielectrode array], V_eta_go_forward_class_audit.md: the device type of an NDI n-trode probe",
+            "first_used_in": "DID-matlab element migration (NDI probe type 'n-trode')",
+            "obsolete": false,
+            "number_unit": false
         }
     ]
 }
