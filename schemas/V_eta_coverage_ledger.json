@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 520,
+          "accepted_lines": 525,
           "accepted_lines_by_kind": {
-            "Decided by": 403,
+            "Decided by": 408,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3586,6 +3586,46 @@
               "tag": "Babu and Soph workbooks",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [Babu and Soph"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1564,
+              "kind": "Decided by",
+              "tag": "sample times within eight rounding steps",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [sample times within"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1566,
+              "kind": "Decided by",
+              "tag": "a rebuilt document may lose its id",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [a rebuilt document may"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1568,
+              "kind": "Decided by",
+              "tag": "jrclust default name is notation",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [jrclust default name is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1570,
+              "kind": "Decided by",
+              "tag": "organization needs a name or an identifier",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [organization needs a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1572,
+              "kind": "Decided by",
+              "tag": "empty ndi_document block is notation",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [empty ndi_document block"
             },
             {
               "document": "V_eta_image_model_plan.md",

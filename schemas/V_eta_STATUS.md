@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 520 decision line(s) accepted, 2 rejected; 42 cited by a class, 478 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 525 decision line(s) accepted, 2 rejected; 42 cited by a class, 483 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -723,6 +723,11 @@ field). If one decides a class's disposition, that class should cite it.
 - quantity reference type. "Decided by Jess Haley, 2026-10-27 [quantity reference" (V_eta_go_forward_class_audit.md:1558).
 - epoch-less presentations carry. "Decided by Jess Haley, 2026-10-27 [epoch-less presentations" (V_eta_go_forward_class_audit.md:1560).
 - Babu and Soph workbooks. "Decided by Jess Haley, 2026-10-27 [Babu and Soph" (V_eta_go_forward_class_audit.md:1562).
+- sample times within eight rounding steps. "Decided by Jess Haley, 2026-10-27 [sample times within" (V_eta_go_forward_class_audit.md:1564).
+- a rebuilt document may lose its id. "Decided by Jess Haley, 2026-10-27 [a rebuilt document may" (V_eta_go_forward_class_audit.md:1566).
+- jrclust default name is notation. "Decided by Jess Haley, 2026-10-27 [jrclust default name is" (V_eta_go_forward_class_audit.md:1568).
+- organization needs a name or an identifier. "Decided by Jess Haley, 2026-10-27 [organization needs a" (V_eta_go_forward_class_audit.md:1570).
+- empty ndi_document block is notation. "Decided by Jess Haley, 2026-10-27 [empty ndi_document block" (V_eta_go_forward_class_audit.md:1572).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
