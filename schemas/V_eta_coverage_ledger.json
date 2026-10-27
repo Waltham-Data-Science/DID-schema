@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 442,
+          "accepted_lines": 443,
           "accepted_lines_by_kind": {
-            "Decided by": 325,
+            "Decided by": 326,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2962,6 +2962,14 @@
               "tag": "broken transfer values are malformed",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [broken transfer values"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1408,
+              "kind": "Decided by",
+              "tag": "treatment transfer stays v1",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [treatment transfer stays"
             },
             {
               "document": "V_eta_image_model_plan.md",
