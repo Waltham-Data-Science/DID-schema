@@ -1454,6 +1454,8 @@ RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
 
+RE-DERIVED 2026-10-27 (ndi_m_files, sibling lock moved by [move the locked mains]; `check_prose_counts`): NDI `origin/main` at `441530d0f`: 1,319 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1319). Only the denominator moved. Re-derive, do not quote.
+
 RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged); **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.

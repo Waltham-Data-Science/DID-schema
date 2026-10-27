@@ -363,35 +363,13 @@ one line; Claude's leaning is in brackets.
       readers accept both class names. `pyraview` is done: DID-matlab #256
       (dfd73b6); the epoch step already re-ran it on the raw v1 source, so
       it needed no code change there. 77 of 95; see item 27.)
-25. **Move the locked NDI and DID `main`?** (did-schema #178 moved only the
-    sibling heads, to DID-matlab e73aec7 and NDI-matlab 675742fe7.) The
-    locked mains stay at NDI 3cb19a85 and DID f4a4905. NDI's live `main` is
-    24 commits past the lock (now 441530d0f). Of the 25 files they change,
-    23 are GUI, install, update, release-workflow, docs and test files; the
-    other two are `Contents.m` and `session.m`, where `daqsystem_load` now
-    skips a match-all name pattern (a faster search, same result). No
-    template or writer changes. DID's live `main` is 27 commits past its
-    lock (now e4493aa); its 12 files are v1 database search code
-    (`+did`, SQLite search speed and `hasmember` quoting) and its tests,
-    with no `+did2` code.
-    Moving NDI's changes only the `.m`-file count quoted in two plan
-    documents. Move both mains now, in one small commit with those counts?
-    Claude recommends yes; nothing in the migration reads what changed.
-26. **Two tuning-family details, for your review (no build waits on
-    them).** DID-matlab #255 switched `contrast_tuning`,
-    `spatial_frequency_tuning`, `temporal_frequency_tuning` and
-    `speed_tuning` to raw v1; no corpus holds any of them, and NDI's second
-    pass does not read them.
-    - a. Their templates come from NDIcalc-vis-matlab 00e3e0f, which the
-      sibling lock does not cover (it locks only NDI-matlab and DID-matlab).
-      Add NDIcalc-vis-matlab to the lock? Claude recommends yes, in a later
-      small change.
-    - b. The switched tuning classes (the four above and the `*_calc`
-      classes, through `jCalculation`) cite carry-056 for a field outside
-      the template, where every other family cites
-      carry-100 ([fields outside the template are malformed]). Move the
-      tuning family to carry-100, keeping carry-056 for its real modelling
-      gaps? Claude recommends yes.
+25. (Decided 2026-10-27, [move the locked mains]. Build pending: did-schema.
+    Follow-up asked: merge `main` into V2 in NDI-matlab (86 commits, 3
+    conflicts: session.m, +lightsheet/view.m, a cloud file deleted on main)
+    and DID-matlab (34 commits, clean)? Decided 2026-10-27, [merge main
+    into V2]. Build pending.)
+26. (Decided 2026-10-27: a. [lock NDIcalc-vis-matlab]; b. [tuning stray
+    fields are malformed]. Builds pending.)
 27. **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
     pyraview (1 document); its counts are unchanged by the switch.
     - a. `files.file_info` (file location, uid, ingest flags) is on no
