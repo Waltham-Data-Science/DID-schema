@@ -137,6 +137,33 @@ one line; Claude's leaning is in brackets.
     openMINDS term itself? [accept what the openMINDS term itself holds
     (definition, synonyms); keep `openminds_id` as the term node; ask
     again for the strain links]
+15. **Stimulus responses: every real one is still carried** (DID-matlab
+    `claude/phase2-srs` c2869ab0, quick CI green; the family now reads raw
+    v1 and round-trips). NDI's only writer always sets the stimulator epoch
+    and the control link, and carry-050 carries any response that has
+    either ("awaiting a home", OPEN_WORK #137). So all 10,124 corpus
+    responses stay v1. This is the largest remaining gap after tuning.
+    - a. Homes: the control link points at the control-pairing calculation
+      ([control pairing is a calculation], already built in NDI); the
+      stimulator epoch becomes an edge to the presentation's epoch entity.
+      Build these so responses convert? [yes]
+    - b. The parameters document becomes a `method` but loses
+      `freq_response` (mean, F1, F2) on all 11,440. Make it a method
+      parameter? [yes: it is how the response was computed]
+    - c. A response the migrator cannot read (no element, unknown response
+      type, empty readings, wrong-length stimulus ids, an epoch with no
+      document) is passed through without a register row. Carry it with a
+      row (malformed)? [yes]
+    - d. A field outside NDI's template is dropped silently on conversion.
+      Carry the document instead, as for subjects (4b)? [yes, same answer
+      as 4b]
+    - e. A prestimulus normalization of `[]` is written as 0
+      ([empty response settings]), so the round trip cannot tell them
+      apart. Accept, since you decided they mean the same? [accept]
+    - f. A carried v1 response keeps its edge to its parameters document,
+      which is now a V2 `method`. Is a v1 document allowed to point at a V2
+      one? [yes: an edge is an id, and a mixed database is expected until
+      every home is built]
 
 
 ## The goal
