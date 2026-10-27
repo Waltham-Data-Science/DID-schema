@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 410 decision line(s) accepted, 2 rejected; 42 cited by a class, 368 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 413 decision line(s) accepted, 2 rejected; 42 cited by a class, 371 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -613,6 +613,9 @@ field). If one decides a class's disposition, that class should cite it.
 - n-trode is a multielectrode array. "Decided by Jess Haley, 2026-10-27 [n-trode is a" (V_eta_go_forward_class_audit.md:1338).
 - site positions are coordinates. "Decided by Jess Haley, 2026-10-27 [site positions are" (V_eta_go_forward_class_audit.md:1340).
 - move the locked mains. "Decided by Jess Haley, 2026-10-27 [move the locked mains]: (" (V_eta_go_forward_class_audit.md:1342).
+- merge main into V2. "Decided by Jess Haley, 2026-10-27 [merge main into V2]: (" (V_eta_go_forward_class_audit.md:1344).
+- lock NDIcalc-vis-matlab. "Decided by Jess Haley, 2026-10-27 [lock" (V_eta_go_forward_class_audit.md:1346).
+- tuning stray fields are malformed. "Decided by Jess Haley, 2026-10-27 [tuning stray fields are" (V_eta_go_forward_class_audit.md:1348).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
