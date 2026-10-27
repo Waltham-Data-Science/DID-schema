@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 459 decision line(s) accepted, 2 rejected; 42 cited by a class, 417 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 489 decision line(s) accepted, 2 rejected; 42 cited by a class, 447 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -662,6 +662,36 @@ field). If one decides a class's disposition, that class should cite it.
 - hotelling spellings are one field. "Decided by Jess Haley, 2026-10-27 [hotelling spellings are" (V_eta_go_forward_class_audit.md:1436).
 - Priebe fits are one function. "Decided by Jess Haley, 2026-10-27 [Priebe fits are one" (V_eta_go_forward_class_audit.md:1438).
 - NDI CI picks did-schema branch. "Decided by Jess Haley, 2026-10-27 [NDI CI picks did-schema" (V_eta_go_forward_class_audit.md:1440).
+- sorter labels map. "Decided by Jess Haley, 2026-10-27 [sorter labels map]: (" (V_eta_go_forward_class_audit.md:1442).
+- image stack name goes to notes. "Decided by Jess Haley, 2026-10-27 [image stack name goes to" (V_eta_go_forward_class_audit.md:1444).
+- carry-055 wording follows the group identifier. "Decided by Jess Haley, 2026-10-27 [carry-055 wording" (V_eta_go_forward_class_audit.md:1446).
+- treatment location name is the node. "Decided by Jess Haley, 2026-10-27 [treatment location name" (V_eta_go_forward_class_audit.md:1448).
+- ingested stimulus body link follow-up. "Decided by Jess Haley, 2026-10-27 [ingested stimulus body" (V_eta_go_forward_class_audit.md:1450).
+- cloud organization id is a global identifier. "Decided by Jess Haley, 2026-10-27 [cloud organization id is" (V_eta_go_forward_class_audit.md:1452).
+- curve fitting is the fit method term. "Decided by Jess Haley, 2026-10-27 [curve fitting is the fit" (V_eta_go_forward_class_audit.md:1454).
+- bath solution minted. "Decided by Jess Haley, 2026-10-27 [bath solution minted]: (" (V_eta_go_forward_class_audit.md:1456).
+- second pass reads control stimuli from v1. "Decided by Jess Haley, 2026-10-27 [second pass reads" (V_eta_go_forward_class_audit.md:1458).
+- tuning fits use curve fitting now. "Decided by Jess Haley, 2026-10-27 [tuning fits use curve" (V_eta_go_forward_class_audit.md:1460).
+- presentation anchored to its epoch. "Decided by Jess Haley, 2026-10-27 [presentation anchored to" (V_eta_go_forward_class_audit.md:1462).
+- response links: epoch rebuilt, control as input. "Decided by Jess Haley, 2026-10-27 [response links: epoch" (V_eta_go_forward_class_audit.md:1464).
+- openMINDS subject leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS subject" (V_eta_go_forward_class_audit.md:1466).
+- term equivalents recorded. "Decided by Jess Haley, 2026-10-27 [term equivalents" (V_eta_go_forward_class_audit.md:1468).
+- dataset form lists carried until homed. "Decided by Jess Haley, 2026-10-27 [dataset form lists" (V_eta_go_forward_class_audit.md:1470).
+- old ndi_document blocks carry. "Decided by Jess Haley, 2026-10-27 [old ndi_document blocks" (V_eta_go_forward_class_audit.md:1472).
+- tuning stimids rebuild. "Decided by Jess Haley, 2026-10-27 [tuning stimids rebuild]" (V_eta_go_forward_class_audit.md:1474).
+- tuning log in notes. "Decided by Jess Haley, 2026-10-27 [tuning log in notes]: (" (V_eta_go_forward_class_audit.md:1476).
+- varied properties are conditions by V2 name. "Decided by Jess Haley, 2026-10-27 [varied properties are" (V_eta_go_forward_class_audit.md:1478).
+- absolute-value fits are a second calculation. "Decided by Jess Haley, 2026-10-27 [absolute-value fits are" (V_eta_go_forward_class_audit.md:1480).
+- contrast metrics added. "Decided by Jess Haley, 2026-10-27 [contrast metrics added]" (V_eta_go_forward_class_audit.md:1482).
+- parameter names map by table. "Decided by Jess Haley, 2026-10-27 [parameter names map by" (V_eta_go_forward_class_audit.md:1484).
+- E. coli stacks are a dataset decision. "Decided by Jess Haley, 2026-10-27 [E" (V_eta_go_forward_class_audit.md:1486).
+- every v1 id survives. "Decided by Jess Haley, 2026-10-27 [every v1 id survives]: (" (V_eta_go_forward_class_audit.md:1488).
+- axis letters derive from labels. "Decided by Jess Haley, 2026-10-27 [axis letters derive from" (V_eta_go_forward_class_audit.md:1490).
+- v1 name goes to the class's own name field. "Decided by Jess Haley, 2026-10-27 [v1 name goes to the" (V_eta_go_forward_class_audit.md:1492).
+- carried v1 validates against NDI templates. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (V_eta_go_forward_class_audit.md:1494).
+- treatment groups are a dataset decision. "Decided by Jess Haley, 2026-10-27 [treatment groups are a" (V_eta_go_forward_class_audit.md:1496).
+- fit classes kept; session list rebuilt. "Decided by Jess Haley, 2026-10-27 [fit classes kept" (V_eta_go_forward_class_audit.md:1498).
+- event lines are event channels. "Decided by Jess Haley, 2026-10-27 [event lines are event" (V_eta_go_forward_class_audit.md:1500).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
