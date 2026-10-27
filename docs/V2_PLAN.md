@@ -292,6 +292,20 @@ one line; Claude's leaning is in brackets.
       Keep it explicitly? [yes, cheap and exact]
     - (Other questions here are the same as 4a / 4b: a non-empty
       `base.name`, a field outside the template.)
+22. **Baths and position** (DID-matlab `claude/phase2` 25388d34, quick CI
+    green; 36 classes now read raw v1). From a survey of the corpus zips:
+    all 1,605 Dab baths convert; 2,078 JH positions stay carried (carry-053,
+    and JH is covered by its own import); 2,078 JH distances follow their
+    carried elements. Questions:
+    - a. DID's bath step drops each bath's stimulator link and epoch on
+      all 1,605 baths, while NDI's bath step keeps both. Keep them in DID
+      too (as NDI does)? [yes: one bath step, NDI's shape]
+    - b. 1,172 ACSF baths: the pH and osmolarity rows become the
+      formulation's `ph` / `osmolarity` and lose their term ids and their
+      place in the table. Accept? [accept: the term ids are fixed by the
+      field name]
+    - c. `distance_metadata` converts to a class marked "retire". Carry it
+      instead until it has a V2 home? [yes]
 
 
 ## The goal
