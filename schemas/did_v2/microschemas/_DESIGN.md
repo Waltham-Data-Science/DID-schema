@@ -378,7 +378,7 @@ implementation:
    discrimination would work. But the convention should be: use
    microschemas for *open registries* (treatments, measurements), use
    per-class declarations for *closed kinds* (calculators, where each
-   kind is distinct code). Worth stating in V_delta_SPEC.md so the
+   kind is distinct code). Worth stating in V_delta_SPEC.md (deleted; see git 04fc712) so the
    right tool is reached for.
 
 4. **Validator behavior for unknown registry.** If a body field

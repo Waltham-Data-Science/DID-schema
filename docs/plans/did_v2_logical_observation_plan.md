@@ -1,6 +1,6 @@
 # V_eta — `logical` / `logical_observation`, and what `valid_interval` becomes
 
-> **AMENDED 2026-09-25 (#73 review item 52, `V_eta_spatial_transcriptomics_plan.md`):**
+> **AMENDED 2026-09-25 (#73 review item 52, `did_v2_spatial_transcriptomics_plan.md`):**
 > `logical_observation` is RETIRED -- `valid_interval` (its only user) targets
 > `time_observation` since amendment 1. `logical` stays. The pass is still dormant; its
 > rewrite to the amendment-1 shape is on the PR #76 DID-matlab checklist.
@@ -13,7 +13,7 @@ does not exist.*
 **THIS DOCUMENT CARRIES NO SIGNATURE LINE, DELIBERATELY.** Operating Rule 4 forbids Claude
 writing one, and this family has a specific history with that rule: on 2026-08-11 a QUESTION
 the team asked was written up as their decision and put into a signature under their name
-(`V_eta_OPEN_WORK.md` #103). **This document was written with NO signature, deliberately, and
+(`did_v2_OPEN_WORK.md` #103). **This document was written with NO signature, deliberately, and
 the team dictated one on 2026-08-12 — it is at the foot of the file.** The decisions
 transcribed below are real, and the signature was a separate act by a human, which is the
 whole point of the rule. Its scope is NARROWER than this document: the open items in §7 are
@@ -61,7 +61,7 @@ body.subject_statement.variable`):
 
 It is also the error **R2/R3 already fixed one tier up**: six v1 tuning classes named by their
 *independent variable* collapsed into one `tuning_curve` carrying that variable as a
-`variable` (T11, `V_eta_tuning_model_plan.md`). `validity_observation` is the same mistake in
+`variable` (T11, `did_v2_tuning_model_plan.md`). `validity_observation` is the same mistake in
 the same shape.
 
 **Why not `boolean`.** It is impossible, not merely inelegant. `boolean` is a hard-coded
@@ -182,8 +182,8 @@ Consequences, all built:
   and an optional `element_id`, so a passthrough cannot trip `mustBeNonEmpty` or
   `undeclaredField`.
 
-**What unblocks it:** `axes[]` on `subject_statement` — `V_eta_data_body_model_plan.md`,
-`V_eta_OPEN_WORK.md` #45, itself blocked on #32. Until that lands there is nowhere to put a
+**What unblocks it:** `axes[]` on `subject_statement` — `did_v2_data_body_model_plan.md`,
+`did_v2_OPEN_WORK.md` #45, itself blocked on #32. Until that lands there is nowhere to put a
 time axis, and a boolean array with no axis cannot say which stretch each element is about.
 
 ---
@@ -313,7 +313,7 @@ of the test named above. Corrected rather than reproduced.)*
 
 **HAZARD 3 — inheritance.** RULE 1 above now answers *how* a consumer inherits. Whether V_eta
 should ever **materialise** copies onto derived subjects instead of re-deriving at read time
-is **DECIDED: RE-DERIVE** — team, 2026-08-11 (`V_eta_OPEN_WORK.md`, "`valid_interval`
+is **DECIDED: RE-DERIVE** — team, 2026-08-11 (`did_v2_OPEN_WORK.md`, "`valid_interval`
 inheritance is RE-DERIVED, not materialised"), re-affirmed 2026-09-23 in #73. This paragraph
 called it open until #73 found the two records disagreeing. `subject_id` is the element the
 v1 document named, and a consumer walks the element lineage to find the statement. No copy
@@ -358,7 +358,7 @@ was removed from the observation chain in #73.
 | `DID-matlab src/did/+did2/+convert/resolveValidIntervals.m` | the dormant pass + the preserved decomposition |
 | `DID-matlab tests/+did2/+unittest/testValidIntervalDecompose.m` | dormancy gate + the preserved logic, armed |
 | `DID-matlab tools/census_digest.py` | how the dormant report renders |
-| `schemas/V_eta_migration_targets.json` (`valid_interval`) | the ledger's account of all of the above |
+| `schemas/did_v2_migration_targets.json` (`valid_interval`) | the ledger's account of all of the above |
 
 ## TEAM SIGN-OFF
 
@@ -395,7 +395,7 @@ content is the failure mode this repository's operating rules exist to stop, and
 would have been manufactured on every migrated document.
 
 **(2) THE COST ARGUMENT THAT SETTLED THE SPIKE TRAIN POINTS THE SAME WAY, HARDER.**
-`TEAM-SIGN-OFF [spike train leaf]` (`V_eta_ensemble_plan.md`, 2026-08-17) weighed
+`TEAM-SIGN-OFF [spike train leaf]` (`did_v2_ensemble_plan.md`, 2026-08-17) weighed
 *"a regular index axis is `origin + spacing + n`, three numbers regardless of N,
 while N booleans is O(N)"*. Here `logical_observation` is worse than it was for
 spikes: it needs an IRREGULAR axis (O(N) stored boundary times) AND N booleans
@@ -414,7 +414,7 @@ one entry per grid dimension.
 than discovered after it:** `valid_interval` is `logical_observation`'s ONLY
 consumer.
 
-        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json;
+        DENOMINATOR: 102 ledger rows read from schemas/did_v2_coverage_ledger.json;
                      1 names logical_observation
           valid_interval -> []
 

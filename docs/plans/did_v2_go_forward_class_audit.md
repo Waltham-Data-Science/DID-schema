@@ -1,7 +1,7 @@
 # V_eta Go-Forward Class Audit — J-cohesiveness of every live class
 
 > **Vocabulary note (2026-10-21):** this document predates the one-entity schema
-> (`V_eta_entity_composition_plan.md`, signed 2026-10-08) and uses its old names:
+> (`did_v2_entity_composition_plan.md`, signed 2026-10-08) and uses its old names:
 > `subject_statement` is now `statement`, `subject_id` is `entity_id`, `data_type` is
 > `value`, and the separate entity classes (`subject`, `dataset`, `software`, ...) are one
 > `entity` with a `type`. Its decisions stand under the new names.
@@ -37,7 +37,7 @@ cohesiveness — not just the families touched piecemeal (D-A…D-E).*
 
 > **⚠️ STALE point-in-time snapshot (hand-maintained).** The class count (**258**) and several
 > dispositions predate the post-J builds — the current build is ~200 classes; use the generated
-> **`V_eta_final_class_set.md`** for the authoritative set. Known-stale entries: the D-C
+> **`did_v2_final_class_set.md`** for the authoritative set. Known-stale entries: the D-C
 > "calc/`*_tuning` zoo → observations + `data_body`, no genus" position was REVERSED —
 > calculators are kept as id-preserved `subject_calculation` LEAFS (a `subject_calculation`
 > direction was added), and the 6 tuning composites COLLAPSED to `tuning_curve` /
@@ -168,7 +168,7 @@ completeness.
    family) owe the type-deps / declare-shapes pass.
 4. Everything else is J-native (§1) or in a decided track (§2) — no new decision.
 
-*Companion to `V_eta_nonsubject_cohesiveness_plan.md`. This audit closes the "have we
+*Companion to `did_v2_nonsubject_cohesiveness_plan.md`. This audit closes the "have we
 looked at every go-forward class?" question: yes — 258, each dispositioned.*
 
 ---
@@ -221,7 +221,7 @@ So it was never a migration source and needed no writer check. It landed in the
 `filter` there.
 
 **Consequence: the `file navigation` family CLOSES.** `filenavigator` was already
-decided (`V_eta_daq_family_decisions.md` — `file_navigator ⊂ base`, `base.id`
+decided (`did_v2_daq_family_decisions.md` — `file_navigator ⊂ base`, `base.id`
 preserved, patterns parsed into declared fields, `software_id` edge), and the family
 was held open only by `directory`.
 
@@ -329,7 +329,7 @@ checkable — not built that way for one bearer today.
 The passthrough reasoning that led here is kept below, because the reversal chain is the
 useful part.
 
-**PASSTHROUGH**, agreeing with `V_eta_tenet_audit.md`'s re-audit, which reached this
+**PASSTHROUGH**, agreeing with `did_v2_tenet_audit.md`'s re-audit, which reached this
 independently and was right. A corpus 0-document check is still required before any
 future drop — absence from the five corpora we test is not absence.
 
@@ -443,7 +443,7 @@ control_designation ⊂ base
 ```
 
 It points at `timed_sequence`, the stimulus model's own class, and
-`V_eta_stimulus_model_plan.md:118` already covers it:
+`did_v2_stimulus_model_plan.md:118` already covers it:
 
 > **`control_stimulus_ids` → `control_designation` — RESOLVED.**
 
@@ -534,7 +534,7 @@ mistake.** `openminds_import` was persisted *on condition that an emitter be sch
 and none ever was.* Here an emitter IS scheduled, in a SIGNED plan:
 
 ```
-V_eta_stimulus_model_plan.md:126-132
+did_v2_stimulus_model_plan.md:126-132
    a stimulus "approach" ... folds into `interaction_purpose` (an approach term on the
    epoch's interaction, via the openMINDS controlled-term path) ... No new class; the
    stale `stimulus_approach` provenance row is corrected to RETIRE.
@@ -560,11 +560,11 @@ migrator reads a dependency name that does not exist. Tracked as #75.
 > clause gives it away: a signed plan does not "read a dependency name that does not
 > exist" — a migrator does. **DENOMINATOR: 54 markdown files under `schemas/`, 54
 > read, 24 `TEAM-SIGN-OFF` lines (23 real, plus the format template at
-> `V_eta_STATUS.md:216`).** *[The 54 is that day's measurement and stays. There are
+> `did_v2_STATUS.md:216`).** *[The 54 is that day's measurement and stays. There are
 > **55 markdown files under `schemas/`** today -- one document added 2026-08-12,
 > nothing deleted. The other two figures were NOT re-run.]* Exactly one names these documents — the `[misc singletons]`
 > line at the top of THIS file, which sends them to `interaction_purpose`. Exactly two
-> mention `term_assertion`, both in `V_eta_openminds_family_record.md` (:10, :20) and
+> mention `term_assertion`, both in `did_v2_openminds_family_record.md` (:10, :20) and
 > both about STRAIN; neither routes an approach term. The `term_assertion` route came
 > from that record's *prose* ("three of the four already migrate 1→1 to
 > `term_assertion`"), which was a DESCRIPTION OF THE MIGRATOR AS IT THEN STOOD, not a
@@ -584,7 +584,7 @@ migrator reads a dependency name that does not exist. Tracked as #75.
 > a dated measurement into today's figure is how a record stops being a record. Re-derived:
 >
 > `$ ls schemas/*.md | wc -l` → `55`. The entire difference is ONE document added on
-> 2026-08-12 (`V_eta_logical_observation_plan.md`, commit `ffc6fd7`); nothing was deleted
+> 2026-08-12 (`did_v2_logical_observation_plan.md`, commit `ffc6fd7`); nothing was deleted
 > or renamed, so the drift has a single named cause. **The `24 TEAM-SIGN-OFF lines` figure
 > beside it was NOT re-derived** and this note does not correct it — read it as of
 > 2026-08-11. **Nothing the paragraph concludes moves**: its finding is that exactly ONE
@@ -734,7 +734,7 @@ This changes the `dose_manipulation` half of the 2026-08-22 line above; the
 anchor and the conditional location `term_observation` are unchanged. Why it
 came up: a bath gives no amount, so the bath dose was written with an empty
 `dose.value`, and the value rule (`value_inline_or_body`,
-`V_eta_data_body_model_plan.md` AMENDMENT 5, with Jess's `value_id`
+`did_v2_data_body_model_plan.md` AMENDMENT 5, with Jess's `value_id`
 clarification) refuses a value that is neither inline, in bodies, nor taken
 through `value_id`. `formulation` is a value kind (its superclass is `value`),
 so the bath becomes a `manipulation` listing `formulation` as its value kind,
@@ -773,7 +773,7 @@ material) as a `dose` manipulation with no amount, which the value rule
 recipe. So it becomes an `assertion` about the suspension whose value kind is
 `formulation`, with an empty `value` and a `value_id` edge to the recipe's
 `formulation` document, `variable` = composition (PATO:0000025, registered in
-`V_eta_term_registry.json`). `instance_of` does not fit: its registry row
+`did_v2_term_registry.json`). `instance_of` does not fit: its registry row
 allows only a `product` or `strain` parent, and `formulation` is a value, not
 an entity. The suspension's OD600 and CFU observations are unchanged.
 
@@ -781,7 +781,7 @@ Decided by Jess Haley, 2026-10-21 [seeding solution preparation day]: "The seedi
 
 The first line's assertion was built at first with the time the dose had
 carried, and `did2.build` refused it: an assertion is a timeless fact
-(`V_eta_tenets.md`) and `assertion.json` declares no `time_reference_id`.
+(`did_v2_tenets.md`) and `assertion.json` declares no `time_reference_id`.
 So the composition assertion has no time, and the day the solution was
 prepared is the solution entity's own `time_reference_id` (`entity.json`:
 "when this entity existed"). Each dilution is a `directed_relation`
@@ -819,8 +819,8 @@ Decided by Jess Haley, 2026-10-21 [slice region chain]: a recording from a regio
 
 Decided by Jess Haley, 2026-10-21 [region anatomy is UBERON]: a region part entity's anatomy term is UBERON; the migrator flags and counts any non-UBERON anatomy term it meets rather than mapping it.
 
-The located-by-default policy it replaces (D3, `V_eta_discovery_notes.md` and
-`V_eta_migration_plan.md` D3) was a first-pass cost call with no sign-off: a
+The located-by-default policy it replaces (D3, `did_v2_discovery_notes.md` and
+`did_v2_migration_plan.md` D3) was a first-pass cost call with no sign-off: a
 site was a bare `anatomical location` value on the animal, and a part entity
 was minted only where an intervention was co-anchored with it. Now every
 statement about a region is about that region's part, an `entity` of type
@@ -990,7 +990,7 @@ TEAM-SIGN-OFF [orientation_direction_tuning.json location]:
 Steve Van Hooser 2026-09-22 -- STAYS ON NDI-matlab post-retirement of
 ndi.app.oridirtuning (VH-Lab/NDI-matlab#1001). Resolves #67 sub-question.
 
-SIGN-OFF SUPERSEDED [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, V_eta_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.
+SIGN-OFF SUPERSEDED [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- replaced by the #73 review, did_v2_spatial_transcriptomics_plan.md item 18 (nothing from the eight NDI spatial classes is carried forward). The signature below is left as signed.
 
 TEAM-SIGN-OFF [spatial_transcriptomics_family]: Steve Van Hooser 2026-09-22 --
 Corrected Option C for the spatial-transcriptomics family from
@@ -1018,7 +1018,7 @@ formatOntology/origin_corner; a bound `variable` term for the pyramid
 observation (needs to exist in NDIC or the registry before the reshape validates
 end-to-end). Full reasoning in #70.
 
-RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`V_eta_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`did_v2_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17 confirm sheet]: jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.
 
@@ -1026,23 +1026,23 @@ TEAM-SIGN-OFF [time anchors, amends the 2026-08-22 confirm sheet]: jess@walthamd
 
 TEAM-SIGN-OFF [dimensioned classes, batch confirmation]: jess@walthamdatascience.com / 2026-09-29 -- confirmed as persisting classes: the observations `acceleration_observation`, `concentration_observation`, `current_observation`, `frequency_observation`, `mass_observation`, `pressure_observation`, `temperature_observation`, `velocity_observation`, `volume_observation`; the composites `capacitance`, `conductance`, `current`, `energy`, `force`, `intensity`, `power`, `resistance`; `date_assertion`; `contrast_sensitivity_calculation`; `subject_assertion`; and the tuning leaves under their #73 names (`orientation_direction_tuning_calculation`, `contrast_tuning_calculation`, `spatial_frequency_tuning_calculation`, `temporal_frequency_tuning_calculation`, `speed_tuning_calculation`). (audit 2 C19; the two classes that finding counts but does not name are not covered.)
 
-RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`did_v2_study_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **58 markdown files under `schemas/`** (was 57; +`V_eta_entity_composition_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `did_v2_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **58 markdown files under `schemas/`** (was 57; +`did_v2_entity_composition_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature, `did_v2_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **59 markdown files under `schemas/`** (was 58; +`did_v2_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`did_v2_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`did_v2_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`, Jess Haley's decision: the term list lives in did-schema and an unregistered term is an error). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **62 markdown files under `schemas/`** (was 61; +`did_v2_term_registry_plan.md`, Jess Haley's decision: the term list lives in did-schema and an unregistered term is an error). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **63 markdown files under `schemas/`** (was 62; +`V_eta_relation_inheritance_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-20 (plan_documents, `check_prose_counts`): **63 markdown files under `schemas/`** (was 62; +`did_v2_relation_inheritance_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **64 markdown files under `schemas/`** (was 63; +`did_v2_source_unit_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **65 markdown files under `schemas/`** (was 64; +`V_eta_method_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-21 (plan_documents, `check_prose_counts`): **65 markdown files under `schemas/`** (was 64; +`did_v2_method_plan.md`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 Decided by Jess Haley, 2026-10-21 [sorter input]: spike-sorter output (`jrclust_clusters`, `kilosort_clusters`, `kiasort_clusters`; a calculation with the `label` value kind, per the 2026-09-29 sign-off) takes as its input the per-epoch recording observations of the electrode it sorted, when they exist, falling back to the electrode entity when they do not (answer "1b").
 
@@ -1054,7 +1054,7 @@ Decided by Jess Haley, 2026-10-22 [sorter software]: a spike-sorter output with 
 
 Deferred by Jess Haley, 2026-10-22, to before the Haley V2 import: whether the Haley import's acquisition systems should carry the software entities naming NDI classes (`ndi.daq.system.image`, `ndi.file.navigator.bodies`, `ndi.daq.reader.image.ndr`; Haley import decisions #29, #33). Not decided; nothing changes until then.
 
-Decided by Jess Haley, 2026-10-22 [migrated masks have no software]: a migrated v1 imageStack mask calculation carries no `software_id`, because v1 `imageStack` records none ([calculation-software-optional decided], V_eta_spatial_transcriptomics_plan.md); the native Haley import names her analysis package. Answer "2y".
+Decided by Jess Haley, 2026-10-22 [migrated masks have no software]: a migrated v1 imageStack mask calculation carries no `software_id`, because v1 `imageStack` records none ([calculation-software-optional decided], did_v2_spatial_transcriptomics_plan.md); the native Haley import names her analysis package. Answer "2y".
 
 Decided by Jess Haley, 2026-10-22 [encounter axis]: a Haley density estimate's dimension is NCIT:C62143 Encounter, with `onset time` as a covariate along it, not a dimension named "encounter onset time" (answer "7.4a").
 
@@ -1083,7 +1083,7 @@ Decided by Jess Haley, 2026-10-22 [instrument and device]: `interaction.instrume
 
 Decided by Jess Haley, 2026-10-22 [rig minting with edges]: the #73 item 56 rig-minting pass mints each acquisition system from its v1 daqsystem document, with `reader_id` and `epoch_file_pattern_id`; a devicestring naming a rig with no daqsystem document gets no system and is counted (measured 2026-10-22: 0 such rigs in B, Dab, Soph, 20211116, PRED) (answer "2a"). Built: DID-matlab d2b3558 (a daqsystem missing its reader or navigator is quarantined), af27912 (`rigs_without_daqsystem` count).
 
-Decided by Jess Haley, 2026-10-23 [generic_file emitted set]: the set DID-matlab's batch pass `did2.convert.foldGenericFiles` emits for a v1 `generic_file` is the end state: an `observation + term` keeping the v1 id (its `variable` from the sibling `ontologyLabel`) plus an `opaque_body` holding the file; a document the pass cannot fold stays as it is, counted under its refusal reason (answer "K2 a"). Recorded as `confirmed_targets` in `V_eta_migration_targets.json`; [stranded sources] in `V_eta_OPEN_WORK.md` is the earlier decision this confirms.
+Decided by Jess Haley, 2026-10-23 [generic_file emitted set]: the set DID-matlab's batch pass `did2.convert.foldGenericFiles` emits for a v1 `generic_file` is the end state: an `observation + term` keeping the v1 id (its `variable` from the sibling `ontologyLabel`) plus an `opaque_body` holding the file; a document the pass cannot fold stays as it is, counted under its refusal reason (answer "K2 a"). Recorded as `confirmed_targets` in `did_v2_migration_targets.json`; [stranded sources] in `did_v2_OPEN_WORK.md` is the earlier decision this confirms.
 
 Decided by Jess Haley, 2026-10-23 [v1 passthroughs accepted]: these 13 classes stay as v1 documents for now: binnedspikeratevm, distance_metadata, oneepoch, openminds, openminds_stimulus, simple_calc, spike_clusters, spikewaves, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, SpikeInterfaceSortingOutputs, ontologyLabel; any corpus holding one is reported not done until that class is built (`openminds` and `stimulus_parameter` keep their decided targets) (answer "K22 a").
 
@@ -1113,7 +1113,7 @@ Decided by Jess Haley, 2026-10-23 [V2 stamp]: "new files should have V2 stamp" a
 
 Decided by Jess Haley, 2026-10-24 [#112 superseded]: ("yes close 112") did-schema keeps committing the sibling-dependent generated files (coverage ledger, status board, decisions JSON, class walkthrough); the sibling lock ([sibling lock], `tools/sibling_lock.json`) removes the drift that issue #112 (2026-10-22, "queue (a) for right after the merge") was opened to remove, since those files now change only when the lock is moved deliberately. Issue #112 is closed as superseded.
 
-Decided by Jess Haley, 2026-10-24 [image_collection retired]: ("Retire image collection") `image_collection` is a tombstone, as [stranded sources] (V_eta_OPEN_WORK.md, 2026-08-11) already said: its class file moves from `stable/` to `deprecated/` so it can no longer be written as a V2 class; v1 `imageCollection` documents are read as stored.
+Decided by Jess Haley, 2026-10-24 [image_collection retired]: ("Retire image collection") `image_collection` is a tombstone, as [stranded sources] (did_v2_OPEN_WORK.md, 2026-08-11) already said: its class file moves from `stable/` to `deprecated/` so it can no longer be written as a V2 class; v1 `imageCollection` documents are read as stored.
 
 Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired]: ("You can do step 2 to refuse retired classes") `did2.build` refuses to create a new document of a class whose `disposition` is `retire`, naming its replacement where one is recorded; reading v1 and the generic migration are not affected. Built: DID-matlab 57e2327 (#230: did2.build refusal, strict mode RetiredClasses), did-schema (#127: D5 in tools/validate_v_eta.py derives `stable/class_disposition_meta.json`, which arms it; confirmed by Jess Haley, 2026-10-25: "Okay")
 
@@ -1131,7 +1131,7 @@ Decided by Jess Haley, 2026-10-25 [V_eta stamp not accepted]: ("Nothing real was
 
 Decided by Jess Haley, 2026-10-25 [termNumberKind is per-dataset]: (answer "1. B" to the corpus-code audit, `review/corpus-code-audit-2026-10-24/README.md` question 1a) DID-matlab `treatment:termNumberKind`, which reads the one term EMPTY:0000199 as a time in hours, is a meaning decision for the one dataset family whose importer writes that term (vhlab); it moves out of the generic migration into that dataset's map.
 
-Decided by Jess Haley, 2026-10-25 [WBStrain prefix is generic]: (answer "A", question 1b) NDI-matlab `etaShape:curie` rewriting `WBStrain:<n>` to `WormBase:WBStrain<n>` is a prefix-spelling rule ([prefix spelling], `V_eta_prefix_spelling_plan.md`) and stays in the generic migration.
+Decided by Jess Haley, 2026-10-25 [WBStrain prefix is generic]: (answer "A", question 1b) NDI-matlab `etaShape:curie` rewriting `WBStrain:<n>` to `WormBase:WBStrain<n>` is a prefix-spelling rule ([prefix spelling], `did_v2_prefix_spelling_plan.md`) and stays in the generic migration.
 
 Decided by Jess Haley, 2026-10-25 [generic stage is lossless]: (answer "4. Yes", question 4) the generic migration keeps the v1 document, or the fields it dropped, whenever it cannot place everything; nothing it cannot place is dropped or rewritten. This applies to the places the audit lists under "What blocks a lossless generic stage" in `review/corpus-code-audit-2026-10-24/DID-matlab.md` and `NDI-matlab.md`. Built: DID-matlab 0eee7ee (#247), NDI-matlab e0177b3 (#1067); the further drops the drop census found are built under their own lines (2026-10-25/26)
 
@@ -1177,7 +1177,7 @@ Decided by Jess Haley, 2026-10-25 [markdown out of schemas]: ("Yes, you should m
 
 Decided by Jess Haley, 2026-10-25 [neuron derived from its sorting run]: ("a", drop census question 1) a v1 `element` (a sorted neuron) whose `jrclust_clusters_id` names a JRCLUST run keeps that link as a `directed_relation` `prov:wasDerivedFrom` from the neuron entity to the JRCLUST `calculation` (DID-matlab `jrclust_clusters.m` keeps the v1 id, so the element migrator writes it alone), beside its `derived_from` the electrode; it was dropped before (1,554 Soph and 21 20211116 elements, drop census). Built: DID-matlab f6486be (#250)
 
-Decided by Jess Haley, 2026-10-25 [session membership records linked or ingested]: ("Yes, record both"; drop census question 2) a v1 `session_in_a_dataset` keeps what its dropped fields mean: the session `part_of` dataset relation's `method.term` says whether the session was INGESTED into the dataset or LINKED into it (`is_linked`; NDI `ndi.dataset` add_ingested_session / add_linked_session), and for a linked session `method.parameters` hold the opener class (`session_creator`) and its arguments, among them the session's path (`session_creator_input2`): where that session's data is stored. Inputs that only restate the session's reference or id are dropped as copies. Terms: an existing ontology term first, a new EMPTY term only if none fits (T19). Jess: the corpora cannot show this, since published datasets must be ingested first. Replaces the drop in `session_in_a_dataset.m` and the `linked_session` document of V_eta_linked_session_plan.md ([linked_session withdrawn], there). Built (DID-matlab part): DID-matlab f6486be (#250). Build pending: did-schema (terms), DID-matlab
+Decided by Jess Haley, 2026-10-25 [session membership records linked or ingested]: ("Yes, record both"; drop census question 2) a v1 `session_in_a_dataset` keeps what its dropped fields mean: the session `part_of` dataset relation's `method.term` says whether the session was INGESTED into the dataset or LINKED into it (`is_linked`; NDI `ndi.dataset` add_ingested_session / add_linked_session), and for a linked session `method.parameters` hold the opener class (`session_creator`) and its arguments, among them the session's path (`session_creator_input2`): where that session's data is stored. Inputs that only restate the session's reference or id are dropped as copies. Terms: an existing ontology term first, a new EMPTY term only if none fits (T19). Jess: the corpora cannot show this, since published datasets must be ingested first. Replaces the drop in `session_in_a_dataset.m` and the `linked_session` document of did_v2_linked_session_plan.md ([linked_session withdrawn], there). Built (DID-matlab part): DID-matlab f6486be (#250). Build pending: did-schema (terms), DID-matlab
 
 Decided by Jess Haley, 2026-10-25 [dataset form terms]: ("b", drop census question 3) a v1 `metadata_editor`'s `ExperimentalApproach`, `TechniquesEmployed` and `DataType` are kept as term assertions about the dataset entity: experimental approach by the existing binding (EMPTY:0000356, the 40 openMINDS `experimentalApproach` terms, [term registry closed value sets]); techniques and data type by two new dataset bindings valued by openMINDS terms (technique; semantic data type). A form value that is not in the list carries the form whole as v1 rather than being dropped. Replaces their drop as "per-subject projections" in `metadata_editor.m`. Jess: nothing required a `metadata_editor` document on a published dataset, so the corpora (mostly published) show few. Built (schema part): did-schema 02e2980 (#131: Technique 227 / Scientific Data Type 4 bindings). Built (DID-matlab part): DID-matlab f6486be (#250). Build pending: did-schema (two bindings, terms), DID-matlab
 
@@ -1239,7 +1239,7 @@ Decided by Jess Haley, 2026-10-26 [one-reading quick answers]: ("Q1–Q5 yes"; o
 
 Decided by Jess Haley, 2026-10-26 [carry register kinds]: ("That's fine", to the 13 carry register rows whose kind Claude read from their decision lines, listed on did-schema PR #134, and to filing OPEN_WORK rows for the `awaiting_home` rows that had none) the kinds stand as read: `malformed` for carry-006 (`filter`, fractional order), carry-008 (`syncrule`, a setting that cannot be written), carry-009 (`element_epoch`, `t0_t1` not matching its clocks, missing or not numeric), carry-014 (`hartley_calc`, `stimulus_properties` differing from the generator settings), carry-016 (`calculator`, the inner `depends_on` copy differing), carry-017 (`daqreader_ndr`, the reader class differing from the reader string), carry-018 (`neuron_extracellular`, counts differing from the waveform) and carry-019 (`lightsheetZarrPyramid`, no source file and no dtype); `awaiting_home` for carry-007 (`filter.label`), carry-011 and carry-012 (`image` / `imageStack` `data_limits`), carry-013 (`imageStack` `imageCollection_id`) and carry-015 (`hartley_calc.dimension_labels`). The register marks them `kind_basis: decided`. OPEN_WORK #130 (carry-001, issue #135), #131 (carry-007, issue #136) and #132 (carry-010, issue #137) are filed.
 
-Decided by Jess Haley, 2026-10-26 [awaiting home is tracked]: ("Yes, you can file those"; "You can make the register check fail when missing the open work entry") every `awaiting_home` row of the carry register names an OPEN_WORK row, and `tools/check_carry_register.py` FAILS a row with none, or whose row is not in the "## OPEN" section of `V_eta_OPEN_WORK.md` (C5), instead of listing it. The four rows that had none got OPEN_WORK #133 (carry-011, carry-012; issue #138), #134 (carry-013; issue #139) and #135 (carry-015; issue #140).
+Decided by Jess Haley, 2026-10-26 [awaiting home is tracked]: ("Yes, you can file those"; "You can make the register check fail when missing the open work entry") every `awaiting_home` row of the carry register names an OPEN_WORK row, and `tools/check_carry_register.py` FAILS a row with none, or whose row is not in the "## OPEN" section of `did_v2_OPEN_WORK.md` (C5), instead of listing it. The four rows that had none got OPEN_WORK #133 (carry-011, carry-012; issue #138), #134 (carry-013; issue #139) and #135 (carry-015; issue #140).
 
 Decided by Jess Haley, 2026-10-26 [dataset map edits V2]: ("b", to Claude's question whether a dataset map (a) only converts documents the generic stage carried as v1, or (b) may also edit V2 documents the generic stage wrote) a dataset map runs AFTER the generic migration, which stays dataset-free and converts every document that has one correct reading exactly as today; the map then adds what only that dataset knows, and may change V2 documents the generic stage wrote (e.g. Dab: mint the slices, add the tetanus runs, move the baths and statements from the animal to its slice, drop the before/after labels), as well as convert carried v1 documents. Every change comes from a map row that cites the decision behind it. Build pending: NDI-matlab (the map step and the Dab map, [sliceTetanus to Dab map])
 
@@ -1311,13 +1311,13 @@ Decided by Jess Haley, 2026-10-26 [markdown cleanup and rename]: ("9 yes", "10 o
 
 Decided by Jess Haley, 2026-10-26 [pipeline defects are not carries]: ("B", to Claude's question whether carries caused by the migration itself rather than by the v1 data are register rows) a v1 document left unconverted because of the pipeline, not the data, is a DEFECT, never a carry register row: (1) a stale or incomplete V2 schema (DID-matlab `metadata_editor.m`, a form field with no binding; `pyraview.m` / `private/jFrequencyFilter.m`, the pre-[filters are methods] `frequency_filter` path); (2) an NDI second-pass re-fold whose output fails validation and is quarantined (`ndi.migrate.local`: table rows, labels, ensembles); (3) a second-pass step that throws and is caught. Such a run fails loudly, or its report lists the cases as errors apart from carries, and the cause is fixed in code. The carry register explains the data only. Build pending: DID-matlab (the two schema checks fail loudly). Built: NDI-matlab 38adc701b (PR #1074) (re-fold quarantines and caught errors reported as errors)
 
-Decided by Jess Haley, 2026-10-26 [unresolved recorded elements make a standalone item]: ("1 a") a v1 `stimulus_presentation` whose epoch records elements that resolve to no subject becomes a standalone item, as one with no element at all does (`V_eta_stimulus_model_plan.md` [presentation with no subject]), instead of being carried as v1. The drafted register row carry-082 is withdrawn. Built: NDI-matlab 38adc701b (PR #1074)
+Decided by Jess Haley, 2026-10-26 [unresolved recorded elements make a standalone item]: ("1 a") a v1 `stimulus_presentation` whose epoch records elements that resolve to no subject becomes a standalone item, as one with no element at all does (`did_v2_stimulus_model_plan.md` [presentation with no subject]), instead of being carried as v1. The drafted register row carry-082 is withdrawn. Built: NDI-matlab 38adc701b (PR #1074)
 
 Decided by Jess Haley, 2026-10-26 [extra field on an ingested stimulus file is malformed]: ("2 a") a v1 `daqmetadatareader_epochdata_ingested` holding a block field or edge the presentation's data body does not write is carried as `malformed` (carry-087): NDI's template block is empty and its writer (`+daq/metadatareader.m` `ingest_epochfiles`) sets only the `daqmetadatareader_id` edge, so such a field is not writer-shaped.
 
 Decided by Jess Haley, 2026-10-26 [NaN control means no control]: ("2 a", after Claude checked the writer) a v1 `control_stimulus_ids` whose control is NaN is converted, not carried: NDI's writer writes NaN when a stimulus set has no control (NDI-matlab main `+app/+stimulus/tuning_response.m:622` "if number of control stimuli is 0, that's okay, just give values of NaN", `:634` `cs_ids = nan(size(stimids))`), and its own reader skips NaN (`:298`). The control-pairing calculation ([control pairing is a calculation]) records NaN for such trials, meaning "no control"; carry-091 keeps only records broken in themselves. Built: NDI-matlab 38adc701b (PR #1074)
 
-Decided by Jess Haley, 2026-10-26 [conflicting animal records need a map]: ("yes, cite one correct reading", after asking "why don't we just make the cohort? Is it that we can't tell if the multi-subject is a mistake?") several animals recorded together in a session already get one manipulation on the session's standing cohort (`V_eta_stimulus_model_plan.md` operating rule 2, T17 amendment signed 2026-10-21); only a presentation whose records name DIFFERENT animals (rule 4: "conflicting records are not a shared event") is carried, `needs_mapping`, citing [one correct reading] (carry-081): the generic stage cannot tell which record is right. Built: NDI-matlab 38adc701b (PR #1074).
+Decided by Jess Haley, 2026-10-26 [conflicting animal records need a map]: ("yes, cite one correct reading", after asking "why don't we just make the cohort? Is it that we can't tell if the multi-subject is a mistake?") several animals recorded together in a session already get one manipulation on the session's standing cohort (`did_v2_stimulus_model_plan.md` operating rule 2, T17 amendment signed 2026-10-21); only a presentation whose records name DIFFERENT animals (rule 4: "conflicting records are not a shared event") is carried, `needs_mapping`, citing [one correct reading] (carry-081): the generic stage cannot tell which record is right. Built: NDI-matlab 38adc701b (PR #1074).
 
 Decided by Jess Haley, 2026-10-26 [method terms are general]: ("1. yes", proposal `docs/v2_working/EMPTY_TERMS_PROPOSAL.md`) a calculation's method term names the general procedure, not the tool or the NDI class that ran it: spike sorting is "Spike sorting" (wikidata:Q2003571), a fit is "curve fitting data transformation" (OBI:0200072); the specific tool (Kilosort, Kiasort, JRCLUST, an `ndi.calc.*` class) is the `software` entity on `software_id` ([software_id is what produced the statement]), carrying its RRID where one exists (Kilosort RRID:SCR_016422). Applies to all seven calculation migrators. Build pending: did-schema (registry rows), DID-matlab (the calculation migrators)
 

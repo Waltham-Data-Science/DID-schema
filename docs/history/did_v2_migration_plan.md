@@ -2,7 +2,7 @@
 
 **Status:** historical. This was the opening proposal ("nothing here is built yet" when it was
 written); V_eta has since been built and reshaped many times. For current state read
-`V_eta_STATUS.md` and the coverage ledger; for decisions, the individual plan documents and
+`did_v2_STATUS.md` and the coverage ledger; for decisions, the individual plan documents and
 their `TEAM-SIGN-OFF` lines. HISTORICAL-SIGNOFF-CLAIM.
 **Implements:** Brainstorm **J** — "the subject model, and one class family for
 everything about a subject"
@@ -16,7 +16,7 @@ written. It has two jobs:
 
 1. **Define the V_eta target** as a set of *differences from V_zeta* (Part A) —
    enough to anchor the migration, not the full class-by-class SPEC. The full
-   `V_eta_SPEC.md` + the `schemas/V_eta/` tree are the first implementation step
+   `did_v2_SPEC.md` + the `schemas/V_eta/` tree are the first implementation step
    *after* this plan is approved.
 2. **Specify how a `did_v1` corpus is converted into V_eta** (Parts B–E) — the
    per-class mapping, the genuinely new migrator machinery Brainstorm J forces,
@@ -145,7 +145,7 @@ V_zeta's `subject_assertion` is a single concrete class under `base` with
 
 V_zeta chose **Path T** (`target_structure` ontology term on the spine; the
 subject stays the whole specimen) *specifically because Path S needs a standing
-find-or-create/dedup service under minted subject UIDs* (V_zeta_notes, "Locus:
+find-or-create/dedup service under minted subject UIDs* (V_zeta_notes (deleted; see git 04fc712), "Locus:
 Path T"). **Brainstorm J commits to Path S** and to the rule that disambiguates
 it:
 
@@ -251,7 +251,7 @@ discovery mode, never dumped into a generic bin (**Resolved, D8**).
 
 ### A.10 What carries over verbatim (design-neutral for J)
 
-> **⚠️ SUPERSEDED (in part) by `V_eta_nonsubject_cohesiveness_plan.md`.** This
+> **⚠️ SUPERSEDED (in part) by `did_v2_nonsubject_cohesiveness_plan.md`.** This
 > section originally listed `openminds*` and `element`/`epoch*` as verbatim
 > carry-overs — which contradicts Brainstorm J itself (openMINDS is **not
 > stored** → decomposed to assertions, J:92; `element_epoch` / `generic_file` /
@@ -363,7 +363,7 @@ it lives in the NDI second pass, mirroring bath resolution):
   unresolved: **located** (emit a `term_observation` value, do *not* mint a
   subject) — the conservative choice, since minting a spurious subject is harder
   to undo than promoting a value later.
-> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `did_v2_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
 
 - **Corpus reality check first.** Before building this, the discovery reports
   must quantify how many `did_v1` rows actually carry an anatomical locus
@@ -478,8 +478,8 @@ The 6 v1 tuning composites (`contrast_tuning`, `orientation_direction_tuning`,
 migrators + `*_calc` wrappers + `tuningcurve_calc` fold to the ONE
 `tuning_curve_calculation` leaf. `contrast_sensitivity_calc` folds to its own
 `contrast_sensitivity_calculation`. `hartley`/`reverse_correlation` (RF) → a
-`sampled_body`-valued map (2.D), still deferred. See `V_eta_tuning_model_plan.md`
-and `V_eta_subject_calculation_plan.md`.
+`sampled_body`-valued map (2.D), still deferred. See `did_v2_tuning_model_plan.md`
+and `did_v2_subject_calculation_plan.md`.
 
 ---
 
@@ -524,10 +524,10 @@ default we can quietly pick.
   → **D9**. `element` dissolution at the schema layer is deferred (`ndi.element`
   stays an NDI-matlab implementation detail; migrators populate no individuated
   referent in pass 1). (A.10)
-> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `V_eta_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
+> **SUPERSEDED 2026-10-21.** D3's located-by-default is replaced by Jess Haley's decision of 2026-10-21, recorded in `did_v2_go_forward_class_audit.md` ("Any statement about an anatomical region of a subject ... targets that region's part entity"): every statement about a region targets that region's part entity, one per subject and region. The measurement below stands as measured; only the policy drawn from it is replaced.
 
 - **D3 — Path S scope for the first pass. Resolved + measured.** *Measure before
-  we build.* Discovery on B/Dab (`V_eta_discovery_notes.md`) found the
+  we build.* Discovery on B/Dab (`did_v2_discovery_notes.md`) found the
   attributed-locus volume is **small — 49 loci in Dab (all distinct subjects), 0
   in B** — so **located-by-default** (emit a `term_observation` value, mint no
   subject) + a mint allowlist is sufficient; the full find-or-create/dedup service
@@ -739,7 +739,7 @@ default we can quietly pick.
 
 ## Part F — Implementation & phasing (after approval)
 
-1. **Schema (DID-schema).** Write `V_eta_SPEC.md` + `V_eta_notes.md`; build
+1. **Schema (DID-schema).** Write `did_v2_SPEC.md` + `V_eta_notes.md` (deleted; see git 04fc712); build
    `schemas/V_eta/` as a copy of V_zeta with the Part-A transform applied
    (subject → bare identity; add `subject_relation`/`directed_`/`undirected_`;
    restore `subject_statement`; re-root + rename `subject_observation`/

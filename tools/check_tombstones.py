@@ -79,7 +79,7 @@ high-risk divergence remains.
   python3 tools/check_tombstones.py --enforce-files
   python3 tools/check_tombstones.py --all      # include low-risk rows in full
 
-Ground truth is `V_eta_ndi_ground_truth.json` (regenerate with
+Ground truth is `did_v2_ndi_ground_truth.json` (regenerate with
 tools/ndi_ground_truth.py); it reads NDI `origin/main`, never a feature branch.
 """
 
@@ -93,7 +93,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-GT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GT = os.path.join(REPO, "schemas", "did_v2_ndi_ground_truth.json")
 VETA = os.path.join(REPO, "schemas", "did_v2")
 DIDM = os.environ.get("DID_MATLAB", os.path.join(os.path.dirname(REPO), "DID-matlab"))
 

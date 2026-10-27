@@ -40,11 +40,13 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 
 import coverage  # noqa: E402
 import decision_citations as dc  # noqa: E402
+import doc_paths  # noqa: E402
 import status_board  # noqa: E402
 
 SCHEMAS = os.path.join(REPO_ROOT, "schemas")
-LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
-LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
+DOCS = os.path.join(REPO_ROOT, "docs")
+LEDGER_JSON = os.path.join(SCHEMAS, "did_v2_coverage_ledger.json")
+LEDGER_MD = os.path.join(DOCS, "generated", "did_v2_coverage_ledger.md")
 
 # 115: NDI-matlab#979 added lightsheetZarrPyramid + lightsheetZarrLevel (2026-10).
 V1_UNIVERSE = 115
@@ -78,8 +80,7 @@ _DECIDED_BY = re.compile(
 
 
 def _path(document):
-    return (os.path.join(SCHEMAS, document) if "/" not in document
-            else os.path.join(REPO_ROOT, document))
+    return doc_paths.resolve(document)
 
 
 def _scan_text(text):
@@ -319,8 +320,8 @@ class TestTheCommittedLedger(unittest.TestCase):
 
     def test_the_census_reports_its_denominator(self):
         c = self.gov["census"]
-        docs = sorted(n for n in os.listdir(SCHEMAS) if n.endswith(".md")
-                      and n not in dc.GENERATED_MARKDOWN)
+        docs = sorted(os.path.basename(p) for p in doc_paths.record_documents()
+                      if os.path.basename(p) not in dc.GENERATED_MARKDOWN)
         outside = sorted({d for v in dc.CITATIONS.values() for d, _t in v
                           if "/" in d})
         self.assertEqual(c["documents_read"], len(docs) + len(outside))
@@ -343,12 +344,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(tagged, [])
         # The `<modality>_observation` signature is visible, not merely not
         # rejected (an empty list is also what a scanner reading nothing gives).
-        self.assertEqual(_resolve("V_eta_recording_observation_plan.md",
+        self.assertEqual(_resolve("did_v2_recording_observation_plan.md",
                                   "raw recording observation"), 99)
 
     def test_the_generated_markdown_list_matches_what_gates_declares(self):
         with open(os.path.join(REPO_ROOT, "tools", "gates.py")) as fh:
-            written = set(re.findall(r'"(schemas/[A-Za-z0-9_./]+\.md)"', fh.read()))
+            written = set(re.findall(r'"(docs/generated/[A-Za-z0-9_./]+\.md)"', fh.read()))
         self.assertEqual({os.path.basename(p) for p in written},
                          set(dc.GENERATED_MARKDOWN))
 
@@ -363,10 +364,10 @@ class TestTheReconciliation(unittest.TestCase):
         self.assertEqual(len(den), 1)
         self.assertIn("10 transcription(s)", den[0])
         # 8 -> 9 on 2026-10-21: `stimulus_bath` now cites the bath line its
-        # transcription quotes (V_eta_go_forward_class_audit.md, "Decided by
+        # transcription quotes (did_v2_go_forward_class_audit.md, "Decided by
         # Jess Haley, 2026-10-21"), so every transcription is reconciled.
         # 9 -> 10 on 2026-10-22: `control_stimulus_ids` dissolves ([control as
-        # covariate], V_eta_stimulus_response_model_plan.md), and its citation
+        # covariate], did_v2_stimulus_response_model_plan.md), and its citation
         # names the same line.
         self.assertIn("10 cite the same document", den[0],
                       "a reconciliation that matches nothing proves nothing")
@@ -382,11 +383,11 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
 
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="decision-citations-")
-        self.saved = dc.SCHEMAS
-        dc.SCHEMAS = self.tmp
+        self.saved = dc.DOCS
+        dc.DOCS = self.tmp
 
     def tearDown(self):
-        dc.SCHEMAS = self.saved
+        dc.DOCS = self.saved
 
     def _doc(self, name, text):
         with open(os.path.join(self.tmp, name), "w") as fh:
@@ -448,7 +449,7 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
         self.assertEqual(entries[0]["keys"], [])
         self.assertFalse(dc.resolve(d, "2026-10-21")["resolved"])
         # The census reports it among the rejected lines.
-        census = dc.decision_census(schemas_dir=self.tmp, table={})
+        census = dc.decision_census(docs_dir=self.tmp, table={})
         self.assertEqual([(r["document"], r["line"]) for r in
                           census["rejected_lines"]], [(d, 1)])
         self.assertEqual(census["accepted_lines"], 0)
@@ -467,10 +468,10 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
         self.assertIn("TAG NOT UNIQUE", r["why"])
 
     def test_every_real_decided_by_line_is_tagged_unique_and_by_the_team(self):
-        """The record itself: no `Decided by` line under schemas/ or review/
+        """The record itself: no `Decided by` line under docs/ or review/
         is rejected for its name, a missing tag or a shared tag."""
         bad = []
-        for root in (SCHEMAS, os.path.join(REPO_ROOT, "review")):
+        for root in (DOCS, os.path.join(REPO_ROOT, "review")):
             for dirpath, _dirs, files in os.walk(root):
                 for f in files:
                     if not f.endswith(".md") or f in dc.GENERATED_MARKDOWN:
@@ -573,7 +574,7 @@ class TestMutationsRedden(unittest.TestCase):
         # THE OPERATING-RULE-4 MUTATION: every citation counts, signed or not.
         # A bogus citation for an undecided class makes the difference visible.
         table = dict(dc.CITATIONS)
-        table["measurement"] = [("V_eta_tenets.md", "no such decision")]
+        table["measurement"] = [("did_v2_tenets.md", "no such decision")]
 
         def always(document, tag):
             return {"document": document, "tag": tag, "resolved": True,
@@ -585,7 +586,7 @@ class TestMutationsRedden(unittest.TestCase):
 
     def test_an_unresolved_citation_never_decides(self):
         table = dict(dc.CITATIONS)
-        table["measurement"] = [("V_eta_tenets.md", "no such decision")]
+        table["measurement"] = [("did_v2_tenets.md", "no such decision")]
         with _Swap(dc, CITATIONS=table):
             row = next(r for r in _rejoin(_rows()) if r["v1_class"] == "measurement")
         self.assertIsNone(row["decided_by_citation"])
@@ -614,21 +615,21 @@ class TestMutationsRedden(unittest.TestCase):
                         + list(names), table)
         # `demoNDI` would join a citation of `demo_ndi`; construct one.
         table = dict(dc.CITATIONS)
-        table["demo_ndi"] = [("V_eta_epoch_plan.md", "epoch")]
+        table["demo_ndi"] = [("did_v2_epoch_plan.md", "epoch")]
         with _Swap(dc, CITATIONS=table):
             caught = self._assert_reddens(_Swap(dc, decision_for=folded))
         self.assertTrue(caught)
 
     def test_a_transcription_contradicting_the_citation_is_FATAL(self):
         table = dict(dc.CITATIONS)
-        table["filter"] = [("V_eta_epoch_plan.md", "epoch")]
+        table["filter"] = [("did_v2_epoch_plan.md", "epoch")]
         with _Swap(dc, CITATIONS=table):
             _lines, fails = coverage.check_decision_citations()
         self.assertTrue(any("filter" in f for f in fails), fails)
 
     def test_the_board_fails_on_an_unresolved_citation(self):
         table = dict(dc.CITATIONS)
-        table["app"] = [("V_eta_tenet_audit.md", "no such decision")]
+        table["app"] = [("did_v2_tenet_audit.md", "no such decision")]
         with _Swap(dc, CITATIONS=table):
             text, ok = status_board.build()
         self.assertFalse(ok)

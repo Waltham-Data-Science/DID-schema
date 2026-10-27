@@ -1,6 +1,6 @@
 {
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
-  "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
+  "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is docs/generated/did_v2_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
     "classes": 73,
     "classes_citing": 73,
@@ -28,7 +28,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_epoch_plan.md",
+        "document": "did_v2_epoch_plan.md",
         "tag": "epoch",
         "line": 884,
         "kind": "TEAM-SIGN-OFF"
@@ -36,7 +36,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
       "citations": [
         {
-          "document": "V_eta_epoch_plan.md",
+          "document": "did_v2_epoch_plan.md",
           "tag": "epoch",
           "resolved": true,
           "line": 884,
@@ -52,7 +52,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_tenet_audit.md",
+        "document": "did_v2_tenet_audit.md",
         "tag": "software",
         "line": 16,
         "kind": "TEAM-SIGN-OFF"
@@ -60,7 +60,7 @@
       "decision": "jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.",
       "citations": [
         {
-          "document": "V_eta_tenet_audit.md",
+          "document": "did_v2_tenet_audit.md",
           "tag": "software",
           "resolved": true,
           "line": 16,
@@ -76,7 +76,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "misc singletons",
         "line": 9,
         "kind": "TEAM-SIGN-OFF"
@@ -84,7 +84,7 @@
       "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "misc singletons",
           "resolved": true,
           "line": 9,
@@ -100,7 +100,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_subject_calculation_plan.md",
+        "document": "did_v2_subject_calculation_plan.md",
         "tag": "calculator mixin dropped (#73)",
         "line": 371,
         "kind": "TEAM-SIGN-OFF"
@@ -108,7 +108,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environment`) are deleted (#73 item 53). The `calculator` mixin leaves every V_eta chain: `subject_calculation` declares the required `software_id` + `interpreter_id` + `operating_system_id` itself, and `calculator` survives only as a retiring v1 tombstone for passthrough.",
       "citations": [
         {
-          "document": "V_eta_subject_calculation_plan.md",
+          "document": "did_v2_subject_calculation_plan.md",
           "tag": "calculator mixin dropped (#73)",
           "resolved": true,
           "line": 371,
@@ -124,7 +124,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -132,7 +132,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -148,7 +148,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_response_model_plan.md",
+        "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "control as covariate",
         "line": 618,
         "kind": "Decided by"
@@ -156,7 +156,7 @@
       "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
       "citations": [
         {
-          "document": "V_eta_stimulus_response_model_plan.md",
+          "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "control as covariate",
           "resolved": true,
           "line": 618,
@@ -172,7 +172,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_daq_family_decisions.md",
+        "document": "did_v2_daq_family_decisions.md",
         "tag": "daq configuration",
         "line": 489,
         "kind": "TEAM-SIGN-OFF"
@@ -180,7 +180,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
       "citations": [
         {
-          "document": "V_eta_daq_family_decisions.md",
+          "document": "did_v2_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
           "line": 489,
@@ -196,7 +196,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_ingested_payload_findings.md",
+        "document": "did_v2_ingested_payload_findings.md",
         "tag": "daq ingested payloads",
         "line": 276,
         "kind": "TEAM-SIGN-OFF"
@@ -204,7 +204,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
       "citations": [
         {
-          "document": "V_eta_ingested_payload_findings.md",
+          "document": "did_v2_ingested_payload_findings.md",
           "tag": "daq ingested payloads",
           "resolved": true,
           "line": 276,
@@ -220,7 +220,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_daq_family_decisions.md",
+        "document": "did_v2_daq_family_decisions.md",
         "tag": "daq configuration",
         "line": 489,
         "kind": "TEAM-SIGN-OFF"
@@ -228,7 +228,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
       "citations": [
         {
-          "document": "V_eta_daq_family_decisions.md",
+          "document": "did_v2_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
           "line": 489,
@@ -244,7 +244,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_ingested_payload_findings.md",
+        "document": "did_v2_ingested_payload_findings.md",
         "tag": "daq ingested payloads",
         "line": 276,
         "kind": "TEAM-SIGN-OFF"
@@ -252,7 +252,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
       "citations": [
         {
-          "document": "V_eta_ingested_payload_findings.md",
+          "document": "did_v2_ingested_payload_findings.md",
           "tag": "daq ingested payloads",
           "resolved": true,
           "line": 276,
@@ -260,7 +260,7 @@
           "why": null
         },
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
@@ -276,7 +276,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_ingested_payload_findings.md",
+        "document": "did_v2_ingested_payload_findings.md",
         "tag": "daq ingested payloads",
         "line": 276,
         "kind": "TEAM-SIGN-OFF"
@@ -284,7 +284,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
       "citations": [
         {
-          "document": "V_eta_ingested_payload_findings.md",
+          "document": "did_v2_ingested_payload_findings.md",
           "tag": "daq ingested payloads",
           "resolved": true,
           "line": 276,
@@ -292,7 +292,7 @@
           "why": null
         },
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
@@ -308,7 +308,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_recording_observation_plan.md",
+        "document": "did_v2_recording_observation_plan.md",
         "tag": "epoch files as data bodies",
         "line": 115,
         "kind": "Decided by"
@@ -316,7 +316,7 @@
       "decision": "Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.",
       "citations": [
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
@@ -332,7 +332,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_daq_family_decisions.md",
+        "document": "did_v2_daq_family_decisions.md",
         "tag": "daq configuration",
         "line": 489,
         "kind": "TEAM-SIGN-OFF"
@@ -340,7 +340,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
       "citations": [
         {
-          "document": "V_eta_daq_family_decisions.md",
+          "document": "did_v2_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
           "line": 489,
@@ -356,7 +356,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_daq_family_decisions.md",
+        "document": "did_v2_daq_family_decisions.md",
         "tag": "daq configuration",
         "line": 489,
         "kind": "TEAM-SIGN-OFF"
@@ -364,7 +364,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
       "citations": [
         {
-          "document": "V_eta_daq_family_decisions.md",
+          "document": "did_v2_daq_family_decisions.md",
           "tag": "daq configuration",
           "resolved": true,
           "line": 489,
@@ -380,7 +380,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_recording_observation_plan.md",
+        "document": "did_v2_recording_observation_plan.md",
         "tag": "raw recording observation",
         "line": 99,
         "kind": "TEAM-SIGN-OFF"
@@ -388,7 +388,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
       "citations": [
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "raw recording observation",
           "resolved": true,
           "line": 99,
@@ -396,7 +396,7 @@
           "why": null
         },
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
@@ -412,7 +412,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_epoch_plan.md",
+        "document": "did_v2_epoch_plan.md",
         "tag": "epoch",
         "line": 884,
         "kind": "TEAM-SIGN-OFF"
@@ -420,7 +420,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
       "citations": [
         {
-          "document": "V_eta_epoch_plan.md",
+          "document": "did_v2_epoch_plan.md",
           "tag": "epoch",
           "resolved": true,
           "line": 884,
@@ -436,7 +436,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_ensemble_plan.md",
+        "document": "did_v2_ensemble_plan.md",
         "tag": "ensemble",
         "line": 10,
         "kind": "TEAM-SIGN-OFF"
@@ -444,7 +444,7 @@
       "decision": "jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes.",
       "citations": [
         {
-          "document": "V_eta_ensemble_plan.md",
+          "document": "did_v2_ensemble_plan.md",
           "tag": "ensemble",
           "resolved": true,
           "line": 10,
@@ -460,15 +460,15 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_time_reference_family_plan.md",
+        "document": "did_v2_time_reference_family_plan.md",
         "tag": "epochclocktimes",
         "line": 181,
         "kind": "TEAM-SIGN-OFF"
       },
-      "decision": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
+      "decision": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `did_v2_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
       "citations": [
         {
-          "document": "V_eta_time_reference_family_plan.md",
+          "document": "did_v2_time_reference_family_plan.md",
           "tag": "epochclocktimes",
           "resolved": true,
           "line": 181,
@@ -476,7 +476,7 @@
           "why": null
         },
         {
-          "document": "V_eta_OPEN_WORK.md",
+          "document": "did_v2_OPEN_WORK.md",
           "tag": "epoch extent -- row #113",
           "resolved": true,
           "line": 853,
@@ -492,7 +492,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_epoch_plan.md",
+        "document": "did_v2_epoch_plan.md",
         "tag": "epoch",
         "line": 884,
         "kind": "TEAM-SIGN-OFF"
@@ -500,7 +500,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
       "citations": [
         {
-          "document": "V_eta_epoch_plan.md",
+          "document": "did_v2_epoch_plan.md",
           "tag": "epoch",
           "resolved": true,
           "line": 884,
@@ -508,7 +508,7 @@
           "why": null
         },
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "epoch files as data bodies",
           "resolved": true,
           "line": 115,
@@ -524,7 +524,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_epoch_plan.md",
+        "document": "did_v2_epoch_plan.md",
         "tag": "epoch",
         "line": 884,
         "kind": "TEAM-SIGN-OFF"
@@ -532,7 +532,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
       "citations": [
         {
-          "document": "V_eta_epoch_plan.md",
+          "document": "did_v2_epoch_plan.md",
           "tag": "epoch",
           "resolved": true,
           "line": 884,
@@ -548,7 +548,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -556,7 +556,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -572,7 +572,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_daq_family_decisions.md",
+        "document": "did_v2_daq_family_decisions.md",
         "tag": "file navigation",
         "line": 343,
         "kind": "TEAM-SIGN-OFF"
@@ -580,7 +580,7 @@
       "decision": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
       "citations": [
         {
-          "document": "V_eta_daq_family_decisions.md",
+          "document": "did_v2_daq_family_decisions.md",
           "tag": "file navigation",
           "resolved": true,
           "line": 343,
@@ -596,7 +596,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_frequency_filter_model_plan.md",
+        "document": "did_v2_frequency_filter_model_plan.md",
         "tag": "2026-07-30",
         "line": 5,
         "kind": "TEAM-SIGN-OFF"
@@ -604,7 +604,7 @@
       "decision": "jess, 2026-07-30. Approved the frequency_filter model as written below: a referenced document under base rather than an entity, band edges rather than a single cutoff, typed gain fields rather than a coefficients bag, no sample_rate, and the name frequency_filter.",
       "citations": [
         {
-          "document": "V_eta_frequency_filter_model_plan.md",
+          "document": "did_v2_frequency_filter_model_plan.md",
           "tag": "2026-07-30",
           "resolved": true,
           "line": 5,
@@ -612,7 +612,7 @@
           "why": null
         },
         {
-          "document": "V_eta_frequency_filter_model_plan.md",
+          "document": "did_v2_frequency_filter_model_plan.md",
           "tag": "filters are methods",
           "resolved": true,
           "line": 201,
@@ -628,7 +628,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -636,7 +636,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -652,7 +652,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -660,7 +660,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -676,7 +676,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -684,7 +684,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -700,7 +700,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -708,7 +708,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -724,7 +724,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_OPEN_WORK.md",
+        "document": "did_v2_OPEN_WORK.md",
         "tag": "stranded sources",
         "line": 811,
         "kind": "TEAM-SIGN-OFF"
@@ -732,7 +732,7 @@
       "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
       "citations": [
         {
-          "document": "V_eta_OPEN_WORK.md",
+          "document": "did_v2_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
           "line": 811,
@@ -748,7 +748,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_ngrid_family_findings.md",
+        "document": "did_v2_ngrid_family_findings.md",
         "tag": "receptive field fold",
         "line": 358,
         "kind": "TEAM-SIGN-OFF"
@@ -756,7 +756,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- OPEN ITEM 3 (the RF fold) and the COORDINATES HALF of open item 2 are decided. A `hartley_calc` document migrates 1->1, id- and deps-PRESERVED, into a `receptive_field_calculation` leaf (= `subject_calculation` + `receptive_field`), with the payload in TWO `sampled_body` documents -- one for the STA plane, one for the p-value plane, because the writer itself gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438). `ngrid.coordinates` folds into `axes[].values`, which now exists; the guard in `jNgridBody.m` lifts from a refusal to a carry. `reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name. `frameTimes` becomes the irregular time axis of the per-presentation `timed_sequence`; `spiketimes` is carried as CALCULATION INPUT with `derived_from` the neuron, not as archival data; `stimulus_properties` is checked for equality against the presentation's generator spec and dropped only when equal, refused and reported when not.",
       "citations": [
         {
-          "document": "V_eta_ngrid_family_findings.md",
+          "document": "did_v2_ngrid_family_findings.md",
           "tag": "receptive field fold",
           "resolved": true,
           "line": 358,
@@ -772,7 +772,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -780,7 +780,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -796,7 +796,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_OPEN_WORK.md",
+        "document": "did_v2_OPEN_WORK.md",
         "tag": "stranded sources",
         "line": 811,
         "kind": "TEAM-SIGN-OFF"
@@ -804,7 +804,7 @@
       "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
       "citations": [
         {
-          "document": "V_eta_OPEN_WORK.md",
+          "document": "did_v2_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
           "line": 811,
@@ -820,7 +820,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -828,7 +828,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -844,7 +844,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_image_model_plan.md",
+        "document": "did_v2_image_model_plan.md",
         "tag": "image / ngrid",
         "line": 154,
         "kind": "TEAM-SIGN-OFF"
@@ -852,7 +852,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
       "citations": [
         {
-          "document": "V_eta_image_model_plan.md",
+          "document": "did_v2_image_model_plan.md",
           "tag": "image / ngrid",
           "resolved": true,
           "line": 154,
@@ -868,7 +868,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "misc singletons",
         "line": 9,
         "kind": "TEAM-SIGN-OFF"
@@ -876,7 +876,7 @@
       "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "misc singletons",
           "resolved": true,
           "line": 9,
@@ -892,7 +892,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
         "line": 723,
         "kind": "TEAM-SIGN-OFF"
@@ -900,7 +900,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "confirm sheet 2026-08-17",
           "resolved": true,
           "line": 723,
@@ -908,7 +908,7 @@
           "why": null
         },
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
           "line": 1023,
@@ -924,7 +924,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "line": 1023,
         "kind": "TEAM-SIGN-OFF"
@@ -932,7 +932,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
           "line": 1023,
@@ -948,7 +948,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
         "line": 1023,
         "kind": "TEAM-SIGN-OFF"
@@ -956,7 +956,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- `kilosort_clusters`, `kiasort_clusters` and `jrclust_clusters` migrate to `label_calculation` (#73 item 35), not `count_observation`.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "spike-sorter output, amends the 2026-08-17 confirm sheet",
           "resolved": true,
           "line": 1023,
@@ -1020,7 +1020,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1028,7 +1028,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1044,7 +1044,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_image_model_plan.md",
+        "document": "did_v2_image_model_plan.md",
         "tag": "image / ngrid",
         "line": 154,
         "kind": "TEAM-SIGN-OFF"
@@ -1052,7 +1052,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
       "citations": [
         {
-          "document": "V_eta_image_model_plan.md",
+          "document": "did_v2_image_model_plan.md",
           "tag": "image / ngrid",
           "resolved": true,
           "line": 154,
@@ -1068,7 +1068,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1076,7 +1076,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1092,7 +1092,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_openminds_family_record.md",
+        "document": "did_v2_openminds_family_record.md",
         "tag": "2026-08-08",
         "line": 10,
         "kind": "TEAM-SIGN-OFF"
@@ -1100,7 +1100,7 @@
       "decision": "jess, 2026-08-08 -- Part 7: the 3 unattached Strain documents become `strain` entities with their ids preserved and OP50-GFP's pedigree as `background_strain_1`; the other 5 documents are Species/GeneticStrainType fragments and are consumed into their parent strain's `species` and `genetic_strain_type` fields; no `term_assertion` is emitted, because there is no subject; the metadata-app dataset graph maps to the six classes `metadata_editor` already emits, with no new classes; the build is a second-pass assembler, and the `strain_id` edge is attached by the same pass that mints subjects from `ontologyTableRow`.",
       "citations": [
         {
-          "document": "V_eta_openminds_family_record.md",
+          "document": "did_v2_openminds_family_record.md",
           "tag": "2026-08-08",
           "resolved": true,
           "line": 10,
@@ -1116,7 +1116,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
         "line": 723,
         "kind": "TEAM-SIGN-OFF"
@@ -1124,7 +1124,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "confirm sheet 2026-08-17",
           "resolved": true,
           "line": 723,
@@ -1140,7 +1140,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1148,7 +1148,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1164,7 +1164,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
         "line": 723,
         "kind": "TEAM-SIGN-OFF"
@@ -1172,7 +1172,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "confirm sheet 2026-08-17",
           "resolved": true,
           "line": 723,
@@ -1188,7 +1188,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "misc singletons",
         "line": 9,
         "kind": "TEAM-SIGN-OFF"
@@ -1196,7 +1196,7 @@
       "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "misc singletons",
           "resolved": true,
           "line": 9,
@@ -1212,7 +1212,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_recording_observation_plan.md",
+        "document": "did_v2_recording_observation_plan.md",
         "tag": "raw recording observation",
         "line": 99,
         "kind": "TEAM-SIGN-OFF"
@@ -1220,7 +1220,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
       "citations": [
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "raw recording observation",
           "resolved": true,
           "line": 99,
@@ -1228,7 +1228,7 @@
           "why": null
         },
         {
-          "document": "V_eta_recording_observation_plan.md",
+          "document": "did_v2_recording_observation_plan.md",
           "tag": "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation",
           "resolved": true,
           "line": 111,
@@ -1244,7 +1244,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "session",
         "line": 664,
         "kind": "TEAM-SIGN-OFF"
@@ -1252,7 +1252,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "session",
           "resolved": true,
           "line": 664,
@@ -1268,7 +1268,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_method_parameters_plan.md",
+        "document": "did_v2_method_parameters_plan.md",
         "tag": "spike processing parameters",
         "line": 32,
         "kind": "TEAM-SIGN-OFF"
@@ -1276,7 +1276,7 @@
       "decision": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
       "citations": [
         {
-          "document": "V_eta_method_parameters_plan.md",
+          "document": "did_v2_method_parameters_plan.md",
           "tag": "spike processing parameters",
           "resolved": true,
           "line": 32,
@@ -1292,7 +1292,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1300,7 +1300,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1316,7 +1316,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1324,7 +1324,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1340,7 +1340,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "line": 572,
         "kind": "TEAM-SIGN-OFF"
@@ -1348,7 +1348,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
           "line": 572,
@@ -1364,7 +1364,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_method_parameters_plan.md",
+        "document": "did_v2_method_parameters_plan.md",
         "tag": "spike processing parameters",
         "line": 32,
         "kind": "TEAM-SIGN-OFF"
@@ -1372,7 +1372,7 @@
       "decision": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
       "citations": [
         {
-          "document": "V_eta_method_parameters_plan.md",
+          "document": "did_v2_method_parameters_plan.md",
           "tag": "spike processing parameters",
           "resolved": true,
           "line": 32,
@@ -1388,7 +1388,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_method_parameters_plan.md",
+        "document": "did_v2_method_parameters_plan.md",
         "tag": "spike processing parameters",
         "line": 32,
         "kind": "TEAM-SIGN-OFF"
@@ -1396,7 +1396,7 @@
       "decision": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
       "citations": [
         {
-          "document": "V_eta_method_parameters_plan.md",
+          "document": "did_v2_method_parameters_plan.md",
           "tag": "spike processing parameters",
           "resolved": true,
           "line": 32,
@@ -1412,7 +1412,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "bath is a manipulation",
         "line": 727,
         "kind": "Decided by"
@@ -1420,7 +1420,7 @@
       "decision": "A bath is a manipulation whose value is the formulation (pointed at through `value_id`), not a dose; a dose always has an amount.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "bath is a manipulation",
           "resolved": true,
           "line": 727,
@@ -1436,7 +1436,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_parameter_plan.md",
+        "document": "did_v2_stimulus_parameter_plan.md",
         "tag": "stimulus parameters",
         "line": 221,
         "kind": "TEAM-SIGN-OFF"
@@ -1444,7 +1444,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
       "citations": [
         {
-          "document": "V_eta_stimulus_parameter_plan.md",
+          "document": "did_v2_stimulus_parameter_plan.md",
           "tag": "stimulus parameters",
           "resolved": true,
           "line": 221,
@@ -1460,7 +1460,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_parameter_plan.md",
+        "document": "did_v2_stimulus_parameter_plan.md",
         "tag": "stimulus parameters",
         "line": 221,
         "kind": "TEAM-SIGN-OFF"
@@ -1468,7 +1468,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
       "citations": [
         {
-          "document": "V_eta_stimulus_parameter_plan.md",
+          "document": "did_v2_stimulus_parameter_plan.md",
           "tag": "stimulus parameters",
           "resolved": true,
           "line": 221,
@@ -1484,7 +1484,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_model_plan.md",
+        "document": "did_v2_stimulus_model_plan.md",
         "tag": "stimulus",
         "line": 258,
         "kind": "TEAM-SIGN-OFF"
@@ -1492,7 +1492,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
       "citations": [
         {
-          "document": "V_eta_stimulus_model_plan.md",
+          "document": "did_v2_stimulus_model_plan.md",
           "tag": "stimulus",
           "resolved": true,
           "line": 258,
@@ -1508,7 +1508,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_response_model_plan.md",
+        "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "stimulus response",
         "line": 541,
         "kind": "TEAM-SIGN-OFF"
@@ -1516,7 +1516,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
       "citations": [
         {
-          "document": "V_eta_stimulus_response_model_plan.md",
+          "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "stimulus response",
           "resolved": true,
           "line": 541,
@@ -1532,7 +1532,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_response_model_plan.md",
+        "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "stimulus response",
         "line": 541,
         "kind": "TEAM-SIGN-OFF"
@@ -1540,7 +1540,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
       "citations": [
         {
-          "document": "V_eta_stimulus_response_model_plan.md",
+          "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "stimulus response",
           "resolved": true,
           "line": 541,
@@ -1556,7 +1556,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_response_model_plan.md",
+        "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "stimulus response",
         "line": 541,
         "kind": "TEAM-SIGN-OFF"
@@ -1564,7 +1564,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
       "citations": [
         {
-          "document": "V_eta_stimulus_response_model_plan.md",
+          "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "stimulus response",
           "resolved": true,
           "line": 541,
@@ -1580,7 +1580,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_stimulus_response_model_plan.md",
+        "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "stimulus response",
         "line": 541,
         "kind": "TEAM-SIGN-OFF"
@@ -1588,7 +1588,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
       "citations": [
         {
-          "document": "V_eta_stimulus_response_model_plan.md",
+          "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "stimulus response",
           "resolved": true,
           "line": 541,
@@ -1604,7 +1604,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "subject",
         "line": 697,
         "kind": "TEAM-SIGN-OFF"
@@ -1612,7 +1612,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "subject",
           "resolved": true,
           "line": 697,
@@ -1628,7 +1628,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "subject measurement",
         "line": 336,
         "kind": "TEAM-SIGN-OFF"
@@ -1636,7 +1636,7 @@
       "decision": "jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "subject measurement",
           "resolved": true,
           "line": 336,
@@ -1652,7 +1652,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_clock_alignment_cluster_plan.md",
+        "document": "did_v2_clock_alignment_cluster_plan.md",
         "tag": "sync configuration",
         "line": 506,
         "kind": "TEAM-SIGN-OFF"
@@ -1660,7 +1660,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
       "citations": [
         {
-          "document": "V_eta_clock_alignment_cluster_plan.md",
+          "document": "did_v2_clock_alignment_cluster_plan.md",
           "tag": "sync configuration",
           "resolved": true,
           "line": 506,
@@ -1676,7 +1676,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_clock_alignment_cluster_plan.md",
+        "document": "did_v2_clock_alignment_cluster_plan.md",
         "tag": "sync configuration",
         "line": 506,
         "kind": "TEAM-SIGN-OFF"
@@ -1684,7 +1684,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
       "citations": [
         {
-          "document": "V_eta_clock_alignment_cluster_plan.md",
+          "document": "did_v2_clock_alignment_cluster_plan.md",
           "tag": "sync configuration",
           "resolved": true,
           "line": 506,
@@ -1700,7 +1700,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_clock_alignment_cluster_plan.md",
+        "document": "did_v2_clock_alignment_cluster_plan.md",
         "tag": "sync mapping",
         "line": 508,
         "kind": "TEAM-SIGN-OFF"
@@ -1708,7 +1708,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
       "citations": [
         {
-          "document": "V_eta_clock_alignment_cluster_plan.md",
+          "document": "did_v2_clock_alignment_cluster_plan.md",
           "tag": "sync mapping",
           "resolved": true,
           "line": 508,
@@ -1724,7 +1724,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
         "line": 723,
         "kind": "TEAM-SIGN-OFF"
@@ -1732,7 +1732,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "confirm sheet 2026-08-17",
           "resolved": true,
           "line": 723,
@@ -1748,7 +1748,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_go_forward_class_audit.md",
+        "document": "did_v2_go_forward_class_audit.md",
         "tag": "confirm sheet 2026-08-17",
         "line": 723,
         "kind": "TEAM-SIGN-OFF"
@@ -1756,7 +1756,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
       "citations": [
         {
-          "document": "V_eta_go_forward_class_audit.md",
+          "document": "did_v2_go_forward_class_audit.md",
           "tag": "confirm sheet 2026-08-17",
           "resolved": true,
           "line": 723,
@@ -1772,7 +1772,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_logical_observation_plan.md",
+        "document": "did_v2_logical_observation_plan.md",
         "tag": "logical_observation",
         "line": 365,
         "kind": "TEAM-SIGN-OFF"
@@ -1780,7 +1780,7 @@
       "decision": "jess@walthamdatascience.com / 2026-08-12 -- `validity` and `validity_observation` are replaced by `logical` + `logical_observation`; the semantic moves to `subject_statement.variable`, since a data_type names the KIND of value and not what it is about. `logical` carries ONE field, `value` typed `boolean` with mustBeScalar false -- a bare array, no wrapper cell (`boolean` is impossible as a class name: it is a primitive in the validator's type switch, cache.m:1793; `logical`:`boolean` mirrors the existing `term`:`ontology_term`). `logical_observation` declares no fields. `sequence` is deleted: NDI never reads interval order, because identifyvalidintervals accumulates through interval_add, a set union, and tuning_response.m:256 indexes THAT union rather than the stored array. THE ARRAY IS THE TARGET MODEL -- one statement per source document holding N booleans against a time axis -- and the 1->N decomposition is NOT shipped as an interim: migration WAITS for `axes[]` on `subject_statement` rather than migrating twice, so the pass is dormant by decision. Inheritance walks the whole `derived_from` chain TRANSITIVELY, MATCHING NDI, whose `loadvalidinterval` calls ITSELF on `underlying_element` and so already recurses to any depth; the divergences are the EDGE (V_eta walks `derived_from` in the migrated document graph, NDI walks a runtime object property) and the SCOPE (v1 has no `variable`, so its fallback cannot be per-variable). Inheritance yields the statement WITH ITS ANCHOR, never the interval numbers alone. Three states, a deliberate break from v1: no statement anywhere -> VALID; statements projected -> use them; statements found but none projectable into the caller's frame -> UNKNOWN, NOT VALID (v1 returns the entire requested span, so a clock mismatch reads as \"all data good\"). Consumers must count inherited statements they could not project. NOT COVERED BY THIS SIGNATURE: the gap semantics between statements (still undefined, still open), the timing of `axes[]`, and any change to ndi.app.markgarbage's v1 reader behaviour.",
       "citations": [
         {
-          "document": "V_eta_logical_observation_plan.md",
+          "document": "did_v2_logical_observation_plan.md",
           "tag": "logical_observation",
           "resolved": true,
           "line": 365,
@@ -1788,7 +1788,7 @@
           "why": null
         },
         {
-          "document": "V_eta_logical_observation_plan.md",
+          "document": "did_v2_logical_observation_plan.md",
           "tag": "logical_observation amendment 1",
           "resolved": true,
           "line": 425,
@@ -1804,7 +1804,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_method_parameters_plan.md",
+        "document": "did_v2_method_parameters_plan.md",
         "tag": "spike processing parameters",
         "line": 32,
         "kind": "TEAM-SIGN-OFF"
@@ -1812,7 +1812,7 @@
       "decision": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
       "citations": [
         {
-          "document": "V_eta_method_parameters_plan.md",
+          "document": "did_v2_method_parameters_plan.md",
           "tag": "spike processing parameters",
           "resolved": true,
           "line": 32,
@@ -1828,7 +1828,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "V_eta_spatial_transcriptomics_plan.md",
+        "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "#73 audit 2, D1-D13",
         "line": 574,
         "kind": "TEAM-SIGN-OFF"
@@ -1836,7 +1836,7 @@
       "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
       "citations": [
         {
-          "document": "V_eta_spatial_transcriptomics_plan.md",
+          "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "#73 audit 2, D1-D13",
           "resolved": true,
           "line": 574,
@@ -2027,7 +2027,7 @@
       {
         "class_name": "app",
         "decision": "decided",
-        "decided_in": "V_eta_tenet_audit.md:16 [software]",
+        "decided_in": "did_v2_tenet_audit.md:16 [software]",
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
@@ -2134,7 +2134,7 @@
       {
         "class_name": "binaryseries_parameters",
         "decision": "decided",
-        "decided_in": "V_eta_go_forward_class_audit.md:9 [misc singletons]",
+        "decided_in": "did_v2_go_forward_class_audit.md:9 [misc singletons]",
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
@@ -2216,7 +2216,7 @@
       {
         "class_name": "interaction_purpose",
         "decision": "decided",
-        "decided_in": "V_eta_go_forward_class_audit.md:9 [misc singletons]",
+        "decided_in": "did_v2_go_forward_class_audit.md:9 [misc singletons]",
         "state": "a_nothing_built",
         "state_label": "(a) nothing built (the decision state is a separate column)",
         "build_evidence": [],
@@ -2279,7 +2279,7 @@
       {
         "class_name": "projectvar",
         "decision": "decided",
-        "decided_in": "V_eta_go_forward_class_audit.md:9 [misc singletons]",
+        "decided_in": "did_v2_go_forward_class_audit.md:9 [misc singletons]",
         "state": "a_nothing_built",
         "state_label": "(a) nothing built (the decision state is a separate column)",
         "build_evidence": [],

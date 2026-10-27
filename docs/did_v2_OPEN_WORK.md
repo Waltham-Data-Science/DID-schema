@@ -3,7 +3,7 @@
 **This file is the index of remaining V_eta work.** Every `#nn` in the plan documents points
 at a row here. Since 2026-10-21 each open row is one line pointing at its GitHub issue, and
 the evidence lives in the issue. The full text this file carried until then (reconciliation
-audits, long row prose, completed-row write-ups) is in git: `git show 6523cb1:schemas/V_eta_OPEN_WORK.md`.
+audits, long row prose, completed-row write-ups) is in git: `git show 6523cb1:docs/did_v2_OPEN_WORK.md`.
 
 `python3 tools/status_board.py` owns *decision* state. This file owns *build and repair* state.
 
@@ -85,7 +85,7 @@ Open items without a row number:
 | 103 | DID-matlab | `valid_interval`: the decided target is `observation + time` (was spelled `time_observation`; ledger); `resolveValidIntervals` is dormant and emits nothing (rung 3 `no`; its header still reads "DORMANT BY DECISION" at `c74f4e0`) |
 | 113 step 3 | DID-matlab | see the epoch-extent sign-off below: steps 1-2 built, step 3 ruled out; the ledger row `epochclocktimes` -> `relative_time_reference` still reads rung 3 `no` |
 | 119b / 122 | DID-matlab | spatial-transcriptomics migrators exist (8); on #88 the pyramid passes through |
-| 127 | empty-ontology | EMPTY duplicate and synonym review, deferred until the Dabrowska, Babu and Hunsberger datasets are migrated (Jess Haley, 2026-10-21); full list in `git show 6523cb1:schemas/V_eta_OPEN_WORK.md` |
+| 127 | empty-ontology | EMPTY duplicate and synonym review, deferred until the Dabrowska, Babu and Hunsberger datasets are migrated (Jess Haley, 2026-10-21); full list in `git show 6523cb1:docs/did_v2_OPEN_WORK.md` |
 | 128 | DID-matlab / NDI-matlab | the DID-schema half is done (`tools/build_v_eta.py` and the `V_alpha`..`V_zeta` trees are deleted); residual: NDI `stimulusBathToBath.m:122` defaults `targetVersion = 'V_zeta'`, and DID-matlab has 25 `.m` files that mention V_epsilon or V_zeta at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) (`grep -rlE 'V_epsilon|V_zeta' --include=*.m .`; was 28) |
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
@@ -135,7 +135,7 @@ Open items without a row number:
 Items from the 2026-08-10 list "DECISIONS WAITING ON THE TEAM" (A2 `element_epochid` destroyed by the
 stimulus-response fold; A6 `is_cache` in no schema; B2 `patch`/`sharp` emit two observations;
 B3 `image_observation.subject_id`; B4 `threshold_sign`; B5 `measurement.m` substring matching;
-C2-C5) were not re-verified on 2026-10-21. Their text is in `git show 6523cb1:schemas/V_eta_OPEN_WORK.md`.
+C2-C5) were not re-verified on 2026-10-21. Their text is in `git show 6523cb1:docs/did_v2_OPEN_WORK.md`.
 
 ---
 
@@ -165,7 +165,7 @@ epoch"): there the epoch is the edge's OWN content, because the recorded roster 
 epoch to epoch. On a statement it would be a restatement of when the statement happened.
 
 **THE SIGNED PLAN LINE NOW UNDER-DESCRIBES THIS, AND ONLY THE TEAM MAY AMEND IT.**
-`V_eta_epoch_plan.md:849` still says "uniform `epoch_id` edge". This entry does NOT amend it and
+`did_v2_epoch_plan.md:849` still says "uniform `epoch_id` edge". This entry does NOT amend it and
 no `TEAM-SIGN-OFF` line was added or edited — that is the team's to write. Recorded here so the HISTORICAL-SIGNOFF-CLAIM
 decision is not lost while the plan says something broader than what was decided.
 
@@ -664,7 +664,7 @@ adjacent while the work was done:
 
 #### The rule was already signed; only the mechanism was open
 
-`V_eta_tenet_audit.md`, TEAM-SIGN-OFF [binding governance], jess, 2026-08-10:
+`did_v2_tenet_audit.md`, TEAM-SIGN-OFF [binding governance], jess, 2026-08-10:
 
 > ... **STRENGTH IS AUTHORITATIVE ON THE FIELD**, with the registry required to agree where
 > it also states one ...
@@ -810,7 +810,7 @@ so the second source is real and currently unmigrated.
 
 TEAM-SIGN-OFF [stranded sources]: jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said "Can we skip this decision for now?", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION ("Please write the sign off for me. I give you permission this time."), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.
 
-*(Row #113's own text is in `git show 6523cb1:schemas/V_eta_OPEN_WORK.md`; "the row above" below refers to it.)*
+*(Row #113's own text is in `git show 6523cb1:docs/did_v2_OPEN_WORK.md`; "the row above" below refers to it.)*
 
 **CORRECTION TO ROW #113, 2026-08-13, AND IT ENLARGES THE ROW.** The row above
 says the epoch END TIME and CLOCK FRAME are lost. True, and incomplete: **the epoch
@@ -888,7 +888,7 @@ answer and a single verdict either way would be wrong:
 originally read *"NOT BUILT, and it is a SCHEMA increment, not a migrator
 change"*, sourced to `pyraview.m:254-256`. Every FACT in that source sentence is
 true and its CONCLUSION is backwards. TEAM-SIGN-OFF [epoch]
-(`V_eta_epoch_plan.md:869`), verbatim: HISTORICAL-SIGNOFF-CLAIM
+(`did_v2_epoch_plan.md:869`), verbatim: HISTORICAL-SIGNOFF-CLAIM
 
   > a document reaches its epoch through the TIME_REFERENCE CHAIN
   > (subject_interaction -> time_reference_# -> relative_reference ->
@@ -942,7 +942,7 @@ MATLAB. What a PRED run proves is narrower and is asserted NDI-side, not here:
 ---
 
 **COUNT CORRECTION, 2026-08-17 — `receptive_field` and `receptive_field_calculation` were
-minted** (TEAM-SIGN-OFF [receptive field naming], `V_eta_ngrid_family_findings.md`). The
+minted** (TEAM-SIGN-OFF [receptive field naming], `did_v2_ngrid_family_findings.md`). The
 dated measurements above are left exactly as taken; this is the live claim beside them:
 
         DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
@@ -1197,7 +1197,7 @@ Soph       session documents: 33   (distinct base.session_id: 33)
 
 Six of six, and in every corpus the count EQUALS the number of distinct session ids — so
 there is no session whose document is missing. This is the fork-A verification
-`V_eta_time_reference_model_plan.md` made a prerequisite for **`relative_to` REQUIRED**, and
+`did_v2_time_reference_model_plan.md` made a prerequisite for **`relative_to` REQUIRED**, and
 it is the measured refutation of the old "no session document exists anywhere" claim. That
 claim came from a grep that could not have matched; this comes from the census.
 
@@ -1377,7 +1377,7 @@ RE-DERIVED 2026-09-23 (#73 calculator restructure: `calculator` mixin dropped, 5
 
 RE-DERIVED 2026-09-25 (the #73 review build; `check_prose_counts` re-derives all nouns): the build added label, label_calculation, coordinate_system, position, position_observation, position_calculation, count/area/score/term_calculation and restored harmonic_component_calculation. Live figures: **267 distinct V_eta class names** (was 256); **273 json file(s) under `schemas/V_eta/`** (was 262); **44 direct subclasses** of `data_type` (was 42; +`label`, +`position`) -- and since #73 item 19 NONE of them is abstract. Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`V_eta_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-09-25 (plan_documents, `check_prose_counts`): **56 markdown files under `schemas/`** (was 55; +`did_v2_spatial_transcriptomics_plan.md`, the #73 review's decision record). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-09-25 (#65 increment 3b: `session_relative_reference`, `session_bounded_reference` and `epoch_bounded_reference` deleted schema-first, `is_approximate` removed from `time_reference`; `check_prose_counts` re-derives all nouns): **264 distinct V_eta class names** (was 267); **270 json file(s) under `schemas/V_eta/`** (was 273); **12 fields carry a binding** (was 13 -- `epoch_bounded_reference.epoch_clock` left with its class). Re-derive with `check_prose_counts`, do not quote these directly.
 
@@ -1413,7 +1413,7 @@ RE-DERIVED 2026-09-30 (the `instance_of` relation, instrument subject -> product
 
 RE-DERIVED 2026-09-30 (`directed_relation.roles` + the `awarded_to` relation; `check_prose_counts` re-derives all nouns): **21 fields carry a binding** (was 20; +`directed_relation.roles`); the registry has **44** rows (was 43; relation_bindings 30 -> 31). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`V_eta_study_plan.md`, the sign-off record for `study`, `instance_of`, `awarded_to` and contributor `roles`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-09-30 (plan_documents, `check_prose_counts`): **57 markdown files under `schemas/`** (was 56; +`did_v2_study_plan.md`, the sign-off record for `study`, `instance_of`, `awarded_to` and contributor `roles`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-02 (`subject.type` and `distributive`, did-schema PR #84; `check_prose_counts` re-derives all nouns): **22 fields carry a binding** (was 21; +`subject.type`, bound to the seven coarse subject kinds; `distributive` is an unbound boolean). Re-derive with `check_prose_counts`, do not quote these directly.
 
@@ -1425,17 +1425,17 @@ RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved unde
 
 RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `relation.method` and the `variable` of keys, conditions and method parameters bound like `subject_statement.variable`; `check_prose_counts` re-derives all nouns): **31 fields carry a binding** (was 23; +8). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `did_v2_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **25 fields carry a binding** (was 31: the five bound fields of the merged dataset and study classes, `subject.type` and `entity.global_identifier.scheme` went, `entity.type` came); **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); **58 markdown files under `schemas/`** (was 57; +`V_eta_entity_composition_plan.md`); the registry has **65** rows (was 44; subject_statement 6 -> 11, relation 31 -> 30, entity_field 3 -> 1, + entity_type 19); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `did_v2_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **25 fields carry a binding** (was 31: the five bound fields of the merged dataset and study classes, `subject.type` and `entity.global_identifier.scheme` went, `entity.type` came); **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); **58 markdown files under `schemas/`** (was 57; +`did_v2_entity_composition_plan.md`); the registry has **65** rows (was 44; subject_statement 6 -> 11, relation 31 -> 30, entity_field 3 -> 1, + entity_type 19); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175); **59 markdown files under `schemas/`** (was 58; +`V_eta_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `did_v2_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175); **59 markdown files under `schemas/`** (was 58; +`did_v2_linked_session_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`V_eta_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-14 (plan_documents, `check_prose_counts`): **60 markdown files under `schemas/`** (was 59; +`did_v2_duplicate_entities_plan.md`, a PROPOSAL: when two records are `same_as`). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
 RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
 
@@ -1453,15 +1453,15 @@ RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
 
-RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`V_eta_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
+RE-DERIVED 2026-10-19 (plan_documents, `check_prose_counts`): **61 markdown files under `schemas/`** (was 60; +`did_v2_prefix_spelling_plan.md`, a PROPOSAL: write a CURIE prefix the way its issuer cites it). Re-derive with `ls schemas/*.md | wc -l`, do not quote.
 
-RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged); **62 markdown files under `schemas/`** (was 61; +`V_eta_term_registry_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `did_v2_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged); **62 markdown files under `schemas/`** (was 61; +`did_v2_term_registry_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-20 (`V_eta_relation_inheritance_plan.md`, a proposal built ahead of signature; `check_prose_counts` re-derives all nouns): **63 markdown files under `schemas/`** (was 62; +`V_eta_relation_inheritance_plan.md`); the registry has **69** rows (was 68; relation_bindings 33 -> 34: `included_in`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-20 (`did_v2_relation_inheritance_plan.md`, a proposal built ahead of signature; `check_prose_counts` re-derives all nouns): **63 markdown files under `schemas/`** (was 62; +`did_v2_relation_inheritance_plan.md`); the registry has **69** rows (was 68; relation_bindings 33 -> 34: `included_in`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-21 (`source_unit` becomes a bound term, a PROPOSAL built ahead of signature at Jess's request, `V_eta_source_unit_plan.md`; `check_prose_counts` re-derives all nouns): **94 fields carry a binding** (was 26; +68, every `source_unit` declaration, bound `{strength: preferred, node_form: curie}`); **64 markdown files under `schemas/`** (was 63; +`V_eta_source_unit_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-21 (`source_unit` becomes a bound term, a PROPOSAL built ahead of signature at Jess's request, `did_v2_source_unit_plan.md`; `check_prose_counts` re-derives all nouns): **94 fields carry a binding** (was 26; +68, every `source_unit` declaration, bound `{strength: preferred, node_form: curie}`); **64 markdown files under `schemas/`** (was 63; +`did_v2_source_unit_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature at Jess's request, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172; -`visual_grating`, -`spatial_frequency`; `method_parameters` renamed `method`); **177 json file(s) under `schemas/V_eta/`** (was 179); **45 direct subclasses** of `value` (was 47); **88 fields carry a binding** (was 94: -10 `source_unit` cells of the two deleted classes, +4 for the `method.term` / `method.parameters` entries on `relation`, `clock_alignment_configuration` and `method`); **65 markdown files under `schemas/`** (was 64; +`V_eta_method_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature at Jess's request, `did_v2_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172; -`visual_grating`, -`spatial_frequency`; `method_parameters` renamed `method`); **177 json file(s) under `schemas/V_eta/`** (was 179); **45 direct subclasses** of `value` (was 47); **88 fields carry a binding** (was 94: -10 `source_unit` cells of the two deleted classes, +4 for the `method.term` / `method.parameters` entries on `relation`, `clock_alignment_configuration` and `method`); **65 markdown files under `schemas/`** (was 64; +`did_v2_method_plan.md`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-21 (`culture type`, EMPTY:0000357, the kind of a `culture` entity, Jess Haley, from the Haley V2 import: a bacterial patch states its kind with it instead of NCIT Sample Type; `check_prose_counts` re-derives all nouns): the registry has **66** rows (was 65; subject_statement 11 -> 12). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
 
@@ -1477,4 +1477,4 @@ RE-DERIVED 2026-10-26 (Jess Haley [fraction value kind]; `check_prose_counts` re
 
 RE-DERIVED 2026-10-26 (Jess Haley [dataset form terms], [census terms] T2; `check_prose_counts` re-derives all nouns): the registry has **64** rows (was 62; subject_statement 11 -> 13: `Technique` NCIT:C16847 and `Scientific Data Type` NCIT:C175886, each a closed list of openMINDS terms). Re-derive with `python3 tools/regen_binding_strengths.py --check | head -1`, do not quote.
 
-RE-DERIVED 2026-10-26 (Jess Haley [filters are methods], `V_eta_frequency_filter_model_plan.md`; `check_prose_counts` re-derives all nouns): **109 fields carry a binding** (was 117; -8, the deleted `frequency_filter` class's `algorithm`, `band` and six `source_unit` cells). Re-derive with `check_prose_counts`, do not quote.
+RE-DERIVED 2026-10-26 (Jess Haley [filters are methods], `did_v2_frequency_filter_model_plan.md`; `check_prose_counts` re-derives all nouns): **109 fields carry a binding** (was 117; -8, the deleted `frequency_filter` class's `algorithm`, `band` and six `source_unit` cells). Re-derive with `check_prose_counts`, do not quote.

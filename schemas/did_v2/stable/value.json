@@ -78,7 +78,7 @@
                 "data_type",
                 "data_body"
             ],
-            "statement": "`data_type` is required only when the value's bytes are a plain array: in a `sampled_body`, or an untyped inline value (a bare numeric or text array, not a declared cell). When its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed; a typed cell already says its type (`temperature.value.celsius` is a double). A body's kind is not visible on the owner, so the sampled_body half is a batch check. (Jess Haley, 2026-10-21; V_eta_data_body_model_plan.md AMENDMENT 5.)"
+            "statement": "`data_type` is required only when the value's bytes are a plain array: in a `sampled_body`, or an untyped inline value (a bare numeric or text array, not a declared cell). When its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed; a typed cell already says its type (`temperature.value.celsius` is a double). A body's kind is not visible on the owner, so the sampled_body half is a batch check. (Jess Haley, 2026-10-21; did_v2_data_body_model_plan.md AMENDMENT 5.)"
         },
         {
             "name": "value_inline_or_body",
@@ -87,7 +87,7 @@
                 "data_body",
                 "value_id"
             ],
-            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: V_eta_data_body_model_plan.md AMENDMENT 5 and its clarification)."
+            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: did_v2_data_body_model_plan.md AMENDMENT 5 and its clarification)."
         }
     ]
 }

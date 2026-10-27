@@ -13,9 +13,9 @@ NDIcalc-vis-matlab and vhlab-toolbox-matlab clones, read only).
 | did-schema HEAD | 06451d7 "[markdown cleanup and rename]: the JSON registers are renamed too" | `git log --oneline -1` |
 | measured unregistered-term lines | 102 lines, 56 distinct (name, node), from 28 of 117 fixture bodies | `phase1-unregistered-terms.txt` |
 | of those, asked about here | 35 distinct names (all present in the list) | brief; checked by script |
-| asked about here, not in the list | 3: bath solution, single unit, multi-unit (from decisions) | `V_eta_go_forward_class_audit.md` [bath is two statements], [sorted units are cells or groups] |
+| asked about here, not in the list | 3: bath solution, single unit, multi-unit (from decisions) | `did_v2_go_forward_class_audit.md` [bath is two statements], [sorted units are cells or groups] |
 | in the list, not asked about | 21 (end of this document) | same script |
-| term registry entries | 865 | `schemas/V_eta_term_registry.json` `terms` |
+| term registry entries | 865 | `schemas/did_v2_term_registry.json` `terms` |
 | CURIE registry prefixes | 56 | `propose_terms.py` DENOMINATOR line |
 | EMPTY ids allocated | EMPTY:0000001-0000405; next free 0000406 | empty-ontology 25188df (`V2`), `grep -o 'EMPTY_0000[0-9]*' empty-edit.owl \| sort -u \| tail` printed 0000403-0000405 |
 | NDI v1 truth | NDI-matlab locked `main` 3cb19a85 | `tools/sibling_lock.json` |

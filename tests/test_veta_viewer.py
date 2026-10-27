@@ -64,8 +64,9 @@ def make_repo(tmp_path, names=None, final_set=None, tenets=None):
                      for n in names]}))
     if final_set is None:
         final_set = _final_set([[f"class_{i}"] for i in range(7)], ["gone_one"])
-    (root / "schemas" / "V_eta_final_class_set.md").write_text(final_set)
-    (root / "schemas" / "V_eta_tenets.md").write_text(tenets or _tenets())
+    (root / "docs" / "generated").mkdir(parents=True)
+    (root / "docs" / "generated" / "did_v2_final_class_set.md").write_text(final_set)
+    (root / "docs" / "did_v2_tenets.md").write_text(tenets or _tenets())
     return root
 
 

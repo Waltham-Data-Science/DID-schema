@@ -7,8 +7,8 @@ DID-matlab (`did2.validate.silentLoss/family_uniqueness_violation`, tested by
 there is no MATLAB here. Nothing in this file proves anything about that code.
 
 #52'S TITLE IS STALE. It reads "role-name the `time_reference_#` statement
-edges"; the row in `schemas/V_eta_OPEN_WORK.md` shrank it on 2026-08-08 to one
-rule, and `V_eta_time_reference_model_plan.md` CHANGE 5 (:642, inside the SIGNED
+edges"; the row in `docs/did_v2_OPEN_WORK.md` shrank it on 2026-08-08 to one
+rule, and `did_v2_time_reference_model_plan.md` CHANGE 5 (:642, inside the SIGNED
 2026-08-08 walkthrough section) records why. Four things multiple references on
 one document could have meant:
 
@@ -53,7 +53,7 @@ GOVERNED = {
     ("interaction", "time_reference_id"),
     ("directed_relation", "time_reference_id"),
     # `epoch` merged into `entity` 2026-10-08 (signed,
-    # V_eta_entity_composition_plan.md): the family moved with it, so every
+    # did_v2_entity_composition_plan.md): the family moved with it, so every
     # entity -- an epoch, a session, a worm -- gets the same rule for its extent.
     ("entity", "time_reference_id"),
 }
@@ -232,7 +232,7 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
 
 
 def test_the_rule_is_documented_as_clock_and_referent():
-    """Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [device clocks on
+    """Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [device clocks on
     one epoch]: one document's time references are unique by clock AND referent.
     The declared key stays `value.clock` until DID-matlab's readers take a
     composite key (they read one dotted path; testFamilyUniqueness reads the live

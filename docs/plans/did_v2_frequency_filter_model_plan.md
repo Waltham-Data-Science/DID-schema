@@ -194,7 +194,7 @@ document plus a `filter_id` edge from the observation the pyraview fold already 
 - FIR is in the `algorithm` value_set but no FIR document has been seen; taps/window have no
   home yet. Not built speculatively.
 - Which observation classes get `filter_id`. Today only `pyraview` carries a filter block,
-  but the raw-recording model (`V_eta_recording_observation_plan.md`) is the natural owner.
+  but the raw-recording model (`did_v2_recording_observation_plan.md`) is the natural owner.
 
 ## 2026-10-22 -- tenet audit
 

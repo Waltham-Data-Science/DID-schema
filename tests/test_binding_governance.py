@@ -304,7 +304,7 @@ def test_synthetic_b8_unregistered_prefix(synthetic):
 
 
 def test_b8_reads_spelling_and_synonyms(tmp_path):
-    """Signed 2026-10-19 (V_eta_prefix_spelling_plan.md): a reader matches a
+    """Signed 2026-10-19 (did_v2_prefix_spelling_plan.md): a reader matches a
     prefix by key, spelling or synonym, ignoring case. `PMID:` is registered
     (a synonym and the spelling of `pubmed`), `WBStrain:` is registered (the
     legacy rewrite on `wormbase`), and only `ZZZ:` is not."""
@@ -461,7 +461,7 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     no ontology; MEMBERSHIP still does, and is out of scope (NDIC.txt moved to
     VH-Lab/ndi-ontology-matlab, 2c19bf24c)."""
     # `interaction.method` became the block `method: {term, parameters}` on
-    # 2026-10-21 (V_eta_method_plan.md); the bound term is now `method.term`.
+    # 2026-10-21 (did_v2_method_plan.md); the bound term is now `method.term`.
     want = {("statement", "variable"),
             ("interaction", "method.term"),
             ("interaction_purpose", "purpose")}

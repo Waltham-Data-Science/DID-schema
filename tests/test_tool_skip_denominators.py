@@ -71,10 +71,10 @@ AUDITED = ("coverage.py", "ndi_ground_truth.py", "ndi_required_stamp.py",
 # reintroduce the same guard trip -- the cost is one read per file per test,
 # ~500 KB, which is nothing on a run measured in seconds.
 _WRITE_TARGETS = (
-    REPO / "schemas/V_eta_ndi_ground_truth.json",
-    REPO / "schemas/V_eta_coverage_ledger.json",
-    REPO / "schemas/V_eta_coverage_ledger.md",
-    REPO / "schemas/V_eta_migration_targets.json",
+    REPO / "schemas/did_v2_ndi_ground_truth.json",
+    REPO / "schemas/did_v2_coverage_ledger.json",
+    REPO / "docs/generated/did_v2_coverage_ledger.md",
+    REPO / "schemas/did_v2_migration_targets.json",
 )
 
 
@@ -339,7 +339,7 @@ def test_coverage_says_when_the_curated_target_map_was_not_read(tmp_path,
     """`{}` is not "no class has a target"; it strips the column off every row."""
     import coverage as cov
 
-    bad = tmp_path / "V_eta_migration_targets.json"
+    bad = tmp_path / "did_v2_migration_targets.json"
     bad.write_text("{ this is not json")
     monkeypatch.setattr(cov, "TARGETS", str(bad))
     cov.TARGETS_SCAN.update({"rows": 0, "read": False, "why": None})

@@ -28,7 +28,7 @@ TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with a repeatable global_
 > team's own wording whenever convenient.
 >
 > **This is the SECOND such transcription in this session** — the first is in
-> `V_eta_frequency_filter_model_plan.md`, whose note says Claude must not transcribe
+> `did_v2_frequency_filter_model_plan.md`, whose note says Claude must not transcribe
 > another "without the same explicit instruction, in the same session." Both
 > conditions held. But two is a pattern, not an exception, and the next one should
 > be typed by the team rather than requested from Claude.
@@ -64,7 +64,7 @@ the unattached one has no migrator because it has no referent to assert about.
 > pass 1 emits nothing and passes the document through guarded, because these are
 > the 635 `StimulationApproach` documents and their destination is
 > `interaction_purpose` via the NDI second pass — signed at
-> `V_eta_go_forward_class_audit.md:3`, `TEAM-SIGN-OFF [misc singletons]`, 2026-08-09.
+> `did_v2_go_forward_class_audit.md:3`, `TEAM-SIGN-OFF [misc singletons]`, 2026-08-09.
 > Read from the migrators rather than from this sentence:
 >
 > ```
@@ -113,7 +113,7 @@ openminds* documents by class          openminds_type histogram
 # PART 1 — `openminds_import`: REMOVED. Landed.
 
 Commit `8006d18`, 495 tests pass. The team gave the call in the walkthrough; the
-reversal is recorded in `V_eta_tenet_audit.md`, which carried the original entry.
+reversal is recorded in `did_v2_tenet_audit.md`, which carried the original entry.
 
 Evidence supporting removal:
 
@@ -415,7 +415,7 @@ are different in kind:
 
 ## A defect found while checking the above
 
-`V_eta_openminds_crosswalk.json` claims the round-trip guarantee:
+`did_v2_openminds_crosswalk.json` claims the round-trip guarantee:
 
 ```
 "Consumed by the round-trip CI test … asserts every openMINDS property has an
@@ -1069,7 +1069,7 @@ things and the distinction was confused earlier in this record.
 ## Why the inline value STAYS (and why `epoch` does the opposite)
 
 The assertion keeps its inline `{node, name}` **and** gains the edge. That is not
-the general rule — `V_eta_epoch_plan.md` decided the opposite for `epochid`, which
+the general rule — `did_v2_epoch_plan.md` decided the opposite for `epochid`, which
 is dropped entirely in favour of its edge. Recorded here so neither is misread as a
 precedent for the other:
 
@@ -1264,7 +1264,7 @@ string query:
 which the ledger already routes and the migrator already emits:
 
 ```
-V_eta_coverage_ledger.md:52
+did_v2_coverage_ledger.md:52
   | metadata_editor | dataset + person + organization + funding + publication + web_resource + directed_relation |
 migrators_j/metadata_editor.m:105 'dataset'  :118 'person'  :140 'funding'
                               :160 'publication'  :170 'web_resource'  :223 'organization'

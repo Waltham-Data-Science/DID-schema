@@ -2,7 +2,7 @@
 
 SIGNED 2026-10-19 (the `TEAM-SIGN-OFF [same_as]` line is under the "To be signed:"
 line). Written 2026-10-14 at Jess Haley's request. BUILT 2026-10-20, not yet run in
-MATLAB: tenet T18 in `V_eta_tenets.md`; the schema needed no change (`same_as` was
+MATLAB: tenet T18 in `did_v2_tenets.md`; the schema needed no change (`same_as` was
 already bound, member types `entity`); the reader and the join are in NDI-matlab
 (`ndi.entity` search and statements follow a `same_as` group, `ndi.entity/sameAs`
 and `/disagreements`, `ndi.v2.sameAs`, `ndi.v2.sameAsMatches`, and
@@ -21,7 +21,7 @@ thing. This plan says how that is recorded, and, as important, when it is not.
 `same_as` is already a relation: an `undirected_relation` term, member types
 `entity`, role "entities that are the same thing recorded twice (e.g. one
 animal under two local identifiers)" (`binding_registry_meta.json`, #73 audit 2
-D5). `V_eta_SPEC.md` adds that `same_as` "makes search *unify* the two records".
+D5). `did_v2_SPEC.md` adds that `same_as` "makes search *unify* the two records".
 Nothing says when two records may be joined by it, and no reader follows it.
 
 ## Proposed tenet T18
@@ -71,7 +71,7 @@ number recorded on a device would make every device of that model look like one.
 ## Where it is stored
 
 In the dataset's database, like the `part_of` relations that make a session a
-member (`V_eta_linked_session_plan.md`): that two sessions' records are one
+member (`did_v2_linked_session_plan.md`): that two sessions' records are one
 thing is a fact about the dataset that holds both. A linked session's folder is
 not written to.
 

@@ -33,7 +33,7 @@ shape the ⑥/⑦ governance sweep already flagged as needs-NDI.
 > **CORRECTED 2026-08-05 — TEAM DECISION.** The original proposal here was
 > **"not archival V_eta classes"**, i.e. dissolve them. **That is wrong and would
 > have dangled live edges.** It is the IDENTICAL mistake the daq family made and
-> that `V_eta_daq_family_decisions.md` reverses — made twice, one family apart,
+> that `did_v2_daq_family_decisions.md` reverses — made twice, one family apart,
 > from the same habit of reading a template's *contents* without checking its
 > *referents*. Recorded as a reversal, not edited away.
 
@@ -70,7 +70,7 @@ in-tree consumer**, and it upgrades the severity of TaskList #58 accordingly. It
 also makes `daqsystem.base.name` load-bearing in a THIRD place, after
 `getprobes()` and the syncrule parameters.
 
-### The decision — REVISED 2026-08-06, see `V_eta_clock_alignment_cluster_plan.md`
+### The decision — REVISED 2026-08-06, see `did_v2_clock_alignment_cluster_plan.md`
 
 The PERSIST call below stands. **What is superseded is the rest of it**, in three
 places, all recorded in the cluster plan:
@@ -89,7 +89,7 @@ places, all recorded in the cluster plan:
 
 → **`syncgraph` and `syncrule` PERSIST as ⑦ infra with `base.id` preserved.**
 Their class names fold to deduplicated `software` entities exactly as the daq
-family's do (`V_eta_daq_family_decisions.md`), and `syncrule`'s `parameters` —
+family's do (`did_v2_daq_family_decisions.md`), and `syncrule`'s `parameters` —
 including `daqsystem_ch1`/`ch2`, the only physical-wiring fields in the whole
 daq/sync cluster — land on the `clock_alignment` document the rule produced
 (`method` + `method_parameters`; see the sync-mapping section below).
@@ -152,14 +152,14 @@ is the entire content.
 `⊂ subject_interaction ⊂ subject_statement`, so it requires `subject_id → subject`.
 The referent of a clock alignment is a pair of epochs, not a subject.
 
-### SUPERSEDED 2026-08-06 — see `V_eta_clock_alignment_cluster_plan.md`
+### SUPERSEDED 2026-08-06 — see `did_v2_clock_alignment_cluster_plan.md`
 
 **Everything from here to the end of this section is SUPERSEDED and contains three
 statements now known FALSE.** Kept in place rather than deleted, because how they
 failed is the useful part:
 
 1. *"its endpoints are declared `entity` (an epoch is not one)"* — **FALSE.** The epoch
-   family decided `epoch ⊂ entity` (`V_eta_epoch_plan.md`).
+   family decided `epoch ⊂ entity` (`did_v2_epoch_plan.md`).
 2. `from_epoch` / `to_epoch` → `acquisition_epoch` — that class is **retired**; the
    endpoints are now `relative_reference` documents, which carry epoch AND clock.
 3. *"BLOCKED on the acquisition epoch family (nothing proposed)"* — that family is
@@ -259,7 +259,7 @@ survive the dataset moving, which is what an archival migration is for.
 → **Proposed: not an archival V_eta class.**
 
 **`directory` has no NDI template at all** — it is a post-v1 DID intermediate,
-not a v1 source. Per the provenance rule (`V_eta_class_provenance.md`), only
+not a v1 source. Per the provenance rule (`did_v2_class_provenance.md`), only
 `did_v1`-origin classes are sources.
 
 → **Proposed: out of scope as a source; disposition is a V_eta-side question

@@ -2,7 +2,7 @@
 // schema tree it was built from?
 //
 // The panel imports schemas/did_v2/**/*.json with `import.meta.glob` and two
-// schemas/*.md files with `?raw` (src/veta/sources.ts). That makes the bundle
+// docs/ markdown files with `?raw` (src/veta/sources.ts). That makes the bundle
 // fresh BY CONSTRUCTION -- but "by construction" is a claim about a build tool's
 // behaviour, and a glob that resolved to nothing (a moved directory, a typo in
 // the pattern) produces a bundle that builds, deploys and renders an empty

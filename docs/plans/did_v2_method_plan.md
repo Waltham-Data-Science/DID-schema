@@ -52,7 +52,7 @@ Three things were wrong with how V_eta said HOW something was done.
 5. **`visual_grating` and `spatial_frequency` are deleted.** Spatial frequency
    becomes a parameter whose `unit` is a bound term (cycles per degree), as every
    other knob's unit already is.
-6. **Tenets** (proposed amendments, in `V_eta_tenets.md`, marked as such): T12 --
+6. **Tenets** (proposed amendments, in `did_v2_tenets.md`, marked as such): T12 --
    a stimulus given as a recipe is a method term plus parameters, vocabulary not a
    class per generator; a stimulus given as what was delivered uses the value for
    that quantity. T13 -- the naming lesson of the old "`visual_grating` rule" is
@@ -160,7 +160,7 @@ the way a binding checks a variable.
 
 (b) **A `matrix` parameter value form** for noise palettes and random seeds, which
 are arrays and fit none of `term` / `quantity` / `count` / `text` today. **PROPOSED AND
-BUILT 2026-10-21 as `V_eta_data_body_model_plan.md` AMENDMENT 4** (the entry's
+BUILT 2026-10-21 as `did_v2_data_body_model_plan.md` AMENDMENT 4** (the entry's
 home), awaiting signature there.
 
 (c) **The NDI second-pass emitter and the DID-matlab migrators move to this shape
@@ -205,4 +205,4 @@ Deferred by Jess Haley, 2026-10-22, to after the merge: the stimulus vocabulary 
 
 Decided by Jess Haley, 2026-10-22 [method shared plus own]: an interaction may carry `method_id` (shared) AND an inline `method` whose parameters add settings only this run had: no variable in both, and the inline term empty. A changed shared setting still makes a variant method document with `parent_id`. This replaces "never both" (team, 2026-08-09) (answer "O6a").
 
-Decided by Jess Haley, 2026-10-22 [rules and clock_alignment tenet]: named validator rules: an assertion has no time dimension; `method_id` and an inline method share no variable ([method shared plus own]). T15 gains a clock_alignment paragraph (a relation with four named edges) (answer "P1a"). Built: rules `assertion_no_time_dimension` (assertion) and `method_shared_and_own` (interaction); the T15 paragraph is in V_eta_tenets.md.
+Decided by Jess Haley, 2026-10-22 [rules and clock_alignment tenet]: named validator rules: an assertion has no time dimension; `method_id` and an inline method share no variable ([method shared plus own]). T15 gains a clock_alignment paragraph (a relation with four named edges) (answer "P1a"). Built: rules `assertion_no_time_dimension` (assertion) and `method_shared_and_own` (interaction); the T15 paragraph is in did_v2_tenets.md.

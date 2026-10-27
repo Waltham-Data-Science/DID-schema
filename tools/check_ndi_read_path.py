@@ -63,7 +63,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_ROOT = os.path.dirname(HERE)
-LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_coverage_ledger.json")
 
 # `document_properties.<block>` and optionally `.<field>`. The block is what
 # joins to the ledger; the field matters only for `base`.

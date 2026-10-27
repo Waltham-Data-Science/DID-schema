@@ -87,8 +87,8 @@ and the audit calls them *"UNDER-specified in the right dimension"*:
 
 THE `#nn` NOTATION COLLISION
 ----------------------------
-`V_eta_OPEN_WORK.md` numbers its items `#nn`, and one citation was written
-`V_eta_OPEN_WORK.md:51` -- indistinguishable from a line reference, landing on
+`did_v2_OPEN_WORK.md` numbers its items `#nn`, and one citation was written
+`did_v2_OPEN_WORK.md:51` -- indistinguishable from a line reference, landing on
 unrelated prose. `CLAUDE.md` now forbids the form. A citation into a markdown
 document that maintains an `#nn` item vocabulary, whose number is one of those
 item ids and which does not verify as a line, is reported as a NOTATION
@@ -114,7 +114,6 @@ Usage:  python3 tools/check_citations.py
 """
 
 import argparse
-import glob
 import os
 import re
 import subprocess
@@ -122,8 +121,11 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-SCHEMA_DIR = os.path.join(REPO, "schemas")
 sys.path.insert(0, HERE)
+# The documents scanned are every `.md` under docs/ ([markdown cleanup and
+# rename], Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md).
+import doc_paths  # noqa: E402
+
 # A citation into a sibling's `origin/main` is checked at the LOCKED sha
 # (tools/sibling_lock.json), keyed by the tree's name; a tree the lock does not
 # name (this repository, a test's fake checkout) reads its live origin/main.
@@ -565,7 +567,7 @@ def _segments(path):
     (`image_stack.m` exists in `+migrators_i` too, so the tool reported an
     ambiguity the citation had already resolved), and the fourth reads as a
     basename no repository contains -- five citations were reported DEAD on
-    that account, and `V_eta_OPEN_WORK.md` records an earlier hand audit
+    that account, and `did_v2_OPEN_WORK.md` records an earlier hand audit
     making exactly the same mistake and correcting it."""
     if "/" not in path:
         stem, dot, ext = path.rpartition(".")
@@ -680,7 +682,7 @@ TREES = {name: Tree(name, root) for name, root in REPOS.items()}
 REPO_HINTS = (
     ("NDI-matlab", re.compile(r"NDI-matlab|src/ndi|\+ndi/|ndi_common")),
     ("DID-matlab", re.compile(r"DID-matlab|\+did2|migrators_j|src/did")),
-    ("DID-schema", re.compile(r"DID-schema|schemas/|tools/|web/src")),
+    ("DID-schema", re.compile(r"DID-schema|schemas/|docs/|tools/|web/src")),
 )
 
 
@@ -899,7 +901,7 @@ def _maybe_collision(cite, lines):
 # DEAD MEANS "WE CAN SEE THE PLACE IT SAYS TO LOOK, AND IT IS NOT THERE."
 #
 # Some citations point into repositories this container has never had.
-# `V_eta_ngrid_family_findings.md` opens with a table naming
+# `did_v2_ngrid_family_findings.md` opens with a table naming
 # `VH-Lab/NDIcalc-vis-matlab` as the source of its evidence and adds *"the
 # clone is EPHEMERAL"*; four of its citations are `hartley.m`, which lives
 # there. Grading those DEAD would gate this repository on a checkout nobody
@@ -931,7 +933,9 @@ def documents(only=None):
     if only:
         return [os.path.abspath(p) for p in only]
     paths = [os.path.join(REPO, "CLAUDE.md")]
-    paths += sorted(glob.glob(os.path.join(SCHEMA_DIR, "*.md")))
+    # Not docs/v2_working/: its notes cite code "at the commits it names"
+    # (docs/v2_working/README.md), so their line numbers are dated, not live.
+    paths += doc_paths.current_documents()
     return [p for p in paths if os.path.exists(p)]
 
 
@@ -1082,6 +1086,21 @@ def main(argv=None):
     paths = documents(args.document)
     cites, read, lines_read, orphans, bare, unreadable = run(paths)
     render(paths, cites, read, lines_read, orphans, bare, unreadable, args.verbose)
+
+    # A document cited by bare name resolves to the unique file of that name
+    # under docs/, and a duplicate name fails the gate ([markdown cleanup and
+    # rename] part (5), Jess Haley, 2026-10-26). Checked on every run, with or
+    # without --document, because a duplicate breaks every bare citation of it.
+    index = doc_paths.name_index()
+    dups = doc_paths.duplicates()
+    print()
+    print(f"DOCUMENT NAMES: {sum(len(v) for v in index.values())} document(s) "
+          f"under docs/, {len(index)} distinct name(s); {len(dups)} duplicate(s)")
+    for name, where in sorted(dups.items()):
+        print(f"  DUPLICATE {name}: " + ", ".join(doc_paths.rel(p) for p in where))
+    if dups:
+        print("FAIL: a bare document name must name one file under docs/.")
+        return 1
 
     if read == 0 or not cites:
         print()

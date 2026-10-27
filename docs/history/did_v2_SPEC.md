@@ -1,4 +1,4 @@
-# V_eta_SPEC.md — DID/NDI Document Schema Format (V_eta)
+# did_v2_SPEC.md — DID/NDI Document Schema Format (V_eta)
 
 ## Purpose
 
@@ -14,10 +14,10 @@ listed here — the tiered directory layout (`stable/` / `draft/` / `deprecated/
 `examples/` / `conversions/`), `index.json` as the resolution source of truth,
 resolution-by-`class_name`, the `maturity_level` vocabulary, the
 `document_class.schema_version` set-version tag, and the field/dependency object
-shapes — the V_delta specification (`V_delta_SPEC.md`) remains authoritative.
+shapes — the V_delta specification (`V_delta_SPEC.md` (deleted; see git 04fc712)) remains authoritative.
 
 The migration story (how `did_v1` corpora convert into V_eta) lives in its
-companion, **`V_eta_migration_plan.md`**, together with the resolved design
+companion, **`did_v2_migration_plan.md`**, together with the resolved design
 decisions **D1–D9** referenced throughout this spec.
 
 ## Relationship to V_zeta (Brainstorm I)
@@ -223,14 +223,14 @@ tuning/response calculators, `openminds*`, `ontology_*`, `zarr`/`image*`,
 > `image*` was RESTRUCTURED to a standalone `image` `data_type` (R6; `array` killed);
 > `openminds*` DECOMPOSE to `term_assertion`s; `element`/`instrument` RETIRED; `app` →
 > `software` entity (R1). Only the value-cell composites, the `time_reference` frames, and
-> the (re-governed) acquisition infra truly carry over verbatim. See `V_eta_tenets.md` and
-> the R-series in `V_eta_tenet_audit.md`.
+> the (re-governed) acquisition infra truly carry over verbatim. See `did_v2_tenets.md` and
+> the R-series in `did_v2_tenet_audit.md`.
 
 ---
 
 ## Resolved decisions
 
-The load-bearing forks are resolved in `V_eta_migration_plan.md` Part E (D1–D9):
+The load-bearing forks are resolved in `did_v2_migration_plan.md` Part E (D1–D9):
 timing (D1: cadence beside the value), individuated referent (D2:
 instrument-as-subject, no `element_id`, no kind-subclasses), Path S scope (D3:
 measure first), transfer donor (D4: provenance relation), locus/label terms (D5:

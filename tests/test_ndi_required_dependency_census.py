@@ -30,7 +30,7 @@ import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
-GT_PATH = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
+GT_PATH = os.path.join(REPO_ROOT, "schemas", "did_v2_ndi_ground_truth.json")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
               "ndi_reserved_keys.json", "binding_registry_meta.json",
@@ -95,7 +95,7 @@ def _phase8_set():
     return set(re.findall(r'"([A-Za-z0-9_]+)"', m.group(1)))
 
 
-TARGETS_PATH = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+TARGETS_PATH = os.path.join(REPO_ROOT, "schemas", "did_v2_migration_targets.json")
 
 
 def _targets_map():
@@ -510,7 +510,7 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
     # 6 new templates (the gene-expression family + fileReference) that ship
     # v1 documents with no V_eta home and no migrator yet. These are tracked
     # for team disposition separately from this canary -- see PR #69 /
-    # V_eta_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
+    # did_v2_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
     # in this bucket; only the 6 already known are allowed through.
     KNOWN_UNDISPOSITIONED = {
         "cellTypeLabels", "fileReference", "geneListMapping",

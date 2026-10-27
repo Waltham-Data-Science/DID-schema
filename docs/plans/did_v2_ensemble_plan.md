@@ -4,8 +4,8 @@
 revisit (the user reopened the whole class + its name). **All decisions below are FINAL; the
 BUILD is deferred** — batched with the other walkthrough decisions. This SUPERSEDES the
 earlier "grain A — carry the map doc as ⑦ acquisition-infra" decision. Cross-refs:
-`V_eta_tenets.md` (T1 group-ness, T6 storage, T10 derived motif, T12 parsimony),
-`V_eta_tenet_audit.md` (boundary classes).*
+`did_v2_tenets.md` (T1 group-ness, T6 storage, T10 derived motif, T12 parsimony),
+`did_v2_tenet_audit.md` (boundary classes).*
 
 TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes.
 
@@ -163,7 +163,7 @@ Task 1 above asks to *"confirm the element migrator already lands this for
 'spikes' elements; if not, add it."* The confirmation ran. **It does not, and
 until today nothing in this document said WHERE the spike trains currently
 live.** They live in `element_epoch`, and that is the join neither this plan nor
-`V_eta_epoch_plan.md` was carrying.
+`did_v2_epoch_plan.md` was carrying.
 
         DENOMINATOR: 1220 json file(s) read from corpus 20211116
           element_epoch                      252
@@ -191,7 +191,7 @@ the one this plan would have predicted; the second is not.
      Guard A.
 
 **THE ROUTE IS NOW DECIDED AND THE SIGNATURE IS IN THE OTHER DOCUMENT** —
-`V_eta_epoch_plan.md`, "AMENDMENT 1 to the #60 scoping walkthrough",
+`did_v2_epoch_plan.md`, "AMENDMENT 1 to the #60 scoping walkthrough",
 `TEAM-SIGN-OFF [epoch]` 2026-08-17: the 252 attach to the neuron-subject's
 spike-time observation per THIS plan's 2026-08-06 signature, not to a
 raw-recording observation, and `acquisition_epoch` stays the carrier until the
@@ -207,7 +207,7 @@ neuron"*. `subject_observation` is ABSTRACT — `+did2/+schema/cache.m` raises
 33 concrete `*_observation` classes (`DENOMINATOR: 249 json file(s) under
 schemas/V_eta/ read`) **none carries event times**. `count_observation` is the
 neighbour, used by `jrclust_clusters` for its integer label series, but a spike
-TIME is not a count. Open work, `V_eta_OPEN_WORK.md` row #117.
+TIME is not a count. Open work, `did_v2_OPEN_WORK.md` row #117.
 
 **AND ONE CONSTRAINT ON WHATEVER IS BUILT:** `element_epoch`'s `.vhsb` is a
 GENERIC `(timepoints, datapoints)` series — `+ndi/+element/timeseries.m:274`
@@ -215,7 +215,7 @@ writes both, for any derived element type — so the fold must key on element
 `type`, not assume spikes.
 
 
-TEAM-SIGN-OFF [spike train leaf]: jess@walthamdatascience.com / 2026-08-17 -- a per-neuron spike train is a `time_observation` (the leaf formerly `duration_observation`; see TEAM-SIGN-OFF [time dtype], V_eta_tenet_audit.md, same day) with `subject_statement.variable` = spike. The SPIKE TIMES ARE THE VALUE -- an array of `time` cells, each an offset from the statement's own anchor (`time_reference_1` -> a `relative_reference` -> the minted `epoch`) -- and the body's axis is a bare regular index. NO NEW CLASS is minted anywhere. This closes deferred build task 1 of this plan ("confirm the element migrator already lands this for 'spikes' elements; if not, add it" -- the confirmation ran 2026-08-17 and the answer is no) and it closes V_eta_OPEN_WORK.md row #117.
+TEAM-SIGN-OFF [spike train leaf]: jess@walthamdatascience.com / 2026-08-17 -- a per-neuron spike train is a `time_observation` (the leaf formerly `duration_observation`; see TEAM-SIGN-OFF [time dtype], did_v2_tenet_audit.md, same day) with `subject_statement.variable` = spike. The SPIKE TIMES ARE THE VALUE -- an array of `time` cells, each an offset from the statement's own anchor (`time_reference_1` -> a `relative_reference` -> the minted `epoch`) -- and the body's axis is a bare regular index. NO NEW CLASS is minted anywhere. This closes deferred build task 1 of this plan ("confirm the element migrator already lands this for 'spikes' elements; if not, add it" -- the confirmation ran 2026-08-17 and the answer is no) and it closes did_v2_OPEN_WORK.md row #117.
 
 WHY THE TIMES ARE THE VALUE AND NOT THE AXIS, since the plan's own text says "event times to a sampled_body" and both readings fit that phrase. The alternative was `logical_observation` -- times as an irregular time AXIS, value an array of N `true`. Both encodings carry exactly one uninformative slot, but they do not cost the same: a regular index axis is `origin + spacing + n`, three numbers regardless of N, while N booleans is O(N) on every spike of every neuron. The precedent settles the rest: `relative_reference.value.start` is an anchor OFFSET typed with this same composite, so "an offset whose anchor is named elsewhere on the document" is a shape the model already uses, not a new one.
 
@@ -261,26 +261,26 @@ RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidit
 
 RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved under `data_type`, where #86 should have put it; `check_prose_counts` re-derives all nouns): **46 direct subclasses** of `data_type` (was 45; +`humidity`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `did_v2_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `did_v2_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `did_v2_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-14 (NDI-matlab#979 merged `lightsheetZarrPyramid` and `lightsheetZarrLevel` into NDI `origin/main`, restated here as v1 tombstones `lightsheet_zarr_pyramid` / `lightsheet_zarr_level`; `check_prose_counts` re-derives all nouns): **172 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 176). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `did_v2_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `did_v2_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], did_v2_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
 
 ## 2026-10-22 -- tenet audit
 
-Decided by Jess Haley, 2026-10-22 [ensemble retired]: the `ensemble` class is retired. A v1 ensemble migrates per V_eta_migration_targets.json `ensemble.how`: a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a `sampled_body` (answer "a"). Built: index.json disposition `retire` (the class stays as the v1 source tombstone); the migration itself is NDI's second pass.
+Decided by Jess Haley, 2026-10-22 [ensemble retired]: the `ensemble` class is retired. A v1 ensemble migrates per did_v2_migration_targets.json `ensemble.how`: a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a `sampled_body` (answer "a"). Built: index.json disposition `retire` (the class stays as the v1 source tombstone); the migration itself is NDI's second pass.
 
 Decided by Jess Haley, 2026-10-22 [no ensemble cache]: the combined (times, neuron-id) array is not kept as a cache; NDI rebuilds it on read from the per-neuron trains, so no data body carries an `is_cache` marker. This replaces the cache clause of TEAM-SIGN-OFF [ensemble] (2026-08-06); the per-neuron trains stay the primary data. A v1 ensemble's combined bytes are dropped only after every member neuron's train is verified present for that epoch (answer "b"; no corpus contains an ensemble). Built: NDI-matlab b72da8051 (ensemble rebuilt on read, no cache edge), DID-matlab a94ed79 (combined-bytes acquisition_epoch kept only while unverified).

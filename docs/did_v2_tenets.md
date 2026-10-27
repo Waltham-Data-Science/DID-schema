@@ -2,7 +2,7 @@
 
 *The durable statement of WHY V_eta is shaped the way it is. Read this before adding a
 class, folding a source, or arguing a disposition. The class-by-class SPEC is
-`V_eta_SPEC.md`; the migration mechanics are `V_eta_migration_plan.md`; this file is the
+`did_v2_SPEC.md`; the migration mechanics are `did_v2_migration_plan.md`; this file is the
 principles those rest on. When a design question arises, answer it from these tenets —
 do not re-derive from the class list.*
 
@@ -58,7 +58,7 @@ developmental stage is observed or calculated, never asserted). An
 assertion has no act/series (rule `assertion_no_time_dimension`: no time dimension); an interaction (observation/manipulation/calculation) adds
 `method` (the verb: `{term, parameters}`, the technique and the settings it ran with,
 inline or by `method_id` to a standalone `method` document -- decided 2026-10-21 and
-signed, `V_eta_method_plan.md` TEAM-SIGN-OFF [method]; `method` was a bare term beside a separate
+signed, `did_v2_method_plan.md` TEAM-SIGN-OFF [method]; `method` was a bare term beside a separate
 `method_parameters` list until then; since 2026-10-22 an inline block beside `method_id`
 may add settings only this run had, Jess Haley [method shared plus own]), an optional `instrument_id` and
 `software_id`, and requires a `time_reference`. Its per-reading positions are the value's
@@ -82,7 +82,7 @@ of the value kinds, `data_type`, becomes `value`: a parent names what each child
 `term_assertion`); the next one removed the leaf classes.)*
 
 **One entity class; statements by composition** (2026-10-08, built ahead of signature and signed the same day,
-, `V_eta_entity_composition_plan.md`). An entity is something the science
+, `did_v2_entity_composition_plan.md`). An entity is something the science
 describes, the named periods of an experiment included; configuration (what the software
 needs to read the data) is its own class off `base`. So every entity is one `entity` class
 with a bound `type` (organism ... session, epoch, protocol): its fields are identity only
@@ -131,7 +131,7 @@ is written as its direction plus its value kind (`observation` listing `mass`). 
 `<kind>_<direction>` name in these tenets that way.*
 
 **AMENDED 2026-10-08 -- the product is a document, not a class** (signed 2026-10-08,
-`V_eta_entity_composition_plan.md` sec. 1). A statement document's class is its direction
+`did_v2_entity_composition_plan.md` sec. 1). A statement document's class is its direction
 and its `superclasses` list the value kind's chain after its own
 (`observation` + `temperature`), so the direction × value product exists only in documents.
 A direction declares `value_kind {root: value, count: 1}`; the validator accepts exactly one
@@ -243,7 +243,7 @@ is still one of the two bodies (usually `sampled_body`), owned by a calculation 
 `input_id` edges name its sources (T10, T15), and it carries no authority — deleting it loses nothing, because it
 regenerates from *A*. Store the source, project the view. *Example:* per-neuron spike trains
 are the source of truth; an ensemble's combined (time, neuron) marked-point-process is a
-derived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).
+derived cache for fast population reads, not primary data (see `did_v2_ensemble_plan.md`).
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
 
@@ -389,7 +389,7 @@ Mint a composite **only when 1–4 all fail** — i.e. a genuinely new **dimensi
 quantity** (its own unit: `mass`, `charge`, `pressure`) or a genuinely new **structured
 object** (several co-varying fields that form one unit: a tuning curve, a dose).
 
-**Amendment (2026-10-21, `V_eta_method_plan.md`; signed by TEAM-SIGN-OFF [method] there,
+**Amendment (2026-10-21, `did_v2_method_plan.md`; signed by TEAM-SIGN-OFF [method] there,
 "T12/T13 amended"): a stimulus given as a RECIPE is a method, not a composite.**
 A grating, a bar, a sparse-noise frame or an odour pulse protocol is a `method` document:
 a method `term` ("drifting sinusoidal grating") plus its `parameters` (orientation, spatial
@@ -425,7 +425,7 @@ a footnote**.
   the v1 writer's spelling verbatim so a passthrough still validates (`israster`,
   `is_unsupervised`, `has_score`, `has_planar_contour`, `isspike`, `do_filter` stay as
   v1 wrote them). `time_reference.is_approximate` is not renamed because the signed time
-  model already deletes it (`V_eta_time_reference_model_plan.md`, "both go").
+  model already deletes it (`did_v2_time_reference_model_plan.md`, "both go").
 - **Right altitude — the rescue-qualifier rule** (the `visual_grating` rule until the
   proposed amendment of 2026-10-21, which deleted that class: a stimulus recipe is a
   `method` document, T12). Pitch the name at the level a domain expert names the thing.
@@ -451,7 +451,7 @@ a footnote**.
   every value — the experimental conditions, on a statement or on one body, T6) and
   the settings of a **`method`** (the algorithm config on an interaction);
   a per-stimulus mean is `response_mean`, not `value`.
-  **Amendment (2026-10-21, `V_eta_method_plan.md`; signed by TEAM-SIGN-OFF [method]): `parameters` is
+  **Amendment (2026-10-21, `did_v2_method_plan.md`; signed by TEAM-SIGN-OFF [method]): `parameters` is
   allowed in exactly ONE place, inside `method` (`method.parameters`), where its owner
   names it** — the same reason `method_parameters` was accepted as a field name: the word
   is not a bare container when the field beside it (`method.term`) says whose parameters
@@ -847,7 +847,7 @@ A statement then reaches other subjects only along the graph (T4), and never upw
 member to its group, a part to its whole, or contents to their container). **What passes
 along a relation is declared by the relation, not by this tenet's prose:** every row of
 `binding_registry_meta.json` `relation_bindings` carries `passes`, one of four values, and a
-row without one stops the build (2026-10-20, `V_eta_relation_inheritance_plan.md`;
+row without one stops the build (2026-10-20, `did_v2_relation_inheritance_plan.md`;
 until then the paths were named here and hard-coded in the reader, and one of them misfired):
 
 | `passes` | what reaches | how it reads | rows today |
@@ -890,14 +890,14 @@ The reverse question, what was stated of anything inside a container, is a walk 
 asks for explicitly (the container's descendants, then their statements), never inheritance.
 
 **A fourth path, from a type to its instances** (2026-10-08, signed the same day,
-`V_eta_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
+`did_v2_entity_composition_plan.md` sec. 5): `instance_of` (a worm of a strain, a unit of a
 product). What is **asserted** of the strain or the product is **true of each instance**: N2's
 genotype is each N2 worm's genotype. Its row passes `assertions`: interactions do not pass
 (a reading of one bottle of a product is not a reading of every bottle), and never upward.
 
 ### T18 — `same_as` joins two records of one thing; it never joins two things of one kind.
 *(Written 2026-10-14 at Jess Haley's request and signed 2026-10-19,
-`V_eta_duplicate_entities_plan.md`: a session made on its own joins a dataset and brings its
+`did_v2_duplicate_entities_plan.md`: a session made on its own joins a dataset and brings its
 own entity for something the dataset already records, its own N2 strain, its own record of a
 person, its own record of the microscope.)*
 
@@ -946,7 +946,7 @@ it) is not decided; if ever wanted, it must leave a redirect from each removed i
 ### T19 — A term is as general as its meaning allows; the document carries the rest.
 *(Written 2026-10-20 at Jess Haley's request, from the Haley import's term review: `head` from
 UBERON or WBbt, labels that began "C. elegans behavioral assay:", and STATO's *average value*
-for a mean. Signed 2026-10-20 by TEAM-SIGN-OFF [term registry], `V_eta_term_registry_plan.md`,
+for a mean. Signed 2026-10-20 by TEAM-SIGN-OFF [term registry], `did_v2_term_registry_plan.md`,
 which names "tenet T19"; this line claimed otherwise until 2026-10-22.)*
 
 T13 sets the altitude of the names we author; T19 sets it for the ontology terms we choose.
@@ -1062,7 +1062,7 @@ TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess / 2026-10-21 -- T6: derivable 
 TEAM-SIGN-OFF [tenet amendments 2026-10-21]: jess@walthamdatascience.com / 2026-10-21 -- T17: one event given to several subjects is one distributive statement on a standing group, never N copies
 TEAM-SIGN-OFF [tenet T20, group entities]: jess@walthamdatascience.com / 2026-10-21 -- T20: a set referred to as a unit is one group entity linked by member_of; groups are standing, never minted per statement; order lives on the membership relation (directed_relation.order, renamed from sequence before the V2 merge); a sequence that is the data stays a value
 
-Decided by Jess Haley, 2026-10-22 [tenet signature text]: the tenet lines that still described signed amendments as unsigned now say they are signed and cite the line that signs them: T2's, T12's and T13's method amendments (TEAM-SIGN-OFF [method], V_eta_method_plan.md), T17's (TEAM-SIGN-OFF [tenet amendments 2026-10-21], above) and T20's (TEAM-SIGN-OFF [tenet T20, group entities], above); tools/check_signoff_header_staleness.py also catches such an in-text claim (its rule 4) (answer "a"). Also corrected with this line, on the positive evidence of TEAM-SIGN-OFF [term registry] (V_eta_term_registry_plan.md, 2026-10-20), which names "tenet T19": T19's own header, which described it as unsigned.
+Decided by Jess Haley, 2026-10-22 [tenet signature text]: the tenet lines that still described signed amendments as unsigned now say they are signed and cite the line that signs them: T2's, T12's and T13's method amendments (TEAM-SIGN-OFF [method], did_v2_method_plan.md), T17's (TEAM-SIGN-OFF [tenet amendments 2026-10-21], above) and T20's (TEAM-SIGN-OFF [tenet T20, group entities], above); tools/check_signoff_header_staleness.py also catches such an in-text claim (its rule 4) (answer "a"). Also corrected with this line, on the positive evidence of TEAM-SIGN-OFF [term registry] (did_v2_term_registry_plan.md, 2026-10-20), which names "tenet T19": T19's own header, which described it as unsigned.
 
 Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the T1 amendment (from the Haley tenet audit's T-4) and the T5 amendment (T-2) were signed by Jess Haley on 2026-10-21, so their "signed by her 2026-10-21" stands; the sign-off line above that lists the 2026-10-20 amendments did not name them (answer "N2 yes").
 
@@ -1070,4 +1070,4 @@ Decided by Jess Haley, 2026-10-22 [T2 time-varying property]: T2 gains "A proper
 
 Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's Boundary adds that a document's own list of inputs (formulation or dose ingredients, calculation inputs, a policy's rules) is not a group: those are repeated edges under T15, ordered when position pairs an edge with a value entry or is an algorithm's order. T15 adds that an ordered repeated edge lists a document's own inputs, and a set referred to as a unit by several documents is a group (T20). No schema change (answer "I1a").
 
-Decided by Jess Haley, 2026-10-22 [tenet stale names]: the stale names in the tenets are corrected as part of [audit mechanical fixes] (V_eta_data_body_model_plan.md): `timed_sequence` (T3, T15), `datum_type` (T3, T6, T14), the `<value>_<direction>` leaves (T11), `subject` and `web_resource` (T9), the T15 table's `key_labels_id`, `strain` and `tools/build_v_eta.py`, T2's method "proposed", and T2's clock_alignment `input_id` exception (answer "E yes").
+Decided by Jess Haley, 2026-10-22 [tenet stale names]: the stale names in the tenets are corrected as part of [audit mechanical fixes] (did_v2_data_body_model_plan.md): `timed_sequence` (T3, T15), `datum_type` (T3, T6, T14), the `<value>_<direction>` leaves (T11), `subject` and `web_resource` (T9), the T15 table's `key_labels_id`, `strain` and `tools/build_v_eta.py`, T2's method "proposed", and T2's clock_alignment `input_id` exception (answer "E yes").

@@ -1,5 +1,5 @@
 {
-  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped). 2026-10-08 (PROPOSAL, V_eta_entity_composition_plan.md): every openMINDS type maps to the one `entity` class with `entity_type`; a property that was a field on the old class is a statement (`target_kind: assertion`, `ndi_target` the statement's variable, `value_kind` its value) unless it is identity (name, description, local_identifier, global_identifier); global_identifier targets name a CURIE prefix registered in CURIE_lookups_meta.json, or `IRI`.",
+  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped). 2026-10-08 (PROPOSAL, did_v2_entity_composition_plan.md): every openMINDS type maps to the one `entity` class with `entity_type`; a property that was a field on the old class is a statement (`target_kind: assertion`, `ndi_target` the statement's variable, `value_kind` its value) unless it is identity (name, description, local_identifier, global_identifier); global_identifier targets name a CURIE prefix registered in CURIE_lookups_meta.json, or `IRI`.",
   "crosswalk_version": "1.1.0",
   "vocabulary": "openMINDS",
   "types": {
@@ -98,7 +98,7 @@
           "target_kind": "global_identifier",
           "ndi_target": "ndicloud",
           "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). NDI Cloud copies are `ndicloud:<id>`; any other repository is its IRI."
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). NDI Cloud copies are `ndicloud:<id>`; any other repository is its IRI."
         },
         "isNewVersionOf": {
           "target_kind": "relation",
@@ -140,7 +140,7 @@
           "target_kind": "global_identifier",
           "ndi_target": "IRI",
           "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). "
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). "
         },
         "protocol": {
           "target_kind": "relation",
@@ -217,7 +217,7 @@
           "target_kind": "global_identifier",
           "ndi_target": "IRI",
           "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (V_eta_entity_composition_plan.md sec. 7). "
+          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). "
         },
         "hasParent": {
           "target_kind": "relation",
@@ -238,7 +238,7 @@
         "awardNumber": {
           "target_kind": "field",
           "ndi_target": "local_identifier",
-          "notes": "An award number is unique only within its funder, so it is not a global identifier: a grant DOI goes in global_identifier when there is one, otherwise the number is the funding entity's local_identifier (V_eta_entity_composition_plan.md sec. 6)."
+          "notes": "An award number is unique only within its funder, so it is not a global identifier: a grant DOI goes in global_identifier when there is one, otherwise the number is the funding entity's local_identifier (did_v2_entity_composition_plan.md sec. 6)."
         },
         "funder": {
           "target_kind": "relation",

@@ -368,7 +368,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # and the first two undirected rows (paired_with, same_as) added. 29 -> 30 on
     # 2026-09-30 (jess): `instance_of` (an instrument subject -> its product);
     # 30 -> 31 the same day: `awarded_to` (an award -> its recipient).
-    # 2026-10-08 (signed, V_eta_entity_composition_plan.md): subject_statement 6 ->
+    # 2026-10-08 (signed, did_v2_entity_composition_plan.md): subject_statement 6 ->
     # 11 (five bound fields of merged entities -- dataset accessibility, ethics
     # assessment, experimental approach; study factors, design -- became variable-keyed
     # term-assertion rows), relation 31 -> 30 (-stored_at, -hosted_by, -has_homepage,
@@ -376,7 +376,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # relation 30 -> 32 on 2026-10-15 (jess): `developed_by` (software -> its
     # developer) and `hosted_by` again, now dataset -> its host; 32 -> 33 the same
     # day: `distributed_as` (a strain -> the product it is distributed as).
-    # 33 -> 34 on 2026-10-20 (V_eta_relation_inheritance_plan.md, a proposal built
+    # 33 -> 34 on 2026-10-20 (did_v2_relation_inheritance_plan.md, a proposal built
     # ahead of signature): `included_in`, a record filed under a record.
     # 69 -> 65 on 2026-10-21 (Jess Haley): the 4 illustrative `binding_examples`
     # rows deleted. 65 -> 66 the same day (Jess Haley): subject_statement 11 -> 12,
@@ -388,7 +388,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     # recorded_by ([epoch to system link]), measured_distance_to ([distance]),
     # aliquot_of and passage_of ([vocabulary nodes] K5) retired, and the
     # `clock_alignment` row added ([clock alignment relation bound]).
-    # 62 -> 64 on 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md
+    # 62 -> 64 on 2026-10-26 (Jess Haley, did_v2_go_forward_class_audit.md
     # [dataset form terms], [census terms] T2): subject_statement 11 -> 13,
     # `Technique` (NCIT:C16847) and `Scientific Data Type` (NCIT:C175886).
     assert total == 64, f'registry row count moved: {total}'

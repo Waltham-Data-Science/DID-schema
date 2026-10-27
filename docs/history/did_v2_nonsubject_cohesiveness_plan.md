@@ -1,6 +1,6 @@
 # V_eta — Non-Subject Cohesiveness Redesign
 
-*Amends `V_eta_migration_plan.md`. **Supersedes Part A.10** ("what carries over
+*Amends `did_v2_migration_plan.md`. **Supersedes Part A.10** ("what carries over
 verbatim"), which contradicted Brainstorm J's own text: A.10 lists `openminds*`
 and `element/epoch*` as verbatim carry-overs, but the J source says openMINDS is
 **not stored** (decomposed to assertions, J:92) and `element_epoch` /
@@ -122,7 +122,7 @@ stored as raw `char` (`fileparameters`, `epochprobemap`, `parameters`,
 split in §Governance findings and Phase 7.
 
 ### 2.B Stimulus  *(~5.5k docs)*  — **RESOLVED (D-B); pass-1 = bodies-of-record, minting deferred**
-> **SUPERSEDED — see `V_eta_stimulus_model_plan.md`.** The D-B `stimulus_presentation` →
+> **SUPERSEDED — see `did_v2_stimulus_model_plan.md`.** The D-B `stimulus_presentation` →
 > `stimulus_manipulation` (NDI-2nd-pass-minted) model is replaced by `timed_sequence`
 > (`data_type`) + `timed_sequence_manipulation` (leaf); `control_stimulus_ids` →
 > `control_designation`. There is no `stimulus_manipulation` class on disk.
@@ -165,7 +165,7 @@ untyped pending referent-class review (its v1 antecedent pointed at a *parameter
 doc, not a response).
 
 ### 2.C The analysis tier — calc **and** spike-sorting  *(~0.9k + spike-sorting docs)*  — **DECOMPOSE (D-C, generalized)**
-> **SUPERSEDED for calculators — see `V_eta_subject_calculation_plan.md` + tenet T10.** The
+> **SUPERSEDED for calculators — see `did_v2_subject_calculation_plan.md` + tenet T10.** The
 > "no `calculation` genus / dissolve calcs → observations + `data_body`" position below was
 > reversed: dissolving a calc dangles every downstream ref (the 11,448-orphan lesson). A
 > `subject_calculation` DIRECTION was added and calculators are kept as id-preserved
@@ -501,7 +501,7 @@ un-dissolved infra)? This is separable and is the next call on this track.
 
 ---
 
-*Companion to `V_eta_migration_plan.md`. The subject-side work (the original plan
+*Companion to `did_v2_migration_plan.md`. The subject-side work (the original plan
 D1–D11) is unaffected; this plan extends cohesiveness to the non-subject half so
 V_eta can be promoted to `V1` as one coherent schema. Decisions D-A…D-F resolved
 (D-F migrators partially deferred on the bare-dataset-entity call); Part 5 closes

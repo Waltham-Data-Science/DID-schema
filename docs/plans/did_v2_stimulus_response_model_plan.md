@@ -214,7 +214,7 @@ app path does not.
 
 **Conclusion:** 11,440 documents whose entire content is one of **six** value-tuples,
 kept alive by a cascade-delete helper that exists to throw them away. By the
-protocol-vs-run-knobs rule (`V_eta_method_parameters_plan.md`) these are run knobs.
+protocol-vs-run-knobs rule (`did_v2_method_parameters_plan.md`) these are run knobs.
 Folding them inline loses nothing, because two responses sharing a parameters document
 are exactly two responses whose inline structures are equal.
 
@@ -460,7 +460,7 @@ referent, only `stimulusResponse.m:371`'s cascade delete.
    queryable homes. Recorded, not overlooked.
 
 4. **The `harmonic_component` field list is PROPOSED**, not decided — the same status as
-   the block list in `V_eta_method_parameters_plan.md`.
+   the block list in `did_v2_method_parameters_plan.md`.
 
 ---
 
@@ -478,7 +478,7 @@ responses.stimid  ->  conditions[{variable: stimulus, ...}]   "the per-reading a
 ```
 
 **`conditions` tightened to cardinality EXACTLY 1 on 2026-08-08 and is explicitly NOT an
-axis** (`V_eta_data_body_model_plan.md`, the D10 amendment). The test settled there: *does
+axis** (`did_v2_data_body_model_plan.md`, the D10 amendment). The test settled there: *does
 element k of this entry say something about element k of the value?* `stimid` positionally
 indexes `response_real` and `response_imaginary` — element k names the stimulus that element k
 is a response TO. That is an axis by definition.

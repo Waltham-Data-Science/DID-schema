@@ -7,7 +7,7 @@ deferred.**
 <!-- HISTORICAL-SIGNOFF-CLAIM -->
 *This header asserted "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, two days after
 the signature was added below it. Corrected; see the note in
-`V_eta_stimulus_parameter_plan.md` for why this class of staleness is now
+`did_v2_stimulus_parameter_plan.md` for why this class of staleness is now
 CI-gated.*
 
 **The team's words:** *"I accept the suggested naming acquisition_metadata_reader /
@@ -120,7 +120,7 @@ real, NDI-backed source of exactly what `acquisition_epoch.clocks` was *inventin
 epoch plan already flags `axes`/`channels`/`storage` as existing in no NDI template).
 
 And it is precisely the `relative_reference` document that `clock_alignment`'s
-endpoints are (`V_eta_clock_alignment_cluster_plan.md`). **The epoch, time-reference,
+endpoints are (`did_v2_clock_alignment_cluster_plan.md`). **The epoch, time-reference,
 clock-alignment and ingested-payload families all meet here.**
 
 Note the polynomial lesson applies: `epochclock` is a CELL ARRAY, so a single `clock`
@@ -221,7 +221,7 @@ mode-in-name.
 `acquisition_metadata_reader`. Claude first proposed `ingested_payload`; the team said
 it seemed wrong, and it was — it repeated the very mode word this rename removes. The
 full reasoning, including why the "metadata" name-collision argument turned out weak,
-is in `V_eta_daq_family_decisions.md`.
+is in `did_v2_daq_family_decisions.md`.
 
 **Do not type `data.bin`.** The readers produce TSV in the cases seen, but nothing
 declares it. Carry the bytes; model them when someone has read real ones. Proposing a
@@ -252,7 +252,7 @@ daqreader_id -> acquisition_system;   epochid -> epoch_id
 3. **Don't narrow a shape without checking the source** — the polynomial lesson;
    `epochclock` is a cell array.
 4. **`clocktype` → `clock`**, bound to the existing `did_clocktype` value_set
-   (`V_eta_time_reference_model_plan.md`, amended 2026-08-06).
+   (`did_v2_time_reference_model_plan.md`, amended 2026-08-06).
 
 ---
 

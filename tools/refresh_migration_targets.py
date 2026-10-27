@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Refresh the `targets` field of `schemas/V_eta_migration_targets.json`.
+"""Refresh the `targets` field of `schemas/did_v2_migration_targets.json`.
 
 WHAT THIS TOOL OWNS, AND WHAT IT DELIBERATELY DOES NOT.
-`V_eta_migration_targets.json` mixes two kinds of statement, and the file's own
+`did_v2_migration_targets.json` mixes two kinds of statement, and the file's own
 `_comment` draws the line:
 
     targets      "the V_eta document class(es) its migrator ACTUALLY EMITS"
@@ -115,7 +115,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_ROOT = os.path.dirname(HERE)
-TARGETS_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+TARGETS_JSON = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_migration_targets.json")
 
 
 def _load(name, path):
@@ -593,7 +593,7 @@ def entry_points():
 #                       self-target passthrough at `targets_for` is never
 #                       derived. Rows LOSE targets and the tool reports a
 #                       smaller derivation as if it were the answer -- and this
-#                       one writes V_eta_migration_targets.json.
+#                       one writes did_v2_migration_targets.json.
 #   refresh()           `veta = None` skips the INSTRUMENT CHECK entirely, so
 #                       the line that says how many derived names are absent
 #                       from the built schema set does not appear at all. A

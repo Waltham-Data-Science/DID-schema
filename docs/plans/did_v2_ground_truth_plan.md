@@ -7,7 +7,7 @@ reported `total_docs=0` on all five corpora because `asStruct` asked `did2.docum
 `document_properties` when the property is `documentProperties`, so every document resolved to
 `[]` and `toBodies` silently dropped them. Fixed; the census must be re-taken.
 Phase 2 CLOSED as scoped (17 offenders). **Phase 2b (source tombstones) is new** — not in the
-original plan; see `V_eta_tombstone_audit.md`. Phases 3-4 NOT authorised — decide first.
+original plan; see `V_eta_tombstone_audit.md` (deleted; see git 04fc712). Phases 3-4 NOT authorised — decide first.
 
 ## The problem in one paragraph
 
@@ -51,12 +51,12 @@ paths. **Where we invented the shape**, only one shape ever existed and the migr
 
 ---
 
-## Phase 0 — establish ground truth  *(DONE — `tools/ndi_ground_truth.py` → `V_eta_ndi_ground_truth.json`)*
+## Phase 0 — establish ground truth  *(DONE — `tools/ndi_ground_truth.py` → `did_v2_ndi_ground_truth.json`)*
 
 Produce a machine-readable reference every later phase checks against.
 
 - **0.1** Extract the NDI templates from `origin/main`: class → fields → dependencies → files.
-  Emitted as `V_eta_ndi_ground_truth.json` by `tools/ndi_ground_truth.py`.
+  Emitted as `did_v2_ndi_ground_truth.json` by `tools/ndi_ground_truth.py`.
 - **0.2** Record **writer divergences** — where the shipped writer emits something the template
   does not declare. Known already:
   - `ontologyImage`: template `ontologyNode`, writer `ontologyNodes` (a comma-joined list of

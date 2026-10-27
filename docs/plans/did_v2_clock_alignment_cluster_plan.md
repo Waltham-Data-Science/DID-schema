@@ -32,7 +32,7 @@ grounds; each rejection is recorded below with what it changed, because in every
 the objection was right and the reasoning is the useful part.
 
 **SUPERSEDES** the `syncrule_mapping` and `sync configuration` sections of
-`V_eta_infra_family_decisions.md`. Those sections contain statements now known false;
+`did_v2_infra_family_decisions.md`. Those sections contain statements now known false;
 they are marked there and point here.
 
 ---
@@ -234,7 +234,7 @@ system — and asked why not just `clock`, given the value_set is already
 **Correct.** Nothing in V_eta has a non-clock frame today; the generalisation was
 ANTICIPATORY, the same T12 error as (1). `clock` matches the existing 9-member
 value_set and needs no new vocabulary. **This AMENDS the `frame` naming in
-`V_eta_time_reference_model_plan.md`**, which is awaiting signature and therefore cheap
+`did_v2_time_reference_model_plan.md`**, which is awaiting signature and therefore cheap
 to amend.
 
 **3. `channel_set` → `acquisition_channels`.** `_set` is a container word — the family
@@ -368,7 +368,7 @@ because their targets are unconfirmed, not because of a lockstep.
 ## OPEN
 
 1. **ANSWERED 2026-09-29 (#73 review item 63, jess; not signed) -- see
-   `V_eta_spatial_transcriptomics_plan.md` item 63.** Neither keep-separate nor merge:
+   `did_v2_spatial_transcriptomics_plan.md` item 63.** Neither keep-separate nor merge:
    the class keeps WHAT it aligns (`clock`, `acquisition_channels_#`, `software_id`) and
    its three typed knobs are replaced by an inline `method_parameters[]` list (HOW it
    runs; `errorOnFailure` now fits). The original question, kept as asked:

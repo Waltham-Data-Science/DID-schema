@@ -19,7 +19,7 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `epochClockOfElement(elementId, epochId)`.
 
 ## Item 1: stimulus_presentation → visual_grating_manipulation (body-backed)
-> **SUPERSEDED — see `V_eta_stimulus_model_plan.md`.** The stimulus-presentation model
+> **SUPERSEDED — see `did_v2_stimulus_model_plan.md`.** The stimulus-presentation model
 > was re-decided: a presentation is now a `timed_sequence` (a `data_type` — an ordered,
 > timed list of `presented_id → data_type` references to standalone stimulus docs) +
 > a `timed_sequence_manipulation` leaf; `control_stimulus_ids` → `control_designation`.

@@ -150,7 +150,7 @@ To be signed: global identifiers are CURIEs or IRIs from one lowercase prefix re
 TEAM-SIGN-OFF: jess / 2026-10-08 -- global identifiers are CURIEs or IRIs from one lowercase prefix registry with Bioregistry patterns
 
 > **Superseded in part, 2026-10-19:** the rule above that term nodes and identifiers are
-> written with lowercase prefixes was reversed by `V_eta_prefix_spelling_plan.md` (signed
+> written with lowercase prefixes was reversed by `did_v2_prefix_spelling_plan.md` (signed
 > 2026-10-19): a prefix is written as its issuer cites it (`NCIT:`, `ORCID:`, `WormBase:`),
 > and readers match prefixes ignoring case. Registry keys stay lowercase. The rest of this
 > section stands.
@@ -182,7 +182,7 @@ TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19 -- hosted_by returns (da
 `acquisition_system` moves off `entity` to `base`, gains an optional
 `device_id` (the hardware, an entity of type device), and an epoch is
 `recorded_by` its acquisition system (relation, epoch -> acquisition_system).
-This reverses `acquisition_system ⊂ entity` from `V_eta_daq_family_decisions.md`
+This reverses `acquisition_system ⊂ entity` from `did_v2_daq_family_decisions.md`
 (team correction of 2026-08-08), which was chosen so an epoch's `instrument_id -> entity`
 could reach it; the instrument is now the device entity behind `device_id`.
 

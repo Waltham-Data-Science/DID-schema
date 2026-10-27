@@ -1,8 +1,8 @@
 # V2 migration plan
 
 This is the working plan, not the record. Decisions live in their `Decided by`
-lines, mostly in `schemas/V_eta_go_forward_class_audit.md`. Open work is
-indexed in `schemas/V_eta_OPEN_WORK.md`. When this file and either of those
+lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
+indexed in `docs/did_v2_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
 Last updated 2026-10-27.
@@ -339,7 +339,7 @@ one line; Claude's leaning is in brackets.
    writes V2 only when the v1 document alone gives exactly one correct
    reading ([one correct reading]).
 2. **Every carry has a reason on record.** Each reason is a row in the carry
-   register (`schemas/V_eta_carry_register.json`, [carry register]):
+   register (`schemas/did_v2_carry_register.json`, [carry register]):
    awaiting a home, needs a dataset mapping, not modelled, or malformed. An
    awaiting-home row must point at an open OPEN_WORK row
    ([awaiting home is tracked]).

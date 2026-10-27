@@ -213,7 +213,7 @@ Options:
 (c) is the most literal reading of "as people cite them". Its cost: the
 prefix registry's `pattern` check no longer applies to these, and the same
 person could appear as an `orcid:` CURIE in one dataset and a URL in another
-(the drift test, `V_eta_openminds_family_record.md` Part 3).
+(the drift test, `did_v2_openminds_family_record.md` Part 3).
 
 **Q2. PubMed and PMC: rename the prefix, or keep the key and change only
 case?** `PMID`/`PMCID` are not the same word as `pubmed`/`pmc`, so this is a
@@ -226,7 +226,7 @@ second name for the same entry, not a capitalisation. Bioregistry lists
 **Q4. Term nodes (P3).** Apply the rule to nodes too (one spelling
 everywhere), or to identifiers only? Applying it reverses the lowercasing
 `build_v_eta.py` section 6 did on 2026-10-08 (signed with
-`V_eta_entity_composition_plan.md` sec. 6). This proposal would amend that
+`did_v2_entity_composition_plan.md` sec. 6). This proposal would amend that
 section.
 
 ## 5. What a build would touch (not started)

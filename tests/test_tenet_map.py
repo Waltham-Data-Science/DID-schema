@@ -75,11 +75,11 @@ def test_every_citation_resolves_in_the_document_on_disk():
 
 
 def test_tenet_statements_are_quoted_from_the_north_star():
-    """The tenet text is parsed out of V_eta_tenets.md, never retyped here --
+    """The tenet text is parsed out of did_v2_tenets.md, never retyped here --
     a paraphrase drifting from the tenet it renders is the same defect as a
     plan document's header drifting from its own sign-off."""
     a = _asset()
-    doc = (REPO / "schemas" / "V_eta_tenets.md").read_text(encoding="utf-8")
+    doc = (REPO / "docs" / "did_v2_tenets.md").read_text(encoding="utf-8")
     # DENOMINATOR FIRST. The loop asserts a property of every tenet, so an
     # artifact carrying none would pass it having compared nothing --
     # `check_vacuous_tests.py` flagged this function for exactly that, and the
@@ -116,7 +116,7 @@ def test_committed_asset_matches_the_generator():
 # --------------------------------------------------------------------------
 def _row(**kw):
     base = {"tenet": "T1", "change": "c", "before": ["subject"],
-            "after": ["subject"], "doc": "V_eta_tenets.md",
+            "after": ["subject"], "doc": "did_v2_tenets.md",
             "anchor": "### T1", "note": ""}
     base.update(kw)
     return tm.Row(**base)

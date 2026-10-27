@@ -11,9 +11,9 @@ V_eta has **statement-level provenance and no session-level provenance.**
 
 Two independent families hit it:
 
-1. **openMINDS import** (`V_eta_openminds_family_record.md`, Part 1) — *"this
+1. **openMINDS import** (`did_v2_openminds_family_record.md`, Part 1) — *"this
    dataset was imported by crosswalk vX"*. `openminds_import` hung off `dataset`.
-2. **DAQ configuration** (`V_eta_daq_family_decisions.md`) — *"this session was
+2. **DAQ configuration** (`did_v2_daq_family_decisions.md`) — *"this session was
    acquired using reader X with parameters Y"*. 96 `daqsystem` documents in Soph
    against 181,760 migrated documents.
 

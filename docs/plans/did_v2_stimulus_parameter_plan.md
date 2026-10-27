@@ -116,7 +116,7 @@ stimulus_parameter_table  string[]                        parameter_names, table
 Not one field matches. Not one edge matches. Same shape as the `distance_metadata`
 wrong-assumed-shape failure that produced ~2,078 quarantines.
 
-**This diagnosis is not new here.** `V_eta_tombstone_audit.md:144-145` reached it
+**This diagnosis is not new here.** `V_eta_tombstone_audit.md` lines 144-145 (deleted; see git 04fc712) reached it
 independently and marked both BLOCKING, held for #31. This plan is that held item
 coming due.
 
@@ -138,7 +138,7 @@ stimulus_element_id   -> subject_id            (element -> subject)
 ontology_name         -> variable.node         the CURIE
 name                  -> variable.name         the human label
 value                 -> the leaf's value
-epochid               -> the time anchor       (per V_eta_epoch_plan.md; epochid is dropped,
+epochid               -> the time anchor       (per did_v2_epoch_plan.md; epochid is dropped,
                                                 the epoch document carries the fact)
 ```
 

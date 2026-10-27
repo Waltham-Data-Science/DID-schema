@@ -28,7 +28,7 @@ different things and either can be broken while the other works:
                  BASELINE_SCHEMAS.
 
 The schema side was added 2026-08-10 with #67, and it was added because a claim
-turned out to be false: `V_eta_OPEN_WORK.md` #57 says the staged
+turned out to be false: `did_v2_OPEN_WORK.md` #57 says the staged
 `clock_alignment_configuration.clock` / `clock_alignment.relation` terms are
 "counted by #70". They were not. This tool walked ONLY `+migrators_j`, so every
 term staged in a SCHEMA was invisible to the one instrument built to make staged
@@ -370,7 +370,7 @@ BASELINE_MIGRATORS = 60
 # did_relation_clock_alignment 1 (`temporally aligned with`, no node decided).
 #
 # LOWERED 30 -> 20 on 2026-10-26 ([filters are methods], Jess Haley,
-# 2026-10-22, V_eta_frequency_filter_model_plan.md): the frequency_filter class
+# 2026-10-22, did_v2_frequency_filter_model_plan.md): the frequency_filter class
 # is deleted, and with it did_filter_algorithm 6 and did_filter_band 4. The
 # filter is a `method`, whose design and band terms are registered nodes
 # (Wikidata items and EMPTY:0000387-0000396). Left (20): did_clocktype 8,

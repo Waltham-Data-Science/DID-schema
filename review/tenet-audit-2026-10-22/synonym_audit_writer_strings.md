@@ -1,6 +1,6 @@
 # EMPTY synonym audit (report only)
 
-Sources: empty-ontology `845a505` (branch claude/audit-terms-2026-10-22) `src/ontology/empty-edit.owl`; did-schema `1d66bbe` (origin/claude/ecstatic-pascal-md91fw) `schemas/V_eta_term_registry.json`; NDI-matlab `fcfd876` (claude/v2-object-layer); DID-matlab `9c9cab9` (claude/ecstatic-pascal-md91fw).
+Sources: empty-ontology `845a505` (branch claude/audit-terms-2026-10-22) `src/ontology/empty-edit.owl`; did-schema `1d66bbe` (origin/claude/ecstatic-pascal-md91fw) `schemas/did_v2_term_registry.json`; NDI-matlab `fcfd876` (claude/v2-object-layer); DID-matlab `9c9cab9` (claude/ecstatic-pascal-md91fw).
 
 Registry column: the registry row schema has no synonym field (keys: name, node, definition, status, decided, first_used_in), so "registry synonyms" is empty for every row. "reg" = a registry row exists for the node.
 
@@ -302,7 +302,7 @@ Candidate classes: (1) ontology vs registry; (2) source / v1 / former name; (3) 
 | EMPTY:0000319 | acclimation plate | - | - | Y | - |
 | EMPTY:0000320 | food deprivation plate | - | - | Y | - |
 | EMPTY:0000321 | assay plate | - | - | Y | - |
-| EMPTY:0000322 | relative cell density | - | - | Y | (2) `relative bacterial density` [related] optional (V2-interim label only); did-schema #88 schemas/V_eta_term_registry.json:1153 decided "renamed from \"relative bacterial density\" 2026-10-20"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_spec.json:1898 |
+| EMPTY:0000322 | relative cell density | - | - | Y | (2) `relative bacterial density` [related] optional (V2-interim label only); did-schema #88 schemas/did_v2_term_registry.json:1153 decided "renamed from \"relative bacterial density\" 2026-10-20"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_spec.json:1898 |
 | EMPTY:0000323 | normalization reference value | - | - | Y | - |
 | EMPTY:0000324 | lower limit of reported value | - | - | Y | - |
 | EMPTY:0000325 | bacterial patch | - | - | Y | (3) `bacterial lawn` [related] propose; DID-matlab 9c9cab9 src/did/+did2/+convert/resolveLawnPlateSubjects.m:821 description 'bacterial lawn (a bacterial patch)'; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md:262 "a patch with bacteria culture (a lawn: ...)"; the lab names patches lawn* (lawnID, lawnVolume, lawnRadius, lawnSpacing in tableDoc_dictionary.json) |

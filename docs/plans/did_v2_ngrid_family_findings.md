@@ -48,7 +48,7 @@ doc{end} = doc{end}.set_dependency_value('stimulus_presentation_id', stimulus_pr
   blob host is blocked by the session proxy.
 
 **Consequence:** group F is a single-document fold, materially smaller than the
-"tuning-collapse-sized" estimate recorded earlier in `V_eta_tenet_audit.md`.
+"tuning-collapse-sized" estimate recorded earlier in `did_v2_tenet_audit.md`.
 
 ## F2 — The RF payload is TWO co-registered volumes, not one map
 
@@ -387,7 +387,7 @@ conditions), so no document could satisfy it and DID-matlab's `hartley_calc` pas
 210 20211116 documents through (`foldExpressible()`, ab02782 on `claude/port-88`). Rule `value_inline_or_body`
 on `value` now replaces the required inline `value`: a `receptive_field` is
 `data_body: true` with its volume in the two `sampled_body` documents this fold already
-signed, and an empty `value`. See `V_eta_data_body_model_plan.md` AMENDMENT 5.
+signed, and an empty `value`. See `did_v2_data_body_model_plan.md` AMENDMENT 5.
 
 Adjudicated against the tenets rather than asserted. T11: composite = the bare
 `<data_type>`, leaf = `<data_type>_<direction>` with direction `calculation`;

@@ -1,6 +1,6 @@
 # V_eta — migrator vocabulary audit (Phase 2 evidence + decisions)
 
-**Companion to `V_eta_ground_truth_plan.md`.** That file holds the plan and the phases; this
+**Companion to `did_v2_ground_truth_plan.md`.** That file holds the plan and the phases; this
 one holds the **per-class evidence and verdicts** for every migrator found reading field names
 that no real did_v1 document has. Written before compaction — it is the durable record of a
 long working session, so prefer it over re-deriving.
@@ -221,7 +221,7 @@ narrower than the problem.
    three NDI templates declare only `daqreader_id`, and `epochid` is a SUPERCLASS block holding
    the epoch-id string. So it deletes the only record of which epoch the bytes belong to, and
    the document still validates. Traced to ⑥/⑦ walkthrough chunk (b), decided from the DID-side
-   schema rather than the NDI template; corrected in `V_eta_6_7_walkthrough_STATE.md`.
+   schema rather than the NDI template; corrected in `did_v2_6_7_walkthrough_STATE.md`.
 
 2. **A migrator DESTROYING the source id on its success path.**
    `+migrators_j/fitcurve.m` mints `did.ido.unique_id()` for its observation instead of

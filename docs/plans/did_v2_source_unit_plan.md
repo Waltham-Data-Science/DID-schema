@@ -21,7 +21,7 @@ text, with its registered term (NCIT:C68902) in no document.
    value, bound `{strength: preferred, node_form: curie}` like
    `statement.variable`. Its `name` is the term's label (tenet T19), not the
    source's spelling.
-2. **The term is a registered term** (`schemas/V_eta_term_registry.json`), so
+2. **The term is a registered term** (`schemas/did_v2_term_registry.json`), so
    did2.build's TermRegistry check covers it like any other term the import
    writes.
 3. **No source unit, no term:** a value with no source unit leaves `source_unit`

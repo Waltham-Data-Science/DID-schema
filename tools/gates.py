@@ -210,7 +210,7 @@ STEPS = [
     # because the numbers it warned about were real and the RESOLUTION is not the
     # one it expected -- read it before quoting either set of counts.
     #
-    # It said: `V_eta_ndi_ground_truth.json` is not reproducible from NDI
+    # It said: `did_v2_ndi_ground_truth.json` is not reproducible from NDI
     # `origin/main` even though it records `ndi_ref: "origin/main"`, because
     # `classify_divergence` walked `git log --all`, so the
     # `v_alpha_divergence[].provenance` verdicts were a property of whichever
@@ -250,7 +250,7 @@ STEPS = [
     # Pinned by tests/test_ground_truth_provenance_ref.py.
     Step("ndi_ground_truth", _t("ndi_ground_truth.py"), "generate",
          r"^NDI classes captured:\s+(\d+)", "NDI classes captured",
-         writes=["schemas/V_eta_ndi_ground_truth.json"],
+         writes=["schemas/did_v2_ndi_ground_truth.json"],
          requires=["NDI-matlab", "DID-matlab"]),
 
     # The JSON under schemas/did_v2 is the source (OPEN_WORK #128, 2026-10-21).
@@ -272,28 +272,28 @@ STEPS = [
          writes=["schemas/did_v2/stable/binding_registry_meta.json"],
          check_argv=_t("regen_binding_strengths.py", "--check")),
 
-    # CHECK-ONLY, ALWAYS. `V_eta_migration_targets.json` is half CURATED and
+    # CHECK-ONLY, ALWAYS. `did_v2_migration_targets.json` is half CURATED and
     # half derived (the tool's own words), and a curated file is not this
     # driver's to rewrite -- but coverage.py reads it, so a drift must be
     # reported rather than silently carried. Never invoked without --check.
     Step("refresh_migration_targets",
          _t("refresh_migration_targets.py", "--check"), "gate",
-         r"^DENOMINATOR: (\d+) class rows in V_eta_migration_targets\.json",
+         r"^DENOMINATOR: (\d+) class rows in did_v2_migration_targets\.json",
          "curated target rows", requires=["DID-matlab"]),
 
     Step("coverage", _t("coverage.py"), "generate",
          r"\((\d+) v1 classes", "v1 source classes in the ledger",
-         writes=["schemas/V_eta_coverage_ledger.md",
-                 "schemas/V_eta_coverage_ledger.json"],
+         writes=["docs/generated/did_v2_coverage_ledger.md",
+                 "schemas/did_v2_coverage_ledger.json"],
          requires=["NDI-matlab", "DID-matlab"]),
 
     Step("regen_final_class_set", _t("regen_final_class_set.py"), "generate",
          r": (\d+) persist \(", "classes in the persist set",
-         writes=["schemas/V_eta_final_class_set.md"]),
+         writes=["docs/generated/did_v2_final_class_set.md"]),
 
     Step("status_board", _t("status_board.py"), "generate",
          r"^\s*open classes: (\d+)", "open classes on the board",
-         writes=["schemas/V_eta_STATUS.md", "schemas/V_eta_decisions.json"],
+         writes=["docs/generated/did_v2_STATUS.md", "schemas/did_v2_decisions.json"],
          check_argv=_t("status_board.py", "--check")),
 
     # ---- gates ----------------------------------------------------------
@@ -357,15 +357,15 @@ STEPS = [
          _t("check_binding_governance.py", "--enforce"), "gate",
          r"V_eta document_class files walked\s+: (\d+)", "class files walked"),
 
-    # Tenet T19 (V_eta_term_registry_plan.md): did2.build refuses a term the
+    # Tenet T19 (did_v2_term_registry_plan.md): did2.build refuses a term the
     # registry does not hold, so the registry itself must hold ONE term per
     # meaning -- no node or name twice, every prefix known and spelled.
     Step("check_term_registry", _t("check_term_registry.py"), "gate",
          r"^term registry terms read: (\d+)", "registered terms"),
 
-    # [carry register] (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md):
+    # [carry register] (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md):
     # every reason the generic migration carries a v1 document whole as v1 is a
-    # row of schemas/V_eta_carry_register.json; each row's decision resolves, and
+    # row of schemas/did_v2_carry_register.json; each row's decision resolves, and
     # no class declares a field a `not_modelled` row forbids.
     Step("check_carry_register", _t("check_carry_register.py"), "gate",
          r"^carry register rows read: (\d+)", "carry register rows"),
@@ -534,7 +534,7 @@ STEPS = [
          # wrote `requires=["NDI-matlab", "DID-matlab"]` by analogy with
          # `coverage` and `ndi_ground_truth`, which do read the NDI checkout.
          # This one does not: it takes NDI's declarations from
-         # `V_eta_ndi_ground_truth.json`, an artifact of THIS repository, and
+         # `did_v2_ndi_ground_truth.json`, an artifact of THIS repository, and
          # opens the NDI tree never. It scans the DID-matlab convert package
          # directly, so that requirement is real. A `requires` naming a
          # checkout the step never reads is not harmless -- it would report the
@@ -548,7 +548,7 @@ STEPS = [
          check_argv=_t("tenet_map.py", "--check")),
 
     # THE V_eta SHAPE PANEL (issue #72). The panel reads schemas/did_v2/**/*.json
-    # and two schemas/*.md files at BUILD TIME (web/src/veta/sources.ts), so
+    # and two docs/ markdown files at BUILD TIME (web/src/veta/sources.ts), so
     # there is no served copy for `check_web_assets_fresh` to compare. What
     # can drift is the inputs against EACH OTHER -- a class built but placed
     # in no category, a category naming a class the tree lost, a tenet
@@ -599,23 +599,23 @@ class Edge:
 
 EDGES = [
     Edge("ndi_ground_truth", "validate_v_eta",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "validate_v_eta.py loads the ground truth and stamps NDI's required-ness "
          "onto the schemas as `ndi_mustBeNonEmpty` (D4). Validate first and the "
          "stamp describes the PREVIOUS NDI read.",
-         "tools/validate_v_eta.py", r"V_eta_ndi_ground_truth\.json"),
+         "tools/validate_v_eta.py", r"did_v2_ndi_ground_truth\.json"),
 
     Edge("ndi_ground_truth", "check_migrator_vocabulary",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "the vocabulary sweep IS a query over `migrator_reads` in the ground "
          "truth; it exits early if the file is absent.",
-         "tools/check_migrator_vocabulary.py", r"V_eta_ndi_ground_truth\.json"),
+         "tools/check_migrator_vocabulary.py", r"did_v2_ndi_ground_truth\.json"),
 
     Edge("ndi_ground_truth", "check_tombstones",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "every tombstone row is a comparison against the NDI template captured "
          "in the ground truth.",
-         "tools/check_tombstones.py", r"V_eta_ndi_ground_truth\.json"),
+         "tools/check_tombstones.py", r"did_v2_ndi_ground_truth\.json"),
 
     Edge("validate_v_eta", "check_tombstones", "schemas/did_v2",
          "the other side of each comparison is the BUILT tombstone, read from "
@@ -628,9 +628,9 @@ EDGES = [
          "tools/refresh_migration_targets.py", r"veta_index"),
 
     Edge("refresh_migration_targets", "coverage",
-         "schemas/V_eta_migration_targets.json",
+         "schemas/did_v2_migration_targets.json",
          "the ledger's `how`/target column comes from the curated targets file.",
-         "tools/coverage.py", r"V_eta_migration_targets\.json"),
+         "tools/coverage.py", r"did_v2_migration_targets\.json"),
 
     Edge("validate_v_eta", "coverage", "schemas/did_v2",
          "coverage.py reads schemas/did_v2/index.json to decide which v1 class "
@@ -649,34 +649,34 @@ EDGES = [
          "web/src/veta/grammar.json", r'"schemas/did_v2/\*\*/\*\.json"'),
 
     Edge("regen_final_class_set", "check_veta_viewer",
-         "schemas/V_eta_final_class_set.md",
+         "docs/generated/did_v2_final_class_set.md",
          "the panel groups classes by the categories of the generated "
          "final-set document; a stale one places classes wrongly.",
-         "web/src/veta/grammar.json", r"V_eta_final_class_set\.md"),
+         "web/src/veta/grammar.json", r"did_v2_final_class_set\.md"),
 
     Edge("validate_v_eta", "status_board", "schemas/did_v2",
          "the board's class state is read from the built V_eta/index.json.",
          "tools/status_board.py", r'"did_v2", "index\.json"'),
 
-    Edge("coverage", "status_board", "schemas/V_eta_coverage_ledger.json",
+    Edge("coverage", "status_board", "schemas/did_v2_coverage_ledger.json",
          "the board joins its class rows against the ledger JSON coverage.py "
          "writes. Board-before-ledger renders yesterday's coverage under "
          "today's schema set.",
-         "tools/status_board.py", r"V_eta_coverage_ledger\.json"),
+         "tools/status_board.py", r"did_v2_coverage_ledger\.json"),
 
     Edge("status_board", "check_signoff_header_staleness",
-         "schemas/V_eta_decisions.json",
+         "schemas/did_v2_decisions.json",
          "the staleness gate compares each plan document's header against the "
-         "signature state in V_eta_decisions.json, which status_board.py writes.",
-         "tools/check_signoff_header_staleness.py", r"V_eta_decisions\.json"),
+         "signature state in did_v2_decisions.json, which status_board.py writes.",
+         "tools/check_signoff_header_staleness.py", r"did_v2_decisions\.json"),
 
     # NO EDGE FOR check_build_claims, DELIBERATELY, and the first attempt at one
     # is worth recording because it was wrong in KIND rather than in detail.
-    # It declared `schemas/V_eta_OPEN_WORK.md` as the artifact carrying an
+    # It declared `docs/did_v2_OPEN_WORK.md` as the artifact carrying an
     # ordering dependency from the signature gate. Two tests caught it at once:
     # the edge could not be substantiated (no step WRITES that file), and
     # `test_the_generated_markdown_list_matches_what_gates_declares` reported
-    # V_eta_OPEN_WORK.md as a generated markdown that status_board does not
+    # did_v2_OPEN_WORK.md as a generated markdown that status_board does not
     # generate. Both were right. An Edge here means "step A writes X, step B
     # reads X"; this gate reads only HAND-MAINTAINED documents and the siblings'
     # comments, so it has no generated input and needs no edge. It sits after
@@ -696,18 +696,18 @@ EDGES = [
          "the BUILT tree.",
          "tools/check_prose_counts.py", r'"did_v2"'),
 
-    Edge("coverage", "check_prose_counts", "schemas/V_eta_coverage_ledger.json",
+    Edge("coverage", "check_prose_counts", "schemas/did_v2_coverage_ledger.json",
          "the `ledger_rows` derivation is `len(ledger['rows'])`. Read the "
          "ledger before coverage.py rewrites it and a document is graded "
          "against the previous v1 universe.",
-         "tools/check_prose_counts.py", r"V_eta_coverage_ledger\.json"),
+         "tools/check_prose_counts.py", r"did_v2_coverage_ledger\.json"),
 
     Edge("ndi_ground_truth", "check_prose_counts",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "`ndi_templates` is the size of the ground truth's `classes` map -- "
          "the artifact is how this tool reads NDI origin/main without opening "
          "the NDI checkout twice.",
-         "tools/check_prose_counts.py", r"V_eta_ndi_ground_truth\.json"),
+         "tools/check_prose_counts.py", r"did_v2_ndi_ground_truth\.json"),
 
     Edge("regen_binding_strengths", "check_prose_counts",
          "schemas/did_v2/stable/binding_registry_meta.json",
@@ -722,14 +722,14 @@ EDGES = [
          "tools/check_duplicate_field_declarations.py", r'"did_v2"'),
 
     Edge("ndi_ground_truth", "check_duplicate_field_declarations",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "the V1-FIDELITY split is DERIVED from the ground truth (2026-08-12), "
          "not from a hand list beside it -- a row is NDI's own only if did_v1 "
          "declares the name in two of the declaring blocks. Read a stale "
          "artifact and a duplicate NDI forces reads as one V_eta invented, "
          "which is an invitation to delete a field every real document carries.",
          "tools/check_duplicate_field_declarations.py",
-         r"V_eta_ndi_ground_truth\.json"),
+         r"did_v2_ndi_ground_truth\.json"),
 
     Edge("validate_v_eta", "check_constraint_refinement", "schemas/did_v2",
          "same sweep, one level deeper -- it opens the built declarations.",
@@ -750,7 +750,7 @@ EDGES = [
     # dependency that works by accident is the shape this whole file exists to
     # remove; `--explain` now has to substantiate it like every other edge.
     Edge("ndi_ground_truth", "check_constraint_refinement",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "the v1-PROVENANCE column is read from the ground truth: a "
          "redeclaration is did_v1's own shadow only if NDI declares the name "
          "in two of the declaring blocks, and V_eta's otherwise. Read a stale "
@@ -758,7 +758,7 @@ EDGES = [
          "same misreading that let a hand-maintained fidelity list invite the "
          "deletion of a field every passed-through document carries.",
          "tools/check_constraint_refinement.py",
-         r"V_eta_ndi_ground_truth\.json"),
+         r"did_v2_ndi_ground_truth\.json"),
 
     Edge("validate_v_eta", "check_term_registry",
          "schemas/did_v2/stable/term_registry_meta.json",
@@ -772,10 +772,10 @@ EDGES = [
          "not looked at.",
          "tools/check_carry_register.py", r"index\.json"),
 
-    Edge("coverage", "check_carry_register", "schemas/V_eta_coverage_ledger.json",
+    Edge("coverage", "check_carry_register", "schemas/did_v2_coverage_ledger.json",
          "C2 checks each row's v1_class against the ledger's v1 source classes; "
          "read before coverage.py writes it and a new v1 class reads as unknown.",
-         "tools/check_carry_register.py", r"V_eta_coverage_ledger\.json"),
+         "tools/check_carry_register.py", r"did_v2_coverage_ledger\.json"),
 
     Edge("validate_v_eta", "check_binding_governance", "schemas/did_v2",
          "the binding registry it audits is checked and partly derived by the validator.",
@@ -823,28 +823,28 @@ EDGES = [
          "tools/check_web_assets_fresh.py", r'GATED_SET = "did_v2"'),
 
     Edge("coverage", "check_web_assets_fresh",
-         "schemas/V_eta_coverage_ledger.json",
+         "schemas/did_v2_coverage_ledger.json",
          "web/public/coverage.json IS this ledger -- the copy that drifted, and "
          "the reason this gate exists. The checker requires the sync contract "
          "to serve it whenever it is present.",
-         "tools/check_web_assets_fresh.py", r"V_eta_coverage_ledger\.json"),
+         "tools/check_web_assets_fresh.py", r"did_v2_coverage_ledger\.json"),
 
     Edge("coverage", "gen_class_walkthrough",
-         "schemas/V_eta_coverage_ledger.json",
+         "schemas/did_v2_coverage_ledger.json",
          "the walkthrough is BUILT FROM the ledger -- one page per ledger row, "
          "carrying that row's disposition, targets, build_state and its derived "
          "`stage`. Generated before the ledger, it renders the previous "
          "ledger's classes; that is not hypothetical, it is how the asset came "
          "to be missing `stage` on all 102 rows.",
-         "tools/gen_class_walkthrough.py", r"V_eta_coverage_ledger\.json"),
+         "tools/gen_class_walkthrough.py", r"did_v2_coverage_ledger\.json"),
 
     Edge("ndi_ground_truth", "gen_class_walkthrough",
-         "schemas/V_eta_ndi_ground_truth.json",
+         "schemas/did_v2_ndi_ground_truth.json",
          "the page's `what NDI actually declares` panel is read from the ground "
          "truth, not from a V_eta schema. That direction is the whole repair "
          "track: a walkthrough built from our own schema would show the reader "
          "the shape we assumed rather than the shape NDI writes.",
-         "tools/gen_class_walkthrough.py", r"V_eta_ndi_ground_truth\.json"),
+         "tools/gen_class_walkthrough.py", r"did_v2_ndi_ground_truth\.json"),
 
     Edge("validate_v_eta", "tenet_map", "schemas/did_v2",
          "every class a tenet row names is checked against the BUILT index "
@@ -902,11 +902,11 @@ EDGES = [
          "tools/check_web_assets_fresh.py", r"find_generator"),
 
     Edge("status_board", "check_web_assets_fresh",
-         "schemas/V_eta_decisions.json",
+         "schemas/did_v2_decisions.json",
          "web/public/decisions.json IS the per-class decision record the board "
          "writes; a stale copy shows a decided class as undecided, which is the "
          "exact failure the artifact was added to remove.",
-         "tools/check_web_assets_fresh.py", r"V_eta_decisions\.json"),
+         "tools/check_web_assets_fresh.py", r"did_v2_decisions\.json"),
 ]
 
 
@@ -1050,7 +1050,7 @@ def diff_artifact(rel, mirror, root):
     body = [ln for ln in p.stdout.splitlines()
             if ln[:1] in "+-" and not ln.startswith(("+++", "---"))]
     # PRINT THE LINES, NOT JUST HOW MANY. On 2026-08-11 this said
-    # "V_eta_STATUS.md DIFFERS -- 4 changed line(s)" on a runner for three
+    # "did_v2_STATUS.md DIFFERS -- 4 changed line(s)" on a runner for three
     # consecutive runs while the same command reproduced NOTHING locally, and
     # the count alone gave no way to tell an artifact that had genuinely
     # drifted from one whose generator behaves differently where the sibling

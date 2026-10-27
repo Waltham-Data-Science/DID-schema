@@ -41,19 +41,19 @@ def _adjudicate(line, item_plans=None, rows=None, signed_plans=None):
 
     Mirrors the adjudication in scan() over a single claim so a case can be
     stated as the LINE that produced it."""
-    item_plans = item_plans or {45: ["V_eta_data_body_model_plan.md"],
-                                30: ["V_eta_recording_observation_plan.md"]}
+    item_plans = item_plans or {45: ["did_v2_data_body_model_plan.md"],
+                                30: ["did_v2_recording_observation_plan.md"]}
     rows = rows or {45: "OPEN", 30: "OPEN", 29: "COMPLETED"}
-    signed_plans = signed_plans or {"V_eta_data_body_model_plan.md": 1,
-                                    "V_eta_recording_observation_plan.md": 2,
-                                    "V_eta_epoch_plan.md": 1,
-                                    "V_eta_OPEN_WORK.md": 2}
+    signed_plans = signed_plans or {"did_v2_data_body_model_plan.md": 1,
+                                    "did_v2_recording_observation_plan.md": 2,
+                                    "did_v2_epoch_plan.md": 1,
+                                    "did_v2_OPEN_WORK.md": 2}
     verdicts = []
     unsigned = bool(MOD.UNSIGNED_RE.search(line))
     notbuilt = bool(MOD.NOTBUILT_RE.search(line))
     if unsigned:
-        for plan in MOD.PLAN_RE.findall(line):
-            if signed_plans.get(plan) and plan != "V_eta_OPEN_WORK.md":
+        for plan in MOD.plans_in(line):
+            if signed_plans.get(plan) and plan != "did_v2_OPEN_WORK.md":
                 verdicts.append(f"plan {plan}")
         for m in MOD.UNSIGNED_RE.finditer(line):
             for im in MOD.ITEM_RE.finditer(line):
@@ -86,6 +86,13 @@ def test_an_item_labelled_unsigned_whose_plan_is_signed_is_caught(line):
 
 
 def test_a_claim_naming_a_signed_plan_document_is_caught():
+    line = "%   blocked on did_v2_data_body_model_plan.md, which is UNSIGNED"
+    assert _adjudicate(line)
+
+
+def test_a_claim_naming_a_plan_by_its_old_name_is_caught():
+    """Sibling comments still write `V_eta_<plan>.md`; the rename to `did_v2_*`
+    ([markdown cleanup and rename]) must not blind the rule to them."""
     line = "%   blocked on V_eta_data_body_model_plan.md, which is UNSIGNED"
     assert _adjudicate(line)
 

@@ -1,11 +1,11 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
-> **AMENDED 2026-09-25 (#73 review item 53, `V_eta_spatial_transcriptomics_plan.md`):**
+> **AMENDED 2026-09-25 (#73 review item 53, `did_v2_spatial_transcriptomics_plan.md`):**
 > `runtime_environment` below is DELETED: a calculation carries `interpreter_id` and
 > `operating_system_id` -> `software` (both required) in place of `runtime_environment_id`,
 > and the inline `subject_interaction.execution_environment` block is dropped.
 
-> **SUPERSEDED for the tuning leaves — see `V_eta_tuning_model_plan.md` (R2/R3).** The
+> **SUPERSEDED for the tuning leaves — see `did_v2_tuning_model_plan.md` (R2/R3).** The
 > `subject_calculation` DIRECTION + calculator-motif fold (the core of this doc) is CURRENT.
 > But the per-tuning enumeration below (§3/§4, and the `stimulus_tuningcurve_calculation`
 > leaf named in the status block) is stale: the 6 v1 tuning composites collapsed to ONE
@@ -308,7 +308,7 @@ stand. Source: Waltham-Data-Science/DID-schema#73.
   Provenance stays an edge.
 - **What remains named `calculator`.** NDI ships
   `database_documents/calculator.json` (⊂ [`base`, `app`], no fields, no deps;
-  `V_eta_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
+  `did_v2_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
   `retire` source tombstone restating that template, in no V_eta chain, so a v1
   document carrying it can still pass through. Nothing in the tree establishes
   that none exists.
@@ -343,18 +343,18 @@ depend on knowing which software counts as a "calculator":
   (`migrators_j.private.jComputedScalar`) has no caller, because its only caller
   (`jDecomposeScalars`) is itself called by nothing, so no document loses an edge.
 - **Two recorded designs settled with it:** `oneepoch`'s concatenation (fork A1) becomes a
-  calculation (see `V_eta_epoch_plan.md`); `valid_interval` inheritance stays RE-DERIVED
+  calculation (see `did_v2_epoch_plan.md`); `valid_interval` inheritance stays RE-DERIVED
   (team, 2026-08-11), so no materialised copy needs an observation-side `derived_from`.
 - **Spike-sorter output is a calculation too** (decided later in the same session). The
   sorter's input, the voltage recording, is stored in the dataset. So `kilosort_clusters`
   and `kiasort_clusters` (both via `jSorterOutput.m`) and `jrclust_clusters`, which all
   emit `count_observation` with no `derived_from` today, become a `count_calculation`
   with `derived_from` to that recording. For `jrclust_clusters` this revises the
-  2026-08-17 confirm-sheet signature in `V_eta_go_forward_class_audit.md`, which accepted
+  2026-08-17 confirm-sheet signature in `did_v2_go_forward_class_audit.md`, which accepted
   its emitted `count_observation` as the end state. NOT BUILT: `count_calculation` does
   not exist yet, and the retarget is DID-matlab work. The target is NOT in
   `decided_targets` (a decided target must name a built class); it is carried in the
-  three rows' `flags` in `V_eta_migration_targets.json` until `count_calculation` exists.
+  three rows' `flags` in `did_v2_migration_targets.json` until `count_calculation` exists.
   `spike_interface_sorting_outputs` is untouched: it still passes through, undecided.
 - **Amended 2026-09-24: the sorter target is `label_calculation`, not `count_calculation`.**
   A cluster assignment ("spike 17 is in cluster 4") names a group that means nothing

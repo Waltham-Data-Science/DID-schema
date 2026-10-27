@@ -2,7 +2,7 @@
 
 WHAT IS BEING GATED, AND THE DIRECTION IT FAILS IN
 --------------------------------------------------
-`V_eta_OPEN_WORK.md` row 107: rung 1 asks whether a migrator file NAMED AFTER
+`did_v2_OPEN_WORK.md` row 107: rung 1 asks whether a migrator file NAMED AFTER
 the class exists and rung 3 asks whether THAT migrator emits the decided target.
 A DID batch post-pass (`+did2/+convert`) is neither, so `generic_file` -- folded
 by `did2.convert.foldGenericFiles` into a `term_observation` + an `opaque_body`
@@ -39,7 +39,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import coverage  # noqa: E402
 
-LEDGER_JSON = os.path.join(ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(ROOT, "schemas", "did_v2_coverage_ledger.json")
 
 
 def _ledger():
@@ -345,14 +345,14 @@ class TestTheCommittedLedger(unittest.TestCase):
         # point 3 (2026-10-14), fileReference (foldGenericFiles -> opaque_body).
         # THREE since 2026-10-21: stimulus_response_scalar_parameters_basic LEFT.
         # Its decided target is now `method` (the class `method_parameters` was
-        # renamed, V_eta_method_plan.md) while resolveResponseParameters still
+        # renamed, did_v2_method_plan.md) while resolveResponseParameters still
         # declares it emits `method_parameters` against the pinned pre-#73
         # schema, so the channel no longer credits it. It returns when the pass
         # moves with the rest of #73.
         # TWO since later on 2026-10-21: stimulus_bath LEFT. Its decided target
         # is now `manipulation` + `formulation` (Jess Haley: a bath is a
         # manipulation whose value is the formulation, through `value_id`, not
-        # a dose; V_eta_go_forward_class_audit.md), while the sibling's
+        # a dose; did_v2_go_forward_class_audit.md), while the sibling's
         # resolveDeferredBaths still declares `dose_manipulation`. It returns
         # when the sibling branch CI reads declares the new emission (DID-matlab
         # claude/port-88 does).

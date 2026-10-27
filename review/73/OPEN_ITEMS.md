@@ -20,7 +20,7 @@
 > Still open for decision: 7, 9, 10, 11, 12, 14, 15, 24 (blocked on the unit vocabulary).
 
 Working list, saved so it survives the session. **It records questions, not decisions**:
-decided items are in `schemas/V_eta_spatial_transcriptomics_plan.md` (items 1–49), and
+decided items are in `docs/plans/did_v2_spatial_transcriptomics_plan.md` (items 1–49), and
 nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit_B_*`,
 `audit_C_*`, `audit_mechanical_output.txt`).
 
@@ -68,7 +68,7 @@ nothing here is signed. Source reports are beside this file (`audit_A_*`, `audit
    already disagree; `chemical.value.amount` is typed `concentration` while an `amount`
    (moles) type exists.
    **DECIDED AND BUILT schema-side 2026-09-25 (jess; no sign-off line):** see
-   `V_eta_spatial_transcriptomics_plan.md` item 59 -- chemical / formulation / dose are
+   `did_v2_spatial_transcriptomics_plan.md` item 59 -- chemical / formulation / dose are
    always documents; `formulation.ingredient_id` + `value.ingredients[]`; `dose.formulation_id`
    + how much given + `amount_per_body_mass`; new `product` entity; `route` dropped;
    `amount` -> `substance_amount`; `concentration` + `osmolar`.
@@ -343,7 +343,7 @@ Raised by the NDI reader work for migrated pyramids (NDI-matlab PR #1021).
   pyramid's observation, so deleting the observation deletes the store record too (left, it
   would be an orphan). The stored bytes are not touched; in v1 the fileReference survived.
 - **R6 -- a level's data type (accepted as built).** The type is on the pyramid's observation
-  (type per statement, extent per body, `V_eta_data_body_model_plan.md`); a reader gets a
+  (type per statement, extent per body, `did_v2_data_body_model_plan.md`); a reader gets a
   level's type through its `owner_id`.
 
 TEAM-SIGN-OFF [lightsheet reader questions R1-R6]: jess@walthamdatascience.com / 2026-10-19 -- R1-R6 as recorded above: a migrated pyramid is marked by its method FBbi:00000369; levels are identified by resolution, not number; label in the observation's notes, the multiscales name on the store body, pyramid_type dropped; a no-scale axis is regular (origin 0, spacing 1, no unit); deleting a pyramid deletes its store record, not its bytes; a level's data type is on its pyramid.
@@ -373,8 +373,8 @@ TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]: jess@walthamdatascience
 - The #73 decisions (items 1–49) carry no `TEAM-SIGN-OFF` line. `team_signoff_lines_DRAFT.md`
   is an out-of-date draft, not a signature.
 - `tools/status_board.py` counts a sign-off quoted inside a code block
-  (`V_eta_method_parameters_plan.md:683`) and still counts the superseded 2026-09-22 spatial
-  sign-off (`V_eta_go_forward_class_audit.md:796`).
+  (`did_v2_method_parameters_plan.md:683`) and still counts the superseded 2026-09-22 spatial
+  sign-off (`did_v2_go_forward_class_audit.md:796`).
   **FIXED 2026-09-29 (`d78f2fa`):** a quoted sign-off in a code fence is rejected as a
   quotation, and the spatial sign-off is marked `SIGN-OFF SUPERSEDED` (jess); the census
   reads 48 accepted lines, families signed unchanged at 25/27.

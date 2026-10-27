@@ -256,7 +256,7 @@ def test_a_basename_citation_survives_a_directory_move(tmp_path):
 def test_a_dotted_matlab_namespace_is_expanded_to_its_package_path():
     """`ndi.fun.session.diff.m` IS `+ndi/+fun/+session/diff.m`. Read literally
     it is a basename no repository contains, and five citations were reported
-    DEAD on that account -- `V_eta_OPEN_WORK.md` records an earlier hand audit
+    DEAD on that account -- `did_v2_OPEN_WORK.md` records an earlier hand audit
     making and correcting the identical mistake."""
     assert C._segments("ndi.fun.session.diff.m") == ["ndi", "fun", "session", "diff.m"]
     assert C._basename("ndi.fun.session.diff.m") == "diff.m"
@@ -286,7 +286,7 @@ def test_a_quoted_OLD_citation_is_exempt_from_the_gate_but_still_reported(tmp_pa
 
 
 def test_an_item_number_written_with_a_colon_is_a_COLLISION_not_drift(tmp_path):
-    """`V_eta_OPEN_WORK.md:51` is indistinguishable from a line reference and
+    """`did_v2_OPEN_WORK.md:51` is indistinguishable from a line reference and
     lands on unrelated prose. Telling a reader to repoint it would be telling
     them to repoint nothing -- the number is right and the COLON is wrong."""
     items = "\n".join(f"### #{n} something\n\nprose about item {n}\n"
@@ -300,7 +300,7 @@ def test_an_item_number_written_with_a_colon_is_a_COLLISION_not_drift(tmp_path):
 
 def test_a_markdown_file_with_no_item_vocabulary_is_graded_as_lines(tmp_path):
     """The collision rule may not swallow ordinary markdown citations --
-    `V_eta_time_reference_model_plan.md:642` is a real line number."""
+    `did_v2_time_reference_model_plan.md:642` is a real line number."""
     body = "\n".join([f"prose line {i}" for i in range(1, 41)])
     body = body.replace("prose line 12", "CHANGE 5 -- the uniqueness rule")
     with sandbox(tmp_path, {"PLAN.md": body},

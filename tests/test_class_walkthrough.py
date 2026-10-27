@@ -27,7 +27,7 @@ sys.path.insert(0, str(REPO / "tools"))
 import gen_class_walkthrough as gen  # noqa: E402
 
 ASSET = REPO / "web" / "public" / "class_walkthrough.json"
-LEDGER = REPO / "schemas" / "V_eta_coverage_ledger.json"
+LEDGER = REPO / "schemas" / "did_v2_coverage_ledger.json"
 
 
 def _asset():

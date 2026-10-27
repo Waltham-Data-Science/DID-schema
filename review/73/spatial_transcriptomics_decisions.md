@@ -151,7 +151,7 @@ Decided by jess in the #73 review session, 2026-09-23, unless marked open.
     now only about avoiding confusion with the T14 `value` slot, not with a sibling list.
 
 16. IMAGE DATA TYPE, decided 2026-09-24 (jess). REVISES R6 decision 4
-    (V_eta_image_model_plan.md).
+    (did_v2_image_model_plan.md).
       axes         -> keys (item 14 scope)
       channels     DROPPED -- a channel key's `labels` ({node,name} terms, T8) say it
       color_model  DROPPED -- read off the channel key: no channel key / n=1 = grayscale;
@@ -236,7 +236,7 @@ Decided by jess in the #73 review session, 2026-09-23, unless marked open.
     C (name only; unqueryable).
     ENTITY CLASS, decided 2026-09-24 (jess): the annotation and the assembly are `dataset`s
     (versioned, citable bodies of data: version/full_name/release_date/how_to_cite fit).
-    NOT web_resource: per signed D-F (V_eta_nonsubject_cohesiveness_plan.md) a web_resource
+    NOT web_resource: per signed D-F (did_v2_nonsubject_cohesiveness_plan.md) a web_resource
     is WHERE a thing lives (`dataset -stored_at-> web_resource`, `documented_by`), never
     the thing. A URL, if known, is a web_resource via `stored_at`. "Ours" vs "reference"
     is read off the graph (D-F: `session -part_of-> dataset` = ours; reached only by
@@ -531,7 +531,7 @@ anchoring -> sketch landmark/atlas against it as a test -> full landmark/atlas l
 - this revises the 2026-09-22 [spatial_transcriptomics_family] sign-off
 
 35. SPIKE-SORTER TARGET -> label_calculation (2026-09-24, jess). BUILT on PR #76 as 7fa543c:
-    the three sorter rows' flags + a dated amendment in V_eta_subject_calculation_plan.md.
+    the three sorter rows' flags + a dated amendment in did_v2_subject_calculation_plan.md.
     CORRECTION of my own earlier claim: spike_clusters is NOT folded to count today -- its
     migrator passes it through to the NDI second pass (+migrators_j/spike_clusters.m);
     the count fold was withdrawn because it read a nonexistent field (num_spikes).
@@ -570,7 +570,7 @@ anchoring -> sketch landmark/atlas against it as a test -> full landmark/atlas l
     `_#` template matches any member number. Emitter work is on the PR #76 checklists.
 
 37. harmonic_component_calculation RESTORED -- option A (2026-09-25, jess).
-    History: signed 2026-08-08 (V_eta_stimulus_response_model_plan.md:541, TEAM-SIGN-OFF
+    History: signed 2026-08-08 (did_v2_stimulus_response_model_plan.md:541, TEAM-SIGN-OFF
     [stimulus response]) and built/folded; DELETED 2026-09-21 by issue #67 decision 10 (no
     reason stated; the adjacent decision 13 "_calculation suffix reserved for calculator
     outputs" is the implied one -- stimulus_response_scalar comes from the

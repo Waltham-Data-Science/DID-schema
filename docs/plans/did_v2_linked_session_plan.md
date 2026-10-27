@@ -38,7 +38,7 @@ entity and a session `part_of` relation.
    is (each fact stated once, T17).
 
 2. **Where a linked session lives is configuration.** The signed rule
-   (`V_eta_entity_composition_plan.md`, 2026-10-08): "configuration is what the
+   (`did_v2_entity_composition_plan.md`, 2026-10-08): "configuration is what the
    software needs to read the data: its own class off `base`, with no
    statements." A folder path is exactly that, so it is a document of its own,
    `linked_session`, never an assertion about the session: a path describes a
@@ -94,6 +94,6 @@ entity and a session `part_of` relation.
 To be signed: membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a `linked_session` configuration document (path, entity_id)
 TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session in a dataset is a part_of relation (to the dataset or a study of it); a linked session's location is a linked_session configuration document (path, entity_id)
 
-Decided by Jess Haley, 2026-10-25 [linked_session withdrawn]: ("I don't think we want a linked_session. That's an old decision. Sessions are always entities"; "Yes, record both") the second half of the 2026-10-09 sign-off above is withdrawn: there is no `linked_session` document. Whether a session is linked or ingested, and a linked session's location, are the method of its `part_of` membership relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested]). The first half (membership is a part_of relation) stands. `draft/linked_session.json` is removed. Build pending: did-schema (remove the class, after a sibling check that nothing writes it)
+Decided by Jess Haley, 2026-10-25 [linked_session withdrawn]: ("I don't think we want a linked_session. That's an old decision. Sessions are always entities"; "Yes, record both") the second half of the 2026-10-09 sign-off above is withdrawn: there is no `linked_session` document. Whether a session is linked or ingested, and a linked session's location, are the method of its `part_of` membership relation (did_v2_go_forward_class_audit.md [session membership records linked or ingested]). The first half (membership is a part_of relation) stands. `draft/linked_session.json` is removed. Build pending: did-schema (remove the class, after a sibling check that nothing writes it)
 
 Decided by Jess Haley, 2026-10-23 [nested studies]: a study may be included_in a parent study (Haley #144), and a session filed under a study at any depth is in the dataset; membership follows included_in up through every study to the dataset ("yes, do it", after the full Haley import left the 28 sessions of large_single_patch and small_single_patch, both filed under single_patch_assays, unlisted). Amends [the TEAM-SIGN-OFF of 2026-10-09 above], whose "to the dataset or a study of it" read one study deep. Built: NDI-matlab d1f1358c6

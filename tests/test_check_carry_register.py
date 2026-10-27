@@ -1,5 +1,5 @@
 """tools/check_carry_register.py: the carry register's gate (Jess Haley,
-2026-10-26, V_eta_go_forward_class_audit.md [carry register], [one correct
+2026-10-26, did_v2_go_forward_class_audit.md [carry register], [one correct
 reading])."""
 import copy
 import os
@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tools"))
 import check_carry_register as ccr
 
-DEC = {"document": "V_eta_go_forward_class_audit.md", "tag": "small unread settings"}
+DEC = {"document": "did_v2_go_forward_class_audit.md", "tag": "small unread settings"}
 DO_NOT = {"line": "do not add OS links to `method`", "class": "method",
           "fields": ["operating_system_id"]}
 

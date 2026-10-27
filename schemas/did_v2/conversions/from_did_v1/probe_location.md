@@ -42,7 +42,7 @@ class-scoped property block keyed by `probe_location`).
 - **Collapse two coordinated chars into one `ontology_term`.** did_v1
   stored the ontology identifier and its human-readable label as two
   separate `char` fields. V_eta declares a single `location` field of
-  type `ontology_term` (introduced in V_gamma — see `V_gamma_notes.md`
+  type `ontology_term` (introduced in V_gamma — see `V_gamma_notes.md` (deleted; see git 04fc712)
   § "Class-version bumps (2.0.0)"). The composite value carries two
   sub-keys: `node` (the CURIE) and `name` (the label snapshot). The
   migration rule is:

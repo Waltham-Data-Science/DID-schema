@@ -178,14 +178,14 @@ whichever lands first.
 
 ---
 
-TEAM-SIGN-OFF [epochclocktimes]: jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, "acquisition_epoch dissolves and its clocks become relative_reference documents". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.
+TEAM-SIGN-OFF [epochclocktimes]: jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `did_v2_epoch_plan.md`:869, "acquisition_epoch dissolves and its clocks become relative_reference documents". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.
 
 WHY THIS DOCUMENT NEEDED A FAMILY ENTRY BEFORE THE SIGNATURE MEANT ANYTHING.
 `tools/status_board.py` joins a signature to a class through its FAMILIES table,
 and until today no family cited this file -- so the whole model written above,
 including the equivalence, was invisible to every generated artifact and
 `epochclocktimes` rendered as `no signature found`. The first attempt at this
-signature was appended to `V_eta_time_reference_model_plan.md` instead, because
+signature was appended to `did_v2_time_reference_model_plan.md` instead, because
 that document IS cited. It joined to the WRONG LINE: the board takes the first
 signature in a document, and that is `:468`, which enumerates four changes and
 does not mention this class at all. The row then read `signed` while pointing at

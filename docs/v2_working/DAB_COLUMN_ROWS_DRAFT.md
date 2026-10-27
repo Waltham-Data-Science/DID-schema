@@ -47,7 +47,7 @@ empty-ontology `origin/V2` a16c805; Dab corpus zip
   Proposed match for the table: the exact `ontologyTableRow.ontologyNodes`
   string of that table (51 nodes for EPM, 13 for FPS; §5, E1). This is an
   exact v1 value, as [map rows match exact values] requires
-  (`V_eta_go_forward_class_audit.md:1250`).
+  (`did_v2_go_forward_class_audit.md:1250`).
 - A column row must match the table AND the column's node. A node alone is
   not enough: EMPTY:0000059 "experimental group code" is in both tables with
   different meanings (§3.1 E49, §3.2 F4).
@@ -56,23 +56,23 @@ empty-ontology `origin/V2` a16c805; Dab corpus zip
   The subject is found by the `SubjectLocalIdentifier` cell, joined exactly to
   a subject's `local_identifier` in the same session (NDI
   `+migrate/+internal/ontologyRowSubjects.m:131-152`; kept by
-  [dataset audit batch 1 and 2] (3), `V_eta_go_forward_class_audit.md:1228`).
+  [dataset audit batch 1 and 2] (3), `did_v2_go_forward_class_audit.md:1228`).
 - Today the generic stage passes these rows through (no subject edge,
   DID-matlab `ontology_table_row.m:6, 54`); a row whose subject NDI resolves
   is carried whole as v1 with a `needs_mapping` note (`ontology_table_row.m:79`;
-  carry register `carry-026`, `V_eta_carry_register.json:475`). These map
+  carry register `carry-026`, `did_v2_carry_register.json:475`). These map
   rows are what `carry-026` says resolves it ("the dataset map's column rows
   for that table (not yet written)").
 
 ### 2.2 Shapes used
 
 - Statement directions and their value kinds are from T2/T3
-  (`V_eta_tenets.md:49-160`). Value kinds used here all exist:
+  (`did_v2_tenets.md:49-160`). Value kinds used here all exist:
   `count`, `time` (stable); `frequency`, `voltage`, `intensity` (stable);
   `label`, `logical` (draft). There is **no percent / fraction / proportion
   value kind** (46 classes list `value` as superclass; none is one; §5, E6).
 - Observation vs calculation is by provenance: inputs in the dataset make a
-  calculation with `input_id` (`V_eta_tenets.md:96-105`).
+  calculation with `input_id` (`did_v2_tenets.md:96-105`).
 - Units from the registry: `om:second-Time` (registry :1514),
   `om:millisecond-Time` (:2404), `om:hertz` (:2444), `om:millivolt` (:5934),
   `om:percent` (:5724).
@@ -90,7 +90,7 @@ empty-ontology `origin/V2` a16c805; Dab corpus zip
   "administered 45 minutes before fear conditioning and before EPM testing".
 - A `dose` "always has an amount" (`dose.json:41`). Saline has no amount
   anywhere. A CNO amount exists only in a term definition, not in the row.
-  [no invented values] (`V_eta_go_forward_class_audit.md:1142`) forbids
+  [no invented values] (`did_v2_go_forward_class_audit.md:1142`) forbids
   writing a value the source does not state.
 - **So no dose row is proposed.** The column is listed as open question Q-E1,
   with one candidate: a `manipulation` of the subject, value kind `term`,
@@ -215,7 +215,7 @@ Shock Reactivity (§5, E3).
 
 | id | v1 `variableName` (node) | V2 home | rests on |
 |---|---|---|---|
-| F1 | `ExperimentalTrialNumber` (EMPTY:0000075) | not a statement: a condition on every statement of the row, `label` (a local index; 1..30) | def :1071 "index of an individual experimental trial within a set"; dict :49; T12 label (`V_eta_tenets.md:379`) |
+| F1 | `ExperimentalTrialNumber` (EMPTY:0000075) | not a statement: a condition on every statement of the row, `label` (a local index; 1..30) | def :1071 "index of an individual experimental trial within a set"; dict :49; T12 label (`did_v2_tenets.md:379`) |
 | F2 | `Fear_potentiatedStartle_TrialTypeIdentifier` (EMPTY:0000057) | **open: Q-F1** | def :946; dict :50 |
 | F3 | `Fear_potentiatedStartle_ApparatusChamberIdentifier` (EMPTY:0000058) | **open: Q-F2** | def :954; dict :51 |
 | F4 | `ExperimentalGroupCode` (EMPTY:0000059) | **open: Q-F3** | dict :52 (`Group_ID`); def :961 |
@@ -226,7 +226,7 @@ Shock Reactivity (§5, E3).
 | F9 | `AcousticStartleResponse_TimeToMaximumAmplitude` (EMPTY:0000064) | obs, `time`, source unit ms (`om:millisecond-Time`) | def :993 "Unit: milliseconds (ms)"; values 0..200 for 200-sample trials, 34..498 for 500 (fits 1 sample = 1 ms at 1000 Hz) |
 | F10 | `AcousticStartleResponse_AverageAmplitude` (EMPTY:0000065) | **open: Q-F4** | def :1000 "millivolts (mV) or arbitrary units" |
 | F11 | `ExperimentTrialExecutionTimestamp` (EMPTY:0000066) | **open: Q-F5** | def :1007; dict :59 |
-| F12 | `Fear_potentiatedStartle_ExperimentalPhaseOrTestName` (EMPTY:0000067) | not a statement: a condition on every statement of the row, `label` (8 values, the sheet names) | def :1013; dict :60; `doImport.m:385`; T12 "a run's condition name" is a label (`V_eta_tenets.md:379`) |
+| F12 | `Fear_potentiatedStartle_ExperimentalPhaseOrTestName` (EMPTY:0000067) | not a statement: a condition on every statement of the row, `label` (8 values, the sheet names) | def :1013; dict :60; `doImport.m:385`; T12 "a run's condition name" is a label (`did_v2_tenets.md:379`) |
 | F13 | `SubjectLocalIdentifier` (EMPTY:0000052) | not a statement: names the entity (route 3) | as E51 |
 
 **FPS open questions (one line each):**
@@ -255,7 +255,7 @@ Shock Reactivity (§5, E3).
   and place the rest, or carry the whole row ([partly placed is carried as v1])?
 - **Q-T3** FPS: one statement per cell (8 measured columns x 6,160 rows), or
   one series per (animal, phase, variable) along a trial dimension (T2
-  "recurring event", `V_eta_tenets.md:112`)?
+  "recurring event", `did_v2_tenets.md:112`)?
 - **Q-T4** The totals (E5, E8, E11, E18, E21, E24, E27, E30, E37, E40): a
   `calculation` from the two arm statements (proposed; exact sums in 45/45),
   or an `observation` as the software reported it?
@@ -343,7 +343,7 @@ EMPTY:0000200 def@1967: "... 'CNO' for Clozapine-N-oxide administration (2 mg/kg
   before fear conditioning and before EPM testing."
 ```
 
-**E5. Term registry** (`schemas/V_eta_term_registry.json`, 865 terms):
+**E5. Term registry** (`schemas/did_v2_term_registry.json`, 865 terms):
 
 ```
 EMPTY nodes from Dab tables found in registry: ['EMPTY:0000074', 'EMPTY:0000358']
@@ -371,8 +371,8 @@ score substance_amount temperature term time tuning_curve velocity voltage volum
   `+migrate/+internal/ontologyRowSubjects.m:131-152`.
 - DID-matlab `origin/V2` f6486be: `+did2/+convert/+migrators_j/ontology_table_row.m:6, 54, 79`.
 - did-schema 078ab84: `docs/v2_working/DATASET_MAP_PROPOSAL.md:190-212, 291-293, 328-329`;
-  `schemas/V_eta_carry_register.json:475` (carry-026);
-  `schemas/V_eta_go_forward_class_audit.md:1142, 1152, 1212, 1220, 1228, 1238, 1244, 1246, 1250, 1252`;
-  `schemas/V_eta_tenets.md` T2 (:49), T3 (:123), T12 (:368), T19 (:946), T20 (:1016);
+  `schemas/did_v2_carry_register.json:475` (carry-026);
+  `docs/plans/did_v2_go_forward_class_audit.md:1142, 1152, 1212, 1220, 1228, 1238, 1244, 1246, 1250, 1252`;
+  `docs/did_v2_tenets.md` T2 (:49), T3 (:123), T12 (:368), T19 (:946), T20 (:1016);
   `schemas/did_v2/stable/{interaction,statement,dose,intensity}.json`,
   `schemas/did_v2/draft/label.json`.

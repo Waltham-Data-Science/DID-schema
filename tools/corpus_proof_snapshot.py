@@ -17,7 +17,7 @@ honest answer today is "open this log", and in ninety days it is "you can't".
 THIS TOOL CARRIES THE MEASUREMENT ACROSS. `corpus_proven.py` (DID-matlab) already
 writes `corpus-proven/v_eta_corpus_proven.json` during the census job; this reads
 that file and commits its verdicts, with provenance, as
-`schemas/V_eta_corpus_proof.json` + `.md`.
+`schemas/did_v2_corpus_proof.json` + `.md`.
 
 THE ONE RULE THAT MATTERS: A MEASUREMENT IS NEVER OVERWRITTEN BY AN ABSENCE.
 Running this without a source, or with a source that measured nothing, LEAVES
@@ -40,8 +40,8 @@ import sys
 from datetime import datetime, timezone
 
 SCHEMA_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SNAPSHOT = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_corpus_proof.json")
-SNAPSHOT_MD = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_corpus_proof.md")
+SNAPSHOT = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_corpus_proof.json")
+SNAPSHOT_MD = os.path.join(SCHEMA_ROOT, "docs", "generated", "did_v2_corpus_proof.md")
 
 S_YES, S_NO, S_NOT_MEASURED = "yes", "no", "not measured"
 

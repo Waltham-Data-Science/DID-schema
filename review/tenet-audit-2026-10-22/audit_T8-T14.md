@@ -9,7 +9,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 - Index dispositions of those 163 (index.json): stable persist 69, draft persist 17, stable in_progress 7, stable retire 70.
 - **Live set audited field by field (persist + in_progress): 93 classes, 1172 fields.** The 70 `retire` classes are v1 source tombstones (T13 exempts their spelling). They were only grepped for stale names and are not reported as violations.
 - Binding registry: 11 subject_statement_bindings, 34 relation_bindings, 1 entity_field_binding, 19 entity_type_bindings. Term registry: 508 terms, all `status: decided`.
-- Plan decision lines read: V_eta_tenets.md (T3, T6, T8-T14, and the 3 TEAM-SIGN-OFF lines), data_body plan AMENDMENTS 1-6 with their Decided-by and TEAM-SIGN-OFF lines, source_unit plan (2 sign-offs), time_reference plan sign-offs, method plan (1 sign-off and 6 Decided-by lines), stimulus_response plan Decided-by lines 604-616.
+- Plan decision lines read: did_v2_tenets.md (T3, T6, T8-T14, and the 3 TEAM-SIGN-OFF lines), data_body plan AMENDMENTS 1-6 with their Decided-by and TEAM-SIGN-OFF lines, source_unit plan (2 sign-offs), time_reference plan sign-offs, method plan (1 sign-off and 6 Decided-by lines), stimulus_response plan Decided-by lines 604-616.
 - Not run: `tools/gates.py`. Findings come from the JSON and the plan text, not from validator output.
 
 ---
@@ -30,7 +30,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 - Effect: a writer that follows the field docs emits exactly the ambiguous form the amendment bans.
 
 **A3. Entry `unit` slots are unbound, and nothing says which unit is canonical (T14 practical SI; T8).**
-- `data.covariates.unit`, `statement.conditions.unit`, `data_body.conditions.unit`, every `method.parameters.unit` and `acquisition_epoch.covariates.unit` have `constraints: {}`. Their doc says only "Canonical unit of ... Angles are DEGREES ... PRACTICAL SI (V_gamma_SPEC.md)".
+- `data.covariates.unit`, `statement.conditions.unit`, `data_body.conditions.unit`, every `method.parameters.unit` and `acquisition_epoch.covariates.unit` have `constraints: {}`. Their doc says only "Canonical unit of ... Angles are DEGREES ... PRACTICAL SI (V_gamma_SPEC.md)" (deleted; see git 04fc712).
 - The same entries' `source_unit` is `{"binding": {"strength": "preferred", "node_form": "curie"}}` (source_unit plan sign-off).
 - T14 says the canonical list is "`_DIM_CANON` in `tools/build_v_eta.py`". That file is deleted (`ls tools/build_v_eta.py`: No such file), and `grep -rn _DIM_CANON tools/` finds nothing. `tools/validate_v_eta.py` and `veta_record.py` contain no "canonical unit", "practical", "degrees" or "radian" check.
 - So nothing stops a covariate in `om:millimetre` or `om:radian` as its canonical `unit`. "One quantity has one canonical slot" is not enforceable for entries.
@@ -147,7 +147,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 - `interaction`/`relation`/`method`/`clock_alignment_configuration` `.parameters.variable`: "To be BOUND (not yet declared -- binding worksheet, 2026-09-25)". The field carries `{"binding": {"strength": "preferred", ...}}`.
 - `relative_time_reference.referent_id`: "a migrator holds `base.session_id`". base.session_id became an edge on 2026-10-20 (base.json).
 - `relative_time_reference.value.clock`: "see the build script for the evidence". The build script is deleted.
-- `data.covariates.unit` and `acquisition_epoch.covariates.unit`: "PRACTICAL SI (V_gamma_SPEC.md)". The live statement is T14.
+- `data.covariates.unit` and `acquisition_epoch.covariates.unit`: "PRACTICAL SI (V_gamma_SPEC.md)" (deleted; see git 04fc712). The live statement is T14.
 - `tuning_curve.value`: "the `stimulus condition` term is still to be chosen". [stimulus condition term] (2026-10-22) chose XCO:0000000, and it is registered.
 - `logical.value`: "[SUPERSEDED IN PART ... `valid_interval` now migrates to `time_observation` ...]". These are leaf names that T3 (2026-10-08) abolished.
 - `stimulus_presentation.stimuli.parameters` (in_progress): "become typed fields of the referenced stimulus value documents". TEAM-SIGN-OFF [method] makes recipes into `method` documents.
@@ -167,7 +167,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 
 ### Stale tenet text (contradicted by later signed decisions or the built schema)
 
-- **T12 and T13** still say "Proposed amendment (2026-10-21, `V_eta_method_plan.md`, ... not signed)" for "a stimulus recipe is a method" and "`parameters` allowed only inside `method`". TEAM-SIGN-OFF [method] (jess, 2026-10-21) says "T12/T13 amended". Rule 4 requires reading the header against the sign-off. Here the tenet header is stale in the cautious direction.
+- **T12 and T13** still say "Proposed amendment (2026-10-21, `did_v2_method_plan.md`, ... not signed)" for "a stimulus recipe is a method" and "`parameters` allowed only inside `method`". TEAM-SIGN-OFF [method] (jess, 2026-10-21) says "T12/T13 amended". Rule 4 requires reading the header against the sign-off. Here the tenet header is stale in the cautious direction.
 - **T11**: "**Leaf** = `<value>_<direction>` ... One direction-suffix set". T3's 2026-10-08 amendment says "there are no leaf classes". T11's grammar has no note pointing there. T3's own composite example list still has `timed_sequence` and `timed_sequence_manipulation`.
 - **T14**:
   - "`datum_type`, stated ONCE on the data type". The schema field is `value.data_type` (T2 itself says "`datum_type` is renamed `data_type`"). T6 and T3 also say `datum_type`.

@@ -9,7 +9,7 @@ reserves it for the team. Until it is added, `tools/status_board.py` shows the f
 as awaiting review, which is the truth.
 
 **It supersedes** the 2026-09-22 Corrected Option C decision for the spatial family
-(`V_eta_go_forward_class_audit.md`, DID-schema#70), which kept the eight v1 classes as
+(`did_v2_go_forward_class_audit.md`, DID-schema#70), which kept the eight v1 classes as
 verbatim copies, and **revises** issue #67 decision 10 (`harmonic_component_calculation`
 deleted) — see item 37.
 
@@ -155,7 +155,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     which kept it from the v1 parent list without a stated reason). On a V_eta composite it
     is a v1 storage block (T6) duplicating what `receptive_field` says about its bodies and
     keys. The v1 `hartley_calc` tombstone now declares `ngrid` directly, so unmigrated
-    `hartley_calc` documents still validate. This answers `V_eta_OPEN_WORK.md` row #87's
+    `hartley_calc` documents still validate. This answers `did_v2_OPEN_WORK.md` row #87's
     objection ("re-pointing would strand hartley_calc"): the block moves to the tombstone
     rather than vanishing.
 39. **`ingestion_manifest` drops `epochprobemap`** (2026-09-25, option B; revises the
@@ -176,7 +176,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     No `_#` template and no numbered members: repetition is declared (`multiple`), order is
     declared (`ordered`), and the storage key gains a position. Chosen over `_k` numbering
     (option A) and a list-valued edge (option C). The vocabulary table is T15's appendix in
-    `V_eta_tenets.md`; the names decided in review include `referent_id` (for `relative_to`),
+    `did_v2_tenets.md`; the names decided in review include `referent_id` (for `relative_to`),
     `parent_id` (method_parameters lineage), `input_id`/`output_id` (calculations, clock
     alignment), `item_id` (timed_sequence), `key_labels_id`, `entity_id`
     (undirected_relation). BUILT schema-side 2026-09-25 (build section 12.7, 21 edges across
@@ -231,7 +231,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     it, or a decision names it as a target. The rule is written into T3. **51 leaves are
     deleted**, measured over 1,232 `.m` files (DID-matlab + NDI-matlab `src`, V_eta
     branches, comments stripped, plus `jQuantityLeaf`'s runtime-built names) and
-    `V_eta_migration_targets.json`: 48 had no writer and no decided use; three were written
+    `did_v2_migration_targets.json`: 48 had no writer and no decided use; three were written
     only by dead or superseded code (`angle_observation` by `jDecomposeScalars`, which
     nothing calls; `visual_grating_manipulation` by the old NDI assembler `local.m` no
     longer calls; `count_assertion`, replaced by item 48). **`image_manipulation` is
@@ -279,7 +279,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     corpus run must confirm every v1 `app` fills os and interpreter (a required edge
     quarantines a calculation that left them empty).
     **Amended twice:** `interpreter_id` became optional 2026-10-04 (a compiled program has
-    no interpreter; `V_eta_study_plan.md`), and `operating_system_id` became optional
+    no interpreter; `did_v2_study_plan.md`), and `operating_system_id` became optional
     2026-10-21 (no v1 calculation records an operating system, so a required edge left
     every migrated v1 calculation unconvertible; decision line below).
 
@@ -423,7 +423,7 @@ Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `o
     migrator cannot place is refused and counted.
 
 63. **`clock_alignment_configuration` keeps WHAT, `method_parameters` takes HOW**
-    (2026-09-29, audit item 12; answers `V_eta_clock_alignment_cluster_plan.md` OPEN item
+    (2026-09-29, audit item 12; answers `did_v2_clock_alignment_cluster_plan.md` OPEN item
     1). The two classes looked identical because half of the configuration really is
     method parameters. The class keeps what the rule aligns: `clock`, the
     `acquisition_channels_#` edges and `software_id`. Its three typed knobs
@@ -563,7 +563,7 @@ Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `o
 `complete` + `labels_from` / `cyclic` / `chunk` + `axis_labels_#`; the image value;
 `data_body.owner` + file series + identity fields + `redundant`; `relation.method` +
 `value_id`; every data type concrete; the eight spatial copies retired, with their
-decided targets in `V_eta_migration_targets.json`.
+decided targets in `did_v2_migration_targets.json`.
 
 **Not built:** the vocabulary (the term worksheet — axis, direction, origin, assay and
 variable terms; registries were unreachable from the review's container); every emitter

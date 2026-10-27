@@ -5,7 +5,7 @@ THE RULE (Operating Rule 4, CLAUDE.md: THE TEAM DECIDES; CLAUDE PROPOSES)
 A class is DECIDED if and only if it CITES a decision line that exists. A
 citation is a document and a tag:
 
-    ("V_eta_epoch_plan.md", "epoch")
+    ("did_v2_epoch_plan.md", "epoch")
 
 and it RESOLVES when that document holds an accepted decision line the tag
 names. Two forms of decision line are read:
@@ -43,8 +43,10 @@ line's own text.
 
 WHERE A CITATION MAY POINT
 --------------------------
-A document is a file name under `schemas/` (`V_eta_epoch_plan.md`) or a path
-from the repository root (`review/73/OPEN_ITEMS.md`). The generated markdown
+A document is a bare file name (`did_v2_epoch_plan.md`), which resolves to the
+unique file of that name under `docs/` (`tools/doc_paths.py`; [markdown cleanup
+and rename] part (5)), or a path from the repository root
+(`review/73/OPEN_ITEMS.md`). The generated markdown
 files (GENERATED_MARKDOWN) are never read: they quote decisions, they do not
 hold them.
 
@@ -53,12 +55,17 @@ decision is recorded on). Claude records a `Decided by` line only for what a
 team member said, and never writes a `TEAM-SIGN-OFF` line.
 """
 
-import glob
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import doc_paths
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCHEMAS = os.path.join(REPO, "schemas")
+# The documents' root: every bare name resolves to the unique file of that
+# name under it (doc_paths.resolve). Tests point it at a temporary folder.
+DOCS = doc_paths.DOCS
 
 SIGNOFF = "TEAM-SIGN-OFF:"
 KIND_SIGNOFF = "TEAM-SIGN-OFF"
@@ -79,8 +86,8 @@ PROPOSED = "proposed (not decided)"
 
 # GENERATED MARKDOWN IS NOT A RECORD OF ANYTHING; it is a copy of one. Checked
 # in tests against the `.md` files `tools/gates.py` declares its steps write.
-GENERATED_MARKDOWN = ("V_eta_STATUS.md", "V_eta_coverage_ledger.md",
-                      "V_eta_final_class_set.md")
+GENERATED_MARKDOWN = ("did_v2_STATUS.md", "did_v2_coverage_ledger.md",
+                      "did_v2_final_class_set.md")
 
 _DATE_RE = re.compile(r"\b(\d{4}-\d{2}-\d{2})\b")
 # Line-initial, after an optional list marker or bold opener. The date must be
@@ -116,33 +123,33 @@ def match_decided_by(line):
 # this). The entries marked ADDED cite a signed line that names the class but
 # that no family reached; each is explained beside it.
 # ---------------------------------------------------------------------------
-_ST = "V_eta_spatial_transcriptomics_plan.md"
+_ST = "did_v2_spatial_transcriptomics_plan.md"
 _ST_REVIEW = (_ST, "spatial_transcriptomics_family")   # signs #73 review items 1-71
 _ST_AUDIT2 = (_ST, "#73 audit 2, D1-D13")              # signs audit 2 D1-D13
-_GFA = "V_eta_go_forward_class_audit.md"
+_GFA = "did_v2_go_forward_class_audit.md"
 # "Decided by Jess Haley, 2026-10-21 [epoch files as data bodies]: Migrated
 # recordings link their epoch files as data bodies ..." -- names one
 # observation per element per epoch, the `epochfiles_ingested` caches
 # (non-ingested files) and the `daqreader_*_epochdata_ingested` archives
 # (ingested files).
-_REC_2026_10_21 = ("V_eta_recording_observation_plan.md", "epoch files as data bodies")
+_REC_2026_10_21 = ("did_v2_recording_observation_plan.md", "epoch files as data bodies")
 
 CITATIONS = {
     # -- migrated from the families ---------------------------------------
-    "calculator": [("V_eta_subject_calculation_plan.md", "calculator mixin dropped (#73)")],
-    "generic_file": [("V_eta_OPEN_WORK.md", "stranded sources")],
-    "imageCollection": [("V_eta_OPEN_WORK.md", "stranded sources")],
+    "calculator": [("did_v2_subject_calculation_plan.md", "calculator mixin dropped (#73)")],
+    "generic_file": [("did_v2_OPEN_WORK.md", "stranded sources")],
+    "imageCollection": [("did_v2_OPEN_WORK.md", "stranded sources")],
     # The second citation is the signed amendment the target map names
     # ("TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18").
-    "valid_interval": [("V_eta_logical_observation_plan.md", "logical_observation"),
-                       ("V_eta_logical_observation_plan.md", "logical_observation amendment 1")],
+    "valid_interval": [("did_v2_logical_observation_plan.md", "logical_observation"),
+                       ("did_v2_logical_observation_plan.md", "logical_observation amendment 1")],
     # The second citation is the row the target map's decision_note names
-    # ("SIGNED 2026-08-13 -- see V_eta_OPEN_WORK.md row #113").
-    "epochclocktimes": [("V_eta_time_reference_family_plan.md", "epochclocktimes"),
-                        ("V_eta_OPEN_WORK.md", "epoch extent -- row #113")],
-    "stimulus_presentation": [("V_eta_stimulus_model_plan.md", "stimulus")],
-    "ensemble": [("V_eta_ensemble_plan.md", "ensemble")],
-    "hartley_calc": [("V_eta_ngrid_family_findings.md", "receptive field fold")],
+    # ("SIGNED 2026-08-13 -- see did_v2_OPEN_WORK.md row #113").
+    "epochclocktimes": [("did_v2_time_reference_family_plan.md", "epochclocktimes"),
+                        ("did_v2_OPEN_WORK.md", "epoch extent -- row #113")],
+    "stimulus_presentation": [("did_v2_stimulus_model_plan.md", "stimulus")],
+    "ensemble": [("did_v2_ensemble_plan.md", "ensemble")],
+    "hartley_calc": [("did_v2_ngrid_family_findings.md", "receptive field fold")],
     "tuningcurve_calc": [(_GFA, "confirm sheet 2026-08-17")],
     "oridirtuning_calc": [(_GFA, "confirm sheet 2026-08-17")],
     "probe_location": [(_GFA, "confirm sheet 2026-08-17")],
@@ -152,48 +159,48 @@ CITATIONS = {
     # migrate to `label_calculation`".
     "jrclust_clusters": [(_GFA, "confirm sheet 2026-08-17"),
                          (_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
-    "ngrid": [("V_eta_image_model_plan.md", "image / ngrid")],
-    "imageStack_parameters": [("V_eta_image_model_plan.md", "image / ngrid")],
-    "acquisition_epoch": [("V_eta_epoch_plan.md", "epoch")],
-    "element_epoch": [("V_eta_epoch_plan.md", "epoch")],
-    "epochid": [("V_eta_epoch_plan.md", "epoch")],
-    "epochfiles_ingested": [("V_eta_epoch_plan.md", "epoch"), _REC_2026_10_21],
-    "daqsystem": [("V_eta_daq_family_decisions.md", "daq configuration")],
-    "daqreader": [("V_eta_daq_family_decisions.md", "daq configuration")],
-    "daqmetadatareader": [("V_eta_daq_family_decisions.md", "daq configuration")],
-    "daqreader_ndr": [("V_eta_daq_family_decisions.md", "daq configuration")],
-    "daqreader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads"),
+    "ngrid": [("did_v2_image_model_plan.md", "image / ngrid")],
+    "imageStack_parameters": [("did_v2_image_model_plan.md", "image / ngrid")],
+    "acquisition_epoch": [("did_v2_epoch_plan.md", "epoch")],
+    "element_epoch": [("did_v2_epoch_plan.md", "epoch")],
+    "epochid": [("did_v2_epoch_plan.md", "epoch")],
+    "epochfiles_ingested": [("did_v2_epoch_plan.md", "epoch"), _REC_2026_10_21],
+    "daqsystem": [("did_v2_daq_family_decisions.md", "daq configuration")],
+    "daqreader": [("did_v2_daq_family_decisions.md", "daq configuration")],
+    "daqmetadatareader": [("did_v2_daq_family_decisions.md", "daq configuration")],
+    "daqreader_ndr": [("did_v2_daq_family_decisions.md", "daq configuration")],
+    "daqreader_epochdata_ingested": [("did_v2_ingested_payload_findings.md", "daq ingested payloads"),
                                      _REC_2026_10_21],
-    "daqmetadatareader_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads")],
-    "daqreader_image_epochdata_ingested": [("V_eta_ingested_payload_findings.md", "daq ingested payloads"),
+    "daqmetadatareader_epochdata_ingested": [("did_v2_ingested_payload_findings.md", "daq ingested payloads")],
+    "daqreader_image_epochdata_ingested": [("did_v2_ingested_payload_findings.md", "daq ingested payloads"),
                                            _REC_2026_10_21],
-    "syncgraph": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
-    "syncrule": [("V_eta_clock_alignment_cluster_plan.md", "sync configuration")],
-    "syncrule_mapping": [("V_eta_clock_alignment_cluster_plan.md", "sync mapping")],
-    "filenavigator": [("V_eta_daq_family_decisions.md", "file navigation")],
+    "syncgraph": [("did_v2_clock_alignment_cluster_plan.md", "sync configuration")],
+    "syncrule": [("did_v2_clock_alignment_cluster_plan.md", "sync configuration")],
+    "syncrule_mapping": [("did_v2_clock_alignment_cluster_plan.md", "sync mapping")],
+    "filenavigator": [("did_v2_daq_family_decisions.md", "file navigation")],
     # The two UNTAGGED sign-offs, cited by date (the old family join took the
     # document's first untagged line; these are those lines).
-    "openminds": [("V_eta_openminds_family_record.md", "2026-08-08")],
-    "filter": [("V_eta_frequency_filter_model_plan.md", "2026-07-30"),
-               ("V_eta_frequency_filter_model_plan.md", "filters are methods")],
-    "app": [("V_eta_tenet_audit.md", "software")],
-    "spike_extraction_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
-    "spike_extraction_parameters_modification": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
-    "sorting_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
-    "vmspikefilteringparameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
-    "stimulus_parameter": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
-    "stimulus_parameter_table": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
-    "stimulus_response": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
-    "stimulus_response_scalar": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
-    "stimulus_response_scalar_parameters": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
-    "stimulus_response_scalar_parameters_basic": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
+    "openminds": [("did_v2_openminds_family_record.md", "2026-08-08")],
+    "filter": [("did_v2_frequency_filter_model_plan.md", "2026-07-30"),
+               ("did_v2_frequency_filter_model_plan.md", "filters are methods")],
+    "app": [("did_v2_tenet_audit.md", "software")],
+    "spike_extraction_parameters": [("did_v2_method_parameters_plan.md", "spike processing parameters")],
+    "spike_extraction_parameters_modification": [("did_v2_method_parameters_plan.md", "spike processing parameters")],
+    "sorting_parameters": [("did_v2_method_parameters_plan.md", "spike processing parameters")],
+    "vmspikefilteringparameters": [("did_v2_method_parameters_plan.md", "spike processing parameters")],
+    "stimulus_parameter": [("did_v2_stimulus_parameter_plan.md", "stimulus parameters")],
+    "stimulus_parameter_table": [("did_v2_stimulus_parameter_plan.md", "stimulus parameters")],
+    "stimulus_response": [("did_v2_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar": [("did_v2_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar_parameters": [("did_v2_stimulus_response_model_plan.md", "stimulus response")],
+    "stimulus_response_scalar_parameters_basic": [("did_v2_stimulus_response_model_plan.md", "stimulus response")],
     "subjectmeasurement": [(_GFA, "subject measurement")],
-    "element": [("V_eta_recording_observation_plan.md", "raw recording observation"),
+    "element": [("did_v2_recording_observation_plan.md", "raw recording observation"),
                 _REC_2026_10_21],
     # The second citation is the signed amendment the target map names
-    # ("SIGNED 2026-09-29 ([pyraview levels], V_eta_recording_observation_plan.md)").
-    "pyraview": [("V_eta_recording_observation_plan.md", "raw recording observation"),
-                 ("V_eta_recording_observation_plan.md",
+    # ("SIGNED 2026-09-29 ([pyraview levels], did_v2_recording_observation_plan.md)").
+    "pyraview": [("did_v2_recording_observation_plan.md", "raw recording observation"),
+                 ("did_v2_recording_observation_plan.md",
                   "pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation")],
     "subject": [(_GFA, "subject")],
     "session": [(_GFA, "session")],
@@ -221,7 +228,7 @@ CITATIONS = {
     # item 67 (the [spatial_transcriptomics_family] line) named it first; that fold
     # (item.value.control_item) is superseded by "Decided by Jess Haley, 2026-10-22
     # [control as covariate]": the class becomes no V2 document.
-    "control_stimulus_ids": [("V_eta_stimulus_response_model_plan.md", "control as covariate")],
+    "control_stimulus_ids": [("did_v2_stimulus_response_model_plan.md", "control as covariate")],
     "probe_geometry": [_ST_REVIEW],         # item 50: position_observation "is now `probe_geometry`'s decided target"
     # The [#73 audit 2, D1-D13] line signs D1-D13 of review/73/audit2_SUMMARY.md's
     # decision log; D7 (a) reads "`vmspikefit` -> `model_fit_calculation`".
@@ -398,12 +405,12 @@ def cite_md(document, line, anchor):
 
 
 def document_path(document):
-    """A cited document: a file under schemas/, else a path from the repo root."""
+    """A cited document: the unique `docs/**/<name>` for a bare name
+    (doc_paths.resolve), else a path from the repo root. None when a bare name
+    names no document, or more than one."""
     if not document:
         return None
-    if os.sep not in document and "/" not in document:
-        return os.path.join(SCHEMAS, document)
-    return os.path.join(REPO, document)
+    return doc_paths.resolve(document, root=DOCS)
 
 
 _SCAN_CACHE = {}
@@ -495,7 +502,7 @@ def unresolved_citations(table=None):
     return bad
 
 
-def decision_census(schemas_dir=None, table=None):
+def decision_census(docs_dir=None, table=None):
     """Where every decision line is, and which of them a class cites.
 
     RULE 5: the denominator first -- documents read, lines accepted and
@@ -508,13 +515,23 @@ def decision_census(schemas_dir=None, table=None):
       unresolved citation   a citation that names no accepted line.
     """
     table = CITATIONS if table is None else table
-    root = schemas_dir or SCHEMAS
+    root = docs_dir or DOCS
+    # Every document under docs/ by its bare name (a citation's name for it);
+    # generated/ is excluded, as are the GENERATED_MARKDOWN names.
+    where = {}
     files, excluded = [], []
-    for name in sorted(os.listdir(root)):
-        if not name.endswith(".md"):
-            continue
-        (excluded if name in GENERATED_MARKDOWN else files).append(name)
-    # Documents cited from outside schemas/ are read too, and named.
+    generated_dir = os.path.join(os.path.abspath(root), "generated")
+    for path in doc_paths.all_markdown(root):
+        name = os.path.basename(path)
+        where[name] = path
+        if name in GENERATED_MARKDOWN or \
+                os.path.dirname(os.path.abspath(path)) == generated_dir:
+            excluded.append(name)
+        else:
+            files.append(name)
+    files.sort()
+    excluded.sort()
+    # Documents cited by a path from the repository root are read too, and named.
     outside = sorted({doc for v in table.values() for doc, _t in v
                       if "/" in doc})
     docs = files + outside
@@ -526,16 +543,16 @@ def decision_census(schemas_dir=None, table=None):
 
     lines, rejected = [], []
     for name in docs:
-        path = os.path.join(root, name) if "/" not in name else document_path(name)
-        if not os.path.exists(path):
+        path = where.get(name) if "/" not in name else document_path(name)
+        if not path or not os.path.exists(path):
             continue
         with open(path, encoding="utf-8") as fh:
             for e in scan_decision_lines(fh.read()):
                 (lines if e["accepted"] else rejected).append(dict(e, document=name))
     excluded_markers = 0
     for name in excluded:
-        path = os.path.join(root, name)
-        if os.path.exists(path):
+        path = where.get(name)
+        if path and os.path.exists(path):
             with open(path, encoding="utf-8") as fh:
                 excluded_markers += len(scan_decision_lines(fh.read()))
 
@@ -552,7 +569,7 @@ def decision_census(schemas_dir=None, table=None):
         by_kind[e["kind"]] = by_kind.get(e["kind"], 0) + 1
     return {
         "documents_read": len(docs),
-        "documents_read_outside_schemas": outside,
+        "documents_read_outside_docs": outside,
         "documents_excluded_as_generated": excluded,
         "markers_inside_excluded_documents": excluded_markers,
         "accepted_lines": len(lines),
@@ -590,15 +607,16 @@ def decision_census(schemas_dir=None, table=None):
 PENDING_MARKER = "Build pending:"
 
 
-def pending_builds(schemas_dir=None):
+def pending_builds(docs_dir=None):
     """Every accepted-form decision line carrying the pending marker.
 
+    Reads every hand-written document under `docs/` (doc_paths.record_documents).
     Returns (lines_read, pending) where pending is a list of
     {document, line, tag, excerpt}."""
-    base = schemas_dir or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "schemas")
+    base = docs_dir or DOCS
     lines_read = 0
     pending = []
-    for path in sorted(glob.glob(os.path.join(base, "*.md"))):
+    for path in doc_paths.record_documents(base):
         with open(path, encoding="utf-8") as fh:
             for n, line in enumerate(fh, 1):
                 parsed = match_decided_by(line)
@@ -624,7 +642,7 @@ if __name__ == "__main__":
         ap.print_help()
         raise SystemExit(0)
     read, pend = pending_builds()
-    print(f"DENOMINATOR: {read} decision line(s) read in schemas/*.md")
+    print(f"DENOMINATOR: {read} decision line(s) read in docs/**/*.md (not docs/generated/)")
     print(f"PENDING BUILDS: {len(pend)}")
     for p in pend:
         print(f"  {p['document']}:{p['line']} [{p['tag']}] {p['excerpt']}")

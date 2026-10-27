@@ -7,7 +7,7 @@ The completion ladder puts 68 of 102 v1 classes at stage 1: a migrator consumes
 the class, and rung 2 -- "its decided target classes EXIST in the build" --
 reads `not measured`. That reads like 68 classes of unbuilt work. It is not.
 
-`V_eta_migration_targets.json` says so in its own header: `targets` is GENERATED
+`did_v2_migration_targets.json` says so in its own header: `targets` is GENERATED
 from the call graph, while `decided_targets` is AUTHORED and means specifically
 "a signed decision no migrator implements yet". So `decided_targets` is only ever
 populated where a gap is ALREADY KNOWN. A class whose migrator emits something,
@@ -51,8 +51,8 @@ import re
 import sys
 
 SCHEMA_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
-TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_coverage_ledger.json")
+TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_migration_targets.json")
 
 # The buckets. ORDER IS THE ORDER A REVIEWER SHOULD WORK IN: the cheapest
 # answers first, so a sitting that runs out of time has cleared the confirmable
@@ -199,7 +199,7 @@ def classify(v1_class, entry):
     # emissions, and was being filed as "investigate first, not a team
     # question" while its question was ready to ask.
     #
-    # This is emission shape (2) of `V_eta_OPEN_WORK.md` row #107 -- the shape
+    # This is emission shape (2) of `did_v2_OPEN_WORK.md` row #107 -- the shape
     # the ladder's rung 3 is already known to miss. Repeating a recorded blind
     # spot one layer up is worse than the original, because the sheet is what a
     # reviewer trusts to be complete.

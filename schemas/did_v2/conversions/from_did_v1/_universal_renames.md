@@ -71,7 +71,7 @@ did_v1                                V_eta
 
 `depends_on`, `file`, and `fields` remain top-level — `document_class`
 is for class-identity metadata only. This relocation was introduced in
-V_gamma; see `V_gamma_notes.md` § "Class metadata under a top-level
+V_gamma; see `V_gamma_notes.md` (deleted; see git 04fc712) § "Class metadata under a top-level
 `document_class` header" for the rationale.
 
 For the `maturity_level` value mapping, see §5.
@@ -105,7 +105,7 @@ identifier renames they trigger. Common cases inherited from V_beta:
 | `decimationStartTimes` (field) | `decimation_start_times` |
 | `variableNames` (field) | `variable_names` |
 
-See `V_beta_notes.md` for the full V_alpha → V_beta rename table.
+See `V_beta_notes.md` (deleted; see git 04fc712) for the full V_alpha → V_beta rename table.
 Filenames track the class name (one schema file per class, named
 `<class_name>.json`).
 
@@ -135,7 +135,7 @@ did_v1                                                 V_eta
 In **document instances**, the superclass-reference key set is
 different — `class_name` plus `class_version` (a pinned snapshot of
 the inheritance chain). That convention was set in V_gamma and is
-unchanged in V_eta. See `V_gamma_SPEC.md` § "Schema-reference forms".
+unchanged in V_eta. See `V_gamma_SPEC.md` (deleted; see git 04fc712) § "Schema-reference forms".
 
 ## 5. `maturity_level` enum is `{stable, draft, deprecated}`
 
@@ -153,7 +153,7 @@ V_eta:
 | `"work_in_progress"` | `"stable"` *(default placement; a separate domain-review pass may re-tier specific schemas to `draft` or `deprecated`)* |
 
 The meta-schema (`did_schema_meta.json`) enforces the V_eta enum.
-See `V_eta_SPEC.md` § 3.
+See `did_v2_SPEC.md` § 3.
 
 ## 6. Ontology annotation reshape (4-key → 2-key)
 
@@ -189,7 +189,7 @@ still valid.
 The ontology-annotation reshape is a schema-file-syntax change — it
 describes the *field*, not the documents validated against the field
 — and so does **not** trigger a `class_version` bump. See
-`V_gamma_notes.md` § "Annotation-shape change is not a version bump".
+`V_gamma_notes.md` (deleted; see git 04fc712) § "Annotation-shape change is not a version bump".
 
 ## 7. Class-scoped property blocks (document instances)
 
@@ -232,7 +232,7 @@ Migration consequences:
 - The `property_listname` knob from V_alpha is removed; the block
   key must equal the declaring class's `class_name` exactly.
 
-See `V_gamma_SPEC.md` § "JSON Format: Document Instances" for the
+See `V_gamma_SPEC.md` (deleted; see git 04fc712) § "JSON Format: Document Instances" for the
 authoritative description.
 
 ## 8. `class_version` semantics under V_eta sandbox
@@ -331,5 +331,5 @@ These are new destination shapes, not new rename rules.
 - File-reference handling (generic): [`_files.md`](_files.md)
 - Conversion index: [`_index.md`](_index.md)
 - Conversion template: [`_TEMPLATE.md`](_TEMPLATE.md)
-- V_eta differences from V_gamma: [`V_eta_SPEC.md`](../../V_eta_SPEC.md)
-- V_alpha → V_gamma rename history: `V_beta_notes.md`, `V_gamma_notes.md`
+- V_eta differences from V_gamma: [`did_v2_SPEC.md`](../../did_v2_SPEC.md)
+- V_alpha → V_gamma rename history: `V_beta_notes.md` (deleted; see git 04fc712), `V_gamma_notes.md` (deleted; see git 04fc712)

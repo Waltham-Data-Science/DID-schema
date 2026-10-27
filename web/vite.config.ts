@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 
 // The repository root. The V_eta shape panel imports schemas/did_v2/**/*.json
-// and two schemas/*.md files directly (web/src/veta/sources.ts), which sit
+// and two docs/ markdown files directly (web/src/veta/sources.ts), which sit
 // outside web/, so the dev server must be allowed to serve them.
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 

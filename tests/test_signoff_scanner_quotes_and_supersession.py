@@ -36,10 +36,10 @@ def test_a_superseded_signature_is_rejected_and_only_the_next_one():
 
 
 def test_the_two_known_cases_in_the_tree():
-    with open(os.path.join(REPO, "schemas", "V_eta_method_parameters_plan.md")) as fh:
+    with open(os.path.join(REPO, "docs", "plans", "did_v2_method_parameters_plan.md")) as fh:
         mp = sb.scan_signoff_lines(fh.read())
     assert [r["accepted"] for r in mp if r["tag"] == "epoch"] == [False]
-    with open(os.path.join(REPO, "schemas", "V_eta_go_forward_class_audit.md")) as fh:
+    with open(os.path.join(REPO, "docs", "plans", "did_v2_go_forward_class_audit.md")) as fh:
         gf = sb.scan_signoff_lines(fh.read())
     sp = [r for r in gf if r["tag"] == "spatial_transcriptomics_family"]
     assert len(sp) == 1 and sp[0]["accepted"] is False
@@ -50,15 +50,15 @@ def test_coverage_citation_reader_applies_the_same_two_rules():
     """coverage._signoff_lines validates decision citations; a quotation or a
     superseded signature must not be able to validate one."""
     import coverage as cv
-    gf = [n for n, _ in cv._signoff_lines("V_eta_go_forward_class_audit.md")]
-    with open(os.path.join(REPO, "schemas", "V_eta_go_forward_class_audit.md")) as fh:
+    gf = [n for n, _ in cv._signoff_lines("did_v2_go_forward_class_audit.md")]
+    with open(os.path.join(REPO, "docs", "plans", "did_v2_go_forward_class_audit.md")) as fh:
         sup_line = next(i for i, ln in enumerate(fh.read().splitlines(), 1)
                         if ln.startswith("TEAM-SIGN-OFF [spatial_transcriptomics_family]"))
     assert sup_line not in gf
-    mp = [n for n, _ in cv._signoff_lines("V_eta_method_parameters_plan.md")]
+    mp = [n for n, _ in cv._signoff_lines("did_v2_method_parameters_plan.md")]
     # The real signature at :32 is accepted and the fenced QUOTATION at :708 is not.
     # (:18 and :694 until the 2026-10-19 amendment note was added at the top; :24
-    # and :700 until the 2026-10-21 `method` amendment note, V_eta_method_plan.md.)
+    # and :700 until the 2026-10-21 `method` amendment note, did_v2_method_plan.md.)
     # Asserted as membership, not `== [18]`: a later genuine signature appended to
     # the document (the #73 audit 2 D4 amendment) must not break this test.
     assert 32 in mp and 708 not in mp
@@ -75,7 +75,7 @@ def test_rule_4_catches_an_in_text_not_signed_in_the_tenets(tmp_path):
                                     "tools", "check_signoff_header_staleness.py"))
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    tenets = tmp_path / "V_eta_tenets.md"
+    tenets = tmp_path / "did_v2_tenets.md"
     tenets.write_text("T2 amendment (2026-10-21, not signed): x\n\n\n\n"
                       "it said not yet signed HISTORICAL-SIGNOFF-CLAIM\n")
     other = tmp_path / "V_eta_other_plan.md"

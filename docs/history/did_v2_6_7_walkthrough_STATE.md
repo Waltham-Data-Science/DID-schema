@@ -44,7 +44,7 @@ end
 
 So it **deletes the only record of which epoch the ingested bytes belong to**, and the
 document still validates. This is the FRAGMENT failure mode from
-`V_eta_migrator_vocabulary_audit.md`: no counter sees it. `did2.validate.silentLoss` cannot,
+`did_v2_migrator_vocabulary_audit.md`: no counter sees it. `did2.validate.silentLoss` cannot,
 because nothing is left blank — the block is simply gone.
 
 Also mis-stated by the same reasoning, on the DID side:
@@ -59,7 +59,7 @@ Also mis-stated by the same reasoning, on the DID side:
 **Not yet fixed** — the correction is recorded here first so the decision is not re-derived
 from the wrong premise. The lesson generalises: this chunk was decided from the DID-side
 schema rather than the NDI template, which is the same root cause as the `V_alpha` migrator
-mix-up tracked in `V_eta_ground_truth_plan.md`.
+mix-up tracked in `did_v2_ground_truth_plan.md`.
 
 ## ⚠️ STATUS — the walkthrough is NOT closed; R5 re-opened the ⑦ infra tier
 
@@ -97,7 +97,7 @@ documents carry that block. `tools/check_tombstones.py` flagged the consequence 
 (`LOSSY migrated pyraview — superclasses the real document has: epochclocktimes`). It should NOT
 be restored as a class — its content is the same fact `element_epoch` carries
 (`epoch_clock`/`t0_t1`) — but pyraview's copy must be routed, and today it is dropped. See
-`V_eta_time_reference_model_plan.md`.
+`did_v2_time_reference_model_plan.md`.
 
 **`oneepoch`** has a template and a real `+ndi/+element/oneepoch.m` (a function that concatenates
 an element's epochs). Whether documents are actually written is **unverified**. `coverage.py`
@@ -129,14 +129,14 @@ RESOLVED SINCE this walkthrough (were `in_progress`, now decided):
 `instrument` → **RETIRED** (roles are edges, T7; absent from disk); `app` → **`software`
 entity + `software_id` edge** (R1); `image` → **standalone `image` `data_type`** (R6;
 `array` killed); `stimulus_presentation` + `control_stimulus_ids` → **`timed_sequence` /
-`timed_sequence_manipulation` / `control_designation`** (`V_eta_stimulus_model_plan.md`,
+`timed_sequence_manipulation` / `control_designation`** (`did_v2_stimulus_model_plan.md`,
 supersedes D-B); `ensemble` → **per-neuron-primary + group-subject + epoch-scoped
-`member_of` + rebuildable cache** (`V_eta_ensemble_plan.md`, supersedes the old "grain A /
+`member_of` + rebuildable cache** (`did_v2_ensemble_plan.md`, supersedes the old "grain A /
 MAP-doc-as-infra" reading); `openminds_import` → **draft** maturity.
 
 STILL `in_progress` — the genuinely-open classes the walkthrough left for a team call:
 `interaction_purpose` (kept as a standalone subject-domain class — see the boundary-class
-row in `V_eta_tenet_audit.md`); `demo_ndi`, `demo_ndi_mock` (test fixtures — passthrough);
+row in `did_v2_tenet_audit.md`); `demo_ndi`, `demo_ndi_mock` (test fixtures — passthrough);
 `projectvar` (infra, passthrough).
 
 ## ⑥/⑦ sub-groups (the original grouping, for context)
@@ -171,7 +171,7 @@ row in `V_eta_tenet_audit.md`); `demo_ndi`, `demo_ndi_mock` (test fixtures — p
 
 ## Guardrail for future turns
 Before answering "what's the final class set / where were we on ⑥/⑦", READ THIS FILE
-and `V_eta_final_class_set.md`. Do NOT re-derive category membership from memory —
+and `did_v2_final_class_set.md`. Do NOT re-derive category membership from memory —
 that is what produced the errors (zarr-in-④, data_body>2, ④/③ order). Category order
 is: ① spine → ② entities → ③ **composites (data_type)** → ④ leaf tier → ⑤ time_reference
 → ⑥ data_body (EXACTLY 2: sampled_body, opaque_body) → ⑦ infra.

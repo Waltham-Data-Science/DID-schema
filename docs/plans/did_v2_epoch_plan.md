@@ -1,6 +1,6 @@
 # V_eta — the acquisition epoch family
 
-> **AMENDED 2026-09-25 (#73 review item 55, `V_eta_spatial_transcriptomics_plan.md`):**
+> **AMENDED 2026-09-25 (#73 review item 55, `did_v2_spatial_transcriptomics_plan.md`):**
 > `epoch.instrument_id` is DROPPED -- an epoch name can be shared by several rigs in
 > older data, and the rig is recorded on each recording statement instead.
 > **AND (#73 item 57):** `epoch.session_id` is DROPPED too -- `base.session_id` already names
@@ -100,7 +100,7 @@ Everything else leaves, in three directions already settled elsewhere:
 
 | leaves | to | authority |
 |---|---|---|
-| `clocks` | `time_reference`s | `V_eta_time_reference_model_plan.md` ("`acquisition_epoch.clocks` DISSOLVES") |
+| `clocks` | `time_reference`s | `did_v2_time_reference_model_plan.md` ("`acquisition_epoch.clocks` DISSOLVES") |
 | the `.vhsb` payload | `sampled_body` | the 2.D data_body collapse |
 | `axes` / `storage` | `sampled_body` | TaskList #45 |
 
@@ -150,7 +150,7 @@ daqmetadatareader.daqsystem_id                                              59
 
 The two stimulus-tier rows were in the same report all along; the sweep that produced
 the original figure stopped at the daq/sync families. See `CLAUDE.md` and
-`V_eta_stimulus_response_model_plan.md`. **Re-derive the row set from a fresh census
+`did_v2_stimulus_response_model_plan.md`. **Re-derive the row set from a fresh census
 before quoting a total.** The blind spot is unchanged: the vocabulary checker compares
 FIELDS, not `depends_on` (TaskList #54).
 
@@ -196,7 +196,7 @@ migrators                READ epochid.epochid from v1 INPUT to work out which ep
 
 ## Why this is the OPPOSITE of the `strain` decision, and neither is a precedent
 
-For `strain` (`V_eta_openminds_family_record.md`, Part 6) the assertion KEEPS its
+For `strain` (`did_v2_openminds_family_record.md`, Part 6) the assertion KEEPS its
 inline `{node, name}` value AND gains a `strain_id` edge. Here the document keeps
 ONLY the edge. Three differences, and they compound:
 
@@ -207,7 +207,7 @@ ONLY the edge. Three differences, and they compound:
 | **Is the value the document's CONTENT, or a JOIN KEY?** | **Content.** A `term_assertion` *is* a statement about that value. Strip it and the document says nothing. | **A join key**, stapled on. Strip it and the document still says everything it said. |
 
 **The drift test is what actually decides it.** The rule from
-`V_eta_openminds_family_record.md` Part 3: a representation must not vary between
+`did_v2_openminds_family_record.md` Part 3: a representation must not vary between
 datasets.
 
 - **Dropping strain's inline value WOULD create drift** — some strain assertions
@@ -299,7 +299,7 @@ epoch itself", and this plan then described it that way — "when did this epoch
 when the document answers "when did this ELEMENT's recording run". A T13 naming
 error that propagated into a decision.
 
-**The project already assumed the fix.** `V_eta_time_reference_model_plan.md`:
+**The project already assumed the fix.** `did_v2_time_reference_model_plan.md`:
 
 > the `(referent, epoch)` pair collapses to ONE edge **only because V_eta reifies
 > the epoch as a document**
@@ -627,7 +627,7 @@ as well as `.m` files. A `depends_on` sweep could not have: `oneepoch` reaches
 ### `oneepoch` — the team chose fork A1 (2026-08-10). NOT YET SIGNED.
 
 > **#73 (2026-09-23) revises A1's DIRECTION, not its shape.** Under the observation /
-> calculation rule (`V_eta_tenets.md` T2; `V_eta_subject_calculation_plan.md`, #73
+> calculation rule (`did_v2_tenets.md` T2; `did_v2_subject_calculation_plan.md`, #73
 > amendment), a statement derived from other statements in the dataset is a
 > CALCULATION. The concatenation's `derived_from_1..N` point at the N stored per-epoch
 > observations, so it becomes a `<modality>_calculation`, not a `<modality>_observation`.
@@ -673,13 +673,13 @@ would realise a hazard the instrument was built to warn about.
 
 **THE GATE, stated rather than assumed.** `derived_from_#` is declared on
 `subject_observation` as `-> subject_statement`. The N source per-epoch recordings
-only BECOME statements under `V_eta_recording_observation_plan.md`, **which is not
+only BECOME statements under `did_v2_recording_observation_plan.md`, **which is not
 yet signed** (checked 2026-08-10: it carries no signature line). Until it is, A1's
 `derived_from_#` edges have nothing to point at. A1 is a decision about direction;
 it is not buildable yet.
 
 Separately, A1's body half lands on `sampled_body`, whose `datum` / `sample_time` /
-`axes` fields `V_eta_data_body_model_plan.md` redefines — also unsigned. Building
+`axes` fields `did_v2_data_body_model_plan.md` redefines — also unsigned. Building
 the body shape before that lands means building it twice.
 
 **What was built now, because it needs neither.** `oneepoch` had NO V_eta schema at
@@ -1010,7 +1010,7 @@ touch are enumerated individually rather than as a fraction of the tree.
 
 **Why this is written HERE and not only in `CLAUDE.md`:** that file corrected 915 to 1,002
 earlier the same day, but inside its summary of a DIFFERENT document
-(`V_eta_data_body_model_plan.md`). The correction reached the file that QUOTES the fact and
+(`did_v2_data_body_model_plan.md`). The correction reached the file that QUOTES the fact and
 neither of the two that STATE it — this plan and the data_body plan — so a reader of either
 had no way to know it existed. Both were found by `tools/check_prose_counts.py`, which
 derives the count from NDI `origin/main` instead of reading prose about it.
@@ -1111,7 +1111,7 @@ rather than as Claude deciding it.
 Half of this was already decided and is NOT re-opened: `element_epoch` is one of
 the 15 v1 templates declaring a `file_list`, and all 252 documents carry the
 file, so under the signed *"A body is emitted only when there are bytes to
-attach"* (`V_eta_data_body_model_plan.md`, walkthrough item 6, 2026-08-14) it
+attach"* (`did_v2_data_body_model_plan.md`, walkthrough item 6, 2026-08-14) it
 EARNS a `sampled_body`. `element` declares no files and correctly emits none.
 
 What was open is that `jRecordingObservation.m:262` sets `storage_mode:
@@ -1183,14 +1183,14 @@ only when the array is held"*, and pass 1 does not hold it — and the
 `jRecordingObservation.m:53` precedent, where the channel-axis count is already
 *"a second-pass fill"*.
 
-This CLOSES the open team call named at `V_eta_data_body_model_plan.md`
+This CLOSES the open team call named at `did_v2_data_body_model_plan.md`
 (*"whether a body should be emitted at all when the payload is outside the
 database ... needs a team call and is NOT covered by the signature above"*) for
 the INSIDE-the-database case. The outside case is unchanged: no body.
 
 ACCEPTED COST: neither the bodies nor the `storage_mode` flip appear in a corpus
 run, so the coverage ladder cannot see them — the same NDI-side blind spot that
-makes `stimulus_presentation` read `no` on rung 3 today (`V_eta_OPEN_WORK.md`
+makes `stimulus_presentation` read `no` on rung 3 today (`did_v2_OPEN_WORK.md`
 row #107).
 
 CONSEQUENCE OF Q1 + Q3 TOGETHER, stated so it is not discovered later: in pass 1
@@ -1287,7 +1287,7 @@ statement class hosts them.
 
 ## TEAM: the destination is the ensemble model's per-neuron body, and it was already signed
 
-**This is not a new decision. It is `V_eta_ensemble_plan.md`'s signature, joined
+**This is not a new decision. It is `did_v2_ensemble_plan.md`'s signature, joined
 to `element_epoch` for the first time.** That sign-off (jess, 2026-08-06, `:10`)
 reads *"per-neuron spike times are the PRIMARY archival data (each
 neuron-subject, event times to a sampled_body)"*, and its deferred-build list
@@ -1344,7 +1344,7 @@ named nor built:
 
 `count_observation` is the neighbour — `jrclust_clusters` already folds to it for
 its integer label series — but a spike TIME is not a count, and picking it here
-would assert a quantity nobody has agreed. Tracked as `V_eta_OPEN_WORK.md`
+would assert a quantity nobody has agreed. Tracked as `did_v2_OPEN_WORK.md`
 row #117.
 
 ## A SECOND CONSTRAINT ON WHATEVER IS BUILT, so it is not discovered later
@@ -1357,7 +1357,7 @@ is. Hardcoding it to spikes would silently give the next derived element type a
 spike-shaped home, which is the `pyraview` "the physical quantity is not carried
 on the doc" hazard one class over.
 
-TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17, AMENDMENT 1 to the same day's scoping walkthrough -- Q1 is CORRECTED. The 252 `element_epoch` payloads attach to the NEURON-SUBJECT's spike-time observation per the already-signed `V_eta_ensemble_plan.md` (jess, 2026-08-06), NOT to the raw-recording `<modality>_observation` Q1 named, which is emitted only for DIRECT elements and which none of the 252 owners is. Q1's cardinality (21 statements, 252 bodies) and its ingested-session `storage_mode: 'body'` reasoning stand unchanged; only the host class moves. `acquisition_epoch` REMAINS the carrier until the ensemble second pass lands, so nothing is deleted and `ensemble.element_epoch_id` keeps resolving. The `isDirect` gate in `+migrators_j/element.m:118` is NOT reversed. The concrete leaf class for a series of EVENT TIMES is NOT decided here and is open work (row #117); `subject_observation` is abstract and none of the 33 `*_observation` classes carries event times. Whatever is built must key on element `type`, because the `.vhsb` is a generic (timepoints, datapoints) series and not spike-specific.
+TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17, AMENDMENT 1 to the same day's scoping walkthrough -- Q1 is CORRECTED. The 252 `element_epoch` payloads attach to the NEURON-SUBJECT's spike-time observation per the already-signed `did_v2_ensemble_plan.md` (jess, 2026-08-06), NOT to the raw-recording `<modality>_observation` Q1 named, which is emitted only for DIRECT elements and which none of the 252 owners is. Q1's cardinality (21 statements, 252 bodies) and its ingested-session `storage_mode: 'body'` reasoning stand unchanged; only the host class moves. `acquisition_epoch` REMAINS the carrier until the ensemble second pass lands, so nothing is deleted and `ensemble.element_epoch_id` keeps resolving. The `isDirect` gate in `+migrators_j/element.m:118` is NOT reversed. The concrete leaf class for a series of EVENT TIMES is NOT decided here and is open work (row #117); `subject_observation` is abstract and none of the 33 `*_observation` classes carries event times. Whatever is built must key on element `type`, because the `.vhsb` is a generic (timepoints, datapoints) series and not spike-specific.
 
 ## TEAM DECISION 2026-08-21 — build the probemap decomposition now (option B), staged
 
@@ -1393,7 +1393,7 @@ Four calls the team made, each refining the signed model rather than changing it
 
 The emitter is a batch post-pass `did2.convert.resolveEpochProbemap`, ordered after
 `epochMint` (it anchors to the minted epochs) -- the same posture as `distance_metadata`
-and the ensemble, and the "SECOND PASS" the model names. Tracked as `V_eta_OPEN_WORK.md`
+and the ensemble, and the "SECOND PASS" the model names. Tracked as `did_v2_OPEN_WORK.md`
 row #66 (the ingested-payload family).
 
 ### BUILD STATUS 2026-08-21 — all three increments landed (status, not a sign-off)
@@ -1477,15 +1477,15 @@ RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidit
 
 RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved under `data_type`, where #86 should have put it; `check_prose_counts` re-derives all nouns): **46 direct subclasses** of `data_type` (was 45; +`humidity`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `did_v2_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `did_v2_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `did_v2_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
 
@@ -1497,11 +1497,11 @@ RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
 
-RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `did_v2_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `did_v2_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], did_v2_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
 
 ## 2026-10-22 -- tenet audit
 

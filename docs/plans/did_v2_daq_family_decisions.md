@@ -9,14 +9,14 @@ pattern groups all of an epoch's files, the stimulus `.tsv` included). The decis
 themselves are unchanged; the signed text is left as signed.
 
 **SUPERSEDED IN PART, read this before the model below (2026-10-22, Jess Haley [audit
-mechanical fixes 2], V_eta_data_body_model_plan.md).** Two things in the text below
+mechanical fixes 2], did_v2_data_body_model_plan.md).** Two things in the text below
 are no longer the model, and the signed lines are left as signed: `acquisition_system`
 is configuration off **`base`**, not a subclass of `entity`, with an optional `device_id`
-(TEAM-SIGN-OFF 2026-10-08, V_eta_entity_composition_plan.md sec. 8), and the numbered
+(TEAM-SIGN-OFF 2026-10-08, did_v2_entity_composition_plan.md sec. 8), and the numbered
 `acquisition_metadata_reader_#` family is the one edge
 `acquisition_system.epoch_parameter_reader_id` (item 65, above). An epoch reaches its
 system through the recording interaction's `acquisition_channels_id`, not a relation
-(Jess Haley 2026-10-22 [epoch to system link], V_eta_go_forward_class_audit.md).
+(Jess Haley 2026-10-22 [epoch to system link], did_v2_go_forward_class_audit.md).
 
 Read from the NDI `origin/main` templates. Seven classes, and they are **three
 different kinds of thing**. Nothing built.
@@ -49,7 +49,7 @@ anything that happened to a specimen — it records which code was pointed at wh
 files on the acquisition machine.
 
 This is the identical `ndi_<x>_class` shape already decided for `syncgraph` /
-`syncrule` in `V_eta_infra_family_decisions.md`, and flagged before that by the
+`syncrule` in `did_v2_infra_family_decisions.md`, and flagged before that by the
 ⑥/⑦ governance sweep. **Same shape, same decision, no new reasoning required.**
 
 → **Proposed: not archival.** Where the provenance matters it is `software` +
@@ -77,7 +77,7 @@ syncrule_mapping           { epochnode_a, epochnode_b, mapping }
 daqreader_epochdata_ingested.epochtable  { epochclock, t0_t1 }
 ```
 
-→ **Proposed: folds into `relative_reference`** (`V_eta_time_reference_model_plan.md`),
+→ **Proposed: folds into `relative_reference`** (`did_v2_time_reference_model_plan.md`),
 exactly as `syncrule_mapping` does. `epochclock` → `frame`, `t0_t1` →
 `start`/`end`, `relative_to` → the epoch.
 
@@ -103,7 +103,7 @@ This one is **not** purely opaque, and it splits cleanly along the lines already
 decided elsewhere:
 
 - `frames.bin` + `dimension_order`/`dimension_size`/`data_type`/`num_frames` →
-  the **`image` model** (`V_eta_image_model_plan.md`), which already requires
+  the **`image` model** (`did_v2_image_model_plan.md`), which already requires
   dtype and axes to be explicit on the composite because they are not
   recoverable from the payload.
 - `frametimes` + `clocktype` → **time references**, one per frame or a sampled

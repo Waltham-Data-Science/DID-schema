@@ -1,6 +1,6 @@
 """The provenance walk in `tools/ndi_ground_truth.py` must be REPRODUCIBLE.
 
-`schemas/V_eta_ndi_ground_truth.json` records `ndi_ref: "origin/main"` and the
+`schemas/did_v2_ndi_ground_truth.json` records `ndi_ref: "origin/main"` and the
 tool's docstring says it reads origin/main and never a feature branch. Until
 2026-08-11 `classify_divergence` walked `--all`, so every
 `v_alpha_divergence[].provenance` verdict was a property of whichever refs the
@@ -162,7 +162,7 @@ def test_provenance_walk_finds_a_template_that_arrived_by_rename(tmp_path):
 
 def test_committed_artifact_ndi_ref_is_the_ref_the_walk_declares():
     """The artifact's `ndi_ref` is what the tests above pin the walk to."""
-    path = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
+    path = os.path.join(REPO_ROOT, "schemas", "did_v2_ndi_ground_truth.json")
     doc = json.loads(Path(path).read_text())
     assert doc["ndi_ref"] == "origin/main"
     div = doc["v_alpha_divergence"]

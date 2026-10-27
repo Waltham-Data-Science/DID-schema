@@ -19,21 +19,21 @@ written, not hand-edited:
   D1  index.json: tier, class_version, maturity_level, superclasses and path of
       every class, read from its file. `disposition` / `disposition_note` are
       DATA in index.json (the source of a class's disposition) and are kept.
-  D2  stable/term_registry_meta.json: schemas/V_eta_term_registry.json, with
+  D2  stable/term_registry_meta.json: schemas/did_v2_term_registry.json, with
       a header, for did2.build.
   D3  directed_relation.relation / undirected_relation.relation /
       clock_alignment.relation binding values: the registry's relation_bindings
       rows of that carrier, in order (clock_alignment's: Jess Haley 2026-10-22
       [clock alignment relation bound]).
   D4  `ndi_mustBeNonEmpty` on depends_on entries: NDI's required-ness from
-      schemas/V_eta_ndi_ground_truth.json (tools/ndi_required_stamp.py).
+      schemas/did_v2_ndi_ground_truth.json (tools/ndi_required_stamp.py).
   D5  stable/class_disposition_meta.json: every class in stable/ or draft/
       whose index.json `disposition` is `retire`, with the classes it is
-      replaced by (schemas/V_eta_migration_targets.json `decided_targets`,
+      replaced by (schemas/did_v2_migration_targets.json `decided_targets`,
       authored) and its index `disposition_note`. DID-matlab's did2.build
       refuses to build a listed class (strict mode RetiredClasses, DID-matlab
       #230; Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired],
-      V_eta_go_forward_class_audit.md).
+      did_v2_go_forward_class_audit.md).
 Default mode writes them; --check writes nothing and fails if any differs.
 The registry's `strength` column is derived too, by
 tools/regen_binding_strengths.py (its own gates step).
@@ -59,9 +59,9 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 VETA = os.path.join(ROOT, "schemas", "did_v2")
-TERM_SOURCE = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
-GT_PATH = os.path.join(ROOT, "schemas", "V_eta_ndi_ground_truth.json")
-TARGETS_PATH = os.path.join(ROOT, "schemas", "V_eta_migration_targets.json")
+TERM_SOURCE = os.path.join(ROOT, "schemas", "did_v2_term_registry.json")
+GT_PATH = os.path.join(ROOT, "schemas", "did_v2_ndi_ground_truth.json")
+TARGETS_PATH = os.path.join(ROOT, "schemas", "did_v2_migration_targets.json")
 
 
 def _load_module(name, fname):
@@ -676,7 +676,7 @@ def d5_class_disposition(t, index_text):
     Reads the index D1 is about to write (index_text), so a class moved to
     deprecated/ in the same change drops out of the list at once."""
     idx = json.loads(index_text)
-    targets = load(os.path.join(ROOT, "schemas", "V_eta_migration_targets.json"))["classes"]
+    targets = load(os.path.join(ROOT, "schemas", "did_v2_migration_targets.json"))["classes"]
     rows = []
     for e in idx["schemas"]:
         if e.get("is_meta") or e.get("tier") not in ("stable", "draft") or e.get("disposition") != "retire":
@@ -690,9 +690,9 @@ def d5_class_disposition(t, index_text):
         "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
         "title": "Classes did2.build refuses to build (disposition: retire)",
         "description": ("DERIVED by tools/validate_v_eta.py (D5) from schemas/did_v2/index.json "
-                        "and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess "
+                        "and schemas/did_v2_migration_targets.json; do not edit. Decided by Jess "
                         "Haley, 2026-10-24 [V2 builder refuses retired] "
-                        "(V_eta_go_forward_class_audit.md). Reading v1 and the generic "
+                        "(did_v2_go_forward_class_audit.md). Reading v1 and the generic "
                         "migration are not affected."),
         "retired": rows,
     }

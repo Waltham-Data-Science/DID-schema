@@ -38,7 +38,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "How much was given. The top-level quantities are the amount of the WHOLE formulation (the injected solution); the amount of one specific ingredient (the active chemical) goes in `ingredients`, one entry per `ingredient_id` edge (Jess Haley, 2026-10-21 [dose per ingredient]). A dose is a quantity the subject takes in, so it always has an amount: fill at least one of the slots below, at the top level or in `ingredients`. A subject immersed in a formulation (a bath, perfusion, an assay droplet) is not given a quantity and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md). A dose whose amount the source does not record states the amount as unknown, never leaves it empty: it writes NaN in the quantity's canonical slot, e.g. `volume.liters: NaN` (Jess Haley, 2026-10-21). NaN is a stated value under `value_inline_or_body`, and V2 stores it as V1 does, as the literal NaN in the document text.",
+            "documentation": "How much was given. The top-level quantities are the amount of the WHOLE formulation (the injected solution); the amount of one specific ingredient (the active chemical) goes in `ingredients`, one entry per `ingredient_id` edge (Jess Haley, 2026-10-21 [dose per ingredient]). A dose is a quantity the subject takes in, so it always has an amount: fill at least one of the slots below, at the top level or in `ingredients`. A subject immersed in a formulation (a bath, perfusion, an assay droplet) is not given a quantity and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; did_v2_go_forward_class_audit.md). A dose whose amount the source does not record states the amount as unknown, never leaves it empty: it writes NaN in the quantity's canonical slot, e.g. `volume.liters: NaN` (Jess Haley, 2026-10-21). NaN is a stated value under `value_inline_or_body`, and V2 stores it as V1 does, as the literal NaN in the document text.",
             "constraints": {},
             "fields": [
                 {
@@ -92,7 +92,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -252,7 +252,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -412,7 +412,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -679,7 +679,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -852,7 +852,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                                     "constraints": {
                                         "binding": {
                                             "strength": "preferred",
@@ -1012,7 +1012,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                                     "constraints": {
                                         "binding": {
                                             "strength": "preferred",
@@ -1172,7 +1172,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                                     "constraints": {
                                         "binding": {
                                             "strength": "preferred",
@@ -1439,7 +1439,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                                     "constraints": {
                                         "binding": {
                                             "strength": "preferred",

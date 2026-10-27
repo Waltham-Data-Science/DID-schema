@@ -3,7 +3,7 @@
 WHAT THIS CATCHES, and it went uncaught for three consecutive CI runs on
 2026-08-11. `tools/gates.py --ci` reported
 
-    schemas/V_eta_STATUS.md   DIFFERS  -- 4 changed line(s)
+    docs/generated/did_v2_STATUS.md   DIFFERS  -- 4 changed line(s)
     COMPOSED --check FAILED: status_board
 
 on a runner, while the same regeneration reproduced nothing locally. Two
@@ -16,7 +16,7 @@ independent defects, and the first one is why the second stayed hidden:
 
   2. Every other evidence half falls back to the committed snapshot when the
      sibling is missing; that one did not. It rendered `0 batch post-pass
-     file(s)` against a committed `10`, so `V_eta_STATUS.md` could NEVER be
+     file(s)` against a committed `10`, so `did_v2_STATUS.md` could NEVER be
      current on a machine without DID-matlab. A generated artifact that is
      unconditionally stale in CI is a gate that fails every run.
 
@@ -70,8 +70,8 @@ def test_the_board_is_byte_identical_with_no_sibling_checkout():
         assert not os.path.isdir(nowhere)
 
         before = {rel: (root / rel).read_bytes()
-                  for rel in ("schemas/V_eta_STATUS.md",
-                              "schemas/V_eta_decisions.json")}
+                  for rel in ("docs/generated/did_v2_STATUS.md",
+                              "schemas/did_v2_decisions.json")}
         p = _run_board(root, ["--did", nowhere, "--ndi", nowhere])
         after = {rel: (root / rel).read_bytes() for rel in before}
 
@@ -107,7 +107,7 @@ def test_the_reuse_is_announced_on_stdout_and_not_written_into_the_artifact():
             "evidence log exist to prevent.\n"
             f"--- board stdout ---\n{p.stdout}")
 
-        board = (root / "schemas" / "V_eta_STATUS.md").read_text(encoding="utf-8")
+        board = (root / "docs" / "generated" / "did_v2_STATUS.md").read_text(encoding="utf-8")
         assert "REUSED from the committed snapshot" not in board, (
             "the artifact names its own provenance, so it now differs between "
             "a machine with DID-matlab and one without -- the same staleness "

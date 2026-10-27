@@ -245,7 +245,7 @@ TF is the same (`temporal_frequency_tuning.m:294-303`). Each `abs` holds `fit_do
 
 This reuses `spatial_frequency_tuning_calculation` and `temporal_frequency_tuning_calculation` unchanged. The alternative, an option for Q6, is a schema change: a new `response_transform` field on the fit entry (`model_fit.value`, rule R17) plus a second `interpolated_values` block.
 
-- **Change needed:** code (DID-matlab `jCalculation` / `jTuningCurve`), plus one registry row, "absolute value", or a label until a term is chosen. The registry has 880 rows and none is "absolute value" (grep of `schemas/V_eta_term_registry.json`).
+- **Change needed:** code (DID-matlab `jCalculation` / `jTuningCurve`), plus one registry row, "absolute value", or a label until a term is chosen. The registry has 880 rows and none is "absolute value" (grep of `schemas/did_v2_term_registry.json`).
 - **Round trip:** exact. The reverse migrator finds the child through its `input_id` and rebuilds `abs.*` from it. The child's id is new; v1 gave the `abs` block no id.
 
 ## 3. Summary

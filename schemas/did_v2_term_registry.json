@@ -1,5 +1,5 @@
 {
-  "description": "The term registry: every ontology term an NDI V2 import writes in a vocabulary slot (a variable, method, unit, condition, parameter, covariate, a relation name, an entity type or a channel type), so the next dataset reuses it. AUTHORED here; tools/validate_v_eta.py copies it into schemas/V_eta/stable/term_registry_meta.json, which did2.build checks against (strictMode 'TermRegistry'). Tenet T19; V_eta_term_registry_plan.md. status 'decided': a term with its node; 'staged': registered by name, its node still to be found or minted. `obsolete`: false, or {consider: <node>} for a term the ontology has made obsolete, kept while something still writes it. `number_unit`: false, or {node, name} of a registered unit term when the term's definition states the unit its accompanying number takes (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [term-stated unit is generic]): a migrator reads the unit from here, not from its own code. Every row carries the same keys (DID-matlab did2.schema.termIndex concatenates the rows). A new entry follows T19's order: a term already here, else an existing ontology's, else a new EMPTY term.",
+  "description": "The term registry: every ontology term an NDI V2 import writes in a vocabulary slot (a variable, method, unit, condition, parameter, covariate, a relation name, an entity type or a channel type), so the next dataset reuses it. AUTHORED here; tools/validate_v_eta.py copies it into schemas/V_eta/stable/term_registry_meta.json, which did2.build checks against (strictMode 'TermRegistry'). Tenet T19; did_v2_term_registry_plan.md. status 'decided': a term with its node; 'staged': registered by name, its node still to be found or minted. `obsolete`: false, or {consider: <node>} for a term the ontology has made obsolete, kept while something still writes it. `number_unit`: false, or {node, name} of a registered unit term when the term's definition states the unit its accompanying number takes (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [term-stated unit is generic]): a migrator reads the unit from here, not from its own code. Every row carries the same keys (DID-matlab did2.schema.termIndex concatenates the rows). A new entry follows T19's order: a term already here, else an existing ontology's, else a new EMPTY term.",
   "terms": [
     {
       "name": "acceleration",
@@ -86,7 +86,7 @@
       "node": "EMPTY:0000122",
       "definition": "The diameter of the arena: the bounded region in which an experiment's subjects are confined and observed.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [Haley terms general], V_eta_term_registry_plan.md: obsolete, consider PATO:0001334 diameter (O3)",
+      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [Haley terms general], did_v2_term_registry_plan.md: obsolete, consider PATO:0001334 diameter (O3)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": {
         "consider": "PATO:0001334"
@@ -208,7 +208,7 @@
       "node": "EMPTY:0000120",
       "definition": "The volume of bacterial solution pipetted to create an individual patch on an agar plate.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-19; Jess Haley, 2026-10-22 [Haley terms general], V_eta_term_registry_plan.md: obsolete, consider EMPTY:0000385 (O3)",
+      "decided": "Jess Haley, 2026-10-19; Jess Haley, 2026-10-22 [Haley terms general], did_v2_term_registry_plan.md: obsolete, consider EMPTY:0000385 (O3)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": {
         "consider": "EMPTY:0000385"
@@ -500,7 +500,7 @@
       "node": "EMPTY:0000350",
       "definition": "The distance from a subject's point to the nearest edge of a bacterial patch, positive inside the patch and negative outside it.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20 (Haley import audit); Jess Haley, 2026-10-22 [Haley terms general], V_eta_term_registry_plan.md: obsolete, consider EMPTY:0000384 (O3)",
+      "decided": "Jess Haley, 2026-10-20 (Haley import audit); Jess Haley, 2026-10-22 [Haley terms general], did_v2_term_registry_plan.md: obsolete, consider EMPTY:0000384 (O3)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": {
         "consider": "EMPTY:0000384"
@@ -572,7 +572,7 @@
       "node": "EMPTY:0000140",
       "definition": "The time at which a subject's encounter begins.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [audit mechanical fixes], V_eta_data_body_model_plan.md: obsolete, consider EMPTY:0000368 onset time; the row stays until NDI stops writing it (E)",
+      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [audit mechanical fixes], did_v2_data_body_model_plan.md: obsolete, consider EMPTY:0000368 onset time; the row stays until NDI stops writing it (E)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": {
         "consider": "EMPTY:0000368"
@@ -1224,7 +1224,7 @@
       "node": "NCIT:C14419",
       "definition": "A population or type of organisms that is genetically different from others of the same species and possessing a set of defined characteristics.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: also the node of entity type `strain` (K0)",
+      "decided": "Jess Haley, 2026-10-20; Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: also the node of entity type `strain` (K0)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2124,7 +2124,7 @@
       "node": "om:millimetre",
       "definition": "The millimetre is a unit of length defined as 1.0e-3 metre.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2134,7 +2134,7 @@
       "node": "om:microlitre",
       "definition": "A unit of volume defined as 1.0e-6 litre (the microlitre of the Ontology of units of Measure).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2144,7 +2144,7 @@
       "node": "om:micrometrePerSecond-Time",
       "definition": "Micrometre per second is a unit of speed defined as micrometre divided by second.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2154,7 +2154,7 @@
       "node": "om:micrometrePerSecond-TimeSquared",
       "definition": "Micrometre per second squared is a unit of acceleration defined as micrometre divided by second squared.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source_unit is a term, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2164,7 +2164,7 @@
       "node": "NCIT:C73686",
       "definition": "A unit of optical density expressed as the absorbance of light transmitted through the medium on the logarithmic scale.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (the unit of an OD600 reading; V_eta_source_unit_plan.md amendment 1)",
+      "decided": "Jess Haley, 2026-10-21 (the unit of an OD600 reading; did_v2_source_unit_plan.md amendment 1)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2264,7 +2264,7 @@
       "node": "om:degreeCelsius",
       "definition": "The degree Celsius is a unit of temperature defined as 1 kelvin.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2274,7 +2274,7 @@
       "node": "om:millilitre",
       "definition": "",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2284,7 +2284,7 @@
       "node": "om:gram",
       "definition": "The gram is a unit of mass defined as 1.0e-3 kilogram.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2294,7 +2294,7 @@
       "node": "om:milligram",
       "definition": "The milligram is a unit of mass defined as 1.0e-3 gram.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2304,7 +2304,7 @@
       "node": "om:gramPerLitre",
       "definition": "Gram per litre is a unit of density defined as gram divided by litre.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2314,7 +2314,7 @@
       "node": "NCIT:C64572",
       "definition": "A metric unit of mass concentration defined as the concentration of one gram of a substance per unit volume of the mixture equal to one cubic meter. The concept also refers to the metric unit of mass density (volumic mass) defined as the density of a substance which mass equal to one gram occupies the volume of one cubic meter.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import, did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -2324,7 +2324,7 @@
       "node": "NCIT:C69175",
       "definition": "A unit of volume fraction expressed as a number of microliters of the constituent per the volume of the system represented in milliliters.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import: the spec's mL/L, the same ratio; V_eta_source_unit_plan.md)",
+      "decided": "Jess Haley, 2026-10-21 (source units of the Haley import: the spec's mL/L, the same ratio; did_v2_source_unit_plan.md)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false
@@ -4945,7 +4945,7 @@
       "definition": "A process in which membrane potential cycles through a depolarizing spike, triggered in response to depolarization above some threshold, followed by repolarization. This cycle is driven by the flux of ions through various voltage-gated channels with different thresholds and ion specificities.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-21",
-      "first_used_in": "v1 spike-sorted neuron migration (V_eta_recording_observation_plan.md [spike train variable])",
+      "first_used_in": "v1 spike-sorted neuron migration (did_v2_recording_observation_plan.md [spike train variable])",
       "obsolete": false,
       "number_unit": false
     },
@@ -4994,7 +4994,7 @@
       "node": "EMPTY:0000259",
       "definition": "A Zarr store laid out and annotated according to the OME Next-Generation File Format (OME-NGFF) specification, holding one or more multiscale image pyramids with their axes, coordinate transformations and channel metadata.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-14 (lightsheet migrator point 4; V_eta_data_body_model_plan.md AMENDED 2026-10-14; empty-ontology 5f2c022); registered 2026-10-21",
+      "decided": "Jess Haley, 2026-10-14 (lightsheet migrator point 4; did_v2_data_body_model_plan.md AMENDED 2026-10-14; empty-ontology 5f2c022); registered 2026-10-21",
       "first_used_in": "v1 lightsheet OME-Zarr store migration (DID-matlab +did2/+convert/foldGenericFiles.m)",
       "obsolete": false,
       "number_unit": false
@@ -5004,7 +5004,7 @@
       "node": "EMPTY:0000366",
       "definition": "A stationary bar of uniform luminance presented briefly against the background.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [flashed bar], V_eta_method_plan.md; EMPTY:0000366 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
+      "decided": "Jess Haley, 2026-10-22 [flashed bar], did_v2_method_plan.md; EMPTY:0000366 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
       "first_used_in": "NewStim periodicstim imageType 0 in a narrow oriented rectangle (corpus B / Dab, 17,260 stimuli)",
       "obsolete": false,
       "number_unit": false
@@ -5014,7 +5014,7 @@
       "node": "EMPTY:0000367",
       "definition": "NDI's binary container (ndi_binary_version 1): a gzip-compressed tar of an .nbh header and an .nbf data file, as written by NDI-compress write_ndibinary (.nbf.tgz).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [NDI binary format], V_eta_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY:0000367 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
+      "decided": "Jess Haley, 2026-10-22 [NDI binary format], did_v2_data_body_model_plan.md (one generic term: Proposed, not decided); EMPTY:0000367 minted in empty-ontology draft PR #23 (5afd97f), not yet merged",
       "first_used_in": "v1 daqmetadatareader_epochdata_ingested data.bin (.nbf.tgz)",
       "obsolete": false,
       "number_unit": false
@@ -5024,7 +5024,7 @@
       "node": "om:radian",
       "definition": "The radian is a unit of angle defined as the angle subtended at the center of a circle by an arc that is equal in length to the radius of the circle.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: registered as the SOURCE unit of spatial phase (canonical unit degrees, T14)",
+      "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], did_v2_method_plan.md: registered as the SOURCE unit of spatial phase (canonical unit degrees, T14)",
       "first_used_in": "NewStim periodicstim sPhaseShift ('in radians where 2*pi is 1 cycle'), NDI stimulus recipe",
       "obsolete": false,
       "number_unit": false
@@ -5034,7 +5034,7 @@
       "node": "om:degree",
       "definition": "The degree is a unit of angle defined as pi/180 radian.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], V_eta_method_plan.md: the canonical unit of spatial phase (T14)",
+      "decided": "Jess Haley, 2026-10-22 [spatial phase in degrees], did_v2_method_plan.md: the canonical unit of spatial phase (T14)",
       "first_used_in": "NDI stimulus recipe (spatial phase, from NewStim periodicstim sPhaseShift)",
       "obsolete": false,
       "number_unit": false
@@ -5044,7 +5044,7 @@
       "node": "XCO:0000099",
       "definition": "This is any condition in which the major influencing factor is a uniform set of parameters accepted as normal or average and used by general consent as a basis of comparison. It is a baseline condition in which none of the experimental manipulations are performed.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md: the `logical` covariate along a stimulus presentation's presentation dimension, true where the presentation was a control (data_body plan AMENDMENT 6)",
+      "decided": "Jess Haley, 2026-10-22 [control as covariate], did_v2_stimulus_response_model_plan.md: the `logical` covariate along a stimulus presentation's presentation dimension, true where the presentation was a control (data_body plan AMENDMENT 6)",
       "first_used_in": "v1 control_stimulus_ids, folded into the stimulus item value's covariates by NDI's stimulus second pass",
       "obsolete": false,
       "number_unit": false
@@ -5054,7 +5054,7 @@
       "node": "EMPTY:0000368",
       "definition": "The time at which the thing a position stands for (a stimulus, an event) comes into effect or becomes present, as distinct from the start of any preparation or period around it.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], V_eta_data_body_model_plan.md (name: [onset time]); EMPTY:0000368 minted in empty-ontology PR #24, not yet merged",
+      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], did_v2_data_body_model_plan.md (name: [onset time]); EMPTY:0000368 minted in empty-ontology PR #24, not yet merged",
       "first_used_in": "NDI stimulus presentation fold (stimulus_presentation onsets)",
       "obsolete": false,
       "number_unit": false
@@ -5064,7 +5064,7 @@
       "node": "EMPTY:0000369",
       "definition": "The time at which the thing a position stands for (a stimulus, an event) ceases to be in effect or present, as distinct from the end of any period around it.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], V_eta_data_body_model_plan.md (name: [onset time]); EMPTY:0000369 minted in empty-ontology PR #24, not yet merged",
+      "decided": "Jess Haley, 2026-10-22 [onset and offset terms], did_v2_data_body_model_plan.md (name: [onset time]); EMPTY:0000369 minted in empty-ontology PR #24, not yet merged",
       "first_used_in": "NDI stimulus presentation fold (stimulus_presentation offsets); Haley import encounter exit times",
       "obsolete": false,
       "number_unit": false
@@ -5074,7 +5074,7 @@
       "node": "OBI:0000807",
       "definition": "A planned process with the objective to expose an organism to a stimulus.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [presentation dimension term], V_eta_data_body_model_plan.md: the dimension of a stimulus presentation sequence (replaces the label `presentation`)",
+      "decided": "Jess Haley, 2026-10-22 [presentation dimension term], did_v2_data_body_model_plan.md: the dimension of a stimulus presentation sequence (replaces the label `presentation`)",
       "first_used_in": "NDI stimulus presentation fold (stimulus_presentation presentation dimension)",
       "obsolete": false,
       "number_unit": false
@@ -5084,7 +5084,7 @@
       "node": "XCO:0000000",
       "definition": "A state of being, an external or environmental factor or a treatment observed or administered prior to or concurrent with an investigative procedure such as an assessment of a morphological or physiological state or property in a single individual or sample or in a group of individuals or samples, especially a state, factor or treatment which has the potential to influence the outcome of such an assessment.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [stimulus condition term], V_eta_data_body_model_plan.md",
+      "decided": "Jess Haley, 2026-10-22 [stimulus condition term], did_v2_data_body_model_plan.md",
       "first_used_in": "DID-matlab jTuningCurve: the dimension of a multi-variable tuning curve whose conditions are not a full grid",
       "obsolete": false,
       "number_unit": false
@@ -5094,7 +5094,7 @@
       "node": "BFO:0000050",
       "definition": "a core relation that holds between a part and its whole",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `part_of` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `part_of` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`part_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5104,7 +5104,7 @@
       "node": "schema:isPartOf",
       "definition": "Indicates an item or CreativeWork that this item, or CreativeWork (in some sense), is part of.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `included_in` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `included_in` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`included_in`)",
       "obsolete": false,
       "number_unit": false
@@ -5114,7 +5114,7 @@
       "node": "RO:0001025",
       "definition": "a relation between two independent continuants, the target and the location, in which the target is entirely within the location",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `contained_in` (K1)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `contained_in` (K1)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`contained_in`)",
       "obsolete": false,
       "number_unit": false
@@ -5124,7 +5124,7 @@
       "node": "RO:0002350",
       "definition": "is member of is a mereological relation between a item and a collection.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `member_of` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `member_of` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`member_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5134,7 +5134,7 @@
       "node": "prov:wasDerivedFrom",
       "definition": "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [derived from general] and [derived from label], V_eta_relation_inheritance_plan.md: the node of relation `derived_from`, stored with PROV-O's rdfs:label (https://www.w3.org/ns/prov.ttl); replaces RO:0001000, which nothing writes any more",
+      "decided": "Jess Haley, 2026-10-22 [derived from general] and [derived from label], did_v2_relation_inheritance_plan.md: the node of relation `derived_from`, stored with PROV-O's rdfs:label (https://www.w3.org/ns/prov.ttl); replaces RO:0001000, which nothing writes any more",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`derived_from`)",
       "obsolete": false,
       "number_unit": false
@@ -5144,7 +5144,7 @@
       "node": "ENVO:01003004",
       "definition": "A relation between two distinct material entities, the new entity and the old entity, in which the new entity begins to exist through the separation or transformation of a part of the old entity, and the new entity inherits a significant portion of the matter belonging to that part of the old entity.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `sample_of` (K5)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `sample_of` (K5)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`sample_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5154,7 +5154,7 @@
       "node": "RO:0002437",
       "definition": "An interaction relationship in which at least one of the partners is an organism and the other is either an organism or an abiotic entity with which the organism interacts.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `encountered` (K4)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `encountered` (K4)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`encountered`)",
       "obsolete": false,
       "number_unit": false
@@ -5164,7 +5164,7 @@
       "node": "schema:author",
       "definition": "The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `has_author` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `has_author` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`has_author`)",
       "obsolete": false,
       "number_unit": false
@@ -5174,7 +5174,7 @@
       "node": "schema:citation",
       "definition": "A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `cites` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `cites` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`cites`)",
       "obsolete": false,
       "number_unit": false
@@ -5184,7 +5184,7 @@
       "node": "schema:funding",
       "definition": "A [[Grant]] that directly or indirectly provide funding or sponsorship for this item. See also [[ownershipFundingInfo]].",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `funded_by` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `funded_by` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`funded_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5194,7 +5194,7 @@
       "node": "schema:funder",
       "definition": "A person or organization that supports (sponsors) something through some kind of financial contribution.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `issued_by` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `issued_by` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`issued_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5204,7 +5204,7 @@
       "node": "schema:affiliation",
       "definition": "An organization that this person is affiliated with. For example, a school/university, a club, or a team.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `affiliated_with` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `affiliated_with` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`affiliated_with`)",
       "obsolete": false,
       "number_unit": false
@@ -5214,7 +5214,7 @@
       "node": "schema:subjectOf",
       "definition": "A CreativeWork or Event about this Thing.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `documented_by` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `documented_by` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`documented_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5224,7 +5224,7 @@
       "node": "schema:maintainer",
       "definition": "A maintainer of a [[Dataset]], software package ([[SoftwareApplication]]), or other [[Project]]. A maintainer is a [[Person]] or [[Organization]] that manages contributions to, and/or publication of, some (typically complex) artifact. It is common for distributions of software and data to be based on \"upstream\" sources. When [[maintainer]] is applied to a specific version of something e.g. a particular version or packaging of a [[Dataset]], it is always possible that the upstream source has a different maintainer. The [[isBasedOn]] property can be used to indicate such relationships between datasets to make the different maintenance roles clear. Similarly in the case of software, a package may have dedicated maintainers working on integration into software distributions such as Ubuntu, as well as upstream maintainers of the underlying work.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `has_custodian` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `has_custodian` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`has_custodian`)",
       "obsolete": false,
       "number_unit": false
@@ -5234,7 +5234,7 @@
       "node": "schema:contributor",
       "definition": "A secondary contributor to the CreativeWork or Event.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `contributed_by` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `contributed_by` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`contributed_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5244,7 +5244,7 @@
       "node": "schema:copyrightHolder",
       "definition": "The party holding the legal copyright to the CreativeWork.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `copyright_holder` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `copyright_holder` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`copyright_holder`)",
       "obsolete": false,
       "number_unit": false
@@ -5254,7 +5254,7 @@
       "node": "SIO:000497",
       "definition": "is version of is a relation that holds between any two versions in which one is a subsequent or alternate version of (through a branch).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `alternative_of` (K3)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `alternative_of` (K3)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`alternative_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5264,7 +5264,7 @@
       "node": "schema:isBasedOn",
       "definition": "A resource from which this work is derived or from which it is a modification or adaptation.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `input_data` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `input_data` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`input_data`)",
       "obsolete": false,
       "number_unit": false
@@ -5274,7 +5274,7 @@
       "node": "schema:parentOrganization",
       "definition": "The larger organization that this organization is a [[subOrganization]] of, if any.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `suborganization_of` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `suborganization_of` (K0)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`suborganization_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5284,7 +5284,7 @@
       "node": "schema:fundedItem",
       "definition": "Indicates something directly or indirectly funded or sponsored through a [[Grant]]. See also [[ownershipFundingInfo]].",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `awarded_to` (K4)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `awarded_to` (K4)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`awarded_to`)",
       "obsolete": false,
       "number_unit": false
@@ -5294,7 +5294,7 @@
       "node": "owl:sameAs",
       "definition": "The property that determines that two given individuals are equal.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `same_as` (K3)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `same_as` (K3)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`same_as`)",
       "obsolete": false,
       "number_unit": false
@@ -5304,7 +5304,7 @@
       "node": "OBI:0000647",
       "definition": "A relation between a material entity and an organisation or person who owned or has license to the material entity and there was a legal transfer of ownership or licensing of the material entity to the current owner.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `sold_by` (K4)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `sold_by` (K4)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`sold_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5314,7 +5314,7 @@
       "node": "schema:producer",
       "definition": "The person or organization who produced the work (e.g. music album, movie, TV/radio series etc.).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `developed_by` (K4)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `developed_by` (K4)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`developed_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5324,7 +5324,7 @@
       "node": "schema:provider",
       "definition": "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `hosted_by` (K4)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `hosted_by` (K4)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`hosted_by`)",
       "obsolete": false,
       "number_unit": false
@@ -5334,7 +5334,7 @@
       "node": "EMPTY:0000378",
       "definition": "A relation between a body of work and a written procedure it was carried out by.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `follows_protocol`; EMPTY:0000378 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `follows_protocol`; EMPTY:0000378 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`follows_protocol`)",
       "obsolete": false,
       "number_unit": false
@@ -5344,7 +5344,7 @@
       "node": "EMPTY:0000379",
       "definition": "A relation between a genetic line and a product under which it is supplied.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `distributed_as`; EMPTY:0000379 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `distributed_as`; EMPTY:0000379 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`distributed_as`)",
       "obsolete": false,
       "number_unit": false
@@ -5354,7 +5354,7 @@
       "node": "EMPTY:0000380",
       "definition": "A relation between two entities that belong together as a pair.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `paired_with`; EMPTY:0000380 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `paired_with`; EMPTY:0000380 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`paired_with`)",
       "obsolete": false,
       "number_unit": false
@@ -5364,7 +5364,7 @@
       "node": "EMPTY:0000381",
       "definition": "A relation between a list of gene names and the list that gives each gene under another of its names.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `gene alias mapping`; EMPTY:0000381 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `gene alias mapping`; EMPTY:0000381 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`gene alias mapping`)",
       "obsolete": false,
       "number_unit": false
@@ -5374,7 +5374,7 @@
       "node": "EMPTY:0000382",
       "definition": "A relation between a particular thing and the product or genetic line of which it is one individual.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `instance_of`; EMPTY:0000382 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `instance_of`; EMPTY:0000382 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`instance_of`)",
       "obsolete": false,
       "number_unit": false
@@ -5384,7 +5384,7 @@
       "node": "EMPTY:0000386",
       "definition": "A relation between a list of genes and a list giving each gene's ortholog in another species.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of relation `orthologous gene mapping`; EMPTY:0000386 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of relation `orthologous gene mapping`; EMPTY:0000386 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta relation_bindings (`orthologous gene mapping`)",
       "obsolete": false,
       "number_unit": false
@@ -5394,7 +5394,7 @@
       "node": "COB:0000022",
       "definition": "A material entity that is a maximal functionally integrated unit that develops from a program encoded in a genome",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `organism` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `organism` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`organism`)",
       "obsolete": false,
       "number_unit": false
@@ -5404,7 +5404,7 @@
       "node": "CL:0000000",
       "definition": "The definition of cell is intended to represent all cells, and thus a cell is defined as a material entity and not an anatomical structure, which implies that it is part of an organism (or the entirety of one).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `cell` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `cell` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`cell`)",
       "obsolete": false,
       "number_unit": false
@@ -5414,7 +5414,7 @@
       "node": "NCIT:C43359",
       "definition": "Any number of entities (members) considered as a unit.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `group` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `group` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`group`)",
       "obsolete": false,
       "number_unit": false
@@ -5424,7 +5424,7 @@
       "node": "COB:0001300",
       "definition": "A processed material entity which is designed to be capable of a process.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `device` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `device` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`device`)",
       "obsolete": false,
       "number_unit": false
@@ -5434,7 +5434,7 @@
       "node": "schema:Product",
       "definition": "Any offered product or service. For example: a pair of shoes; a concert ticket; the rental of a car; a haircut; or an episode of a TV show streamed online.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `product` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `product` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`product`)",
       "obsolete": false,
       "number_unit": false
@@ -5444,7 +5444,7 @@
       "node": "IAO:0000010",
       "definition": "Software is a plan specification composed of a series of instructions that can be interpreted by or directly executed by a processing unit.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `software` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `software` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`software`)",
       "obsolete": false,
       "number_unit": false
@@ -5454,7 +5454,7 @@
       "node": "NCIT:C25190",
       "definition": "A human being.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `person` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `person` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`person`)",
       "obsolete": false,
       "number_unit": false
@@ -5464,7 +5464,7 @@
       "node": "OBI:0000245",
       "definition": "An entity that can bear roles, has members, and has a set of organization rules. Members of organizations are either organizations themselves or individual people. Members can bear specific organization member roles that are determined in the organization rules. The organization rules also determine how decisions are made on behalf of the organization by the organization members.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `organization` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `organization` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`organization`)",
       "obsolete": false,
       "number_unit": false
@@ -5474,7 +5474,7 @@
       "node": "NCIT:C16644",
       "definition": "A financial assistance mechanism through which money and/or direct assistance is provided to carry out approved activities.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `funding` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `funding` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`funding`)",
       "obsolete": false,
       "number_unit": false
@@ -5484,7 +5484,7 @@
       "node": "NCIT:C47824",
       "definition": "A collection of related data records.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `dataset` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `dataset` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`dataset`)",
       "obsolete": false,
       "number_unit": false
@@ -5494,7 +5494,7 @@
       "node": "IAO:0000311",
       "definition": "A document that is the output of a publishing process.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `publication` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `publication` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`publication`)",
       "obsolete": false,
       "number_unit": false
@@ -5504,7 +5504,7 @@
       "node": "OBI:0000272",
       "definition": "A plan specification which has sufficient level of detail and quantitative information to communicate it between investigation agents, so that different investigation agents will reliably be able to independently reproduce the process.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `protocol` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `protocol` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`protocol`)",
       "obsolete": false,
       "number_unit": false
@@ -5514,7 +5514,7 @@
       "node": "NCIT:C67447",
       "definition": "Time, period, or term devoted to some activity.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `session` (K0)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `session` (K0)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`session`)",
       "obsolete": false,
       "number_unit": false
@@ -5524,7 +5524,7 @@
       "node": "UBERON:0000479",
       "definition": "Multicellular anatomical structure that consists of many cells of one or a few types, arranged in an extracellular matrix such that their long-range organisation is at least partly a repetition of their short-range organisation.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `tissue` (L3)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `tissue` (L3)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`tissue`)",
       "obsolete": false,
       "number_unit": false
@@ -5534,7 +5534,7 @@
       "node": "NCIT:C63536",
       "definition": "A detailed examination, analysis, or critical inspection of a subject designed to discover facts about it.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `study` (L3)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `study` (L3)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`study`)",
       "obsolete": false,
       "number_unit": false
@@ -5544,7 +5544,7 @@
       "node": "BFO:0000040",
       "definition": "An independent continuant that is spatially extended whose identity is independent of that of other entities and can be maintained through time.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `material` (L3)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `material` (L3)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`material`)",
       "obsolete": false,
       "number_unit": false
@@ -5554,7 +5554,7 @@
       "node": "EMPTY:0000383",
       "definition": "One continuous stretch of recording, whose files may be written by one or more acquisition systems.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], V_eta_relation_inheritance_plan.md: the node of entity type `epoch` (L3); EMPTY:0000383 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [vocabulary nodes], did_v2_relation_inheritance_plan.md: the node of entity type `epoch` (L3); EMPTY:0000383 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "did-schema binding_registry_meta entity_type_bindings (`epoch`)",
       "obsolete": false,
       "number_unit": false
@@ -5564,7 +5564,7 @@
       "node": "NCIT:C52095",
       "definition": "Data about data; information that describes another set of data.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `md`",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `md`",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5574,7 +5574,7 @@
       "node": "NCIT:C25704",
       "definition": "The words of something written.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `tx`",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `tx`",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5584,7 +5584,7 @@
       "node": "EMPTY:0000370",
       "definition": "A channel through which an acquisition system samples a continuously valued signal.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `ai`; EMPTY:0000370 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `ai`; EMPTY:0000370 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5594,7 +5594,7 @@
       "node": "EMPTY:0000371",
       "definition": "A channel through which an acquisition system emits a continuously valued signal.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `ao`; EMPTY:0000371 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `ao`; EMPTY:0000371 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5604,7 +5604,7 @@
       "node": "EMPTY:0000372",
       "definition": "A channel through which an acquisition system samples a two-state signal.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `di`; EMPTY:0000372 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `di`; EMPTY:0000372 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5614,7 +5614,7 @@
       "node": "EMPTY:0000373",
       "definition": "A channel through which an acquisition system emits a two-state signal.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `do`; EMPTY:0000373 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `do`; EMPTY:0000373 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5624,7 +5624,7 @@
       "node": "EMPTY:0000374",
       "definition": "A channel whose values are the times at which the other channels were sampled.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `t`; EMPTY:0000374 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `t`; EMPTY:0000374 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5634,7 +5634,7 @@
       "node": "EMPTY:0000375",
       "definition": "A channel through which an acquisition system samples a signal that supports, rather than is, the primary measurement.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `ax`; EMPTY:0000375 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `ax`; EMPTY:0000375 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5644,7 +5644,7 @@
       "node": "EMPTY:0000376",
       "definition": "A channel whose values are the times at which events occurred.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `e`; EMPTY:0000376 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `e`; EMPTY:0000376 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5654,7 +5654,7 @@
       "node": "EMPTY:0000377",
       "definition": "A channel whose values are codes, each at the time it was recorded.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `mk`; EMPTY:0000377 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: acquisition channel type, v1 prefix `mk`; EMPTY:0000377 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
       "obsolete": false,
       "number_unit": false
@@ -5664,7 +5664,7 @@
       "node": "NCIT:C44170",
       "definition": "An independent acquisition scheme, i.e., a route or conduit through which flows data consisting of one particular measurement using one particular parameter.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: the root of the acquisition channel types",
+      "decided": "Jess Haley, 2026-10-22 [channel types], did_v2_go_forward_class_audit.md: the root of the acquisition channel types",
       "first_used_in": "acquisition_channels.channels.type (root)",
       "obsolete": false,
       "number_unit": false
@@ -5674,7 +5674,7 @@
       "node": "IAO:0000131",
       "definition": "A serial number is an information content entity which is a unique sequence of characters borne by part of manufactured product or its packaging that is assigned to each individual in some class of products, and so can serve as a way to identify an individual product within the class. Serial numbers can be encoded in a variety of other information objects, such as bar codes, numerals, or patterns of dots.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [serial number], V_eta_term_registry_plan.md: a device's serial number is an assertion with this variable and a text value (P2)",
+      "decided": "Jess Haley, 2026-10-22 [serial number], did_v2_term_registry_plan.md: a device's serial number is an assertion with this variable and a text value (P2)",
       "first_used_in": "tenet T18 (a device serial number, the evidence for same_as)",
       "obsolete": false,
       "number_unit": false
@@ -5684,7 +5684,7 @@
       "node": "om:wattPerSquareMetre",
       "definition": "",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [irradiance], V_eta_data_body_model_plan.md: the canonical unit of the `irradiance` value kind (G4)",
+      "decided": "Jess Haley, 2026-10-22 [irradiance], did_v2_data_body_model_plan.md: the canonical unit of the `irradiance` value kind (G4)",
       "first_used_in": "irradiance.value.watts_per_square_meter",
       "obsolete": false,
       "number_unit": false
@@ -5694,7 +5694,7 @@
       "node": "om:millimetreOfMercury",
       "definition": "The millimetre of mercury is a unit of pressure defined as 1.0e-3 metre of mercury.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [pressure in mmHg], V_eta_data_body_model_plan.md: the canonical unit of the `pressure` value kind (J3a)",
+      "decided": "Jess Haley, 2026-10-22 [pressure in mmHg], did_v2_data_body_model_plan.md: the canonical unit of the `pressure` value kind (J3a)",
       "first_used_in": "pressure.value.mmhg",
       "obsolete": false,
       "number_unit": false
@@ -5704,7 +5704,7 @@
       "node": "om:one",
       "definition": "Unit one is a unit of dimension one.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [dF/F as variable], V_eta_data_body_model_plan.md: the unit of a dFF response (a dimensionless quantity named in `variable`)",
+      "decided": "Jess Haley, 2026-10-22 [dF/F as variable], did_v2_data_body_model_plan.md: the unit of a dFF response (a dimensionless quantity named in `variable`)",
       "first_used_in": "tuning_curve.value.response_unit (dF/F)",
       "obsolete": false,
       "number_unit": false
@@ -5714,7 +5714,7 @@
       "node": "UO:0000196",
       "definition": "A dimensionless concentration notation which denotes the acidity of a solution in terms of activity of hydrogen ions (H+).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [pH unit is UO pH], V_eta_data_body_model_plan.md: the canonical unit of the `ph` value kind (T14: the unit practitioners use; OM has pH only as the quantity om:Acidity)",
+      "decided": "Jess Haley, 2026-10-22 [pH unit is UO pH], did_v2_data_body_model_plan.md: the canonical unit of the `ph` value kind (T14: the unit practitioners use; OM has pH only as the quantity om:Acidity)",
       "first_used_in": "ph.value.ph",
       "obsolete": false,
       "number_unit": false
@@ -5724,7 +5724,7 @@
       "node": "om:percent",
       "definition": "The percent is a unit of dimension one defined as 1/100.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [humidity in percent], V_eta_data_body_model_plan.md: the canonical unit of the `humidity` value kind (OM's relative humidity unit commonly has unit percent)",
+      "decided": "Jess Haley, 2026-10-22 [humidity in percent], did_v2_data_body_model_plan.md: the canonical unit of the `humidity` value kind (OM's relative humidity unit commonly has unit percent)",
       "first_used_in": "humidity.value.percent_relative_humidity",
       "obsolete": false,
       "number_unit": false
@@ -5734,7 +5734,7 @@
       "node": "NCIT:C105495",
       "definition": "A measure of volume concentration expressed as the number of liters of a dissolved substance per liter of solution.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.liters_per_liter` (J8a)",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], did_v2_data_body_model_plan.md: the canonical unit of `concentration.value.liters_per_liter` (J8a)",
       "first_used_in": "concentration.value.liters_per_liter",
       "obsolete": false,
       "number_unit": false
@@ -5744,7 +5744,7 @@
       "node": "om:reciprocalLitre",
       "definition": "",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.particles_per_liter` (J8a)",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], did_v2_data_body_model_plan.md: the canonical unit of `concentration.value.particles_per_liter` (J8a)",
       "first_used_in": "concentration.value.particles_per_liter",
       "obsolete": false,
       "number_unit": false
@@ -5754,7 +5754,7 @@
       "node": "NCIT:C67425",
       "definition": "A unit for measurement of concentration of osmotically active particles expressed as a number of osmoles of solute per liter of solution.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `concentration.value.osmolar` (J8a)",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], did_v2_data_body_model_plan.md: the canonical unit of `concentration.value.osmolar` (J8a)",
       "first_used_in": "concentration.value.osmolar",
       "obsolete": false,
       "number_unit": false
@@ -5764,7 +5764,7 @@
       "node": "NCIT:C166097",
       "definition": "A unit of angular velocity defined as the number of degrees per unit of time equal to one second.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [unit names are labels], V_eta_data_body_model_plan.md: the canonical unit of `angular_velocity.value.degrees_per_second` (J8a)",
+      "decided": "Jess Haley, 2026-10-22 [unit names are labels], did_v2_data_body_model_plan.md: the canonical unit of `angular_velocity.value.degrees_per_second` (J8a)",
       "first_used_in": "angular_velocity.value.degrees_per_second",
       "obsolete": false,
       "number_unit": false
@@ -5774,7 +5774,7 @@
       "node": "om:molar",
       "definition": "Molar is a unit of amount of substance concentration defined as 1 mole per litre.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [molar kept], V_eta_data_body_model_plan.md: the canonical `molar` slot's unit; om:molePerLitre is not registered (J9)",
+      "decided": "Jess Haley, 2026-10-22 [molar kept], did_v2_data_body_model_plan.md: the canonical `molar` slot's unit; om:molePerLitre is not registered (J9)",
       "first_used_in": "concentration.value.molar",
       "obsolete": false,
       "number_unit": false
@@ -5784,7 +5784,7 @@
       "node": "om:volt",
       "definition": "The volt is a unit of electric potential defined as watt divided by ampere = joule divided by coulomb = newton times metre divided by ampere times second = kilogram times square metre divided by ampere times second to the power 3.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `volts`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `volts`",
       "first_used_in": "voltage.value.volts",
       "obsolete": false,
       "number_unit": false
@@ -5794,7 +5794,7 @@
       "node": "om:ampere",
       "definition": "The ampere is a unit of electric current defined as the constant current that produces an attractive force of 2e–7 newton per metre of length between two straight, parallel conductors of infinite length and negligible circular cross section placed one metre apart in a vacuum.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `amperes`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `amperes`",
       "first_used_in": "current.value.amperes",
       "obsolete": false,
       "number_unit": false
@@ -5804,7 +5804,7 @@
       "node": "om:gramPerGram",
       "definition": "A unit of a mass fraction expressed as a number of grams of substance per gram of mixture. (NCIT:C70453; OM gives no definition)",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `grams_per_gram`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `grams_per_gram`",
       "first_used_in": "concentration.value.grams_per_gram",
       "obsolete": false,
       "number_unit": false
@@ -5814,7 +5814,7 @@
       "node": "om:metrePerSecond-Time",
       "definition": "Metre per second is a unit of speed defined as metre divided by second.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `meters_per_second`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `meters_per_second`",
       "first_used_in": "velocity.value.meters_per_second",
       "obsolete": false,
       "number_unit": false
@@ -5824,7 +5824,7 @@
       "node": "om:metrePerSecond-TimeSquared",
       "definition": "Metre per second squared is a unit of acceleration defined as metre divided by second squared.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `meters_per_second_squared`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `meters_per_second_squared`",
       "first_used_in": "acceleration.value.meters_per_second_squared",
       "obsolete": false,
       "number_unit": false
@@ -5834,7 +5834,7 @@
       "node": "om:squareMetre",
       "definition": "Square metre is a unit of area defined as the area of a square whose sides measure exactly one metre.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `square_meters`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `square_meters`",
       "first_used_in": "area.value.square_meters",
       "obsolete": false,
       "number_unit": false
@@ -5844,7 +5844,7 @@
       "node": "om:newton",
       "definition": "The newton is a unit of force defined as kilogram timesmetre divided by second squared.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `newtons`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `newtons`",
       "first_used_in": "force.value.newtons",
       "obsolete": false,
       "number_unit": false
@@ -5854,7 +5854,7 @@
       "node": "om:joule",
       "definition": "The joule is a unit of energy defined as kilogram times square metre divided by second squared.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `joules`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `joules`",
       "first_used_in": "energy.value.joules",
       "obsolete": false,
       "number_unit": false
@@ -5864,7 +5864,7 @@
       "node": "om:watt",
       "definition": "The watt is a unit of power defined as joule divided by second = newton times metre divided by second = volt times ampere = kilogram times square metre divided by second to the power 3.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `watts`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `watts`",
       "first_used_in": "power.value.watts",
       "obsolete": false,
       "number_unit": false
@@ -5874,7 +5874,7 @@
       "node": "om:coulomb",
       "definition": "The coulomb is a unit of electric charge defined as ampere times second = farad times volt.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `coulombs`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `coulombs`",
       "first_used_in": "charge.value.coulombs",
       "obsolete": false,
       "number_unit": false
@@ -5884,7 +5884,7 @@
       "node": "om:ohm",
       "definition": "The ohm is a unit of electrical resistance defined as volt divided by ampere = square metre times kilogram divided by second to the power 3 times ampere squared.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `ohms`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `ohms`",
       "first_used_in": "resistance.value.ohms",
       "obsolete": false,
       "number_unit": false
@@ -5894,7 +5894,7 @@
       "node": "om:siemens",
       "definition": "The siemens is a unit of electrical conductance defined as 1 divided by ohm = ampere divided by volt = coulomb squared times second divided by kilogram times square metre = ampere squared times second to the power 3 divided by kilogram times square metre.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `siemens`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `siemens`",
       "first_used_in": "conductance.value.siemens",
       "obsolete": false,
       "number_unit": false
@@ -5904,7 +5904,7 @@
       "node": "om:farad",
       "definition": "The farad is a unit of capacitance defined as ampere times second divided by volt = coulomb divided by volt = coulomb squared divided by joule = coulomb squared divided by newton times metre = second squared times coulomb squared divided by square metre times kilogram = second to the power 4 times ampere squared divided by square metre times kilogram.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `farads`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `farads`",
       "first_used_in": "capacitance.value.farads",
       "obsolete": false,
       "number_unit": false
@@ -5914,7 +5914,7 @@
       "node": "om:mole",
       "definition": "The mole is a unit of amount of substance defined as the amount of substance of a system that contains as many elementary entities as there are atoms in 0.012 kilogram of carbon 12.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `moles`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `moles`",
       "first_used_in": "substance_amount.value.moles",
       "obsolete": false,
       "number_unit": false
@@ -5924,7 +5924,7 @@
       "node": "om:decibel",
       "definition": "A unit of measure representing the intensity of an electrical signal or sound which is equal to ten times the logarithm of the ratio of two signals. (NCIT:C102407; OM gives no definition)",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [exact OM units], V_eta_data_body_model_plan.md: the canonical unit of `decibels`",
+      "decided": "Jess Haley, 2026-10-22 [exact OM units], did_v2_data_body_model_plan.md: the canonical unit of `decibels`",
       "first_used_in": "gain.value.decibels; frequency-filter attenuation and ripple (jFrequencyFilter)",
       "obsolete": false,
       "number_unit": false
@@ -5934,7 +5934,7 @@
       "node": "om:millivolt",
       "definition": "The millivolt is a unit of electric potential defined as 1.0e-3 volt. (OM gives no definition; written from its prefix.)",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled mV), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled mV), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled mV)",
       "obsolete": false,
       "number_unit": false
@@ -5944,7 +5944,7 @@
       "node": "om:microvolt",
       "definition": "The microvolt is a unit of electric potential defined as 1.0e-6 volt. (OM gives no definition; written from its prefix.)",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled µV, uV), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled µV, uV), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled µV, uV)",
       "obsolete": false,
       "number_unit": false
@@ -5954,7 +5954,7 @@
       "node": "om:kilogram",
       "definition": "The kilogram is a unit of mass defined as 1.0e3 gram. (OM gives no definition; written from its prefix.)",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled kg), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled kg), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled kg)",
       "obsolete": false,
       "number_unit": false
@@ -5964,7 +5964,7 @@
       "node": "om:kilohertz",
       "definition": "The kilohertz is a unit of frequency defined as 1.0e3 hertz.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled kHz), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled kHz), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled kHz)",
       "obsolete": false,
       "number_unit": false
@@ -5974,7 +5974,7 @@
       "node": "om:milliampere",
       "definition": "The milliampere is a unit of electric current defined as 1.0e-3 ampere.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled mA), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled mA), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled mA)",
       "obsolete": false,
       "number_unit": false
@@ -5984,7 +5984,7 @@
       "node": "om:microampere",
       "definition": "The microampere is a unit of electric current defined as 1.0e-6 ampere.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled µA, uA), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled µA, uA), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled µA, uA)",
       "obsolete": false,
       "number_unit": false
@@ -5994,7 +5994,7 @@
       "node": "om:nanoampere",
       "definition": "The nanoampere is a unit of electric current defined as 1.0e-9 ampere.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled nA), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled nA), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled nA)",
       "obsolete": false,
       "number_unit": false
@@ -6004,7 +6004,7 @@
       "node": "om:picoampere",
       "definition": "The picoampere is a unit of electric current defined as 1.0e-12 ampere.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [prefixed source units], V_eta_data_body_model_plan.md: a source unit (spelled pA), not a canonical unit",
+      "decided": "Jess Haley, 2026-10-22 [prefixed source units], did_v2_data_body_model_plan.md: a source unit (spelled pA), not a canonical unit",
       "first_used_in": "source_unit (DID-matlab jSourceUnit, spelled pA)",
       "obsolete": false,
       "number_unit": false
@@ -6014,7 +6014,7 @@
       "node": "EMPTY:0000384",
       "definition": "The distance from a point to the nearest boundary of a region, positive inside the region and negative outside it.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [Haley terms general], V_eta_term_registry_plan.md: replaces EMPTY:0000350 (O3); EMPTY:0000384 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [Haley terms general], did_v2_term_registry_plan.md: replaces EMPTY:0000350 (O3); EMPTY:0000384 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley), after O3 lands",
       "obsolete": false,
       "number_unit": false
@@ -6024,7 +6024,7 @@
       "node": "EMPTY:0000385",
       "definition": "The volume of a solution or suspension placed to seed a culture.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [Haley terms general], V_eta_term_registry_plan.md: replaces EMPTY:0000120 (O3); EMPTY:0000385 minted in empty-ontology (staged here; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [Haley terms general], did_v2_term_registry_plan.md: replaces EMPTY:0000120 (O3); EMPTY:0000385 minted in empty-ontology (staged here; not yet merged there)",
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley), after O3 lands",
       "obsolete": false,
       "number_unit": false
@@ -6034,7 +6034,7 @@
       "node": "EMPTY:0000387",
       "definition": "A filter design with equal ripple in the passband and a monotonic stopband, giving a steeper transition than a Butterworth design of the same order.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000387 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000387 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6044,7 +6044,7 @@
       "node": "EMPTY:0000388",
       "definition": "A filter design with a monotonic passband and equal ripple in the stopband.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000388 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000388 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6054,7 +6054,7 @@
       "node": "EMPTY:0000389",
       "definition": "Which range of frequencies a filter passes and which it attenuates.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000389 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000389 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6064,7 +6064,7 @@
       "node": "EMPTY:0000390",
       "definition": "The lowest frequency a filter is designed to pass.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [passband edges paired], V_eta_frequency_filter_model_plan.md; EMPTY:0000390 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [passband edges paired], did_v2_frequency_filter_model_plan.md; EMPTY:0000390 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6074,7 +6074,7 @@
       "node": "EMPTY:0000391",
       "definition": "The highest frequency a filter is designed to pass.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [passband edges paired], V_eta_frequency_filter_model_plan.md; EMPTY:0000391 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [passband edges paired], did_v2_frequency_filter_model_plan.md; EMPTY:0000391 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6084,7 +6084,7 @@
       "node": "EMPTY:0000392",
       "definition": "The lowest frequency of the range a filter is designed to attenuate.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000392 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000392 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6094,7 +6094,7 @@
       "node": "EMPTY:0000393",
       "definition": "The highest frequency of the range a filter is designed to attenuate.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000393 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000393 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6104,7 +6104,7 @@
       "node": "EMPTY:0000394",
       "definition": "The order of a filter's transfer function, which sets how steeply the filter changes from passing to attenuating.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000394 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000394 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6114,7 +6114,7 @@
       "node": "EMPTY:0000395",
       "definition": "The peak-to-peak variation of a filter's gain within its passband.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000395 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000395 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6124,7 +6124,7 @@
       "node": "EMPTY:0000396",
       "definition": "The minimum reduction of a filter's gain in its stopband relative to its passband.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md; EMPTY:0000396 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md; EMPTY:0000396 minted in empty-ontology #25 (e1bdb0c; not yet merged there)",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6134,7 +6134,7 @@
       "node": "wikidata:Q71762818",
       "definition": "The number of action potentials a neuron fires per unit time.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [response variable nodes], V_eta_data_body_model_plan.md: the `variable` of a spike-rate response (Wikidata gives no definition; it classes the item as a biological quantity, Q71759392)",
+      "decided": "Jess Haley, 2026-10-22 [response variable nodes], did_v2_data_body_model_plan.md: the `variable` of a spike-rate response (Wikidata gives no definition; it classes the item as a biological quantity, Q71759392)",
       "first_used_in": "tuning_curve_calculation / contrast_sensitivity variable (DID-matlab tuning migrators)",
       "obsolete": false,
       "number_unit": false
@@ -6144,7 +6144,7 @@
       "node": "EMPTY:0000397",
       "definition": "The change in fluorescence relative to a baseline fluorescence, (F - F0)/F0.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [response variable nodes], V_eta_data_body_model_plan.md; EMPTY:0000397 minted in empty-ontology #25 (b88953a; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-22 [response variable nodes], did_v2_data_body_model_plan.md; EMPTY:0000397 minted in empty-ontology #25 (b88953a; not yet merged there)",
       "first_used_in": "tuning_curve_calculation / contrast_sensitivity variable (DID-matlab tuning migrators)",
       "obsolete": false,
       "number_unit": false
@@ -6154,7 +6154,7 @@
       "node": "EMPTY:0000398",
       "definition": "The activity of a neuron or population of neurons measured in response to a stimulus.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-23 [unstated response variable], V_eta_data_body_model_plan.md: the `variable` of a tuning or contrast-sensitivity calculation whose source does not state the quantity; EMPTY:0000398 minted in empty-ontology #25 (7902807; not yet merged there)",
+      "decided": "Jess Haley, 2026-10-23 [unstated response variable], did_v2_data_body_model_plan.md: the `variable` of a tuning or contrast-sensitivity calculation whose source does not state the quantity; EMPTY:0000398 minted in empty-ontology #25 (7902807; not yet merged there)",
       "first_used_in": "tuning_curve_calculation / contrast_sensitivity_calculation variable (DID-matlab tuning migrators)",
       "obsolete": false,
       "number_unit": false
@@ -6164,7 +6164,7 @@
       "node": "wikidata:Q1018162",
       "definition": "A filter design whose gain is as flat as possible in the passband, falling monotonically through the transition.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6174,7 +6174,7 @@
       "node": "wikidata:Q1051541",
       "definition": "A filter design with equal ripple in both the passband and the stopband, giving the steepest transition for a given order (also called a Cauer filter).",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6184,7 +6184,7 @@
       "node": "wikidata:Q830123",
       "definition": "A filter design with a maximally flat group delay in the passband, which preserves the waveform shape of filtered signals.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6194,7 +6194,7 @@
       "node": "wikidata:Q117785",
       "definition": "A filter whose response to an impulse settles to zero in a finite number of samples.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6204,7 +6204,7 @@
       "node": "wikidata:Q262754",
       "definition": "A filter that passes signals with a frequency higher than a cutoff frequency and attenuates signals with lower frequencies.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6214,7 +6214,7 @@
       "node": "wikidata:Q918242",
       "definition": "A filter that passes signals with a frequency lower than a cutoff frequency and attenuates signals with higher frequencies.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6224,7 +6224,7 @@
       "node": "wikidata:Q2718101",
       "definition": "A filter that passes signals within a frequency range and attenuates signals outside that range.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6234,7 +6234,7 @@
       "node": "wikidata:Q386022",
       "definition": "A filter that attenuates signals within a frequency range and passes signals outside that range.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], V_eta_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
+      "decided": "Jess Haley, 2026-10-22 [filter terms from Wikidata], did_v2_frequency_filter_model_plan.md (J6a): the registry definition is written here, Wikidata's is thin",
       "first_used_in": "frequency-filter method (DID-matlab jFrequencyFilter; [filters are methods])",
       "obsolete": false,
       "number_unit": false
@@ -6244,7 +6244,7 @@
       "node": "",
       "definition": "The number of cycles of a periodic pattern per degree of visual angle (a spatial frequency).",
       "status": "staged",
-      "decided": "Jess Haley, 2026-10-22 [calculator units], V_eta_tuning_model_plan.md: the unit of a spatial-frequency preferred value (C1); no ontology term found (OLS4: OM, UO, NCIT), node not chosen",
+      "decided": "Jess Haley, 2026-10-22 [calculator units], did_v2_tuning_model_plan.md: the unit of a spatial-frequency preferred value (C1); no ontology term found (OLS4: OM, UO, NCIT), node not chosen",
       "first_used_in": "spatial_frequency_tuning_calculation preferred values",
       "obsolete": false,
       "number_unit": false
@@ -6255,7 +6255,7 @@
       "definition": "A process in which the records held in one database are copied into another database, which thereafter holds them itself.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (did_v2_go_forward_class_audit.md [session membership records linked or ingested])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6265,7 +6265,7 @@
       "definition": "A process in which one database records a reference to another database stored elsewhere, whose records stay where they are and are read from there.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (did_v2_go_forward_class_audit.md [session membership records linked or ingested])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6275,7 +6275,7 @@
       "definition": "A class defined in a software library, named by its fully qualified name, whose constructor creates an object from a list of arguments.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (did_v2_go_forward_class_audit.md [session membership records linked or ingested])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6285,7 +6285,7 @@
       "definition": "The specification of a node (file or directory) in a hierarchical file system, usually specified by listing the nodes top-down.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (V_eta_go_forward_class_audit.md [session membership records linked or ingested])",
+      "first_used_in": "no dataset yet: the session membership method of a session part_of dataset relation (did_v2_go_forward_class_audit.md [session membership records linked or ingested])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6295,7 +6295,7 @@
       "definition": "The lowest and highest values that the values of a data body may take, given as a pair [minimum maximum].",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: a data body condition (V_eta_go_forward_class_audit.md [image file details placed])",
+      "first_used_in": "no dataset yet: a data body condition (did_v2_go_forward_class_audit.md [image file details placed])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6305,7 +6305,7 @@
       "definition": "Principal time standard that underlies civil times on Earth.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (did_v2_go_forward_class_audit.md [clock terms get nodes])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6315,7 +6315,7 @@
       "definition": "A time scale kept by a recording device that runs only within one recording epoch, so that times on it cannot be compared across epochs.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (did_v2_go_forward_class_audit.md [clock terms get nodes])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6325,7 +6325,7 @@
       "definition": "A time scale kept by a recording device that runs continuously across its recording epochs, so that times on it can be compared across those epochs of that device.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (did_v2_go_forward_class_audit.md [clock terms get nodes])",
       "obsolete": false,
       "number_unit": false
     },
@@ -6335,7 +6335,7 @@
       "definition": "A time scale shared by all the devices of an experiment, to which their own clocks are aligned, so that times from different devices can be compared.",
       "status": "decided",
       "decided": "Jess Haley, 2026-10-26 [census terms]",
-      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (V_eta_go_forward_class_audit.md [clock terms get nodes])",
+      "first_used_in": "no dataset yet: relative_time_reference value.clock, did_clocktype (did_v2_go_forward_class_audit.md [clock terms get nodes])",
       "obsolete": false,
       "number_unit": false
     },
@@ -8800,7 +8800,7 @@
       "node": "wikidata:Q2003571",
       "definition": "",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-26 [method terms are general], V_eta_go_forward_class_audit.md: the method term of a spike-sorting calculation (the sorter is the software entity)",
+      "decided": "Jess Haley, 2026-10-26 [method terms are general], did_v2_go_forward_class_audit.md: the method term of a spike-sorting calculation (the sorter is the software entity)",
       "first_used_in": "DID-matlab sorter calculations (kilosort, kiasort, jrclust)",
       "obsolete": false,
       "number_unit": false
@@ -8810,7 +8810,7 @@
       "node": "OBI:0200072",
       "definition": "A curve fitting is a data transformation that has objective curve fitting and that consists of finding a curve which matches a series of data points and possibly other constraints.",
       "status": "decided",
-      "decided": "Jess Haley, 2026-10-26 [method terms are general], V_eta_go_forward_class_audit.md: the method term of a fit calculation",
+      "decided": "Jess Haley, 2026-10-26 [method terms are general], did_v2_go_forward_class_audit.md: the method term of a fit calculation",
       "first_used_in": "DID-matlab tuning fit and vmspikefit calculations",
       "obsolete": false,
       "number_unit": false
@@ -8820,7 +8820,7 @@
       "node": "UBERON:0001880",
       "definition": "A brain structure in the forebrain wrapped around the stria terminalis. It's largest extent can be found around the crossing of the anterior commissure[INCF].",
       "status": "decided",
-      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (did_v2_go_forward_class_audit.md)",
       "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
       "obsolete": false,
       "number_unit": false
@@ -8830,7 +8830,7 @@
       "node": "UBERON:0002813",
       "definition": "A cerebral hemisphere that is in the right side of a brain.",
       "status": "decided",
-      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (did_v2_go_forward_class_audit.md)",
       "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
       "obsolete": false,
       "number_unit": false
@@ -8840,7 +8840,7 @@
       "node": "UBERON:0002812",
       "definition": "A cerebral hemisphere that is in the left side of a brain.",
       "status": "decided",
-      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (V_eta_go_forward_class_audit.md)",
+      "decided": "Decided by Jess Haley, 2026-10-27 [probe location terms] (did_v2_go_forward_class_audit.md)",
       "first_used_in": "Dabrowska corpus probe_location documents (v1 probe_location.ontology_name); NDI-matlab probeLocations4probes.m",
       "obsolete": false,
       "number_unit": false

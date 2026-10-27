@@ -1,6 +1,6 @@
 # V_eta — the `image` model (DECIDED; build deferred)
 
-> **AMENDED 2026-09-25 (#73 review item 50, `V_eta_spatial_transcriptomics_plan.md`):**
+> **AMENDED 2026-09-25 (#73 review item 50, `did_v2_spatial_transcriptomics_plan.md`):**
 > `image_manipulation` is deleted. An image shown to the animal is an item of a
 > `timed_sequence_manipulation` (the stimulus model).
 >
@@ -12,8 +12,8 @@
 
 *Worked design for how V_eta represents images/rasters, decided in the audit walkthrough
 (R6). **All decisions below are FINAL; the BUILD is deferred** — batched with other
-walkthrough decisions. When building, this doc is the spec. Cross-refs: `V_eta_tenets.md`
-(T3/T6/T11/T12/T13), `V_eta_tenet_audit.md` (R6).*
+walkthrough decisions. When building, this doc is the spec. Cross-refs: `did_v2_tenets.md`
+(T3/T6/T11/T12/T13), `did_v2_tenet_audit.md` (R6).*
 
 ## The one-line model
 
@@ -156,7 +156,7 @@ TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com / 2026-08-08 -- ngrid
 The R6 model above is unchanged: `image` is a standalone `data_type` (a raster value) across
 `image_observation` (measured) and `image_manipulation` (shown), `array` stays killed, and
 `image` is not an entity. What the `data_body` walkthrough
-(`V_eta_data_body_model_plan.md`, TaskList #45) changed is where the DESCRIPTORS live — R6
+(`did_v2_data_body_model_plan.md`, TaskList #45) changed is where the DESCRIPTORS live — R6
 required them explicit on the composite, and they are still explicit, one level out.
 
 ### The class, FINAL

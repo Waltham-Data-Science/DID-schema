@@ -416,7 +416,7 @@ types) needing reconciliation, and the full set is unknown. Sweep the corpus fir
 
 ### 8. `labels`, and the Hartley plane axis
 
-`V_eta_ngrid_family_findings.md` F2/F3, from the writer at `65718ed`:
+`did_v2_ngrid_family_findings.md` F2/F3, from the writer at `65718ed`:
 
 ```
 the .ngrid file is a 4-D [T × X × Y × 2] double array:
@@ -461,8 +461,8 @@ on every body until someone does that work is what `isFragment` and `silentLoss`
 ### 10. `zarr` is DELETED, not migrated
 
 ```
-V_eta_class_provenance.md:279   | zarr | stable | V_gamma | J dim abstract |
-V_eta_coverage_ledger.md:3      "Post-v1 DID intermediate classes (zarr, directory, the
+did_v2_class_provenance.md:279   | zarr | stable | V_gamma | J dim abstract |
+did_v2_coverage_ledger.md:3      "Post-v1 DID intermediate classes (zarr, directory, the
                                  *_observation leaves, ...) are V_eta TARGETS, not v1 sources"
 DID-matlab, 263 .m files        migrators referencing zarr:  ZERO
 build_v_eta.py:3485-3487        "an orphaned abstract storage-format descriptor (nothing
@@ -732,7 +732,7 @@ with NO BYTES TO DESCRIBE. Two instances, and they are the same shape:
   reasoning -- an axis is asserted only when the array is held, and pass 1 does not
   hold it -- and the `jRecordingObservation.m:53` precedent, where a channel-axis count
   is already *"a second-pass fill"*. Recorded in full, with its measurements and its
-  accepted costs, at `V_eta_epoch_plan.md`, "ADDENDUM -- the #60 scoping walkthrough",
+  accepted costs, at `did_v2_epoch_plan.md`, "ADDENDUM -- the #60 scoping walkthrough",
   which carries the signature; nothing is decided here.
 
 ---
@@ -1117,7 +1117,7 @@ first described.
 ---
 
 **COUNT CORRECTION, 2026-08-17 — `receptive_field` and `receptive_field_calculation` were
-minted** (TEAM-SIGN-OFF [receptive field naming], `V_eta_ngrid_family_findings.md`). The
+minted** (TEAM-SIGN-OFF [receptive field naming], `did_v2_ngrid_family_findings.md`). The
 dated measurements above are left exactly as taken; this is the live claim beside them:
 
         DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
@@ -1174,15 +1174,15 @@ RE-DERIVED 2026-10-03 (did-schema PR #86: the `humidity` composite, its `humidit
 
 RE-DERIVED 2026-10-04 (the tenet audit, did-schema PR #87: `humidity` moved under `data_type`, where #86 should have put it; `check_prose_counts` re-derives all nouns): **46 direct subclasses** of `data_type` (was 45; +`humidity`). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `V_eta_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-04 (`timed_sequence` becomes `item`, signed in `did_v2_study_plan.md`: the class and its manipulation leaf renamed, plus the new `item_calculation` leaf; `check_prose_counts` re-derives all nouns): **218 distinct V_eta class names** (was 217); **224 json file(s) under `schemas/V_eta/`** (was 223). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-05 (the `time_calculation` and `acceleration_calculation` leaves, for the Haley import's stage 11; `check_prose_counts` re-derives all nouns): **220 distinct V_eta class names** (was 218); **226 json file(s) under `schemas/V_eta/`** (was 224). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `V_eta_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-08 (one `entity` class and statements by composition, a PROPOSAL built ahead of signature, `did_v2_entity_composition_plan.md`; `check_prose_counts` re-derives all nouns): **47 direct subclasses** of `value` (`data_type` until 2026-10-08; was 46, +`text`); classes compared: 72 (in `check_tombstones.py --enforce`); **166 distinct V_eta class names** (was 220; -42 join leaves, -13 entity classes, +`text`); **172 json file(s) under `schemas/V_eta/`** (was 226). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-08 (every v1 calculator keeps its named class, Jess; `check_prose_counts` re-derives all nouns): **169 distinct V_eta class names** (was 166; +`contrast_sensitivity_calculation`, `receptive_field_calculation`, `speed_tuning_calculation`); **175 json file(s) under `schemas/V_eta/`** (was 172). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `V_eta_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-09 (`linked_session`, a PROPOSAL built ahead of signature in `draft/`, `did_v2_linked_session_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 169); **176 json file(s) under `schemas/V_eta/`** (was 175). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-14 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `695e8d86`: 1,236 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1236). Only the denominator moved. Re-derive, do not quote.
 
@@ -1203,14 +1203,14 @@ Decided with Jess Haley in the Haley import's term pass. **SIGNED 2026-10-19** -
 # AMENDMENT 4 — a `matrix` value form on the single-value entry. Jess, 2026-10-21.
 
 **A PROPOSAL, built ahead of signature at Jess Haley's request (2026-10-21).** It
-closes `V_eta_method_plan.md` open follow-up (b). It lives here, not in the method
+closes `did_v2_method_plan.md` open follow-up (b). It lives here, not in the method
 plan, because the entry it changes is AMENDMENT 3's, shared by `conditions` and
 `method.parameters`; the method plan points here.
 
 ## WHAT PROMPTED IT
 
 Noise stimuli (sparse noise, reverse correlation; vhlab NewStim stochastic grid
-stimuli) become `method` documents (`V_eta_method_plan.md`). Their settings include
+stimuli) become `method` documents (`did_v2_method_plan.md`). Their settings include
 values that are lists or matrices, which none of `term` / `quantity` / `count` /
 `text` can hold:
 
@@ -1252,7 +1252,7 @@ variable, unit, source_unit, approximate
 ## NOISE COLOURS (Jess, 2026-10-21)
 
 - Colour values are in **`NCIT:C75765` "Arbitrary Unit"** (registered in
-  `V_eta_term_registry.json`). A colour channel is a device level, not a physical
+  `did_v2_term_registry.json`). A colour channel is a device level, not a physical
   quantity.
 - The scale goes in the data, not in a convention: a separate **"bit depth"**
   parameter, a `count` (8), so that 255 = full scale is recorded on the document.
@@ -1322,9 +1322,9 @@ validator, the migrators) and NDI-matlab (the Haley import, `ndi.value`).
 
 TEAM-SIGN-OFF [data_body amendment 3]: jess@walthamdatascience.com / 2026-10-19 -- conditions and method parameters are one entry {variable, unit, source_unit, approximate} plus one of term, quantity {value, source_value as text}, count or text; a key is that entry holding n positions (term, quantity {value, source_value numeric}), labels and values renamed.
 
-RE-DERIVED 2026-10-20 (the term registry, tenet T19, `V_eta_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-20 (the term registry, tenet T19, `did_v2_term_registry_plan.md`; `check_prose_counts` re-derives all nouns): **179 json file(s) under `schemas/V_eta/`** (was 178; +`stable/term_registry_meta.json`, a meta file, so the class count is unchanged). Re-derive with `check_prose_counts`, do not quote these directly.
 
-RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `V_eta_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-21 (one `method` shape and `visual_grating` deleted, a PROPOSAL built ahead of signature, `did_v2_method_plan.md`; `check_prose_counts` re-derives all nouns): **170 distinct V_eta class names** (was 172); **177 json file(s) under `schemas/V_eta/`** (was 179; -`visual_grating`, -`spatial_frequency`, `method_parameters` renamed `method`). Re-derive with `check_prose_counts`, do not quote these directly.
 
 # AMENDMENT 5 — a value is inline or in bodies, never neither. Jess, 2026-10-21.
 
@@ -1377,7 +1377,7 @@ method to the statement and audit 2 D11 moved the plane labels to body condition
 nothing was left inline and no document could satisfy it. DID-matlab's `hartley_calc`
 migrator therefore passes all 210 20211116 documents through (guard `foldExpressible()`,
 ab02782 on DID-matlab `claude/port-88`, `hartley_calc.m:259,687`), while the signed `[receptive field fold]`
-(`V_eta_ngrid_family_findings.md`) keeps the payload in two `sampled_body` documents. With
+(`did_v2_ngrid_family_findings.md`) keeps the payload in two `sampled_body` documents. With
 this rule a `receptive_field` document is `data_body: true` with an empty `value`, and
 the fold can emit it.
 
@@ -1524,7 +1524,7 @@ Decided by Jess Haley, 2026-10-22 [missing integers]: integer slots accept NaN f
 
 Decided by Jess Haley, 2026-10-22 [audit mechanical fixes 2]: rule `variable_once` covers a body's conditions; decision 6.3a gets a named rule (`datum_order` required on a multi-dimensional sampled body) and the "Empty means F" documentation is fixed; the pattern-syntax documentation says the syntax is that of the class behind `software_id`; the acquisition_channels stale note and its two uses are fixed; the stale `acquisition_system` under `entity` and `acquisition_metadata_reader_#` prose is fixed (the daq decisions document here; daqsystem.m, vintage/map.m and isaQuery.m comments in DID-matlab and NDI) (answer "E2 yes"). Built here: the two rules (`variable_once` on data, `datum_order_multidimensional` on sampled_body) and the `datum_order` documentation; the documentation items follow in the documentation commit of this batch.
 
-RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], V_eta_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
+RE-DERIVED 2026-10-22 (the `irradiance` value kind, Jess Haley [irradiance], did_v2_data_body_model_plan.md; `check_prose_counts` re-derives all nouns): **171 distinct V_eta class names** (was 170); **178 json file(s) under `schemas/V_eta/`** (was 177). Re-derive with `check_prose_counts`, do not quote these directly.
 
 Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]: the audit's mechanical fixes: `interaction.software_id`'s documentation (optional on calculations); the `matrix` documentation drops "a vector is [a, b, c]"; tuning_curve's "stimulus condition term still to be chosen" becomes XCO:0000000; the Gene Expression binding row is re-keyed off the retired spatial_gene_expression_pyramid; om:RelativeHumidity's definition; the stale names in the tenets (timed_sequence, datum_type, `<value>_<direction>` leaves in T11, subject and web_resource in T9, the T15 table's key_labels_id, strain and build_v_eta.py, T2's method "proposed", T2's clock_alignment input_id exception); about 15 field documentations with retired names; EMPTY:0000140 marked obsolete in the registry, its row removed once NDI stops writing it (answer "E yes"). Built across this batch: the registry and binding-row items with [vocabulary nodes], the matrix and tuning_curve documentation with [units bound], the field documentations and software_id here, and the tenet names with the tenet text. om:RelativeHumidity's definition is now empty: OM gives that class no English definition (om-2.0.rdf), and the one it carried belonged to mass flow.
 

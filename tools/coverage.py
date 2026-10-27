@@ -4,7 +4,7 @@
 Answers two questions fast (no MATLAB, no 2-hour corpus):
 
   1. LEDGER  -- for every did_v1 source class, what is its V_eta fate (disposition +
-     migrator)? Written to schemas/V_eta_coverage_ledger.md so "migrate every v1
+     migrator)? Written to docs/generated/did_v2_coverage_ledger.md so "migrate every v1
      class" becomes a visible checklist.
 
   2. GUARDRAIL -- every class_name a V_eta migrator EMITS must exist in the built
@@ -38,6 +38,7 @@ sys.path.insert(0, HERE)
 # closes (HTML comments, quotations in code fences, template placeholders) to
 # reopen.
 import decision_citations as dc  # noqa: E402
+import doc_paths  # noqa: E402
 
 # THE SIBLING LOCK (tools/sibling_lock.json): NDI `origin/main` is read at the
 # LOCKED sha, so the v1 universe moves only when the lock does.
@@ -45,8 +46,8 @@ import sibling_lock  # noqa: E402
 
 SCHEMA_ROOT = os.path.dirname(HERE)
 INDEX = os.path.join(SCHEMA_ROOT, "schemas", "did_v2", "index.json")
-LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
-TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+LEDGER = os.path.join(SCHEMA_ROOT, "docs", "generated", "did_v2_coverage_ledger.md")
+TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_migration_targets.json")
 
 
 # DENOMINATORS for the two reads this tool's whole left-hand side is built from.
@@ -65,7 +66,7 @@ TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
 
 
 def targets_map():
-    """Curated did_v1 -> V_eta emitted-target map (schemas/V_eta_migration_targets.json):
+    """Curated did_v1 -> V_eta emitted-target map (schemas/did_v2_migration_targets.json):
     for each source class, the V_eta document class(es) its migrator actually emits
     (superclasses excluded), plus carried/second_pass/how/flags. Keyed by snake-cased
     source class name. Empty if the file is absent.
@@ -147,7 +148,7 @@ def veta_index():
 #
 # REMOVED 2026-08-12, for the same evidence shape as `oneepoch`: `demoNDIMock`.
 # THE TEAM RULED, verbatim: *"an example calculator counts as production"*
-# (recorded in `V_eta_OPEN_WORK.md` row 111). Its two construction sites are
+# (recorded in `did_v2_OPEN_WORK.md` row 111). Its two construction sites are
 # both in `src/`, in an example calculator, and neither is a test:
 #
 #   src/ndi/+ndi/+calc/+example/simple.m:107
@@ -247,7 +248,7 @@ _MIG_HELPERS = {
 # WHY IT SURFACED ONLY NOW, which is the useful part: the ledger's own guard,
 # test_no_passthrough_row_claims_a_migrator_emits_it, fires when a row is marked
 # `emitted` while nothing backs it. This row only became `emitted` when
-# V_eta_migration_targets.json was refreshed and gave it non-empty targets.
+# did_v2_migration_targets.json was refreshed and gave it non-empty targets.
 # Before that it sat in a state the guard does not inspect, so a wrong exclusion
 # and a missing target cancelled each other out and the row looked consistent.
 # Two errors agreeing is not the same as being right.
@@ -439,7 +440,7 @@ def emitted_classes():
 # this tool reported it at stage 0, "source identified" -- because rung 1 asks
 # whether a migrator file NAMED AFTER the class exists, and a batch post-pass is
 # not one. `_rung_consumed` said so in its own comment for weeks: *"the fix is a
-# field in V_eta_migration_targets.json, not a grep in this function: a bare
+# field in did_v2_migration_targets.json, not a grep in this function: a bare
 # name sweep over the convert package matches `base` in 9 of the 9 passes and
 # `app` in universalRenames, which is noise a stage cannot be built on."*
 #
@@ -794,7 +795,7 @@ def helper_entries(v1_class, veta_class):
 # they are ACKNOWLEDGED here, not allowed silently. REMOVE BOTH ENTRIES when the
 # DID-matlab rename lands -- until then a migrated document of either class does not
 # validate against this schema, which is why PR #76 must not merge ahead of it.
-# 2026-10-08 (signed, V_eta_entity_composition_plan.md): each retired name and what
+# 2026-10-08 (signed, did_v2_entity_composition_plan.md): each retired name and what
 # a document of it becomes. A join leaf becomes its direction with the value kind as a
 # mixin; a merged entity class becomes `entity` with that `type`.
 _JOIN_KINDS = {
@@ -858,12 +859,12 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # which is itself deleted 2026-10-22: the control is the
                   # `control condition` covariate ([control as covariate]).
                   "control_designation",
-                  # 2026-10-04 (signed, V_eta_study_plan.md): timed_sequence becomes
+                  # 2026-10-04 (signed, did_v2_study_plan.md): timed_sequence becomes
                   # `item`, its leaf `item_manipulation`. NDI's
                   # stimulusPresentationToTimedSequence.m still mints the old names;
                   # remove both when the NDI rename lands.
                   "timed_sequence", "timed_sequence_manipulation",
-                  # 2026-10-08 (Jess Haley; V_eta_tenets.md, T2 amendment): the
+                  # 2026-10-08 (Jess Haley; did_v2_tenets.md, T2 amendment): the
                   # statement family drops `subject_` and `data_type` becomes
                   # `value`. The DID-matlab migrators (+migrators_j, the batch
                   # passes) and NDI's second pass (+migrate/+internal) still mint
@@ -874,14 +875,14 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   "data_type", "subject_statement", "subject_assertion",
                   "subject_interaction", "subject_observation",
                   "subject_manipulation", "subject_calculation",
-                  # 2026-10-08 (signed, V_eta_entity_composition_plan.md): the
+                  # 2026-10-08 (signed, did_v2_entity_composition_plan.md): the
                   # 39 direction-by-value join leaves go (a statement's value kind
                   # is a mixin on `observation` / `assertion` / ...), and 13 entity
                   # classes merge into one `entity` with a bound `type`. The pinned
                   # pre-#73 migrators and NDI's second pass still mint these names;
                   # remove them when the migrators move (PR #76 checklist).
                   *SUPERSEDED_BY_ENTITY_COMPOSITION,
-                  # 2026-10-21 (Jess Haley, V_eta_method_plan.md, built ahead of
+                  # 2026-10-21 (Jess Haley, did_v2_method_plan.md, built ahead of
                   # signature): `method_parameters` is renamed `method` and
                   # `visual_grating` is deleted (a stimulus given as a recipe is a
                   # `method` document). DID-matlab's jMethodParameters.m and NDI's
@@ -894,7 +895,7 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
 # ---- THE #88 SPELLING OF A TARGET, AND WHAT TWO SPELLINGS HAVE TO AGREE ON ----
 #
 # On did-schema #88 a statement is a DIRECTION class with ONE value-kind mixin
-# (V_eta_entity_composition_plan.md sec. 1): DID-matlab's did2.build makes an
+# (did_v2_entity_composition_plan.md sec. 1): DID-matlab's did2.build makes an
 # `observation` listing `intensity` whether the migrator says
 # `did2.build.statement('observation', ..., 'ValueKind', 'intensity')` or the
 # older leaf name `'intensity_observation'` (+did2/+build/private/resolveLeaf.m
@@ -1004,7 +1005,7 @@ def guardrail(veta, emitted):
     return new, ack
 
 
-LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "did_v2_coverage_ledger.json")
 
 
 # ============================================================================
@@ -1068,7 +1069,7 @@ NO_TARGET_BY_DECISION = {
     #  an edge is not a document class. This is the clean example of a genuine
     #  dissolution and it is what the previous inferred label was right about.
     "epochid": (
-        NO_TARGET_DISSOLVED, "V_eta_epoch_plan.md",
+        NO_TARGET_DISSOLVED, "did_v2_epoch_plan.md",
         "epochid is DROPPED",
         ("DROPPED as a class. The `epoch_id` edge that replaces it is an edge, "
         "not a document class, so there is no target and that is final.")),
@@ -1077,12 +1078,12 @@ NO_TARGET_BY_DECISION = {
     #  (superclass-only, 0 docs)". A class no document has ever been an
     #  instance of cannot have a migration target.
     "stimulus_response": (
-        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        NO_TARGET_DISSOLVED, "did_v2_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE",
         ("DELETED. Superclass-only with zero documents in any corpus, so there "
         "is nothing to migrate and no target to name.")),
     "stimulus_response_scalar_parameters": (
-        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        NO_TARGET_DISSOLVED, "did_v2_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE",
         ("DELETED. Superclass-only with zero documents in any corpus, so there "
         "is nothing to migrate and no target to name.")),
@@ -1092,7 +1093,7 @@ NO_TARGET_BY_DECISION = {
     #  AMENDMENT 6). Nothing replaces the DOCUMENT, so this is a dissolution of
     #  the class; its one fact moves onto another class's value.
     "control_stimulus_ids": (
-        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        NO_TARGET_DISSOLVED, "did_v2_stimulus_response_model_plan.md",
         "A v1 `control_stimulus_ids` document becomes no V2 document",
         ("NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate]). Its fact "
         "is the `control condition` covariate (XCO:0000099, logical) along the "
@@ -1113,7 +1114,7 @@ NO_TARGET_BY_DECISION = {
     # sampled_body (hartley_calc, ontology_image via jNgridBody). So the class
     # has no target of its own: a dissolution.
     "ngrid": (
-        NO_TARGET_DISSOLVED, "V_eta_image_model_plan.md",
+        NO_TARGET_DISSOLVED, "did_v2_image_model_plan.md",
         "is dissolved as a class",
         ("DISSOLVED as a class: no V2 document is an `ngrid`. The block's "
         "contents go into the `sampled_body` of the document that carried it "
@@ -1129,13 +1130,13 @@ NO_TARGET_BY_DECISION = {
 # An unsigned target entered here would be Claude recording a decision.
 DECIDED_TARGETS_BY_SIGNOFF = {
     # [filters are methods] (Decided by Jess Haley, 2026-10-22,
-    # V_eta_frequency_filter_model_plan.md) SUPERSEDES the 2026-07-30 model
+    # did_v2_frequency_filter_model_plan.md) SUPERSEDES the 2026-07-30 model
     # this row used to cite ("a separate `frequency_filter` document plus a
     # `filter_id` edge"): `frequency_filter` is deleted with no tombstone, the
     # filter is a `method` document, and a body's `filter_id` is `method_id`.
     # The class mapping is on the decision line itself.
     "filter": (
-        ["method"], "V_eta_frequency_filter_model_plan.md",
+        ["method"], "did_v2_frequency_filter_model_plan.md",
         "jFrequencyFilter writes a `method` document",
         "jFrequencyFilter writes a `method` document",
         ("Becomes a `method` document (term the filter design; parameters the "
@@ -1147,7 +1148,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # "epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id
     #  RESTORED" -- a named class, in the signed line itself.
     "epochfiles_ingested": (
-        ["ingestion_manifest"], "V_eta_epoch_plan.md",
+        ["ingestion_manifest"], "did_v2_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`",
         "epochfiles_ingested becomes `ingestion_manifest`",
         ("Becomes `ingestion_manifest`, with the navigator edge restored "
@@ -1165,11 +1166,11 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # are deliberately NOT listed: their classes depend on the stimulus
     # (`visual_grating`, `image`, ...) and no fixed set is signed.
     "stimulus_presentation": (
-        # renamed `item` / `item_manipulation` 2026-10-04 (V_eta_study_plan.md,
+        # renamed `item` / `item_manipulation` 2026-10-04 (did_v2_study_plan.md,
         # "`timed_sequence` becomes `item`", signed); the quotes below are the
         # stimulus plan's own words, as signed.
         ["item", "manipulation + item"],   # #88 spelling of item_manipulation
-        "V_eta_stimulus_model_plan.md",
+        "did_v2_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id",
         ("the v1 `stimulus_presentation` id is preserved on the body-of-record "
         "it becomes (the `timed_sequence`)"),
@@ -1189,7 +1190,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     "stimulus_bath": (
         # #88 spelling: the row's own `how` records "a `manipulation` whose
         # value kind is `formulation`", plus the `formulation` document.
-        ["manipulation + formulation", "formulation"], "V_eta_go_forward_class_audit.md",
+        ["manipulation + formulation", "formulation"], "did_v2_go_forward_class_audit.md",
         "A bath is a manipulation whose value is the formulation",
         "A bath is a manipulation whose value is the formulation",
         ("Deferred in pass 1 (needsSessionContext), assembled by "
@@ -1199,7 +1200,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "a dose, since a dose always has an amount (Jess Haley, 2026-10-21).")),
 
     # RESOLVED 2026-08-11, and it moved OUT of NO_TARGET_BY_DECISION to get
-    # here. It sat as DISPUTED because `V_eta_go_forward_class_audit.md` says two
+    # here. It sat as DISPUTED because `did_v2_go_forward_class_audit.md` says two
     # things about this class:
     #
     #   :459  a SECTION HEADING -- "## `binaryseries_parameters` -- folds into
@@ -1221,7 +1222,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     #
     # and the axis entry is not a class of its own: it MOUNTS, on
     # `subject_statement` (inline) or on `sampled_body` (body), selected by
-    # `storage_mode` and mutually exclusive -- V_eta_data_body_model_plan.md:136
+    # `storage_mode` and mutually exclusive -- did_v2_data_body_model_plan.md:136
     # "storage_mode: inline -> subject_statement.axes[] populated; no bodies" /
     # :137 "storage_mode: body -> each sampled_body.axes[] populated;
     # statement.axes[] EMPTY". So a document of this class reaches ONE of the two
@@ -1236,11 +1237,11 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # the ledger renders them in the future voice for exactly that reason.
     #
     # The cited document is the one carrying the signature. The mount rule lives
-    # in V_eta_data_body_model_plan.md, which carries NO sign-off line at all --
+    # in did_v2_data_body_model_plan.md, which carries NO sign-off line at all --
     # so it is quoted above as the mechanism, and is not the citation.
     "binaryseries_parameters": (
         ["statement", "sampled_body"],  # `subject_statement` until 2026-10-08
-        "V_eta_go_forward_class_audit.md",
+        "did_v2_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired",
         ("its `time_type` is the time axis's new `datum_type`, its `data_type` "
         "the statement's, `data_dim` the axis count, `samples_regular_intervals` "
@@ -1252,7 +1253,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "to the STATEMENT unconditionally, while `time_type` / `data_dim` / "
         "`samples_regular_intervals` become an AXIS ENTRY, which mounts on "
         "`subject_statement` when storage_mode is inline and on `sampled_body` "
-        "when it is body (V_eta_data_body_model_plan.md:136-137, mutually "
+        "when it is body (did_v2_data_body_model_plan.md:136-137, mutually "
         "exclusive). Recording one mount would drop the other. NOT BUILT: the "
         "fold is gated on the data_body tier (#45, blocked on #32), since "
         "`axes[]`, `datum_type` and `regular` do not exist yet. (data_body plan "
@@ -1260,12 +1261,12 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "deleted -- the presence of a covariate's `origin` + `spacing` says it.)")),
 
     # ---- spatial-transcriptomics family: the eight SIGNED PASSTHROUGHS that stood
-    # here (Corrected Option C, V_eta_go_forward_class_audit.md:796, signed
+    # here (Corrected Option C, did_v2_go_forward_class_audit.md:796, signed
     # 2026-09-22 -- each v1 class decided to persist as its own snake_cased copy)
     # are REMOVED, 2026-09-25. The #73 review (jess) replaced that decision:
     # "none of these carry forward into V_eta; they all need to be migrated"
-    # (V_eta_spatial_transcriptomics_plan.md item 18). The new decided targets are
-    # CURATED in V_eta_migration_targets.json -- one fact, one place -- and this
+    # (did_v2_spatial_transcriptomics_plan.md item 18). The new decided targets are
+    # CURATED in did_v2_migration_targets.json -- one fact, one place -- and this
     # table only transcribes SIGNED lines, so it cannot carry them until the team
     # adds the review's TEAM-SIGN-OFF line (Operating Rule 4). Until then those
     # rows read "decided, unsigned", which is the truth. `geneExpression`
@@ -1282,7 +1283,7 @@ def _signoff_lines(plan):
 
     THE UNIT IS A PARAGRAPH, NOT A LINE. Most sign-offs in this tree fit on one
     physical line, but some -- e.g. the 2026-09-22 spatial_transcriptomics_family
-    signature at V_eta_go_forward_class_audit.md:796 -- run to a full paragraph
+    signature at did_v2_go_forward_class_audit.md:796 -- run to a full paragraph
     with the decision spread across a dozen continuation lines. status_board.py's
     parser already handles that (see status_board.SIGNOFF handling around
     :877-914 and the note about `TEAM-SIGN-OFF [tuning_curve ...]:` being a
@@ -1303,7 +1304,7 @@ def _signoff_lines(plan):
     the marker inside a comment, and counting it once let Claude's own
     instruction text validate a citation.
     """
-    path = os.path.join(SCHEMA_ROOT, "schemas", plan)
+    path = doc_paths.path_for(plan)
     if not os.path.exists(path):
         return []
     with open(path) as fh:
@@ -1383,7 +1384,7 @@ def check_decision_citations():
 
     lines = [f'DENOMINATOR: {len(checks)} transcribed decision(s) checked against {len({c[2] for c in checks})} plan document(s); every one must quote a real TEAM-SIGN-OFF line']
     for kind, cls, plan, frag, mapping in checks:
-        path = os.path.join(SCHEMA_ROOT, "schemas", plan)
+        path = doc_paths.path_for(plan)
         if not os.path.exists(path):
             fails.append(f"{kind} {cls}: cited document {plan} does not exist")
             continue
@@ -1722,7 +1723,7 @@ def build_ledger():
             disp = "no V_eta home, no migrator -- UNVERIFIED"
 
         # ---- decided targets: the curated file, PLUS the signed transcriptions
-        # ONE FACT, ONE PLACE. `V_eta_migration_targets.json` is the curated
+        # ONE FACT, ONE PLACE. `did_v2_migration_targets.json` is the curated
         # home for `decided_targets`; the table above fills rows it never got.
         # If both ever name the same class the ledger stops rather than picking
         # one -- two records of one fact that agree by coincidence is the
@@ -1763,7 +1764,7 @@ def build_ledger():
         if signed and curated_decided:
             raise SystemExit(
                 f"coverage: `{cn}` has decided_targets in BOTH "
-                f"V_eta_migration_targets.json ({curated_decided}) and "
+                f"did_v2_migration_targets.json ({curated_decided}) and "
                 f"DECIDED_TARGETS_BY_SIGNOFF ({signed[0]}). One fact, one place -- "
                 "delete whichever is the copy.")
         if signed:
@@ -2111,7 +2112,7 @@ G_NOT_FOUND = dc.PROPOSED                 # "proposed (not decided)"
 
 # The order matters and is asserted by a test: DISPUTED outranks a derived
 # citation. `ngrid` cites the signed `[image / ngrid]` line AND
-# carries a transcription saying `V_eta_image_model_plan.md` states two
+# carries a transcription saying `did_v2_image_model_plan.md` states two
 # incompatible dispositions. Letting the citation join answer first would erase a
 # recorded contradiction with a lookup -- the disagreement is the finding.
 GOVERNANCE_STATES = (G_SIGNED, G_DISPUTED, G_UNSIGNED, G_NOT_FOUND)
@@ -2164,7 +2165,7 @@ def governance_state(row):
                         + ". A citation that names no decision line decides "
                           "nothing")}
     claim = row.get("decided_targets_source") == "curated_targets_file"
-    extra = ("; V_eta_migration_targets.json DOES claim a signed decision for "
+    extra = ("; did_v2_migration_targets.json DOES claim a signed decision for "
              "this class (`decided_targets`), but that claim is authored and "
              "UNCHECKED" if claim else "")
     return {"state": G_NOT_FOUND, "signoff": None,
@@ -3345,7 +3346,7 @@ def _stage_rollup_md(s):
     if sr["decision_claimed_but_unchecked"]:
         out += [
             "**{n} row(s) claim a decision this tool cannot find** "
-            "-- `V_eta_migration_targets.json` gives them `decided_targets`, "
+            "-- `did_v2_migration_targets.json` gives them `decided_targets`, "
             "which its own header calls \"a signed decision no migrator "
             "implements yet\", but no decision line is quoted and checked "
             "for them and the class cites none. This caps NOTHING (the "
@@ -3515,7 +3516,7 @@ def write_ledger(veta, v1, rows):
         "",
         "*Generated by `tools/coverage.py` -- do NOT hand-edit; re-run after a schema "
         "or migrator change. " + LEDGER_BLURB + " Each row shows the V_eta document "
-        "class(es) the v1 class MIGRATES INTO (from the curated `V_eta_migration_targets."
+        "class(es) the v1 class MIGRATES INTO (from the curated `did_v2_migration_targets."
         "json`), its disposition, and its writer.*",
         "",
         f"**{s['total']} v1 source classes** ({s['by_source'].get('ndi', 0)} NDI/main "
@@ -3601,7 +3602,7 @@ def write_ledger(veta, v1, rows):
         elif r.get("target_source") == "uncurated":
             # A migrator runs but nothing records what it emits. Distinct from
             # both a measured target and a passthrough, and actionable: it is a
-            # missing row in V_eta_migration_targets.json.
+            # missing row in did_v2_migration_targets.json.
             tgt = "⚠ migrator runs, **output unrecorded**"
         elif r.get("target_source") == "passthrough":
             # NOT rendered as a migration. No migrator emits this; the document
@@ -3636,7 +3637,7 @@ def write_ledger(veta, v1, rows):
             elif r.get("no_target_reason") == NO_TARGET_DISPUTED:
                 tgt += " · ⚠ **DISPUTED disposition**"
         # THE ACCOUNT, IN THE TABLE. This footer used to say "see
-        # V_eta_migration_targets.json for the per-class `how`" -- which is to say,
+        # did_v2_migration_targets.json for the per-class `how`" -- which is to say,
         # the one field that answers the question was in a different file, behind
         # a git checkout. That is exactly why the question could not be answered
         # for a team. Pipes and newlines are escaped so a long sentence cannot

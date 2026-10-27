@@ -33,8 +33,8 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
 INDEX = os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json")
-DECISIONS = os.path.join(REPO_ROOT, "schemas", "V_eta_decisions.json")
-STATUS = os.path.join(REPO_ROOT, "schemas", "V_eta_STATUS.md")
+DECISIONS = os.path.join(REPO_ROOT, "schemas", "did_v2_decisions.json")
+STATUS = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_STATUS.md")
 
 
 def _load_tool(name):
@@ -273,7 +273,7 @@ def test_a_mint_of_a_class_the_decision_retires_is_not_progress():
     """The inversion this scan already recorded once, arriving through a new door.
 
     `session_relative_reference`'s whole open question is its COLLAPSE into
-    `relative_time_reference` (signed, V_eta_time_reference_model_plan.md:468). Three
+    `relative_time_reference` (signed, did_v2_time_reference_model_plan.md:468). Three
     migrators still mint the old class. That is the work outstanding, not
     evidence of it being done -- so a mint must not move it to (b).
     """
@@ -524,7 +524,7 @@ def test_committed_board_carries_the_evidence_snapshot():
     the evidence as absent."""
     with open(DECISIONS) as fh:
         ocs = json.load(fh).get("open_class_state")
-    assert ocs, "V_eta_decisions.json carries no open_class_state block"
+    assert ocs, "did_v2_decisions.json carries no open_class_state block"
     named = {r["class_name"] for r in ocs["classes"]}
     assert named == set(_open_classes()), (
         "the snapshot and the built index disagree about which classes are open")

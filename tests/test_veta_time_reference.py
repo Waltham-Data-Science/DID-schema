@@ -7,7 +7,7 @@ Python and this container has one. The MATLAB half of #65
 has NEVER been executed -- there is no MATLAB here. Nothing in this file proves
 anything about the migrators.
 
-Guards the SIGNED shape (`schemas/V_eta_time_reference_model_plan.md:468`,
+Guards the SIGNED shape (`docs/plans/did_v2_time_reference_model_plan.md:468`,
 TEAM-SIGN-OFF [time_reference], jess@walthamdatascience.com / 2026-08-08):
 
     CHANGE 1  `end` becomes `duration` on BOTH children -- anchor and extent are

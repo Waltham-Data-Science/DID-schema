@@ -8,7 +8,7 @@ Where things came from:
 - Channel types: NDI-matlab `origin/main` @ `639f2c41f`, `src/ndi/+ndi/+daq/+system/mfdaq.m` `mfdaq_prefix`. It has **18 prefixes**, and `claude/v2-object-layer` has the same 18.
 - Definitions: EBI OLS4 (`/api/search` and `/api/ontologies/{ont}/{terms|properties}?iri=`). For schema.org I used the OLS `schemaorg_https` ontology, and for owl:sameAs the W3C `owl.ttl`. The query scripts are in `scratchpad/olsq/` (`q.py`, `id2.py`, `sdo.py`).
 - Prefixes accepted by the registry: `schemas/V_eta/stable/CURIE_lookups_meta.json`, 50 prefixes, rule R4 in `tools/check_term_registry.py`. Of the prefixes proposed below, **SIO and owl are not registered**. Every other prefix used (BFO RO schema COB OBI IAO NCIT CL UBERON EMPTY) is registered.
-- Term registry: `schemas/V_eta_term_registry.json` has **508 terms**. It has no rows with the prefix RO, BFO, schema, COB or CL. So **none of the 5 relation nodes that already exist are registry rows**, and every node chosen here would need a registry row (T19: "registered before it is used").
+- Term registry: `schemas/did_v2_term_registry.json` has **508 terms**. It has no rows with the prefix RO, BFO, schema, COB or CL. So **none of the 5 relation nodes that already exist are registry rows**, and every node chosen here would need a registry row (T19: "registered before it is used").
 
 Fit: **exact** means the definition matches in the child→parent direction. **close** means usable, with the caveat stated. **EMPTY** means no fitting term was found.
 Proposed EMPTY ids are **provisional and run in sequence from the next free id, EMPTY:0000370** (see the end of this file).

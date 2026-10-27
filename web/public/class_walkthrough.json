@@ -7968,8 +7968,8 @@
  "generated_by": "tools/gen_class_walkthrough.py",
  "sources": {
   "did_matlab": "src/did/+did2/+convert",
-  "ground_truth": "schemas/V_eta_ndi_ground_truth.json",
-  "ledger": "schemas/V_eta_coverage_ledger.json"
+  "ground_truth": "schemas/did_v2_ndi_ground_truth.json",
+  "ledger": "schemas/did_v2_coverage_ledger.json"
  },
  "title": "Per-class migration walkthrough"
 }

@@ -75,9 +75,9 @@ TEAM-SIGN-OFF: jess / 2026-10-02 -- contained_in is timed, like member_of
   | device | an instrument | a camera, a probe, an electrode |
   | material | a non-living object or substance | an agar plate, a dish |
 
-- **This reverses, for the coarse kind only, `V_eta_migration_plan.md` A.2**
+- **This reverses, for the coarse kind only, `did_v2_migration_plan.md` A.2**
   ("kind is a bound `term_assertion`, not a field") and the matching line of
-  `V_eta_SPEC.md` §1. Why: the subject-defining assertions (species, cell type,
+  `did_v2_SPEC.md` §1. Why: the subject-defining assertions (species, cell type,
   instrument type, material type) cannot tell an organism from a tissue, a
   culture or a cell of the same species (a worm and the lawn it forages on both
   carry only a species), and A.2's "presence is an ingestion-layer invariant"

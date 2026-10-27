@@ -27,7 +27,7 @@ import re
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEB_SRC = os.path.join(REPO_ROOT, "web", "src")
-LEDGER = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER = os.path.join(REPO_ROOT, "schemas", "did_v2_coverage_ledger.json")
 
 
 def read(name):

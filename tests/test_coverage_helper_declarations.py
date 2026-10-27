@@ -45,7 +45,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import coverage  # noqa: E402
 
-LEDGER_JSON = os.path.join(ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(ROOT, "schemas", "did_v2_coverage_ledger.json")
 
 
 def _ledger():

@@ -3,8 +3,8 @@
 *Worked design for how V_eta represents tuning curves and their fits, decided in the audit
 walkthrough (R2/R3). **All decisions below are FINAL; the BUILD is deferred** — batched with
 the other walkthrough decisions (image/array). When building, this doc is the spec.
-Cross-refs: `V_eta_tenets.md` (T3/T8/T10/T12), `V_eta_tenet_audit.md` (R2/R3),
-`V_eta_subject_calculation_plan.md` (the calculator fold).*
+Cross-refs: `did_v2_tenets.md` (T3/T8/T10/T12), `did_v2_tenet_audit.md` (R2/R3),
+`did_v2_subject_calculation_plan.md` (the calculator fold).*
 
 ## The one-line model
 
@@ -123,7 +123,7 @@ be re-verified on the corpus after the re-target, not assumed.
    ARRAY entry (`model` term + coefficients + goodness); map the `vector`/`significance`/
    `fitless` scalars into the TYPED metrics block (queryable), NOT into `model_fit`.
 5. **Retire the five per-tuning composite class names + `stimulus_tuningcurve`** as distinct
-   composites (they become instances of `tuning_curve`); update `V_eta_migration_targets.json`
+   composites (they become instances of `tuning_curve`); update `did_v2_migration_targets.json`
    (the 12 tuning-family entries) to point at `tuning_curve_calculation` — the 13th
    calc-family entry, `contrast_sensitivity_calc`, stays on `contrast_sensitivity_calculation`;
    update

@@ -3,7 +3,7 @@
 *Worked design for how V_eta represents stimulus presentations, decided in the fresh-eyes
 re-audit walkthrough. **FINAL; build deferred** — batched. Supersedes the earlier
 "stimulus_presentation → visual_grating_manipulation dissolve" (#19). Cross-refs:
-`V_eta_tenets.md` (T3 direction×data_type, T6 storage/cache, T7 instrument), the
+`did_v2_tenets.md` (T3 direction×data_type, T6 storage/cache, T7 instrument), the
 ndi-next-steps `Stimulus_Manipulation_Proposal.md` (prior art, V_delta/Brainstorm-F frame —
 mined, not adopted wholesale). Subject to further re-audit like every decision.*
 
@@ -15,7 +15,7 @@ the control stimulus); control trials are the playlist positions equal to it. v1
 per-trial pairing is dropped: nothing reads it since NDI#912 reduced it back to "which
 stimulus is the blank" (`tuning_response.m:293-298`). The signed text is left as signed.
 
-**AMENDMENT (2026-10-21, Jess Haley, `V_eta_method_plan.md`; a PROPOSAL built ahead of
+**AMENDMENT (2026-10-21, Jess Haley, `did_v2_method_plan.md`; a PROPOSAL built ahead of
 signature, not signed). Distinct stimuli are `method` documents, not `visual_grating` /
 `image` documents.** The model below keeps its shape -- a presentation becomes an `item`
 (the deduplicated, ordered list of distinct stimuli plus the index-array playlist; it was
@@ -180,7 +180,7 @@ stimulation. What changed is where three of its pieces attach.
 
 The model says `timed_sequence_manipulation.time_reference -> epoch_bounded_reference`.
 That class is one of the **eight collapsed into `absolute_reference` + `relative_reference`**
-(`V_eta_time_reference_model_plan.md`, SIGNED 2026-08-08). It had **ZERO documents** and no
+(`did_v2_time_reference_model_plan.md`, SIGNED 2026-08-08). It had **ZERO documents** and no
 migrator ever emitted one. A presentation spanning an epoch becomes:
 
 ```
@@ -197,7 +197,7 @@ facts and now carry independent `approximate` flags.
 ### 2. `presentation_time` goes through the BODY TIER, not a bare `files` slot
 
 The model hangs `files: presentation_time.bin` directly off the `timed_sequence` composite.
-Under the data_body decision (`V_eta_data_body_model_plan.md`), per-trial onsets are an
+Under the data_body decision (`did_v2_data_body_model_plan.md`), per-trial onsets are an
 **irregular time axis**, and a composite reaches its payload through `storage_mode` exactly as
 `image` reaches its pixels:
 
@@ -337,7 +337,7 @@ decompose-around-the-preserved-id rule on 2026-08-08. This line REFINES an item
 that signature left open; it does not change any row's governance state, so
 there is nothing for the join to move. (An earlier signature this same day was
 appended to a document for exactly the opposite reason and joined to the wrong
-line -- see `V_eta_time_reference_family_plan.md`. Check which case you are in
+line -- see `did_v2_time_reference_family_plan.md`. Check which case you are in
 before adding one.)
 
 PROVENANCE: Operating Rule 4 says Claude must never add a TEAM-SIGN-OFF line,
@@ -384,7 +384,7 @@ they hold for every migrated dataset, not for one.
 2. **Several animals in one session get one manipulation on the session's cohort, marked
    `distributive`, never N copies.** The cohort is a standing group (the animals recorded
    together in that session), reused by every presentation in it. This is the T17
-   amendment in `V_eta_tenets.md`, signed 2026-10-21 ([tenet amendments 2026-10-21]). Its build is part of the migrator port
+   amendment in `did_v2_tenets.md`, signed 2026-10-21 ([tenet amendments 2026-10-21]). Its build is part of the migrator port
    (OPEN_WORK #79).
 3. **A blank counts as a blank whatever its stimulus class** (`isblank` = 1). A blank shows
    nothing, so its class does not change what the animal saw.

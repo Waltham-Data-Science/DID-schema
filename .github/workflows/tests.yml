@@ -21,7 +21,7 @@ jobs:
   #
   # `--ci` implies `--check`: everything is regenerated into a scratch mirror
   # and diffed against the checkout, so a hand-edited schemas/did_v2 or a stale
-  # V_eta_final_class_set.md now fails here. Nothing is written back.
+  # did_v2_final_class_set.md now fails here. Nothing is written back.
   #
   # THIS COMMENT USED TO SAY the five sibling-reading steps were "the concrete
   # reason CI cannot be the whole chain". THE SIBLINGS ARE NOW CHECKED OUT AND

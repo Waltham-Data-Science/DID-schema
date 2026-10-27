@@ -1,4 +1,4 @@
-"""`formulation.value.type` (V_eta_study_plan.md): what kind of mixture a recipe is."""
+"""`formulation.value.type` (did_v2_study_plan.md): what kind of mixture a recipe is."""
 import json
 from pathlib import Path
 

@@ -3,17 +3,17 @@
 **Denominator.** I read 47 of 47 composite schemas (`schemas/V_eta/{stable,draft}/<class>.json`, every field and its documentation). I also read these for cross-checks: `relation`, `subject_statement`, `subject_interaction` (grep only), `draft/sampled_body`, `draft/data_body`, `tuning_curve_calculation`, `contrast_tuning_calculation`, `contrast_sensitivity_calculation`, `hartley_calc`, and V_zeta `reverse_correlation`/`hartley_reverse_correlation`.
 
 I read 10 plan documents:
-- read in full: `V_eta_tenets.md` and `V_eta_spatial_transcriptomics_plan.md`;
-- `V_eta_tuning_model_plan.md`: :1-100 and :140-229 (I skipped :100-140);
-- `V_eta_data_body_model_plan.md`: :505-530 and :870-1105, plus greps;
-- `V_eta_ngrid_family_findings.md`: :300-406;
-- `V_eta_stimulus_model_plan.md`: :222-300, plus greps;
-- `V_eta_logical_observation_plan.md`: :340-459;
-- `V_eta_clock_alignment_cluster_plan.md`: :129-150 and the sign-offs at :493-495, plus greps;
-- `V_eta_image_model_plan.md`: headings and the tail;
-- `V_gamma_SPEC.md`: :605-630, for the canonical-unit rule.
+- read in full: `did_v2_tenets.md` and `did_v2_spatial_transcriptomics_plan.md`;
+- `did_v2_tuning_model_plan.md`: :1-100 and :140-229 (I skipped :100-140);
+- `did_v2_data_body_model_plan.md`: :505-530 and :870-1105, plus greps;
+- `did_v2_ngrid_family_findings.md`: :300-406;
+- `did_v2_stimulus_model_plan.md`: :222-300, plus greps;
+- `did_v2_logical_observation_plan.md`: :340-459;
+- `did_v2_clock_alignment_cluster_plan.md`: :129-150 and the sign-offs at :493-495, plus greps;
+- `did_v2_image_model_plan.md`: headings and the tail;
+- `V_gamma_SPEC.md` (deleted; see git 04fc712): :605-630, for the canonical-unit rule.
 
-I did not read `V_eta_time_reference_model_plan.md` beyond what CLAUDE.md quotes.
+I did not read `did_v2_time_reference_model_plan.md` beyond what CLAUDE.md quotes.
 
 This report is read-only. It decides nothing, and every fix below is a suggestion.
 
@@ -52,8 +52,8 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 
 1. **VIOLATION: the angles are in degrees, but angles are decided to be radians everywhere.**
    - Schema: `stable/visual_grating.json:38` `value.angle`, *"Orientation/direction of the grating, degrees"*, and `:170` `value.phase`, *"Spatial phase of the grating, degrees"*.
-   - Decision: `V_eta_data_body_model_plan.md:927` *"ANGLES ARE RADIANS, EVERYWHERE"*, `:937-938` *"`angle`'s is `radians`. So `orientation` and `direction` axes are RADIANS"*, and a degrees-based proposal *"was put and rejected"*.
-   - Consequence: after migration a 45° grating stores `45` while the `tuning_curve` axis it drives stores `0.785` (`tuning_curve.json` `independent_variables.unit`: *"radians for angles"*). The stimulus plan's own example query, *"find the `visual_grating` doc at ~45°"* (`V_eta_stimulus_model_plan.md:91`), then compares across two unit systems.
+   - Decision: `did_v2_data_body_model_plan.md:927` *"ANGLES ARE RADIANS, EVERYWHERE"*, `:937-938` *"`angle`'s is `radians`. So `orientation` and `direction` axes are RADIANS"*, and a degrees-based proposal *"was put and rejected"*.
+   - Consequence: after migration a 45° grating stores `45` while the `tuning_curve` axis it drives stores `0.785` (`tuning_curve.json` `independent_variables.unit`: *"radians for angles"*). The stimulus plan's own example query, *"find the `visual_grating` doc at ~45°"* (`did_v2_stimulus_model_plan.md:91`), then compares across two unit systems.
    - Suggestion: store radians canonically and keep degrees as the source value, the same way `angle` does.
 
 2. **VIOLATION (T14): the units of every numeric field are written only in prose.** `angle`, `spatial_frequency` (*"cycles/degree"*), `size`, `position.x`/`.y` and `duration` are all bare `double`s, and their units live only in `documentation`. T14 requires *"Anything a consumer must know in order to read a value is declared in the schema"*, and warns against the case where a value's *"internals are then known solely to whoever wrote the migrator"*.
@@ -68,24 +68,24 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 
 5. **INCONSISTENCY: its fit shape and names differ from the tuning family's.**
    - Its `model_fit` is `{model, coefficients:matrix, goodness, sensitivity, relative_max_gain, empirical_c50, saturation_index}`.
-   - The #73 amendment sets fit entries to *"`{model, coefficients, goodness, metrics, sampled_fit}`"* (`V_eta_tuning_model_plan.md`, amendment item 5), and `tuning_curve_calculation` builds `coefficients` as a `structure`.
+   - The #73 amendment sets fit entries to *"`{model, coefficients, goodness, metrics, sampled_fit}`"* (`did_v2_tuning_model_plan.md`, amendment item 5), and `tuning_curve_calculation` builds `coefficients` as a `structure`.
    - `interpolated_values.c50` keeps the name that #73 item 6 retires (*"`l50` and `interpolated_c50` → `half_maximum_below`"*).
    - The significance fields are `*_p_bonferroni` here and `*_anova_p` on the tuning leaf.
    - Suggestion: align it with the #73 fit-entry shape, or record why contrast sensitivity differs.
 
-6. **INCONSISTENCY: calculation outputs sit on the composite here, but on the leaf for tuning.** The 2026-09-21 sign-off moved *"significance and model_fit[] on the LEAF (calc-produced); everything else on the composite"* (`V_eta_tuning_model_plan.md:144ff`, item 3). `contrast_sensitivity` keeps `model_fit`, `significance` and `interpolated_values` on the composite, and `contrast_sensitivity_calculation` declares no fields. That sign-off is scoped to tuning, so this is a disagreement between siblings, not a violation.
+6. **INCONSISTENCY: calculation outputs sit on the composite here, but on the leaf for tuning.** The 2026-09-21 sign-off moved *"significance and model_fit[] on the LEAF (calc-produced); everything else on the composite"* (`did_v2_tuning_model_plan.md:144ff`, item 3). `contrast_sensitivity` keeps `model_fit`, `significance` and `interpolated_values` on the composite, and `contrast_sensitivity_calculation` declares no fields. That sign-off is scoped to tuning, so this is a disagreement between siblings, not a violation.
    - Suggestion: a team call on whether the field split applies here too.
 
 ### reverse_correlation / hartley_reverse_correlation / receptive_field
 
 7. **INCONSISTENCY: `hartley_reverse_correlation` puts the method in the class name, which a signed decision rules out.**
-   - Signed: `TEAM-SIGN-OFF [receptive field fold]` 2026-08-17 (`V_eta_ngrid_family_findings.md:358`): *"`reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name"*. The schema says the same: `receptive_field.value.method`, *"The METHOD, never part of the class name (T11)"*.
+   - Signed: `TEAM-SIGN-OFF [receptive field fold]` 2026-08-17 (`did_v2_ngrid_family_findings.md:358`): *"`reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name"*. The schema says the same: `receptive_field.value.method`, *"The METHOD, never part of the class name (T11)"*.
    - Counter-authority: the builder cites *"TEAM-SIGN-OFF 2026-09-21, issue #67 category ③"* for keeping both as thin markers (`tools/build_v_eta.py:3626-3633`). I did not find that line in any plan document.
    - The #73 amendment dropped the five tuning markers on exactly this ground: *"The fact each encoded is already `…variable`, and nothing tied the two together (T11, T14)"*. The same holds here: nothing ties `hartley_reverse_correlation` to `value.method`.
    - Both classes have empty `fields`, and their only descendant is the retired v1 tombstone `hartley_calc`. `receptive_field_calculation` does not inherit through either of them.
    - Suggestion: a team call on whether #73's marker reasoning retires both, leaving `hartley_calc` directly under `receptive_field` or `base`.
 
-8. **QUESTION: I could not confirm item 38's claim that unmigrated `hartley_calc` documents still validate.** Item 38 (`V_eta_spatial_transcriptomics_plan.md`) says they do. But the tombstone now inherits `hartley_reverse_correlation` and `reverse_correlation`, and both declare **zero** fields in V_eta. The V_zeta versions declared `stimulus_properties`, `reconstruction_properties`, `spiketimes`, `frame_times`, `hartley_numbers`, `method` and `dimension_labels`, and `V_eta_ndi_ground_truth.json:88` records the writer emitting `hartley_numbers`. The tombstone also inherits `receptive_field.value` with `mustBeNonEmpty: true`, which a v1 document does not carry. I found no test or checker that covers this tombstone: `check_tombstones.py`'s output does not list it.
+8. **QUESTION: I could not confirm item 38's claim that unmigrated `hartley_calc` documents still validate.** Item 38 (`did_v2_spatial_transcriptomics_plan.md`) says they do. But the tombstone now inherits `hartley_reverse_correlation` and `reverse_correlation`, and both declare **zero** fields in V_eta. The V_zeta versions declared `stimulus_properties`, `reconstruction_properties`, `spiketimes`, `frame_times`, `hartley_numbers`, `method` and `dimension_labels`, and `did_v2_ndi_ground_truth.json:88` records the writer emitting `hartley_numbers`. The tombstone also inherits `receptive_field.value` with `mustBeNonEmpty: true`, which a v1 document does not carry. I found no test or checker that covers this tombstone: `check_tombstones.py`'s output does not list it.
    - Suggestion: add a fixture-validation test for a v1 `hartley_calc` passthrough.
 
 9. **STALE-DOC: the receptive_field documentation still says `axes[]`.** `stable/receptive_field.json:25` reads *"the axes … are declared there, on `axes[]`"*, but item 14 renamed *"`axes` → `keys` in all four places"*, and `draft/sampled_body.json:31` declares `keys`. The builder source carries the same text (`tools/build_v_eta.py` near :3617).
@@ -96,15 +96,15 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 ### The quantity composites (28 of them)
 
 11. **STALE-DOC: 28 composites say timing lives in `sample_time`, which is signed to retire.** The 28 are all of the quantity classes plus `count` and `score`. For example `stable/voltage.json:31`: *"Per-sample timing is the statement's sample_time cadence (D1)"*.
-    - Signed: `TEAM-SIGN-OFF [data_body]` 2026-08-14 (`V_eta_data_body_model_plan.md:648`): *"time becomes an ordinary axis and both sample_time blocks retire"*; build step `:519` is *"retire sample_time from both schema sites"*.
+    - Signed: `TEAM-SIGN-OFF [data_body]` 2026-08-14 (`did_v2_data_body_model_plan.md:648`): *"time becomes an ordinary axis and both sample_time blocks retire"*; build step `:519` is *"retire sample_time from both schema sites"*.
     - The sibling `image.json:51` already says *"Time is an ordinary key"*.
     - The retirement is not built: `subject_interaction.json:117` still declares `sample_time`. The prose therefore matches the build but not the decision.
     - Suggestion: reword to "per-sample timing is a time key", either when the retirement lands or now.
 
 12. **INCONSISTENCY: the "SI" claim does not match the canonical units actually used.**
-    - Claims: `V_eta_data_body_model_plan.md:937` *"Every quantity in V_eta names its canonical slot after an SI unit"*. `image.json:117` and `subject_statement.json:455` say *"the SI convention every other quantity in V_eta follows"*, and `tuning_curve.json:117` says *"per SI convention"*.
+    - Claims: `did_v2_data_body_model_plan.md:937` *"Every quantity in V_eta names its canonical slot after an SI unit"*. `image.json:117` and `subject_statement.json:455` say *"the SI convention every other quantity in V_eta follows"*, and `tuning_curve.json:117` says *"per SI convention"*.
     - Schema: `pressure.value.mmhg` (`pressure.json:35`) is not SI. `celsius`, `liters`, `grams`, `decibels` and `arbitrary_units` are not SI base units.
-    - The rule that actually governs is *"practical SI unit … not necessarily the strict SI base unit"* (`V_gamma_SPEC.md:612-617`), plus the 2026-09-23 grams decision (`build_v_eta.py:9055-9060`).
+    - The rule that actually governs is *"practical SI unit … not necessarily the strict SI base unit"* (`V_gamma_SPEC.md` lines 612-617 (deleted; see git 04fc712)), plus the 2026-09-23 grams decision (`build_v_eta.py:9055-9060`).
     - The radians conclusion survives, because `angle.value.radians` exists.
     - Suggestion: reword the three documentation strings to "practical-SI canonical".
 
@@ -116,7 +116,7 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 
 ### tuning_curve
 
-16. **INCONSISTENCY: `value.response_units` is free-text `char`** (`tuning_curve.json:283`, e.g. *"'spikes/s', 'dF/F'"*). The amended key carries `unit` as a bound `ontology_term`, because *"a free-text unit beside a bound `variable` is the escape hatch that makes the binding pointless"* (`V_eta_data_body_model_plan.md:898-907`). `response_type` and `coordinates` are free `char` as well, and so is `contrast_sensitivity.response_type`. Suggestion: make `response_units` an `ontology_term`.
+16. **INCONSISTENCY: `value.response_units` is free-text `char`** (`tuning_curve.json:283`, e.g. *"'spikes/s', 'dF/F'"*). The amended key carries `unit` as a bound `ontology_term`, because *"a free-text unit beside a bound `variable` is the escape hatch that makes the binding pointless"* (`did_v2_data_body_model_plan.md:898-907`). `response_type` and `coordinates` are free `char` as well, and so is `contrast_sensitivity.response_type`. Suggestion: make `response_units` an `ontology_term`.
 
 17. **INCONSISTENCY (T14): `independent_variables[]` is a thinner copy of the key entry.** It has `{variable, values, unit}`, with no `source_values` / `source_unit` / `approximate`, and no `labels` even though its own documentation says the unit is *"absent for a categorical variable"*. Categorical positions therefore have nowhere to go. Converting degrees to radians loses the as-recorded values that T14's *"canonical value plus lossless source provenance"* requires. Keeping the name `independent_variables` is signed (#67); the reduced shape is not.
     - Suggestion: reuse the key sub-field layout under the signed name.
@@ -138,13 +138,13 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 
 ### clock_alignment / polynomial
 
-23. **QUESTION (T6 / items 24 and 30): clock_alignment holds its data two different ways.** It is ⊂ [`relation`, `polynomial`], so it carries its data inline as a data type. Item 24/30 later gave `relation` a `value_id` edge for exactly this purpose (*"the standalone data_type document holding this relation's data"*, `relation.json:17`). A relation carrying data is therefore modelled in two ways, and `clock_alignment` inherits both an inline `value` and a `value_id`. Separately, T6 says *"a standalone data-type document is CONTENT, NOT A CLAIM"*, yet `isa data_type` returns this relation, which is a claim. The multiple inheritance is signed (`V_eta_clock_alignment_cluster_plan.md:495`, 2026-08-08) and predates items 24 and 30. A team call.
+23. **QUESTION (T6 / items 24 and 30): clock_alignment holds its data two different ways.** It is ⊂ [`relation`, `polynomial`], so it carries its data inline as a data type. Item 24/30 later gave `relation` a `value_id` edge for exactly this purpose (*"the standalone data_type document holding this relation's data"*, `relation.json:17`). A relation carrying data is therefore modelled in two ways, and `clock_alignment` inherits both an inline `value` and a `value_id`. Separately, T6 says *"a standalone data-type document is CONTENT, NOT A CLAIM"*, yet `isa data_type` returns this relation, which is a claim. The multiple inheritance is signed (`did_v2_clock_alignment_cluster_plan.md:495`, 2026-08-08) and predates items 24 and 30. A team call.
 
 24. **STALE-DOC: polynomial's documentation still says `axis.n`.** `draft/polynomial.json:51` reads *"Same test that kept `axis.n`"*; item 14 renamed it to `keys[].n`.
 
 ### logical
 
-25. **STALE-DOC: logical's documentation still describes the withdrawn `valid_interval` fold.** `draft/logical.json:25` says *"FOR THE `valid_interval` FOLD, EACH CELL IS ONE INTERVAL"*, and the long block of consumer reading rules is written for that fold. `TEAM-SIGN-OFF [logical_observation amendment 1]` 2026-08-18 (`V_eta_logical_observation_plan.md:420`) says *"`valid_interval` migrates to `time_observation`, not `logical_observation` … The array of booleans is WITHDRAWN"*. `logical` has since gained a stated user (item 24: gene-mapping *"`score` (or `logical`) document"*), so the documentation now describes the wrong consumer.
+25. **STALE-DOC: logical's documentation still describes the withdrawn `valid_interval` fold.** `draft/logical.json:25` says *"FOR THE `valid_interval` FOLD, EACH CELL IS ONE INTERVAL"*, and the long block of consumer reading rules is written for that fold. `TEAM-SIGN-OFF [logical_observation amendment 1]` 2026-08-18 (`did_v2_logical_observation_plan.md:420`) says *"`valid_interval` migrates to `time_observation`, not `logical_observation` … The array of booleans is WITHDRAWN"*. `logical` has since gained a stated user (item 24: gene-mapping *"`score` (or `logical`) document"*), so the documentation now describes the wrong consumer.
     - Suggestion: move the validity reading rules to wherever `time_observation` validity lives.
 
 ### image
@@ -158,4 +158,4 @@ None of the 47 composites has an `is_`/`has_` boolean, a camelCase field or a 1-
 
 ### The yardstick itself
 
-27. **STALE-DOC: the tenets repeat superseded wording.** `V_eta_tenets.md:43` (T2) still gives an interaction *"a per-sample `sample_time` cadence"*, and T6 still describes `sampled_body` as *"sample-time axis + typed datum + summary"*. The 2026-08-14 data_body signature retires `sample_time` and drops `summary`. Suggestion: re-sync T2 and T6 with the data_body signature.
+27. **STALE-DOC: the tenets repeat superseded wording.** `did_v2_tenets.md:43` (T2) still gives an interaction *"a per-sample `sample_time` cadence"*, and T6 still describes `sampled_body` as *"sample-time axis + typed datum + summary"*. The 2026-08-14 data_body signature retires `sample_time` and drops `summary`. Suggestion: re-sync T2 and T6 with the data_body signature.

@@ -249,7 +249,7 @@
             "uri_base": "http://purl.obolibrary.org/obo/UO_",
             "uri_style": "obo_underscore",
             "approximate": false,
-            "documentation": "OBO Foundry ontology of units. Registered for one unit OM lacks: pH, UO:0000196 (Jess Haley 2026-10-22 [pH unit is UO pH], V_eta_data_body_model_plan.md). Other units stay OM. Expansion rule: 'UO:NNNNNNN' -> 'http://purl.obolibrary.org/obo/UO_NNNNNNN'.",
+            "documentation": "OBO Foundry ontology of units. Registered for one unit OM lacks: pH, UO:0000196 (Jess Haley 2026-10-22 [pH unit is UO pH], did_v2_data_body_model_plan.md). Other units stay OM. Expansion rule: 'UO:NNNNNNN' -> 'http://purl.obolibrary.org/obo/UO_NNNNNNN'.",
             "pattern": "^\\d{7}$",
             "pattern_source": "https://bioregistry.io/api/registry/uo (2026-10-22)",
             "spelling": "UO",
@@ -738,7 +738,7 @@
             "uri_base": "http://purl.obolibrary.org/obo/XCO_",
             "uri_style": "obo_underscore",
             "approximate": false,
-            "documentation": "Bioregistry prefix `xco`. Conditions under which measurements are made, e.g. XCO:0000099 control condition (the `logical` covariate marking a stimulus presentation's controls; Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md).",
+            "documentation": "Bioregistry prefix `xco`. Conditions under which measurements are made, e.g. XCO:0000099 control condition (the `logical` covariate marking a stimulus presentation's controls; Jess Haley, 2026-10-22 [control as covariate], did_v2_stimulus_response_model_plan.md).",
             "pattern": "^\\d{7}$",
             "pattern_source": "https://bioregistry.io/api/registry/xco (2026-10-22)",
             "spelling": "XCO",
@@ -797,7 +797,7 @@
             "uri_base": "https://openminds.om-i.org/instances/",
             "uri_style": "direct",
             "approximate": false,
-            "documentation": "openMINDS controlled-term instances, identified by openMINDS's own stable ids: the @id of an instance file under openMINDS_instances instances/latest/terminologies/<terminology>/ is https://openminds.om-i.org/instances/<terminology>/<name>, written openminds:<terminology>/<name> (e.g. openminds:technique/calciumImaging, openminds:semanticDataType/derivedData). Registered for the dataset technique and data type value sets (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [census terms] T2 and [dataset form terms]); read from openMINDS_instances main 3750716 (2026-10-21). Not in Bioregistry (bioregistry.io/api/registry/openminds: 'Prefix not found', 2026-10-26). Expansion rule: 'openminds:technique/X' -> 'https://openminds.om-i.org/instances/technique/X'.",
+            "documentation": "openMINDS controlled-term instances, identified by openMINDS's own stable ids: the @id of an instance file under openMINDS_instances instances/latest/terminologies/<terminology>/ is https://openminds.om-i.org/instances/<terminology>/<name>, written openminds:<terminology>/<name> (e.g. openminds:technique/calciumImaging, openminds:semanticDataType/derivedData). Registered for the dataset technique and data type value sets (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [census terms] T2 and [dataset form terms]); read from openMINDS_instances main 3750716 (2026-10-21). Not in Bioregistry (bioregistry.io/api/registry/openminds: 'Prefix not found', 2026-10-26). Expansion rule: 'openminds:technique/X' -> 'https://openminds.om-i.org/instances/technique/X'.",
             "pattern": "^[A-Za-z]+/[A-Za-z0-9_-]+$",
             "pattern_source": "ours: the path of an openMINDS instance @id after /instances/ (<terminology>/<name>); all 231 technique and semanticDataType ids at openMINDS_instances 3750716 match it",
             "spelling": "openminds",
@@ -810,5 +810,5 @@
         "direct": "Concatenate uri_base with the CURIE local part verbatim (e.g., 'https://schema.org/name').",
         "local": "No URI expansion; the CURIE is the authoritative identifier and the uri_base is empty."
     },
-    "documentation": "This file is advisory, not enforced structurally by the meta-schema. It is consumed by tooling that needs to expand CURIEs to URIs, warn on unknown prefixes, or flag approximate namespaces. To add a prefix: add an entry under prefixes with all four metadata keys, bump format_version at least PATCH, and update V_gamma_SPEC.md's 'CURIE Registry' section. Each prefix may carry a `pattern` (a regular expression for the local id, from Bioregistry where it has one) so a CURIE's form can be checked; `entity.global_identifier` uses the same prefixes (V_eta_entity_composition_plan.md sec. 6). Each entry carries `spelling` (the prefix as written in documents; a writer emits it), `spelling_source` and `synonyms`. A reader recognises a prefix by the entry's key, its `spelling` or any of its `synonyms`, ignoring case; no two entries share one. `legacy_rewrite` names an older prefix that splits the identifier differently (`WBStrain:00004246` is read as `WormBase:WBStrain00004246`), and `written_as` names the entry an identifier is cited through (`cellosaurus` and `addgene` are written `RRID:CVCL_...` and `RRID:Addgene_...`). V_eta_prefix_spelling_plan.md."
+    "documentation": "This file is advisory, not enforced structurally by the meta-schema. It is consumed by tooling that needs to expand CURIEs to URIs, warn on unknown prefixes, or flag approximate namespaces. To add a prefix: add an entry under prefixes with all four metadata keys, bump format_version at least PATCH, and update the 'CURIE Registry' section of V_gamma_SPEC.md (deleted; see git 04fc712). Each prefix may carry a `pattern` (a regular expression for the local id, from Bioregistry where it has one) so a CURIE's form can be checked; `entity.global_identifier` uses the same prefixes (did_v2_entity_composition_plan.md sec. 6). Each entry carries `spelling` (the prefix as written in documents; a writer emits it), `spelling_source` and `synonyms`. A reader recognises a prefix by the entry's key, its `spelling` or any of its `synonyms`, ignoring case; no two entries share one. `legacy_rewrite` names an older prefix that splits the identifier differently (`WBStrain:00004246` is read as `WormBase:WBStrain00004246`), and `written_as` names the entry an identifier is cited through (`cellosaurus` and `addgene` are written `RRID:CVCL_...` and `RRID:Addgene_...`). did_v2_prefix_spelling_plan.md."
 }

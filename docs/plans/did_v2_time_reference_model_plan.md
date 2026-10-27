@@ -1,6 +1,6 @@
 # V_eta — the time_reference model (DECIDED in walkthrough; build deferred)
 
-*Supersedes the defect list in `V_eta_time_reference_family_plan.md`, which scoped the existing
+*Supersedes the defect list in `did_v2_time_reference_family_plan.md`, which scoped the existing
 8-class family. That file stays as the record of what was wrong; this one is the go-forward
 model. Nothing here is built.*
 
@@ -118,7 +118,7 @@ bound to:                                           did_clocktype   (ALREADY EXI
 `clock` needs no new vocabulary, matches the value_set already built, and is what NDI
 calls it. Read the section below for the ORIGINAL reasoning; the NAME is `clock`.
 Downstream: `clock_alignment` and `clock_alignment_configuration` in
-`V_eta_clock_alignment_cluster_plan.md`.
+`did_v2_clock_alignment_cluster_plan.md`.
 
 ## `frame` — which timeline within the referent  (ORIGINAL reasoning; the name is now `clock`)
 

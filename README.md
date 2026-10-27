@@ -15,9 +15,9 @@ The schema in use is **V_eta**. Each document class is one JSON file under `sche
 
 Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`, plus `fields` for a structure.
 
-`schemas/did_v2/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/did_v2/stable/*_meta.json`; the term registry's source is `schemas/V_eta_term_registry.json`.
+`schemas/did_v2/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/did_v2/stable/*_meta.json`; the term registry's source is `schemas/did_v2_term_registry.json`.
 
-The model in one paragraph: every identifiable thing is an `entity` with a bound `type`; what is said about it is a statement (`assertion`, `observation`, `manipulation` or `calculation`) whose value kind is a mixin in its `superclasses`; relations are `directed_relation` documents; values are inline or in data bodies (`sampled_body`, `opaque_body`). The principles are in [schemas/V_eta_tenets.md](schemas/V_eta_tenets.md), and each decision is recorded in a plan document under `schemas/` (`Decided by <name>, <date> [<tag>]` lines). [schemas/V_eta_SPEC.md](schemas/V_eta_SPEC.md) predates the 2026-10-08 entity merge; where it disagrees with the tenets or a plan document, those win.
+The model in one paragraph: every identifiable thing is an `entity` with a bound `type`; what is said about it is a statement (`assertion`, `observation`, `manipulation` or `calculation`) whose value kind is a mixin in its `superclasses`; relations are `directed_relation` documents; values are inline or in data bodies (`sampled_body`, `opaque_body`). The principles are in [docs/did_v2_tenets.md](docs/did_v2_tenets.md), and each decision is recorded in a plan document under `schemas/` (`Decided by <name>, <date> [<tag>]` lines). [docs/history/did_v2_SPEC.md](docs/history/did_v2_SPEC.md) predates the 2026-10-08 entity merge; where it disagrees with the tenets or a plan document, those win.
 
 The earlier versions (`V_alpha` .. `V_zeta`) are retired: their schema trees are deleted, and only their `*_SPEC.md` / `*_notes.md` files remain in `schemas/` as history.
 
@@ -32,9 +32,9 @@ did-schema/
 |   |   +-- index.json                  <- class index (tier, version, superclasses, disposition)
 |   |   +-- stable/  draft/  deprecated/  <- one <class_name>.json per class; *_meta.json registries
 |   |   +-- conversions/from_did_v1/    <- per-class v1 -> V_eta conversion notes
-|   +-- V_eta_term_registry.json        <- source of the term registry
-|   +-- V_eta_*_plan.md, V_eta_tenets.md  <- decisions and principles
-|   +-- V_eta_STATUS.md, V_eta_coverage_ledger.*, ...  <- generated (do not hand-edit)
+|   +-- did_v2_term_registry.json        <- source of the term registry
+|   +-- V_eta_*_plan.md, did_v2_tenets.md  <- decisions and principles
+|   +-- did_v2_STATUS.md, did_v2_coverage_ledger.*, ...  <- generated (do not hand-edit)
 +-- tools/                              <- gates.py and the tools it runs
 +-- tests/                              <- pytest suite
 +-- web/                                <- schema viewer (see web/README.md)

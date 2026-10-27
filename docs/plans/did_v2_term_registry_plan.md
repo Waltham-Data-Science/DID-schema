@@ -1,7 +1,7 @@
 # V_eta term registry: one term per meaning, across every NDI dataset
 
 **Status: SIGNED 2026-10-20 (the `TEAM-SIGN-OFF [term registry]` line is at the end of "Decisions"), AND BUILT.**
-Tenet T19 (`V_eta_tenets.md`) is the rule; this document is the mechanism.
+Tenet T19 (`did_v2_tenets.md`) is the rule; this document is the mechanism.
 
 ## The problem
 
@@ -28,11 +28,11 @@ a method, a unit or a statistic:
    and only when no term exists a new one minted in EMPTY. A term found at the
    second or third step is registered before it is used.
 
-TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com / 2026-10-20 -- tenet T19 (a term already used in an NDI dataset first, then an existing ontology term, and only then a new EMPTY term; the general term when the meaning is the same; never narrower or broader than true; a minted term names nothing the document already carries; each condition's term is complete on its own) and its mechanism: the term list lives in DID-schema (schemas/V_eta_term_registry.json, checked by tools/check_term_registry.py), and did2.build refuses a term the registry does not hold.
+TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com / 2026-10-20 -- tenet T19 (a term already used in an NDI dataset first, then an existing ontology term, and only then a new EMPTY term; the general term when the meaning is the same; never narrower or broader than true; a minted term names nothing the document already carries; each condition's term is complete on its own) and its mechanism: the term list lives in DID-schema (schemas/did_v2_term_registry.json, checked by tools/check_term_registry.py), and did2.build refuses a term the registry does not hold.
 
 ## What was built
 
-**The registry** is authored in `schemas/V_eta_term_registry.json` and copied
+**The registry** is authored in `schemas/did_v2_term_registry.json` and copied
 by `tools/build_v_eta.py` into `schemas/V_eta/stable/term_registry_meta.json`,
 where DID-matlab's schema cache loads it. Each entry:
 
@@ -144,7 +144,7 @@ The lists set on 2026-10-21:
 | ethics jurisdiction (EMPTY:0000359; replaces ethics assessment, EMPTY:0000355, now obsolete) | all 206 openMINDS (latest) `sovereignState` (197) and `supranationalBody` (9) terms, each by its `preferredCrossReference` Wikidata entity (`wikidata:Qnnn`) |
 | experimental approach (EMPTY:0000356) | all 40 openMINDS (latest) `experimentalApproach` terms by their `preferredOntologyIdentifier`: 34 InterLex (`ILX:nnnnnnn`; the `interlex` prefix joins the CURIE registry, spelled `ILX` as InterLex's own JSON-LD context writes it), EDAM `pharmacology` (EDAM:topic_0202), and EMPTY:0000360-0000364 minted for the 5 with no identifier (chemogenetics, genetics, informatics, optogenetics, pathology) |
 
-The `study design` (OBI:0500000) row is dropped (`V_eta_study_plan.md`,
+The `study design` (OBI:0500000) row is dropped (`did_v2_study_plan.md`,
 proposed 2026-10-21, not signed). `study design independent variable`
 (OBI:0000750) stays "any registered term".
 
@@ -183,7 +183,7 @@ Decided by Jess Haley, 2026-10-22 [Haley terms general]: EMPTY:0000350 is replac
 
 Decided by Jess Haley, 2026-10-22 [region by condition and input]: a calculation measured against a region names the region's kind with a term condition (Location = bacterial patch) and the specific region by its mask document in the calculation's `input_id`; conditions get no document value form (their forms stay term, quantity, count, text, logical, matrix), because the input edge already carries the link (answer "O3 a"). Built: NDI-matlab a52818cc5.
 
-Decided by Jess Haley, 2026-10-22 [serial number]: a device's serial number is an assertion, variable IAO:0000131 serial number, with a text value; the manufacturer is reached through `instance_of` to the product and `sold_by` (answer "P2a"). Built: IAO:0000131 is registered; the T18 sentence is in V_eta_tenets.md.
+Decided by Jess Haley, 2026-10-22 [serial number]: a device's serial number is an assertion, variable IAO:0000131 serial number, with a text value; the manufacturer is reached through `instance_of` to the product and `sold_by` (answer "P2a"). Built: IAO:0000131 is registered; the T18 sentence is in did_v2_tenets.md.
 
 Decided by Jess Haley, 2026-10-22 [registry holds nodes]: "the registry needs nodes, not synonyms" — the term registry carries no synonym field. A v1 code that maps to a term (a channel prefix such as `ai`) is converted by the migrator and NDI's vintage map, and code compares relations, entity types and channel types by node, never by name.
 
@@ -193,7 +193,7 @@ Decided by Jess Haley, 2026-10-22 [ethics assessment to jurisdiction]: v1 metada
 
 ## 2026-10-26 -- a term states the unit of its number (`number_unit`)
 
-Built for the decision `V_eta_go_forward_class_audit.md` [term-stated unit is generic]
+Built for the decision `did_v2_go_forward_class_audit.md` [term-stated unit is generic]
 (the line "Decided by Jess Haley, 2026-10-26 [term-stated unit is generic]" there; this
 section records the build and decides nothing): when a term's definition states the unit
 its accompanying number takes, the term's registry row says so, and a migrator reads the

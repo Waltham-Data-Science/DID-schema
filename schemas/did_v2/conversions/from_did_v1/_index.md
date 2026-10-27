@@ -2,7 +2,7 @@
 
 Enumerates every `did_v1` document class a migrator must convert to **V_eta**
 (Brainstorm J), with status. The **authoritative field-level mapping** is
-`schemas/V_eta_migration_plan.md` (Part D per-class + Part C new machinery);
+`docs/history/did_v2_migration_plan.md` (Part D per-class + Part C new machinery);
 these per-class docs carry the detailed field moves and each hard/semi doc opens
 with a strict-J retarget banner (the body below is retained V_zeta reference).
 Cross-cutting renames: [`_universal_renames.md`](_universal_renames.md); file

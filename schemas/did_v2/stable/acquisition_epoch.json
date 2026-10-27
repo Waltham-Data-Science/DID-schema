@@ -441,7 +441,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/V_eta_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -493,7 +493,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/V_eta_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -748,7 +748,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
+                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], did_v2_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
                     "constraints": {}
                 },
                 {

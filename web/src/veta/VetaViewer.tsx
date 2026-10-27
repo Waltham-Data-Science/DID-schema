@@ -10,8 +10,8 @@ import type { TenetRow, TenetsDoc } from "../types";
 // THE V_eta SHAPE, READ FROM THE SCHEMA TREE AT BUILD TIME.
 //
 // Every class on this page comes from schemas/did_v2/**/*.json, every category
-// from schemas/V_eta_final_class_set.md, every tenet from
-// schemas/V_eta_tenets.md -- see sources.ts. There is no class data in this
+// from docs/generated/did_v2_final_class_set.md, every tenet from
+// docs/did_v2_tenets.md -- see sources.ts. There is no class data in this
 // file. Change a schema, rebuild, and this page changes with it.
 //
 // The model is built once, when this module first loads: the inputs are
@@ -761,7 +761,7 @@ function TenetsText({ model, onClass }: { model: VetaModel; onClass: (n: string)
   return (
     <div className="veta-tenets">
       <p className="section-note">
-        Rendered from <code>schemas/V_eta_tenets.md</code> — {model.tenetsTitle}. Every
+        Rendered from <code>docs/did_v2_tenets.md</code> — {model.tenetsTitle}. Every
         heading is a one-line rule; open one for its text. Class names link into the tree.
       </p>
       {before.map((s) => (
