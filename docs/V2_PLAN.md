@@ -40,14 +40,9 @@ one line; Claude's leaning is in brackets.
    - c. A `subject_group` member edge named plain `subject_id` comes back
      as `subject_id_1`: the same thing ([spelling is notation]), or keep
      the original name? [same thing]
-5. **Merge did-schema #162 ([filters are methods], schema side), then
-   DID-matlab phase 1 right after.** Both are green: #162 on the gates;
-   DID-matlab `claude/phase1` (3c717eb8) quick CI 40425115184, 1,744 tests,
-   0 failed, against #162's schema. Phase 1 must not merge first (every
-   filtered pyraview would quarantine on today's `main`). Merging #162
-   alone turns DID-matlab V2's old `frequency_filter` tests red until phase
-   1 lands. OK to merge #162, then open and merge the DID-matlab phase-1 PR
-   (which runs the corpora once: the baseline)? [yes]
+5. (Done: did-schema #162 merged (4b63810); DID-matlab phase 1 merged as
+   #251 (1f83af39), all checks and both corpus jobs green: the baseline.
+   NDI-matlab #1075 (its one test update) is open.)
 6. (Done; see 3. did-schema #161 merged too. #162 waits on 9: merged
    alone it turns DID-matlab V2 red until phase 1 lands.)
 7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
@@ -62,10 +57,12 @@ one line; Claude's leaning is in brackets.
    `data_body.description`. It works (tested), but a queryable epoch field
    or epoch time reference would be sturdier. Leave as is, or open a
    follow-up? [open a follow-up; not urgent]
-9. **Blocking check, under way**: NDI's end-to-end tests fail 6 epoch /
-   time-reference tests when paired with DID-matlab phase 1 (run
-   40424875549). Being diagnosed before phase 1 can merge; no answer
-   needed yet.
+9. (Resolved, no answer needed: the 6 failures were NDI's end-to-end run
+   reading did-schema `main` before #162 merged, plus one NDI test still
+   asserting the older untied-epoch rule; fixed on NDI-matlab #1075.)
+   Proposed (not decided): NDI's end-to-end workflow reads a did-schema
+   branch of the same name, as it already does for DID-matlab, so a
+   paired push run is measured against its own schema. [yes]
 10. **Both siblings now read either file name** (`did_v2_*` first, then
     `V_eta_*`): DID-matlab `claude/did-v2-names` (dbb5cc00, quick CI and
     fixtures green), NDI-matlab `claude/did-v2-names` (e9e0daab). These ride
@@ -122,6 +119,15 @@ one line; Claude's leaning is in brackets.
       Accept? [yes]
     - e. carry-055's description in the register still describes the old
       `(ref X)` form. Update it to `<name> | <reference>`? [yes]
+13. **Phase 2, element epochs** (DID-matlab `claude/phase2` 548723df, quick
+    CI green): the first step (v1 epoch to its carrier) reads raw v1 and
+    round-trips with nothing lost. The later batch step (into epoch, time
+    references, observation and data body) is not round-tripped.
+    - a. Add a whole-batch round trip of the final V2 shape? [yes, in
+      phase 5, before the final corpus run]
+    - b. A colliding `depends_on` name still cites carry-049 (the old
+      renames row); [renames carry is temporary] wants a class-specific
+      row. Add one row per class as they come up? [yes]
 
 
 ## The goal
