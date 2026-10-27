@@ -27,6 +27,25 @@ one line; Claude's leaning is in brackets.
    InterLex is checked (needs an API key)? [yes to both]
 3. **Merge NDI-matlab #1074** (second-pass carries cite the register;
    defects reported apart) to V2 when green? [yes]
+4. **Phase 2 pilot findings** (DID-matlab `claude/phase2`, subject family
+   switched to raw v1 with its round-trip check, CI green):
+   - a. A v1 `subject` whose `base.name` is neither empty nor its local
+     identifier: V2 keeps no place for it, so the round trip reports it
+     lost. Carry the document as v1 (new register row; which kind?), or
+     accept? No NDI writer at main writes such a value. [carry, malformed:
+     not writer-shaped]
+   - b. A field outside the NDI template (e.g. a stray `subject.strain`):
+     today dropped silently; the round trip now catches it. Carry as v1
+     ([partly placed is carried as v1])? Which kind? [carry; malformed when
+     no NDI writer writes it, else awaiting home]
+   - c. A `subject_group` member edge named plain `subject_id` comes back
+     as `subject_id_1`: the same thing ([spelling is notation]), or keep
+     the original name? [same thing]
+5. **did-schema `claude/filters-are-methods`** (the schema half of
+   [filters are methods]) is built and green on the gates, but must merge
+   only after DID-matlab's filter tests are updated (in progress on
+   `claude/phase1`). Merge order to confirm when that lands.
+
 
 ## The goal
 
