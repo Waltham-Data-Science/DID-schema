@@ -41,10 +41,15 @@ one line; Claude's leaning is in brackets.
    - c. A `subject_group` member edge named plain `subject_id` comes back
      as `subject_id_1`: the same thing ([spelling is notation]), or keep
      the original name? [same thing]
-5. **did-schema `claude/filters-are-methods`** (the schema half of
-   [filters are methods]) is built and green on the gates, but must merge
-   only after DID-matlab's filter tests are updated (in progress on
-   `claude/phase1`). Merge order to confirm when that lands.
+5. **Merge did-schema #162 ([filters are methods], schema side), then
+   DID-matlab phase 1 right after.** Both are green: #162 on the gates;
+   DID-matlab `claude/phase1` (3c717eb8) quick CI 40425115184, 1,744 tests,
+   0 failed, against #162's schema. Phase 1 must not merge first (every
+   filtered pyraview would quarantine on today's `main`). Merging #162
+   alone turns DID-matlab V2's old `frequency_filter` tests red until phase
+   1 lands. OK to merge #162, then open and merge the DID-matlab phase-1 PR
+   (which runs the corpora once: the baseline)? [yes]
+6. **Merge NDI-matlab #1074**: fully green (2,424 tests, 0 failed); see 3.
 
 
 ## The goal
