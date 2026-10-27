@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 435,
+          "accepted_lines": 439,
           "accepted_lines_by_kind": {
-            "Decided by": 318,
+            "Decided by": 322,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2906,6 +2906,38 @@
               "tag": "transfer method keeps its node",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [transfer method keeps"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1394,
+              "kind": "Decided by",
+              "tag": "sync configuration stays a class",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [sync configuration stays"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1396,
+              "kind": "Decided by",
+              "tag": "sync configuration links its rigs",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [sync configuration links"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1398,
+              "kind": "Decided by",
+              "tag": "sync rule direction is recorded",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [sync rule direction is"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1400,
+              "kind": "Decided by",
+              "tag": "acquisition channels kept for wiring",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [acquisition channels"
             },
             {
               "document": "V_eta_image_model_plan.md",
