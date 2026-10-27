@@ -316,9 +316,8 @@ one line; Claude's leaning is in brackets.
       takes another document's id (each session entity takes the session
       id; also membership, remote, form records; and 20a, the neuron). Keep
       every v1 id somewhere, or accept it when nothing refers to that id?
-      [keep: one rule for all, a v1 id is never dropped; the cheapest home
-      is the converted document's `notes`-free identity field, Claude to
-      propose]
+      [keep: one rule for all, a v1 id is never dropped; Claude to propose
+      where it is stored]
     - b. `control_stimulus_ids` cannot switch yet: NDI's second pass reads
       the control record from pass 1's output instead of from the v1
       input. Make NDI read it from the input (as it does presentations)?
