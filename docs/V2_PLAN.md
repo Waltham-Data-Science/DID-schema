@@ -355,7 +355,8 @@ one line; Claude's leaning is in brackets.
       and no fixed template. Retire them like `simple_calc`? [yes]
     - (No question, Claude's call: the four NDIcalc-vis tuning classes take
       their templates from NDIcalc-vis-matlab 00e3e0f, the commit already
-      used for the tuning family; `file_reference`, the light-sheet zarr
+      used for the tuning family. Done: DID-matlab #255 (6bfbb25), so 76 of
+      95 read raw v1 and 19 remain; see item 26. `file_reference`, the light-sheet zarr
       classes and `ontology_table_row` switch after their NDI / DID batch
       readers accept both class names; `pyraview` switches after the epoch
       step stops re-running its migrator.)
@@ -373,6 +374,21 @@ one line; Claude's leaning is in brackets.
     Moving NDI's changes only the `.m`-file count quoted in two plan
     documents. Move both mains now, in one small commit with those counts?
     Claude recommends yes; nothing in the migration reads what changed.
+26. **Two tuning-family details, for your review (no build waits on
+    them).** DID-matlab #255 switched `contrast_tuning`,
+    `spatial_frequency_tuning`, `temporal_frequency_tuning` and
+    `speed_tuning` to raw v1; no corpus holds any of them, and NDI's second
+    pass does not read them.
+    - a. Their templates come from NDIcalc-vis-matlab 00e3e0f, which the
+      sibling lock does not cover (it locks only NDI-matlab and DID-matlab).
+      Add NDIcalc-vis-matlab to the lock? Claude recommends yes, in a later
+      small change.
+    - b. The switched tuning classes (the four above and the `*_calc`
+      classes, through `jCalculation`) cite carry-056 for a field outside
+      the template, where every other family cites
+      carry-100 ([fields outside the template are malformed]). Move the
+      tuning family to carry-100, keeping carry-056 for its real modelling
+      gaps? Claude recommends yes.
 
 
 ## The goal
