@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 456,
+          "accepted_lines": 459,
           "accepted_lines_by_kind": {
-            "Decided by": 339,
+            "Decided by": 342,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3074,6 +3074,30 @@
               "tag": "importer bugs are dataset decisions",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [importer bugs are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1436,
+              "kind": "Decided by",
+              "tag": "hotelling spellings are one field",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [hotelling spellings are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1438,
+              "kind": "Decided by",
+              "tag": "Priebe fits are one function",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [Priebe fits are one"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1440,
+              "kind": "Decided by",
+              "tag": "NDI CI picks did-schema branch",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [NDI CI picks did-schema"
             },
             {
               "document": "V_eta_image_model_plan.md",
