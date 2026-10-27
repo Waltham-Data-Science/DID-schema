@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""The sibling lock: the exact NDI-matlab / DID-matlab commits this repository
-is built and checked against.
+"""The sibling lock: the exact NDI-matlab / DID-matlab / NDIcalc-vis-matlab
+commits this repository is built and checked against.
 
     python3 tools/sibling_lock.py            print the lock (same as --show)
     python3 tools/sibling_lock.py --check    verify the sibling checkouts
@@ -10,6 +10,17 @@ is built and checked against.
                                              and origin/main into the lock
     python3 tools/sibling_lock.py --get NDI-matlab head
                                              print one locked sha (CI uses it)
+
+NDIcalc-vis-matlab, THE THIRD SIBLING. Jess Haley's decision of 2026-10-27,
+`V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]: it joins the lock,
+pinned at the commit the tuning templates are read from (00e3e0f), so a tuning
+template cannot change under did-schema unnoticed. It has no V2 line: the
+templates are read from its `main`, so its `head` and `main` are the same
+commit and `head_ref` is `main`. No tool in this repository reads its files
+yet; the lock records it, `--check` verifies a present checkout
+($NDICALC_VIS_MATLAB, then /home/user, then ../) and reports an absent one NOT
+CHECKED, like the other two. A future reader of its templates reads the locked
+`main` through `main_refs("NDIcalc-vis-matlab")`.
 
 WHY. The chain (`tools/gates.py`) regenerates committed artifacts and runs gates
 against two sibling repositories: their working trees, and NDI-matlab's
@@ -61,10 +72,13 @@ REPO = os.path.dirname(HERE)
 LOCK_PATH = os.path.join(HERE, "sibling_lock.json")
 ENV = "DID_SCHEMA_SIBLING_LOCK"
 
-# name -> (environment variable, clone url). The two siblings the chain reads.
+# name -> (environment variable, clone url). Every sibling the lock covers; the
+# chain's steps read the first two, NDIcalc-vis-matlab is locked and verified.
 SIBLINGS = {
     "NDI-matlab": ("NDI_MATLAB", "https://github.com/VH-Lab/NDI-matlab.git"),
     "DID-matlab": ("DID_MATLAB", "https://github.com/VH-Lab/DID-matlab.git"),
+    "NDIcalc-vis-matlab": ("NDICALC_VIS_MATLAB",
+                           "https://github.com/VH-Lab/NDIcalc-vis-matlab.git"),
 }
 
 DEFAULT_WHY = (
@@ -186,7 +200,7 @@ def verify(paths=None, path=None, out=print):
     for name in sorted(sib):
         rec = sib[name]
         p = paths.get(name)
-        out(f"  {name:<11} head {rec['head'][:12]} ({rec.get('head_ref', '?')})  "
+        out(f"  {name:<18} head {rec['head'][:12]} ({rec.get('head_ref', '?')})  "
             f"main {rec['main'][:12]}  at {p or 'NOT FOUND'}")
         if not p:
             out(f"    NOT CHECKED: no {name} checkout here")

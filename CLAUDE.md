@@ -211,11 +211,16 @@ lock is a deliberate commit.)* NDI `origin/main` used to be read live, and it
 moved twice on 2026-10-23, turning `check_prose_counts` red and changing
 generated files with no change here (commits dc650e8, 5cba5a4).
 
-`tools/sibling_lock.json` records, for NDI-matlab and DID-matlab:
+`tools/sibling_lock.json` records, for NDI-matlab, DID-matlab and
+NDIcalc-vis-matlab:
 
 - `head`: the commit the sibling's working tree must be at (the siblings' `V2`
   line, recorded in `head_ref`);
 - `main`: the commit every read of that sibling's `origin/main` reads instead.
+
+NDIcalc-vis-matlab (`V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
+has no `V2` line: its `head` and `main` are both the commit its tuning templates
+are read from, on `main`. No tool here reads its files yet.
 
 How each is used (`tools/sibling_lock.py` docstring has the reasons):
 
@@ -239,7 +244,8 @@ How each is used (`tools/sibling_lock.py` docstring has the reasons):
 
 `.github/workflows/tests.yml` runs `python3 tools/gates.py --ci` and owns no
 gate list of its own (`tests/test_gates.py` fails if one comes back). It clones
-NDI-matlab and DID-matlab in full and checks out, for each, the locked `head`
+NDI-matlab, DID-matlab and NDIcalc-vis-matlab in full and checks out, for
+each, the locked `head`
 (`python3 tools/sibling_lock.py --get <sibling> head`), detached. There is no
 branch resolution and no fallback: a missing lock, or a locked commit a clone
 does not hold, fails the step. It then runs `sibling_lock.py --check`.
@@ -261,7 +267,7 @@ cover them. `check_term_registry` reports its rule R7 (EMPTY labels match the
 ontology) as NOT CHECKED there.
 
 Locally, `tools/gates.py` finds siblings through `$NDI_MATLAB` / `$DID_MATLAB`
-first (an explicitly set variable is authoritative, even if empty), then
+/ `$NDICALC_VIS_MATLAB` first (an explicitly set variable is authoritative, even if empty), then
 `/home/user/<repo>`, then `../<repo>`. Set the variables to the checkout you
 mean, and put that checkout at the locked head; the chain will not run
 otherwise. `check_term_registry` reads `$EMPTY_ONTOLOGY`, then a sibling

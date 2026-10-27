@@ -100,8 +100,11 @@ def find_repo(name, env):
     return None
 
 
-SIBLINGS = {"NDI-matlab": find_repo("NDI-matlab", "NDI_MATLAB"),
-            "DID-matlab": find_repo("DID-matlab", "DID_MATLAB")}
+# Every sibling the lock covers (`sibling_lock.SIBLINGS`, the one list): the
+# chain's steps read NDI-matlab and DID-matlab; NDIcalc-vis-matlab is locked and
+# verified, and no step reads it yet.
+SIBLINGS = {name: find_repo(name, env)
+            for name, (env, _url) in sibling_lock.SIBLINGS.items()}
 
 # A path that cannot exist, used to say "absent" to a child in the one language
 # every one of these tools understands.
@@ -135,7 +138,7 @@ def child_env():
     including when the answer is "absent" -- otherwise a child falls back to a
     default the driver already rejected and the two disagree again."""
     env = dict(os.environ)
-    for name, var in (("NDI-matlab", "NDI_MATLAB"), ("DID-matlab", "DID_MATLAB")):
+    for name, (var, _url) in sibling_lock.SIBLINGS.items():
         p = SIBLINGS.get(name) or _NO_SIBLING
         env[var] = p
         env[var + "_PATH"] = p

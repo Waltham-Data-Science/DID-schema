@@ -67,7 +67,7 @@ in the test process only.
 import os
 import tempfile
 
-SIBLINGS = ("DID-matlab", "NDI-matlab")
+SIBLINGS = ("DID-matlab", "NDI-matlab", "NDIcalc-vis-matlab")
 
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # The concrete candidates every find_repo in tools/ tries, minus the env var
