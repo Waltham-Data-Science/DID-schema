@@ -49,7 +49,7 @@ one line; Claude's leaning is in brackets.
    NDI-matlab #1075 (its one test update) merged too (d88ea6cfb).)
 6. (Done; see 3. did-schema #161 merged too. #162 waits on 9: merged
    alone it turns DID-matlab V2 red until phase 1 lands.)
-7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
+7. (Done: NDI-matlab phase 3 merged as #1076, 4effe11e0; it also finds ontology labels under either class name.) **NDI-matlab phase 3 was built** (branch `claude/phase3`, 471cd5c66; e2e
    run 40423825794, 499 passed, 0 failed; full suite run 40423865456, 2,366
    passed, 0 failed): the ingested stimulus reader finds the body,
    `chooseLevel` skips empty levels, element identifier `<name> |
