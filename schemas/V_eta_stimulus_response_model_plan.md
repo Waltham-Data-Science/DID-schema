@@ -605,6 +605,8 @@ RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
 
+RE-DERIVED 2026-10-27 (ndi_m_files, sibling lock moved by [move the locked mains]; `check_prose_counts`): NDI `origin/main` at `441530d0f`: 1,319 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1319). Only the denominator moved. Re-derive, do not quote.
+
 Decided by Jess Haley, 2026-10-21 [response parameters as a shared method]: v1 stimulus_response_scalar_parameters_basic becomes one standalone `method` document per source parameters document (id preserved), shared by every response that used it through `method_id`; responses carry no inline method. This supersedes the 2026-08-08 sign-off's "_parameters_basic FOLDS inline to method_parameters" (the line above), and on #88 the response is a `calculation` with the `harmonic_component` value kind.
 
 Decided by Jess Haley, 2026-10-21 [control input told apart by its document]: a migrated response keeps both its stimulus presentation and its control record (v1 control_stimulus_ids) in the unordered `input_id`, with no separate control edge; the two are told apart by what each referenced document is, as with the time-reference family rule.

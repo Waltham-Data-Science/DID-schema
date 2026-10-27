@@ -363,20 +363,10 @@ one line; Claude's leaning is in brackets.
       readers accept both class names. `pyraview` is done: DID-matlab #256
       (dfd73b6); the epoch step already re-ran it on the raw v1 source, so
       it needed no code change there. 77 of 95; see item 27.)
-25. **Move the locked NDI and DID `main`?** (did-schema #178 moved only the
-    sibling heads, to DID-matlab e73aec7 and NDI-matlab 675742fe7.) The
-    locked mains stay at NDI 3cb19a85 and DID f4a4905. NDI's live `main` is
-    24 commits past the lock (now 441530d0f). Of the 25 files they change,
-    23 are GUI, install, update, release-workflow, docs and test files; the
-    other two are `Contents.m` and `session.m`, where `daqsystem_load` now
-    skips a match-all name pattern (a faster search, same result). No
-    template or writer changes. DID's live `main` is 27 commits past its
-    lock (now e4493aa); its 12 files are v1 database search code
-    (`+did`, SQLite search speed and `hasmember` quoting) and its tests,
-    with no `+did2` code.
-    Moving NDI's changes only the `.m`-file count quoted in two plan
-    documents. Move both mains now, in one small commit with those counts?
-    Claude recommends yes; nothing in the migration reads what changed.
+25. (Decided 2026-10-27, [move the locked mains]. Build pending: did-schema.
+    Follow-up asked: merge `main` into V2 in NDI-matlab (86 commits, 3
+    conflicts: session.m, +lightsheet/view.m, a cloud file deleted on main)
+    and DID-matlab (34 commits, clean)? [yes, as PRs into V2])
 26. **Two tuning-family details, for your review (no build waits on
     them).** DID-matlab #255 switched `contrast_tuning`,
     `spatial_frequency_tuning`, `temporal_frequency_tuning` and
