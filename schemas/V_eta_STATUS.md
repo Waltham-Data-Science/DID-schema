@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 427 decision line(s) accepted, 2 rejected; 42 cited by a class, 385 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 435 decision line(s) accepted, 2 rejected; 42 cited by a class, 393 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -630,6 +630,14 @@ field). If one decides a class's disposition, that class should cite it.
 - ecg and eeg are recorders. "Decided by Jess Haley, 2026-10-27 [ecg and eeg are" (V_eta_go_forward_class_audit.md:1372).
 - imaging probes are microscopes or carried. "Decided by Jess Haley, 2026-10-27 [imaging probes are" (V_eta_go_forward_class_audit.md:1374).
 - pyraview level keeps its file info. "Decided by Jess Haley, 2026-10-27 [pyraview level keeps its" (V_eta_go_forward_class_audit.md:1376).
+- values no writer produces are malformed. "Decided by Jess Haley, 2026-10-27 [values no writer" (V_eta_go_forward_class_audit.md:1378).
+- carried file references are not folded. "Decided by Jess Haley, 2026-10-27 [carried file references" (V_eta_go_forward_class_audit.md:1380).
+- light-sheet level fields rebuild from the pyramid. "Decided by Jess Haley, 2026-10-27 [light-sheet level fields" (V_eta_go_forward_class_audit.md:1382).
+- one bath shape. "Decided by Jess Haley, 2026-10-27 [one bath shape]: (" (V_eta_go_forward_class_audit.md:1384).
+- group identifier includes the reference. "Decided by Jess Haley, 2026-10-27 [group identifier" (V_eta_go_forward_class_audit.md:1386).
+- drug end and duration on the anchor. "Decided by Jess Haley, 2026-10-27 [drug end and duration on" (V_eta_go_forward_class_audit.md:1388).
+- age at injection is an observation. "Decided by Jess Haley, 2026-10-27 [age at injection is an" (V_eta_go_forward_class_audit.md:1390).
+- transfer method keeps its node. "Decided by Jess Haley, 2026-10-27 [transfer method keeps" (V_eta_go_forward_class_audit.md:1392).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
