@@ -473,10 +473,17 @@ def analyse_function(func, known, imported=None):
             args, _end = _top_level_args(text, code, m.end() - 1)
             calls.append((target, args, _phys(spans, m.start(), func)))
         # fully-qualified cross-package calls: `did2.convert.migrators.element_epoch(`
+        # The PACKAGE is kept: `did2.convert.migrators.element_epoch` is the
+        # +migrators superclass migrator, not +migrators_j/element_epoch.m.
+        # Dropping it resolved oneepoch's call (DID-matlab e73aec7,
+        # +migrators_j/oneepoch.m) to the +migrators_j file, which writes
+        # `acquisition_epoch`, a class oneepoch never emits.
         for m in re.finditer(
-                r"(?:did2\.convert\.)?migrators(?:_[ije])?\.(?:super\.)?"
+                r"(?:did2\.convert\.)?(migrators(?:_[ije])?)\.(super\.)?"
                 r"([A-Za-z_]\w*)\s*\(", code):
-            calls.append(("pkg:" + m.group(1), [], _phys(spans, m.start(), func)))
+            pkgdir = "+" + m.group(1) + ("/+super" if m.group(2) else "")
+            calls.append(("pkg:" + pkgdir + "/" + m.group(3), [],
+                          _phys(spans, m.start(), func)))
         # fully-qualified calls into the rest of `+convert`:
         # `did2.convert.entities.entityDoc(preBody, 'dataset', ...)`. Arguments
         # ARE captured here -- unlike the migrator branch above -- because this
@@ -649,6 +656,10 @@ class Analyser:
             return table[name]
         if name.startswith("pkg:"):
             bare = name[4:]
+            if "/" in bare:
+                # a package-qualified call: that package's file, or nothing
+                cand = os.path.join(CONVERT, *bare.split("/")) + ".m"
+                return self.file_funcs(cand)[0][0] if os.path.isfile(cand) else None
             for p2 in PACKAGE_ORDER:
                 cand = os.path.join(CONVERT, "+" + p2, bare + ".m")
                 if os.path.isfile(cand):

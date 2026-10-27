@@ -6,7 +6,7 @@
     "batch_pass": {
       "measured": true,
       "why": null,
-      "chain_size": 11,
+      "chain_size": 10,
       "declared": [
         "epochMint",
         "foldGenericFiles",
@@ -14,7 +14,6 @@
         "resolveDatasetEntities",
         "resolveDeferredBaths",
         "resolveEpochProbemap",
-        "resolveLawnPlateSubjects",
         "resolveOpenmindsCitations",
         "resolveResponseParameters",
         "resolveSessionAnchors",
@@ -41,18 +40,6 @@
         }
       ],
       "credited_rung_3": [
-        {
-          "v1_class": "daqmetadatareader_epochdata_ingested",
-          "emits": {
-            "resolveEpochProbemap": [
-              "opaque_body"
-            ]
-          },
-          "decided_targets": [
-            "opaque_body"
-          ],
-          "stage_reached": 3
-        },
         {
           "v1_class": "element",
           "emits": {
@@ -162,8 +149,7 @@
         {
           "v1_class": "daqmetadatareader_epochdata_ingested",
           "passes": [
-            "epochMint",
-            "resolveEpochProbemap"
+            "epochMint"
           ]
         },
         {
@@ -207,12 +193,6 @@
           "v1_class": "ontologyLabel",
           "passes": [
             "foldGenericFiles"
-          ]
-        },
-        {
-          "v1_class": "ontologyTableRow",
-          "passes": [
-            "resolveLawnPlateSubjects"
           ]
         },
         {
@@ -287,6 +267,12 @@
       ],
       "unattributed_or_nothing": [
         {
+          "v1_class": "daqmetadatareader_epochdata_ingested",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
           "v1_class": "ontologyLabel",
           "passes": [
             "foldGenericFiles"
@@ -341,16 +327,17 @@
     "with_migrator": 98,
     "gaps": 2,
     "no_target": {
-      "rows_naming_no_target": 9,
+      "rows_naming_no_target": 10,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 2,
-        "unrecorded": 3
+        "unrecorded": 4
       },
       "target_gaps": [
         "demoNDISeries",
         "demoNDISeriesMixed",
+        "distance_metadata",
         "imageStack_parameters"
       ]
     },
@@ -377,8 +364,8 @@
       "by_stage_reached": {
         "0": 13,
         "1": 25,
-        "2": 13,
-        "3": 64,
+        "2": 15,
+        "3": 62,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -398,8 +385,8 @@
         },
         "3": {
           "not measured": 33,
-          "yes": 61,
-          "no": 16,
+          "yes": 59,
+          "no": 18,
           "n/a": 5
         },
         "4": {
@@ -409,7 +396,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 77,
-        "3": 61,
+        "3": 59,
         "4": 0
       },
       "capped": {
@@ -423,8 +410,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
           "1": 28,
-          "2": 16,
-          "3": 61,
+          "2": 18,
+          "3": 59,
           "4": 0
         },
         "genuinely_untouched": 8,
@@ -645,9 +632,9 @@
           },
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
-            "no citation names this class; a class it EMITS cites a decision": 1,
+            "no citation names this class; a class it EMITS cites a decision": 0,
             "no citation names this class, and the row has no V_eta class and no target either": 4,
-            "no decision citation names this class": 39
+            "no decision citation names this class": 40
           },
           "unmoved_rows_by_cause": {
             "no decision citation names this class": [
@@ -667,6 +654,7 @@
               "metadata_editor",
               "oneepoch",
               "ontologyLabel",
+              "ontologyTableRow",
               "openminds_element",
               "openminds_stimulus",
               "openminds_subject",
@@ -696,14 +684,9 @@
               "demoNDISeries",
               "demoNDISeriesMixed",
               "mock"
-            ],
-            "no citation names this class; a class it EMITS cites a decision": [
-              "ontologyTableRow"
             ]
           },
-          "target_only_reached_via": {
-            "subject": 1
-          },
+          "target_only_reached_via": {},
           "cited_classes_matching_no_ledger_row": 2,
           "spelling_near_misses": []
         },
@@ -3804,7 +3787,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4030,7 +4013,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4174,7 +4157,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -4380,7 +4363,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4530,7 +4513,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`cell_type_labels`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`cell_type_labels`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5138,18 +5121,13 @@
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [
-          "epochMint",
-          "resolveEpochProbemap"
+          "epochMint"
         ],
-        "batch_pass_emits": {
-          "resolveEpochProbemap": [
-            "opaque_body"
-          ]
-        },
-        "batch_pass_emits_decided_targets": true,
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": true,
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5207,10 +5185,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -5227,8 +5205,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `opaque_body` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
+            "state": "no",
+            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`daqmetadatareader_epochdata_ingested`), nor among what any batch post-pass declares it emits. 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -5238,7 +5216,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -5656,7 +5634,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_time_reference`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + intensity`, `relative_time_reference`, `sampled_body` are not all among what the migrator emits today (`relative_time_reference`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6511,7 +6489,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -6599,7 +6577,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -6637,18 +6615,16 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "distance_metadata"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -7032,10 +7008,6 @@
           ],
           "resolveEpochProbemap": [
             "observation + time",
-            "calculation + position",
-            "calculation + length",
-            "calculation + item",
-            "coordinate_system",
             "opaque_body",
             "relative_time_reference"
           ]
@@ -7244,7 +7216,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -7256,7 +7228,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `entity (subject)`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7407,7 +7379,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `relative_time_reference` are not all among what the migrator emits today (nothing). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8065,7 +8037,7 @@
           "resolved": true,
           "line": 201,
           "kind": "Decided by",
-          "decision": "`frequency_filter` is deleted (a V2 invention; 0 occurrences in the NDI ground truth; no tombstone). jFrequencyFilter writes a `method` document (term = the filter design; parameters the band, the passband and stopband edges in Hz, the filter order as a count, ripple and attenuation in dB), and a body's `filter_id` becomes `method_id` (answer \"N1a\"). NOT BUILT HERE YET, deliberately: DID-matlab's migrators still emit `frequency_filter` and `filter_id` (private/jFrequencyFilter.m, jSpikeExtractionSettings.m, vmspikefilteringparameters.m, pyraview.m, epochfiles_ingested.m, spike_extraction_parameters.m, hartley_calc.m, binaryseries_parameters.m; did2.build.sampledBody) and NDI's ensembleMembership reads `filter_id`, so deleting the class or renaming the edge now would fail their CI. The class and `sampled_body.filter_id` stay until DID-matlab's change lands; the deletion and the rename to `method_id` then land here in one commit. Built (did-schema part): did-schema branch claude/filters-are-methods (`frequency_filter` deleted with no tombstone and listed in tools/veta_record.py RETIRED_CLASSES; `sampled_body.filter_id` renamed `method_id`, must_refer_to `method`, and `filter_id` listed in RETIRED_EDGES). NDI-matlab: nothing to build; `git grep -n filter_id origin/V2` at NDI-matlab 9b99061 finds no hit, so the ensembleMembership read named above is gone. Build pending: DID-matlab (tests/+did2/+unittest/testMigratorsJMeasurementFilter.m still asserts a `frequency_filter` document and a `filter_id` edge in nine tests, and skips its two method-path tests when the loaded sampled_body declares no `filter_id`; then the frequency_filter path in private/jFrequencyFilter.m and did2.build.sampledBody's 'FilterId' go).",
+          "decision": "`frequency_filter` is deleted (a V2 invention; 0 occurrences in the NDI ground truth; no tombstone). jFrequencyFilter writes a `method` document (term = the filter design; parameters the band, the passband and stopband edges in Hz, the filter order as a count, ripple and attenuation in dB), and a body's `filter_id` becomes `method_id` (answer \"N1a\"). NOT BUILT HERE YET, deliberately: DID-matlab's migrators still emit `frequency_filter` and `filter_id` (private/jFrequencyFilter.m, jSpikeExtractionSettings.m, vmspikefilteringparameters.m, pyraview.m, epochfiles_ingested.m, spike_extraction_parameters.m, hartley_calc.m, binaryseries_parameters.m; did2.build.sampledBody) and NDI's ensembleMembership reads `filter_id`, so deleting the class or renaming the edge now would fail their CI. The class and `sampled_body.filter_id` stay until DID-matlab's change lands; the deletion and the rename to `method_id` then land here in one commit. Built (did-schema part): did-schema branch claude/filters-are-methods (`frequency_filter` deleted with no tombstone and listed in tools/veta_record.py RETIRED_CLASSES; `sampled_body.filter_id` renamed `method_id`, must_refer_to `method`, and `filter_id` listed in RETIRED_EDGES). NDI-matlab: nothing to build; `git grep -n filter_id origin/V2` at NDI-matlab 9b99061 finds no hit, so the ensembleMembership read named above is gone. Built: DID-matlab 1f83af39 (PR #251) (commit 3c717eb8: the frequency_filter path and `did2.build.sampledBody`'s 'FilterId' are gone, `+did2/+build/sampledBody.m:43-44`; `+did2/+convert/+migrators_j/private/jFrequencyFilter.m:251-266` builds only the `method` and fails loudly on a `filter_id` schema; `tests/+did2/+unittest/testMigratorsJMeasurementFilter.m:568`, `:609`, `:733` assert no `frequency_filter`).",
           "anchor": "Decided by Jess Haley, 2026-10-22 [filters are methods]",
           "matches": 1,
           "why": null,
@@ -8511,7 +8483,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`gene_list`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`gene_list`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8647,7 +8619,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8959,11 +8931,7 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference",
-        "assertion + text",
-        "calculation + label",
-        "entity",
-        "calculation + logical"
+        "relative_time_reference"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -8988,7 +8956,7 @@
           "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -9055,10 +9023,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9075,8 +9043,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9086,7 +9054,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9192,7 +9160,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -9233,11 +9201,7 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference",
-        "assertion + text",
-        "calculation + label",
-        "entity",
-        "calculation + logical"
+        "relative_time_reference"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -9262,7 +9226,7 @@
           "sampled_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -9329,10 +9293,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9349,8 +9313,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `observation + intensity`, `calculation + label`, `sampled_body`, `relative_time_reference` are not all among what the migrator emits today (`sampled_body`, `observation + intensity`, `relative_time_reference`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9360,7 +9324,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9464,7 +9428,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -10065,7 +10029,8 @@
         "assertion + text",
         "entity",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "opaque_body"
       ],
       "decided_targets": [
         "observation + intensity",
@@ -10088,7 +10053,7 @@
           "opaque_body"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10155,10 +10120,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -10175,8 +10140,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `observation + intensity`, `opaque_body`, `entity (software)` are not all among what the migrator emits today (`assertion + text`, `entity`, `observation + intensity`, `relative_time_reference`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -10186,7 +10151,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10444,7 +10409,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -11082,30 +11047,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "assertion + term",
-        "assertion + date",
-        "observation + term",
-        "observation + mass",
-        "observation + length",
-        "observation + frequency",
-        "observation + acceleration",
-        "observation + velocity",
-        "observation + time",
-        "observation + volume",
-        "observation + temperature",
-        "observation + pressure",
-        "observation + voltage",
-        "observation + current",
-        "observation + concentration",
-        "observation + count",
-        "observation + score",
-        "observation + intensity",
-        "subject",
-        "session_bounded_reference",
-        "directed_relation",
-        "session_relative_reference",
-        "entity",
-        "relative_time_reference"
+        "ontology_table_row"
       ],
       "decided_targets": [],
       "decided_targets_source": null,
@@ -11122,19 +11064,8 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [
-          "resolveLawnPlateSubjects"
-        ],
-        "batch_pass_emits": {
-          "resolveLawnPlateSubjects": [
-            "subject",
-            "directed_relation",
-            "observation + concentration",
-            "observation + volume",
-            "observation + length",
-            "observation + score"
-          ]
-        },
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},
@@ -11151,11 +11082,11 @@
       "target_flags": "DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no citation names this class; a class it EMITS cites a decision",
+      "governance_gap": "no decision citation names this class",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no citation names this class; a class it EMITS cites a decision. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,
@@ -12088,7 +12019,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + position`, `assertion + term`, `relative_time_reference` are not all among what the migrator emits today (`observation + length`, `assertion + term`, `relative_time_reference`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + position`, `assertion + term`, `relative_time_reference` are not all among what the migrator emits today (`observation + length`, `assertion + term`, `relative_time_reference`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12343,7 +12274,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -12355,7 +12286,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12392,7 +12323,6 @@
       "targets": [
         "observation + voltage",
         "sampled_body",
-        "frequency_filter",
         "relative_time_reference",
         "method"
       ],
@@ -13196,7 +13126,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -13336,7 +13266,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (`spatial_gene_expression_pyramid`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (`spatial_gene_expression_pyramid`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -13468,7 +13398,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14718,7 +14648,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -14730,7 +14660,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14877,7 +14807,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14985,7 +14915,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -15242,7 +15172,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 11 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -16160,9 +16090,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "clock_alignment",
-        "syncrule_mapping",
-        "relative_time_reference"
+        "clock_alignment"
       ],
       "decided_targets": [
         "clock_alignment"
@@ -16667,7 +16595,6 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "manipulation + temperature",
         "relative_time_reference"
       ],
       "decided_targets": [
@@ -17135,7 +17062,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + time` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 70 shared helper(s) declare; 17 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + time` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 75 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,

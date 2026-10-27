@@ -1856,28 +1856,36 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 230,
-        "lines_read": 57334,
+        "files_read": 377,
+        "lines_read": 69855,
         "classes_queried": 4,
         "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
-          "DID-matlab:convert/resolveEpochProbemap.m:1566 (entry.class)",
-          "DID-matlab:convert/resolveEpochProbemap.m:947 (kind.className)",
-          "DID-matlab:convert/resolveLawnPlateSubjects.m:1028 (entry{1})",
-          "DID-matlab:convert/universalRenames.m:242 (v2ClassName;)",
-          "DID-matlab:migrators_j/image_stack.m:265 (calculation + kind)",
-          "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
-          "DID-matlab:migrators_j/ontology_table_row.m:379 (measures{i, 2})",
-          "DID-matlab:migrators_j/ontology_table_row.m:650 (observation + shapeClass)",
-          "DID-matlab:migrators_j/private/jMeasurementFold.m:78 (observation + leaf)",
-          "DID-matlab:migrators_j/treatment.m:102 (manipulation + kind)"
+          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
+          "DID-matlab:convert/+roundtrip/daqreader.m:40 (CLASS)",
+          "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:55 (CLASS;)",
+          "DID-matlab:convert/+roundtrip/daqsystem.m:54 (CLASS)",
+          "DID-matlab:convert/+roundtrip/filenavigator.m:43 (CLASS)",
+          "DID-matlab:convert/+roundtrip/imageStack.m:103 (CLASS)",
+          "DID-matlab:convert/+roundtrip/private/calcParts.m:107 (v1Class)",
+          "DID-matlab:convert/+roundtrip/private/demoInverse.m:23 (v1Class)",
+          "DID-matlab:convert/+roundtrip/private/methodDocParts.m:79 (v1Class)",
+          "DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:117 (CLASS)",
+          "DID-matlab:convert/+roundtrip/subjectmeasurement.m:82 (CLASS)",
+          "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
+          "DID-matlab:convert/+roundtrip/syncrule.m:105 (CLASS)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1482 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:879 (kind.className)",
+          "DID-matlab:convert/universalRenames.m:256 (v2ClassName;)",
+          "DID-matlab:migrators_j/private/jMeasurementFold.m:109 (observation + leaf)",
+          "DID-matlab:migrators_j/treatment.m:134 (manipulation + kind)"
         ],
-        "n_unresolved_mint_sites": 10,
+        "n_unresolved_mint_sites": 18,
         "mint_sites_by_idiom": {
-          "1": 8,
+          "1": 30,
           "3": 5,
-          "4": 74,
-          "5": 48
+          "4": 71,
+          "5": 43
         },
         "groups": [
           "per_document_migrator",
@@ -1897,12 +1905,12 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 194,
-          "batch_post_pass": 36
+          "per_document_migrator": 204,
+          "batch_post_pass": 173
         },
         "lines_read_by_group": {
-          "per_document_migrator": 37244,
-          "batch_post_pass": 20090
+          "per_document_migrator": 41582,
+          "batch_post_pass": 28273
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 0,
@@ -1910,34 +1918,42 @@
         },
         "mint_sites_by_idiom_by_group": {
           "per_document_migrator": {
-            "1": 5,
+            "1": 4,
             "3": 5,
-            "4": 42,
-            "5": 48
+            "4": 43,
+            "5": 43
           },
           "batch_post_pass": {
-            "1": 3,
-            "4": 32
+            "1": 26,
+            "4": 28
           }
         },
         "n_unresolved_mint_sites_by_group": {
-          "per_document_migrator": 6,
-          "batch_post_pass": 4
+          "per_document_migrator": 2,
+          "batch_post_pass": 16
         },
         "unresolved_mint_sites_by_group": {
           "per_document_migrator": [
-            "DID-matlab:migrators_j/image_stack.m:265 (calculation + kind)",
-            "DID-matlab:migrators_j/ontology_table_row.m:233 (measures{i, 2})",
-            "DID-matlab:migrators_j/ontology_table_row.m:379 (measures{i, 2})",
-            "DID-matlab:migrators_j/ontology_table_row.m:650 (observation + shapeClass)",
-            "DID-matlab:migrators_j/private/jMeasurementFold.m:78 (observation + leaf)",
-            "DID-matlab:migrators_j/treatment.m:102 (manipulation + kind)"
+            "DID-matlab:migrators_j/private/jMeasurementFold.m:109 (observation + leaf)",
+            "DID-matlab:migrators_j/treatment.m:134 (manipulation + kind)"
           ],
           "batch_post_pass": [
-            "DID-matlab:convert/resolveEpochProbemap.m:1566 (entry.class)",
-            "DID-matlab:convert/resolveEpochProbemap.m:947 (kind.className)",
-            "DID-matlab:convert/resolveLawnPlateSubjects.m:1028 (entry{1})",
-            "DID-matlab:convert/universalRenames.m:242 (v2ClassName;)"
+            "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
+            "DID-matlab:convert/+roundtrip/daqreader.m:40 (CLASS)",
+            "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:55 (CLASS;)",
+            "DID-matlab:convert/+roundtrip/daqsystem.m:54 (CLASS)",
+            "DID-matlab:convert/+roundtrip/filenavigator.m:43 (CLASS)",
+            "DID-matlab:convert/+roundtrip/imageStack.m:103 (CLASS)",
+            "DID-matlab:convert/+roundtrip/private/calcParts.m:107 (v1Class)",
+            "DID-matlab:convert/+roundtrip/private/demoInverse.m:23 (v1Class)",
+            "DID-matlab:convert/+roundtrip/private/methodDocParts.m:79 (v1Class)",
+            "DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:117 (CLASS)",
+            "DID-matlab:convert/+roundtrip/subjectmeasurement.m:82 (CLASS)",
+            "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
+            "DID-matlab:convert/+roundtrip/syncrule.m:105 (CLASS)",
+            "DID-matlab:convert/resolveEpochProbemap.m:1482 (entry.class)",
+            "DID-matlab:convert/resolveEpochProbemap.m:879 (kind.className)",
+            "DID-matlab:convert/universalRenames.m:256 (v2ClassName;)"
           ]
         },
         "v_zeta_packages_excluded": [
@@ -1946,33 +1962,17 @@
           "+migrators_e"
         ],
         "n_files_excluded_by_package": {
-          "+migrators": 22,
-          "+migrators_j": 160
+          "+migrators": 6,
+          "+migrators_j": 165
         },
-        "n_files_excluded_v_zeta": 22,
+        "n_files_excluded_v_zeta": 6,
         "files_excluded_v_zeta": [
           "DID-matlab:convert/+migrators/Contents.m",
-          "DID-matlab:convert/+migrators/contrast_sensitivity_calc.m",
-          "DID-matlab:convert/+migrators/contrast_tuning_calc.m",
-          "DID-matlab:convert/+migrators/distance_metadata.m",
-          "DID-matlab:convert/+migrators/element.m",
           "DID-matlab:convert/+migrators/element_epoch.m",
           "DID-matlab:convert/+migrators/epochclocktimes.m",
           "DID-matlab:convert/+migrators/filter.m",
-          "DID-matlab:convert/+migrators/hartley_calc.m",
           "DID-matlab:convert/+migrators/identity.m",
-          "DID-matlab:convert/+migrators/jrclust_clusters.m",
-          "DID-matlab:convert/+migrators/ngrid.m",
-          "DID-matlab:convert/+migrators/ontology_image.m",
-          "DID-matlab:convert/+migrators/ontology_label.m",
-          "DID-matlab:convert/+migrators/oridirtuning_calc.m",
-          "DID-matlab:convert/+migrators/position_metadata.m",
-          "DID-matlab:convert/+migrators/simple_calc.m",
-          "DID-matlab:convert/+migrators/spatial_frequency_tuning_calc.m",
-          "DID-matlab:convert/+migrators/speed_tuning_calc.m",
-          "DID-matlab:convert/+migrators/stimulus_bath.m",
-          "DID-matlab:convert/+migrators/temporal_frequency_tuning_calc.m",
-          "DID-matlab:convert/+migrators/tuningcurve_calc.m"
+          "DID-matlab:convert/+migrators/ngrid.m"
         ],
         "ref_kinds": [
           "guard",
@@ -2007,7 +2007,7 @@
         "classes_queried": 4
       },
       "batch_consumers": {
-        "files_scanned": 21,
+        "files_scanned": 34,
         "by_class": {}
       }
     },
@@ -2031,91 +2031,118 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "5 consuming reference(s) (2 per-document migrator, 3 batch post-pass)",
+          "20 consuming reference(s) (12 per-document migrator, 8 batch post-pass)",
           "decided target(s) built: `entity (software)`"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 5,
+        "n_consuming_refs": 20,
         "consuming_refs": [
-          "DID-matlab:convert/resolveValidIntervals.m:660 (guard)",
-          "DID-matlab:convert/universalRenames.m:287 (guard)",
-          "DID-matlab:convert/universalRenames.m:288 (field_read)",
-          "DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)",
-          "DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)"
+          "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:13 (guard)",
+          "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:14 (field_read)",
+          "DID-matlab:convert/+v1read/readApp.m:43 (guard)",
+          "DID-matlab:convert/+v1read/readApp.m:44 (field_read)",
+          "DID-matlab:convert/+v1read/readApp.m:48 (field_read)",
+          "DID-matlab:convert/resolveValidIntervals.m:666 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": null,
         "emission_discounted": null,
-        "n_field_write_refs": 2,
+        "n_field_write_refs": 5,
         "field_write_refs": [
-          "DID-matlab:convert/universalRenames.m:289 (field_write)",
-          "DID-matlab:migrators_j/private/jMethodParameters.m:105 (field_write)"
+          "DID-matlab:convert/+roundtrip/private/calcParts.m:124 (field_write)",
+          "DID-matlab:convert/+roundtrip/private/methodDocParts.m:101 (field_write)",
+          "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:21 (field_write)",
+          "DID-matlab:convert/universalRenames.m:312 (field_write)",
+          "DID-matlab:migrators_j/private/jMethodParameters.m:137 (field_write)"
         ],
-        "n_named_refs": 1,
+        "n_named_refs": 10,
         "named_refs": [
-          "DID-matlab:convert/resolveValidIntervals.m:1115 (named)"
+          "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)",
+          "DID-matlab:convert/resolveValidIntervals.m:1121 (named)",
+          "DID-matlab:migrators_j/jrclust_clusters.m:163 (named)",
+          "DID-matlab:migrators_j/kiasort_clusters.m:50 (named)",
+          "DID-matlab:migrators_j/kilosort_clusters.m:51 (named)",
+          "DID-matlab:migrators_j/neuron_extracellular.m:641 (named)"
         ],
-        "n_comment_mentions": 180,
+        "n_comment_mentions": 363,
         "comment_mentions": [
-          "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
-          "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-          "DID-matlab:convert/resolveEpochProbemap.m:1271 (comment_mention)",
-          "DID-matlab:convert/resolveOpenmindsCitations.m:883 (comment_mention)",
-          "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
-          "DID-matlab:convert/resolveResponseParameters.m:573 (comment_mention)"
+          "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/hartley_calc.m:14 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 2,
+            "n_consuming_refs": 12,
             "consuming_refs": [
+              "DID-matlab:migrators_j/private/jMethodParameters.m:110 (guard)",
+              "DID-matlab:migrators_j/private/jMethodParameters.m:112 (field_read)",
               "DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)",
-              "DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)"
+              "DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)",
+              "NDI-matlab:ndi_second_pass/appSoftware.m:42 (guard)",
+              "NDI-matlab:ndi_second_pass/appSoftware.m:43 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
             "n_field_write_refs": 1,
             "field_write_refs": [
-              "DID-matlab:migrators_j/private/jMethodParameters.m:105 (field_write)"
+              "DID-matlab:migrators_j/private/jMethodParameters.m:137 (field_write)"
             ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 141,
+            "n_named_refs": 8,
+            "named_refs": [
+              "DID-matlab:migrators_j/jrclust_clusters.m:163 (named)",
+              "DID-matlab:migrators_j/kiasort_clusters.m:50 (named)",
+              "DID-matlab:migrators_j/kilosort_clusters.m:51 (named)",
+              "DID-matlab:migrators_j/neuron_extracellular.m:641 (named)",
+              "DID-matlab:migrators_j/private/jCalculation.m:248 (named)",
+              "DID-matlab:migrators_j/sorting_parameters.m:88 (named)"
+            ],
+            "n_comment_mentions": 226,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:1052 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:150 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:166 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:402 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:403 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:493 (comment_mention)"
+              "DID-matlab:migrators_j/Contents.m:1044 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:140 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:156 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:393 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:394 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:484 (comment_mention)"
             ]
           },
           "batch_post_pass": {
-            "n_consuming_refs": 3,
+            "n_consuming_refs": 8,
             "consuming_refs": [
-              "DID-matlab:convert/resolveValidIntervals.m:660 (guard)",
-              "DID-matlab:convert/universalRenames.m:287 (guard)",
-              "DID-matlab:convert/universalRenames.m:288 (field_read)"
+              "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:13 (guard)",
+              "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:14 (field_read)",
+              "DID-matlab:convert/+v1read/readApp.m:43 (guard)",
+              "DID-matlab:convert/+v1read/readApp.m:44 (field_read)",
+              "DID-matlab:convert/+v1read/readApp.m:48 (field_read)",
+              "DID-matlab:convert/resolveValidIntervals.m:666 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
-            "n_field_write_refs": 1,
+            "n_field_write_refs": 4,
             "field_write_refs": [
-              "DID-matlab:convert/universalRenames.m:289 (field_write)"
+              "DID-matlab:convert/+roundtrip/private/calcParts.m:124 (field_write)",
+              "DID-matlab:convert/+roundtrip/private/methodDocParts.m:101 (field_write)",
+              "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:21 (field_write)",
+              "DID-matlab:convert/universalRenames.m:312 (field_write)"
             ],
-            "n_named_refs": 1,
+            "n_named_refs": 2,
             "named_refs": [
-              "DID-matlab:convert/resolveValidIntervals.m:1115 (named)"
+              "DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)",
+              "DID-matlab:convert/resolveValidIntervals.m:1121 (named)"
             ],
-            "n_comment_mentions": 39,
+            "n_comment_mentions": 137,
             "comment_mentions": [
-              "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
-              "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
-              "DID-matlab:convert/resolveEpochProbemap.m:1271 (comment_mention)",
-              "DID-matlab:convert/resolveOpenmindsCitations.m:883 (comment_mention)",
-              "DID-matlab:convert/resolveResponseParameters.m:57 (comment_mention)",
-              "DID-matlab:convert/resolveResponseParameters.m:573 (comment_mention)"
+              "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/hartley_calc.m:14 (comment_mention)"
             ]
           }
         },
@@ -2151,18 +2178,21 @@
         "emission_discounted": null,
         "n_field_write_refs": 0,
         "field_write_refs": [],
-        "n_named_refs": 1,
+        "n_named_refs": 4,
         "named_refs": [
-          "DID-matlab:migrators_j/binaryseries_parameters.m:277 (named)"
+          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)",
+          "DID-matlab:convert/rawV1Classes.m:382 (named)",
+          "DID-matlab:migrators_j/binaryseries_parameters.m:291 (named)",
+          "DID-matlab:migrators_j/binaryseries_parameters.m:307 (named)"
         ],
-        "n_comment_mentions": 15,
+        "n_comment_mentions": 22,
         "comment_mentions": [
-          "DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:335 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:573 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:574 (comment_mention)",
-          "DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)",
-          "DID-matlab:migrators_j/binaryseries_parameters.m:190 (comment_mention)"
+          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
+          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
+          "DID-matlab:convert/rawV1Classes.m:247 (comment_mention)",
+          "DID-matlab:convert/rawV1Classes.m:249 (comment_mention)",
+          "DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2172,16 +2202,17 @@
             "emitted_class_refs": [],
             "n_field_write_refs": 0,
             "field_write_refs": [],
-            "n_named_refs": 1,
+            "n_named_refs": 2,
             "named_refs": [
-              "DID-matlab:migrators_j/binaryseries_parameters.m:277 (named)"
+              "DID-matlab:migrators_j/binaryseries_parameters.m:291 (named)",
+              "DID-matlab:migrators_j/binaryseries_parameters.m:307 (named)"
             ],
-            "n_comment_mentions": 15,
+            "n_comment_mentions": 17,
             "comment_mentions": [
-              "DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:335 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:573 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:574 (comment_mention)",
+              "DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:326 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:564 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:565 (comment_mention)",
               "DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)",
               "DID-matlab:migrators_j/binaryseries_parameters.m:190 (comment_mention)"
             ]
@@ -2193,10 +2224,19 @@
             "emitted_class_refs": [],
             "n_field_write_refs": 0,
             "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
+            "n_named_refs": 2,
+            "named_refs": [
+              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:18 (named)",
+              "DID-matlab:convert/rawV1Classes.m:382 (named)"
+            ],
+            "n_comment_mentions": 5,
+            "comment_mentions": [
+              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:12 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
+              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
+              "DID-matlab:convert/rawV1Classes.m:247 (comment_mention)",
+              "DID-matlab:convert/rawV1Classes.m:249 (comment_mention)"
+            ]
           }
         },
         "decided_targets": [
@@ -2297,8 +2337,8 @@
         "named_refs": [],
         "n_comment_mentions": 3,
         "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:387 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:405 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:378 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:396 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:49 (comment_mention)"
         ],
         "by_group": {
@@ -2313,8 +2353,8 @@
             "named_refs": [],
             "n_comment_mentions": 3,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:387 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:405 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:378 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:396 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:49 (comment_mention)"
             ]
           },

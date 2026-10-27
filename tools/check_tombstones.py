@@ -219,10 +219,15 @@ def passthrough_migrators():
             continue
         src = Path(p).read_text(errors="replace")
         body = "\n".join(re.sub(r"(?<!\.)%.*$", "", ln) for ln in src.splitlines())
-        # the whole function body is the guard plus an unconditional passthrough
+        # the whole function body is the guard plus an unconditional passthrough.
+        # A migrator that builds a statement (`jStatement(`) is not one: its
+        # `bodies = {preBody}` is a carry branch (DID-matlab pyraview.m at
+        # e73aec7: a filter block it cannot place carries the document whole as
+        # v1, carry-006/007/042/061), and the document it converts is migrated.
         if re.search(r"bodies\s*=\s*\{\s*preBody\s*\}\s*;", body) \
                 and not re.search(r"document_class\s*=\s*(struct|classBlock)", body) \
-                and "jStartInteraction" not in body:
+                and "jStartInteraction" not in body \
+                and "jStatement(" not in body:
             out.add(cn)
     return out
 

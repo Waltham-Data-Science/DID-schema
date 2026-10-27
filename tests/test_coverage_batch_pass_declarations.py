@@ -332,7 +332,10 @@ class TestTheCommittedLedger(unittest.TestCase):
         # it credits no new ledger rung -- epochfiles_ingested already has a
         # per-document migrator crediting rung 1 -- so the row pins below are
         # unchanged and only the chain length moved.
-        self.assertEqual(self.bp["chain_size"], 11)
+        # 10 again since the sibling lock moved to DID-matlab e73aec7: the
+        # uncalled resolveLawnPlateSubjects was deleted (DID-matlab ad66d7bc,
+        # PR #251, [early migration pieces fixed] (6)). It credited no rung.
+        self.assertEqual(self.bp["chain_size"], 10)
 
     def test_the_rows_this_channel_moved_are_pinned(self):
         # PINNED BY NAME. rung 1: two rows a batch pass CONSUMES (epochid via
@@ -378,7 +381,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         # declaration now matches a decided set.
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["daqmetadatareader_epochdata_ingested", "element",
+            # SIX again since the sibling lock moved to DID-matlab e73aec7:
+            # daqmetadatareader_epochdata_ingested LEFT. resolveEpochProbemap no
+            # longer folds it (DID-matlab 0ec02b61, PR #251): [ingested stimulus
+            # file is a body of the presentation] moved that fold to NDI's
+            # second pass, so no DID batch pass declares it.
+            ["element",
              "epochfiles_ingested", "fileReference", "generic_file", "stimulus_bath",
              "stimulus_response_scalar_parameters_basic"])
 

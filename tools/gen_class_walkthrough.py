@@ -168,7 +168,10 @@ def _batch_sites(convert_files, names):
     which pass runs, and in what order, is the corpus harness's fact and it is
     not derivable from this repository -- so this tool does not pretend to it.
     """
-    pats = [(n, _quoted_name_re(n)) for n in names if n]
+    # sorted: `names` is a set, and a line naming two spellings (DID-matlab
+    # rawV1Classes.m's table row `'cellTypeLabels', 'cell_type_labels'`) must
+    # report the same one on every run, or the asset differs run to run.
+    pats = [(n, _quoted_name_re(n)) for n in sorted(names) if n]
     out = []
     for f in convert_files:
         sites = []
