@@ -278,6 +278,20 @@ one line; Claude's leaning is in brackets.
       [retire: no NDI writer at main writes it]
     - (No question: the speed-tuning class was never converted before:
       the old rename pass missed its v1 name. It is now read correctly.)
+21. **Acquisition systems** (DID-matlab `claude/phase2` e4c77e4c, quick CI
+    green; 33 classes now read raw v1). All 1,129 corpus documents of the
+    eight classes (DAQ systems, file navigators, readers, metadata readers,
+    sync rules and graphs, probe locations) convert, and every one
+    round-trips. Two questions:
+    - a. Probe locations: three of the four brain-region terms used in the
+      corpora (UBERON:0001880, UBERON:0002813, UBERON:0002812) are not in
+      the term registry. Add them (existing ontology terms, T19 step 2)?
+      [yes]
+    - b. A sync rule between two acquisition systems becomes an unordered
+      pair; which was "system 1" survives only in the order of its edges.
+      Keep it explicitly? [yes, cheap and exact]
+    - (Other questions here are the same as 4a / 4b: a non-empty
+      `base.name`, a field outside the template.)
 
 
 ## The goal
