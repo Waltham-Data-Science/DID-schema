@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 427,
+          "accepted_lines": 428,
           "accepted_lines_by_kind": {
-            "Decided by": 310,
+            "Decided by": 311,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2842,6 +2842,14 @@
               "tag": "pyraview level keeps its file info",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [pyraview level keeps its"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1378,
+              "kind": "Decided by",
+              "tag": "values no writer produces are malformed",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [values no writer"
             },
             {
               "document": "V_eta_image_model_plan.md",
