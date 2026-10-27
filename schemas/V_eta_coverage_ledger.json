@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 420,
+          "accepted_lines": 421,
           "accepted_lines_by_kind": {
-            "Decided by": 303,
+            "Decided by": 304,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2786,6 +2786,14 @@
               "tag": "writer fields over the template are template fields",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [writer fields over the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1364,
+              "kind": "Decided by",
+              "tag": "tuning split covers the shared fold",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [tuning split covers the"
             },
             {
               "document": "V_eta_image_model_plan.md",
