@@ -25,8 +25,7 @@ one line; Claude's leaning is in brackets.
    direction; detection refractory period; analysis window duration; bath
    solution. Approve as a batch? Hold "single unit" / "multi-unit" until
    InterLex is checked (needs an API key)? [yes to both]
-3. **Merge NDI-matlab #1074** (second-pass carries cite the register;
-   defects reported apart) to V2 when green? [yes]
+3. (Done: NDI-matlab #1074 merged, 38adc701b.)
 4. **Phase 2 pilot findings** (DID-matlab `claude/phase2`, subject family
    switched to raw v1 with its round-trip check, CI green):
    - a. A v1 `subject` whose `base.name` is neither empty nor its local
@@ -49,7 +48,8 @@ one line; Claude's leaning is in brackets.
    alone turns DID-matlab V2's old `frequency_filter` tests red until phase
    1 lands. OK to merge #162, then open and merge the DID-matlab phase-1 PR
    (which runs the corpora once: the baseline)? [yes]
-6. **Merge NDI-matlab #1074**: fully green (2,424 tests, 0 failed); see 3.
+6. (Done; see 3. did-schema #161 merged too. #162 waits on 9: merged
+   alone it turns DID-matlab V2 red until phase 1 lands.)
 7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
    run 40423825794, 499 passed, 0 failed; full suite run 40423865456, 2,366
    passed, 0 failed): the ingested stimulus reader finds the body,
@@ -70,6 +70,36 @@ one line; Claude's leaning is in brackets.
     `V_eta_*`): DID-matlab `claude/did-v2-names` (dbb5cc00, quick CI and
     fixtures green), NDI-matlab `claude/did-v2-names` (e9e0daab). These ride
     the phase PRs; then did-schema can rename its files.
+11. **Phase 2, treatment family switched to raw v1** (DID-matlab
+    `claude/phase2`, 15a87ee9, quick CI 40428032943 green; treatment,
+    treatment_drug, treatment_transfer, virus_injection). The round trip
+    found v1 values today's migration does not keep. Today's behaviour is
+    kept until you decide. In plain terms:
+    - a. `treatment_drug` start offset and duration (`administration_offset_time`,
+      `administration_duration`) are dropped. Put them on the treatment's
+      time (its end / duration)? [yes]
+    - b. `virus_injection.virus_AdministrationPND` (age at injection, days
+      after birth) is dropped. Keep it as the subject's age at the
+      injection? [yes]
+    - c. `treatment_transfer.method_ontologyNode` is dropped (the method is
+      written by label only). Write the node as the method term? [yes]
+    - d. NDI's treatmentMaker writes `location_ontologyName` where the
+      template says `location_ontologyNode`, so the writer's site node is
+      never read. Read the writer's spelling too ("the writer wins")? It
+      changes output. [yes]
+    - e. A site label is rewritten to the registry label ("V1" becomes
+      "primary visual cortex"), so the writer's label is lost. Is that
+      fine (the term node is the same), or keep the original label too?
+      [fine: same node, [spelling is notation]]
+    - f. `table2treatment`'s group link (`manipulation_id`) is read by no
+      migrator. Where does it go? [Claude to look and propose]
+    - g. A transfer with a clock type but no time (Babu writes NaN) loses
+      the clock; a transfer with an empty method name gets "transfer", an
+      invented value. Carry both as malformed? [yes]
+    - h. Documents universalRenames used to carry (an old `ndi_document`
+      block beside `base`) now convert and lose the extra block. Which
+      register rows should catch them? [Claude to propose rows]
+    - (No question: a document with no `base` gets random ids; being fixed.)
 
 
 ## The goal
