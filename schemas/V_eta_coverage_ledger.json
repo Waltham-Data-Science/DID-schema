@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 423,
+          "accepted_lines": 424,
           "accepted_lines_by_kind": {
-            "Decided by": 306,
+            "Decided by": 307,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2810,6 +2810,14 @@
               "tag": "unknown filter parameter is malformed",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [unknown filter parameter"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1370,
+              "kind": "Decided by",
+              "tag": "five probe kinds from NCIT",
+              "date": "2026-10-27",
+              "anchor": "Decided by Jess Haley, 2026-10-27 [five probe kinds from"
             },
             {
               "document": "V_eta_image_model_plan.md",
