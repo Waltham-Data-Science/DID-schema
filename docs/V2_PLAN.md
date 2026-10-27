@@ -15,16 +15,8 @@ one line; Claude's leaning is in brackets.
 1. (Decided 2026-10-27, [cell spellings are one meaning]: `spikes`, `neuron`
    and `cell` all become entity type `cell`, nothing else kept; the round
    trip counts them as equivalent. Build pending: DID-matlab.)
-   **Correction, asked 2026-10-27 (build stopped, DID-matlab #258 report):**
-   Claude's proposal misdescribed the migrator. A unit becomes `cell`,
-   `group` or a carry by [sorted units are cells or groups] and [unlabelled
-   units need a map], and `+migrators_j/element.m` writes an "element type"
-   and an "ndi element class" assertion on every element. Questions:
-   - a. Reword the decision to "the entity type the earlier decisions give,
-     and nothing else is kept"? [yes]
-   - b. Stop the "element type" assertion for every element, after checking
-     each of the 37 v1 types maps back to one v1 word? [yes]
-   - c. Stop the "ndi element class" assertion, with the same check? [yes]
+   Correction decided 2026-10-27: [cell spellings amended], [element type
+   is a device kind term], [ndi element class not kept]. Builds pending.
 2. **New EMPTY terms, rechecked** (Jess, 2026-10-27: "I'm surprised
    acquisition time, model fit, and bath solution doesn't already exist";
    "Multi-electrode array sounds better to me as long as it's genuinely the
@@ -418,12 +410,8 @@ one line; Claude's leaning is in brackets.
       count as template fields, so an unhomed one is carry-056, not
       carry-100 ("where a template and its writer disagree, the writer
       wins"). Keep? [yes]
-29. **Open from today's term decisions:**
-    - a. Electrode count: no ontology has "number of electrodes". Mint it
-      (EMPTY), or use NCIT "Count"? [mint]
-    - b. Site positions in the device's own frame: A1 one coordinate system
-      per probe plus a `coordinate_system_id` link on each X/Y/Z value; A2
-      one N×3 position per site; C convention only? [A1]
+29. (Decided 2026-10-27: a. [number of electrodes minted]; b. [site frame
+    is a coordinate system]. Builds pending.)
 
 ## The goal
 
