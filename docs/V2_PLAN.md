@@ -5,7 +5,72 @@ lines, mostly in `schemas/V_eta_go_forward_class_audit.md`. Open work is
 indexed in `schemas/V_eta_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-10-26.
+Last updated 2026-10-27.
+
+## Waiting for Jess
+
+Kept up to date while Jess is away (2026-10-27). Each item is answerable in
+one line; Claude's leaning is in brackets.
+
+1. **v1 element type** (`spikes` / `neuron` / `cell` all become entity type
+   `cell`, losing the original string): keep it as an assertion (variable
+   "element type", value the v1 string), or as a labelled note
+   `v1 element type "spikes"`? [assertion: structured and searchable;
+   notes are a last resort]
+2. **15 new EMPTY terms**, `docs/v2_working/EMPTY_TERMS_PROPOSAL.md`
+   section 2: n-trode; acquisition time; unit isolation quality; cluster
+   identifier; model fit; Naka-Rushton function; left-right / front-back /
+   depth position on device; peak search window duration; processing
+   segment duration; standard-deviation threshold; threshold crossing
+   direction; detection refractory period; analysis window duration; bath
+   solution. Approve as a batch? Hold "single unit" / "multi-unit" until
+   InterLex is checked (needs an API key)? [yes to both]
+3. **Merge NDI-matlab #1074** (second-pass carries cite the register;
+   defects reported apart) to V2 when green? [yes]
+4. **Phase 2 pilot findings** (DID-matlab `claude/phase2`, subject family
+   switched to raw v1 with its round-trip check, CI green):
+   - a. A v1 `subject` whose `base.name` is neither empty nor its local
+     identifier: V2 keeps no place for it, so the round trip reports it
+     lost. Carry the document as v1 (new register row; which kind?), or
+     accept? No NDI writer at main writes such a value. [carry, malformed:
+     not writer-shaped]
+   - b. A field outside the NDI template (e.g. a stray `subject.strain`):
+     today dropped silently; the round trip now catches it. Carry as v1
+     ([partly placed is carried as v1])? Which kind? [carry; malformed when
+     no NDI writer writes it, else awaiting home]
+   - c. A `subject_group` member edge named plain `subject_id` comes back
+     as `subject_id_1`: the same thing ([spelling is notation]), or keep
+     the original name? [same thing]
+5. **Merge did-schema #162 ([filters are methods], schema side), then
+   DID-matlab phase 1 right after.** Both are green: #162 on the gates;
+   DID-matlab `claude/phase1` (3c717eb8) quick CI 40425115184, 1,744 tests,
+   0 failed, against #162's schema. Phase 1 must not merge first (every
+   filtered pyraview would quarantine on today's `main`). Merging #162
+   alone turns DID-matlab V2's old `frequency_filter` tests red until phase
+   1 lands. OK to merge #162, then open and merge the DID-matlab phase-1 PR
+   (which runs the corpora once: the baseline)? [yes]
+6. **Merge NDI-matlab #1074**: fully green (2,424 tests, 0 failed); see 3.
+7. **NDI-matlab phase 3 is built** (branch `claude/phase3`, 471cd5c66; e2e
+   run 40423825794, 499 passed, 0 failed; full suite run 40423865456, 2,366
+   passed, 0 failed): the ingested stimulus reader finds the body,
+   `chooseLevel` skips empty levels, element identifier `<name> |
+   <reference>` (writer and reader; the old `(ref X)` form still reads),
+   light-sheet axes matched by node. Open its PR (runs the NDI corpora
+   once) once DID-matlab writes the new element identifier? [yes]
+8. **Ingested stimulus lookup reads description text**: the body has no
+   epoch field, so NDI finds it by the text `<epoch> <reader id> ...` in
+   `data_body.description`. It works (tested), but a queryable epoch field
+   or epoch time reference would be sturdier. Leave as is, or open a
+   follow-up? [open a follow-up; not urgent]
+9. **Blocking check, under way**: NDI's end-to-end tests fail 6 epoch /
+   time-reference tests when paired with DID-matlab phase 1 (run
+   40424875549). Being diagnosed before phase 1 can merge; no answer
+   needed yet.
+10. **Both siblings now read either file name** (`did_v2_*` first, then
+    `V_eta_*`): DID-matlab `claude/did-v2-names` (dbb5cc00, quick CI and
+    fixtures green), NDI-matlab `claude/did-v2-names` (e9e0daab). These ride
+    the phase PRs; then did-schema can rename its files.
+
 
 ## The goal
 

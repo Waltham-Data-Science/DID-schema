@@ -718,9 +718,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 399,
+          "accepted_lines": 401,
           "accepted_lines_by_kind": {
-            "Decided by": 282,
+            "Decided by": 284,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -2635,6 +2635,22 @@
               "tag": "conflicting animal records need a map",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [conflicting animal"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1322,
+              "kind": "Decided by",
+              "tag": "method terms are general",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [method terms are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1324,
+              "kind": "Decided by",
+              "tag": "Naka-Rushton is one function",
+              "date": "2026-10-26",
+              "anchor": "Decided by Jess Haley, 2026-10-26 [Naka-Rushton is one"
             },
             {
               "document": "V_eta_image_model_plan.md",
