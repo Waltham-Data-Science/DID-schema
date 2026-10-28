@@ -17,6 +17,18 @@
             "must_refer_to_document_class": "entity"
         },
         {
+            "name": "from_acquisition_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], V_eta_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional until the writers (DID-matlab `+migrators_j/syncrule.m`, `resolveClockAlignment.m`) fill it and NDI-matlab reads it; then `acquisition_channels_id` is removed (CLAUDE.md section 3 order).",
+            "must_refer_to_document_class": "acquisition_system"
+        },
+        {
+            "name": "to_acquisition_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The rig whose clock this rule maps TO: v1 `daqsystem2`. See `from_acquisition_system_id`.",
+            "must_refer_to_document_class": "acquisition_system"
+        },
+        {
             "name": "acquisition_channels_id",
             "mustBeNonEmpty": false,
             "documentation": "The channel groups this rule relates: 0 or 2 (sync configuration amendment 1, 2026-08-18: a file-based rule names none), UNORDERED because the rule is symmetric. The schema's min 0 / max 2 cannot exclude exactly 1; that check belongs to a validator.",
