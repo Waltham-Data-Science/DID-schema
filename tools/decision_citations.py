@@ -131,8 +131,7 @@ CITATIONS = {
     # -- migrated from the families ---------------------------------------
     "calculator": [("V_eta_subject_calculation_plan.md", "calculator mixin dropped (#73)")],
     "generic_file": [("V_eta_OPEN_WORK.md", "stranded sources")],
-    "imageCollection": [("V_eta_OPEN_WORK.md", "stranded sources"),
-                        (_GFA, "carried v1 validates against NDI templates")],
+    "imageCollection": [("V_eta_OPEN_WORK.md", "stranded sources")],
     # The second citation is the signed amendment the target map names
     # ("TEAM-SIGN-OFF [logical_observation amendment 1] 2026-08-18").
     "valid_interval": [("V_eta_logical_observation_plan.md", "logical_observation"),
@@ -183,8 +182,7 @@ CITATIONS = {
     "sorting_parameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
     "vmspikefilteringparameters": [("V_eta_method_parameters_plan.md", "spike processing parameters")],
     "stimulus_parameter": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
-    "stimulus_parameter_table": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters"),
-                                 (_GFA, "carried v1 validates against NDI templates")],
+    "stimulus_parameter_table": [("V_eta_stimulus_parameter_plan.md", "stimulus parameters")],
     "stimulus_response": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
     "stimulus_response_scalar": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
     "stimulus_response_scalar_parameters": [("V_eta_stimulus_response_model_plan.md", "stimulus response")],
@@ -201,8 +199,7 @@ CITATIONS = {
     "session": [(_GFA, "session")],
     "binaryseries_parameters": [(_GFA, "misc singletons")],
     "interaction_purpose": [(_GFA, "misc singletons")],
-    "projectvar": [(_GFA, "misc singletons"),
-                   (_GFA, "carried v1 validates against NDI templates")],
+    "projectvar": [(_GFA, "misc singletons")],
     "spatialGeneExpressionPyramid": [_ST_REVIEW],
     "spatialGeneExpressionCells": [_ST_REVIEW],
     "spatialGeneExpressionTiles": [_ST_REVIEW],

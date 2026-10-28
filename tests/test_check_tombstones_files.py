@@ -112,6 +112,19 @@ def test_file_names_are_compared_verbatim_not_snake_cased():
     assert div["present_but_undeclared"] == ["imageStack"]
 
 
+def test_image_stack_tombstone_agrees_with_ndi_today():
+    """The fix, asserted against the SHIPPED schema rather than a fixture.
+
+    Only meaningful because the two tests above prove the comparison fires; the
+    denominator assertions here stop it passing on an empty set."""
+    assert "image_stack" in VETA, "the image_stack tombstone was deleted again"
+    assert CT.veta_files("image_stack", VETA) == {"imageStack"}, (
+        "image_stack must declare NDI's own file_list entry verbatim; got {!r}".format(sorted(CT.veta_files("image_stack", VETA))))
+    div = CT.compare_file_block("imageStack", GT["classes"], "image_stack", VETA)
+    assert div == {"declared_but_absent": [], "present_but_undeclared": []}, (
+        f"image_stack diverges from NDI's file_list again: {div!r}")
+
+
 def test_declared_files_are_read_through_the_class_chain():
     """Both sides walk the chain, as `fileList.m`'s `declaredFiles` does.
 

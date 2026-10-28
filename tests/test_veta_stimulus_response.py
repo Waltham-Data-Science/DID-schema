@@ -533,11 +533,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # `frequency_filter` deleted ([filters are methods], Jess Haley, 2026-10-22,
     # V_eta_frequency_filter_model_plan.md; the filter is a `method`). Its cells
     # were not in the INERT list, which is checked, not assumed.
-    # THIRTY-FIRST MOVEMENT, re-derived not bumped: 171 -> 163 on 2026-10-28,
-    # the eight did_v1 tombstones of deprecated/ deleted ([carried v1 validates
-    # against NDI templates], Jess Haley, 2026-10-27). None of them was in the
-    # INERT list, which is checked, not assumed.
-    assert walked == 163, f'schema count moved; re-derive the inert set ({walked})'
+    assert walked == 171, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

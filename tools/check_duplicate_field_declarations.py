@@ -168,13 +168,7 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # 18 -> 8 (2026-10-08, signed, V_eta_entity_composition_plan.md): `subject`,
 # `session` and the nine V1-ONLY-SLOT entities merged into one `entity`, whose
 # `name` beside `base.name` is ONE V1-ONLY-SLOT row (OVERRIDES), so ten rows went.
-# 8 -> 1 (2026-10-28, Jess Haley, V_eta_go_forward_class_audit.md [carried v1
-# validates against NDI templates]): V2 `base.name` is deleted with the
-# deprecated/ tombstones, as the 2026-09-25 note above foresaw. The seven rows
-# that were a class's own `name` beside `base.name` went with it, and with them
-# the three V1-ONLY-SLOT overrides. The one row left is pyraview.label beside
-# filter.label (V1-FIDELITY: NDI declares both).
-BASELINE = 1
+BASELINE = 8
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -186,10 +180,11 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 # Was EMPTY until 2026-09-25, when #73 item 54 DECIDED the three rows it called
 # open (method_parameters, software, strain `name`): a class's own `name` is the
 # name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
-OVERRIDES = {}
-# Empty since 2026-10-28: its three V1-ONLY-SLOT rows (acquisition_system, entity
-# and method `name` beside `base.name`, #73 item 54) ended when V2 `base.name`
-# was deleted ([carried v1 validates against NDI templates]).
+OVERRIDES = {
+    ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (V_eta_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (V_eta_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+}
 
 
 def _norm(s):

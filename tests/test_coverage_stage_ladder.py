@@ -231,27 +231,6 @@ def check_the_ladder_still_discriminates(rows):
             "with one answer measures nothing")
 
 
-def _carried_as_v1(r):
-    """The one other recorded reason a rung may be `n/a`: the class is CARRIED
-    WHOLE AS v1 by decision ([carried v1 validates against NDI templates],
-    Jess Haley, 2026-10-27). Only a class in tools/veta_record.py CARRIED_AS_V1,
-    recorded as a decided passthrough with no decided target AND a citation --
-    never an empty list alone."""
-    return (r["v1_class"] in _veta_record().CARRIED_AS_V1
-            and r.get("no_target_reason") == "passthrough"
-            and not r.get("decided_targets")
-            and bool(r.get("no_target_signoff")))
-
-
-def _veta_record():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "_veta_record", os.path.join(REPO_ROOT, "tools", "veta_record.py"))
-    rec = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(rec)
-    return rec
-
-
 def check_targets_rung_is_not_satisfied_by_an_empty_list(rows):
     """THE ANTI-VACUITY RULE, in the one place it was going to be broken."""
     for r in rows:
@@ -267,8 +246,7 @@ def check_targets_rung_is_not_satisfied_by_an_empty_list(rows):
                 "target class is named. `schema_targets_missing == []` is true "
                 "of every row; reading it alone reports 102 of 102 built")
             assert not r["build_state"]["schema_targets_missing"]
-        if named == 0 and r.get("no_target_reason") != "dissolved" \
-                and not _carried_as_v1(r):
+        if named == 0 and r.get("no_target_reason") != "dissolved":
             assert rung["state"] == "not measured", (
                 f"{r['v1_class']}: names no target and is not signed to "
                 f"dissolve, so rung 2 is unreadable, not `{rung['state']}`")
@@ -283,7 +261,7 @@ def check_na_requires_a_signed_dissolution(rows):
         for rung in st["ladder"]:
             if rung["state"] != "n/a":
                 continue
-            assert r.get("no_target_reason") == "dissolved" or _carried_as_v1(r), (
+            assert r.get("no_target_reason") == "dissolved", (
                 f"{r['v1_class']}: rung {rung['stage']} is `n/a` without a "
                 "signed dissolution. `n/a` lets a class climb, so issuing one "
                 "from an empty list is a promotion produced by absence")
@@ -687,14 +665,10 @@ class TestTheCommittedLedger(unittest.TestCase):
         # signed disposition -- an honest gap or (in the case of `base` /
         # `mock` / `animalsubject`) a chain/nonprod row nothing consumes.
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
-        # 8 -> 7 on 2026-10-28: `imageCollection` is decided now -- CARRIED
-        # WHOLE AS v1 once its tombstone was deleted ([carried v1 validates
-        # against NDI templates], tools/veta_record.py CARRIED_AS_V1) -- so it
-        # moved to `nothing_built_but_excused_rows`, beside the dissolutions.
         self.assertEqual(cap["genuinely_untouched_rows"], [
             "animalsubject", "base", "calculator",
             "demoNDISeries", "demoNDISeriesMixed",
-            "imageStack_parameters", "mock"])
+            "imageCollection", "imageStack_parameters", "mock"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
         # The rows that separate "nothing built" from "nothing known".
@@ -707,12 +681,8 @@ class TestTheCommittedLedger(unittest.TestCase):
         # mint half of the signed dissolution, in code. It now satisfies rung 1
         # on a declaration, so it is no longer "nothing built".
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
-        # 2026-10-28: the three classes CARRIED WHOLE AS v1 by decision
-        # (tools/veta_record.py CARRIED_AS_V1) join the two dissolutions:
-        # nothing is built for them, and the record says nothing is to be.
         self.assertEqual(cap["nothing_built_but_excused_rows"],
-                         ["imageCollection", "projectvar",
-                          "stimulus_parameter_table", "stimulus_response",
+                         ["stimulus_response",
                           "stimulus_response_scalar_parameters"])
         for name in cap["nothing_built_but_excused_rows"]:
             self.assertNotIn(name, cap["genuinely_untouched_rows"])
@@ -781,11 +751,8 @@ class TestTheCommittedLedger(unittest.TestCase):
         # (lightsheetZarrLevel/Pyramid were here for a few hours on 2026-10-14,
         # between their targets being built and their DID-matlab migrators,
         # 1aece9a, landing.)
-        # `projectvar` and `stimulus_parameter_table` left on 2026-10-28: their
-        # decided target was their own tombstone, deleted with every
-        # deprecated/ class; they are carried whole as v1, with no V2 target
-        # to be built ahead of ([carried v1 validates against NDI templates]).
-        self.assertEqual(failed, ["ensemble"])
+        self.assertEqual(failed, [
+            "ensemble", "projectvar", "stimulus_parameter_table"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "
@@ -1197,7 +1164,7 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 7,
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 8,
                          "precondition: eight rows have nothing built and "
                          "nothing excused. Nine until `generic_file` was "
                          "credited to did2.convert.foldGenericFiles (OPEN_WORK "
@@ -1217,9 +1184,7 @@ class TestMutationsRedden(unittest.TestCase):
                          "gene-expression family, moving them into "
                          "`anomalies.over_failed` (build-ahead: rung 2 satisfied "
                          "on the target existing, rung 1 not yet -- Session 2's "
-                         "migrator scope, #122); seven since 2026-10-28, when "
-                         "`imageCollection` was decided CARRIED AS v1. Each drop "
-                         "has a different "
+                         "migrator scope, #122). Each drop has a different "
                          "cause; the distinction is the point of this bucket")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0

@@ -138,18 +138,16 @@ COUNTERS = (
     "edges_compared",
     "edges_not_compared",
     "edges_not_compared_ndi_required",
-    # -- WHY a class did not resolve. Ordered causes, first match wins; the seven
+    # -- WHY a class did not resolve. Ordered causes, first match wins; the six
     #    partition `classes_with_no_v_eta_class` and their edge counterparts
     #    partition `edges_lost_to_unresolved_class`.
     "unresolved_classes_source_deleted",
-    "unresolved_classes_carried_as_v1",
     "unresolved_classes_folds_to_target",
     "unresolved_classes_second_pass_only",
     "unresolved_classes_migrator_emits_nothing",
     "unresolved_classes_no_home_no_migrator",
     "unresolved_classes_cause_undetermined",
     "edges_unresolved_source_deleted",
-    "edges_unresolved_carried_as_v1",
     "edges_unresolved_folds_to_target",
     "edges_unresolved_second_pass_only",
     "edges_unresolved_migrator_emits_nothing",
@@ -180,17 +178,6 @@ COUNTERS = (
     "partition_ok",
 )
 
-def _carried_as_v1():
-    """The v1 classes carried whole as v1 by decision (tools/veta_record.py)."""
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "_veta_record", os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                     "veta_record.py"))
-    rec = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(rec)
-    return set(rec.CARRIED_AS_V1)
-
-
 #: The ordered class-level causes. ORDER IS PART OF THE ANSWER: a phase-8
 #: deleted source ALSO has a target row, so without a fixed precedence the two
 #: buckets would double-count. Read a bucket as "the FIRST of these that is
@@ -199,10 +186,6 @@ UNRESOLVED_CAUSES = (
     ("source_deleted",
      ("SOURCE DELETED by a completed migrator (build_v_eta _DELETE_PHASE8) -- "
      "no schema survives to compare against, and that is correct")),
-    ("carried_as_v1",
-     ("CARRIED WHOLE AS v1 by decision: its tombstone was deleted and it has no "
-     "V2 class (tools/veta_record.py CARRIED_AS_V1; [carried v1 validates "
-     "against NDI templates], Jess Haley, 2026-10-27)")),
     ("folds_to_target",
      "FOLDS into differently-named target(s) named by the migration-target map"),
     ("second_pass_only",
@@ -321,7 +304,6 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
     d["targets_map_readable"] = 1 if targets_map is not None else 0
     d["phase8_set_supplied"] = 1 if deleted_phase8 is not None else 0
     phase8 = set(deleted_phase8 or ())
-    carried_v1 = _carried_as_v1()
 
     # A SHRINKING DENOMINATOR, and a well-disguised one. `by_class` IS the V_eta
     # side of the comparison: a schema file skipped here does not appear as a
@@ -389,8 +371,6 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
             return "cause_undetermined"
         if ndi_cn in phase8 or ndi_snake(ndi_cn) in phase8:
             return "source_deleted"
-        if ndi_cn in carried_v1 or ndi_snake(ndi_cn) in carried_v1:
-            return "carried_as_v1"
         row = targets_row(ndi_cn)
         if row is None:
             return "no_home_no_migrator"

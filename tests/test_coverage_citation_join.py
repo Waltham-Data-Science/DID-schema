@@ -361,19 +361,14 @@ class TestTheReconciliation(unittest.TestCase):
         self.assertEqual(fails, [])
         den = [ln for ln in lines if "own decision citations" in ln]
         self.assertEqual(len(den), 1)
-        # 10 -> 13 on 2026-10-28: the three classes carried whole as v1
-        # (tools/veta_record.py CARRIED_AS_V1) each transcribe
-        # [carried v1 validates against NDI templates]
-        self.assertIn("13 transcription(s)", den[0])
+        self.assertIn("10 transcription(s)", den[0])
         # 8 -> 9 on 2026-10-21: `stimulus_bath` now cites the bath line its
         # transcription quotes (V_eta_go_forward_class_audit.md, "Decided by
         # Jess Haley, 2026-10-21"), so every transcription is reconciled.
         # 9 -> 10 on 2026-10-22: `control_stimulus_ids` dissolves ([control as
         # covariate], V_eta_stimulus_response_model_plan.md), and its citation
         # names the same line.
-        # 10 -> 13 on 2026-10-28: the three classes carried as v1 cite the
-        # line they transcribe ([carried v1 validates against NDI templates]).
-        self.assertIn("13 cite the same document", den[0],
+        self.assertIn("10 cite the same document", den[0],
                       "a reconciliation that matches nothing proves nothing")
 
     def test_the_table_still_carries_what_the_join_cannot(self):
