@@ -13,15 +13,10 @@ Last updated 2026-10-27.
 
 **Questions for Jess (answer in one line each):**
 
-- **D1. Device kinds with no existing term (held 46/47).** Wikidata was reached
-  2026-10-28 through its SPARQL service (the search API answers HTTP 429 here).
-  It has **no** item for patch pipette, sharp electrode, an electrical
-  stimulator, lick spout / lickometer, reward port or the cell-attached
-  recording mode (only scholarly articles and patents matched; Q2705516
-  "micropipette" is a liquid pipette, Q176366 "patch clamp" is the technique).
-  OLS4 had none either (2026-10-27). Proposal: mint EMPTY terms for these six
-  now, each with a one-line definition brought for approval; add a Wikidata id
-  later as `equivalent` if one appears. [yes]
+- **D1 (answered yes 2026-10-28; definitions await approval).** EMPTY terms for
+  patch pipette, sharp electrode, electrical stimulator, lick spout, reward well
+  and the cell-attached recording mode. Claude's proposed definitions are in the
+  conversation of 2026-10-28; nothing is minted before Jess approves them.
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
@@ -38,6 +33,11 @@ Last updated 2026-10-27.
   equation (checked: NDIcalc-vis-matlab 00e3e0f, only xi's bounds differ). The
   build records "xi held at 0" in each fit entry's `constraints`, as for
   Naka-Rushton, not as method parameters. Confirm? [yes]
+- **F1. A presentation that names no epoch at all (NDI-matlab #1087).** B1 as
+  built carries a presentation whose epoch the fold refuses (carry-109); one whose
+  `epochid.epochid` is empty keeps its session anchor and is counted in
+  `epoch_anchor.no_epoch_string`. Carry it with carry-109 too? [no: v1 named no
+  epoch, so the session anchor loses nothing]
 - **#208 (tabled by Jess until just before the `notes` storage pass):** rename
   `base`? rename the `session_id` edge? Comments on the issue hold the options.
 
