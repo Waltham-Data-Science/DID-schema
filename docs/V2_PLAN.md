@@ -13,10 +13,42 @@ Last updated 2026-10-27.
 
 **Questions for Jess (answer in one line each):**
 
-- **D1 (answered yes 2026-10-28; definitions await approval).** EMPTY terms for
-  patch pipette, sharp electrode, electrical stimulator, lick spout, reward well
-  and the cell-attached recording mode. Claude's proposed definitions are in the
-  conversation of 2026-10-28; nothing is minted before Jess approves them.
+- **D1 (approved 2026-10-28).** Five device kinds minted on empty-ontology
+  #31 (EMPTY:0000411-0000415), stacked on #30. Cell-attached is held: see G2.
+- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints
+  EMPTY "text channel" (empty-ontology #30, EMPTY:0000410). The term registry
+  already gives the v1 prefix `tx` the channel type NCIT Text (C25704)
+  ([channel types]). Should "text channel" replace NCIT Text there, or should
+  both stay? [replace: NCIT Text means "the words of something written", not a
+  channel; the other channel types are all "... channel"]
+- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an
+  EMPTY "cell-attached recording", but OBI:0002179 "cell-attached patch clamp
+  assay" exists. T19 puts an existing term first. Use OBI:0002179 (keeping
+  "cell-attached patch" and "on-cell recording" as notes), or mint anyway?
+  [use OBI:0002179]
+- **G3. Where a linked session's link lives, in NDI-written datasets
+  ([linked_session withdrawn]).** The migrator puts "database linking" and the
+  Pathname on the session -> dataset `included_in` relation. NDI's writers
+  (`ndi.dataset.addSessionV2`, `ndi.setup.V2.writeDataset`) file a session
+  under its STUDIES, not directly under the dataset, so there may be no
+  session -> dataset relation to carry the method, or several study relations.
+  Options: (a) always write one direct session -> dataset `included_in`
+  relation that carries the method (the study relations stay as they are);
+  (b) put the method on every membership relation. [a: one place per fact, and
+  it matches the migrated shape] The NDI build (its writers, `datasetSessions`,
+  `datasetDatabaseFiles`, and `ndi.dataset`'s convert / unlink, which use the
+  `linked_session` id today) waits on this.
+- **G4. Allowed units ([allowed units are closed source_unit lists]).**
+  `source_unit` is the unit the SOURCE gave (the number in `source_value`);
+  the canonical unit is fixed by the value class. Closing time's `source_unit`
+  to [seconds] would refuse every source that gave milliseconds or minutes.
+  Read the seed as the units a source may give (time: second, millisecond,
+  minute, hour; spatial position: metre, millimetre, micrometre), each
+  converted to the canonical one? There is also no binding row shape for this
+  yet (the registry's lists are subject statement, relation, entity field and
+  entity type bindings); proposed: a new list `unit_bindings`, one row per
+  variable node: `{"variable": {node, name}, "source_units": [{node, name},
+  ...]}`. [yes to both]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
