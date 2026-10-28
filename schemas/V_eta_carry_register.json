@@ -1868,6 +1868,26 @@
       "decides": "what the lab's group means for that dataset; the v1 document stores only a link to the group's first row",
       "resolved_by": "each dataset's import (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-109",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "epochid.epochid",
+        "the stimulator's clock for that epoch"
+      ],
+      "when": "no epoch entity is minted for the presentation's (session, epoch string), or its stimulator's clock for that epoch is no_time, inherited or unknown, so its manipulation cannot be anchored to its epoch (NDI-matlab +migrate/local.m, epochCarryReason)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "epoch-less presentations carry"
+      },
+      "homes": [
+        "the presentation's epoch entity, once the dataset says which epoch it was in"
+      ],
+      "decides": "which epoch the presentation belongs to, when no generic rule can find it",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "proposed"
     }
   ]
 }

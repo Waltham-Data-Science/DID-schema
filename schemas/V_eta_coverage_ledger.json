@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 525,
+          "accepted_lines": 526,
           "accepted_lines_by_kind": {
-            "Decided by": 408,
+            "Decided by": 409,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3626,6 +3626,14 @@
               "tag": "empty ndi_document block is notation",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [empty ndi_document block"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1574,
+              "kind": "Decided by",
+              "tag": "device kinds minted",
+              "date": "2026-10-28",
+              "anchor": "Decided by Jess Haley, 2026-10-28 [device kinds minted]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
