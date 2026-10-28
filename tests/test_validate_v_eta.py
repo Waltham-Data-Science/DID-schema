@@ -72,9 +72,7 @@ def test_a_binding_on_a_non_term_field_is_refused(tree):
     def fn(d):
         f = next(x for x in d["fields"] if x["type"] == "char")
         f["constraints"] = {"binding": {"strength": "preferred"}}
-    # `entity` since 2026-10-28: `base` lost its one char field (`name`) when
-    # V2 base.name was deleted ([carried v1 validates against NDI templates])
-    _edit(tree / "stable" / "entity.json", fn)
+    _edit(tree / "stable" / "base.json", fn)
     rc, out = _run(tree)
     assert rc == 1 and "is bound but typed 'char'" in out, out
 

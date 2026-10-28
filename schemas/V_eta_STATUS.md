@@ -14,23 +14,23 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 169 |
+| target classes | 177 |
 | settled (persist) | 93 |
-| settled (retire) | 73 |
-| **still open (`in_progress`)** | **3** |
-| **`retire` with no migrator YET** | **1** |
-| **open classes in all** | **4** |
-| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 4 |
+| settled (retire) | 80 |
+| **still open (`in_progress`)** | **4** |
+| **`retire` with no migrator YET** | **2** |
+| **open classes in all** | **6** |
+| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 6 |
 | &nbsp;&nbsp;**proposed (not decided), awaiting review** | **0** |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
-| (a) nothing built (the decision state is a separate column) | 1 |
+| (a) nothing built (the decision state is a separate column) | 2 |
 | (b) built, awaiting corpus proof | 2 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-## What is actually left on the 3 open classes
+## What is actually left on the 4 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
 open because its hand-written `disposition` in `schemas/did_v2/index.json` is
@@ -53,7 +53,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: migrator lines inspected | 72635 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 42072 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 30563 |
-| build: classes queried | 3 |
+| build: classes queried | 4 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 0 |
@@ -72,11 +72,11 @@ an `unconverted_count`, so **state (c) cannot be reached by any class in**
 key measured nothing; its silence is not a zero. Point `--census` at a
 directory of corpus reports, or run the DID-matlab corpus gate.
 
-### Where the 3 open classes sit
+### Where the 4 open classes sit
 
 | state | classes |
 |---|---|
-| (a) nothing built (the decision state is a separate column) | 1 |
+| (a) nothing built (the decision state is a separate column) | 2 |
 | (b) built, awaiting corpus proof | 2 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
@@ -244,10 +244,12 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `app` | decided | (b) | 20 consuming reference(s) (12 per-document migrator, 8 batch post-pass); decided target(s) built: `entity (software)` | - | 5 (1+4) | 10 (8+2) | 386 (234+152) | n/a -- not measured |
 | `binaryseries_parameters` | decided | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `statement`, `sampled_body` | - | - | 4 (2+2) | 22 (17+5) | n/a -- not measured |
 | `interaction_purpose` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
+| `projectvar` | decided | (a) | *none* | - | - | - | 3 (3+0) | n/a -- not measured |
 
-#### (a) nothing built (the decision state is a separate column) -- 1
+#### (a) nothing built (the decision state is a separate column) -- 2
 
 - `interaction_purpose` (decided) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/openminds_stimulus.m:49 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:50 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:70 (comment_mention)`
+- `projectvar` (decided) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:378 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:396 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:49 (comment_mention)`
 
 #### (b) built, awaiting corpus proof -- 2
 
@@ -256,24 +258,26 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 ## Proposed (not decided) -- awaiting review
 
-DENOMINATOR: 4 open class(es); 0 cite no decision line that resolves.
+DENOMINATOR: 6 open class(es); 0 cite no decision line that resolves.
 
 None -- every open class cites a decision line that exists.
 
 ## Decided, awaiting build -- the open classes
 
-DENOMINATOR: 4 open class(es); 4 cite a decision line that exists. The decision column is the line's own text, not a summary.
+DENOMINATOR: 6 open class(es); 6 cite a decision line that exists. The decision column is the line's own text, not a summary.
 
 | class | targets built | decided in | decision |
 |---|---|---|---|
 | `app` | 1 of 1 | [software]. "TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the" (V_eta_tenet_audit.md:16). | jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environm...` |
 | `binaryseries_parameters` | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `calculator` | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm...` |
+| `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `interaction_purpose` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
+| `projectvar` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 
 ## Every decision citation
 
-DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 73 class(es) cite 82 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
@@ -306,16 +310,16 @@ DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve
 | `geneListMapping` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). |
 | `hartley_calc` | retire | 5 of 5 | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (V_eta_ngrid_family_findings.md:358). |
-| `image` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `imageCollection` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (V_eta_go_forward_class_audit.md:1494). |
-| `imageStack` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `imageStack_parameters` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
+| `image` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
+| `imageCollection` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). |
+| `imageStack` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
+| `imageStack_parameters` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
 | `interaction_purpose` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
 | `jrclust_clusters` | retire | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
 | `kiasort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
 | `kilosort_clusters` | retire | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (V_eta_go_forward_class_audit.md:1023). |
-| `lightsheetZarrLevel` | consumed by migrator (no tombstone) | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
-| `lightsheetZarrPyramid` | consumed by migrator (no tombstone) | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
+| `lightsheetZarrLevel` | retire | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
+| `lightsheetZarrPyramid` | retire | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
 | `neuron_extracellular` | retire | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `ngrid` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
 | `ontologyImage` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
@@ -323,7 +327,7 @@ DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve
 | `oridirtuning_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
 | `probe_geometry` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `probe_location` | retire | 2 of 2 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (V_eta_go_forward_class_audit.md:723). |
-| `projectvar` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (V_eta_go_forward_class_audit.md:1494). |
+| `projectvar` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
 | `pyraview` | retire | 1 of 1 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]. "TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13" (V_eta_recording_observation_plan.md:111). |
 | `session` | consumed by migrator (no tombstone) | 1 of 1 | [session]. "TEAM-SIGN-OFF [session]: jess@walthamdatascience.com /" (V_eta_go_forward_class_audit.md:664). |
 | `sorting_parameters` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
@@ -334,7 +338,7 @@ DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve
 | `spike_extraction_parameters_modification` | retire | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (V_eta_method_parameters_plan.md:32). |
 | `stimulus_bath` | consumed by migrator (no tombstone) | 2 of 2 | [bath is a manipulation]. "Decided by Jess Haley, 2026-10-21 [bath is a manipulation]" (V_eta_go_forward_class_audit.md:727). |
 | `stimulus_parameter` | retire | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (V_eta_stimulus_parameter_plan.md:221). |
-| `stimulus_parameter_table` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (V_eta_stimulus_parameter_plan.md:221).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (V_eta_go_forward_class_audit.md:1494). |
+| `stimulus_parameter_table` | retire | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (V_eta_stimulus_parameter_plan.md:221). |
 | `stimulus_presentation` | retire | 2 of 2 | [stimulus]. "TEAM-SIGN-OFF [stimulus]: jess@walthamdatascience.com /" (V_eta_stimulus_model_plan.md:258). |
 | `stimulus_response` | retire | no target recorded | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
 | `stimulus_response_scalar` | retire | 1 of 1 | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (V_eta_stimulus_response_model_plan.md:541). |
@@ -356,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 531 decision line(s) accepted, 2 rejected; 43 cited by a class, 488 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 531 decision line(s) accepted, 2 rejected; 42 cited by a class, 489 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -684,6 +688,7 @@ field). If one decides a class's disposition, that class should cite it.
 - every v1 id survives. "Decided by Jess Haley, 2026-10-27 [every v1 id survives]: (" (V_eta_go_forward_class_audit.md:1488).
 - axis letters derive from labels. "Decided by Jess Haley, 2026-10-27 [axis letters derive from" (V_eta_go_forward_class_audit.md:1490).
 - v1 name goes to the class's own name field. "Decided by Jess Haley, 2026-10-27 [v1 name goes to the" (V_eta_go_forward_class_audit.md:1492).
+- carried v1 validates against NDI templates. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (V_eta_go_forward_class_audit.md:1494).
 - treatment groups are a dataset decision. "Decided by Jess Haley, 2026-10-27 [treatment groups are a" (V_eta_go_forward_class_audit.md:1496).
 - fit classes kept; session list rebuilt. "Decided by Jess Haley, 2026-10-27 [fit classes kept" (V_eta_go_forward_class_audit.md:1498).
 - event lines are event channels. "Decided by Jess Haley, 2026-10-27 [event lines are event" (V_eta_go_forward_class_audit.md:1500).
@@ -855,16 +860,15 @@ field). If one decides a class's disposition, that class should cite it.
 
 | disposition | count |
 |---|---|
-| retire | 69 |
-| consumed by migrator (no tombstone) | 34 |
-| no V_eta home, no migrator -- UNVERIFIED | 4 |
-| in_progress | 2 |
+| retire | 76 |
+| consumed by migrator (no tombstone) | 30 |
+| in_progress | 3 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |
 | persist | 1 |
 
-### `retire`, but NO MIGRATOR YET -- 1 rows
+### `retire`, but NO MIGRATOR YET -- 2 rows
 
 Marked `retire` in the ledger with **no per-class migrator and no `how`
 note**. `retire` reads as settled, so they are counted with the open classes
@@ -887,14 +891,8 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 1 row(s), each searched for its BARE CLASS NAME as a quoted literal in 35 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal in 35 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
 - `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
-
-**UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
-
-- `imageCollection`
-- `imageStack_parameters`
-- `projectvar`
-- `stimulus_parameter_table`
+- `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
 

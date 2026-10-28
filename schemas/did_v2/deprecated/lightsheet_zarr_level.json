@@ -1,0 +1,278 @@
+{
+    "document_class": {
+        "class_name": "lightsheet_zarr_level",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "lightsheetZarrPyramid_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The pyramid this level belongs to. NDI's schema: mustbenotempty 1.",
+            "must_refer_to_document_class": "lightsheet_zarr_pyramid",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject imaged. NDI's schema: mustbenotempty 0.",
+            "must_refer_to_document_class": "entity",
+            "ndi_mustBeNonEmpty": false
+        },
+        {
+            "name": "source_file_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The fileReference naming the source store. NDI's schema: mustbenotempty 0.",
+            "must_refer_to_document_class": "file_reference",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "chunk.bin",
+            "series": true,
+            "documentation": "The level's chunk bytes, a 1-based FILE SERIES (chunk.bin_1, chunk.bin_2, ...); written only when the writer materialized the chunks."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human-readable name for this level.",
+            "constraints": {}
+        },
+        {
+            "name": "level",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "0-based level index; 0 is the finest.",
+            "constraints": {}
+        },
+        {
+            "name": "reduction_function",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the level was made from level 0: 'none' (level 0), 'mean', 'max'.",
+            "constraints": {}
+        },
+        {
+            "name": "axes_order",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Copied from the parent pyramid.",
+            "constraints": {}
+        },
+        {
+            "name": "shape",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis size of this level's array.",
+            "constraints": {}
+        },
+        {
+            "name": "chunks",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis chunk size.",
+            "constraints": {}
+        },
+        {
+            "name": "chunk_grid",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis count of chunks.",
+            "constraints": {}
+        },
+        {
+            "name": "n_chunks_stored",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many chunk.bin_# files were written.",
+            "constraints": {}
+        },
+        {
+            "name": "chunk_index_origin",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The first # of the chunk.bin_# series (1).",
+            "constraints": {}
+        },
+        {
+            "name": "chunk_order",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the chunk grid is flattened to the series ('C').",
+            "constraints": {}
+        },
+        {
+            "name": "dtype",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The Zarr dtype string (e.g. '<u2').",
+            "constraints": {}
+        },
+        {
+            "name": "fill_value",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The value of a chunk elided from the series.",
+            "constraints": {}
+        },
+        {
+            "name": "byte_order",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Byte order of the chunk bytes.",
+            "constraints": {}
+        },
+        {
+            "name": "codec",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The chunk codec ('raw', 'blosc', 'zstd').",
+            "constraints": {}
+        },
+        {
+            "name": "codec_params",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "JSON-encoded codec parameters.",
+            "constraints": {}
+        },
+        {
+            "name": "voxel_size",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis voxel size at this level.",
+            "constraints": {}
+        },
+        {
+            "name": "voxel_size_units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The unit of voxel_size.",
+            "constraints": {}
+        },
+        {
+            "name": "translation",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis translation at this level.",
+            "constraints": {}
+        }
+    ]
+}

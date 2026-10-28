@@ -242,8 +242,6 @@ def test_every_no_target_row_states_why_or_renders_as_a_gap():
     for r in blank:
         cell, _acct = _md_row(r["v1_class"])
         explicit = ("DISSOLVES" in cell or "DISPUTED" in cell
-                    # [carried v1 validates against NDI templates]: no V2 class
-                    or "CARRIED AS v1" in cell
                     or "NO TARGET AND NO DISSOLUTION RECORDED" in cell
                     or "unmapped" in cell
                     # test/demo scaffolding and pre-V_zeta dissolutions carry

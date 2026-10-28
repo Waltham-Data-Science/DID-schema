@@ -312,11 +312,8 @@ one working tree leave half-built changes that nobody can safely commit.
 ### The JSON under `schemas/did_v2/` is the source
 
 There is no build script. `tools/build_v_eta.py` and the `V_alpha`..`V_zeta`
-trees are deleted (OPEN_WORK #128). The tiers are `stable/` and `draft/`. The
-`deprecated/` v1 tombstones were deleted ([carried v1 validates against NDI
-templates]): a document carried whole as v1 is checked against NDI's v1
-templates; the classes carried as v1 are `CARRIED_AS_V1` in
-`tools/veta_record.py`.
+trees are deleted (OPEN_WORK #128). The tiers are `stable/`, `draft/` and
+`deprecated/` (v1 tombstones).
 
 **To change a class:**
 
@@ -445,8 +442,9 @@ or the status board.
   universe instead of erroring. `gates.py` resolves siblings once and treats a
   set variable as authoritative; `coverage.py` prints the sibling paths it used
   first. A local run cannot show this bug.
-- **A name surviving in V_eta is not evidence a migrator emits it.** Ask what
-  the migrator emits.
+- **A name surviving in V_eta is not evidence a migrator emits it.** Many v1
+  names survive only as tombstones in `deprecated/`. Ask what the migrator
+  emits.
 - **`Contents.m` narrative is not a migrator census.** List
   `+migrators_j/*.m`, read the ledger's `migrator` column, or read the generated
   roster (DID-matlab `tools/check_migrator_roster.py`).
