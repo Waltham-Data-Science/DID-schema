@@ -346,8 +346,9 @@ STEPS = [
          _t("check_duplicate_field_declarations.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) V_eta classes read", "classes read"),
 
+    # --enforce since 2026-10-28: Jess Haley [redeclarations only narrow].
     Step("check_constraint_refinement",
-         _t("check_constraint_refinement.py"), "gate",
+         _t("check_constraint_refinement.py", "--enforce"), "gate",
          r"^\s*classes walked\s+(\d+)", "classes walked"),
 
     # --enforce, ADDED with #32. The tool's own usage line has offered it since
