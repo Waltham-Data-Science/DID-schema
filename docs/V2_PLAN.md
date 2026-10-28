@@ -49,6 +49,17 @@ Last updated 2026-10-27.
   entity type bindings); proposed: a new list `unit_bindings`, one row per
   variable node: `{"variable": {node, name}, "source_units": [{node, name},
   ...]}`. [yes to both]
+- **G5. The `abs` block holds interpolated values too (DID-matlab #272).**
+  [absolute-value fits are fit entries] said to bring it back if `abs` held
+  more than fits on |response|. It does: `abs.fitless` (L50, Pref, H50,
+  bandwidth, low/high pass index of |response|) beside the five abs fits, in
+  all 5,604 Soph SF/TF calculator documents; in 1,987 it differs from the main
+  `fitless` (NDIcalc-vis-matlab 00e3e0f `spatial_frequency_tuning.m`,
+  `temporal_frequency_tuning.m`). Proposed: `interpolated_values` becomes a
+  list of entries like `model_fit`, each with the optional `response_transform`
+  ("absolute value" on the abs one), so one calculation holds both and T10
+  holds. Until answered, the second calculation stays (built E1 and E2 only).
+  [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
