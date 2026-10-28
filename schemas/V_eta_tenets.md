@@ -346,6 +346,17 @@ strains are its expected later users (#73 item 59).
 its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 `must_refer` is existence-only, id-preservation keeps the provenance graph intact.
 
+**Amendment (Jess Haley, 2026-10-28, `V_eta_go_forward_class_audit.md` [one calculation
+per named calculator output], [absolute-value fits are fit entries]): several fits are
+entries, not documents.** For the v1 named calculators (the NDIcalc-vis tuning
+calculators and the other named v1 calculators), one calculator output is one V2
+calculation even when it holds several fits: each fit is an entry of the value's
+`model_fit` array, naming its own `model`, with fixed parameters in `constraints` and a
+`response_transform` when it was fitted to transformed responses (e.g. absolute value).
+Splitting one output into several calculations would mint ids and dissolve it, which
+this tenet forbids. The method does not repeat the fitted functions. Calculations that do
+not come from a named v1 calculator are not bound by this amendment.
+
 ### T11 — Naming grammar: one shape, one canonical name; nothing else in the name.
 - **Leaf** = `<value>_<direction>` (snake_case; direction ∈
   `observation`/`manipulation`/`assertion`/`calculation`). *Since 2026-10-08 there are no

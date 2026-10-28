@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 527 decision line(s) accepted, 2 rejected; 42 cited by a class, 485 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 531 decision line(s) accepted, 2 rejected; 42 cited by a class, 489 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -730,6 +730,10 @@ field). If one decides a class's disposition, that class should cite it.
 - empty ndi_document block is notation. "Decided by Jess Haley, 2026-10-27 [empty ndi_document block" (V_eta_go_forward_class_audit.md:1572).
 - device kinds minted. "Decided by Jess Haley, 2026-10-28 [device kinds minted]: (" (V_eta_go_forward_class_audit.md:1574).
 - device kind labels and synonyms. "Decided by Jess Haley, 2026-10-28 [device kind labels and" (V_eta_go_forward_class_audit.md:1576).
+- tuning best value is a condition. "Decided by Jess Haley, 2026-10-28 [tuning best value is a" (V_eta_go_forward_class_audit.md:1578).
+- one calculation per named calculator output. "Decided by Jess Haley, 2026-10-28 [one calculation per" (V_eta_go_forward_class_audit.md:1580).
+- absolute-value fits are fit entries. "Decided by Jess Haley, 2026-10-28 [absolute-value fits are" (V_eta_go_forward_class_audit.md:1582).
+- presentations without an epoch keep the session anchor. "Decided by Jess Haley, 2026-10-28 [presentations without an" (V_eta_go_forward_class_audit.md:1584).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
@@ -817,15 +821,15 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:529).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (V_eta_tenets.md:835).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1060).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1062).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1063).
-- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (V_eta_tenets.md:1065).
-- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (V_eta_tenets.md:1067).
-- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (V_eta_tenets.md:1069).
-- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (V_eta_tenets.md:1071).
-- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (V_eta_tenets.md:1073).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (V_eta_tenets.md:846).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1071).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1073).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1074).
+- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (V_eta_tenets.md:1076).
+- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (V_eta_tenets.md:1078).
+- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (V_eta_tenets.md:1080).
+- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (V_eta_tenets.md:1082).
+- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (V_eta_tenets.md:1084).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (V_eta_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (V_eta_term_registry_plan.md:180).

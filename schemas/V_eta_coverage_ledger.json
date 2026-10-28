@@ -701,9 +701,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 527,
+          "accepted_lines": 531,
           "accepted_lines_by_kind": {
-            "Decided by": 410,
+            "Decided by": 414,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3644,6 +3644,38 @@
               "anchor": "Decided by Jess Haley, 2026-10-28 [device kind labels and"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1578,
+              "kind": "Decided by",
+              "tag": "tuning best value is a condition",
+              "date": "2026-10-28",
+              "anchor": "Decided by Jess Haley, 2026-10-28 [tuning best value is a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1580,
+              "kind": "Decided by",
+              "tag": "one calculation per named calculator output",
+              "date": "2026-10-28",
+              "anchor": "Decided by Jess Haley, 2026-10-28 [one calculation per"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1582,
+              "kind": "Decided by",
+              "tag": "absolute-value fits are fit entries",
+              "date": "2026-10-28",
+              "anchor": "Decided by Jess Haley, 2026-10-28 [absolute-value fits are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1584,
+              "kind": "Decided by",
+              "tag": "presentations without an epoch keep the session anchor",
+              "date": "2026-10-28",
+              "anchor": "Decided by Jess Haley, 2026-10-28 [presentations without an"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -4341,7 +4373,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 835,
+              "line": 846,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": null,
@@ -4349,7 +4381,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1060,
+              "line": 1071,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-20",
               "date": "2026-10-21",
@@ -4357,7 +4389,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1062,
+              "line": 1073,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": "2026-10-21",
@@ -4365,7 +4397,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1063,
+              "line": 1074,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet T20, group entities",
               "date": "2026-10-21",
@@ -4373,7 +4405,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1065,
+              "line": 1076,
               "kind": "Decided by",
               "tag": "tenet signature text",
               "date": "2026-10-22",
@@ -4381,7 +4413,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1067,
+              "line": 1078,
               "kind": "Decided by",
               "tag": "T1 and T5 signed",
               "date": "2026-10-22",
@@ -4389,7 +4421,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1069,
+              "line": 1080,
               "kind": "Decided by",
               "tag": "T2 time-varying property",
               "date": "2026-10-22",
@@ -4397,7 +4429,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1071,
+              "line": 1082,
               "kind": "Decided by",
               "tag": "ordered inputs",
               "date": "2026-10-22",
@@ -4405,7 +4437,7 @@
             },
             {
               "document": "V_eta_tenets.md",
-              "line": 1073,
+              "line": 1084,
               "kind": "Decided by",
               "tag": "tenet stale names",
               "date": "2026-10-22",
