@@ -96,6 +96,34 @@ Last updated 2026-10-27.
   of a neuron.", exact synonym "Naka-Rushton equation", under NCIT:C16870 Mathematical
   Model (as the empty-ontology NCIT import already carries NCIT terms). Mint
   it? [yes]
+- **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
+  report-only; Test code run 40752793846; not patched in the inverses):**
+  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846):
+    `resolveEpochProbemap` retires the v1 archive once data bodies carry its
+    files (the check reads files only). Lost: the v1 id (conflicts with
+    [every v1 id survives]; e.g. B `4126900d95ad6706_c0a14ee8785c648f`), the
+    archive datestamp, `parameters.sample_analog_segment` /
+    `sample_digital_segment` (1e6 / 1e7 there) and the empty `file_list`
+    slots. Proposed: keep the archive's id on one V2 document (the reader
+    configuration) and its parameters as method parameters there. [yes]
+  - **G10. openMINDS species text** (JH 3,312; sample
+    `41269430c5d0f59d_c09ab830daf16ec5`): v1 `definition` ("Caenorhabditis
+    elegans is a species of nematode ...") and `synonym` ("C. elegans") are
+    not in V2. [openMINDS subject leftovers] says they are "read back from the
+    term", but nothing in DID holds openMINDS's text (the registry's
+    NCBITaxon:6239 definition is empty). Proposed: register the definition and
+    synonym on the term registry row, so the read-back has a source. [yes]
+  - **G11. `openminds_element`** (Dab 404; sample
+    `4126945af68c0fad_c0d698b17d043af0`): lost `openminds_id`
+    ("CellType/12318b5f-...", a UUID per document) and `fields.description`;
+    V2 holds only the term assertion. No decision covers element leftovers.
+    Proposed: as for subjects, carry the document as v1 when it holds them,
+    with a register row. [yes]
+  - **G12. `probe_location` name** (Dab 404; sample
+    `4126945af68c1b4b_40df43b5cb45324d`): v1 "bed nucleus of stria terminalis
+    (BNST)", V2 the registry label "bed nucleus of stria terminalis"
+    (UBERON:0001880). Is the v1 spelling notation (compare by node, the 404
+    clear)? [yes: a term is identified by its node]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
