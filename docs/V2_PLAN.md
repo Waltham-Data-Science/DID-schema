@@ -130,6 +130,26 @@ Last updated 2026-10-27.
   an unread v1 parameter. Role-named labels ("from trigger channel" / "to
   trigger channel", matching the from/to rig edges) were not decided. Rename?
   [yes, to match the edges]
+- **G14-G17. From the element device-kind build (DID-matlab #277):**
+  - **G14. Where the n-trode electrode count comes from.** [n-trode is a
+    multielectrode array] puts the count on the device, but NDI's `element`
+    template holds only `ndi_element_class`, `name`, `reference`, `type`,
+    `direct`: no count on the v1 element. Read it from the epochprobemap
+    channel list, from `probe_geometry` / `site2channelmap`, or elsewhere?
+    [the epochprobemap channel list: every n-trode has one]
+  - **G15. One- vs two-photon imaging.** Both take OBI:0400169 microscope,
+    so once the `element type` assertion is dropped the kind alone cannot
+    rebuild which it was. Keep the mode, e.g. as a method term on the
+    recording observation? [yes, as the patch / sharp modes are]
+  - **G16. A sorted unit whose probe is not in the batch.** [unit direct and
+    subject rebuild from the probe] cannot check its `subject_id`; today it
+    converts with a `unit_probe_not_in_batch` note and the round trip reports
+    `subject_id` lost. Carry it as v1 instead (needs a register row)? [yes]
+  - **G17. The Equipment Type binding's root.** NCIT:C178920 "Equipment
+    Type" is bound with root OBI:0000968 (ontology OBI), but most decided
+    device kinds are NCIT or Wikidata terms; harmless only while
+    BindingConformance stays off. Widen the binding to a closed list of the
+    registered device kinds? [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
