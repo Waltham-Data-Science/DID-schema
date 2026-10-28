@@ -370,9 +370,14 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     for t in ("organism", "culture", "tissue", "cell", "Group", "device", "material entity",
               "Session", "recording epoch"):
         assert "local_identifier" in req[t], t
-    for t in ("Data Set", "Person", "organization", "publication", "Grant",
+    for t in ("Data Set", "Person", "publication", "Grant",
               "software", "Organism Strain"):
         assert req[t] == ["name"], t
+    # Jess Haley 2026-10-27 [organization needs a name or an identifier]: an
+    # organization needs `name` OR `global_identifier`, not `name` alone
+    org = next(r for r in reg["entity_type_bindings"] if r["type"] == "organization")
+    assert org["requires"] == [], org
+    assert org["requires_one_of"] == [["name", "global_identifier"]], org
     # each configuration class with a name declares `name`; base.name is did_v1-only
     for e in ("entity", "acquisition_system", "method"):
         names = [f["name"] for f in RECORDS[e][1]["fields"]]

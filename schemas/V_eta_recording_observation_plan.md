@@ -40,7 +40,7 @@ specimen S, taken with electrode E"), and captures modality/units that the bare-
 
 ## Consequences / open sub-points (for the build + re-audit)
 
-- **Modality→variable mapping + the unknown-modality guard (Guard A — DECIDED).** A map from
+- **Modality→variable mapping + the unknown-modality guard (Guard A — DECIDED; amended 2026-10-27, see "AMENDMENT [Guard A amended]" at the end).** A map from
   element/probe `type` (or `ndi_element_class`) to the modality data_type
   (voltage/current/image/…) drives the typed leaf. **Never mint a `timeseries_observation` /
   `signal_observation` class** (T11-banned words). For an element type NOT in the map, the
@@ -165,3 +165,16 @@ What it means for the migration, and why:
 Decided by Jess Haley, 2026-10-21 [preview attribution without epoch files]: when a corpus has no epoch files (so no per-epoch recording observation exists to take the specimen from), a pyraview's observation takes its specimen from the element's own v1 `observes` relation (the probe observes the organism), which the migration keeps. (Answer "Yes" to the proposed option (a).)
 
 Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted set]: what v1 `daqreader_mfdaq_epochdata_ingested` becomes is the end state: pass 1 renames it to the generic `daqreader_epochdata_ingested` (its `parameters` an optional field) and lifts its epoch table into `relative_time_reference` documents; resolveEpochProbemap then retires the archive under [ingested epoch documents retired] (answer "K4 a"). Recorded as `confirmed_targets` in `V_eta_migration_targets.json`.
+
+## AMENDMENT [Guard A amended]
+
+Decided by Jess Haley, 2026-10-27, `V_eta_go_forward_class_audit.md` [Guard A amended]
+("Q21 yes"), answering did-schema #104. Guard A's two fallbacks above are replaced by
+later decisions; the text above is kept as the record of what was signed in August:
+
+- **An unmapped element type is carried, not observed.** A v1 element whose type has no
+  entry in the modality map is carried whole as v1, `needs_mapping` (carry-063,
+  [element types have no default]); there is no valued observation over a bare body for it.
+- **A generic file is an `observation` + term with an `opaque_body`** ([generic_file
+  emitted set]).
+- There is **no `modality_unresolved` flag** and **no new opaque value kind**.

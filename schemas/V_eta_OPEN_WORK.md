@@ -71,6 +71,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 156 | a home for a statement's v1 name (carry-106) -> https://github.com/Waltham-Data-Science/DID-schema/issues/200 |
 | 157 | a home for a legacy `ndi_document` block beside `base` (carry-049) -> https://github.com/Waltham-Data-Science/DID-schema/issues/201 |
 | 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/202 |
+| 159 | homes for five carries recorded 2026-10-28: v1 ids with no V2 document, axis letters, openMINDS ids, lab strain ids, session lists (carry-112, carry-114, carry-116, carry-117, carry-118) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
 
 Open items without a row number:
 

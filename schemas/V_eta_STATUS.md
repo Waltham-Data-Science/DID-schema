@@ -271,7 +271,7 @@ DENOMINATOR: 6 open class(es); 6 cite a decision line that exists. The decision 
 | `app` | 1 of 1 | [software]. "TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the" (V_eta_tenet_audit.md:16). | jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environm...` |
 | `binaryseries_parameters` | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `calculator` | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (V_eta_subject_calculation_plan.md:371). | jess@walthamdatascience.com / 2026-09-29 -- (amends #67) the run environment is two `software` edges on `subject_calculation`, `interpreter_id` and `operating_system_id`; `runtime_environment` (and `execution_environm...` |
-| `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:818). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
+| `imageCollection` | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). | jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO C... |
 | `interaction_purpose` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 | `projectvar` | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). | jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_re...` |
 
@@ -298,7 +298,7 @@ DENOMINATOR: 73 class(es) cite 82 decision line(s); 0 citation(s) do not resolve
 | `element` | retire | 10 of 10 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (V_eta_recording_observation_plan.md:99).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `element_epoch` | consumed by migrator (no tombstone) | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
 | `ensemble` | retire | 3 of 3 | [ensemble]. "TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron" (V_eta_ensemble_plan.md:10). |
-| `epochclocktimes` | consumed by migrator (no tombstone) | 1 of 1 | [epochclocktimes]. "TEAM-SIGN-OFF [epochclocktimes]" (V_eta_time_reference_family_plan.md:181).; [epoch extent -- row #113]. "TEAM-SIGN-OFF [epoch extent -- row #113]" (V_eta_OPEN_WORK.md:860). |
+| `epochclocktimes` | consumed by migrator (no tombstone) | 1 of 1 | [epochclocktimes]. "TEAM-SIGN-OFF [epochclocktimes]" (V_eta_time_reference_family_plan.md:181).; [epoch extent -- row #113]. "TEAM-SIGN-OFF [epoch extent -- row #113]" (V_eta_OPEN_WORK.md:861). |
 | `epochfiles_ingested` | retire | 1 of 1 | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (V_eta_recording_observation_plan.md:115). |
 | `epochid` | retire | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (V_eta_epoch_plan.md:884). |
 | `fileReference` | retire | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
@@ -308,10 +308,10 @@ DENOMINATOR: 73 class(es) cite 82 decision line(s); 0 citation(s) do not resolve
 | `geneExpression` | retire | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneList` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `geneListMapping` | retire | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:818). |
+| `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). |
 | `hartley_calc` | retire | 5 of 5 | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (V_eta_ngrid_family_findings.md:358). |
 | `image` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
-| `imageCollection` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:818). |
+| `imageCollection` | retire | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (V_eta_OPEN_WORK.md:819). |
 | `imageStack` | retire | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (V_eta_spatial_transcriptomics_plan.md:572). |
 | `imageStack_parameters` | retire | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (V_eta_image_model_plan.md:154). |
 | `interaction_purpose` | in_progress | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (V_eta_go_forward_class_audit.md:9). |
@@ -360,7 +360,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 526 decision line(s) accepted, 2 rejected; 42 cited by a class, 484 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 531 decision line(s) accepted, 2 rejected; 42 cited by a class, 489 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -729,6 +729,11 @@ field). If one decides a class's disposition, that class should cite it.
 - organization needs a name or an identifier. "Decided by Jess Haley, 2026-10-27 [organization needs a" (V_eta_go_forward_class_audit.md:1570).
 - empty ndi_document block is notation. "Decided by Jess Haley, 2026-10-27 [empty ndi_document block" (V_eta_go_forward_class_audit.md:1572).
 - device kinds minted. "Decided by Jess Haley, 2026-10-28 [device kinds minted]: (" (V_eta_go_forward_class_audit.md:1574).
+- device kind labels and synonyms. "Decided by Jess Haley, 2026-10-28 [device kind labels and" (V_eta_go_forward_class_audit.md:1576).
+- tuning best value is a condition. "Decided by Jess Haley, 2026-10-28 [tuning best value is a" (V_eta_go_forward_class_audit.md:1578).
+- one calculation per named calculator output. "Decided by Jess Haley, 2026-10-28 [one calculation per" (V_eta_go_forward_class_audit.md:1580).
+- absolute-value fits are fit entries. "Decided by Jess Haley, 2026-10-28 [absolute-value fits are" (V_eta_go_forward_class_audit.md:1582).
+- presentations without an epoch keep the session anchor. "Decided by Jess Haley, 2026-10-28 [presentations without an" (V_eta_go_forward_class_audit.md:1584).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
@@ -816,15 +821,15 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (V_eta_tenet_audit.md:529).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (V_eta_tenets.md:835).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1060).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1062).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1063).
-- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (V_eta_tenets.md:1065).
-- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (V_eta_tenets.md:1067).
-- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (V_eta_tenets.md:1069).
-- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (V_eta_tenets.md:1071).
-- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (V_eta_tenets.md:1073).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (V_eta_tenets.md:846).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (V_eta_tenets.md:1071).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (V_eta_tenets.md:1073).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (V_eta_tenets.md:1074).
+- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (V_eta_tenets.md:1076).
+- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (V_eta_tenets.md:1078).
+- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (V_eta_tenets.md:1080).
+- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (V_eta_tenets.md:1082).
+- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (V_eta_tenets.md:1084).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (V_eta_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (V_eta_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (V_eta_term_registry_plan.md:180).

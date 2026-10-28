@@ -967,14 +967,17 @@
         "depends_on document_id"
       ],
       "when": "the stack has a `document_id` edge (DID-matlab image_stack.m, 'unplaced: depends_on document_id')",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "generic stage is lossless"
+        "tag": "image stack link needs mapping"
       },
-      "open_work": 139,
-      "home": "none decided",
-      "kind_basis": "decided"
+      "kind_basis": "decided",
+      "homes": [
+        "whatever each dataset decides the edge means"
+      ],
+      "decides": "what the stack's `document_id` edge means; it varies by writer",
+      "resolved_by": "each dataset's import (not yet written)"
     },
     {
       "id": "carry-053",
@@ -1357,15 +1360,18 @@
       "fields": [
         "session_in_a_dataset.session_reference"
       ],
-      "when": "a LINKED session's session_reference cannot be placed (DID-matlab private/jMembershipBodies.m)",
-      "kind": "awaiting_home",
+      "when": "a LINKED session's session_reference differs from the session entity's local_identifier (equal: dropped as a copy) (DID-matlab private/jMembershipBodies.m)",
+      "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "session membership records linked or ingested"
+        "tag": "linked session reference follows the ingested rule"
       },
-      "open_work": 144,
-      "home": "none decided",
-      "kind_basis": "decided"
+      "kind_basis": "decided",
+      "homes": [
+        "the session entity, once the dataset says what the reference names"
+      ],
+      "decides": "what a linked session's reference names when it is not the entity's own identifier",
+      "resolved_by": "each dataset's import (not yet written)"
     },
     {
       "id": "carry-075",
@@ -1373,11 +1379,11 @@
       "fields": [
         "session_in_a_dataset.session_creator_inputN"
       ],
-      "when": "a creator input is neither a copy nor a linked session's path (DID-matlab private/jMembershipBodies.m)",
+      "when": "a non-empty session_creator_input4..6, which NDI-matlab +ndi/dataset.m never reads (inputs 1 and 3 are copies; input 2 is the linked path, a `Pathname` parameter)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "session membership records linked or ingested"
+        "tag": "session opener inputs"
       },
       "open_work": 145,
       "home": "none decided",
@@ -1387,19 +1393,18 @@
       "id": "carry-080",
       "v1_class": "stimulus_presentation",
       "fields": [
-        "stimulus_presentation.<fields the decomposition does not write>",
-        "stimuli.<fields beside parameters>",
-        "parameters.<keys no recipe reads, or a second value where one is read>"
+        "stimulus_presentation.<template fields the decomposition does not write, outside `parameters`>",
+        "stimuli.<template fields beside parameters>"
       ],
-      "when": "it holds a field the item, its methods and covariates do not write (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'unplaced (carried as v1): ...')",
+      "when": "it holds a template field outside `parameters` that the item, its methods and covariates do not write; an unread `parameters` key becomes a method parameter and a field outside the template is carry-100 (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "unread stimulus parameters are method parameters"
       },
       "open_work": 146,
       "home": "none decided: per field, on the stimulus method or the item",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-081",
@@ -1526,19 +1531,17 @@
       "id": "carry-089",
       "v1_class": "control_stimulus_ids",
       "fields": [
-        "control_stimulus_ids.<fields beside control_stimulus_ids and control_stimulus_id_method>",
-        "app.<fields beyond name, version, url, os, interpreter>",
-        "depends_on other than stimulus_presentation_id and session_id"
+        "control_stimulus_ids.<template fields the control calculation does not write>"
       ],
-      "when": "it holds a field or edge the control calculation does not write (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "when": "it holds a template field the control calculation does not write; extra `app` fields go to the software entity and a field or edge outside the template is carry-100 (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "control record fields split"
       },
       "open_work": 147,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-090",
@@ -1631,18 +1634,17 @@
       "id": "carry-095",
       "v1_class": "ontologyLabel",
       "fields": [
-        "ontologyLabel.<fields beside ontology_node>",
-        "depends_on other than document_id"
+        "ontologyLabel.<template fields beside ontology_node that the term observation does not write>"
       ],
-      "when": "the label states a field or edge the term observation does not write (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, unresolved_unplaced_fields)",
+      "when": "the label states a template field the term observation does not write; a field outside the template, or an edge other than document_id, is carry-100 (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "ontologyLabel row split"
       },
       "open_work": 150,
       "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-096",
@@ -1888,6 +1890,200 @@
       "decides": "which epoch the presentation belongs to, when no generic rule can find it",
       "resolved_by": "each dataset's import (not yet written)",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-110",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyName",
+        "treatment_drug.location_ontologyNode"
+      ],
+      "when": "the document holds both location spellings and they name different nodes (prefix case ignored)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "treatment location name is the node"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-111",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "depends_on element_id"
+      ],
+      "when": "the neuron names no sorted-unit element whose entity it can point at ([neuron uses the sorted unit's cell])",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "neuron uses the sorted unit's cell"
+      },
+      "homes": [
+        "the entity of the sorted unit the neuron came from"
+      ],
+      "decides": "which sorted unit (and so which cell entity) the neuron belongs to",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-112",
+      "v1_class": "*",
+      "fields": [
+        "base.id"
+      ],
+      "when": "no V2 document the source becomes can take its v1 id, and the source is referenced by another document (or is not fully rebuilt from other V2 documents)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "every v1 id survives"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-113",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.waveform_sample_times"
+      ],
+      "when": "start + step misses a v1 sample time by more than 8 ulps of the largest absolute time",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "sample times within eight rounding steps"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-114",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageStack.dimension_order"
+      ],
+      "when": "the V2 dimension labels do not map one-to-one onto the v1 axis letters through the fixed table (DID-matlab did2.convert.axisLetter)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "axis letters derive from labels"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-115",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "lightsheetZarrLevel.label"
+      ],
+      "when": "the level's label does not follow the writer's pattern \"<entry name> level <N> (<reduction>)\", so its level number cannot be read back",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "light-sheet level label is a note"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-116",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a controlled term's openminds_id does not rebuild through the term registry's `equivalent` list",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-117",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a lab-made strain's openminds_id, whose decided home is the strain entity's `global_identifier`, which pass 1 does not mint yet",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the strain entity's `global_identifier` as `openminds:<id>` (decided; strain entity not built)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-118",
+      "v1_class": "dataset_session_info",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "it does not rebuild exactly from the dataset's session memberships, or another document references it",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "fit classes kept; session list rebuilt"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-119",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_creator"
+      ],
+      "when": "the session opener class is not `ndi.session.dir`",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "session opener inputs"
+      },
+      "homes": [
+        "the session's `part_of` method, once the dataset says what the opener class means"
+      ],
+      "decides": "what a session opener other than ndi.session.dir means for the dataset",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-120",
+      "v1_class": "*",
+      "fields": [
+        "a field holding a value no NDI writer produces"
+      ],
+      "when": "a template field holds a value no NDI writer at the locked main produces (e.g. a probe with the wrong number of dimensions, a kilosort checksum in the wrong case, a measurement with no statement)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "values no writer produces are malformed"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-121",
+      "v1_class": "element",
+      "fields": [
+        "element.type"
+      ],
+      "when": "the element's probe type is `wide-field-imaging` or `brightfield-imaging`, which the v1 document alone does not resolve to a microscope (OBI:0400169) or a digital camera (OBI:0001048)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "imaging probes are microscopes or carried"
+      },
+      "homes": [
+        "the device kind OBI:0400169 microscope or OBI:0001048 digital camera"
+      ],
+      "decides": "whether the imaging device was a microscope or a camera",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
     }
   ]
 }

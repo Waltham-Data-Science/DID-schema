@@ -9796,6 +9796,83 @@
             "obsolete": false,
             "number_unit": false,
             "equivalent": []
+        },
+        {
+            "name": "Accelerometer",
+            "node": "NCIT:C88166",
+            "definition": "An instrument used for measuring a change in velocity.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [five probe kinds from NCIT], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe type `accelerometer` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "Thermometer Device",
+            "node": "NCIT:C50059",
+            "definition": "A device designed to measure temperature.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [five probe kinds from NCIT], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe type `thermometer` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "Photoplethysmography Sensor",
+            "node": "NCIT:C224112",
+            "definition": "A non-invasive optical sensor that measures changes in blood volume beneath the skin using light. It is widely used in wearables to track heart rate, oxygen saturation, and other cardiovascular signals.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [five probe kinds from NCIT], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe type `ppg` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "Fiber Optic Device",
+            "node": "NCIT:C50358",
+            "definition": "A device made with thin fibers of glass or plastic as a conduit for the transmission of light.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [five probe kinds from NCIT], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe type `optogenetic-fiber` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "Cannula Device",
+            "node": "NCIT:C50343",
+            "definition": "A small flexible tube inserted into a body cavity for draining off fluid or introducing medication.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [five probe kinds from NCIT], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe type `intraoral-cannula` (here it delivers a tastant) (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "microscope",
+            "node": "OBI:0400169",
+            "definition": "A microscope is an instrument which magnifies the view on objects (too small to be viewed by the naked eye) under increased resolution.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [imaging probes are microscopes or carried], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe types `one-photon-imaging`, `two-photon-imaging` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "digital camera",
+            "node": "OBI:0001048",
+            "definition": "An image acquisition device that takes video or still photographs, or both, digitally by recording images via an electronic image sensor.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [imaging probes are microscopes or carried], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
+            "first_used_in": "no dataset yet: the device kind of a a dataset's map for `wide-field-imaging` / `brightfield-imaging` when it says camera (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
         }
     ]
 }
