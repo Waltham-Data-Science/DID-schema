@@ -22,6 +22,22 @@ Last updated 2026-10-27.
   OLS4 had none either (2026-10-27). Proposal: mint EMPTY terms for these six
   now, each with a one-line definition brought for approval; add a Wikidata id
   later as `equivalent` if one appears. [yes]
+- **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
+  Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
+  5,991 of 34,606. Every failing curve printed (3 per corpus) selected
+  `angle ... best`, and the angle "best" chose is stored only in the curve's
+  `log` ("angle best value is 90."). May the rebuild read that value from the
+  `log`? If yes, most of the 28,615 Soph carries would likely convert (not
+  measured). [yes, the log is kept verbatim in `notes` anyway]
+- **E2. One calculation with fits of several functions.** SF and TF hold five
+  fitted functions in one calculation; the build writes the method parameter
+  `function` as a JSON list (`["dog","movshon","movshon c","spline","gausslog"]`).
+  Keep that, or drop the parameter and rely on each fit entry's `model`? [drop it:
+  one place per fact]
+- **E3. Where the Priebe "what differs" goes.** The three Priebe fits are one
+  equation (checked: NDIcalc-vis-matlab 00e3e0f, only xi's bounds differ). The
+  build records "xi held at 0" in each fit entry's `constraints`, as for
+  Naka-Rushton, not as method parameters. Confirm? [yes]
 - **#208 (tabled by Jess until just before the `notes` storage pass):** rename
   `base`? rename the `session_id` edge? Comments on the issue hold the options.
 
