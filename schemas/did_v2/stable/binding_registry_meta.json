@@ -1723,7 +1723,7 @@
                 },
                 {
                     "node": "openminds:technique/phaseContrastXRayComputedTomography",
-                    "name": "phase\u2010contrast x\u2010ray computed tomography"
+                    "name": "phase‐contrast x‐ray computed tomography"
                 },
                 {
                     "node": "openminds:technique/phaseContrastXRayImaging",
@@ -2834,8 +2834,12 @@
             "type": "organization",
             "node": "OBI:0000245",
             "description": "an institution, a lab, a company, a funder",
-            "requires": [
-                "name"
+            "requires": [],
+            "requires_one_of": [
+                [
+                    "name",
+                    "global_identifier"
+                ]
             ]
         },
         {
