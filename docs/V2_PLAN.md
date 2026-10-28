@@ -9,36 +9,42 @@ Last updated 2026-10-27.
 
 ## Waiting for Jess
 
-### Held and open, 2026-10-27 evening (read this first after a container reset)
+### Held and open (updated 2026-10-28, while Jess is away)
 
-- **Device-kind terms held (46, 47):** Wikidata answered HTTP 429 to every
-  search on 2026-10-27; retry, then bring as one batch: EEG (SCDO:0000419 is
-  the decided fallback), patch pipette, sharp electrode, stimulator, lick
-  spout, reward well, cell-attached recording mode. OLS4 had no fitting term
-  for any but EEG (OBI:0001128 "micropipette" is a liquid-measuring device).
-  Proposal ready: mint EMPTY terms now, add Wikidata ids later as
-  `equivalent` ([term equivalents recorded]). Jess: "hold these for a few
-  hours and try again".
-- **Open-issue questions:** the sort of all 56 open did-schema issues is in
-  `docs/v2_working/ISSUE_SORT_2026-10-27.md` (5 answered, 17 build, 29 need
-  Jess, 5 stale). Q1-Q3 answered 2026-10-27 (recorded); Q4-Q6 asked; Q7-Q29
-  not yet asked. Q29 is for Steve Van Hooser.
-- **Builds running (2026-10-27):** four agents on the pending builds:
-  did-schema (`claude/build-schema-2026-10-27`), DID-matlab tuning
-  (`claude/build-tuning-2026-10-27`), DID-matlab other
-  (`claude/build-other-N`), NDI-matlab (`claude/build-ndi-N`). Each opens
-  draft PRs; Claude reviews and merges when green.
-- **Plan to finish:** (1) answers recorded every ~10; (2) pending builds
-  (`python3 tools/decision_citations.py --pending`) built in parallel,
-  siblings first; (3) measurement gaps closed (whole-batch round trip, named
-  statements, bath link counters); (4) final corpus run, each corpus
-  reported done / not done; (5) dataset reimports (Babu, Haley, Soph) with
-  their decision workbooks, a separate track.
-- #176 stays HELD for Jess.
+**Questions for Jess (answer in one line each):**
 
+- **D1. Device kinds with no existing term (held 46/47).** Wikidata was reached
+  2026-10-28 through its SPARQL service (the search API answers HTTP 429 here).
+  It has **no** item for patch pipette, sharp electrode, an electrical
+  stimulator, lick spout / lickometer, reward port or the cell-attached
+  recording mode (only scholarly articles and patents matched; Q2705516
+  "micropipette" is a liquid pipette, Q176366 "patch clamp" is the technique).
+  OLS4 had none either (2026-10-27). Proposal: mint EMPTY terms for these six
+  now, each with a one-line definition brought for approval; add a Wikidata id
+  later as `equivalent` if one appears. [yes]
+- **#208 (tabled by Jess until just before the `notes` storage pass):** rename
+  `base`? rename the `session_id` edge? Comments on the issue hold the options.
 
-Kept up to date while Jess is away (2026-10-27). Each item is answerable in
-one line; Claude's leaning is in brackets.
+**Done without Jess, per an earlier decision:** EEG. [ecg and eeg are
+recorders] said to use a Wikidata electroencephalograph if one exists, else
+register `scdo`. Wikidata has wikidata:Q4531135 "electroencephalograph"
+(P279 chart recorder, diagnostic equipment; P366 electroencephalography), so
+`eeg` takes it and `scdo` is not registered; its term registry row and
+OBI:0003806 "electrocardiograph" were added.
+
+**Builds in flight (2026-10-28):** DID-matlab #262-#270 (other decisions),
+the DID-matlab tuning PR(s) (`claude/build-tuning-2026-10-27`), NDI-matlab
+#1084 (presentations anchored to their epoch; then the B1 carry and the Babu /
+Soph workbooks). Merged: NDI #1081-#1083, #1085, #1086; did-schema #192-#207.
+Claude merges each when CI is green and marks decision lines Built.
+
+**Plan to finish:** (1) answers recorded every ~10; (2) pending builds
+(`python3 tools/decision_citations.py --pending`) built in parallel, siblings
+first; (3) measurement gaps closed (whole-batch round trip inverses per batch
+pass, named statements, bath link counters); (4) final corpus run, each corpus
+reported done / not done; (5) dataset reimports (Babu, Haley, Soph) with their
+decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`.
+#176 stays HELD for Jess.
 
 1. (Decided 2026-10-27, [cell spellings are one meaning]: `spikes`, `neuron`
    and `cell` all become entity type `cell`, nothing else kept; the round

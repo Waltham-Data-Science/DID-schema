@@ -9774,6 +9774,28 @@
             "obsolete": false,
             "number_unit": false,
             "equivalent": []
+        },
+        {
+            "name": "electroencephalograph",
+            "node": "wikidata:Q4531135",
+            "definition": "An instrument that records the electrical activity of the brain from electrodes, usually on the scalp (Wikidata Q4531135: subclass of chart recorder and of diagnostic equipment; used for electroencephalography, Q179965).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [ecg and eeg are recorders], V_eta_go_forward_class_audit.md: the Wikidata search the decision required found Q4531135 (2026-10-28), so scdo is not registered",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe of type `eeg` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
+        },
+        {
+            "name": "electrocardiograph",
+            "node": "OBI:0003806",
+            "definition": "An instrument for recording the changes of electrical potential occurring during the heartbeat used especially in diagnosing abnormalities of heart action.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-27 [ecg and eeg are recorders], V_eta_go_forward_class_audit.md: the device kind of a v1 probe of type `ecg`",
+            "first_used_in": "no dataset yet: the device kind of a v1 probe of type `ecg` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": []
         }
     ]
 }
