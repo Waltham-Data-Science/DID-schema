@@ -60,6 +60,12 @@ Last updated 2026-10-27.
   ("absolute value" on the abs one), so one calculation holds both and T10
   holds. Until answered, the second calculation stays (built E1 and E2 only).
   [yes]
+- **G6. A single fitted model on the method (DID-matlab #272).** The T10
+  amendment says the method does not repeat the fitted functions; the decision
+  line [one calculation per named calculator output] only says "no `function`
+  list". So families whose fits all share one model (Naka-Rushton, Priebe,
+  double Gaussian) still write one `{function: <model>}` method parameter
+  beside the `model` in each fit entry. Drop it too? [yes: one place per fact]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
