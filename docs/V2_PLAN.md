@@ -13,10 +13,19 @@ Last updated 2026-10-27.
 
 **Questions for Jess (answer in one line each):**
 
-- **D1 (answered yes 2026-10-28; definitions await approval).** EMPTY terms for
-  patch pipette, sharp electrode, electrical stimulator, lick spout, reward well
-  and the cell-attached recording mode. Claude's proposed definitions are in the
-  conversation of 2026-10-28; nothing is minted before Jess approves them.
+- **D1 (approved 2026-10-28).** Five device kinds minted on empty-ontology
+  #31 (EMPTY:0000411-0000415), stacked on #30. Cell-attached is held: see G2.
+- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints
+  EMPTY "text channel" (empty-ontology #30, EMPTY:0000410). The term registry
+  already gives the v1 prefix `tx` the channel type NCIT Text (C25704)
+  ([channel types]). Should "text channel" replace NCIT Text there, or should
+  both stay? [replace: NCIT Text means "the words of something written", not a
+  channel; the other channel types are all "... channel"]
+- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an
+  EMPTY "cell-attached recording", but OBI:0002179 "cell-attached patch clamp
+  assay" exists. T19 puts an existing term first. Use OBI:0002179 (keeping
+  "cell-attached patch" and "on-cell recording" as notes), or mint anyway?
+  [use OBI:0002179]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected

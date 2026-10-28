@@ -70,7 +70,21 @@ this file records as `ndi_ref` and no other, so the artifact is reproducible fro
 NDI `origin/main` alone. It said `--all` until 2026-08-11, and 12 of the 67
 provenance rows were being read off refs that are not ancestors of origin/main.
 
-Usage:  python3 tools/ndi_ground_truth.py [--ndi /path/to/NDI-matlab]
+NDICALC-VIS TEMPLATES ([ground truth reads NDIcalc-vis templates], Jess Haley,
+2026-10-27, V_eta_go_forward_class_audit.md)
+-------------------------------------------------------------------------
+  ndicalc_vis_classes{}  the NDIcalc-vis-matlab document templates (the named
+                        tuning calculators and their outputs), parsed exactly as
+                        NDI's are, read from the commit tools/sibling_lock.json
+                        locks for NDIcalc-vis-matlab. A changed tuning template
+                        then shows up as a diff in this generated file. They are
+                        kept apart from `classes`: they do not join the v1
+                        universe coverage.py builds from `classes` (that would
+                        be a separate decision). `summary.ndicalc_vis_template_scan`
+                        is the denominator; a class name NDI also declares is
+                        listed in `also_in_ndi`, never merged.
+
+Usage:  python3 tools/ndi_ground_truth.py [--ndi /path/to/NDI-matlab] [--calc /path/to/NDIcalc-vis-matlab]
 """
 
 import argparse
@@ -563,6 +577,59 @@ def ndi_templates(ndi_path):
     return _merge_schema_deps(out, ndi_path, "worktree"), "worktree"
 
 
+CDIR = "ndi_common/database_documents"
+CALC_SCAN = {}
+
+
+def calc_templates(calc_path, ndi_truth):
+    """Read every NDIcalc-vis-matlab document template at the locked commit.
+
+    Returns {class: record}, parsed by `_parse` like NDI's. Only the locked
+    rev (or, with no lock, origin/main then main) is read, never the working
+    tree: the lock is what makes the artifact reproducible. Every skip is
+    counted into CALC_SCAN, which `main` prints and the artifact records."""
+    stats = CALC_SCAN
+    stats.clear()
+    stats.update({"candidates": 0, "unreadable": 0, "unparseable": 0,
+                  "not_a_document_class": 0, "classes": 0,
+                  "refs_tried": [], "ref_used": None, "rev_used": None,
+                  "also_in_ndi": []})
+    for ref, rev in sibling_lock.main_refs("NDIcalc-vis-matlab"):
+        try:
+            files = subprocess.run(
+                ["git", "-C", calc_path, "ls-tree", "-r", "--name-only", rev, "--", CDIR],
+                capture_output=True, text=True, check=True).stdout.splitlines()
+        except (OSError, subprocess.CalledProcessError) as exc:
+            stats["refs_tried"].append(f"{ref} @ {rev}: {type(exc).__name__}")
+            continue
+        out = {}
+        wanted = sorted(f for f in files if f.endswith(".json"))
+        stats["candidates"] = len(wanted)
+        for f in wanted:
+            try:
+                blob = subprocess.run(["git", "-C", calc_path, "show", f"{rev}:{f}"],
+                                      capture_output=True, text=True, check=True).stdout
+            except (OSError, subprocess.CalledProcessError):
+                stats["unreadable"] += 1
+                continue
+            try:
+                d = json.loads(blob)
+            except json.JSONDecodeError:
+                stats["unparseable"] += 1
+                continue
+            rec = _parse(d, f"{f} @{ref}")
+            if not rec:
+                stats["not_a_document_class"] += 1
+                continue
+            out[rec.pop("_class")] = rec
+        stats["ref_used"] = ref
+        stats["rev_used"] = rev
+        stats["classes"] = len(out)
+        stats["also_in_ndi"] = sorted(c for c in out if c in ndi_truth)
+        return dict(sorted(out.items()))
+    return {}
+
+
 def writer_dependencies(ndi_path, truth):
     """Dependencies NDI's WRITERS set that no template declares.
 
@@ -989,6 +1056,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ndi", default=os.environ.get("NDI_MATLAB_PATH", "/home/user/NDI-matlab"))
     ap.add_argument("--did", default=os.environ.get("DID_MATLAB_PATH", "/home/user/DID-matlab"))
+    ap.add_argument("--calc", default=os.environ.get("NDICALC_VIS_MATLAB_PATH",
+                                                     "/home/user/NDIcalc-vis-matlab"))
     a = ap.parse_args()
 
     if not os.path.isdir(a.ndi):
@@ -1012,6 +1081,17 @@ def main():
     truth, ref = ndi_templates(a.ndi)
     if not truth:
         sys.exit(f"no NDI templates found under {DDIR}")
+
+    if not os.path.isdir(a.calc):
+        # Same rule as the NDI exit above: say what was NOT read.
+        print("NDICALC-VIS TEMPLATE SCAN")
+        print(f"  *** NO NDIcalc-vis-matlab AT {a.calc} -- NOTHING WAS READ.")
+        print("  *** This is NOT 'NDIcalc-vis ships no templates'.")
+        print("  DENOMINATOR: 0 candidate template(s) on none, 0 class(es) captured")
+        sys.exit(f"NDIcalc-vis-matlab not found at {a.calc} (pass --calc)")
+    calc = calc_templates(a.calc, truth)
+    if not calc:
+        sys.exit("no NDIcalc-vis templates read: " + "; ".join(CALC_SCAN["refs_tried"]))
 
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
@@ -1048,6 +1128,8 @@ def main():
             "writer_dependency_scan": wscan,
             "ndi_schema_document_scan": dict(SCHEMA_SCAN),
             "ndi_required_dependency_scan": dict(REQUIRED_SCAN),
+            "ndicalc_vis_template_scan": {k: v for k, v in CALC_SCAN.items()
+                                          if k not in ("refs_tried", "rev_used")},
             "provenance": {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
                            for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")},
         },
@@ -1056,6 +1138,10 @@ def main():
         "v_alpha_divergence": div,
         "migrator_reads": reads,
         "classes": truth,
+        # [ground truth reads NDIcalc-vis templates]: the locked commit and
+        # the templates read at it. Not part of `classes` (see the docstring).
+        "ndicalc_vis_commit": CALC_SCAN["rev_used"] if CALC_SCAN["rev_used"] != CALC_SCAN["ref_used"] else None,
+        "ndicalc_vis_classes": calc,
     }
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=2, sort_keys=False)
@@ -1084,6 +1170,15 @@ def main():
     if ts["unreadable"] or ts["unparseable"]:
         print("  *** SOME CANDIDATES WERE NOT CAPTURED. Every figure below, and "
               "the coverage ledger downstream, is over the survivors.")
+    cs = CALC_SCAN
+    print(f'NDIcalc-vis classes:    {cs["classes"]}'
+          + (f' (on {cs["ref_used"]} @ {cs["rev_used"]})' if cs["rev_used"] != cs["ref_used"] else ''))
+    print(f'  DENOMINATOR: {cs["candidates"]} candidate template(s), '
+          f'{cs["classes"]} class(es) captured, {cs["unreadable"]} UNREADABLE, '
+          f'{cs["unparseable"]} unparseable, {cs["not_a_document_class"]} not a document class; '
+          f'{len(cs["also_in_ndi"])} also declared by NDI {cs["also_in_ndi"]}')
+    if cs["refs_tried"]:
+        print("  *** FELL BACK: " + "; ".join(cs["refs_tried"]))
     print(f'V_alpha divergences:    {len(div)}')
     # The V_alpha snapshot is read twice (the divergence pass and the
     # `_alpha_names` cache) and BOTH feed a reported number, so both state what
