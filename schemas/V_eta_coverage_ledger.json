@@ -312,13 +312,14 @@
       ]
     },
     "by_disposition": {
-      "retire": 76,
+      "retire": 69,
       "dissolved \u2192 subject": 1,
-      "in_progress": 3,
+      "in_progress": 2,
       "persist": 1,
-      "consumed by migrator (no tombstone)": 30,
+      "consumed by migrator (no tombstone)": 34,
       "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 2
+      "UNMAPPED (needs a V_eta home)": 2,
+      "no V_eta home, no migrator -- UNVERIFIED": 4
     },
     "by_source": {
       "ndi": 104,
@@ -327,11 +328,11 @@
     "with_migrator": 98,
     "gaps": 2,
     "no_target": {
-      "rows_naming_no_target": 10,
+      "rows_naming_no_target": 13,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
-        "passthrough": 2,
+        "passthrough": 3,
         "unrecorded": 4
       },
       "target_gaps": [
@@ -379,15 +380,15 @@
           "no": 13
         },
         "2": {
-          "not measured": 33,
-          "yes": 77,
-          "n/a": 5
+          "not measured": 32,
+          "yes": 75,
+          "n/a": 8
         },
         "3": {
-          "not measured": 33,
+          "not measured": 32,
           "yes": 59,
-          "no": 18,
-          "n/a": 5
+          "no": 16,
+          "n/a": 8
         },
         "4": {
           "not measured": 115
@@ -395,33 +396,30 @@
       },
       "per_stage_satisfied_independently": {
         "1": 102,
-        "2": 77,
+        "2": 75,
         "3": 59,
         "4": 0
       },
       "capped": {
         "denominator": 115,
-        "rows": 3,
+        "rows": 1,
         "row_names": [
-          "ensemble",
-          "projectvar",
-          "stimulus_parameter_table"
+          "ensemble"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 10,
+          "0": 12,
           "1": 28,
-          "2": 18,
+          "2": 16,
           "3": 59,
           "4": 0
         },
-        "genuinely_untouched": 8,
+        "genuinely_untouched": 7,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
           "calculator",
           "demoNDISeries",
           "demoNDISeriesMixed",
-          "imageCollection",
           "imageStack_parameters",
           "mock"
         ],
@@ -457,14 +455,8 @@
             "governance": "proposed (not decided)"
           },
           {
-            "v1_class": "imageCollection",
-            "disposition": "retire",
-            "target_source": "passthrough",
-            "governance": "decided"
-          },
-          {
             "v1_class": "imageStack_parameters",
-            "disposition": "retire",
+            "disposition": "no V_eta home, no migrator -- UNVERIFIED",
             "target_source": "decided",
             "governance": "decided"
           },
@@ -475,16 +467,19 @@
             "governance": "proposed (not decided)"
           }
         ],
-        "genuinely_untouched_recorded_passthrough": 3,
-        "nothing_built_but_excused_by_a_signed_dissolution": 2,
+        "genuinely_untouched_recorded_passthrough": 2,
+        "nothing_built_but_excused_by_a_signed_dissolution": 5,
         "nothing_built_but_excused_rows": [
+          "imageCollection",
+          "projectvar",
+          "stimulus_parameter_table",
           "stimulus_response",
           "stimulus_response_scalar_parameters"
         ]
       },
       "no_target_recorded": {
         "denominator": 115,
-        "rows": 38,
+        "rows": 40,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -512,12 +507,14 @@
           "ontologyTableRow",
           "openminds",
           "openminds_stimulus",
+          "projectvar",
           "session_in_a_dataset",
           "simple_calc",
           "site2channelmap",
           "spike_clusters",
           "spikewaves",
           "stimulus_parameter",
+          "stimulus_parameter_table",
           "stimulus_response",
           "stimulus_response_scalar_parameters",
           "subjectmeasurement",
@@ -534,14 +531,14 @@
         "why_the_join_moves_none_of_them": "a decision citation names a decision LINE, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 3,
-        "classes": 3,
+        "total": 1,
+        "classes": 1,
         "by_kind": {
-          "over_failed": 3
+          "over_failed": 1
         },
         "by_stage": {
           "1": 0,
-          "2": 3,
+          "2": 1,
           "3": 0,
           "4": 0
         },
@@ -553,22 +550,6 @@
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
             "v1_class": "ensemble"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "projectvar"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "stimulus_parameter_table"
           }
         ]
       },
@@ -597,8 +578,8 @@
           "proposed (not decided)": 44
         },
         "signed_by": {
-          "cited by the class": 61,
-          "checked transcription on the row": 10
+          "cited by the class": 58,
+          "checked transcription on the row": 13
         },
         "join": {
           "rows_inspected": 115,
@@ -727,9 +708,9 @@
             }
           ],
           "classes_citing": 73,
-          "citations_total": 82,
+          "citations_total": 85,
           "citations_unresolved": [],
-          "lines_cited": 42,
+          "lines_cited": 43,
           "uncited_lines": [
             {
               "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -3306,14 +3287,6 @@
               "tag": "v1 name goes to the class's own name field",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [v1 name goes to the"
-            },
-            {
-              "document": "V_eta_go_forward_class_audit.md",
-              "line": 1494,
-              "kind": "Decided by",
-              "tag": "carried v1 validates against NDI templates",
-              "date": "2026-10-27",
-              "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates"
             },
             {
               "document": "V_eta_go_forward_class_audit.md",
@@ -9946,8 +9919,8 @@
     },
     {
       "v1_class": "image",
-      "veta_class": "image",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -10088,23 +10061,24 @@
     },
     {
       "v1_class": "imageCollection",
-      "veta_class": "image_collection",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "image_collection"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "passthrough",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
-      "no_target_account": null,
-      "no_target_signoff": null,
+      "target_source": "unknown",
+      "no_target_reason": "passthrough",
+      "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
+      "no_target_account": "CARRIED WHOLE AS v1 (its tombstone was deleted): passes through unchanged as v1: no writer in NDI, nothing establishes its content.",
+      "no_target_signoff": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
+      },
       "target_gap": false,
       "build_state": {
         "schema_targets_named": 0,
@@ -10152,25 +10126,29 @@
           "why": null,
           "matched_name": "imageCollection",
           "matched_on": "v1_class"
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Build pending: DID-matlab (validator and workflows), did-schema (delete the tombstones and `base.name`), NDI-matlab (the reads).",
+          "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
+          "matches": 1,
+          "why": null,
+          "matched_name": "imageCollection",
+          "matched_on": "v1_class"
         }
       ],
       "governance_gap": null,
       "governance": {
         "state": "decided",
         "signoff": {
-          "document": "V_eta_OPEN_WORK.md",
-          "tag": "stranded sources",
-          "resolved": true,
-          "line": 819,
-          "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
-          "anchor": "TEAM-SIGN-OFF [stranded sources]",
-          "matches": 1,
-          "why": null,
-          "matched_name": "imageCollection",
-          "matched_on": "v1_class"
+          "document": "V_eta_go_forward_class_audit.md",
+          "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
         },
-        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `imageCollection`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:819. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "a decision line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
@@ -10189,14 +10167,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -10209,15 +10187,15 @@
         "highest_rung_satisfied_independently": 0,
         "capped": false,
         "nothing_built": true,
-        "nothing_satisfied": true,
-        "only_excused": false,
+        "nothing_satisfied": false,
+        "only_excused": true,
         "corpus_rung_state": "not measured"
       }
     },
     {
       "v1_class": "imageStack",
-      "veta_class": "image_stack",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -10358,8 +10336,8 @@
     },
     {
       "v1_class": "imageStack_parameters",
-      "veta_class": "image_stack_parameters",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -10911,8 +10889,8 @@
     },
     {
       "v1_class": "lightsheetZarrLevel",
-      "veta_class": "lightsheet_zarr_level",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -11043,8 +11021,8 @@
     },
     {
       "v1_class": "lightsheetZarrPyramid",
-      "veta_class": "lightsheet_zarr_pyramid",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -13200,29 +13178,28 @@
     },
     {
       "v1_class": "projectvar",
-      "veta_class": "projectvar",
-      "disposition": "in_progress",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "decided_targets": [
-        "projectvar"
-      ],
-      "decided_targets_source": "curated_targets_file",
+      "decided_targets": [],
+      "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "decided",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
-      "no_target_account": null,
-      "no_target_signoff": null,
+      "no_target_account": "CARRIED WHOLE AS v1 (its tombstone was deleted): passes through unchanged as v1: no V2 class until real documents exist to model its untyped `data` field against.",
+      "no_target_signoff": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
+      },
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 1,
-        "schema_targets_built": [
-          "projectvar"
-        ],
+        "schema_targets_named": 0,
+        "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": false,
@@ -13238,7 +13215,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "PASSES THROUGH UNCHANGED, in `deprecated/`, until real documents exist to model its untyped `data` field against. Typing it from a template alone is the wrong-assumed-shape failure that produced ~2,078 quarantines elsewhere in this migration.",
+      "how": "PASSES THROUGH UNCHANGED, until real documents exist to model its untyped `data` field against. Typing it from a template alone is the wrong-assumed-shape failure that produced ~2,078 quarantines elsewhere in this migration. CARRIED WHOLE AS v1 since 2026-10-28: its did-schema tombstone was deleted (Jess Haley, 2026-10-27 [carried v1 validates against NDI templates]); a passed-through document with no V2 class is counted, never quarantined (DID-matlab v1_to_v2, passthrough_unvalidated_no_schema). No V2 target.",
       "target_flags": "Deliberate non-decision: the class is preserved and honestly filed as unmodelled, rather than guessed at.",
       "decided_by_citation": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -13266,6 +13243,19 @@
           "why": null,
           "matched_name": "projectvar",
           "matched_on": "v1_class"
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Build pending: DID-matlab (validator and workflows), did-schema (delete the tombstones and `base.name`), NDI-matlab (the reads).",
+          "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
+          "matches": 1,
+          "why": null,
+          "matched_name": "projectvar",
+          "matched_on": "v1_class"
         }
       ],
       "governance_gap": null,
@@ -13273,18 +13263,9 @@
         "state": "decided",
         "signoff": {
           "document": "V_eta_go_forward_class_audit.md",
-          "tag": "misc singletons",
-          "resolved": true,
-          "line": 9,
-          "kind": "TEAM-SIGN-OFF",
-          "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
-          "anchor": "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09",
-          "matches": 1,
-          "why": null,
-          "matched_name": "projectvar",
-          "matched_on": "v1_class"
+          "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
         },
-        "why": "the class cites `V_eta_go_forward_class_audit.md` [misc singletons] (as `projectvar`), which resolves to the TEAM-SIGN-OFF line at `V_eta_go_forward_class_audit.md`:9. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "a decision line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
@@ -13303,14 +13284,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "yes",
-            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -13319,20 +13300,12 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
-        "highest_rung_satisfied_independently": 2,
-        "capped": true,
-        "nothing_built": false,
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 0,
+        "capped": false,
+        "nothing_built": true,
         "nothing_satisfied": false,
-        "only_excused": false,
+        "only_excused": true,
         "corpus_rung_state": "not measured"
       }
     },
@@ -15574,29 +15547,28 @@
     },
     {
       "v1_class": "stimulus_parameter_table",
-      "veta_class": "stimulus_parameter_table",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "decided_targets": [
-        "stimulus_parameter_table"
-      ],
-      "decided_targets_source": "curated_targets_file",
+      "decided_targets": [],
+      "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "decided",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
-      "no_target_account": null,
-      "no_target_signoff": null,
+      "no_target_account": "CARRIED WHOLE AS v1 (its tombstone was deleted): passes through unchanged as v1: no writer in NDI and one untyped string[] field, so nothing to model against.",
+      "no_target_signoff": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
+      },
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 1,
-        "schema_targets_built": [
-          "stimulus_parameter_table"
-        ],
+        "schema_targets_named": 0,
+        "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": false,
@@ -15612,7 +15584,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "PASSES THROUGH UNCHANGED and is DEMOTED to `deprecated/`. It has no writer anywhere in NDI's 1,002 .m files and one untyped `string[]` field, so there is nothing to model against -- but it ships a template, so deleting it is forbidden by the corpora-are-a-sample rule.",
+      "how": "PASSES THROUGH UNCHANGED. It has no writer anywhere in NDI's 1,002 .m files and one untyped `string[]` field, so there is nothing to model against -- but it ships a template, so deleting it is forbidden by the corpora-are-a-sample rule. CARRIED WHOLE AS v1 since 2026-10-28: its did-schema tombstone was deleted (Jess Haley, 2026-10-27 [carried v1 validates against NDI templates]); a passed-through document with no V2 class is counted, never quarantined (DID-matlab v1_to_v2, passthrough_unvalidated_no_schema). No V2 target.",
       "target_flags": "DONE 2026-08-10: demoted, and the tombstone rewritten to the NDI shape so a passthrough validates instead of quarantining.",
       "decided_by_citation": {
         "document": "V_eta_stimulus_parameter_plan.md",
@@ -15640,25 +15612,29 @@
           "why": null,
           "matched_name": "stimulus_parameter_table",
           "matched_on": "v1_class"
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Build pending: DID-matlab (validator and workflows), did-schema (delete the tombstones and `base.name`), NDI-matlab (the reads).",
+          "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
+          "matches": 1,
+          "why": null,
+          "matched_name": "stimulus_parameter_table",
+          "matched_on": "v1_class"
         }
       ],
       "governance_gap": null,
       "governance": {
         "state": "decided",
         "signoff": {
-          "document": "V_eta_stimulus_parameter_plan.md",
-          "tag": "stimulus parameters",
-          "resolved": true,
-          "line": 221,
-          "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
-          "anchor": "TEAM-SIGN-OFF [stimulus parameters]",
-          "matches": 1,
-          "why": null,
-          "matched_name": "stimulus_parameter_table",
-          "matched_on": "v1_class"
+          "document": "V_eta_go_forward_class_audit.md",
+          "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
         },
-        "why": "the class cites `V_eta_stimulus_parameter_plan.md` [stimulus parameters] (as `stimulus_parameter_table`), which resolves to the TEAM-SIGN-OFF line at `V_eta_stimulus_parameter_plan.md`:221. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "a decision line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
@@ -15677,14 +15653,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "yes",
-            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "n/a",
+            "why": "decided in `V_eta_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -15693,20 +15669,12 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
-        "highest_rung_satisfied_independently": 2,
-        "capped": true,
-        "nothing_built": false,
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 0,
+        "capped": false,
+        "nothing_built": true,
         "nothing_satisfied": false,
-        "only_excused": false,
+        "only_excused": true,
         "corpus_rung_state": "not measured"
       }
     },

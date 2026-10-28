@@ -154,10 +154,35 @@ _DELETE_UNUSED_LEAVES = {
     "volume_assertion",
 }
 
+# v1 classes CARRIED WHOLE AS v1 by decision, with no V2 class: their did-schema
+# tombstones were deleted (Decided by Jess Haley, 2026-10-27 [carried v1
+# validates against NDI templates], V_eta_go_forward_class_audit.md: "a document
+# carried whole as v1 is validated against NDI-matlab's v1 templates ... then all
+# `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"). Each
+# has no migrator: DID-matlab v1_to_v2 passes it through unchanged, counted as
+# passthrough_unvalidated_no_schema, never quarantined. Keyed by the v1 class
+# name as the coverage ledger spells it; the value is the one-line account.
+# coverage.py reads it as a decided passthrough; ndi_required_stamp.py as the
+# cause `carried_as_v1`, not the genuine hole.
+CARRIED_AS_V1 = {
+    "projectvar": ("passes through unchanged as v1: no V2 class until real "
+                   "documents exist to model its untyped `data` field against"),
+    "stimulus_parameter_table": ("passes through unchanged as v1: no writer in "
+                                 "NDI and one untyped string[] field, so nothing "
+                                 "to model against"),
+    "imageCollection": ("passes through unchanged as v1: no writer in NDI, "
+                        "nothing establishes its content"),
+}
+
 # EVERY class name the builder deleted (os.remove'd) and that is not in the
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # the eight did_v1 tombstones deleted 2026-10-28 ([carried v1 validates
+    # against NDI templates]); their documents are carried as v1
+    "image", "image_collection", "image_stack", "image_stack_parameters",
+    "lightsheet_zarr_level", "lightsheet_zarr_pyramid", "projectvar",
+    "stimulus_parameter_table",
     "acceleration_assertion",
     "acceleration_calculation",
     "acceleration_observation",
