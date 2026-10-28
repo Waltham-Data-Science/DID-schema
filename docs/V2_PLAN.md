@@ -66,6 +66,26 @@ Last updated 2026-10-27.
   list". So families whose fits all share one model (Naka-Rushton, Priebe,
   double Gaussian) still write one `{function: <model>}` method parameter
   beside the `model` in each fit entry. Drop it too? [yes: one place per fact]
+- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.**
+  [carried v1 validates against NDI templates] deletes the 8 `deprecated/`
+  tombstones and V2 `base.name`. But 73 classes marked `retire` remain in
+  `stable/` (generic_file, valid_interval, syncrule, epochfiles_ingested,
+  control_stimulus_ids, ...), and DID-matlab validates a v1 document passed
+  through unchanged against the one of the same name. Those documents carry
+  `base.name`, so with it deleted they fail: DID-matlab #274 against the
+  deletion, run 40637773135: 33 failures, 43 x "Property block base carries
+  undeclared field name". Options:
+  (a) DID-matlab stamps an unchanged passthrough `did_v1` (not validated
+  against V2) inside `v1_to_v2`; this moves the stamping [passthrough stays
+  v1: how] put at the end of NDI's pipeline, so NDI's second pass would
+  receive `did_v1` bodies;
+  (b) keep V2 `base.name` until no document passes through under a `retire`
+  class (each class converted or carried as v1), then delete it and the 73
+  classes together;
+  (c) delete the 73 `retire` classes now too and carry their documents as v1.
+  [b: it changes nothing NDI relies on; the 8 `deprecated/` tombstones can go
+  now, since nothing validates against them once DID-matlab #270's template
+  check is in -- but only if (b) keeps `base.name`]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
