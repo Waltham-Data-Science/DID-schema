@@ -796,23 +796,6 @@
                             ]
                         },
                         {
-                            "name": "response_transform",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "OPTIONAL: a transform applied to the responses before this fit, when it is not the curve as stated ('absolute value': the fit is to |response|). Empty: the fit is to the responses as stated. <- v1 `abs` block of `spatial_frequency_tuning` / `temporal_frequency_tuning` (Jess Haley 2026-10-28 [absolute-value fits are fit entries]: one calculator output is one calculation, T10).",
-                            "constraints": {
-                                "enum": [
-                                    "absolute value"
-                                ]
-                            }
-                        },
-                        {
                             "name": "goodness",
                             "type": "structure",
                             "blank_value": {},
@@ -932,6 +915,23 @@
                             "ontology": null,
                             "documentation": "Field path, in the fitted document, of the dependent values. <- v1 `fit_data.output_data_field`.",
                             "constraints": {}
+                        },
+                        {
+                            "name": "response_transform",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "OPTIONAL: a transform applied to the responses before this fit, when it is not the curve as stated ('absolute value': the fit is to |response|). Empty: the fit is to the responses as stated. <- v1 `abs` block of `spatial_frequency_tuning` / `temporal_frequency_tuning` (Jess Haley 2026-10-28 [absolute-value fits are fit entries]: one calculator output is one calculation, T10).",
+                            "constraints": {
+                                "enum": [
+                                    "absolute value"
+                                ]
+                            }
                         },
                         {
                             "name": "metrics",
