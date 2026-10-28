@@ -86,6 +86,16 @@ Last updated 2026-10-27.
   [b: it changes nothing NDI relies on; the 8 `deprecated/` tombstones can go
   now, since nothing validates against them once DID-matlab #270's template
   check is in -- but only if (b) keeps `base.name`]
+- **G8. The Naka-Rushton term ([Naka-Rushton is one function]).** The
+  decision makes the RB / RBN / RBNS fits one model term; DID-matlab writes the
+  model today as the bare label "Naka-Rushton" (`jTuningCurve.m` oneFunction).
+  No existing term: OLS4 (2026-10-28) has no hit for "Naka-Rushton"; Wikidata
+  Q52425525 is a scholarly article, not the function. Proposed EMPTY term:
+  label "Naka-Rushton function", definition "A saturating function of contrast,
+  R(c) = Rm c^n / (c^(n s) + c50^(n s)), used to describe the contrast response
+  of a neuron.", exact synonym "Naka-Rushton equation", under NCIT:C16870 Mathematical
+  Model (as the empty-ontology NCIT import already carries NCIT terms). Mint
+  it? [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected

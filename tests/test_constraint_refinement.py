@@ -459,17 +459,34 @@ def test_the_report_prints_its_denominator_first():
         assert required in body, f"denominator omits {required!r}"
 
 
-def test_enforce_fails_loudly_while_no_threshold_is_set():
-    """A report-only tool must not have an --enforce that quietly passes. #69
-    landed reporting; until the team sets a threshold, asking for enforcement
-    is an error, not a no-op."""
+def test_enforce_applies_narrow_only_to_the_shipped_schema():
+    """[redeclarations only narrow] (Jess Haley, 2026-10-27): --enforce passes
+    on the shipped schema only because every LOOSENED / DIVERGENT row is named
+    in NARROW_ONLY_EXEMPT; the denominator line says how many were read."""
     import contextlib
     import io
-    assert TOOL.ENFORCEMENT_THRESHOLD is None, (
-        "a threshold was set -- update this test and CI deliberately, with the "
-        "count it was set from")
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         rc = TOOL.main(["--enforce"])
-    assert rc == 1
-    assert "ENFORCEMENT_THRESHOLD is unset" in buf.getvalue()
+    out = buf.getvalue()
+    assert rc == 0, out
+    assert "NARROW-ONLY" in out and "0 refused" in out, out
+
+
+def test_enforce_refuses_a_loosening_and_a_divergence():
+    rows, _ = TOOL.sweep(_tree(_field(mustBeNonEmpty=True), _field(mustBeNonEmpty=False)),
+                         "fields")
+    assert [r["verdict"] for r in rows] == ["LOOSENED"]
+    assert TOOL.enforce_narrow_only(rows, exempt={}) == 1
+    # the same row, named, passes; and a named exemption with no row fails
+    key = (rows[0]["child"], rows[0]["name"], rows[0]["parent"])
+    assert TOOL.enforce_narrow_only(rows, exempt={key: "test"}) == 0
+    assert TOOL.enforce_narrow_only(rows, exempt={key: "t", ("x", "y", "z"): "t"}) == 1
+
+
+def test_enforce_lets_a_tightening_through():
+    rows, _ = TOOL.sweep(_tree(_field(mustBeNonEmpty=False), _field(mustBeNonEmpty=True)),
+                         "fields")
+    assert [r["verdict"] for r in rows] == ["TIGHTENED"]
+    assert TOOL.enforce_narrow_only(rows, exempt={}) == 0
+

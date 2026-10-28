@@ -154,7 +154,13 @@ field/registry axis. Run both.
 Usage:  python3 tools/check_constraint_refinement.py
         python3 tools/check_constraint_refinement.py --json
         python3 tools/check_constraint_refinement.py --show-identical
-        python3 tools/check_constraint_refinement.py --enforce   # fails: unset
+        python3 tools/check_constraint_refinement.py --enforce
+
+--enforce applies the DECIDED rule (Jess Haley, 2026-10-27, did-schema
+V_eta_go_forward_class_audit.md [redeclarations only narrow]: "a class that
+redeclares an inherited field may only narrow it (e.g. `mustBeNonEmpty` false
+to true; true to false is an error)"): it fails on every LOOSENED or DIVERGENT
+row that NARROW_ONLY_EXEMPT does not name. TIGHTENED and IDENTICAL pass.
 """
 
 import argparse
@@ -183,6 +189,18 @@ TIERS = ("stable", "draft", "deprecated")
 # --enforce into a ratchet (count may fall, may not grow); leaving it None makes
 # --enforce FAIL LOUDLY rather than pass while checking nothing.
 ENFORCEMENT_THRESHOLD = None
+
+# The only rows --enforce lets through, each named with its reason. A class's
+# own `name` beside the did_v1-only `base.name` is two slots, not one field
+# redeclared (#73 item 54; tools/check_duplicate_field_declarations.py buckets
+# the same pairs V1-ONLY-SLOT). They end when V2 `base.name` is deleted, which
+# waits on question G7 (docs/V2_PLAN.md). An entry that matches no row FAILS,
+# so this list cannot go stale.
+NARROW_ONLY_EXEMPT = {
+    (child, "name", "base"): "a class's own `name` beside the did_v1-only `base.name` slot (#73 item 54; ends with V2 base.name, G7)"
+    for child in ("entity", "method", "acquisition_system", "measurement",
+                  "stimulus_parameter")
+}
 
 # ---------------------------------------------------------------------------
 # What counts as a constraint, and which way each one points.
@@ -935,23 +953,31 @@ def main(argv=None):
 
     loosened = sum(1 for r in field_rows + edge_rows if r["verdict"] == "LOOSENED")
     divergent = sum(1 for r in field_rows + edge_rows if r["verdict"] == "DIVERGENT")
-    print("REPORT-ONLY. Nothing here fails a build. The enforcement threshold is "
-          "a TEAM call (#69);")
-    print("this run exists to put the real counts in front of it: "
-          f"{loosened} LOOSENED, {divergent} DIVERGENT.")
+    print(f"{loosened} LOOSENED, {divergent} DIVERGENT. --enforce fails on any "
+          "not in NARROW_ONLY_EXEMPT ([redeclarations only narrow]).")
 
     if args.enforce:
-        if ENFORCEMENT_THRESHOLD is None:
-            print("\nFAIL: --enforce was passed but ENFORCEMENT_THRESHOLD is unset.")
-            print("A gate that passes without a threshold is a gate that checks "
-                  "nothing. Set it deliberately, with the count it was set from.")
-            return 1
-        total = len(field_rows) + len(edge_rows)
-        if total > ENFORCEMENT_THRESHOLD:
-            print(f"\nFAIL: {total} redeclaration(s), threshold "
-                  f"{ENFORCEMENT_THRESHOLD}.")
-            return 1
+        return enforce_narrow_only(field_rows + edge_rows)
     return 0
+
+
+def enforce_narrow_only(rows, exempt=None):
+    """[redeclarations only narrow]: 1 if any LOOSENED or DIVERGENT row is not
+    exempted, or any exemption matches no row; prints both, denominator first."""
+    exempt = NARROW_ONLY_EXEMPT if exempt is None else exempt
+    moved = [r for r in rows if r["verdict"] in ("LOOSENED", "DIVERGENT")]
+    keys = {(r["child"], r["name"], r["parent"]) for r in rows}
+    bad = [r for r in moved if (r["child"], r["name"], r["parent"]) not in exempt]
+    stale = sorted(k for k in exempt if k not in keys)
+    print(f"\nNARROW-ONLY ([redeclarations only narrow]): {len(rows)} redeclaration(s) "
+          f"read, {len(moved)} LOOSENED or DIVERGENT, {len(moved) - len(bad)} exempted "
+          f"by name, {len(bad)} refused; {len(stale)} exemption(s) matching no row")
+    for r in bad:
+        print(f"  FAIL: {r['child']}.{r['name']} {r['verdict']} against "
+              f"{r['parent']}.{r['name']} -- a redeclaration may only narrow")
+    for k in stale:
+        print(f"  FAIL: exemption {k} matches no redeclaration; remove it")
+    return 1 if (bad or stale) else 0
 
 
 if __name__ == "__main__":
