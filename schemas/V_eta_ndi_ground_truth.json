@@ -72,6 +72,15 @@
       "dependency_names_optional": 32,
       "dependency_names_ndi_states_nothing_about": 9
     },
+    "ndicalc_vis_template_scan": {
+      "candidates": 13,
+      "unreadable": 0,
+      "unparseable": 0,
+      "not_a_document_class": 0,
+      "classes": 13,
+      "ref_used": "origin/main",
+      "also_in_ndi": []
+    },
     "provenance": {
       "DID-INVENTED": 39,
       "NDI-CHANGED": 1,
@@ -5235,6 +5244,356 @@
       "depends_on_required": {
         "subject_id": true
       }
+    }
+  },
+  "ndicalc_vis_commit": "00e3e0f10eb113aebcfb6428059403e9e6685df8",
+  "ndicalc_vis_classes": {
+    "contrast_tuning": {
+      "fields": [
+        "fit",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "raw_fields": [
+        "fit",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "ndi_common/database_documents/vision/contrast_tuning.json @origin/main"
+    },
+    "contrastsensitivity_calc": {
+      "fields": [
+        "depends_on",
+        "empirical_c50_rb",
+        "empirical_c50_rbn",
+        "empirical_c50_rbns",
+        "fitless_interpolated_c50",
+        "input_parameters",
+        "is_modulated_response",
+        "parameters_rb",
+        "parameters_rbn",
+        "parameters_rbns",
+        "relative_max_gain_rb",
+        "relative_max_gain_rbn",
+        "relative_max_gain_rbns",
+        "response_type",
+        "response_varies_p_bonferroni",
+        "saturation_index_rb",
+        "saturation_index_rbn",
+        "saturation_index_rbns",
+        "sensitivity_rb",
+        "sensitivity_rbn",
+        "sensitivity_rbns",
+        "spatial_frequencies",
+        "visual_response_p_bonferroni"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "empirical_c50_RB",
+        "empirical_c50_RBN",
+        "empirical_c50_RBNS",
+        "fitless_interpolated_c50",
+        "input_parameters",
+        "is_modulated_response",
+        "parameters_RB",
+        "parameters_RBN",
+        "parameters_RBNS",
+        "relative_max_gain_RB",
+        "relative_max_gain_RBN",
+        "relative_max_gain_RBNS",
+        "response_type",
+        "response_varies_p_bonferroni",
+        "saturation_index_RB",
+        "saturation_index_RBN",
+        "saturation_index_RBNS",
+        "sensitivity_RB",
+        "sensitivity_RBN",
+        "sensitivity_RBNS",
+        "spatial_frequencies",
+        "visual_response_p_bonferroni"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_presentation_id",
+        "stimulus_response_scalar_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator"
+      ],
+      "path": "ndi_common/database_documents/calc/contrastsensitivity_calc.json @origin/main"
+    },
+    "contrasttuning_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator",
+        "contrast_tuning"
+      ],
+      "path": "ndi_common/database_documents/calc/contrasttuning_calc.json @origin/main"
+    },
+    "hartley_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [
+        "hartley_results.ngrid",
+        "hartley_frametimes.bin",
+        "hartley_numbers.bin",
+        "hartley_spiketimes.bin"
+      ],
+      "superclasses": [
+        "calculator",
+        "hartley_reverse_correlation"
+      ],
+      "path": "ndi_common/database_documents/calc/hartley_calc.json @origin/main"
+    },
+    "hartley_reverse_correlation": {
+      "fields": [
+        "frame_times",
+        "hartley_numbers",
+        "reconstruction_properties",
+        "spiketimes",
+        "stimulus_properties"
+      ],
+      "raw_fields": [
+        "frameTimes",
+        "hartley_numbers",
+        "reconstruction_properties",
+        "spiketimes",
+        "stimulus_properties"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base",
+        "reverse_correlation"
+      ],
+      "path": "ndi_common/database_documents/neuro/hartley_reverse_correlation.json @origin/main"
+    },
+    "oridirtuning_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator",
+        "orientation_direction_tuning"
+      ],
+      "path": "ndi_common/database_documents/calc/oridirtuning_calc.json @origin/main"
+    },
+    "reverse_correlation": {
+      "fields": [
+        "dimension_labels",
+        "method"
+      ],
+      "raw_fields": [
+        "dimension_labels",
+        "method"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_presentation_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base",
+        "ngrid"
+      ],
+      "path": "ndi_common/database_documents/neuro/reverse_correlation.json @origin/main"
+    },
+    "spatial_frequency_tuning": {
+      "fields": [
+        "abs",
+        "fit_dog",
+        "fit_gausslog",
+        "fit_movshon",
+        "fit_movshon_c",
+        "fit_spline",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "raw_fields": [
+        "abs",
+        "fit_dog",
+        "fit_gausslog",
+        "fit_movshon",
+        "fit_movshon_c",
+        "fit_spline",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "ndi_common/database_documents/vision/spatial_frequency_tuning.json @origin/main"
+    },
+    "spatial_frequency_tuning_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator",
+        "spatial_frequency_tuning"
+      ],
+      "path": "ndi_common/database_documents/calc/spatial_frequency_tuning_calc.json @origin/main"
+    },
+    "speed_tuning": {
+      "fields": [
+        "fit",
+        "fit_fullspeed",
+        "fit_no_speed",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "raw_fields": [
+        "fit",
+        "fit_fullspeed",
+        "fit_no_speed",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "ndi_common/database_documents/vision/speed_tuning.json @origin/main"
+    },
+    "speedtuning_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator",
+        "speed_tuning"
+      ],
+      "path": "ndi_common/database_documents/calc/speedtuning_calc.json @origin/main"
+    },
+    "temporal_frequency_tuning": {
+      "fields": [
+        "abs",
+        "fit_dog",
+        "fit_gausslog",
+        "fit_movshon",
+        "fit_movshon_c",
+        "fit_spline",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "raw_fields": [
+        "abs",
+        "fit_dog",
+        "fit_gausslog",
+        "fit_movshon",
+        "fit_movshon_c",
+        "fit_spline",
+        "fitless",
+        "properties",
+        "significance",
+        "tuning_curve"
+      ],
+      "depends_on": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "ndi_common/database_documents/vision/temporal_frequency_tuning.json @origin/main"
+    },
+    "temporal_frequency_tuning_calc": {
+      "fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "raw_fields": [
+        "depends_on",
+        "input_parameters"
+      ],
+      "depends_on": [],
+      "_template_mustbenotempty": 0,
+      "files": [],
+      "superclasses": [
+        "calculator",
+        "temporal_frequency_tuning"
+      ],
+      "path": "ndi_common/database_documents/calc/temporal_frequency_tuning_calc.json @origin/main"
     }
   }
 }

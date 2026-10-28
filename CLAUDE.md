@@ -220,7 +220,8 @@ NDIcalc-vis-matlab:
 
 NDIcalc-vis-matlab (`V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
 has no `V2` line: its `head` and `main` are both the commit its tuning templates
-are read from, on `main`. No tool here reads its files yet.
+are read from, on `main`. `ndi_ground_truth.py` reads its templates at that commit
+([ground truth reads NDIcalc-vis templates]).
 
 How each is used (`tools/sibling_lock.py` docstring has the reasons):
 

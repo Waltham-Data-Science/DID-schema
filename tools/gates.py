@@ -100,9 +100,9 @@ def find_repo(name, env):
     return None
 
 
-# Every sibling the lock covers (`sibling_lock.SIBLINGS`, the one list): the
-# chain's steps read NDI-matlab and DID-matlab; NDIcalc-vis-matlab is locked and
-# verified, and no step reads it yet.
+# Every sibling the lock covers (`sibling_lock.SIBLINGS`, the one list). The
+# chain's steps read NDI-matlab and DID-matlab; `ndi_ground_truth` also reads
+# NDIcalc-vis-matlab's templates at its locked commit.
 SIBLINGS = {name: find_repo(name, env)
             for name, (env, _url) in sibling_lock.SIBLINGS.items()}
 
@@ -254,7 +254,8 @@ STEPS = [
     Step("ndi_ground_truth", _t("ndi_ground_truth.py"), "generate",
          r"^NDI classes captured:\s+(\d+)", "NDI classes captured",
          writes=["schemas/V_eta_ndi_ground_truth.json"],
-         requires=["NDI-matlab", "DID-matlab"]),
+         # NDIcalc-vis-matlab: [ground truth reads NDIcalc-vis templates].
+         requires=["NDI-matlab", "DID-matlab", "NDIcalc-vis-matlab"]),
 
     # The JSON under schemas/did_v2 is the source (OPEN_WORK #128, 2026-10-21).
     # This step checks every rule build_v_eta.py used to guarantee and writes
