@@ -375,7 +375,7 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
         assert req[t] == ["name"], t
     # Jess Haley 2026-10-27 [organization needs a name or an identifier]: an
     # organization needs `name` OR `global_identifier`, not `name` alone
-    org = [r for r in reg["entity_type_bindings"] if r["type"] == "organization"][0]
+    org = next(r for r in reg["entity_type_bindings"] if r["type"] == "organization")
     assert org["requires"] == [], org
     assert org["requires_one_of"] == [["name", "global_identifier"]], org
     # each configuration class with a name declares `name`; base.name is did_v1-only
