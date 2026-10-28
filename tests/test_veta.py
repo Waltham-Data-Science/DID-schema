@@ -383,9 +383,10 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
         names = [f["name"] for f in RECORDS[e][1]["fields"]]
         assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
         assert not {"full_name", "title", "label"} & set(names), names
-    base_name = next(f for f in RECORDS["base"][1]["fields"] if f["name"] == "name")
-    assert base_name["mustBeNonEmpty"] is False
-    assert "did_v1 ONLY" in base_name["documentation"]
+    # V2 `base.name` is deleted (Jess Haley, 2026-10-27 [carried v1 validates
+    # against NDI templates]): a v1 document that carries one is validated
+    # against NDI's v1 templates, not V2's base
+    assert "name" not in [f["name"] for f in RECORDS["base"][1]["fields"]]
 
 
 def test_demo_family_collapsed_to_one_class():
@@ -823,97 +824,6 @@ def test_dataseries_carrier_family_dissolved():
     # the rest of the byte descriptors. The carrier family still dissolved into
     # a body that can carry a hash, which is what this asserts.
     assert "content_hash" in set(_flat_field_types("sampled_body"))
-
-
-def test_image_collection_is_a_tombstone_not_a_dissolution():
-    """INVERTED 2026-08-11, not updated -- the old assertion WAS the old premise.
-
-    This test read `assert "image_collection" not in RECORDS`, and it passed for
-    as long as it did because it was written from the same belief as the build
-    comment it guarded: that nothing creates the class, so nothing can strand.
-    A test written from the code's own premise cannot catch the code. Team
-    decision 2026-08-11: give it a v1-shaped tombstone, because a class no
-    in-tree writer produces is exactly the one that arrives from a dataset
-    nobody has migrated yet, and with no schema such a document quarantines.
-
-    `image` itself is UNAFFECTED and is asserted alongside, so that a build which
-    deleted the wrong one of the two would fail here rather than half-pass.
-    """
-    assert "image_collection" in RECORDS, (
-        "image_collection is a did_v1 SOURCE class with an NDI template and no "
-        "migrator; deleting its schema is the stranding case")
-    assert "image" in RECORDS
-    # #73 item 51: `image` is the did_v1 tombstone again, beside image_collection.
-    assert "image_collection" in {e["must_refer_to_document_class"]
-                                  for e in RECORDS["image"][1]["depends_on"]}
-
-
-def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
-    """Denominator-first, and BOTH directions -- the image_stack lesson.
-
-    `image_stack`'s restatement got NDI's deps and fields right and then declared
-    a file NDI does not write while leaving the file it does write undeclared:
-    both directions of the audit at once, on every passed-through document. So
-    this compares by EQUALITY, not by subset. A tombstone that declares more than
-    NDI does is a `did2:validation:undeclaredField` waiting to happen from the
-    other side -- and for this class the surplus is not hypothetical, since the
-    V_alpha snapshot it was carried in on (schemas/V_alpha/imageCollection.json)
-    declares FIVE names NDI has never had: `element_id`, `collection_file`,
-    `num_images`, `image_format`, `description`.
-
-    The generated artifact is the authority; this test is prose about it.
-    """
-    # KEYED BY NDI'S OWN SPELLING. The artifact is an extract of NDI, so its keys
-    # are camelCase; V_eta is snake_case. Looking this up as `image_collection`
-    # would be the `demo_ndi` failure -- a lookup that cannot match, reported as
-    # an absence.
-    gt = _ndi_ground_truth()["classes"]["imageCollection"]
-    rec = RECORDS["image_collection"][1]
-
-    # denominator, stated before any verdict
-    assert (len(gt["depends_on"]), len(gt["fields"]), len(gt["files"])) == (1, 2, 0), (
-        f'the NDI ground truth for imageCollection changed shape ({len(gt["depends_on"])} dep(s), {len(gt["fields"])} field(s), {len(gt["files"])} file(s)) -- re-read the template before trusting this')
-
-    ours_deps = {d["name"] for d in rec["depends_on"]}
-    ours_fields = {f["name"] for f in rec["fields"]}
-    ours_files = {f["name"] for f in rec.get("file", [])}
-    ours_supers = [s["class_name"] for s in rec["document_class"]["superclasses"]]
-
-    assert ours_deps == set(gt["depends_on"]), (
-        "depends_on diverges from NDI: missing {!r}, invented {!r}".format(sorted(set(gt["depends_on"]) - ours_deps),
-           sorted(ours_deps - set(gt["depends_on"]))))
-    assert ours_fields == set(gt["fields"]), (
-        "fields diverge from NDI: missing {!r}, invented {!r}".format(sorted(set(gt["fields"]) - ours_fields),
-           sorted(ours_fields - set(gt["fields"]))))
-    assert ours_supers == gt["superclasses"], (
-        "superclass chain diverges from NDI: {!r} vs {!r}".format(ours_supers, gt["superclasses"]))
-
-    # THE FILE BLOCK, asserted separately from the sets above because it is the
-    # one part universalRenames carries through VERBATIM (skip = {'document_class',
-    # 'depends_on', 'file', 'files'}, DID-matlab +did2/+convert/universalRenames.m:308)
-    # and `did2.validate.fileList` compares it by exact strcmp. NDI declares NO
-    # file for this class; V_zeta declared `collection_file`.
-    assert ours_files == set(gt["files"]) == set(), (
-        f"NDI's imageCollection declares no file; this tombstone declares {sorted(ours_files)!r}. A "
-        "file name is did_v1 spelling carried through verbatim -- declaring one "
-        "no document has is the image_stack defect repeated.")
-
-
-def test_image_collection_tombstone_requires_nothing():
-    """A tombstone must not quarantine the documents it exists to preserve.
-
-    There is NO WRITER for this class anywhere in NDI (0 of 1002 .m files on
-    origin/main, all three spellings), so nothing establishes that any field is
-    reliably populated -- and NDI's own schema marks the single dependency
-    `mustbenotempty: 0`. Requiring anything here would be inventing a guarantee
-    from a template, which is the wrong-assumed-shape failure that produced the
-    ~2,078 distance_metadata quarantines.
-    """
-    rec = RECORDS["image_collection"][1]
-    req_deps = [d["name"] for d in rec["depends_on"] if d.get("mustBeNonEmpty")]
-    req_fields = [f["name"] for f in rec["fields"] if f.get("mustBeNonEmpty")]
-    assert not req_deps and not req_fields, (
-        f"required with no writer to justify it -- deps {req_deps!r}, fields {req_fields!r}")
 
 
 def test_zarr_pyramid_orphans_dissolved():
@@ -1520,7 +1430,9 @@ def test_data_body_carrier_dispositions():
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
     # #73 item 51 (2026-09-25): the V_eta `image` value and its leaf RETIRE. The
     # name is the did_v1 tombstone again (retire), and image_observation is gone.
-    assert disp["image"] == "retire"
+    # ... and the did_v1 tombstone that kept the name was deleted 2026-10-28 with
+    # every deprecated/ class ([carried v1 validates against NDI templates])
+    assert "image" not in disp
     assert "image_observation" not in disp
     # `zarr` HAS NO DISPOSITION ANY MORE because it has no class: it was deleted
     # outright (signed sec.10) rather than retired, and it left _RET_CARRIERS in
@@ -2014,14 +1926,16 @@ def test_duplicate_field_fidelity_split_is_derived_from_the_ground_truth():
                 "declaring class has a did_v1 counterpart -- the ground truth "
                 "could have answered it")
 
-    # The exact row the drift misfiled. Its provenance is NDI's, so it must
-    # never come back as an open question a reader might close by deleting.
-    sp = [r for r in classified
-          if (r["leaf"], r["name"]) == ("stimulus_parameter", "name")]
-    assert sp and sp[0]["derived"] == mod.V1_FIDELITY, (
-        "stimulus_parameter.name must derive as V1-FIDELITY -- NDI's schema "
-        f"declares it and migrators_j/stimulus_parameter.m passes documents "
-        f"through unchanged; got {sp!r}")
+    # The row the drift misfiled was `stimulus_parameter.name` beside
+    # `base.name`; it ended when V2 `base.name` was deleted (2026-10-28,
+    # [carried v1 validates against NDI templates]). The guard stays on the
+    # row that is left: NDI declares `label` on both `filter` and `pyraview`,
+    # so it must never come back as an open question a reader might close by
+    # deleting.
+    pv = [r for r in classified if (r["leaf"], r["name"]) == ("pyraview", "label")]
+    assert pv and pv[0]["derived"] == mod.V1_FIDELITY, (
+        "pyraview.label must derive as V1-FIDELITY -- NDI's templates declare "
+        f"`label` on both filter and pyraview; got {pv!r}")
 
 
 def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
@@ -2038,6 +1952,11 @@ def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
     gt_index, gt_stats = mod.load_ground_truth()
     assert gt_stats["present"], gt_stats
     rows = mod.find_duplicates(classes)
+    # The shipped schema has had no NOT-DERIVABLE row since V2 `base.name` was
+    # deleted (2026-10-28), so one is made here: two declaring classes the
+    # ground truth has never heard of. The override mechanics are what is
+    # under test, not the shipped rows.
+    rows = rows + [("no_v1_leaf", "no_v1_field", ("no_v1_parent", "no_v1_leaf"))]
 
     derivable = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
                  if r["derived"] != mod.NOT_DERIVABLE]
@@ -3239,61 +3158,6 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
         "again -- its required `value` block is one no v1 document carries")
 
 
-def test_image_stack_pair_survives_for_the_subject_less_passthrough():
-    """The schema half of the image_stack guard, made mechanical.
-
-    `migrators_j/image_stack.m` passes a subject-less document THROUGH (NDI's
-    own writer leaves `subject_id` empty at +setup/+conv/+haley/doImport.m:789,
-    811 and 827), and a passthrough validates against the SOURCE tombstone. Both
-    classes were in `_DELETE_PHASE8` and came back out for exactly this reason.
-    Re-deleting either strands 4,563 JH documents in quarantine -- the
-    `epochfiles_ingested` regression, which is what happens when a tombstone is
-    removed ahead of its migrator.
-
-    The MATLAB side has its own guard (testTemplateLiteralTypeTraps.m,
-    testImageStackParametersTombstoneStillExists); this is the one that fails in
-    the fast Python gate, where the deletion would actually be made.
-    """
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
-    for cls in ("image_stack", "image_stack_parameters"):
-        assert cls in RECORDS, (
-            f"`{cls}` was re-deleted. The subject-less passthrough in "
-            "migrators_j/image_stack.m then has no schema to validate against: "
-            "4,563 JH quarantines.")
-
-    deps = {d["name"]: d for d in RECORDS["image_stack"][1]["depends_on"]}
-    # The whole point of the reversal: NDI writes documents with no subject, so
-    # requiring the edge is what created the husks in the first place.
-    assert deps["subject_id"]["mustBeNonEmpty"] is False, (
-        "subject_id must stay OPTIONAL -- three of NDI's seven imageStack sites "
-        "never set it")
-    assert "document_id" in deps, "NDI's imageStack declares document_id"
-    assert "element_id" not in deps, (
-        "`element_id` is the V_alpha invention this tombstone was restated to "
-        "remove; no NDI template has it")
-
-
-def test_image_stack_declares_ndis_own_file_name():
-    """A tombstone must declare the file the document actually carries.
-
-    `universalRenames` skips the structural keys outright -- `skip =
-    {'document_class', 'depends_on', 'file', 'files'}` (DID-matlab
-    +did2/+convert/universalRenames.m:308) -- so a passed-through document still
-    carries NDI's spelling, `imageStack`, from `add_file('imageStack', ...)` at
-    all eight attachment sites. The tombstone declared `imagestack_file`, a name
-    no document has, which tripped BOTH directions of the #64 file audit at once
-    (declared-but-absent AND present-but-undeclared) for every JH document.
-
-    Nothing caught it: `did2.validate.fileList` compares by exact strcmp and
-    does not normalise, and `check_tombstones.py` does not compare files at all.
-    Hence this test.
-    """
-    files = [f["name"] for f in RECORDS["image_stack"][1].get("file", [])]
-    assert files == ["imageStack"], (
-        "image_stack must declare NDI's own file_list entry verbatim, not a "
-        f"snake_cased invention; got {files!r}")
-
-
 def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     """#75, the schema half. The 635 `StimulationApproach` documents go to
     `interaction_purpose` via the NDI second pass -- and pass 1 can only defer to
@@ -4032,6 +3896,11 @@ def test_leaves_exist_only_when_needed():
     for leaf in gone:
         assert leaf not in RECORDS, f"{leaf} was deleted as unused (#73 item 50)"
         composite = leaf.rsplit("_", 1)[0]
+        if composite == "image":
+            # the `image` value retired in #73 item 51; the name lived on as the
+            # did_v1 tombstone, deleted 2026-10-28 with every deprecated/ class
+            # ([carried v1 validates against NDI templates])
+            continue
         assert composite in RECORDS, f"value {composite} must stay"
     # 2026-10-08 (signed): no join leaf is made at all -- the value kind is a
     # mixin -- so the leaves item 50 kept went too, and their values stay.
@@ -4633,3 +4502,25 @@ def test_a6_tuning_curve_dimensions_follow_the_tuning_grid_decision():
     doc = value["documentation"]
     assert "full grid" in doc and "`stimulus condition` dimension" in doc
     assert "[tuning grid]" in doc
+
+
+def test_no_deprecated_tier_and_no_v2_base_name():
+    """Decided by Jess Haley, 2026-10-27 [carried v1 validates against NDI
+    templates] (V_eta_go_forward_class_audit.md): a document carried whole as v1
+    is validated against NDI-matlab's v1 templates, not did-schema tombstones;
+    then every `deprecated/` tombstone and V2 `base.name` are deleted.
+
+    This replaces the tests that pinned the tombstones' existence (image,
+    image_collection, image_stack, image_stack_parameters). Their premise, "a
+    passthrough with no schema quarantines", stopped being true in DID-matlab:
+    `v1_to_v2.m` counts such a document (`passthrough_unvalidated_no_schema`)
+    and DID-matlab's passthrough tests assert it is not quarantined.
+    """
+    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
+    tiers = {e["tier"] for e in INDEX["schemas"]}
+    assert "deprecated" not in tiers, tiers
+    assert not os.path.isdir(os.path.join(VETA, "deprecated"))
+    for cls in ("image", "image_collection", "image_stack", "image_stack_parameters",
+                "lightsheet_zarr_level", "lightsheet_zarr_pyramid", "projectvar",
+                "stimulus_parameter_table"):
+        assert cls not in RECORDS, cls

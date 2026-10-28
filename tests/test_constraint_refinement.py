@@ -411,17 +411,25 @@ def test_enforcement_tags_track_what_the_validator_actually_switches_on():
 def test_non_constraint_differences_are_printed_not_only_counted():
     """They used to be summed into a headline and shown on IDENTICAL rows only,
     so a LOOSENED row's other differences were counted and never displayed --
-    a count without its evidence. The live case is
+    a count without its evidence. The live case was
     `subjectmeasurement.datestamp`, which differs on `blank_value` (0.0, a
-    NUMBER, in a field typed `timestamp`) as well as on mustBeNonEmpty."""
+    NUMBER, in a field typed `timestamp`) as well as on mustBeNonEmpty.
+
+    SYNTHETIC SINCE 2026-10-28: the shipped schema has had no LOOSENED
+    redeclaration since V2 `base.name` was deleted ([carried v1 validates
+    against NDI templates]), so the rendering is driven here through a
+    two-class chain that loosens `mustBeNonEmpty` AND changes `default_value`.
+    """
     import contextlib
     import io
+    rows, stats = TOOL.sweep(_tree(_field(mustBeNonEmpty=True, default_value="a"),
+                                   _field(mustBeNonEmpty=False, default_value="b")),
+                             "fields")
+    assert [r["verdict"] for r in rows] == ["LOOSENED"], rows
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        TOOL.main([])
+        TOOL.print_section("FIELDS", rows, stats, False, "fields")
     out = buf.getvalue()
-    assert "(non-constraint)" in out, (
-        "no non-constraint difference was rendered anywhere")
     loosened = out.split("LOOSENED (")[1] if "LOOSENED (" in out else ""
     assert "(non-constraint)" in loosened.split("TIGHTENED (")[0], (
         "non-constraint differences are still hidden on non-IDENTICAL rows")
