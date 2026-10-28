@@ -124,6 +124,12 @@ Last updated 2026-10-27.
     (BNST)", V2 the registry label "bed nucleus of stria terminalis"
     (UBERON:0001880). Is the v1 spelling notation (compare by node, the 404
     clear)? [yes: a term is identified by its node]
+- **G13. Labels of a sync rule's trigger-channel parameters (DID-matlab
+  #276).** A channel-based sync rule's two trigger channels become method
+  parameters labelled `daqsystem ch1` / `daqsystem ch2`, the generic rule for
+  an unread v1 parameter. Role-named labels ("from trigger channel" / "to
+  trigger channel", matching the from/to rig edges) were not decided. Rename?
+  [yes, to match the edges]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
