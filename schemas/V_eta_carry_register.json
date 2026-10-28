@@ -1888,6 +1888,148 @@
       "decides": "which epoch the presentation belongs to, when no generic rule can find it",
       "resolved_by": "each dataset's import (not yet written)",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-110",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyName",
+        "treatment_drug.location_ontologyNode"
+      ],
+      "when": "the document holds both location spellings and they name different nodes (prefix case ignored)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "treatment location name is the node"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-111",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "depends_on element_id"
+      ],
+      "when": "the neuron names no sorted-unit element whose entity it can point at ([neuron uses the sorted unit's cell])",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "neuron uses the sorted unit's cell"
+      },
+      "homes": [
+        "the entity of the sorted unit the neuron came from"
+      ],
+      "decides": "which sorted unit (and so which cell entity) the neuron belongs to",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-112",
+      "v1_class": "*",
+      "fields": [
+        "base.id"
+      ],
+      "when": "no V2 document the source becomes can take its v1 id, and the source is referenced by another document (or is not fully rebuilt from other V2 documents)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "every v1 id survives"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-113",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.waveform_sample_times"
+      ],
+      "when": "start + step misses a v1 sample time by more than 8 ulps of the largest absolute time",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "sample times within eight rounding steps"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-114",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageStack.dimension_order"
+      ],
+      "when": "the V2 dimension labels do not map one-to-one onto the v1 axis letters through the fixed table (DID-matlab did2.convert.axisLetter)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "axis letters derive from labels"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-115",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "lightsheetZarrLevel.label"
+      ],
+      "when": "the level's label does not follow the writer's pattern \"<entry name> level <N> (<reduction>)\", so its level number cannot be read back",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "light-sheet level label is a note"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-116",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a controlled term's openminds_id does not rebuild through the term registry's `equivalent` list",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-117",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a lab-made strain's openminds_id, whose decided home is the strain entity's `global_identifier`, which pass 1 does not mint yet",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the strain entity's `global_identifier` as `openminds:<id>` (decided; strain entity not built)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-118",
+      "v1_class": "dataset_session_info",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "it does not rebuild exactly from the dataset's session memberships, or another document references it",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "fit classes kept; session list rebuilt"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
     }
   ]
 }
