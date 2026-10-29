@@ -2609,11 +2609,13 @@
             "node": "NCBITaxon:6239",
             "definition": "",
             "status": "decided",
-            "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75)",
+            "decided": "Jess Haley, 2026-10-20 (value terms are registered, #75); equivalent: Jess Haley, 2026-10-29 [species text is the openMINDS equivalent]",
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "equivalent": [],
+            "equivalent": [
+                "openminds:species/caenorhabditisElegans"
+            ],
             "synonyms": []
         },
         {
@@ -10776,6 +10778,33 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-27 [imaging probes are microscopes or carried], V_eta_go_forward_class_audit.md: device kind ([element type is a device kind term])",
             "first_used_in": "no dataset yet: the device kind of a a dataset's map for `wide-field-imaging` / `brightfield-imaging` when it says camera (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "cell-attached patch clamp assay",
+            "node": "OBI:0002179",
+            "definition": "A patch-clamp assay where the electrode is left in place on the cell, and the membrane patch has been left intact been perforated. This maintains the separation of the interior of the pipette to the intracellular space of the cell. Measurements made with this technique involve recording currents through multiple channels simultaneously, over the membrane of the entire cell.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-29 [cell-attached is OBI], V_eta_go_forward_class_audit.md: the cell-attached recording mode, instead of a new EMPTY term",
+            "first_used_in": "[device kind labels and synonyms] (cell-attached recording; no corpus measured)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": [
+                "cell-attached patch",
+                "on-cell recording"
+            ]
+        },
+        {
+            "name": "data combination",
+            "node": "OBI:0200125",
+            "definition": "A data transformation in which individual input data elements and values are merged together into a output set of data elements and values.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-29 [oneepoch method is data combination], V_eta_go_forward_class_audit.md: the method term of a v1 oneepoch's calculation",
+            "first_used_in": "v1 oneepoch (NDI-matlab +element/oneepoch.m)",
             "obsolete": false,
             "number_unit": false,
             "equivalent": [],

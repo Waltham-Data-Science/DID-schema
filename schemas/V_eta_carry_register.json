@@ -1257,7 +1257,7 @@
       "fields": [
         "session_reference"
       ],
-      "when": "an ingested session's `session_reference` cannot be compared with the session entity's local_identifier because that session is not in the migrated batch (DID-matlab private/jMembershipBodies.m); carry-060 is the case where it is compared and differs",
+      "when": "a session's `session_reference` cannot be compared with the session entity's local_identifier because that session is not in the migrated batch: an ingested session, or a linked one since [linked session not in the batch] (Jess Haley, 2026-10-29) (DID-matlab private/jMembershipBodies.m); carry-060 is the case where it is compared and differs",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -2024,7 +2024,7 @@
       "fields": [
         "session_in_a_dataset.session_creator"
       ],
-      "when": "the session opener class is not `ndi.session.dir`",
+      "when": "the session opener class is not `ndi.session.dir`, or no `session_creator` is stated ([unstated session creator carried], Jess Haley, 2026-10-29)",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -2069,6 +2069,139 @@
       "decides": "whether the imaging device was a microscope or a camera",
       "resolved_by": "each dataset's import (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-122",
+      "v1_class": "binaryseries_parameters",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always: the class has no edges, so nothing says which data body it describes (DID-matlab +migrators_j/binaryseries_parameters.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "binaryseries parameters carried"
+      },
+      "homes": [
+        "the axis description of the data body it describes, as [misc singletons] maps its fields"
+      ],
+      "decides": "which data body the parameters describe",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-123",
+      "v1_class": "ngrid",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a standalone `ngrid` (no NDI writer makes one): it names no statement for its sampled_body (DID-matlab +migrators/ngrid.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ngrid with no statement carried"
+      },
+      "homes": [
+        "a sampled_body under the statement each dataset names"
+      ],
+      "decides": "which statement holds the grid's values",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-124",
+      "v1_class": "ontologyImage",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a vintage-B ontologyImage whose only non-empty edge is `ontologyTableRow_id`: its ngrid names no statement for its sampled_body (DID-matlab +migrators_j/ontology_image.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "ngrid with no statement carried"
+      },
+      "homes": [
+        "a sampled_body under the statement each dataset names"
+      ],
+      "decides": "which statement holds the image's values",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-125",
+      "v1_class": "ontologyTableRow",
+      "fields": [
+        "depends_on document_id_1..n"
+      ],
+      "when": "a pre-repair row (an edge value no `data` cell holds) with more than one non-empty document_id, in NDI's second pass (NDI-matlab +migrate/+internal/ontologyRowSubjects.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "old table rows carried by NDI"
+      },
+      "homes": [
+        "the statements of the subject each edge names, once the dataset says which edge the row is about"
+      ],
+      "decides": "which of the row's edges the row is about",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-126",
+      "v1_class": "oneepoch",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "its epoch clock is `dev_local_time` (no global clock): NDI stitched the local times as though the recordings were back to back (NDI-matlab +element/oneepoch.m), so its times exist in no input (DID-matlab +migrators_j/oneepoch.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "oneepoch method is data combination"
+      },
+      "homes": [
+        "a data-combination calculation over the per-epoch recordings, once the dataset says how the stitched times map to them"
+      ],
+      "decides": "how the stitched device-local times relate to the recordings",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-127",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.administration_onset_time",
+        "treatment_drug.administration_offset_time",
+        "treatment_drug.administration_duration"
+      ],
+      "when": "an offset or a duration with no onset ([drug end without start needs mapping]), or UTC onset, offset and duration that disagree by more than the anchor's `end_consistent` tolerance ([drug times that disagree need mapping]) (DID-matlab +migrators_j/treatment_drug.m, private/jTreatmentAnchor.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "drug end without start needs mapping"
+      },
+      "homes": [
+        "the manipulation's absolute_time_reference start, end and duration, once the dataset says which times to trust"
+      ],
+      "decides": "when administration started, or which of the three times is right",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-128",
+      "v1_class": "openminds_element",
+      "fields": [
+        "openminds_element.openminds_id",
+        "openminds_element.fields.description"
+      ],
+      "when": "either is non-empty",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "openMINDS element leftovers carried"
+      },
+      "open_work": 163,
+      "home": "proposed (not decided): the description in the term assertion's `notes`, the openMINDS id as an identifier on it (did-schema #232)",
+      "kind_basis": "proposed"
     }
   ]
 }
