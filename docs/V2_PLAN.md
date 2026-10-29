@@ -767,6 +767,7 @@ proposals and measurements at the commits they name, not the record:
 | `DATASET_MAP_PROPOSAL.md` | the dataset map design draft |
 | `DAB_COLUMN_ROWS_DRAFT.md` | proposed Dab map rows for the EPM and FPS table columns |
 | `HOMES_RESPONSES_TUNING.md` | proposed V2 homes for the stimulus response and tuning fields that keep about 73,000 documents in v1 |
+| `EMPTY_ASSAY_LABELS_PROPOSAL.md` | the list of pre-2026-10-20 EMPTY labels that carry assay context, each with an existing ontology term or a general relabel ([old EMPTY labels generalised]) |
 
 ## How we work
 
