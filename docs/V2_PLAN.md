@@ -98,7 +98,7 @@ Last updated 2026-10-27.
   it? [yes]
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
-  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846):
+  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). OPEN 2026-10-29: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
     `resolveEpochProbemap` retires the v1 archive once data bodies carry its
     files (the check reads files only). Lost: the v1 id (conflicts with
     [every v1 id survives]; e.g. B `4126900d95ad6706_c0a14ee8785c648f`), the
@@ -227,6 +227,52 @@ Last updated 2026-10-27.
     (2026-10-22) says the registry "carries no synonym field"; [spelling is
     notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
     them. Read the later decision as superseding the earlier? [yes]
+- **G40-G45. From the 2026-10-29 afternoon builds (DID-matlab #287-#289,
+  NDI-matlab #1094). "[...]" is Claude's recommendation, Proposed (not decided).**
+  - **G40. The linked-session link in NDI-written datasets ([linked session
+    link on a direct dataset relation]; not built, NDI-matlab).** (1) Does an
+    ingested session NDI writes also get the direct session -> dataset
+    `included_in`, with "database ingestion" (EMPTY:0000399)? (2) When
+    `convertLinkedSessionToIngested` / `convertIngestedSessionToLinked` run, is
+    the direct relation replaced (new method) or edited? (3) Does its method
+    carry only the Pathname, or also "software class" = `ndi.session.dir` as the
+    DID-matlab migrator writes when `session_creator` is stated? (4) Relative
+    Pathname when the session folder is inside the dataset folder (what NDI
+    writes today), or always absolute? (5) Is `ndi.dataset.addSessionV2`, which
+    also writes `linked_session`, in scope? [(1) yes, "database ingestion";
+    (2) replaced; (3) both, as migrated; (4) relative inside, absolute outside;
+    (5) yes]
+  - **G41. Merging a redeclaration into the parent ([redeclarations only
+    narrow]; not built).** The 8th redeclaration is `pyraview.label` over
+    `filter.label` (identical; pyraview is `retire`), not a `name`. Hold it with
+    the seven `name` ones? How does the validator know which are held: a list
+    mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
+    merged field then hosted only in the parent's block (a shape change)?
+    [hold pyraview.label too; a schema marker; yes, parent's block only]
+  - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
+    the renamed path, so there is no raw-v1 inverse to carry the label back.
+    Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
+    when `image` moves to the raw-v1 path]
+  - **G43. Two vintage-B ontologyImage cases ([ngrid with no statement
+    carried]).** One with no non-empty edge at all (NDI's `imageDocMaker.m:130`
+    makes it when given no row), and one with a subject or element edge beside
+    the row (no writer makes one). [carry the first like the row-only case
+    (carry-124); the second is malformed]
+  - **G44. The global-clock `oneepoch` calculation ([oneepoch is a redundant
+    calculation]; not built).** (1) Its `input_id` targets, the per-epoch
+    recordings, exist in pass 1 only where an `epochfiles_ingested` cache
+    exists; elsewhere NDI's second pass mints them: wait for NDI's pass, or
+    carry? (2) The required `variable`: from the element type
+    (`derivedSeriesKind`)? (3) DID cannot read the `.vhsb` bytes: a
+    `sampled_body` with no extents, or an `opaque_body` as today? (4)
+    `redundant: true` on the calculation, the body, or both? (5) Fork A1 mints
+    no epoch for `whole_session_<ref>`: what is it anchored to? [(1) NDI's
+    second pass links them; (2) yes; (3) opaque_body, re-described by NDI as
+    today; (4) the body; (5) the session]
+  - **G45. "Pre-repair" ([old table rows counted and carried], NDI-matlab
+    #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
+    40dc9aa86 keeps each dependency column in `data`; before it the column
+    was deleted). Right reading? [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
