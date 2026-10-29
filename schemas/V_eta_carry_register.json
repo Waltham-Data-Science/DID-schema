@@ -2483,6 +2483,38 @@
         "tag": "one folder, final classes only"
       },
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-147",
+      "v1_class": "distance_metadata",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always, until its V2 home is decided (it was reshaped into the retire class; DID-matlab +migrators_j/distance_metadata.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "reshaped retire classes carried"
+      },
+      "open_work": 164,
+      "home": "none decided (docs/V2_PLAN.md G50)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-148",
+      "v1_class": "oneepoch",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "its epoch clock is global (a device-local one is carry-126), until the global-clock data-combination calculation and its per-epoch input_id links are built (docs/V2_PLAN.md G44; DID-matlab +migrators_j/oneepoch.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "reshaped retire classes carried"
+      },
+      "open_work": 164,
+      "home": "a data-combination calculation over the per-epoch recordings ([oneepoch method is data combination]), not yet built",
+      "kind_basis": "decided"
     }
   ]
 }
