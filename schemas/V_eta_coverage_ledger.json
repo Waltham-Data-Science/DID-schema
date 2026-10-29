@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 553,
+          "accepted_lines": 556,
           "accepted_lines_by_kind": {
-            "Decided by": 436,
+            "Decided by": 439,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3825,6 +3825,30 @@
               "tag": "one folder, final classes only",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [one folder, final"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1630,
+              "kind": "Decided by",
+              "tag": "v1 writes into a V2 session",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [v1 writes into a V2"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1632,
+              "kind": "Decided by",
+              "tag": "linked session link details",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [linked session link"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1634,
+              "kind": "Decided by",
+              "tag": "reshaped retire classes carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [reshaped retire classes"
             },
             {
               "document": "V_eta_image_model_plan.md",

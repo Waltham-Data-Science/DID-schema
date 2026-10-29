@@ -539,7 +539,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 553 decision line(s) accepted, 2 rejected; 43 cited by a class, 510 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 556 decision line(s) accepted, 2 rejected; 43 cited by a class, 513 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -934,6 +934,9 @@ field). If one decides a class's disposition, that class should cite it.
 - openMINDS element leftovers carried. "Decided by Jess Haley, 2026-10-29 [openMINDS element" (V_eta_go_forward_class_audit.md:1624).
 - segment length is the time chunk. "Decided by Jess Haley, 2026-10-29 [segment length is the" (V_eta_go_forward_class_audit.md:1626).
 - one folder, final classes only. "Decided by Jess Haley, 2026-10-29 [one folder, final" (V_eta_go_forward_class_audit.md:1628).
+- v1 writes into a V2 session. "Decided by Jess Haley, 2026-10-29 [v1 writes into a V2" (V_eta_go_forward_class_audit.md:1630).
+- linked session link details. "Decided by Jess Haley, 2026-10-29 [linked session link" (V_eta_go_forward_class_audit.md:1632).
+- reshaped retire classes carried. "Decided by Jess Haley, 2026-10-29 [reshaped retire classes" (V_eta_go_forward_class_audit.md:1634).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

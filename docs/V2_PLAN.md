@@ -241,7 +241,13 @@ Last updated 2026-10-27.
     writes today), or always absolute? (5) Is `ndi.dataset.addSessionV2`, which
     also writes `linked_session`, in scope? [(1) yes, "database ingestion";
     (2) replaced; (3) both, as migrated; (4) relative inside, absolute outside;
-    (5) yes]
+    (5) yes] ANSWERED (1)-(3), 2026-10-29 [linked session link details]. Still
+    open: (4) (Jess asked whether it should be relative at all; Claude: keep
+    relative inside, so a dataset moved as one folder still finds its sessions,
+    `ndi.v2.linkPath`); (5) `addSessionV2` is the shared helper that
+    `add_linked_session` (`dataset.m:117`) and `add_ingested_session` (:208)
+    call, not a public entry point; once no v1 branch remains ([v1 writes into
+    a V2 session]) it should be folded back or renamed.
   - **G41. Merging a redeclaration into the parent ([redeclarations only
     narrow]; not built).** The 8th redeclaration is `pyraview.label` over
     `filter.label` (identical; pyraview is `retire`), not a `name`. Hold it with
@@ -283,7 +289,8 @@ Last updated 2026-10-27.
   only V2 documents: the writers move to V2 shapes or are refused first; (b) a
   v1 write into a V2 session is stamped v1 and checked against NDI's own
   template, as a carried document is. Not measured: whether any real session
-  takes this path. [(b) now, (a) as the end state]
+  takes this path. [(b) now, (a) as the end state] ANSWERED 2026-10-29 [v1
+  writes into a V2 session].
 - **G47-G55. From the 2026-10-29 evening builds and the pending-line triage.
   "[...]" is Claude's recommendation, Proposed (not decided).**
   - **G47. A short last chunk ([segment length is the time chunk]).** `chunk`
@@ -308,7 +315,8 @@ Last updated 2026-10-27.
     retire class rather than left as v1, so their files cannot go. Carry them
     whole as v1 (losing the decided reshape until their V2 homes are built), or
     build the homes first? [build the homes first: `oneepoch` is G44;
-    `distance_metadata` needs its own decision]
+    `distance_metadata` needs its own decision] ANSWERED 2026-10-29 [reshaped
+    retire classes carried]: carry them whole as v1 for now.
   - **G51. The age-at-injection variable ([age at injection is an
     observation]).** Which term is the variable of the age observation?
   - **G52. Dataset-specific logic left in the generic stage ([dataset-specific
@@ -322,6 +330,13 @@ Last updated 2026-10-27.
     G17).
   - **G55. Element name and reference stored reversibly ([early migration
     pieces fixed], part 5; OPEN_WORK #142).** Which shape?
+  - **G56. Finding a term by a spelling of its name.** DID-matlab's term index
+    matches a name lowercased only (`+did2/+schema/termIndex.m:70`), so "path
+    name" does not find "Pathname"; relation and entity-type handles also ignore
+    spaces, underscores and hyphens (`+did2/+build/vocabulary.m:161`). (a) Use
+    that rule for registry names too (checked: no two of the 898 registry names
+    collide under it); (b) add the spelling to the row's `synonyms` (read today
+    by one migrator only). [(a)]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
