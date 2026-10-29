@@ -23,6 +23,7 @@ META_FILES = {
     "class_disposition_meta.json",
     "did_schema_meta.json",
     "ndi_reserved_keys.json",
+    "quantity_list_meta.json",
     "term_registry_meta.json",
 }
 

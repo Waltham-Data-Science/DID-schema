@@ -51,8 +51,7 @@ sb = _load_tool("status_board")
 def _open_classes():
     with open(INDEX) as fh:
         idx = json.load(fh)
-    return sorted(s["class_name"] for s in idx["schemas"]
-                  if s.get("disposition") == "in_progress")
+    return sorted(sb.open_class_names(idx["schemas"]))
 
 
 class _Args:

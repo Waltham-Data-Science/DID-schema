@@ -1,0 +1,492 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/quantity_list_meta.json",
+    "title": "The value classes and their cells (the quantity list)",
+    "description": "DERIVED by tools/validate_v_eta.py (D6) from the class tree; do not edit. Decided by Jess Haley, 2026-10-27 [quantity reference type] (V_eta_go_forward_class_audit.md; did-schema #66): a nested quantity names its value class as its type, and this list is derived for tools and the web viewer. It lists EVERY value class with a cell, as the decision says (\"all value classes, including count, score, gain, ph\"); `has_source_unit` marks the ones measured in a unit. No other definition of a quantity is applied here. `canonicals` are the cell's slots other than source_unit, source_value, approximate and tolerance; `source_unit_values` is null where the cell declares no closed list; `named_by` lists every nested field whose type is the class.",
+    "quantities": [
+        {
+            "class_name": "acceleration",
+            "canonicals": [
+                "meters_per_second_squared"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "angle",
+            "canonicals": [
+                "degrees"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "angular_velocity",
+            "canonicals": [
+                "degrees_per_second"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "area",
+            "canonicals": [
+                "square_meters"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "capacitance",
+            "canonicals": [
+                "farads"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "charge",
+            "canonicals": [
+                "coulombs"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "chemical",
+            "canonicals": [
+                "substance",
+                "concentration"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "concentration",
+            "canonicals": [
+                "molar",
+                "grams_per_liter",
+                "grams_per_gram",
+                "liters_per_liter",
+                "particles_per_liter",
+                "osmolar",
+                "optical_density"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "chemical.value.concentration",
+                "formulation.value.ingredients.concentration",
+                "formulation.value.osmolarity"
+            ]
+        },
+        {
+            "class_name": "conductance",
+            "canonicals": [
+                "siemens"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "contrast_sensitivity",
+            "canonicals": [
+                "model_fit",
+                "interpolated_values",
+                "significance",
+                "response_type",
+                "response_unit"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "count",
+            "canonicals": [
+                "count"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": [
+                "dose.value.count",
+                "dose.value.ingredients.count",
+                "formulation.value.ingredients.count"
+            ]
+        },
+        {
+            "class_name": "current",
+            "canonicals": [
+                "amperes"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "date",
+            "canonicals": [
+                "instant",
+                "precision"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "dose",
+            "canonicals": [
+                "mass",
+                "volume",
+                "substance_amount",
+                "count",
+                "amount_per_body_mass",
+                "ingredients"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "energy",
+            "canonicals": [
+                "joules"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "force",
+            "canonicals": [
+                "newtons"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "formulation",
+            "canonicals": [
+                "type",
+                "ingredients",
+                "ph",
+                "osmolarity"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "fraction",
+            "canonicals": [
+                "fraction"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "frequency",
+            "canonicals": [
+                "hertz"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "gain",
+            "canonicals": [
+                "decibels"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "harmonic_component",
+            "canonicals": [
+                "harmonic",
+                "real",
+                "imaginary",
+                "control",
+                "response_unit"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "humidity",
+            "canonicals": [
+                "percent_relative_humidity"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "intensity",
+            "canonicals": [
+                "arbitrary_units"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "irradiance",
+            "canonicals": [
+                "watts_per_square_meter"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "item",
+            "canonicals": [
+                "item"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "label",
+            "canonicals": [
+                "name"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "length",
+            "canonicals": [
+                "meters"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "coordinate_system.axes.spacing"
+            ]
+        },
+        {
+            "class_name": "mass",
+            "canonicals": [
+                "grams"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "dose.value.ingredients.mass",
+                "dose.value.mass",
+                "formulation.value.ingredients.mass"
+            ]
+        },
+        {
+            "class_name": "model_fit",
+            "canonicals": [
+                "model",
+                "equation",
+                "independent_variables",
+                "dependent_variable",
+                "coefficients",
+                "constraints",
+                "goodness",
+                "sampled_fit",
+                "input_field",
+                "output_field"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "ph",
+            "canonicals": [
+                "ph"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "formulation.value.ph"
+            ]
+        },
+        {
+            "class_name": "polynomial",
+            "canonicals": [
+                "coefficients",
+                "degree"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "position",
+            "canonicals": [
+                "coordinates"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "power",
+            "canonicals": [
+                "watts"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "pressure",
+            "canonicals": [
+                "mmhg"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "resistance",
+            "canonicals": [
+                "ohms"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "score",
+            "canonicals": [
+                "score",
+                "scale",
+                "scale_min",
+                "scale_max"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "substance_amount",
+            "canonicals": [
+                "moles"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "dose.value.ingredients.substance_amount",
+                "dose.value.substance_amount",
+                "formulation.value.ingredients.substance_amount"
+            ]
+        },
+        {
+            "class_name": "temperature",
+            "canonicals": [
+                "celsius"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "term",
+            "canonicals": [
+                "node",
+                "name"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "text",
+            "canonicals": [
+                "text",
+                "language"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "time",
+            "canonicals": [
+                "seconds"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "absolute_time_reference.value.duration",
+                "relative_time_reference.value.duration",
+                "relative_time_reference.value.end",
+                "relative_time_reference.value.start",
+                "time_reference.clock_tolerance"
+            ]
+        },
+        {
+            "class_name": "tuning_curve",
+            "canonicals": [
+                "mean",
+                "stddev",
+                "stderr",
+                "individual",
+                "raw_individual",
+                "control",
+                "response_unit",
+                "response_type",
+                "coordinates",
+                "model_fit",
+                "significance"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "velocity",
+            "canonicals": [
+                "meters_per_second"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "voltage",
+            "canonicals": [
+                "volts"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
+            "class_name": "volume",
+            "canonicals": [
+                "liters"
+            ],
+            "has_source_unit": true,
+            "source_unit_values": null,
+            "named_by": [
+                "dose.value.ingredients.volume",
+                "dose.value.volume",
+                "formulation.value.ingredients.volume"
+            ]
+        }
+    ]
+}

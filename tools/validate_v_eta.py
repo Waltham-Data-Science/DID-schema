@@ -11,10 +11,10 @@ its `index.json` entry's `disposition` if the class is new, then run
 
 TWO KINDS OF THING
 ------------------
-RULES (R1-R17) are checks only. A failure names the file and what is wrong;
+RULES (R1-R18) are checks only. A failure names the file and what is wrong;
 the fix is an edit to the JSON.
 
-DERIVED pieces (D1-D4) are copies of a fact held elsewhere, so they are
+DERIVED pieces (D1-D6) are copies of a fact held elsewhere, so they are
 written, not hand-edited:
   D1  index.json: tier, class_version, maturity_level, superclasses and path of
       every class, read from its file. `disposition` / `disposition_note` are
@@ -34,6 +34,11 @@ written, not hand-edited:
       refuses to build a listed class (strict mode RetiredClasses, DID-matlab
       #230; Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired],
       V_eta_go_forward_class_audit.md).
+  D6  stable/quantity_list_meta.json: every value class, its canonical slots,
+      its `source_unit` closed list where one is declared, and every nested
+      field that names it as its type (Decided by Jess Haley, 2026-10-27
+      [quantity reference type], V_eta_go_forward_class_audit.md; did-schema
+      #66, "a derived quantity list ... for tools and the web viewer").
 Default mode writes them; --check writes nothing and fails if any differs.
 The registry's `strength` column is derived too, by
 tools/regen_binding_strengths.py (its own gates step).
@@ -43,7 +48,7 @@ rename map, the v1 edge families) is in tools/veta_record.py.
 
 It prints its denominator first (Operating Rule 5).
 
-Usage:  python3 tools/validate_v_eta.py           # write D1-D4, check all
+Usage:  python3 tools/validate_v_eta.py           # write D1-D6, check all
         python3 tools/validate_v_eta.py --check   # write nothing
 """
 import argparse
@@ -78,14 +83,17 @@ META_FILES = REC.META_FILES
 # Files written by something other than json.dump(indent=4): ndi_reserved_keys
 # is NDI's file copied verbatim, the term registry copy keeps non-ASCII text.
 VERBATIM = {"ndi_reserved_keys.json"}
-NON_ASCII = {"term_registry_meta.json", "class_disposition_meta.json"}
+NON_ASCII = {"term_registry_meta.json", "class_disposition_meta.json",
+             "quantity_list_meta.json"}
 DISPOSITIONS = {"persist", "retire", "in_progress"}
 PASSES = {"assertions", "distributive", "context", "nothing"}
 ENTRY_LISTS = ("conditions", "parameters")
 # the time_reference families governed by the uniqueness rule (#52, CHANGE 5)
-REFERENT_UNIQUE = {("directed_relation", "time_reference_id"): "value.clock",
-                   ("interaction", "time_reference_id"): "value.clock",
-                   ("entity", "time_reference_id"): "value.clock"}
+# unique by clock AND referent ([device clocks on one epoch], Jess Haley 2026-10-26)
+_CLOCK_AND_REFERENT = ["value.clock", "referent_id"]
+REFERENT_UNIQUE = {("directed_relation", "time_reference_id"): _CLOCK_AND_REFERENT,
+                   ("interaction", "time_reference_id"): _CLOCK_AND_REFERENT,
+                   ("entity", "time_reference_id"): _CLOCK_AND_REFERENT}
 
 
 def load(p):
@@ -599,6 +607,61 @@ def r17_one_fit_entry(t):
     return n, bad
 
 
+# The slots of a quantity cell that are not canonicals (T14, source_unit plan,
+# time_reference CHANGE 7).
+_NOT_CANONICAL = ("source_unit", "source_value", "approximate", "tolerance")
+
+
+def value_cells(t):
+    """{value class: its own `value` field}, for every class under `value`
+    that declares a `value` cell with fields of its own."""
+    out = {}
+    for cn, (_, _, d) in t.classes.items():
+        if cn == "value" or "value" not in t.chain(cn):
+            continue
+        f = next((x for x in d.get("fields", []) if x["name"] == "value"), None)
+        if f is not None and f.get("fields"):
+            out[cn] = f
+    return out
+
+
+def quantity_references(t, cells):
+    """Every field, at any depth, whose type names a value class, except a value
+    class's own `value` cell: (class, path, value class, field)."""
+    refs = []
+    for cn, (_, _, d) in t.classes.items():
+        for path, f in walk_fields(d.get("fields")):
+            if f.get("type") in cells and not (cn == f["type"] and path == "value"):
+                refs.append((cn, path, f["type"], f))
+    return refs
+
+
+def r18_quantity_references(t):
+    """[quantity reference type] (Jess Haley, 2026-10-27; did-schema #66): a
+    nested quantity names its value class as its `type` and the validators
+    expand that class's cell (DID-matlab did2.schema.cache, d121479b). A nested
+    field that still carries its own `fields` must be that cell exactly
+    (documentation aside), so a copy can never drift from its class."""
+    cells = value_cells(t)
+    bad, n = [], 0
+    for cn, path, vc, f in quantity_references(t, cells):
+        n += 1
+        if f.get("fields") and _strip_docs(f["fields"]) != _strip_docs(cells[vc]["fields"]):
+            bad.append(f"{cn}.{path} names {vc} but its own `fields` differ from "
+                       f"{vc}.value; drop them (the cell is read from {vc})")
+    if not cells:
+        bad.append("no value class declares a `value` cell")
+    return n, bad
+
+
+def _strip_docs(x):
+    if isinstance(x, dict):
+        return {k: _strip_docs(v) for k, v in x.items() if k != "documentation"}
+    if isinstance(x, list):
+        return [_strip_docs(v) for v in x]
+    return x
+
+
 RULES = [
     ("R1 canonical JSON layout", lambda c: r1_format(c["tree"])),
     ("R2 one class per name, named as its file", lambda c: r2_identity(c["tree"])),
@@ -618,6 +681,7 @@ RULES = [
     ("R16 a value is inline or in bodies (value_inline_or_body)",
      lambda c: r16_value_inline_or_body(c["tree"])),
     ("R17 one fit entry", lambda c: r17_one_fit_entry(c["tree"])),
+    ("R18 a nested quantity names its value class", lambda c: r18_quantity_references(c["tree"])),
 ]
 
 
@@ -699,6 +763,43 @@ def d5_class_disposition(t, index_text):
     return {os.path.join(t.veta, "stable", "class_disposition_meta.json"): dumps(out, False)}, []
 
 
+def d6_quantity_list(t):
+    """Every value class: its canonical slots, its `source_unit` closed list
+    where the cell declares one, and the nested fields that name it."""
+    cells = value_cells(t)
+    used = {}
+    for cn, path, vc, _ in quantity_references(t, cells):
+        used.setdefault(vc, []).append(f"{cn}.{path}")
+    rows = []
+    for vc in sorted(cells):
+        sub = cells[vc]["fields"]
+        su = next((x for x in sub if x["name"] == "source_unit"), None)
+        values = (((su or {}).get("constraints") or {}).get("binding") or {}).get("values")
+        rows.append({"class_name": vc,
+                     "canonicals": [x["name"] for x in sub if x["name"] not in _NOT_CANONICAL],
+                     "has_source_unit": su is not None,
+                     "source_unit_values": values if values is not None else None,
+                     "named_by": sorted(used.get(vc, []))})
+    out = {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "https://did-schema.example.org/meta/quantity_list_meta.json",
+        "title": "The value classes and their cells (the quantity list)",
+        "description": ("DERIVED by tools/validate_v_eta.py (D6) from the class tree; do not "
+                        "edit. Decided by Jess Haley, 2026-10-27 [quantity reference type] "
+                        "(V_eta_go_forward_class_audit.md; did-schema #66): a nested quantity "
+                        "names its value class as its type, and this list is derived for tools "
+                        "and the web viewer. It lists EVERY value class with a cell, as the decision "
+                        "says (\"all value classes, including count, score, gain, ph\"); "
+                        "`has_source_unit` marks the ones measured in a unit. No other "
+                        "definition of a quantity is applied here. `canonicals` are the cell's slots other than "
+                        "source_unit, source_value, approximate and tolerance; "
+                        "`source_unit_values` is null where the cell declares no closed list; "
+                        "`named_by` lists every nested field whose type is the class."),
+        "quantities": rows,
+    }
+    return {os.path.join(t.veta, "stable", "quantity_list_meta.json"): dumps(out, False)}, []
+
+
 def d3_relation_values(t, reg):
     out, bad = {}, []
     for carrier in ("directed_relation", "undirected_relation", "clock_alignment"):
@@ -763,7 +864,7 @@ def main(argv=None):
     ctx = {"tree": t, "meta": meta, "reg": reg, "curie": curie}
     print(f"DENOMINATOR: {len(t.classes)} class file(s) and {len(t.meta)} meta file(s) "
           f"read from schemas/did_v2/{{{','.join(TIERS)}}}; {len(t.unreadable)} unreadable; "
-          f"{len(RULES)} rule(s), 4 derived piece(s)")
+          f"{len(RULES)} rule(s), 6 derived piece(s)")
 
     failed = 0
     for label, rule in RULES:
@@ -782,7 +883,8 @@ def main(argv=None):
                ("D4 ndi_mustBeNonEmpty stamp",
                 lambda: d4_ndi_stamp(t, not a.quiet_stamp, dict(writes))),
                ("D5 class_disposition_meta.json",
-                lambda: d5_class_disposition(t, d1_index(t)[0][os.path.join(t.veta, "index.json")]))]
+                lambda: d5_class_disposition(t, d1_index(t)[0][os.path.join(t.veta, "index.json")])),
+               ("D6 quantity_list_meta.json", lambda: d6_quantity_list(t))]
     writes = {}
     for label, fn in derived:
         files, bad = fn()

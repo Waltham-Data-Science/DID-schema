@@ -97,7 +97,14 @@ def check(classes, terms):
             if f.get("type") not in CANONICAL_UNITS:
                 continue
             n_cells += 1
-            subs = [x["name"] for x in f.get("fields") or []]
+            cell = f.get("fields")
+            if not cell:
+                # A reference ([quantity reference type], Jess Haley 2026-10-27):
+                # the field names its value class and the cell is read from it.
+                src = classes.get(f["type"]) or {}
+                cell = next((x.get("fields") for x in src.get("fields", [])
+                             if x["name"] == "value"), None) or []
+            subs = [x["name"] for x in cell]
             got = subs[:subs.index("source_unit")] if "source_unit" in subs else subs
             want = [s for s, _, _ in CANONICAL_UNITS[f["type"]]]
             if got != want:

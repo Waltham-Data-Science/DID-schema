@@ -312,9 +312,8 @@
       ]
     },
     "by_disposition": {
-      "retire": 69,
+      "retire": 71,
       "dissolved \u2192 subject": 1,
-      "in_progress": 2,
       "persist": 1,
       "consumed by migrator (no tombstone)": 34,
       "test/demo fixture (non-production)": 2,
@@ -682,9 +681,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 532,
+          "accepted_lines": 553,
           "accepted_lines_by_kind": {
-            "Decided by": 415,
+            "Decided by": 436,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3657,6 +3656,174 @@
               "anchor": "Decided by Jess Haley, 2026-10-28 [presentations without an"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1588,
+              "kind": "Decided by",
+              "tag": "image label goes to the observation's notes",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [image label goes to the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1590,
+              "kind": "Decided by",
+              "tag": "binaryseries parameters carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [binaryseries parameters"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1592,
+              "kind": "Decided by",
+              "tag": "ngrid with no statement carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [ngrid with no statement"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1594,
+              "kind": "Decided by",
+              "tag": "old table rows carried by NDI",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [old table rows carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1596,
+              "kind": "Decided by",
+              "tag": "allowed units are source units",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [allowed units are source"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1598,
+              "kind": "Decided by",
+              "tag": "standalone item control stays carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [standalone item control"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1600,
+              "kind": "Decided by",
+              "tag": "oneepoch method is data combination",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [oneepoch method is data"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1602,
+              "kind": "Decided by",
+              "tag": "redeclarations merge when base.name goes",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [redeclarations merge"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1604,
+              "kind": "Decided by",
+              "tag": "linked session not in the batch",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [linked session not in"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1606,
+              "kind": "Decided by",
+              "tag": "unstated session creator carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [unstated session creator"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1608,
+              "kind": "Decided by",
+              "tag": "drug end without start needs mapping",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [drug end without start"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1610,
+              "kind": "Decided by",
+              "tag": "drug times that disagree need mapping",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [drug times that disagree"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1612,
+              "kind": "Decided by",
+              "tag": "text channel replaces NCIT Text",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [text channel replaces"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1614,
+              "kind": "Decided by",
+              "tag": "cell-attached is OBI",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [cell-attached is OBI]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1616,
+              "kind": "Decided by",
+              "tag": "linked session link on a direct dataset relation",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [linked session link on a"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1618,
+              "kind": "Decided by",
+              "tag": "fit model stated once",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [fit model stated once]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1620,
+              "kind": "Decided by",
+              "tag": "term names compare by node",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [term names compare by"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1622,
+              "kind": "Decided by",
+              "tag": "species text is the openMINDS equivalent",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [species text is the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1624,
+              "kind": "Decided by",
+              "tag": "openMINDS element leftovers carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [openMINDS element"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1626,
+              "kind": "Decided by",
+              "tag": "segment length is the time chunk",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [segment length is the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1628,
+              "kind": "Decided by",
+              "tag": "one folder, final classes only",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [one folder, final"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -4825,7 +4992,7 @@
     {
       "v1_class": "app",
       "veta_class": "app",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -5051,7 +5218,7 @@
     {
       "v1_class": "binaryseries_parameters",
       "veta_class": "binaryseries_parameters",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -8332,7 +8499,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "epoch extent -- row #113",
           "resolved": true,
-          "line": 863,
+          "line": 865,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-08-13 -- epochMint OWNS the epoch extent: it mints the relative_reference carrying the extent and clock frame, hung off the epoch's time_reference_#. pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT.",
           "anchor": "TEAM-SIGN-OFF [epoch extent -- row #113]",
@@ -9697,7 +9864,7 @@
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
         "resolved": true,
-        "line": 821,
+        "line": 823,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -9711,7 +9878,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 821,
+          "line": 823,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -9728,7 +9895,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 821,
+          "line": 823,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -9737,7 +9904,7 @@
           "matched_name": "generic_file",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `generic_file`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:821. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `V_eta_OPEN_WORK.md` [stranded sources] (as `generic_file`), which resolves to the TEAM-SIGN-OFF line at `V_eta_OPEN_WORK.md`:823. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10112,7 +10279,7 @@
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
         "resolved": true,
-        "line": 821,
+        "line": 823,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "anchor": "TEAM-SIGN-OFF [stranded sources]",
@@ -10126,7 +10293,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 821,
+          "line": 823,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "anchor": "TEAM-SIGN-OFF [stranded sources]",

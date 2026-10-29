@@ -64,6 +64,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "quantity_list_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/did_v2/stable/quantity_list_meta.json",
+            "is_meta": true,
+            "disposition": "persist"
+        },
+        {
             "class_name": "term_registry_meta",
             "tier": "stable",
             "class_version": null,
@@ -172,8 +182,8 @@
                 "base"
             ],
             "path": "schemas/did_v2/stable/app.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "retire",
+            "disposition_note": "Replaced by a `software` entity (#73 item 53, signed; [presentation app is software], [sorter software]); deleted when no class keeps it as a superclass ([one folder, final classes only], 2026-10-29)."
         },
         {
             "class_name": "area",
@@ -215,8 +225,8 @@
                 "base"
             ],
             "path": "schemas/did_v2/stable/binaryseries_parameters.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 acquisition_layout (awaiting review)"
+            "disposition": "retire",
+            "disposition_note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
         },
         {
             "class_name": "binnedspikeratevm",
@@ -406,13 +416,13 @@
         },
         {
             "class_name": "coordinate_system",
-            "tier": "draft",
+            "tier": "stable",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
+            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/draft/coordinate_system.json",
+            "path": "schemas/did_v2/stable/coordinate_system.json",
             "disposition": "persist"
         },
         {
@@ -938,8 +948,8 @@
                 "base"
             ],
             "path": "schemas/did_v2/stable/interaction_purpose.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
+            "disposition": "persist",
+            "disposition_note": "Kept, to be renamed `purpose` with its edge to interactions only: [purpose class], Jess Haley 2026-10-27 (the rename waits on NDI-matlab's second pass)."
         },
         {
             "class_name": "irradiance",

@@ -15,18 +15,18 @@ Last updated 2026-10-27.
 
 - **D1 (approved 2026-10-28).** Five device kinds minted on empty-ontology
   #31 (EMPTY:0000411-0000415), stacked on #30. Cell-attached is held: see G2.
-- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints
+- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints ANSWERED 2026-10-29: [text channel replaces NCIT Text] in `schemas/V_eta_go_forward_class_audit.md`.
   EMPTY "text channel" (empty-ontology #30, EMPTY:0000410). The term registry
   already gives the v1 prefix `tx` the channel type NCIT Text (C25704)
   ([channel types]). Should "text channel" replace NCIT Text there, or should
   both stay? [replace: NCIT Text means "the words of something written", not a
   channel; the other channel types are all "... channel"]
-- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an
+- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an ANSWERED 2026-10-29: [cell-attached is OBI] in `schemas/V_eta_go_forward_class_audit.md`.
   EMPTY "cell-attached recording", but OBI:0002179 "cell-attached patch clamp
   assay" exists. T19 puts an existing term first. Use OBI:0002179 (keeping
   "cell-attached patch" and "on-cell recording" as notes), or mint anyway?
   [use OBI:0002179]
-- **G3. Where a linked session's link lives, in NDI-written datasets
+- **G3. Where a linked session's link lives, in NDI-written datasets ANSWERED 2026-10-29: [linked session link on a direct dataset relation] in `schemas/V_eta_go_forward_class_audit.md`.
   ([linked_session withdrawn]).** The migrator puts "database linking" and the
   Pathname on the session -> dataset `included_in` relation. NDI's writers
   (`ndi.dataset.addSessionV2`, `ndi.setup.V2.writeDataset`) file a session
@@ -38,7 +38,7 @@ Last updated 2026-10-27.
   it matches the migrated shape] The NDI build (its writers, `datasetSessions`,
   `datasetDatabaseFiles`, and `ndi.dataset`'s convert / unlink, which use the
   `linked_session` id today) waits on this.
-- **G4. Allowed units ([allowed units are closed source_unit lists]).**
+- **G4. Allowed units ([allowed units are closed source_unit lists]).** ANSWERED 2026-10-29: [allowed units are source units] in `schemas/V_eta_go_forward_class_audit.md`.
   `source_unit` is the unit the SOURCE gave (the number in `source_value`);
   the canonical unit is fixed by the value class. Closing time's `source_unit`
   to [seconds] would refuse every source that gave milliseconds or minutes.
@@ -60,7 +60,7 @@ Last updated 2026-10-27.
   ("absolute value" on the abs one), so one calculation holds both and T10
   holds. Until answered, the second calculation stays (built E1 and E2 only).
   [yes]
-- **G6. A single fitted model on the method (DID-matlab #272).** The T10
+- **G6. A single fitted model on the method (DID-matlab #272).** The T10 ANSWERED 2026-10-29: [fit model stated once] in `schemas/V_eta_go_forward_class_audit.md`.
   amendment says the method does not repeat the fitted functions; the decision
   line [one calculation per named calculator output] only says "no `function`
   list". So families whose fits all share one model (Naka-Rushton, Priebe,
@@ -98,7 +98,7 @@ Last updated 2026-10-27.
   it? [yes]
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
-  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846):
+  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `schemas/V_eta_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
     `resolveEpochProbemap` retires the v1 archive once data bodies carry its
     files (the check reads files only). Lost: the v1 id (conflicts with
     [every v1 id survives]; e.g. B `4126900d95ad6706_c0a14ee8785c648f`), the
@@ -106,20 +106,20 @@ Last updated 2026-10-27.
     `sample_digital_segment` (1e6 / 1e7 there) and the empty `file_list`
     slots. Proposed: keep the archive's id on one V2 document (the reader
     configuration) and its parameters as method parameters there. [yes]
-  - **G10. openMINDS species text** (JH 3,312; sample
+  - **G10. openMINDS species text** (JH 3,312; sample ANSWERED 2026-10-29: [species text is the openMINDS equivalent] in `schemas/V_eta_go_forward_class_audit.md`.
     `41269430c5d0f59d_c09ab830daf16ec5`): v1 `definition` ("Caenorhabditis
     elegans is a species of nematode ...") and `synonym` ("C. elegans") are
     not in V2. [openMINDS subject leftovers] says they are "read back from the
     term", but nothing in DID holds openMINDS's text (the registry's
     NCBITaxon:6239 definition is empty). Proposed: register the definition and
     synonym on the term registry row, so the read-back has a source. [yes]
-  - **G11. `openminds_element`** (Dab 404; sample
+  - **G11. `openminds_element`** (Dab 404; sample ANSWERED 2026-10-29: [openMINDS element leftovers carried] in `schemas/V_eta_go_forward_class_audit.md`.
     `4126945af68c0fad_c0d698b17d043af0`): lost `openminds_id`
     ("CellType/12318b5f-...", a UUID per document) and `fields.description`;
     V2 holds only the term assertion. No decision covers element leftovers.
     Proposed: as for subjects, carry the document as v1 when it holds them,
     with a register row. [yes]
-  - **G12. `probe_location` name** (Dab 404; sample
+  - **G12. `probe_location` name** (Dab 404; sample ANSWERED 2026-10-29: [term names compare by node] in `schemas/V_eta_go_forward_class_audit.md`.
     `4126945af68c1b4b_40df43b5cb45324d`): v1 "bed nucleus of stria terminalis
     (BNST)", V2 the registry label "bed nucleus of stria terminalis"
     (UBERON:0001880). Is the v1 spelling notation (compare by node, the 404
@@ -158,32 +158,32 @@ Last updated 2026-10-27.
     quarantine every record in a validating run (the writer's `app.name` is
     undeclared on the tombstone). Carry it whole as v1 in pass 1, like
     `stimulus_presentation`? If so, widen carry-045 or add a row?
-  - **G19. A standalone item's control pairing ([control pairing points at
+  - **G19. A standalone item's control pairing ([control pairing points at ANSWERED 2026-10-29: [standalone item control stays carried] in `schemas/V_eta_go_forward_class_audit.md`.
     the presentation]).** A standalone item has no manipulation: what do the
     calculation's `entity_id` and `input_id` point at? (Today carry-090.)
-  - **G20. A linked session not in the batch ([linked session reference
+  - **G20. A linked session not in the batch ([linked session reference ANSWERED 2026-10-29: [linked session not in the batch] in `schemas/V_eta_go_forward_class_audit.md`.
     follows the ingested rule]).** Its reference cannot be compared, so the
     membership is carried with no register row. Widen carry-069 (ingested
     only today) to linked sessions, or a new row?
-  - **G21. An unstated `session_creator` ([session opener inputs]).** It still
+  - **G21. An unstated `session_creator` ([session opener inputs]).** It still ANSWERED 2026-10-29: [unstated session creator carried] in `schemas/V_eta_go_forward_class_audit.md`.
     converts, with no "software class" parameter. Carry it under carry-119
     too?
-  - **G22. A drug with an offset or duration but no onset ([drug end and
+  - **G22. A drug with an offset or duration but no onset ([drug end and ANSWERED 2026-10-29: [drug end without start needs mapping] in `schemas/V_eta_go_forward_class_audit.md`.
     duration on the anchor]).** An end needs a start (`end_consistent`).
     Carry the record whole as v1 (needs a register row)?
-  - **G23. UTC onset, offset and duration that disagree.** Writing all three
+  - **G23. UTC onset, offset and duration that disagree.** Writing all three ANSWERED 2026-10-29: [drug times that disagree need mapping] in `schemas/V_eta_go_forward_class_audit.md`.
     fails `end_consistent`; writing one means choosing. Carry as malformed?
   - **G24. The image collection link ([image file details placed]).**
     `imageCollection_id` as `member_of` a group: who mints the group and with
     what id; does `member_of` start at the observation or the body; where do
     the collection's label, format and subject go?
-  - **G25. [image label goes to notes] before the rename.** `data_body` has
+  - **G25. [image label goes to notes] before the rename.** `data_body` has ANSWERED 2026-10-29: [image label goes to the observation's notes] in `schemas/V_eta_go_forward_class_audit.md`.
     no `notes` yet, only `description`, which the stack's name already uses.
     Wait for the did_v2 rename, or write it elsewhere now?
-  - **G26. What an `ngrid` body attaches to when there is no statement
+  - **G26. What an `ngrid` body attaches to when there is no statement ANSWERED 2026-10-29: [ngrid with no statement carried] in `schemas/V_eta_go_forward_class_audit.md`.
     ([ngrid migrates to sampled bodies]):** an ontologyImage whose only edge
     is its table row, and a standalone `ngrid` (no NDI writer makes one).
-  - **G27. [binaryseries parameters fold as decided].** The data body it
+  - **G27. [binaryseries parameters fold as decided].** The data body it ANSWERED 2026-10-29: [binaryseries parameters carried] in `schemas/V_eta_go_forward_class_audit.md`.
     describes cannot be found (no edges, no NDI writer). Carry it as v1 under
     a needs-home row?
   - **G28. Where the clock of "acquisition time" goes ([afo prefix
@@ -193,13 +193,13 @@ Last updated 2026-10-27.
     hartley_calc and stimulus_response_scalar ([method terms are
     general]),** and whether jrclust and the generic fits gain Spike sorting
     / curve fitting.
-  - **G30. [oneepoch is a redundant calculation].** No "concatenation" term,
+  - **G30. [oneepoch is a redundant calculation].** No "concatenation" term, ANSWERED 2026-10-29: [oneepoch method is data combination] in `schemas/V_eta_go_forward_class_audit.md`.
     no row for the device-local carry, the per-epoch `input_id` links need a
     batch pass, and what the calculation's value holds is not stated.
-  - **G31. [old table rows counted and carried].** No register row covers it,
+  - **G31. [old table rows counted and carried].** No register row covers it, ANSWERED 2026-10-29: [old table rows carried by NDI] in `schemas/V_eta_go_forward_class_audit.md`.
     and NDI's second pass reads these rows today: carry in DID's pass 1, or
     in NDI's?
-  - **G32. [redeclarations only narrow].** All 8 current redeclarations are
+  - **G32. [redeclarations only narrow].** All 8 current redeclarations are ANSWERED 2026-10-29: [redeclarations merge when base.name goes] in `schemas/V_eta_go_forward_class_audit.md`.
     `<class>.name` over `base.name`, which stays ([base.name kept until
     retire classes leave]). Which, if any, merge into the parent now?
   - **G33. "The fill" of [term equivalents recorded].** 0 of 896 registry
@@ -227,6 +227,52 @@ Last updated 2026-10-27.
     (2026-10-22) says the registry "carries no synonym field"; [spelling is
     notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
     them. Read the later decision as superseding the earlier? [yes]
+- **G40-G45. From the 2026-10-29 afternoon builds (DID-matlab #287-#289,
+  NDI-matlab #1094). "[...]" is Claude's recommendation, Proposed (not decided).**
+  - **G40. The linked-session link in NDI-written datasets ([linked session
+    link on a direct dataset relation]; not built, NDI-matlab).** (1) Does an
+    ingested session NDI writes also get the direct session -> dataset
+    `included_in`, with "database ingestion" (EMPTY:0000399)? (2) When
+    `convertLinkedSessionToIngested` / `convertIngestedSessionToLinked` run, is
+    the direct relation replaced (new method) or edited? (3) Does its method
+    carry only the Pathname, or also "software class" = `ndi.session.dir` as the
+    DID-matlab migrator writes when `session_creator` is stated? (4) Relative
+    Pathname when the session folder is inside the dataset folder (what NDI
+    writes today), or always absolute? (5) Is `ndi.dataset.addSessionV2`, which
+    also writes `linked_session`, in scope? [(1) yes, "database ingestion";
+    (2) replaced; (3) both, as migrated; (4) relative inside, absolute outside;
+    (5) yes]
+  - **G41. Merging a redeclaration into the parent ([redeclarations only
+    narrow]; not built).** The 8th redeclaration is `pyraview.label` over
+    `filter.label` (identical; pyraview is `retire`), not a `name`. Hold it with
+    the seven `name` ones? How does the validator know which are held: a list
+    mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
+    merged field then hosted only in the parent's block (a shape change)?
+    [hold pyraview.label too; a schema marker; yes, parent's block only]
+  - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
+    the renamed path, so there is no raw-v1 inverse to carry the label back.
+    Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
+    when `image` moves to the raw-v1 path]
+  - **G43. Two vintage-B ontologyImage cases ([ngrid with no statement
+    carried]).** One with no non-empty edge at all (NDI's `imageDocMaker.m:130`
+    makes it when given no row), and one with a subject or element edge beside
+    the row (no writer makes one). [carry the first like the row-only case
+    (carry-124); the second is malformed]
+  - **G44. The global-clock `oneepoch` calculation ([oneepoch is a redundant
+    calculation]; not built).** (1) Its `input_id` targets, the per-epoch
+    recordings, exist in pass 1 only where an `epochfiles_ingested` cache
+    exists; elsewhere NDI's second pass mints them: wait for NDI's pass, or
+    carry? (2) The required `variable`: from the element type
+    (`derivedSeriesKind`)? (3) DID cannot read the `.vhsb` bytes: a
+    `sampled_body` with no extents, or an `opaque_body` as today? (4)
+    `redundant: true` on the calculation, the body, or both? (5) Fork A1 mints
+    no epoch for `whole_session_<ref>`: what is it anchored to? [(1) NDI's
+    second pass links them; (2) yes; (3) opaque_body, re-described by NDI as
+    today; (4) the body; (5) the session]
+  - **G45. "Pre-repair" ([old table rows counted and carried], NDI-matlab
+    #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
+    40dc9aa86 keeps each dependency column in `data`; before it the column
+    was deleted). Right reading? [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected

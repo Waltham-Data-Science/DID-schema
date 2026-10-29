@@ -2185,11 +2185,19 @@ def render_open_state(p, ocs):
         p("")
 
 
+# Decided by Jess Haley, 2026-10-29 [one folder, final classes only]
+# (V_eta_go_forward_class_audit.md): no class is `in_progress` and no `retire`
+# class remains; a retire class's file is deleted once nothing passes through
+# it. So a `retire` class still in the tree is open work too.
+OPEN_DISPOSITIONS = ("in_progress", "retire")
+
+
 def open_class_names(schemas):
-    """The `in_progress` set, computed once so build() and the evidence layer
-    cannot disagree about what "open" means."""
+    """The open set -- `in_progress`, and `retire` classes whose file is still in
+    the tree -- computed once so build() and the evidence layer cannot disagree
+    about what "open" means."""
     return {s["class_name"] for s in schemas
-            if s.get("disposition") == "in_progress"}
+            if s.get("disposition") in OPEN_DISPOSITIONS and not s.get("is_meta")}
 
 
 def unplanned_retire_rows(rows):
@@ -2251,8 +2259,9 @@ def build(ocs=None, didm=None, log=None):
     by_disp = {}
     for s in schemas:
         by_disp.setdefault(s.get("disposition", "(none)"), []).append(s["class_name"])
-    open_classes = set(by_disp.get("in_progress", []))
-    # Open work is in_progress PLUS retire-with-no-plan.
+    open_classes = open_class_names(schemas)
+    # Open work is in_progress, every retire class still in the tree
+    # ([one folder, final classes only]), and retire-with-no-plan ledger rows.
     open_work = open_classes | set(unplanned_retire)
     ledger_by_class = {r["v1_class"]: r for r in rows}
 
@@ -2287,7 +2296,6 @@ def build(ocs=None, didm=None, log=None):
     unresolved = dc.unresolved_citations()
 
     total = len(schemas)
-    n_open = len(open_classes)
     n_persist = len(by_disp.get("persist", []))
     n_retire = len(by_disp.get("retire", []))
 
@@ -2324,8 +2332,8 @@ def build(ocs=None, didm=None, log=None):
     p("|---|---|")
     p(f'| target classes | {total} |')
     p(f'| settled (persist) | {n_persist} |')
-    p(f'| settled (retire) | {n_retire} |')
-    p(f'| **still open (`in_progress`)** | **{n_open}** |')
+    p(f'| `retire`, file still in the tree (open: delete it once nothing passes through it, [one folder, final classes only]) | {n_retire} |')
+    p(f'| **still open (`in_progress`)** | **{len(by_disp.get("in_progress", []))}** |')
     p(f'| **`retire` with no migrator YET** | **{len(unplanned_retire)}** |')
     p(f'| **open classes in all** | **{len(open_work)}** |')
     p(f'| &nbsp;&nbsp;decided (cites a decision line), awaiting build | {len(decided_open)} |')
@@ -2556,8 +2564,7 @@ def decisions_doc(ocs=None):
     schemas, rows = load()
     disp = {s["class_name"]: s.get("disposition", "(none)") for s in schemas}
     ledger_by_class = {r["v1_class"]: r for r in rows}
-    open_work = ({c for c, d in disp.items() if d == "in_progress"}
-                 | set(unplanned_retire_rows(rows)))
+    open_work = (open_class_names(schemas) | set(unplanned_retire_rows(rows)))
 
     by_class = {}
     for cls in sorted(set(dc.CITATIONS) | open_work):

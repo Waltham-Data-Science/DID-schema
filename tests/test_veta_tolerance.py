@@ -42,6 +42,15 @@ def _places():
     files = [f for f in glob.glob(os.path.join(ROOT, "*", "*.json"))
              if "document_class" in _load(f)]
     out = []
+    # A nested quantity names its value class and carries no cell of its own
+    # ([quantity reference type], Jess Haley 2026-10-27): its cell is that
+    # class's `value` cell, read here as the validators read it.
+    cells = {}
+    for f in files:
+        d = _load(f)
+        v = next((x for x in d.get("fields", []) if x["name"] == "value"), None)
+        if v is not None and v.get("fields"):
+            cells[d["document_class"]["class_name"]] = v["fields"]
 
     def walk(fields, cls, path):
         names = [x["name"] for x in fields]
@@ -49,8 +58,9 @@ def _places():
             tol = next((x for x in fields if x["name"] == "tolerance"), None)
             out.append((f"{cls}.{path}".rstrip("."), tol))
         for x in fields:
-            if x.get("fields"):
-                walk(x["fields"], cls, path + x["name"] + ".")
+            sub = x.get("fields") or cells.get(x.get("type"))
+            if sub:
+                walk(sub, cls, path + x["name"] + ".")
 
     for f in files:
         d = _load(f)

@@ -195,8 +195,19 @@
                     "description": "For a REPEATED edge (`multiple`, or a did_v1 `name_#` family): the maximum number of entries a valid document may carry. Omit for unbounded, and on a single edge."
                 },
                 "referent_unique_by": {
-                    "type": "string",
-                    "description": "For a repeated dependency (`multiple`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it two entries of one name are otherwise indistinguishable. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`input_id`: N inputs, no ordering and no uniqueness rule has been decided). Amended 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md [device clocks on one epoch]): a time_reference family's members are unique by clock AND referent ({time_reference_id, value.clock, referent_id}); the key still names `value.clock` until DID-matlab's readers take a composite (Build pending: DID-matlab)."
+                    "description": "For a repeated dependency (`multiple`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it two entries of one name are otherwise indistinguishable. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`input_id`: N inputs, no ordering and no uniqueness rule has been decided). A LIST is a composite key: two members collide only when they agree on EVERY path. The first path keys a member and later paths refine it; a later path with no dot that names no field of the referenced document is that document's own edge (e.g. `referent_id`), compared by the id it points at (DID-matlab did2.validate.silentLoss and timeReferenceFamilies, d2c9c1e4). Amended 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md [device clocks on one epoch]): a time_reference family's members are unique by clock AND referent, declared as [\"value.clock\", \"referent_id\"].",
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 2
+                        }
+                    ]
                 },
                 "ndi_mustBeNonEmpty": {
                     "type": "boolean",

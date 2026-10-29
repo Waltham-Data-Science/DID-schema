@@ -73,6 +73,8 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 159 | homes for five carries recorded 2026-10-28: v1 ids with no V2 document, axis letters, openMINDS ids, lab strain ids, session lists (carry-112, carry-114, carry-116, carry-117, carry-118) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
 | 160 | a standalone v1 `ngrid` loses `coordinates` and `data_size` in pass 1 (DID-matlab `+migrators/ngrid.m`) -> https://github.com/Waltham-Data-Science/DID-schema/issues/227 |
 | 161 | a label pass 1 carries as malformed (carry-100) is counted again under carry-095 by NDI's second pass -> https://github.com/Waltham-Data-Science/DID-schema/issues/228 |
+| 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
+| 163 | homes for an openMINDS element's `openminds_id` and description (carry-128) -> https://github.com/Waltham-Data-Science/DID-schema/issues/232 |
 
 Open items without a row number:
 
@@ -1492,3 +1494,5 @@ RE-DERIVED 2026-10-26 (Jess Haley [dataset form terms], [census terms] T2; `chec
 RE-DERIVED 2026-10-26 (Jess Haley [filters are methods], `V_eta_frequency_filter_model_plan.md`; `check_prose_counts` re-derives all nouns): **109 fields carry a binding** (was 117; -8, the deleted `frequency_filter` class's `algorithm`, `band` and six `source_unit` cells). Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-10-29 (the eight did_v1 tombstones of `deprecated/` deleted, Jess Haley [carried v1 validates against NDI templates], [base.name kept until retire classes leave], V_eta_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **163 distinct V_eta class names** (was 171; -8: image, image_collection, image_stack, image_stack_parameters, lightsheet_zarr_level, lightsheet_zarr_pyramid, projectvar, stimulus_parameter_table); tombstone classes compared: 66 (was 74). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-29 (Jess Haley [quantity reference type], did-schema #66; `check_prose_counts` re-derives all nouns): **96 fields carry a binding** (was 109; -13, the bound `source_unit` of each hand-copied quantity cell removed from `chemical`, `dose` and `formulation`, whose cells are now read from their value class; the three copied `count` cells carried none). Re-derive with `check_prose_counts`, do not quote.

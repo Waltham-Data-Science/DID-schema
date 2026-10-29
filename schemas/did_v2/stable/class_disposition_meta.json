@@ -11,6 +11,20 @@
             "note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). V_eta_epoch_plan.md [JH position and distance]"
         },
         {
+            "class_name": "app",
+            "replaced_by": [
+                "entity (software)"
+            ],
+            "decision": "",
+            "note": "Replaced by a `software` entity (#73 item 53, signed; [presentation app is software], [sorter software]); deleted when no class keeps it as a superclass ([one folder, final classes only], 2026-10-29)."
+        },
+        {
+            "class_name": "binaryseries_parameters",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
+        },
+        {
             "class_name": "binnedspikeratevm",
             "replaced_by": [],
             "decision": "",

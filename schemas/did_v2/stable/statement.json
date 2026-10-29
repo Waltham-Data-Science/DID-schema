@@ -22,6 +22,12 @@
             "mustBeNonEmpty": false,
             "documentation": "The standalone value document that holds this statement's value, shared by every statement that points at it (item 30). When present, this statement's own value and value descriptors are empty: the shared document states them. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
             "must_refer_to_document_class": "value"
+        },
+        {
+            "name": "coordinate_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the coordinate system this statement's coordinates are in, one id. Decided by Jess Haley, 2026-10-27 [site frame is a coordinate system] (V_eta_go_forward_class_audit.md): a probe's site X/Y/Z-Coordinate values each link to the probe's one `coordinate_system`. Declared on `statement` so every direction inherits it. A value kind that cannot be read without one (the `position` mixin) declares it required, so a statement with that mixin must give it; did2.build and the cache's required-edge check read the chain's declarations together.",
+            "must_refer_to_document_class": "coordinate_system"
         }
     ],
     "file": [],
