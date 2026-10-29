@@ -4,15 +4,15 @@
   "summary": {
     "classes": 73,
     "classes_citing": 73,
-    "citations": 82,
+    "citations": 85,
     "citations_unresolved": 0,
-    "open_classes": 6,
+    "open_classes": 4,
     "by_state": {
       "decided": 73,
       "proposed (not decided)": 0
     },
     "open_by_state": {
-      "decided": 6,
+      "decided": 4,
       "proposed (not decided)": 0
     },
     "state_labels": {
@@ -767,7 +767,7 @@
     },
     "image": {
       "class_name": "image",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -791,8 +791,8 @@
     },
     "imageCollection": {
       "class_name": "imageCollection",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -810,12 +810,20 @@
           "line": 819,
           "kind": "TEAM-SIGN-OFF",
           "why": null
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
+          "why": null
         }
       ]
     },
     "imageStack": {
       "class_name": "imageStack",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -839,7 +847,7 @@
     },
     "imageStack_parameters": {
       "class_name": "imageStack_parameters",
-      "disposition": "retire",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -967,7 +975,7 @@
     },
     "lightsheetZarrLevel": {
       "class_name": "lightsheetZarrLevel",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -991,7 +999,7 @@
     },
     "lightsheetZarrPyramid": {
       "class_name": "lightsheetZarrPyramid",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1183,8 +1191,8 @@
     },
     "projectvar": {
       "class_name": "projectvar",
-      "disposition": "in_progress",
-      "open": true,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1201,6 +1209,14 @@
           "resolved": true,
           "line": 9,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -1455,7 +1471,7 @@
     },
     "stimulus_parameter_table": {
       "class_name": "stimulus_parameter_table",
-      "disposition": "retire",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1473,6 +1489,14 @@
           "resolved": true,
           "line": 221,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "V_eta_go_forward_class_audit.md",
+          "tag": "carried v1 validates against NDI templates",
+          "resolved": true,
+          "line": 1494,
+          "kind": "Decided by",
           "why": null
         }
       ]
@@ -1858,7 +1882,7 @@
         "packages_missing": [],
         "files_read": 391,
         "lines_read": 72635,
-        "classes_queried": 4,
+        "classes_queried": 3,
         "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2004,7 +2028,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 4
+        "classes_queried": 3
       },
       "batch_consumers": {
         "files_scanned": 35,
@@ -2018,7 +2042,7 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 2,
+      "a_nothing_built": 1,
       "b_built_awaiting_corpus_proof": 2,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
@@ -2293,69 +2317,6 @@
               "DID-matlab:migrators_j/openminds_stimulus.m:49 (comment_mention)",
               "DID-matlab:migrators_j/openminds_stimulus.m:50 (comment_mention)",
               "DID-matlab:migrators_j/openminds_stimulus.m:70 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "projectvar",
-        "decision": "decided",
-        "decided_in": "V_eta_go_forward_class_audit.md:9 [misc singletons]",
-        "state": "a_nothing_built",
-        "state_label": "(a) nothing built (the decision state is a separate column)",
-        "build_evidence": [],
-        "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 0,
-        "named_refs": [],
-        "n_comment_mentions": 3,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:378 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:396 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:49 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 3,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:378 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:396 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:49 (comment_mention)"
             ]
           },
           "batch_post_pass": {
