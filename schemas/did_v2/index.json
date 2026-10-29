@@ -897,56 +897,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "image",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base",
-                "image_stack_parameters"
-            ],
-            "path": "schemas/did_v2/deprecated/image.json",
-            "disposition": "retire",
-            "disposition_note": "did_v1 class (NDI data/image.json), restored as a tombstone when the V_eta `image` data_type retired (#73 item 51). A raster goes by what its pixels measure (intensity_observation, label_calculation, term_observation, ...)"
-        },
-        {
-            "class_name": "image_collection",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/deprecated/image_collection.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "image_stack",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base",
-                "image_stack_parameters"
-            ],
-            "path": "schemas/did_v2/deprecated/image_stack.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "image_stack_parameters",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/deprecated/image_stack_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "ingestion_manifest",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -1073,30 +1023,6 @@
             ],
             "path": "schemas/did_v2/stable/length.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "lightsheet_zarr_level",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/deprecated/lightsheet_zarr_level.json",
-            "disposition": "retire",
-            "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
-        },
-        {
-            "class_name": "lightsheet_zarr_pyramid",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/deprecated/lightsheet_zarr_pyramid.json",
-            "disposition": "retire",
-            "disposition_note": "#73 lightsheet L1-L4: -> intensity_observation + bodies"
         },
         {
             "class_name": "linked_session",
@@ -1428,18 +1354,6 @@
             "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
-            "class_name": "projectvar",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/deprecated/projectvar.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
-        },
-        {
             "class_name": "pyraview",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1727,19 +1641,6 @@
                 "epochid"
             ],
             "path": "schemas/did_v2/stable/stimulus_parameter.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "stimulus_parameter_table",
-            "tier": "deprecated",
-            "class_version": "2.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/deprecated/stimulus_parameter_table.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },

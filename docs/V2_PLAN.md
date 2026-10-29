@@ -66,7 +66,7 @@ Last updated 2026-10-27.
   list". So families whose fits all share one model (Naka-Rushton, Priebe,
   double Gaussian) still write one `{function: <model>}` method parameter
   beside the `model` in each fit entry. Drop it too? [yes: one place per fact]
-- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.**
+- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.** ANSWERED 2026-10-29: (b), [base.name kept until retire classes leave] in `schemas/V_eta_go_forward_class_audit.md`.
   [carried v1 validates against NDI templates] deletes the 8 `deprecated/`
   tombstones and V2 `base.name`. But 73 classes marked `retire` remain in
   `stable/` (generic_file, valid_interval, syncrule, epochfiles_ingested,

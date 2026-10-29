@@ -1184,11 +1184,9 @@
       "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "PASSES THROUGH UNCHANGED, in `deprecated/`, until real documents exist to model its untyped `data` field against. Typing it from a template alone is the wrong-assumed-shape failure that produced ~2,078 quarantines elsewhere in this migration.",
+      "how": "PASSES THROUGH UNCHANGED, until real documents exist to model its untyped `data` field against. Typing it from a template alone is the wrong-assumed-shape failure that produced ~2,078 quarantines elsewhere in this migration. CARRIED WHOLE AS v1 since 2026-10-29: its did-schema tombstone was deleted (Jess Haley, 2026-10-27 [carried v1 validates against NDI templates]; 2026-10-29 [base.name kept until retire classes leave]); a passed-through document with no V2 class is counted, never quarantined (DID-matlab v1_to_v2, passthrough_unvalidated_no_schema). No V2 target.",
       "flags": "Deliberate non-decision: the class is preserved and honestly filed as unmodelled, rather than guessed at.",
-      "decided_targets": [
-        "projectvar"
-      ]
+      "decided_targets": []
     },
     "pyraview": {
       "targets": [
@@ -1557,11 +1555,9 @@
       "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "PASSES THROUGH UNCHANGED and is DEMOTED to `deprecated/`. It has no writer anywhere in NDI's 1,002 .m files and one untyped `string[]` field, so there is nothing to model against -- but it ships a template, so deleting it is forbidden by the corpora-are-a-sample rule.",
+      "how": "PASSES THROUGH UNCHANGED. It has no writer anywhere in NDI's 1,002 .m files and one untyped `string[]` field, so there is nothing to model against -- but it ships a template, so deleting it is forbidden by the corpora-are-a-sample rule. CARRIED WHOLE AS v1 since 2026-10-29: its did-schema tombstone was deleted (Jess Haley, 2026-10-27 [carried v1 validates against NDI templates]; 2026-10-29 [base.name kept until retire classes leave]); a passed-through document with no V2 class is counted, never quarantined (DID-matlab v1_to_v2, passthrough_unvalidated_no_schema). No V2 target.",
       "flags": "DONE 2026-08-10: demoted, and the tombstone rewritten to the NDI shape so a passthrough validates instead of quarantining.",
-      "decided_targets": [
-        "stimulus_parameter_table"
-      ]
+      "decided_targets": []
     },
     "stimulus_presentation": {
       "targets": [
