@@ -273,6 +273,17 @@ Last updated 2026-10-27.
     #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
     40dc9aa86 keeps each dependency column in `data`; before it the column
     was deleted). Right reading? [yes]
+- **G46. NDI's v1 writers in a V2 session ([one folder, final classes only]).**
+  NDI-matlab V2's own v1 writers (spike sorter `+app/spikesorter.m:277`, spike
+  extractor, element, probe location, openMINDS, syncgraph and others) still
+  build v1-template documents; in a session with a V2 database NDI stores them
+  through did2sqlite, which validates them (`did2sqlite.m:229-233` ->
+  `sqlitedb.m:1285-1289`) against the retire file of the same name, unstamped.
+  18 retire classes cannot be deleted while that holds. (a) V2 sessions accept
+  only V2 documents: the writers move to V2 shapes or are refused first; (b) a
+  v1 write into a V2 session is stamped v1 and checked against NDI's own
+  template, as a carried document is. Not measured: whether any real session
+  takes this path. [(b) now, (a) as the end state]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
