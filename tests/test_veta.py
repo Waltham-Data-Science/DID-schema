@@ -61,7 +61,7 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     `acquisition_channels`. Two copies kept in step by a test are still two places
     for one fact; now there is one. A statement points at a shared
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
-    `clock_alignment_configuration` already uses."""
+    `clock_alignment_configuration` used until 2026-10-29."""
     si = _load(os.path.join(VETA, "stable", "interaction.json"))
     ac = _load(os.path.join(VETA, "stable", "acquisition_channels.json"))
     assert "channels" not in {f["name"] for f in si["fields"]}
@@ -84,7 +84,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
         else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))
-    assert "acquisition_channels_id" in {e["name"] for e in cac["depends_on"]}
+    # Jess Haley 2026-10-27 [sync configuration links its rigs]
+    # (V_eta_go_forward_class_audit.md): the configuration links its two rigs
+    # directly, role-named, and no longer points at `acquisition_channels`.
+    cac_edges = {e["name"]: e for e in cac["depends_on"]}
+    assert "acquisition_channels_id" not in cac_edges
+    for name in ("from_acquisition_system_id", "to_acquisition_system_id"):
+        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system"
 INDEX = _load(os.path.join(VETA, "index.json"))
 
 

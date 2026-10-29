@@ -1745,8 +1745,8 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "Becomes `clock_alignment_configuration`, `base.id` preserved. Its `parameters` bag is DECLARED rather than bagged -- it is the union of four closed sets, not free-form -- and the two devices it names become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED.",
-      "flags": "BUILT (migrators_j/syncrule.m): 1 -> 3 or 4 -- `clock_alignment_configuration` (base.id preserved), its TWO `acquisition_channels` documents (EXACTLY 2, UNORDERED), and a `software` entity when the source names an implementation, with a guarded-passthrough branch. `syncrule_id_#` is un-tightened back to NDI's optional.",
+      "how": "Becomes `clock_alignment_configuration`, `base.id` preserved. Its `parameters` bag is DECLARED rather than bagged -- it is the union of four closed sets, not free-form -- and the two devices it names become the role-named `from_acquisition_system_id` (v1 `daqsystem1`) and `to_acquisition_system_id` (v1 `daqsystem2`) edges, with the trigger channels as method parameters and no `acquisition_channels` documents (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], V_eta_go_forward_class_audit.md; replaces the UNORDERED `acquisition_channels_#` pair).",
+      "flags": "DID-matlab #276 (6017f60, after the locked DID-matlab head) writes the from/to rig edges and no `acquisition_channels` documents; `targets` (generated at the lock) drops `acquisition_channels` when the lock moves past it. At the locked head: BUILT (migrators_j/syncrule.m): 1 -> 3 or 4 -- `clock_alignment_configuration` (base.id preserved), its TWO `acquisition_channels` documents (EXACTLY 2, UNORDERED), and a `software` entity when the source names an implementation, with a guarded-passthrough branch. `syncrule_id_#` is un-tightened back to NDI's optional.",
       "decided_targets": [
         "clock_alignment_configuration"
       ],
