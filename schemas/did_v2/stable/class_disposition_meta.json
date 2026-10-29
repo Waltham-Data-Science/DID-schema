@@ -25,27 +25,10 @@
             "note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
         },
         {
-            "class_name": "binnedspikeratevm",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "calculator",
             "replaced_by": [],
             "decision": "",
             "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "cell_type_labels",
-            "replaced_by": [
-                "calculation + term",
-                "calculation + label",
-                "directed_relation",
-                "entity (dataset)"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "control_stimulus_ids",
@@ -144,14 +127,6 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "file_reference",
-            "replaced_by": [
-                "opaque_body"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
             "class_name": "filenavigator",
             "replaced_by": [
                 "epoch_file_pattern"
@@ -172,33 +147,6 @@
             ],
             "decision": "",
             "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "gene_expression",
-            "replaced_by": [],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "gene_list",
-            "replaced_by": [
-                "term",
-                "sampled_body",
-                "directed_relation",
-                "entity (dataset)"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "gene_list_mapping",
-            "replaced_by": [
-                "directed_relation",
-                "score",
-                "sampled_body"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "generic_file",
@@ -378,38 +326,6 @@
             "note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "spatial_gene_expression_cells",
-            "replaced_by": [
-                "calculation + label",
-                "calculation + position",
-                "calculation + area",
-                "calculation + count",
-                "sampled_body"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "spatial_gene_expression_pyramid",
-            "replaced_by": [
-                "observation + count",
-                "sampled_body",
-                "coordinate_system",
-                "calculation + count",
-                "entity (software)"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "spatial_gene_expression_tiles",
-            "replaced_by": [
-                "sampled_body"
-            ],
-            "decision": "",
-            "note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
             "class_name": "spike_clusters",
             "replaced_by": [],
             "decision": "",
@@ -428,12 +344,6 @@
             "replaced_by": [
                 "method"
             ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_interface_sorting_outputs",
-            "replaced_by": [],
             "decision": "",
             "note": "D-C analysis-tier decompose"
         },
@@ -512,12 +422,6 @@
             ],
             "decision": "",
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "tuning_fit",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "valid_interval",

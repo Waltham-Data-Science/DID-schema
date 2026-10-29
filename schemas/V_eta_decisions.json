@@ -2,18 +2,18 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 103,
+    "classes": 92,
     "classes_citing": 73,
     "citations": 85,
     "citations_unresolved": 0,
-    "open_classes": 75,
+    "open_classes": 64,
     "by_state": {
       "decided": 73,
-      "proposed (not decided)": 30
+      "proposed (not decided)": 19
     },
     "open_by_state": {
       "decided": 45,
-      "proposed (not decided)": 30
+      "proposed (not decided)": 19
     },
     "state_labels": {
       "decided": "decided: cites a decision line that exists",
@@ -93,16 +93,6 @@
         }
       ]
     },
-    "binnedspikeratevm": {
-      "class_name": "binnedspikeratevm",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
     "calculator": {
       "class_name": "calculator",
       "disposition": "retire",
@@ -129,7 +119,7 @@
     },
     "cellTypeLabels": {
       "class_name": "cellTypeLabels",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -150,16 +140,6 @@
           "why": null
         }
       ]
-    },
-    "cell_type_labels": {
-      "class_name": "cell_type_labels",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "control_stimulus_ids": {
       "class_name": "control_stimulus_ids",
@@ -583,7 +563,7 @@
     },
     "fileReference": {
       "class_name": "fileReference",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -604,16 +584,6 @@
           "why": null
         }
       ]
-    },
-    "file_reference": {
-      "class_name": "file_reference",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "filenavigator": {
       "class_name": "filenavigator",
@@ -697,7 +667,7 @@
     },
     "geneExpression": {
       "class_name": "geneExpression",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -721,7 +691,7 @@
     },
     "geneList": {
       "class_name": "geneList",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -745,7 +715,7 @@
     },
     "geneListMapping": {
       "class_name": "geneListMapping",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -766,36 +736,6 @@
           "why": null
         }
       ]
-    },
-    "gene_expression": {
-      "class_name": "gene_expression",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "gene_list": {
-      "class_name": "gene_list",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "gene_list_mapping": {
-      "class_name": "gene_list_mapping",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "generic_file": {
       "class_name": "generic_file",
@@ -1513,7 +1453,7 @@
     },
     "spatialGeneExpressionCells": {
       "class_name": "spatialGeneExpressionCells",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1537,7 +1477,7 @@
     },
     "spatialGeneExpressionPyramid": {
       "class_name": "spatialGeneExpressionPyramid",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1561,7 +1501,7 @@
     },
     "spatialGeneExpressionTiles": {
       "class_name": "spatialGeneExpressionTiles",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1582,36 +1522,6 @@
           "why": null
         }
       ]
-    },
-    "spatial_gene_expression_cells": {
-      "class_name": "spatial_gene_expression_cells",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "spatial_gene_expression_pyramid": {
-      "class_name": "spatial_gene_expression_pyramid",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "spatial_gene_expression_tiles": {
-      "class_name": "spatial_gene_expression_tiles",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "spike_clusters": {
       "class_name": "spike_clusters",
@@ -1670,16 +1580,6 @@
           "why": null
         }
       ]
-    },
-    "spike_interface_sorting_outputs": {
-      "class_name": "spike_interface_sorting_outputs",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "spikewaves": {
       "class_name": "spikewaves",
@@ -2035,16 +1935,6 @@
         }
       ]
     },
-    "tuning_fit": {
-      "class_name": "tuning_fit",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
     "tuningcurve_calc": {
       "class_name": "tuningcurve_calc",
       "disposition": "consumed by migrator (no tombstone)",
@@ -2182,7 +2072,7 @@
         "packages_missing": [],
         "files_read": 391,
         "lines_read": 72635,
-        "classes_queried": 75,
+        "classes_queried": 64,
         "classes_emitted_as_document_class": 15,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2328,7 +2218,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 75
+        "classes_queried": 64
       },
       "batch_consumers": {
         "files_scanned": 35,
@@ -2342,8 +2232,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 4,
-      "b_built_awaiting_corpus_proof": 71,
+      "a_nothing_built": 3,
+      "b_built_awaiting_corpus_proof": 61,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2688,81 +2578,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "binnedspikeratevm",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/binnedspikeratevm.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/binnedspikeratevm.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:migrators_j/binnedspikeratevm.m:70 (named)"
-        ],
-        "n_comment_mentions": 9,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:116 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:567 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:568 (comment_mention)",
-          "DID-matlab:migrators_j/binnedspikeratevm.m:15 (comment_mention)",
-          "DID-matlab:migrators_j/binnedspikeratevm.m:17 (comment_mention)",
-          "DID-matlab:migrators_j/binnedspikeratevm.m:2 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/binnedspikeratevm.m:70 (named)"
-            ],
-            "n_comment_mentions": 9,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:116 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:567 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:568 (comment_mention)",
-              "DID-matlab:migrators_j/binnedspikeratevm.m:15 (comment_mention)",
-              "DID-matlab:migrators_j/binnedspikeratevm.m:17 (comment_mention)",
-              "DID-matlab:migrators_j/binnedspikeratevm.m:2 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "calculator",
         "decision": "decided",
         "decided_in": "V_eta_subject_calculation_plan.md:371 [calculator mixin dropped (#73)]",
@@ -2834,80 +2649,6 @@
               "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:5 (comment_mention)",
               "DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)"
             ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "cell_type_labels",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/cell_type_labels.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/cell_type_labels.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:453 (named)",
-          "DID-matlab:migrators_j/cell_type_labels.m:49 (named)"
-        ],
-        "n_comment_mentions": 4,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:570 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:571 (comment_mention)",
-          "DID-matlab:migrators_j/cell_type_labels.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/cell_type_labels.m:31 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/cell_type_labels.m:49 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:570 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:571 (comment_mention)",
-              "DID-matlab:migrators_j/cell_type_labels.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/cell_type_labels.m:31 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:453 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
           }
         },
         "decided_targets": [],
@@ -4389,98 +4130,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "file_reference",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/file_reference.m`",
-          "1 consuming reference(s) (1 batch post-pass)"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/file_reference.m",
-        "n_consuming_refs": 1,
-        "consuming_refs": [
-          "DID-matlab:convert/isFileReferenceClass.m:29 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 3,
-        "named_refs": [
-          "DID-matlab:convert/foldGenericFiles.m:1346 (named)",
-          "DID-matlab:convert/rawV1Classes.m:463 (named)",
-          "DID-matlab:migrators_j/file_reference.m:66 (named)"
-        ],
-        "n_comment_mentions": 15,
-        "comment_mentions": [
-          "DID-matlab:convert/foldGenericFiles.m:276 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:304 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:37 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:394 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:40 (comment_mention)",
-          "DID-matlab:convert/isFileReferenceClass.m:12 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/file_reference.m:66 (named)"
-            ],
-            "n_comment_mentions": 9,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:707 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:708 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:710 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:711 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:918 (comment_mention)",
-              "DID-matlab:migrators_j/file_reference.m:3 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "DID-matlab:convert/isFileReferenceClass.m:29 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/foldGenericFiles.m:1346 (named)",
-              "DID-matlab:convert/rawV1Classes.m:463 (named)"
-            ],
-            "n_comment_mentions": 6,
-            "comment_mentions": [
-              "DID-matlab:convert/foldGenericFiles.m:276 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:304 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:37 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:394 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:40 (comment_mention)",
-              "DID-matlab:convert/isFileReferenceClass.m:12 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "filenavigator",
         "decision": "decided",
         "decided_in": "V_eta_daq_family_decisions.md:343 [file navigation]",
@@ -4774,232 +4423,6 @@
         "decided_targets_built": [
           "calculation + model_fit"
         ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "gene_expression",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/gene_expression.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/gene_expression.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:454 (named)",
-          "DID-matlab:migrators_j/gene_expression.m:50 (named)"
-        ],
-        "n_comment_mentions": 8,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:729 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:730 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:914 (comment_mention)",
-          "DID-matlab:migrators_j/gene_expression.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/gene_expression.m:34 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:100 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/gene_expression.m:50 (named)"
-            ],
-            "n_comment_mentions": 8,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:729 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:730 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:914 (comment_mention)",
-              "DID-matlab:migrators_j/gene_expression.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/gene_expression.m:34 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:100 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:454 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "gene_list",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/gene_list.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/gene_list.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:455 (named)",
-          "DID-matlab:migrators_j/gene_list.m:47 (named)"
-        ],
-        "n_comment_mentions": 4,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:737 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:738 (comment_mention)",
-          "DID-matlab:migrators_j/gene_list.m:2 (comment_mention)",
-          "DID-matlab:migrators_j/gene_list.m:28 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/gene_list.m:47 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:737 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:738 (comment_mention)",
-              "DID-matlab:migrators_j/gene_list.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/gene_list.m:28 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:455 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "gene_list_mapping",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/gene_list_mapping.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/gene_list_mapping.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:456 (named)",
-          "DID-matlab:migrators_j/gene_list_mapping.m:49 (named)"
-        ],
-        "n_comment_mentions": 4,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:745 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:746 (comment_mention)",
-          "DID-matlab:migrators_j/gene_list_mapping.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/gene_list_mapping.m:31 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/gene_list_mapping.m:49 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:745 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:746 (comment_mention)",
-              "DID-matlab:migrators_j/gene_list_mapping.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/gene_list_mapping.m:31 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:456 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},
@@ -7571,232 +6994,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "spatial_gene_expression_cells",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/spatial_gene_expression_cells.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/spatial_gene_expression_cells.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:457 (named)",
-          "DID-matlab:migrators_j/spatial_gene_expression_cells.m:57 (named)"
-        ],
-        "n_comment_mentions": 4,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:900 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:902 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_cells.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_cells.m:37 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/spatial_gene_expression_cells.m:57 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:900 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:902 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_cells.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_cells.m:37 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:457 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "spatial_gene_expression_pyramid",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/spatial_gene_expression_pyramid.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:458 (named)",
-          "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:112 (named)"
-        ],
-        "n_comment_mentions": 9,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:735 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:911 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:913 (comment_mention)",
-          "DID-matlab:migrators_j/gene_expression.m:18 (comment_mention)",
-          "DID-matlab:migrators_j/gene_expression.m:8 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:27 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:112 (named)"
-            ],
-            "n_comment_mentions": 9,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:735 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:911 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:913 (comment_mention)",
-              "DID-matlab:migrators_j/gene_expression.m:18 (comment_mention)",
-              "DID-matlab:migrators_j/gene_expression.m:8 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_pyramid.m:27 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:458 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "spatial_gene_expression_tiles",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/spatial_gene_expression_tiles.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/spatial_gene_expression_tiles.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:459 (named)",
-          "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:54 (named)"
-        ],
-        "n_comment_mentions": 4,
-        "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:920 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:922 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:3 (comment_mention)",
-          "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:31 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:54 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:920 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:922 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/spatial_gene_expression_tiles.m:31 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:459 (named)"
-            ],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "spike_clusters",
         "decision": "proposed (not decided)",
         "decided_in": null,
@@ -8073,88 +7270,6 @@
         "decided_targets_built": [
           "method"
         ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "spike_interface_sorting_outputs",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/spike_interface_sorting_outputs.m`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/spike_interface_sorting_outputs.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 3,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:452 (named)",
-          "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:74 (named)",
-          "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:88 (named)"
-        ],
-        "n_comment_mentions": 7,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/SpikeInterfaceSortingOutputs.m:10 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:465 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:111 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:952 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:953 (comment_mention)",
-          "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:3 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:74 (named)",
-              "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:88 (named)"
-            ],
-            "n_comment_mentions": 5,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:111 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:952 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:953 (comment_mention)",
-              "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:3 (comment_mention)",
-              "DID-matlab:migrators_j/spike_interface_sorting_outputs.m:58 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:452 (named)"
-            ],
-            "n_comment_mentions": 2,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/SpikeInterfaceSortingOutputs.m:10 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:465 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},
@@ -9267,61 +8382,6 @@
         "decided_targets_built": [
           "clock_alignment"
         ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "tuning_fit",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "a_nothing_built",
-        "state_label": "(a) nothing built (the decision state is a separate column)",
-        "build_evidence": [],
-        "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 0,
-        "named_refs": [],
-        "n_comment_mentions": 0,
-        "comment_mentions": [],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},

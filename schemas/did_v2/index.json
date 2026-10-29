@@ -229,20 +229,6 @@
             "disposition_note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
         },
         {
-            "class_name": "binnedspikeratevm",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/binnedspikeratevm.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "calculation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -276,18 +262,6 @@
             ],
             "path": "schemas/did_v2/stable/capacitance.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "cell_type_labels",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/cell_type_labels.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "charge",
@@ -708,18 +682,6 @@
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "file_reference",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/file_reference.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
             "class_name": "filenavigator",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -809,42 +771,6 @@
             ],
             "path": "schemas/did_v2/stable/gain.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "gene_expression",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/gene_expression.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "gene_list",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/gene_list.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "gene_list_mapping",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/gene_list_mapping.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
         },
         {
             "class_name": "generic_file",
@@ -1518,43 +1444,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "spatial_gene_expression_cells",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/spatial_gene_expression_cells.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "spatial_gene_expression_pyramid",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "gene_expression"
-            ],
-            "path": "schemas/did_v2/stable/spatial_gene_expression_pyramid.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
-            "class_name": "spatial_gene_expression_tiles",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/spatial_gene_expression_tiles.json",
-            "disposition": "retire",
-            "disposition_note": "#73: replaced by the spatial-transcriptomics design"
-        },
-        {
             "class_name": "speed_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1601,18 +1490,6 @@
                 "app"
             ],
             "path": "schemas/did_v2/stable/spike_extraction_parameters_modification.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_interface_sorting_outputs",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/spike_interface_sorting_outputs.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -1865,18 +1742,6 @@
             ],
             "path": "schemas/did_v2/stable/tuning_curve_calculation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "tuning_fit",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/tuning_fit.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "undirected_relation",
