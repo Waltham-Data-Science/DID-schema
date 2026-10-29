@@ -682,9 +682,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 551,
+          "accepted_lines": 552,
           "accepted_lines_by_kind": {
-            "Decided by": 434,
+            "Decided by": 435,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3807,6 +3807,14 @@
               "tag": "openMINDS element leftovers carried",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [openMINDS element"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1626,
+              "kind": "Decided by",
+              "tag": "segment length is the time chunk",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [segment length is the"
             },
             {
               "document": "V_eta_image_model_plan.md",

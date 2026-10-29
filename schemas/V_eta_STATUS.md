@@ -356,7 +356,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 551 decision line(s) accepted, 2 rejected; 43 cited by a class, 508 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 552 decision line(s) accepted, 2 rejected; 43 cited by a class, 509 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -749,6 +749,7 @@ field). If one decides a class's disposition, that class should cite it.
 - term names compare by node. "Decided by Jess Haley, 2026-10-29 [term names compare by" (V_eta_go_forward_class_audit.md:1620).
 - species text is the openMINDS equivalent. "Decided by Jess Haley, 2026-10-29 [species text is the" (V_eta_go_forward_class_audit.md:1622).
 - openMINDS element leftovers carried. "Decided by Jess Haley, 2026-10-29 [openMINDS element" (V_eta_go_forward_class_audit.md:1624).
+- segment length is the time chunk. "Decided by Jess Haley, 2026-10-29 [segment length is the" (V_eta_go_forward_class_audit.md:1626).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
