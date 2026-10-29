@@ -57,7 +57,9 @@ GOVERNED = {
     # entity -- an epoch, a session, a worm -- gets the same rule for its extent.
     ("entity", "time_reference_id"),
 }
-UNIQUE_BY = "value.clock"
+# Clock AND referent: [device clocks on one epoch] (Jess Haley, 2026-10-26,
+# V_eta_go_forward_class_audit.md); DID-matlab reads the list since d2c9c1e4.
+UNIQUE_BY = ["value.clock", "referent_id"]
 
 
 def _index():
@@ -234,12 +236,13 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
 def test_the_rule_is_documented_as_clock_and_referent():
     """Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [device clocks on
     one epoch]: one document's time references are unique by clock AND referent.
-    The declared key stays `value.clock` until DID-matlab's readers take a
-    composite key (they read one dotted path; testFamilyUniqueness reads the live
-    schema), so the amendment is stated on every governed family, with what waits."""
+    DID-matlab's readers take the composite key since d2c9c1e4 (#284), so every
+    governed family states the amendment AND declares the list, and none still
+    says the key waits for them."""
     fams = _families()
     assert len(GOVERNED) == 3 and GOVERNED <= set(fams)
     for key in sorted(GOVERNED):
         doc = fams[key]["documentation"]
         assert "[device clocks on one epoch]" in doc and "referent_id" in doc, key
-        assert "Build pending: DID-matlab" in doc, key
+        assert fams[key].get("referent_unique_by") == ["value.clock", "referent_id"], key
+        assert "Build pending: DID-matlab" not in doc, key

@@ -64,6 +64,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "quantity_list_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/did_v2/stable/quantity_list_meta.json",
+            "is_meta": true,
+            "disposition": "persist"
+        },
+        {
             "class_name": "term_registry_meta",
             "tier": "stable",
             "class_version": null,
@@ -406,13 +416,13 @@
         },
         {
             "class_name": "coordinate_system",
-            "tier": "draft",
+            "tier": "stable",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
+            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/draft/coordinate_system.json",
+            "path": "schemas/did_v2/stable/coordinate_system.json",
             "disposition": "persist"
         },
         {

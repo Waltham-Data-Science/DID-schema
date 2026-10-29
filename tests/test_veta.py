@@ -44,7 +44,8 @@ VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json",
-              "term_registry_meta.json", "class_disposition_meta.json"}
+              "term_registry_meta.json", "class_disposition_meta.json",
+              "quantity_list_meta.json"}
 
 
 def _load(path):
@@ -1771,12 +1772,19 @@ def test_named_composite_cells_declare_their_layout():
     named = set(META["$defs"]["field_definition"]["properties"]["type"]["enum"]) - {
         "did_uid", "char", "string", "integer", "double", "matrix", "timestamp",
         "date", "boolean", "structure"}
+    # A nested quantity that names its value class declares its layout THERE
+    # ([quantity reference type], Jess Haley 2026-10-27, did-schema #66): the
+    # validators expand that class's `value` cell, so the reference is not
+    # opaque -- provided the class it names really declares a cell.
+    cells = {n: v for n, (_, d) in RECORDS.items()
+             for v in [next((x for x in d.get("fields", []) if x["name"] == "value"), None)]
+             if v is not None and v.get("fields")}
     missing = []
 
     def walk(cls, fields, prefix):
         for f in fields or []:
             path = f"{prefix}.{f['name']}"
-            if f["type"] in named and not f.get("fields"):
+            if f["type"] in named and not f.get("fields") and f["type"] not in cells:
                 missing.append(f"{cls}:{path} (type {f['type']})")
             walk(cls, f.get("fields"), path)
 
@@ -4074,7 +4082,10 @@ def test_value_descriptors_live_with_the_value():
     # `notes` (2026-10-14, Jess): prose about the claim, moved up from interaction
     # so that an assertion can say why it holds.
     assert {f["name"] for f in ss["fields"]} == {"variable", "conditions", "distributive", "notes"}
-    assert {e["name"] for e in ss["depends_on"]} == {"entity_id", "value_id"}
+    # `coordinate_system_id` (Jess Haley, 2026-10-27 [site frame is a coordinate
+    # system]): the optional coordinate system a statement's coordinates are in.
+    assert {e["name"] for e in ss["depends_on"]} == {"entity_id", "value_id",
+                                                     "coordinate_system_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name
 
