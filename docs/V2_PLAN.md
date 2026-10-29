@@ -247,7 +247,8 @@ Last updated 2026-10-27.
     `ndi.v2.linkPath`); (5) `addSessionV2` is the shared helper that
     `add_linked_session` (`dataset.m:117`) and `add_ingested_session` (:208)
     call, not a public entry point; once no v1 branch remains ([v1 writes into
-    a V2 session]) it should be folded back or renamed.
+    a V2 session]) it should be folded back or renamed. (4), (5) ANSWERED
+    2026-10-29 [linked session pathname], [addSessionV2 folded back].
   - **G41. Merging a redeclaration into the parent ([redeclarations only
     narrow]; not built).** The 8th redeclaration is `pyraview.label` over
     `filter.label` (identical; pyraview is `retire`), not a `name`. Hold it with
@@ -336,7 +337,8 @@ Last updated 2026-10-27.
     spaces, underscores and hyphens (`+did2/+build/vocabulary.m:161`). (a) Use
     that rule for registry names too (checked: no two of the 898 registry names
     collide under it); (b) add the spelling to the row's `synonyms` (read today
-    by one migrator only). [(a)]
+    by one migrator only). [(a)] ANSWERED 2026-10-29 [term names match
+    ignoring spacing].
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
