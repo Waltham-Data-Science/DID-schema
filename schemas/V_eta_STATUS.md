@@ -356,7 +356,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 532 decision line(s) accepted, 2 rejected; 43 cited by a class, 489 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 551 decision line(s) accepted, 2 rejected; 43 cited by a class, 508 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -730,6 +730,25 @@ field). If one decides a class's disposition, that class should cite it.
 - one calculation per named calculator output. "Decided by Jess Haley, 2026-10-28 [one calculation per" (V_eta_go_forward_class_audit.md:1582).
 - absolute-value fits are fit entries. "Decided by Jess Haley, 2026-10-28 [absolute-value fits are" (V_eta_go_forward_class_audit.md:1584).
 - presentations without an epoch keep the session anchor. "Decided by Jess Haley, 2026-10-28 [presentations without an" (V_eta_go_forward_class_audit.md:1586).
+- image label goes to the observation's notes. "Decided by Jess Haley, 2026-10-29 [image label goes to the" (V_eta_go_forward_class_audit.md:1588).
+- binaryseries parameters carried. "Decided by Jess Haley, 2026-10-29 [binaryseries parameters" (V_eta_go_forward_class_audit.md:1590).
+- ngrid with no statement carried. "Decided by Jess Haley, 2026-10-29 [ngrid with no statement" (V_eta_go_forward_class_audit.md:1592).
+- old table rows carried by NDI. "Decided by Jess Haley, 2026-10-29 [old table rows carried" (V_eta_go_forward_class_audit.md:1594).
+- allowed units are source units. "Decided by Jess Haley, 2026-10-29 [allowed units are source" (V_eta_go_forward_class_audit.md:1596).
+- standalone item control stays carried. "Decided by Jess Haley, 2026-10-29 [standalone item control" (V_eta_go_forward_class_audit.md:1598).
+- oneepoch method is data combination. "Decided by Jess Haley, 2026-10-29 [oneepoch method is data" (V_eta_go_forward_class_audit.md:1600).
+- redeclarations merge when base.name goes. "Decided by Jess Haley, 2026-10-29 [redeclarations merge" (V_eta_go_forward_class_audit.md:1602).
+- linked session not in the batch. "Decided by Jess Haley, 2026-10-29 [linked session not in" (V_eta_go_forward_class_audit.md:1604).
+- unstated session creator carried. "Decided by Jess Haley, 2026-10-29 [unstated session creator" (V_eta_go_forward_class_audit.md:1606).
+- drug end without start needs mapping. "Decided by Jess Haley, 2026-10-29 [drug end without start" (V_eta_go_forward_class_audit.md:1608).
+- drug times that disagree need mapping. "Decided by Jess Haley, 2026-10-29 [drug times that disagree" (V_eta_go_forward_class_audit.md:1610).
+- text channel replaces NCIT Text. "Decided by Jess Haley, 2026-10-29 [text channel replaces" (V_eta_go_forward_class_audit.md:1612).
+- cell-attached is OBI. "Decided by Jess Haley, 2026-10-29 [cell-attached is OBI]: (" (V_eta_go_forward_class_audit.md:1614).
+- linked session link on a direct dataset relation. "Decided by Jess Haley, 2026-10-29 [linked session link on a" (V_eta_go_forward_class_audit.md:1616).
+- fit model stated once. "Decided by Jess Haley, 2026-10-29 [fit model stated once]: (" (V_eta_go_forward_class_audit.md:1618).
+- term names compare by node. "Decided by Jess Haley, 2026-10-29 [term names compare by" (V_eta_go_forward_class_audit.md:1620).
+- species text is the openMINDS equivalent. "Decided by Jess Haley, 2026-10-29 [species text is the" (V_eta_go_forward_class_audit.md:1622).
+- openMINDS element leftovers carried. "Decided by Jess Haley, 2026-10-29 [openMINDS element" (V_eta_go_forward_class_audit.md:1624).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).
