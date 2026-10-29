@@ -312,9 +312,8 @@
       ]
     },
     "by_disposition": {
-      "retire": 69,
+      "retire": 71,
       "dissolved \u2192 subject": 1,
-      "in_progress": 2,
       "persist": 1,
       "consumed by migrator (no tombstone)": 34,
       "test/demo fixture (non-production)": 2,
@@ -682,9 +681,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 552,
+          "accepted_lines": 553,
           "accepted_lines_by_kind": {
-            "Decided by": 435,
+            "Decided by": 436,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3817,6 +3816,14 @@
               "anchor": "Decided by Jess Haley, 2026-10-29 [segment length is the"
             },
             {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1628,
+              "kind": "Decided by",
+              "tag": "one folder, final classes only",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [one folder, final"
+            },
+            {
               "document": "V_eta_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -4985,7 +4992,7 @@
     {
       "v1_class": "app",
       "veta_class": "app",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -5211,7 +5218,7 @@
     {
       "v1_class": "binaryseries_parameters",
       "veta_class": "binaryseries_parameters",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
