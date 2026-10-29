@@ -391,7 +391,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # 62 -> 64 on 2026-10-26 (Jess Haley, V_eta_go_forward_class_audit.md
     # [dataset form terms], [census terms] T2): subject_statement 11 -> 13,
     # `Technique` (NCIT:C16847) and `Scientific Data Type` (NCIT:C175886).
-    assert total == 64, f'registry row count moved: {total}'
+    # 64 -> 69 on 2026-10-29 (Jess Haley [allowed units are source units]): the
+    # new `unit_bindings` list, five rows (time, position, X/Y/Z-Coordinate).
+    assert total == 69, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 

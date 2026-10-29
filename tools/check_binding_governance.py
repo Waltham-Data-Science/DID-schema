@@ -122,6 +122,9 @@ REGISTRY_LISTS = {
     # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
     # `entity.type` requires. Normative, and carries no strength of its own.
     "entity_type_bindings": True,
+    # 2026-10-29 (Jess Haley [allowed units are source units]): the units a
+    # source may give each variable's value in. Normative; names no field.
+    "unit_bindings": True,
 }
 
 # A CURIE-looking token: a prefix, a colon, then a local part. Deliberately
