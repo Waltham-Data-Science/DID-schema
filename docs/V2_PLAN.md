@@ -136,11 +136,13 @@ Last updated 2026-10-27.
     template holds only `ndi_element_class`, `name`, `reference`, `type`,
     `direct`: no count on the v1 element. Read it from the epochprobemap
     channel list, from `probe_geometry` / `site2channelmap`, or elsewhere?
-    [the epochprobemap channel list: every n-trode has one]
+    [the epochprobemap channel list: every n-trode has one] ANSWERED
+    2026-10-29 [n-trode count from the channel list].
   - **G15. One- vs two-photon imaging.** Both take OBI:0400169 microscope,
     so once the `element type` assertion is dropped the kind alone cannot
     rebuild which it was. Keep the mode, e.g. as a method term on the
-    recording observation? [yes, as the patch / sharp modes are]
+    recording observation? [yes, as the patch / sharp modes are] ANSWERED
+    2026-10-29 [imaging mode is a method term].
   - **G16. A sorted unit whose probe is not in the batch.** [unit direct and
     subject rebuild from the probe] cannot check its `subject_id`; today it
     converts with a `unit_probe_not_in_batch` note and the round trip reports
@@ -149,7 +151,8 @@ Last updated 2026-10-27.
     Type" is bound with root OBI:0000968 (ontology OBI), but most decided
     device kinds are NCIT or Wikidata terms; harmless only while
     BindingConformance stays off. Widen the binding to a closed list of the
-    registered device kinds? [yes]
+    registered device kinds? [yes] ANSWERED 2026-10-29 [equipment type is the
+    device kind list].
 - **G18-G39. From the 2026-10-29 build round (DID-matlab #278-#285, NDI-matlab
   #1093). Each names the decision it holds; "[...]" is Claude's
   recommendation, Proposed (not decided).**
@@ -217,7 +220,13 @@ Last updated 2026-10-27.
   - **G37. The probe coordinate system ([site frame is a coordinate
     system]).** Its required `reference_point` and depth `positive_direction`
     are recorded as "unknown": which terms? The registry also lacks a z-axis
-    and left/right, front/back terms.
+    and left/right, front/back terms. Jess (2026-10-29) asked why not
+    `needs_mapping`; Claude: v1's `probe_geometry` template has no field for
+    either, so every probe would stay v1; options (a) optional for everyone,
+    (b') required, with an EMPTY "not stated in source" term the migration
+    writes, (needs_mapping) every probe carried. [(b')] ANSWERED 2026-10-29
+    [missing facts are needs info]: neither; a `needs_info` entry on the
+    document names the missing field.
   - **G38. "Exactly one canonical" ([quantity reference type]).** DID-matlab's
     own writers fill no canonical for a concentration whose unit converts to
     none, and `{source_value: NaN}` for an unrecorded amount (decided
@@ -297,7 +306,8 @@ Last updated 2026-10-27.
   - **G47. A short last chunk ([segment length is the time chunk]).** `chunk`
     is documented as every file holding a full chunk, padding included; NDI's
     last segment is short (`+ndi/+daq/+reader/mfdaq.m` around :928). Allow a
-    short last chunk? [yes: the last chunk holds what remains]
+    short last chunk? [yes: the last chunk holds what remains] ANSWERED
+    2026-10-29 [short last chunk].
   - **G48. The V2 ingest shape (G9).** NDI V2's ingest writes only the v1
     `daqreader_mfdaq_epochdata_ingested` document (`mfdaq.m:778-798`) and the
     reader finds data only through it (`reader.m:44-61`); NDI's second pass does
@@ -305,7 +315,8 @@ Last updated 2026-10-27.
     only). Needed: how a reader and an epoch find the epoch's sampled bodies
     (one per channel group?), and which dimension term marks time. [one
     `sampled_body` per channel group, owned by the epoch's recording
-    observation; time dimension term = the registry's time term]
+    observation; time dimension term = the registry's time term] ANSWERED
+    2026-10-29 [V2 ingest is one sampled body per channel group].
   - **G49. openMINDS strain leftovers ([openMINDS strain leftovers], #158).**
     The variable terms for the `breedingType` and `diseaseModel` assertions;
     the vendor -> CURIE prefix table beyond JAX and how the vendor is read (a
