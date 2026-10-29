@@ -312,10 +312,10 @@
       ]
     },
     "by_disposition": {
-      "retire": 71,
+      "consumed by migrator (no tombstone)": 44,
       "dissolved \u2192 subject": 1,
+      "retire": 61,
       "persist": 1,
-      "consumed by migrator (no tombstone)": 34,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2,
       "no V_eta home, no migrator -- UNVERIFIED": 4
@@ -327,17 +327,20 @@
     "with_migrator": 98,
     "gaps": 2,
     "no_target": {
-      "rows_naming_no_target": 13,
+      "rows_naming_no_target": 16,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 4
+        "unrecorded": 7
       },
       "target_gaps": [
+        "SpikeInterfaceSortingOutputs",
+        "binnedspikeratevm",
         "demoNDISeries",
         "demoNDISeriesMixed",
         "distance_metadata",
+        "geneExpression",
         "imageStack_parameters"
       ]
     },
@@ -613,14 +616,20 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 4,
-            "no decision citation names this class": 40
+            "no citation names this class, and the row has no V_eta class and no target either": 6,
+            "no decision citation names this class": 38
           },
           "unmoved_rows_by_cause": {
-            "no decision citation names this class": [
+            "no citation names this class, and the row has no V_eta class and no target either": [
               "SpikeInterfaceSortingOutputs",
-              "base",
+              "animalsubject",
               "binnedspikeratevm",
+              "demoNDISeries",
+              "demoNDISeriesMixed",
+              "mock"
+            ],
+            "no decision citation names this class": [
+              "base",
               "contrast_sensitivity_calc",
               "contrast_tuning",
               "contrast_tuning_calc",
@@ -658,12 +667,6 @@
               "virus_injection",
               "vmneuralresponseresiduals",
               "vmspikesummary"
-            ],
-            "no citation names this class, and the row has no V_eta class and no target either": [
-              "animalsubject",
-              "demoNDISeries",
-              "demoNDISeriesMixed",
-              "mock"
             ]
           },
           "target_only_reached_via": {},
@@ -4813,24 +4816,22 @@
   "rows": [
     {
       "v1_class": "SpikeInterfaceSortingOutputs",
-      "veta_class": "spike_interface_sorting_outputs",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spike_interface_sorting_outputs"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -4853,11 +4854,11 @@
       "target_flags": "WAS an inline count_observation of `num_units` about the subject reached via element_id; BOTH HALVES ARE WRONG (migrators_j/spike_interface_sorting_outputs.m). Pass 1 now returns {preBody} at :61.",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no decision citation names this class",
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,
@@ -5349,24 +5350,22 @@
     },
     {
       "v1_class": "binnedspikeratevm",
-      "veta_class": "binnedspikeratevm",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "binnedspikeratevm"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -5389,11 +5388,11 @@
       "target_flags": "WAS a body-backed frequency_observation + sampled_body + anchor declaring a REGULAR timeline of n = `num_bins` at dt = `bin_size`, unit 'Hz'. NEITHER `num_bins` NOR `bin_size` EXISTS (migrators_j/binnedspikeratevm.m). Pass 1 now returns {preBody} at :78.",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no decision citation names this class",
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,
@@ -5567,15 +5566,13 @@
     },
     {
       "v1_class": "cellTypeLabels",
-      "veta_class": "cell_type_labels",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "cell_type_labels"
-      ],
+      "targets": [],
       "decided_targets": [
         "calculation + term",
         "calculation + label",
@@ -5584,7 +5581,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -5685,7 +5682,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`cell_type_labels`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + term`, `calculation + label`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8857,21 +8854,19 @@
     },
     {
       "v1_class": "fileReference",
-      "veta_class": "file_reference",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "file_reference"
-      ],
+      "targets": [],
       "decided_targets": [
         "opaque_body"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -9409,24 +9404,22 @@
     },
     {
       "v1_class": "geneExpression",
-      "veta_class": "gene_expression",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "gene_expression"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -9537,15 +9530,13 @@
     },
     {
       "v1_class": "geneList",
-      "veta_class": "gene_list",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "gene_list"
-      ],
+      "targets": [],
       "decided_targets": [
         "term",
         "sampled_body",
@@ -9554,7 +9545,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -9655,7 +9646,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`gene_list`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9675,15 +9666,13 @@
     },
     {
       "v1_class": "geneListMapping",
-      "veta_class": "gene_list_mapping",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "gene_list_mapping"
-      ],
+      "targets": [],
       "decided_targets": [
         "directed_relation",
         "score",
@@ -9691,7 +9680,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -9791,7 +9780,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`gene_list_mapping`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14178,15 +14167,13 @@
     },
     {
       "v1_class": "spatialGeneExpressionCells",
-      "veta_class": "spatial_gene_expression_cells",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spatial_gene_expression_cells"
-      ],
+      "targets": [],
       "decided_targets": [
         "calculation + label",
         "calculation + position",
@@ -14196,7 +14183,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -14298,7 +14285,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_cells`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `calculation + label`, `calculation + position`, `calculation + area`, `calculation + count`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14318,15 +14305,13 @@
     },
     {
       "v1_class": "spatialGeneExpressionPyramid",
-      "veta_class": "spatial_gene_expression_pyramid",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spatial_gene_expression_pyramid"
-      ],
+      "targets": [],
       "decided_targets": [
         "observation + count",
         "sampled_body",
@@ -14336,7 +14321,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -14438,7 +14423,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (`spatial_gene_expression_pyramid`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `observation + count`, `sampled_body`, `coordinate_system`, `calculation + count`, `entity (software)` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -14458,21 +14443,19 @@
     },
     {
       "v1_class": "spatialGeneExpressionTiles",
-      "veta_class": "spatial_gene_expression_tiles",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spatial_gene_expression_tiles"
-      ],
+      "targets": [],
       "decided_targets": [
         "sampled_body"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -14570,7 +14553,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (`spatial_gene_expression_tiles`). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `sampled_body` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,

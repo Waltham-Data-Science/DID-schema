@@ -179,6 +179,20 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # retire classes deleted 2026-10-29 ([one folder, final classes only]): each is
+    # always carried as v1, keeps its v1 camelCase name, or is abstract, and
+    # nothing in DID-matlab or NDI-matlab V2 reads the V2 file
+    "binnedspikeratevm",
+    "tuning_fit",
+    "file_reference",
+    "cell_type_labels",
+    "gene_expression",
+    "spatial_gene_expression_pyramid",
+    "gene_list",
+    "gene_list_mapping",
+    "spatial_gene_expression_cells",
+    "spatial_gene_expression_tiles",
+    "spike_interface_sorting_outputs",
     # the eight did_v1 tombstones deleted 2026-10-28 ([carried v1 validates
     # against NDI templates]); their documents are carried as v1
     "image", "image_collection", "image_stack", "image_stack_parameters",

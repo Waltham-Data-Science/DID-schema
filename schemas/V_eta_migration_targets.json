@@ -25,9 +25,7 @@
       }
     },
     "binnedspikeratevm": {
-      "targets": [
-        "binnedspikeratevm"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. Its Hz-vs-spikes-per-bin question is still open -- the `vhlab_voltage2firingrate` writer is in no repository we have, so the unit cannot be read from the source.",
@@ -38,9 +36,7 @@
       }
     },
     "cell_type_labels": {
-      "targets": [
-        "cell_type_labels"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (items 27, 33): a supervised call is a calculation + term (variable 'cell type', values bound to ontology terms); an unsupervised clustering is a calculation + label (variable 'cluster assignment'); the reference atlas is a dataset entity linked by a derived_from directed_relation.",
@@ -498,9 +494,7 @@
       "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. HIGH BLAST RADIUS: 15 NDI classes carry this mixin and 11+ live NDI sites match `epochid.epochid` by exact_string, so the edge must land before the string goes."
     },
     "file_reference": {
-      "targets": [
-        "file_reference"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (item 25): an external file NOT held in the database is an unheld body (a file-series member recorded by location, not ingested) of the statement whose value it stores, carrying filename, content_hash + hash_algorithm, size_bytes and file dates.",
@@ -577,9 +571,7 @@
       ]
     },
     "gene_expression": {
-      "targets": [
-        "gene_expression"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "DISSOLVES (#73 review item 26): assay -> the observation's `method`; count_units -> the `variable` (UMI count vs read count); count_type raw -> nothing (it is what a observation + count is), normalized -> a separate calculation + score derived_from the raw counts. No class, no fields -- so no target. A superclass mixin: no document is ever an instance of it on its own.",
@@ -590,9 +582,7 @@
       }
     },
     "gene_list": {
-      "targets": [
-        "gene_list"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (items 21-23): a STANDALONE `term` document (content, not a claim) whose body holds the index/node/name table; derived_from the genome annotation `dataset`, itself derived_from the assembly `dataset`.",
@@ -609,9 +599,7 @@
       ]
     },
     "gene_list_mapping": {
-      "targets": [
-        "gene_list_mapping"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (item 24): a directed_relation list A -> list B (relation 'orthologous gene mapping' | 'gene alias mapping', method = tool + version) with `value_id` to a standalone `score` (or `logical`) document whose keys are [gene of A, gene of B].",
@@ -1347,9 +1335,7 @@
       ]
     },
     "spatial_gene_expression_cells": {
-      "targets": [
-        "spatial_gene_expression_cells"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (items 2, 11, 28, 33): the cell list is a calculation + label (variable 'SAW source cell identifier', one label per cell); centroids and boundaries are position_calculations; area / capture spots / UMI count / detected genes are per-cell calculations over the cell key (labels_from the cell list).",
@@ -1367,9 +1353,7 @@
       ]
     },
     "spatial_gene_expression_pyramid": {
-      "targets": [
-        "spatial_gene_expression_pyramid"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (V_eta_spatial_transcriptomics_plan.md items 1, 4-9, 17, 29): the bin-1 counts are a observation + count of the tissue section over keys [y, x, gene (labels_from the gene list)] in a coordinate_system; every zoom level is a sampled_body of that observation (bins 2-32 `redundant`); per-gene totals a redundant calculation + count; chip -> an instrument subject; pipeline -> a software entity. The v1 copy is retired (item 18).",
@@ -1387,9 +1371,7 @@
       ]
     },
     "spatial_gene_expression_tiles": {
-      "targets": [
-        "spatial_gene_expression_tiles"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "#73 review (items 14-17): each tiles document is ONE level body -- a file series whose member body_data_k holds chunk k (0-based); the 20 layout fields dissolve into keys (+ chunk) and data_body.format.",
@@ -1498,9 +1480,7 @@
       }
     },
     "spike_interface_sorting_outputs": {
-      "targets": [
-        "spike_interface_sorting_outputs"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class (NDI spells it `SpikeInterfaceSortingOutputs`) is {sorter_name, sample_rate, unit}.",

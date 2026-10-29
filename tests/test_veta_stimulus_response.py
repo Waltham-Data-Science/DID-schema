@@ -537,7 +537,14 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # the eight did_v1 tombstones of deprecated/ deleted ([carried v1 validates
     # against NDI templates], Jess Haley, 2026-10-27). None of them was in the
     # INERT list, which is checked, not assumed.
-    assert walked == 163, f'schema count moved; re-derive the inert set ({walked})'
+    # THIRTY-SECOND MOVEMENT, re-derived not bumped: 163 -> 152 on 2026-10-29,
+    # eleven retire classes deleted ([one folder, final classes only], Jess
+    # Haley, 2026-10-29): binnedspikeratevm, cell_type_labels, file_reference,
+    # gene_expression, gene_list, gene_list_mapping, the three
+    # spatial_gene_expression classes, spike_interface_sorting_outputs,
+    # tuning_fit. None of them was in the INERT list, which is checked, not
+    # assumed.
+    assert walked == 152, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
