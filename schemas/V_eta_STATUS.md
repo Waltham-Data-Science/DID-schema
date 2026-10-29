@@ -539,7 +539,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 565 decision line(s) accepted, 2 rejected; 43 cited by a class, 522 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 568 decision line(s) accepted, 2 rejected; 43 cited by a class, 525 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -946,6 +946,9 @@ field). If one decides a class's disposition, that class should cite it.
 - V2 ingest is one sampled body per channel group. "Decided by Jess Haley, 2026-10-29 [V2 ingest is one sampled" (V_eta_go_forward_class_audit.md:1648).
 - short last chunk. "Decided by Jess Haley, 2026-10-29 [short last chunk]: (" (V_eta_go_forward_class_audit.md:1650).
 - missing facts are needs info. "Decided by Jess Haley, 2026-10-29 [missing facts are needs" (V_eta_go_forward_class_audit.md:1652).
+- vintage-B ontologyImage cases. "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage" (V_eta_go_forward_class_audit.md:1654).
+- element name and reference stored apart. "Decided by Jess Haley, 2026-10-29 [element name and" (V_eta_go_forward_class_audit.md:1656).
+- unit with no probe in the batch carried. "Decided by Jess Haley, 2026-10-29 [unit with no probe in" (V_eta_go_forward_class_audit.md:1658).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

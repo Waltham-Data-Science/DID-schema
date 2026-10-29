@@ -146,7 +146,7 @@ Last updated 2026-10-27.
   - **G16. A sorted unit whose probe is not in the batch.** [unit direct and
     subject rebuild from the probe] cannot check its `subject_id`; today it
     converts with a `unit_probe_not_in_batch` note and the round trip reports
-    `subject_id` lost. Carry it as v1 instead (needs a register row)? [yes]
+    `subject_id` lost. Carry it as v1 instead (needs a register row)? [yes] ANSWERED 2026-10-29 [unit with no probe in the batch carried].
   - **G17. The Equipment Type binding's root.** NCIT:C178920 "Equipment
     Type" is bound with root OBI:0000968 (ontology OBI), but most decided
     device kinds are NCIT or Wikidata terms; harmless only while
@@ -264,7 +264,7 @@ Last updated 2026-10-27.
     the seven `name` ones? How does the validator know which are held: a list
     mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
     merged field then hosted only in the parent's block (a shape change)?
-    [hold pyraview.label too; a schema marker; yes, parent's block only]
+    [hold pyraview.label too; a schema marker; yes, parent's block only] OPEN. Claude (2026-10-29) now proposes it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess.
   - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
     the renamed path, so there is no raw-v1 inverse to carry the label back.
     Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
@@ -273,7 +273,7 @@ Last updated 2026-10-27.
     carried]).** One with no non-empty edge at all (NDI's `imageDocMaker.m:130`
     makes it when given no row), and one with a subject or element edge beside
     the row (no writer makes one). [carry the first like the row-only case
-    (carry-124); the second is malformed]
+    (carry-124); the second is malformed] ANSWERED 2026-10-29 [vintage-B ontologyImage cases].
   - **G44. The global-clock `oneepoch` calculation ([oneepoch is a redundant
     calculation]; not built).** (1) Its `input_id` targets, the per-epoch
     recordings, exist in pass 1 only where an `epochfiles_ingested` cache
@@ -341,7 +341,7 @@ Last updated 2026-10-27.
     term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
     G17).
   - **G55. Element name and reference stored reversibly ([early migration
-    pieces fixed], part 5; OPEN_WORK #142).** Which shape?
+    pieces fixed], part 5; OPEN_WORK #142).** Which shape? ANSWERED 2026-10-29 [element name and reference stored apart].
   - **G56. Finding a term by a spelling of its name.** DID-matlab's term index
     matches a name lowercased only (`+did2/+schema/termIndex.m:70`), so "path
     name" does not find "Pathname"; relation and entity-type handles also ignore
@@ -356,21 +356,21 @@ Last updated 2026-10-27.
   `angle ... best`, and the angle "best" chose is stored only in the curve's
   `log` ("angle best value is 90."). May the rebuild read that value from the
   `log`? If yes, most of the 28,615 Soph carries would likely convert (not
-  measured). [yes, the log is kept verbatim in `notes` anyway]
+  measured). [yes, the log is kept verbatim in `notes` anyway] ANSWERED 2026-10-28 [tuning best value is a condition] (marked 2026-10-29).
 - **E2. One calculation with fits of several functions.** SF and TF hold five
   fitted functions in one calculation; the build writes the method parameter
   `function` as a JSON list (`["dog","movshon","movshon c","spline","gausslog"]`).
   Keep that, or drop the parameter and rely on each fit entry's `model`? [drop it:
-  one place per fact]
+  one place per fact] ANSWERED 2026-10-28 [absolute-value fits are fit entries] (marked 2026-10-29).
 - **E3. Where the Priebe "what differs" goes.** The three Priebe fits are one
   equation (checked: NDIcalc-vis-matlab 00e3e0f, only xi's bounds differ). The
   build records "xi held at 0" in each fit entry's `constraints`, as for
-  Naka-Rushton, not as method parameters. Confirm? [yes]
+  Naka-Rushton, not as method parameters. Confirm? [yes] ANSWERED 2026-10-28 [absolute-value fits are fit entries] (marked 2026-10-29).
 - **F1. A presentation that names no epoch at all (NDI-matlab #1087).** B1 as
   built carries a presentation whose epoch the fold refuses (carry-109); one whose
   `epochid.epochid` is empty keeps its session anchor and is counted in
   `epoch_anchor.no_epoch_string`. Carry it with carry-109 too? [no: v1 named no
-  epoch, so the session anchor loses nothing]
+  epoch, so the session anchor loses nothing] ANSWERED 2026-10-28 [presentations without an epoch keep the session anchor] (marked 2026-10-29).
 - **#208 (tabled by Jess until just before the `notes` storage pass):** rename
   `base`? rename the `session_id` edge? Comments on the issue hold the options.
 

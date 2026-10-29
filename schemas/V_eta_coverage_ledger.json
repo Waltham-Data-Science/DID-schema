@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 565,
+          "accepted_lines": 568,
           "accepted_lines_by_kind": {
-            "Decided by": 448,
+            "Decided by": 451,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3921,6 +3921,30 @@
               "tag": "missing facts are needs info",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [missing facts are needs"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1654,
+              "kind": "Decided by",
+              "tag": "vintage-B ontologyImage cases",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1656,
+              "kind": "Decided by",
+              "tag": "element name and reference stored apart",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [element name and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1658,
+              "kind": "Decided by",
+              "tag": "unit with no probe in the batch carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [unit with no probe in"
             },
             {
               "document": "V_eta_image_model_plan.md",
