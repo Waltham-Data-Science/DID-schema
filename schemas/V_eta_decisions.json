@@ -499,7 +499,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "epoch extent -- row #113",
           "resolved": true,
-          "line": 865,
+          "line": 866,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -746,7 +746,7 @@
       "decided_in": {
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
-        "line": 823,
+        "line": 824,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
@@ -755,7 +755,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 823,
+          "line": 824,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         }
@@ -828,7 +828,7 @@
       "decided_in": {
         "document": "V_eta_OPEN_WORK.md",
         "tag": "stranded sources",
-        "line": 823,
+        "line": 824,
         "kind": "TEAM-SIGN-OFF"
       },
       "decision": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
@@ -837,7 +837,7 @@
           "document": "V_eta_OPEN_WORK.md",
           "tag": "stranded sources",
           "resolved": true,
-          "line": 823,
+          "line": 824,
           "kind": "TEAM-SIGN-OFF",
           "why": null
         },
@@ -4432,7 +4432,7 @@
       {
         "class_name": "generic_file",
         "decision": "decided",
-        "decided_in": "V_eta_OPEN_WORK.md:823 [stranded sources]",
+        "decided_in": "V_eta_OPEN_WORK.md:824 [stranded sources]",
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [

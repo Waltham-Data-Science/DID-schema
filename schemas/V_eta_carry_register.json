@@ -2202,6 +2202,287 @@
       "open_work": 163,
       "home": "proposed (not decided): the description in the term assertion's `notes`, the openMINDS id as an identifier on it (did-schema #232)",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-129",
+      "v1_class": "daqmetadatareader",
+      "fields": [
+        "daqmetadatareader.ndi_daqmetadatareader_class",
+        "daqmetadatareader.tab_separated_file_parameter"
+      ],
+      "when": "both empty: nothing to declare (DID-matlab #293, +migrators_j/daqmetadatareader.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-130",
+      "v1_class": "daqreader",
+      "fields": [
+        "daqreader.ndi_daqreader_class",
+        "daqreader.reader_string"
+      ],
+      "when": "both empty (DID-matlab #293, +migrators_j/daqreader.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-131",
+      "v1_class": "daqsystem",
+      "fields": [
+        "daqsystem.ndi_daqsystem_class",
+        "depends_on"
+      ],
+      "when": "the class and every edge empty (DID-matlab #293, +migrators_j/daqsystem.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-132",
+      "v1_class": "filenavigator",
+      "fields": [
+        "filenavigator.ndi_filenavigator_class",
+        "filenavigator.fileparameters",
+        "filenavigator.epochprobemap_class",
+        "filenavigator.epochprobemap_fileparameters"
+      ],
+      "when": "all empty (DID-matlab #293, +migrators_j/filenavigator.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-133",
+      "v1_class": "electrode_offset_voltage",
+      "fields": [
+        "electrode_offset_voltage.offset"
+      ],
+      "when": "not one finite number (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-134",
+      "v1_class": "probe_geometry",
+      "fields": [
+        "probe_geometry.site_locations_*"
+      ],
+      "when": "no site location has values (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-135",
+      "v1_class": "syncgraph",
+      "fields": [
+        "base.session_id"
+      ],
+      "when": "empty or the empty-id sentinel; resolveClockAlignment refuses these anyway (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-136",
+      "v1_class": "fitcurve",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity, so the fit's statement has no entity_id (DID-matlab #293, private/jModelFit.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a fit with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-137",
+      "v1_class": "vmspikefit",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity (DID-matlab #293, private/jModelFit.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a fit with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-138",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity (DID-matlab #293, +migrators_j/hartley_calc.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a calculation with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-139",
+      "v1_class": "site2channelmap",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-140",
+      "v1_class": "stimulus_parameter",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always, until the stimulus model places it (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "the stimulus model (not decided for this class)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-141",
+      "v1_class": "vmneuralresponseresiduals",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-142",
+      "v1_class": "vmspikesummary",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-143",
+      "v1_class": "vmspikefilteringparameters",
+      "fields": [
+        "vmspikefilteringparameters.spiketimes"
+      ],
+      "when": "non-empty (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-144",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "depends_on subject_id",
+        "subjectmeasurement.measurement",
+        "subjectmeasurement.value"
+      ],
+      "when": "no subject, no measurement, or a value that is not one finite number (DID-matlab #293, +migrators_j/subjectmeasurement.m guards 1-3)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-145",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "subjectmeasurement.measurement"
+      ],
+      "when": "the measurement names no quantity kind (DID-matlab #293, guard 4; when jMeasurementFold already wrote carry-059 that note stands)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-146",
+      "v1_class": "openminds_element",
+      "fields": [
+        "openminds"
+      ],
+      "when": "no openminds block (DID-matlab #293, +migrators_j/openminds_element.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
     }
   ]
 }
