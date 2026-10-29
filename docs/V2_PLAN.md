@@ -284,6 +284,44 @@ Last updated 2026-10-27.
   v1 write into a V2 session is stamped v1 and checked against NDI's own
   template, as a carried document is. Not measured: whether any real session
   takes this path. [(b) now, (a) as the end state]
+- **G47-G55. From the 2026-10-29 evening builds and the pending-line triage.
+  "[...]" is Claude's recommendation, Proposed (not decided).**
+  - **G47. A short last chunk ([segment length is the time chunk]).** `chunk`
+    is documented as every file holding a full chunk, padding included; NDI's
+    last segment is short (`+ndi/+daq/+reader/mfdaq.m` around :928). Allow a
+    short last chunk? [yes: the last chunk holds what remains]
+  - **G48. The V2 ingest shape (G9).** NDI V2's ingest writes only the v1
+    `daqreader_mfdaq_epochdata_ingested` document (`mfdaq.m:778-798`) and the
+    reader finds data only through it (`reader.m:44-61`); NDI's second pass does
+    not re-describe segment files (`epochSeriesBodies.m:82-87` handles `.vhsb`
+    only). Needed: how a reader and an epoch find the epoch's sampled bodies
+    (one per channel group?), and which dimension term marks time. [one
+    `sampled_body` per channel group, owned by the epoch's recording
+    observation; time dimension term = the registry's time term]
+  - **G49. openMINDS strain leftovers ([openMINDS strain leftovers], #158).**
+    The variable terms for the `breedingType` and `diseaseModel` assertions;
+    the vendor -> CURIE prefix table beyond JAX and how the vendor is read (a
+    separate openMINDS Organization document); how several identifiers fill
+    `entity.global_identifier`; what "lookupLabel is rebuilt" means.
+  - **G50. Two retire classes the migration reshapes ([one folder, final
+    classes only]).** `distance_metadata` and `oneepoch` are reshaped into the
+    retire class rather than left as v1, so their files cannot go. Carry them
+    whole as v1 (losing the decided reshape until their V2 homes are built), or
+    build the homes first? [build the homes first: `oneepoch` is G44;
+    `distance_metadata` needs its own decision]
+  - **G51. The age-at-injection variable ([age at injection is an
+    observation]).** Which term is the variable of the age observation?
+  - **G52. Dataset-specific logic left in the generic stage ([dataset-specific
+    logic leaves the generic migration]).** Should the Haley encounter map
+    (audit Q1) and the imageStack mask words (Q3,
+    `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage?
+  - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
+    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`.
+  - **G54. The element device-kind table ([element type is a device kind
+    term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
+    G17).
+  - **G55. Element name and reference stored reversibly ([early migration
+    pieces fixed], part 5; OPEN_WORK #142).** Which shape?
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
