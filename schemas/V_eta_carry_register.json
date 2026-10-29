@@ -151,14 +151,14 @@
       "fields": [
         "filter.label"
       ],
-      "when": "the `label` differs from its `type`",
+      "when": "the `label` differs from its `type` on an all-pass filter, which builds no method to name (DID-matlab private/jFrequencyFilter.m); any other differing label is the filter method's `name` ([filter label is the method name])",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "small unread settings"
       },
       "open_work": 131,
-      "home": "none decided: a filter's label beside its type",
+      "home": "none decided for the all-pass: a filter method's `name` holds a differing label, but an all-pass builds no method",
       "kind_basis": "decided"
     },
     {
@@ -984,32 +984,17 @@
       "v1_class": "position_metadata",
       "fields": [
         "position_metadata.units",
-        "position_metadata.dimensions"
+        "position_metadata.dimensions",
+        "position_metadata.ontologyNode"
       ],
-      "when": "they cannot be placed (DID-matlab position_metadata.m)",
+      "when": "always, until its element's position values are mapped (carry-063): units, dimensions and the body part (`ontologyNode`) become one position calculation with them, and no term observation is written (DID-matlab position_metadata.m)",
       "kind": "awaiting_home",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "position and its metadata are one statement"
       },
       "open_work": 140,
-      "home": "none decided",
-      "kind_basis": "decided"
-    },
-    {
-      "id": "carry-054",
-      "v1_class": "metadata_editor",
-      "fields": [
-        "the author's affiliations"
-      ],
-      "when": "an author has more than one affiliation (DID-matlab metadata_editor.m)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "dataset form terms"
-      },
-      "open_work": 141,
-      "home": "none decided",
+      "home": "one `calculation` with the `position` value-kind mixin, built where the element is mapped (carry-063)",
       "kind_basis": "decided"
     },
     {
