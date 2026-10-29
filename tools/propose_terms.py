@@ -22,9 +22,9 @@ not used. Rows repeating one (name, node) are read once.
 
 Each term gets one verdict:
   REGISTERED      the registry holds it exactly; nothing to add
-  USE REGISTRY    the node is registered under another name; nothing to add,
-                  the writer must use the registry's name
-                  (ndi.setup.V2.registeredTerm does)
+  USE REGISTRY    the node is registered under another name, or the name is a
+                  registered term's synonym (R14); nothing to add, the writer
+                  must use the registry's name (ndi.setup.V2.registeredTerm does)
   ADD             a row is printed for it
   FAIL            it cannot be added as given; the reason says why
 FAIL lines are the gate's own rules (R1..R5, R7 of check_term_registry.py),
@@ -47,7 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_term_registry as ctr
 
 KEYS = ("name", "node", "definition", "status", "decided", "first_used_in", "obsolete",
-        "number_unit", "equivalent")
+        "number_unit", "equivalent", "synonyms")
 
 
 def read_batch(path):
@@ -82,6 +82,8 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
             if k:
                 by_key[k] = t
         by_name[t["name"].lower()] = t
+    # R14: a spelling a migrator maps to a registered term ([spelling is notation])
+    by_syn = {x.strip().lower(): t for t in terms for x in (t.get("synonyms") or [])}
 
     verdicts, rows, seen = [], [], set()
     for b in batch:
@@ -149,6 +151,12 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
                 note += " (no definition given: the registry carries the ontology's)"
             status = "decided"
         else:
+            if name.lower() in by_syn:
+                reg = by_syn[name.lower()]
+                verdicts.append(("USE REGISTRY", label,
+                                 (f'a known spelling of "{reg["name"]}" '
+                                  f'({reg.get("node") or "staged"}); write that term')))
+                continue
             if name.lower() in by_name:
                 reg = by_name[name.lower()]
                 if not reg.get("node") and reg["name"] == name:
@@ -170,7 +178,8 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
         row = {"name": name, "node": node, "definition": definition, "status": status,
                "decided": b.get("decided") or decided,
                "first_used_in": b.get("first_used_in") or first_used_in,
-               "obsolete": False, "number_unit": False, "equivalent": []}
+               "obsolete": False, "number_unit": False, "equivalent": [],
+               "synonyms": []}
         missing = [k for k in ("decided", "first_used_in") if not row[k]]
         if missing:
             verdicts.append(("FAIL", label, (f"no {' or '.join(missing)}: give the column or "
