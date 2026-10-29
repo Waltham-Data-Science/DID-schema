@@ -19,10 +19,11 @@ def registry(*terms):
 
 
 def term(name, node, status="decided", definition="d", obsolete=False, number_unit=False,
-         equivalent=None):
+         equivalent=None, synonyms=None):
     return {"name": name, "node": node, "status": status, "definition": definition,
             "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete,
-            "number_unit": number_unit, "equivalent": equivalent or []}
+            "number_unit": number_unit, "equivalent": equivalent or [],
+            "synonyms": [] if synonyms is None else synonyms}
 
 
 def run(src):
@@ -290,3 +291,36 @@ def test_equivalents_are_curies_with_one_meaning_each():
 def test_every_live_row_has_an_equivalent_list():
     terms = ctr._load(ctr.SOURCE)["terms"]
     assert terms and all(isinstance(t.get("equivalent"), list) for t in terms)
+
+
+def test_synonyms_are_spellings_of_one_term_each():
+    """R14 (Jess Haley 2026-10-26, V_eta_go_forward_class_audit.md [spelling is
+    notation]): the spellings a migrator maps to a term, each naming one term."""
+    ok = registry(term("hertz", "om:hertz", synonyms=["Hz", "spikes/s"]),
+                  term("dF/F", "EMPTY:0000397", synonyms=["dFF"]))
+    assert [f for f in run(ok)[2] if f.startswith("R14")] == []
+    bad = [term("a", "NCIT:C1", synonyms=["A"]),
+           term("b", "NCIT:C2", synonyms=["c"]),
+           term("c", "NCIT:C3", synonyms=["x", "X"]),
+           term("d", "NCIT:C4", synonyms=["x"]),
+           term("e", "NCIT:C5", synonyms="x"),
+           term("f", "NCIT:C6", synonyms=[""])]
+    fails = [f for f in run(registry(*bad))[2] if f.startswith("R14")]
+    assert len(fails) == 6, fails
+    assert "own name" in fails[0] and 'name of "c"' in fails[1]
+    assert "listed twice" in fails[2] and 'synonym of "c"' in fails[3]
+    assert "not a list" in fails[4] and "not a list" in fails[5]
+
+
+def test_the_response_unit_spellings_are_recorded():
+    """[spelling is notation] (3): DID-matlab jResponseVariable's spellings are
+    the registered terms' synonyms (its match is trimmed and case-insensitive,
+    with either delta spelled out)."""
+    by_node = {t["node"]: t for t in ctr._load(ctr.SOURCE)["terms"]}
+    assert all(isinstance(t.get("synonyms"), list) for t in by_node.values())
+
+    def low(node):
+        return {x.lower() for x in by_node[node]["synonyms"]}
+    assert low("om:hertz") == {"hz", "spikes/s", "sp/s", "1/s", "spikes/sec",
+                               "spikes per second"}
+    assert low("EMPTY:0000397") == {"δf/f", "deltaf/f", "dff"}

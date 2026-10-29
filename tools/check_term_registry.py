@@ -33,7 +33,7 @@ per meaning, so this checks, and fails on any of:
       the last is not a gap.
 
   R10 every entry carries the same keys (name, node, definition, status,
-      decided, first_used_in, obsolete, number_unit, equivalent): DID-matlab
+      decided, first_used_in, obsolete, number_unit, equivalent, synonyms): DID-matlab
       did2.schema.termIndex concatenates the rows, which fails on rows of
       different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
       something still writes it), and the node it names is registered.
@@ -51,6 +51,13 @@ per meaning, so this checks, and fails on any of:
       in its spelling; none is the row's own node, none is listed twice in a row,
       none is listed on two rows, and none is another row's node (that would be
       two entries for one meaning, as R1).
+
+  R14 `synonyms` (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md
+      [spelling is notation]) is a list of non-empty strings: the spellings a
+      migrator maps to the term (e.g. "Hz", "spikes/s" -> om:hertz), so the
+      mapping is documented and reversible as a set. Read trimmed and ignoring
+      case, a synonym is not the row's own name, not listed twice in a row, and
+      not another row's name or synonym (one spelling, one term).
 
   R11 the canonical-unit list (tools/canonical_units.py; T14; Jess Haley
       2026-10-22 [units bound]): every value-kind cell declares the listed
@@ -75,7 +82,7 @@ BUILT = os.path.join(ROOT, "schemas", "did_v2", "stable", "term_registry_meta.js
 CURIES = os.path.join(ROOT, "schemas", "did_v2", "stable", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
 ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
-            "obsolete", "number_unit", "equivalent"]
+            "obsolete", "number_unit", "equivalent", "synonyms"]
 # R12: the prefixes of unit terms (OM, T14; UO for pH, [pH unit is UO pH])
 UNIT_PREFIXES = ("om", "uo")
 
@@ -137,6 +144,7 @@ def check(source, built, curies):
     failures += _obsolete(terms, names)
     failures += _number_unit(terms, names)
     failures += _equivalent(terms, names, spelling)
+    failures += _synonyms(terms)
     if built is None:
         failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
@@ -235,6 +243,38 @@ def _equivalent(terms, names, spelling):
                 out.append(f"R13 {where}: equivalent {e} is listed twice")
             elif k in seen:
                 out.append(f'R13 {where}: equivalent {e} is also an equivalent of "{seen[k]}"')
+            row.add(k)
+            seen.setdefault(k, t.get("name"))
+    return out
+
+
+def _synonyms(terms):
+    """R14: each row's `synonyms` is a list of spellings, each naming one term."""
+    out = []
+    names = {}
+    for t in terms:
+        n = (t.get("name") or "").strip().lower()
+        if n:
+            names.setdefault(n, t.get("name"))
+    seen = {}
+    for i, t in enumerate(terms):
+        where = f'term {i + 1} ("{t.get("name")}")'
+        syn = t.get("synonyms", [])
+        if not (isinstance(syn, list) and all(isinstance(x, str) and x.strip() for x in syn)):
+            out.append(f"R14 {where}: `synonyms` is {syn!r}, not a list of spellings")
+            continue
+        own = (t.get("name") or "").strip().lower()
+        row = set()
+        for x in syn:
+            k = x.strip().lower()
+            if k == own:
+                out.append(f"R14 {where}: synonym {x!r} is the term's own name")
+            elif k in names:
+                out.append(f'R14 {where}: synonym {x!r} is the name of "{names[k]}"')
+            if k in row:
+                out.append(f"R14 {where}: synonym {x!r} is listed twice")
+            elif k in seen:
+                out.append(f'R14 {where}: synonym {x!r} is also a synonym of "{seen[k]}"')
             row.add(k)
             seen.setdefault(k, t.get("name"))
     return out
@@ -396,6 +436,9 @@ def main():
     n_eq = sum(len(t.get("equivalent") or []) for t in terms)
     n_eq_rows = sum(1 for t in terms if t.get("equivalent"))
     print(f"R13: {len(terms)} row(s) checked; {n_eq} equivalent id(s) on {n_eq_rows} row(s)")
+    n_syn = sum(len(t.get("synonyms") or []) for t in terms)
+    n_syn_rows = sum(1 for t in terms if t.get("synonyms"))
+    print(f"R14: {len(terms)} row(s) checked; {n_syn} synonym(s) on {n_syn_rows} row(s)")
     for f in failures:
         print("  FAIL " + f)
     print(f"term registry terms read: {len(terms)}")

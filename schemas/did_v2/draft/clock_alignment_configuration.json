@@ -19,7 +19,7 @@
         {
             "name": "from_acquisition_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], V_eta_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional until the writers (DID-matlab `+migrators_j/syncrule.m`, `resolveClockAlignment.m`) fill it and NDI-matlab reads it; then `acquisition_channels_id` is removed (CLAUDE.md section 3 order).",
+            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], V_eta_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
             "must_refer_to_document_class": "acquisition_system"
         },
         {
@@ -27,16 +27,6 @@
             "mustBeNonEmpty": false,
             "documentation": "The rig whose clock this rule maps TO: v1 `daqsystem2`. See `from_acquisition_system_id`.",
             "must_refer_to_document_class": "acquisition_system"
-        },
-        {
-            "name": "acquisition_channels_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The channel groups this rule relates: 0 or 2 (sync configuration amendment 1, 2026-08-18: a file-based rule names none), UNORDERED because the rule is symmetric. The schema's min 0 / max 2 cannot exclude exactly 1; that check belongs to a validator.",
-            "must_refer_to_document_class": "acquisition_channels",
-            "multiple": true,
-            "min_count": 0,
-            "max_count": 2,
-            "ordered": false
         }
     ],
     "file": [],
@@ -123,7 +113,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "HOW the rule runs: `term` the technique (usually blank: the implementation is `software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: `clock`, the `acquisition_channels_id` edges and `software_id` stay first-class. (`method_parameters`, the list alone, until 2026-10-21.)",
+            "documentation": "HOW the rule runs: `term` the technique (usually blank: the implementation is `software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: `clock`, the `from_acquisition_system_id` / `to_acquisition_system_id` edges and `software_id` stay first-class. (`method_parameters`, the list alone, until 2026-10-21.)",
             "constraints": {},
             "fields": [
                 {
@@ -188,7 +178,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`...) and channel strings are the channel edges, not entries. `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text`, `logical` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
+                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`, filefind's `daqsystem1`...) are the from/to rig edges, not entries; the trigger channel strings (`daqsystem_ch1`, `daqsystem_ch2`) are entries by their own names ([sync configuration links its rigs]). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text`, `logical` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
                     "constraints": {},
                     "fields": [
                         {

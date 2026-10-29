@@ -10,14 +10,18 @@ import propose_terms as pt
 CURIES = {"prefixes": {
     "ncit": {"spelling": "NCIT", "synonyms": ["NCI"]},
     "empty": {"spelling": "EMPTY", "synonyms": []},
+    "om": {"spelling": "om", "synonyms": []},
 }}
 REGISTRY = {"terms": [
     {"name": "Arithmetic Mean", "node": "NCIT:C53319", "definition": "d", "status": "decided",
      "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
-     "number_unit": False, "equivalent": []},
+     "number_unit": False, "equivalent": [], "synonyms": []},
     {"name": "body midpoint", "node": "", "definition": "d", "status": "staged",
      "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
-     "number_unit": False, "equivalent": []},
+     "number_unit": False, "equivalent": [], "synonyms": []},
+    {"name": "hertz", "node": "om:hertz", "definition": "d", "status": "decided",
+     "decided": "J, 2026-10-19", "first_used_in": "Haley", "obsolete": False,
+     "number_unit": False, "equivalent": [], "synonyms": ["Hz", "spikes/s"]},
 ]}
 OWL = {"0000400": ("plate wiping", "Wiping a plate.")}
 WHO = {"decided": "J, 2026-10-21", "first_used_in": "Smith"}
@@ -52,7 +56,7 @@ def test_a_new_term_is_respelled_and_printed_in_registry_order():
     assert v[0][0] == "ADD" and "respelled" in v[0][2]
     assert rows == [{"name": "Median", "node": "NCIT:C28007", "definition": "the middle",
                      "status": "decided", **WHO, "obsolete": False,
-                     "number_unit": False, "equivalent": []}]
+                     "number_unit": False, "equivalent": [], "synonyms": []}]
     assert list(json.loads("[" + pt.render_rows(rows) + "]")[0]) == list(pt.KEYS)
 
 
@@ -108,3 +112,10 @@ def test_a_tsv_batch_against_the_real_registry(tmp_path, capsys):
     assert out.startswith("DENOMINATOR: 2 row(s)")
     assert "1 REGISTERED, 0 USE REGISTRY, 1 ADD, 0 FAIL" in out
     assert '"node": "NCIT:C999999999"' in out
+
+
+def test_a_known_spelling_points_the_writer_at_its_term():
+    """[spelling is notation] (R14): a spelling a migrator maps to a registered
+    term is that term, read ignoring case; nothing is added."""
+    v, rows = run({"name": "SPIKES/S", "node": ""})
+    assert v[0][0] == "USE REGISTRY" and '"hertz"' in v[0][2] and rows == []

@@ -737,7 +737,7 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 | `item` (`timed_sequence` until 2026-10-04) | `presented_id_#` | `item_id` | yes | **yes** |
 | `data` (items 60, 65; was `statement`, `data_body`) | `axis_labels_#` | `key_id` (`key_labels_id` until 2026-10-05) | yes | **yes** |
 | ~~`strain`~~ | `background_strain_#` | *(no edge: a strain is an entity since 2026-10-08 and its pedigree a `derived_from` relation)* | | |
-| `clock_alignment_configuration` (also `interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` | yes (0 or 2) | no |
+| `clock_alignment_configuration` (also `interaction`, item 56) | `acquisition_channels_#` | `acquisition_channels_id` (on `clock_alignment_configuration` until 2026-10-29: it now links its rigs by `from_acquisition_system_id` / `to_acquisition_system_id`, `V_eta_go_forward_class_audit.md` [sync configuration links its rigs]) | yes (0 or 2) | no |
 | `acquisition_system` | `acquisition_metadata_reader_#` | `epoch_parameter_reader_id` (item 65) | yes | no |
 | `clock_alignment_policy` | `clock_alignment_configuration_#` | `clock_alignment_configuration_id` | yes | **yes** |
 | `interaction_purpose` | `interaction_id_#` | `interaction_id` | yes | no |

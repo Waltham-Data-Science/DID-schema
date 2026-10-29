@@ -53,7 +53,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
 | 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
-| 141 | an author with several affiliations in `metadata_editor` (carry-054) -> https://github.com/Waltham-Data-Science/DID-schema/issues/148 |
 | 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 | 144 | a home for a linked session's `session_reference` (carry-074) -> https://github.com/Waltham-Data-Science/DID-schema/issues/153 |
@@ -72,6 +71,8 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 157 | a home for a legacy `ndi_document` block beside `base` (carry-049) -> https://github.com/Waltham-Data-Science/DID-schema/issues/201 |
 | 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/202 |
 | 159 | homes for five carries recorded 2026-10-28: v1 ids with no V2 document, axis letters, openMINDS ids, lab strain ids, session lists (carry-112, carry-114, carry-116, carry-117, carry-118) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
+| 160 | a standalone v1 `ngrid` loses `coordinates` and `data_size` in pass 1 (DID-matlab `+migrators/ngrid.m`) -> https://github.com/Waltham-Data-Science/DID-schema/issues/227 |
+| 161 | a label pass 1 carries as malformed (carry-100) is counted again under carry-095 by NDI's second pass -> https://github.com/Waltham-Data-Science/DID-schema/issues/228 |
 
 Open items without a row number:
 
@@ -100,6 +101,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 141 | an author with several affiliations in `metadata_editor`: one `affiliated_with` relation per affiliation (DID-matlab metadata_editor.m, on V2 via dde94c44 #278), Jess Haley 2026-10-27 [one affiliation relation each]; carry-054 retired (issue #148) |
 | 133 | an image's differing `data_limits`: a valid [min max] pair is written as a value range (DID-matlab image_stack.m, on V2 via f6486be); what remains is a malformed `data_limits` (carry-011, carry-012), Jess Haley 2026-10-26 [data_limits not a pair is malformed] (issue #138) |
 | 1-8, 10-24, 26, 33, 36, 39-42, 44, 49, 50, 55 | subject only: descriptions lost in the 2026-08-08 re-provisioning |
 | 25 | software follow-ups: `softwareDedup.m` and the openMINDS crosswalk exist |

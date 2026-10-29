@@ -150,6 +150,83 @@ Last updated 2026-10-27.
     device kinds are NCIT or Wikidata terms; harmless only while
     BindingConformance stays off. Widen the binding to a closed list of the
     registered device kinds? [yes]
+- **G18-G39. From the 2026-10-29 build round (DID-matlab #278-#285, NDI-matlab
+  #1093). Each names the decision it holds; "[...]" is Claude's
+  recommendation, Proposed (not decided).**
+  - **G18. How pass 1 hands on a `control_stimulus_ids` record ([second pass
+    reads control stimuli from v1]).** Joining `rawV1Classes` alone would
+    quarantine every record in a validating run (the writer's `app.name` is
+    undeclared on the tombstone). Carry it whole as v1 in pass 1, like
+    `stimulus_presentation`? If so, widen carry-045 or add a row?
+  - **G19. A standalone item's control pairing ([control pairing points at
+    the presentation]).** A standalone item has no manipulation: what do the
+    calculation's `entity_id` and `input_id` point at? (Today carry-090.)
+  - **G20. A linked session not in the batch ([linked session reference
+    follows the ingested rule]).** Its reference cannot be compared, so the
+    membership is carried with no register row. Widen carry-069 (ingested
+    only today) to linked sessions, or a new row?
+  - **G21. An unstated `session_creator` ([session opener inputs]).** It still
+    converts, with no "software class" parameter. Carry it under carry-119
+    too?
+  - **G22. A drug with an offset or duration but no onset ([drug end and
+    duration on the anchor]).** An end needs a start (`end_consistent`).
+    Carry the record whole as v1 (needs a register row)?
+  - **G23. UTC onset, offset and duration that disagree.** Writing all three
+    fails `end_consistent`; writing one means choosing. Carry as malformed?
+  - **G24. The image collection link ([image file details placed]).**
+    `imageCollection_id` as `member_of` a group: who mints the group and with
+    what id; does `member_of` start at the observation or the body; where do
+    the collection's label, format and subject go?
+  - **G25. [image label goes to notes] before the rename.** `data_body` has
+    no `notes` yet, only `description`, which the stack's name already uses.
+    Wait for the did_v2 rename, or write it elsewhere now?
+  - **G26. What an `ngrid` body attaches to when there is no statement
+    ([ngrid migrates to sampled bodies]):** an ontologyImage whose only edge
+    is its table row, and a standalone `ngrid` (no NDI writer makes one).
+  - **G27. [binaryseries parameters fold as decided].** The data body it
+    describes cannot be found (no edges, no NDI writer). Carry it as v1 under
+    a needs-home row?
+  - **G28. Where the clock of "acquisition time" goes ([afo prefix
+    registered]).** It sits in the label today and the round trip reads it
+    from there.
+  - **G29. The general method term for tuning curves that are not fits,
+    hartley_calc and stimulus_response_scalar ([method terms are
+    general]),** and whether jrclust and the generic fits gain Spike sorting
+    / curve fitting.
+  - **G30. [oneepoch is a redundant calculation].** No "concatenation" term,
+    no row for the device-local carry, the per-epoch `input_id` links need a
+    batch pass, and what the calculation's value holds is not stated.
+  - **G31. [old table rows counted and carried].** No register row covers it,
+    and NDI's second pass reads these rows today: carry in DID's pass 1, or
+    in NDI's?
+  - **G32. [redeclarations only narrow].** All 8 current redeclarations are
+    `<class>.name` over `base.name`, which stays ([base.name kept until
+    retire classes leave]). Which, if any, merge into the parent now?
+  - **G33. "The fill" of [term equivalents recorded].** 0 of 896 registry
+    rows carry an equivalent. A DID-matlab tool that proposes rows from
+    openMINDS's mapping, or a one-time did-schema data change?
+  - **G34. An `app` field outside the control template (NDI-matlab #1093).**
+    Read as malformed (carry-100), not as a software field. Right reading of
+    [control record fields split]?
+  - **G35. Hartley generator keys the shared basis does not read** (`randState`,
+    `rect`, `distance`, `chromhigh`, `reps`, ...): the basis is minted once
+    per session, so the presentation has no method of its own. The
+    manipulation's inline method?
+  - **G36. A second value of a key the grating recipe reads once.** 0 cases in
+    B, Dab and 20211116.
+  - **G37. The probe coordinate system ([site frame is a coordinate
+    system]).** Its required `reference_point` and depth `positive_direction`
+    are recorded as "unknown": which terms? The registry also lacks a z-axis
+    and left/right, front/back terms.
+  - **G38. "Exactly one canonical" ([quantity reference type]).** DID-matlab's
+    own writers fill no canonical for a concentration whose unit converts to
+    none, and `{source_value: NaN}` for an unrecorded amount (decided
+    2026-10-21). Does "exactly one" allow zero then, or must writers convert
+    (and what of a unit that converts to none)?
+  - **G39. Synonyms in the term registry.** [registry holds nodes]
+    (2026-10-22) says the registry "carries no synonym field"; [spelling is
+    notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
+    them. Read the later decision as superseding the earlier? [yes]
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
@@ -767,6 +844,7 @@ proposals and measurements at the commits they name, not the record:
 | `DATASET_MAP_PROPOSAL.md` | the dataset map design draft |
 | `DAB_COLUMN_ROWS_DRAFT.md` | proposed Dab map rows for the EPM and FPS table columns |
 | `HOMES_RESPONSES_TUNING.md` | proposed V2 homes for the stimulus response and tuning fields that keep about 73,000 documents in v1 |
+| `EMPTY_ASSAY_LABELS_PROPOSAL.md` | the list of pre-2026-10-20 EMPTY labels that carry assay context, each with an existing ontology term or a general relabel ([old EMPTY labels generalised]) |
 
 ## How we work
 
