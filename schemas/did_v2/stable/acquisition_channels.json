@@ -63,6 +63,10 @@
                                     "name": "Text"
                                 },
                                 {
+                                    "node": "EMPTY:0000410",
+                                    "name": "text channel"
+                                },
+                                {
                                     "node": "EMPTY:0000370",
                                     "name": "analog input channel"
                                 },

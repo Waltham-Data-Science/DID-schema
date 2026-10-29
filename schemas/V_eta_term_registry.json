@@ -10806,6 +10806,90 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "bath solution",
+      "node": "EMPTY:0000409",
+      "definition": "The solution in which a tissue preparation is immersed or perfused during an experiment.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-27 [bath solution minted], V_eta_go_forward_class_audit.md: the variable of the manipulation every v1 bath record makes ([bath is two statements]); EMPTY:0000409 minted in empty-ontology #30",
+      "first_used_in": "no dataset yet: the variable of a migrated v1 bath record (DID-matlab; build pending, [bath is two statements])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "text channel",
+      "node": "EMPTY:0000410",
+      "definition": "A channel whose values are text entries, each at the time it was recorded.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-27 [event lines are event channels] and 2026-10-29 [text channel replaces NCIT Text], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `tx`, replacing NCIT Text (C25704) once DID-matlab's channel-type map writes it; EMPTY:0000410 minted in empty-ontology #30",
+      "first_used_in": "no dataset yet: acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefix `tx`)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "patch electrode",
+      "node": "EMPTY:0000411",
+      "definition": "A glass micropipette whose tip is sealed against a cell membrane to record or control the electrical activity of the cell or of a membrane patch.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000411 minted in empty-ontology #31 (synonyms are in the ontology)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "sharp electrode",
+      "node": "EMPTY:0000412",
+      "definition": "A fine-tipped glass micropipette electrode that penetrates the cell membrane to record intracellular electrical activity.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000412 minted in empty-ontology #31 (synonyms are in the ontology)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "electrical stimulator",
+      "node": "EMPTY:0000413",
+      "definition": "A device that delivers electrical current or voltage pulses to tissue to evoke a response.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000413 minted in empty-ontology #31 (synonyms are in the ontology)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "lick spout",
+      "node": "EMPTY:0000414",
+      "definition": "A drinking spout that delivers liquid to an animal and detects its licks.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000414 minted in empty-ontology #31 (synonyms are in the ontology)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "reward port",
+      "node": "EMPTY:0000415",
+      "definition": "A site in a behavioural apparatus at which an animal receives a food or liquid reward.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000415 minted in empty-ontology #31 (synonyms are in the ontology)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

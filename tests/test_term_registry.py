@@ -48,6 +48,15 @@ def test_two_entries_for_one_name_fail_ignoring_case():
     assert any(f.startswith("R2") for f in run(src)[2])
 
 
+def test_two_entries_for_one_name_fail_ignoring_spaces_underscores_and_hyphens():
+    # [term names match ignoring spacing] (Jess Haley, 2026-10-29): DID-matlab
+    # finds "path name" as Pathname, so the two cannot both be registered
+    src = registry(term("Pathname", "NCIT:C47922"), term("path_name", "EMPTY:0000001"))
+    assert any(f.startswith("R2") for f in run(src)[2])
+    src = registry(term("Pathname", "NCIT:C47922"), term("path names", "EMPTY:0000001"))
+    assert not any(f.startswith("R2") for f in run(src)[2])
+
+
 def test_status_and_node_must_agree():
     src = registry(term("a", "", "decided"), term("b", "NCIT:C1", "staged"), term("c", "NCIT:C2", "maybe"))
     failures = [f[:2] for f in run(src)[2]]

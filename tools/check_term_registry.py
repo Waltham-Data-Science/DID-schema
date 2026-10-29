@@ -8,7 +8,9 @@ per meaning, so this checks, and fails on any of:
 
   R1  two entries with the same node (prefix read by key, spelling or synonym,
       ignoring case, as did2.schema.curieKey reads it)
-  R2  two entries with the same name, ignoring case
+  R2  two entries with the same name, ignoring case, spaces, underscores and
+      hyphens (DID-matlab did2.schema.termNameKey finds a term that way:
+      [term names match ignoring spacing], Jess Haley, 2026-10-29)
   R3  a status other than `decided` (a node) or `staged` (no node yet)
   R4  a node whose prefix the CURIE registry does not know, or that is not
       written in the registry's `spelling` (V_eta_prefix_spelling_plan.md)
@@ -103,6 +105,12 @@ def prefix_index(curies):
     return names, spelling
 
 
+def name_key(name):
+    """The form in which a term's name is looked up: lowercased, with spaces,
+    underscores and hyphens removed, as DID-matlab did2.schema.termNameKey."""
+    return re.sub(r"[\s_\-]", "", name).lower()
+
+
 def check(source, built, curies):
     terms = source.get("terms", [])
     names, spelling = prefix_index(curies)
@@ -143,9 +151,10 @@ def check(source, built, curies):
         elif not (t.get("definition") or "").strip():
             failures.append(f"R5 {where}: a staged term with no definition")
         if name:
-            if name.lower() in by_name:
-                failures.append(f'R2 {where}: the name is already used for {by_name[name.lower()] or "a staged term"}')
-            by_name.setdefault(name.lower(), node)
+            nk = name_key(name)
+            if nk in by_name:
+                failures.append(f'R2 {where}: the name is already used for {by_name[nk] or "a staged term"}')
+            by_name.setdefault(nk, node)
     failures += _obsolete(terms, names)
     failures += _number_unit(terms, names)
     failures += _equivalent(terms, names, spelling)
