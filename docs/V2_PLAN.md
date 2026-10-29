@@ -224,7 +224,9 @@ Last updated 2026-10-27.
     `needs_mapping`; Claude: v1's `probe_geometry` template has no field for
     either, so every probe would stay v1; options (a) optional for everyone,
     (b') required, with an EMPTY "not stated in source" term the migration
-    writes, (needs_mapping) every probe carried. [(b')] OPEN.
+    writes, (needs_mapping) every probe carried. [(b')] ANSWERED 2026-10-29
+    [missing facts are needs info]: neither; a `needs_info` entry on the
+    document names the missing field.
   - **G38. "Exactly one canonical" ([quantity reference type]).** DID-matlab's
     own writers fill no canonical for a concentration whose unit converts to
     none, and `{source_value: NaN}` for an unrecorded amount (decided

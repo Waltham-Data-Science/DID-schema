@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 564,
+          "accepted_lines": 565,
           "accepted_lines_by_kind": {
-            "Decided by": 447,
+            "Decided by": 448,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3913,6 +3913,14 @@
               "tag": "short last chunk",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [short last chunk]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1652,
+              "kind": "Decided by",
+              "tag": "missing facts are needs info",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [missing facts are needs"
             },
             {
               "document": "V_eta_image_model_plan.md",
