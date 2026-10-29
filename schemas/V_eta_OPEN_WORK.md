@@ -73,6 +73,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 159 | homes for five carries recorded 2026-10-28: v1 ids with no V2 document, axis letters, openMINDS ids, lab strain ids, session lists (carry-112, carry-114, carry-116, carry-117, carry-118) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
 | 160 | a standalone v1 `ngrid` loses `coordinates` and `data_size` in pass 1 (DID-matlab `+migrators/ngrid.m`) -> https://github.com/Waltham-Data-Science/DID-schema/issues/227 |
 | 161 | a label pass 1 carries as malformed (carry-100) is counted again under carry-095 by NDI's second pass -> https://github.com/Waltham-Data-Science/DID-schema/issues/228 |
+| 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
 
 Open items without a row number:
 
