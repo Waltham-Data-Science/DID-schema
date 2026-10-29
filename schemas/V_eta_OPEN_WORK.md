@@ -75,6 +75,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 161 | a label pass 1 carries as malformed (carry-100) is counted again under carry-095 by NDI's second pass -> https://github.com/Waltham-Data-Science/DID-schema/issues/228 |
 | 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
 | 163 | homes for an openMINDS element's `openminds_id` and description (carry-128) -> https://github.com/Waltham-Data-Science/DID-schema/issues/232 |
+| 164 | homes for the retire classes now carried as v1: fits and calculations with no subject, site2channelmap, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, vmspikefilteringparameters, a subjectmeasurement with no quantity kind (carry-136..143, carry-145) -> https://github.com/Waltham-Data-Science/DID-schema/issues/234 |
 
 Open items without a row number:
 

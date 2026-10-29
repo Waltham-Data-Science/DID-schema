@@ -52,6 +52,11 @@ per meaning, so this checks, and fails on any of:
       none is listed on two rows, and none is another row's node (that would be
       two entries for one meaning, as R1).
 
+  R15 `unit_bindings` (binding_registry_meta.json; Jess Haley, 2026-10-29,
+      V_eta_go_forward_class_audit.md [allowed units are source units]): each
+      row names a registered variable once and a non-empty list of registered
+      source units, each once, every {node, name} as registered.
+
   R14 `synonyms` (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md
       [spelling is notation]) is a list of non-empty strings: the spellings a
       migrator maps to the term (e.g. "Hz", "spikes/s" -> om:hertz), so the
@@ -338,6 +343,45 @@ def check_bindings(terms, bindings):
     return failures, report
 
 
+def check_unit_bindings(terms, bindings):
+    """R15 (Jess Haley, 2026-10-29 [allowed units are source units]): each
+    `unit_bindings` row names a registered variable term, at most once, and a
+    non-empty list of registered unit terms, each once, every {node, name} as
+    the term registry holds it. Returns (failures, rows, units)."""
+    by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
+    failures, seen, n_units = [], set(), 0
+    rows = bindings.get("unit_bindings", [])
+
+    def term(where, v):
+        if not (isinstance(v, dict) and v.get("node") and v.get("name")):
+            failures.append(f"R15 {where}: {v!r} is not a {{node, name}} term")
+            return
+        t = by_node.get(v["node"].lower())
+        if t is None:
+            failures.append(f"R15 {where}: {v['node']} is not in the term registry")
+        elif t["name"] != v["name"]:
+            failures.append(f"R15 {where}: {v['node']} is named {v['name']!r}, "
+                            f"registered as {t['name']!r}")
+    for i, row in enumerate(rows):
+        var = row.get("variable") or {}
+        where = f"unit_bindings[{i}] ({var.get('name', '?')})"
+        term(where + " variable", var)
+        if (var.get("node") or "").lower() in seen:
+            failures.append(f"R15 {where}: the variable has another row")
+        seen.add((var.get("node") or "").lower())
+        units = row.get("source_units")
+        if not isinstance(units, list) or not units:
+            failures.append(f"R15 {where}: source_units is not a non-empty list")
+            continue
+        nodes = [(u.get("node") or "").lower() for u in units if isinstance(u, dict)]
+        if len(nodes) != len(set(nodes)):
+            failures.append(f"R15 {where}: a unit is listed twice")
+        for u in units:
+            n_units += 1
+            term(where + " unit", u)
+    return failures, len(rows), n_units
+
+
 def check_value_sets(terms, bindings):
     """R9. Returns (failures, report lines, number of listed values)."""
     by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
@@ -423,6 +467,9 @@ def main():
         for line in vreport:
             print("  " + line)
         failures = failures + vfail
+        ufail, n_urows, n_units = check_unit_bindings(terms, bindings)
+        print(f"R15: {n_urows} unit_bindings row(s), {n_units} source unit(s) compared with the registry")
+        failures = failures + ufail
     else:
         print("R8 NOT CHECKED: no built binding_registry_meta.json")
     cfail, creport = check_canonical_units(terms)

@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. an entity's `type`). subject_statement_bindings map a statement's variable (and, on interactions, method) to the statement class that carries it (its direction: assertion, observation, manipulation or calculation, with the value kind it takes; T3 since 2026-10-08). A term-valued row additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Every relation name and entity type has a node (Jess Haley 2026-10-22 [vocabulary nodes]); code matches a relation or an entity type by its node. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
+    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. an entity's `type`). subject_statement_bindings map a statement's variable (and, on interactions, method) to the statement class that carries it (its direction: assertion, observation, manipulation or calculation, with the value kind it takes; T3 since 2026-10-08). A term-valued row additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Every relation name and entity type has a node (Jess Haley 2026-10-22 [vocabulary nodes]); code matches a relation or an entity type by its node. Consumer tooling resolves a value or endpoint against the matching binding at validation time. unit_bindings (Jess Haley, 2026-10-29 [allowed units are source units], V_eta_go_forward_class_audit.md): one row per variable node, `{variable, source_units}`: the closed list of units a SOURCE may give that variable's value in (the value's `source_unit`), each converted to the value class's canonical unit. Seeded with time and spatial position ([allowed units are closed source_unit lists]); condition variables in use are added as they are decided. Checked by tools/check_term_registry.py R15; enforcement is DID-matlab's.",
     "subject_statement_bindings": [
         {
             "variable": {
@@ -2896,6 +2896,112 @@
             "description": "one recording: the files written for one stretch of time, by one or more acquisition systems",
             "requires": [
                 "local_identifier"
+            ]
+        }
+    ],
+    "unit_bindings": [
+        {
+            "variable": {
+                "node": "om:Time",
+                "name": "time"
+            },
+            "source_units": [
+                {
+                    "node": "om:second-Time",
+                    "name": "second"
+                },
+                {
+                    "node": "om:millisecond-Time",
+                    "name": "millisecond"
+                },
+                {
+                    "node": "om:minute-Time",
+                    "name": "minute"
+                },
+                {
+                    "node": "om:hour",
+                    "name": "hour"
+                }
+            ]
+        },
+        {
+            "variable": {
+                "node": "PATO:0000140",
+                "name": "position"
+            },
+            "source_units": [
+                {
+                    "node": "om:metre",
+                    "name": "metre"
+                },
+                {
+                    "node": "om:millimetre",
+                    "name": "millimetre"
+                },
+                {
+                    "node": "om:micrometre",
+                    "name": "micrometre"
+                }
+            ]
+        },
+        {
+            "variable": {
+                "node": "NCIT:C44477",
+                "name": "X-Coordinate"
+            },
+            "source_units": [
+                {
+                    "node": "om:metre",
+                    "name": "metre"
+                },
+                {
+                    "node": "om:millimetre",
+                    "name": "millimetre"
+                },
+                {
+                    "node": "om:micrometre",
+                    "name": "micrometre"
+                }
+            ]
+        },
+        {
+            "variable": {
+                "node": "NCIT:C44478",
+                "name": "Y-Coordinate"
+            },
+            "source_units": [
+                {
+                    "node": "om:metre",
+                    "name": "metre"
+                },
+                {
+                    "node": "om:millimetre",
+                    "name": "millimetre"
+                },
+                {
+                    "node": "om:micrometre",
+                    "name": "micrometre"
+                }
+            ]
+        },
+        {
+            "variable": {
+                "node": "NCIT:C44479",
+                "name": "Z-Coordinate"
+            },
+            "source_units": [
+                {
+                    "node": "om:metre",
+                    "name": "metre"
+                },
+                {
+                    "node": "om:millimetre",
+                    "name": "millimetre"
+                },
+                {
+                    "node": "om:micrometre",
+                    "name": "micrometre"
+                }
             ]
         }
     ],

@@ -324,3 +324,28 @@ def test_the_response_unit_spellings_are_recorded():
     assert low("om:hertz") == {"hz", "spikes/s", "sp/s", "1/s", "spikes/sec",
                                "spikes per second"}
     assert low("EMPTY:0000397") == {"δf/f", "deltaf/f", "dff"}
+
+
+def test_unit_bindings_name_registered_terms():
+    """R15 ([allowed units are source units], Jess Haley, 2026-10-29): the shipped
+    `unit_bindings` rows all resolve, and the rule can fail -- an unregistered
+    unit, a renamed variable, a unit listed twice, a second row for one variable
+    and an empty list are each reported."""
+    terms = ctr._load(ctr.SOURCE)["terms"]
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
+                                 "binding_registry_meta.json"))
+    failures, n_rows, n_units = ctr.check_unit_bindings(terms, reg)
+    assert failures == [] and n_rows >= 2 and n_units >= n_rows
+    sec = {"node": "om:second-Time", "name": "second"}
+    bad = {"unit_bindings": [
+        {"variable": {"node": "om:Time", "name": "time"},
+         "source_units": [sec, sec, {"node": "om:fortnight", "name": "fortnight"}]},
+        {"variable": {"node": "om:Time", "name": "Time"}, "source_units": []},
+    ]}
+    failures, _, _ = ctr.check_unit_bindings(terms, bad)
+    text = "\n".join(failures)
+    assert "listed twice" in text
+    assert "om:fortnight is not in the term registry" in text
+    assert "registered as 'time'" in text
+    assert "has another row" in text
+    assert "not a non-empty list" in text
