@@ -399,7 +399,7 @@ Last updated 2026-10-27.
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
     own issue: #105, #108, #110.
-- **G64-G68. From the DID-matlab builds of 2026-10-30 (#305, #306). "[...]" is
+- **G64-G69. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
   Claude's recommendation, Proposed (not decided).**
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
     (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
@@ -430,6 +430,24 @@ Last updated 2026-10-27.
     as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
     info)? [needs info: the template default is indistinguishable from a
     recorded 0]
+  - **G69. Building G53 ([assay labels batch 1]..[6]).** A read-only plan,
+    docs/v2_working/G53_BUILD_PLAN.md, finds 91 EMPTY terms touched, none in the
+    term registry, 73 v1 dictionary entries (Dab, Hunsberger, Babu, Haley)
+    looking them up by LABEL, and no V2 importer yet for Dab, Babu or
+    Hunsberger. Its section 4 has 16 questions; the ones that block a build:
+    Q1, seven nodes each get the same three labels (R2 refuses duplicate names):
+    [relabel the lowest node of each, obsolete the other six with `consider` it];
+    Q2, a relabelled general term keeps its elevated-plus-maze parent? [no: move
+    it under the general parent]; Q4, no definition is given for the ten
+    relabels [Claude drafts from the current ones, assay and units stripped, for
+    approval]; Q7, the Babu and Hunsberger imports also write these terms [in
+    scope; name them]; Q8, "EMPTY:0000129/0000256/0000257 readers first" [NDI
+    reads them by node, which survives obsoletion: nothing to build]; Q9, the v1
+    dictionaries' label lookups [move them to nodes before empty-ontology
+    releases the change to main]; Q11, five obsoletes with no replacing term
+    [obsolete all five; `consider` as listed there, none for B13]; Q14(a),
+    A61's UO:0000031 "minute" clashes with the registered `om:minute-Time`
+    [use om:minute-Time].
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
