@@ -399,7 +399,7 @@ Last updated 2026-10-27.
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
     own issue: #105, #108, #110.
-- **G64-G70. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
+- **G64-G72. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
   Claude's recommendation, Proposed (not decided).**
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
     (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
@@ -457,6 +457,18 @@ Last updated 2026-10-27.
     templates", which the check reads as history); (b) skip all of OPEN_WORK;
     (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
     rest of the check keeps working]
+  - **G71. A virus dilution ([canonical absent only as needs info]).**
+    A virus injection's dilution is a v1 number with no unit (e.g. 1000; the
+    migrator labels it `dilution`). DID-matlab #311 leaves it as it was (source value, no
+    canonical). Carry it (carry-155; that carries every virus_injection with a
+    dilution, 5 fixtures), or name its canonical in `needs_info` ("a source
+    number with no unit")? [needs_info: a dilution is a ratio, nothing is
+    unknown about the document but the unit]
+  - **G72. Percent volume per volume.** Babu writes `Percent Volume per Volume`
+    (NCIT:C48571, 11 rows); x0.01 to `concentration.liters_per_liter` is exact.
+    Register NCIT:C48571 and convert, or keep the source only? (No fixture is
+    affected today: every Babu treatment is carried by location.) [register and
+    convert]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

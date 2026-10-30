@@ -45,7 +45,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 |
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 |
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
-| 134 | write an `imageStack`'s `imageCollection_id` as `member_of` a group (carry-013) -> https://github.com/Waltham-Data-Science/DID-schema/issues/139 |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
 | 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
 | 137 | a home for `stimulus_response_scalar` stimulator epoch and control links (carry-050) -> https://github.com/Waltham-Data-Science/DID-schema/issues/144 |
@@ -102,6 +101,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 134 | an `imageStack`'s `imageCollection_id`: superseded by [image collection carried until a writer] (no NDI writer writes one; carried, carry-153, DID-matlab 34deec0, #305); carry-013 retired, #139 closed 2026-10-30 |
 | 48 | the hartley_calc fold is re-armed (DID-matlab `+migrators_j/hartley_calc.m`, receptive_field_calculation with sampled bodies); `receptive_field.value` needs no inline fields under value_inline_or_body ([data_body amendment 5]); end state accepted in [confirm sheet matches]; #93 closed 2026-10-30 |
 | 142 | element name and reference stored apart: `name` written, the reference after it (DID-matlab element.m, on V2 via 0e25c5b, #299; NDI-matlab 461d8a6 reads it); carry-055 retired, 2026-10-30 |
 | 141 | an author with several affiliations in `metadata_editor`: one `affiliated_with` relation per affiliation (DID-matlab metadata_editor.m, on V2 via dde94c44 #278), Jess Haley 2026-10-27 [one affiliation relation each]; carry-054 retired (issue #148) |
