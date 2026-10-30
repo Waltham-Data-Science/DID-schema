@@ -326,7 +326,13 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # raise in one day (50 -> 56 -> 60) and that RATE is the thing to watch: the
 # ratchet is doing its job by making each raise deliberate, and it stops being
 # honest the moment a raise happens without the terms being written down.
-BASELINE_MIGRATORS = 60
+# 60 -> 16 on 2026-10-30, measured at the locked DID-matlab V2 3c6c4d70 (170
+# migrator files inspected, 16 emissions). LOWERED so the ratchet keeps the ground,
+# but read the drop with its caveat: part of it is terms minted and sites deleted,
+# and part is sites that moved to did2.build from plain text, which this text scan
+# does not see (36 files listed as NOT SWEPT in the same run). The fall is not a
+# count of terms minted.
+BASELINE_MIGRATORS = 16
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
