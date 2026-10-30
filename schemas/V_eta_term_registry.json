@@ -10890,6 +10890,42 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "z-axis",
+      "node": "STATO:0000012",
+      "definition": "z-axis is a cartesian coordinate axis which is orthogonal to the x-axis and the y-axis",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-30, for the third axis Jess Haley decided 2026-10-27 [site frame is a coordinate system] (V_eta_go_forward_class_audit.md): a probe coordinate system's axis along which v1 site_locations_depth runs, beside the registered x-axis STATO:0000006 and y-axis STATO:0000008. Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/stato/terms?obo_id=STATO:0000012",
+      "first_used_in": "DID-matlab generic migration (+migrators_j/probe_geometry.m: the probe coordinate system's third axis)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "right",
+      "node": "PATO:0000367",
+      "definition": "A directional quality inhering in a bearer by virtue of the bearer's direction that is similar to the direction of an object to the north when it faces west.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-30, for the x positive direction Jess Haley decided 2026-10-27 [site frame is a coordinate system] (V_eta_go_forward_class_audit.md; NDI probe_geometry_schema.json site_locations_leftright: 'Left (negative)/ right (positive) site positions from facing the electrode'). A direction not tied to an organism's body (BSPO:0000007 'right side' is right of an organism's sagittal plane; 'image right' EMPTY:0000311 is an image's). Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/pato/terms?obo_id=PATO:0000367",
+      "first_used_in": "DID-matlab generic migration (+migrators_j/probe_geometry.m: the probe coordinate system's x axis)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "back",
+      "node": "PATO:0001901",
+      "definition": "A directional quality inhering in a bearer by virtue of the bearer's direction that is similar to the direction of an object to the north when it faces south.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-10-30, for the y positive direction Jess Haley decided 2026-10-27 [site frame is a coordinate system] (V_eta_go_forward_class_audit.md; NDI probe_geometry_schema.json site_locations_frontback: 'Front (negative)/ back (positive) site positions from facing the electrode'). A direction not tied to an organism's body (NCIT:C25622 'Posterior' and BSPO:0000056 are anatomical). Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/pato/terms?obo_id=PATO:0001901",
+      "first_used_in": "DID-matlab generic migration (+migrators_j/probe_geometry.m: the probe coordinate system's y axis)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
