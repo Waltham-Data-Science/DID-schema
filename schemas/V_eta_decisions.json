@@ -2,18 +2,18 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 79,
+    "classes": 76,
     "classes_citing": 73,
     "citations": 85,
     "citations_unresolved": 0,
-    "open_classes": 31,
+    "open_classes": 25,
     "by_state": {
       "decided": 73,
-      "proposed (not decided)": 6
+      "proposed (not decided)": 3
     },
     "open_by_state": {
-      "decided": 25,
-      "proposed (not decided)": 6
+      "decided": 22,
+      "proposed (not decided)": 3
     },
     "state_labels": {
       "decided": "decided: cites a decision line that exists",
@@ -71,8 +71,8 @@
     },
     "binaryseries_parameters": {
       "class_name": "binaryseries_parameters",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -167,8 +167,8 @@
     },
     "daqmetadatareader": {
       "class_name": "daqmetadatareader",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -191,8 +191,8 @@
     },
     "daqmetadatareader_epochdata_ingested": {
       "class_name": "daqmetadatareader_epochdata_ingested",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1081,7 +1081,7 @@
     },
     "ontologyImage": {
       "class_name": "ontologyImage",
-      "disposition": "retire",
+      "disposition": "consumed by migrator (no tombstone)",
       "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
@@ -1102,36 +1102,6 @@
           "why": null
         }
       ]
-    },
-    "ontology_image": {
-      "class_name": "ontology_image",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "ontology_label": {
-      "class_name": "ontology_label",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
-    "ontology_table_row": {
-      "class_name": "ontology_table_row",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "openminds": {
       "class_name": "openminds",
@@ -1942,7 +1912,7 @@
         "packages_missing": [],
         "files_read": 421,
         "lines_read": 77844,
-        "classes_queried": 31,
+        "classes_queried": 25,
         "classes_emitted_as_document_class": 5,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2090,7 +2060,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 31
+        "classes_queried": 25
       },
       "batch_consumers": {
         "files_scanned": 45,
@@ -2105,7 +2075,7 @@
     },
     "counts": {
       "a_nothing_built": 3,
-      "b_built_awaiting_corpus_proof": 28,
+      "b_built_awaiting_corpus_proof": 22,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2355,104 +2325,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "binaryseries_parameters",
-        "decision": "decided",
-        "decided_in": "V_eta_go_forward_class_audit.md:9 [misc singletons]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/binaryseries_parameters.m`",
-          "decided target(s) built: `statement`, `sampled_body`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/binaryseries_parameters.m",
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 5,
-        "named_refs": [
-          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:23 (named)",
-          "DID-matlab:convert/rawV1Classes.m:429 (named)",
-          "DID-matlab:migrators_j/binaryseries_parameters.m:52 (named)",
-          "DID-matlab:migrators_j/binaryseries_parameters.m:68 (named)",
-          "DID-matlab:migrators_j/binaryseries_parameters.m:79 (named)"
-        ],
-        "n_comment_mentions": 16,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:17 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:6 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:267 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:269 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:migrators_j/binaryseries_parameters.m:52 (named)",
-              "DID-matlab:migrators_j/binaryseries_parameters.m:68 (named)",
-              "DID-matlab:migrators_j/binaryseries_parameters.m:79 (named)"
-            ],
-            "n_comment_mentions": 10,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/+super/image_stack_parameters.m:103 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:333 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:573 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:574 (comment_mention)",
-              "DID-matlab:migrators_j/binaryseries_parameters.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/binaryseries_parameters.m:8 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:23 (named)",
-              "DID-matlab:convert/rawV1Classes.m:429 (named)"
-            ],
-            "n_comment_mentions": 6,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:17 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:2 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:5 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/binaryseries_parameters.m:6 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:267 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:269 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "statement",
-          "sampled_body"
-        ],
-        "decided_targets_built": [
-          "statement",
-          "sampled_body"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "calculator",
         "decision": "decided",
         "decided_in": "V_eta_subject_calculation_plan.md:371 [calculator mixin dropped (#73)]",
@@ -2624,233 +2496,6 @@
         },
         "decided_targets": [],
         "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "daqmetadatareader",
-        "decision": "decided",
-        "decided_in": "V_eta_daq_family_decisions.md:489 [daq configuration]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/daqmetadatareader.m`",
-          "6 consuming reference(s) (6 per-document migrator)",
-          "decided target(s) built: `epoch_parameter_reader`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/daqmetadatareader.m",
-        "n_consuming_refs": 6,
-        "consuming_refs": [
-          "DID-matlab:migrators_j/daqmetadatareader.m:128 (guard)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:129 (field_read)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:130 (field_read)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:73 (guard)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:74 (field_read)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:78 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:43 (field_write)"
-        ],
-        "n_named_refs": 5,
-        "named_refs": [
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:26 (named)",
-          "DID-matlab:convert/rawV1Classes.m:387 (named)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:120 (named)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:122 (named)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:143 (named)"
-        ],
-        "n_comment_mentions": 28,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:2 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:20 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:5 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/daqmetadatareader.m:6 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/private/daqParts.m:14 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:120 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 6,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/daqmetadatareader.m:128 (guard)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:129 (field_read)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:130 (field_read)",
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:73 (guard)",
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:74 (field_read)",
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:78 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:migrators_j/daqmetadatareader.m:120 (named)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:122 (named)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:143 (named)"
-            ],
-            "n_comment_mentions": 22,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:202 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:235 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:625 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:626 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:101 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:13 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:43 (field_write)"
-            ],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:26 (named)",
-              "DID-matlab:convert/rawV1Classes.m:387 (named)"
-            ],
-            "n_comment_mentions": 6,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:2 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:20 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:5 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/daqmetadatareader.m:6 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/private/daqParts.m:14 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:120 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "epoch_parameter_reader"
-        ],
-        "decided_targets_built": [
-          "epoch_parameter_reader"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "daqmetadatareader_epochdata_ingested",
-        "decision": "decided",
-        "decided_in": "V_eta_ingested_payload_findings.md:276 [daq ingested payloads]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`",
-          "5 consuming reference(s) (2 per-document migrator, 3 batch post-pass)",
-          "decided target(s) built: `opaque_body`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m",
-        "n_consuming_refs": 5,
-        "consuming_refs": [
-          "DID-matlab:convert/epochMint.m:1201 (guard)",
-          "DID-matlab:convert/epochMint.m:2373 (field_read)",
-          "DID-matlab:convert/resolveEpochProbemap.m:390 (guard)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:157 (guard)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:158 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 6,
-        "named_refs": [
-          "DID-matlab:convert/epochMint.m:1232 (named)",
-          "DID-matlab:convert/epochMint.m:2372 (named)",
-          "DID-matlab:convert/rawV1Classes.m:381 (named)",
-          "DID-matlab:convert/v1_to_v2.m:1477 (named)",
-          "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:111 (named)",
-          "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:84 (named)"
-        ],
-        "n_comment_mentions": 27,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:14 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:3 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:5 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:1132 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:1138 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:1342 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:157 (guard)",
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:158 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:111 (named)",
-              "NDI-matlab:ndi_second_pass/ingestedStimulusBodies.m:84 (named)"
-            ],
-            "n_comment_mentions": 12,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:629 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:26 (comment_mention)",
-              "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 3,
-            "consuming_refs": [
-              "DID-matlab:convert/epochMint.m:1201 (guard)",
-              "DID-matlab:convert/epochMint.m:2373 (field_read)",
-              "DID-matlab:convert/resolveEpochProbemap.m:390 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 4,
-            "named_refs": [
-              "DID-matlab:convert/epochMint.m:1232 (named)",
-              "DID-matlab:convert/epochMint.m:2372 (named)",
-              "DID-matlab:convert/rawV1Classes.m:381 (named)",
-              "DID-matlab:convert/v1_to_v2.m:1477 (named)"
-            ],
-            "n_comment_mentions": 15,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:14 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:3 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/daqmetadatareader_epochdata_ingested.m:5 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:1132 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:1138 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:1342 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "opaque_body"
-        ],
-        "decided_targets_built": [
-          "opaque_body"
-        ],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},
@@ -4072,291 +3717,6 @@
               "DID-matlab:convert/+roundtrip/hartley_calc.m:37 (comment_mention)",
               "DID-matlab:convert/+roundtrip/hartley_calc.m:38 (comment_mention)",
               "DID-matlab:convert/+roundtrip/hartley_calc.m:39 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ontology_image",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/ontology_image.m`",
-          "2 consuming reference(s) (2 per-document migrator)"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/ontology_image.m",
-        "n_consuming_refs": 2,
-        "consuming_refs": [
-          "DID-matlab:migrators_j/ontology_image.m:297 (guard)",
-          "DID-matlab:migrators_j/ontology_image.m:301 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:migrators_j/ontology_image.m:293 (field_write)"
-        ],
-        "n_named_refs": 5,
-        "named_refs": [
-          "DID-matlab:convert/rawV1Classes.m:465 (named)",
-          "DID-matlab:migrators_j/ontology_image.m:289 (named)",
-          "DID-matlab:migrators_j/ontology_image.m:326 (named)",
-          "DID-matlab:migrators_j/ontology_image.m:361 (named)",
-          "DID-matlab:migrators_j/ontology_image.m:428 (named)"
-        ],
-        "n_comment_mentions": 32,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/ontologyImage.m:18 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/ontologyImage.m:8 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:303 (comment_mention)",
-          "DID-matlab:convert/universalRenames.m:24 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:116 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:55 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/ontology_image.m:297 (guard)",
-              "DID-matlab:migrators_j/ontology_image.m:301 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:migrators_j/ontology_image.m:293 (field_write)"
-            ],
-            "n_named_refs": 4,
-            "named_refs": [
-              "DID-matlab:migrators_j/ontology_image.m:289 (named)",
-              "DID-matlab:migrators_j/ontology_image.m:326 (named)",
-              "DID-matlab:migrators_j/ontology_image.m:361 (named)",
-              "DID-matlab:migrators_j/ontology_image.m:428 (named)"
-            ],
-            "n_comment_mentions": 28,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/+super/ngrid.m:116 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:55 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:485 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:820 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:821 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:246 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/rawV1Classes.m:465 (named)"
-            ],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/ontologyImage.m:18 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/ontologyImage.m:8 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:303 (comment_mention)",
-              "DID-matlab:convert/universalRenames.m:24 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ontology_label",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/ontology_label.m`",
-          "2 consuming reference(s) (1 per-document migrator, 1 batch post-pass)"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/ontology_label.m",
-        "n_consuming_refs": 2,
-        "consuming_refs": [
-          "DID-matlab:convert/isOntologyLabelClass.m:28 (guard)",
-          "NDI-matlab:ndi_second_pass/isOntologyLabelClass.m:27 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 5,
-        "named_refs": [
-          "DID-matlab:convert/foldGenericFiles.m:562 (named)",
-          "DID-matlab:convert/rawV1Classes.m:454 (named)",
-          "DID-matlab:migrators_j/ontology_label.m:214 (named)",
-          "NDI-matlab:ndi_second_pass/ontologyLabelSubjects.m:372 (named)",
-          "NDI-matlab:ndi_second_pass/ontologyLabelSubjects.m:407 (named)"
-        ],
-        "n_comment_mentions": 38,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/ontologyLabel.m:10 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/ontologyLabel.m:18 (comment_mention)",
-          "DID-matlab:convert/Contents.m:36 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:157 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:163 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:178 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/isOntologyLabelClass.m:27 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:migrators_j/ontology_label.m:214 (named)",
-              "NDI-matlab:ndi_second_pass/ontologyLabelSubjects.m:372 (named)",
-              "NDI-matlab:ndi_second_pass/ontologyLabelSubjects.m:407 (named)"
-            ],
-            "n_comment_mentions": 25,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:832 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:833 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:93 (comment_mention)",
-              "DID-matlab:migrators_j/epochfiles_ingested.m:235 (comment_mention)",
-              "DID-matlab:migrators_j/epochfiles_ingested.m:271 (comment_mention)",
-              "DID-matlab:migrators_j/ontology_image.m:116 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "DID-matlab:convert/isOntologyLabelClass.m:28 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/foldGenericFiles.m:562 (named)",
-              "DID-matlab:convert/rawV1Classes.m:454 (named)"
-            ],
-            "n_comment_mentions": 13,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/ontologyLabel.m:10 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/ontologyLabel.m:18 (comment_mention)",
-              "DID-matlab:convert/Contents.m:36 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:157 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:163 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:178 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ontology_table_row",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/ontology_table_row.m`",
-          "2 consuming reference(s) (2 per-document migrator)"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/ontology_table_row.m",
-        "n_consuming_refs": 2,
-        "consuming_refs": [
-          "DID-matlab:migrators_j/ontology_table_row.m:35 (guard)",
-          "NDI-matlab:ndi_second_pass/ontologyRowsCarried.m:74 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:migrators_j/ontology_table_row.m:41 (named)"
-        ],
-        "n_comment_mentions": 19,
-        "comment_mentions": [
-          "DID-matlab:convert/resolveDeferredBaths.m:14 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:756 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:528 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:65 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:835 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/ontology_table_row.m:35 (guard)",
-              "NDI-matlab:ndi_second_pass/ontologyRowsCarried.m:74 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/ontology_table_row.m:41 (named)"
-            ],
-            "n_comment_mentions": 16,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:528 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:65 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:835 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:836 (comment_mention)",
-              "DID-matlab:migrators_j/image_stack.m:110 (comment_mention)",
-              "DID-matlab:migrators_j/image_stack.m:125 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 3,
-            "comment_mentions": [
-              "DID-matlab:convert/resolveDeferredBaths.m:14 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:756 (comment_mention)"
             ]
           }
         },

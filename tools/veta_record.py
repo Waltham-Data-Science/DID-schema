@@ -179,6 +179,16 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # retire classes deleted 2026-10-30, second batch ([one folder, final
+    # classes only]): DID-matlab #308 and #309 made its tests independent of
+    # the files; daqmetadatareader and ontology_table_row were kept only as
+    # edge targets of daqmetadatareader_epochdata_ingested and ontology_image
+    "binaryseries_parameters",
+    "daqmetadatareader",
+    "daqmetadatareader_epochdata_ingested",
+    "ontology_image",
+    "ontology_label",
+    "ontology_table_row",
     # [linked_session withdrawn] (V_eta_linked_session_plan.md): no writer makes
     # one after NDI-matlab 915bbb3 (#1103); NDI reads an older one as a fallback
     "linked_session",

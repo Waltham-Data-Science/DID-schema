@@ -19,12 +19,6 @@
             "note": "Replaced by a `software` entity (#73 item 53, signed; [presentation app is software], [sorter software]); deleted when no class keeps it as a superclass ([one folder, final classes only], 2026-10-29)."
         },
         {
-            "class_name": "binaryseries_parameters",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
-        },
-        {
             "class_name": "calculator",
             "replaced_by": [],
             "decision": "",
@@ -35,22 +29,6 @@
             "replaced_by": [],
             "decision": "",
             "note": "consumed → item.control_item (#73 item 67; was timed_sequence)"
-        },
-        {
-            "class_name": "daqmetadatareader",
-            "replaced_by": [
-                "epoch_parameter_reader"
-            ],
-            "decision": "",
-            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "daqmetadatareader_epochdata_ingested",
-            "replaced_by": [
-                "opaque_body"
-            ],
-            "decision": "",
-            "note": "becomes an opaque_body owned by the epoch's stimulus-presentation manipulation (NDI second pass); with no matching presentation it is carried as v1. V_eta_go_forward_class_audit.md [ingested stimulus file is a body of the presentation]"
         },
         {
             "class_name": "daqreader",
@@ -131,29 +109,6 @@
             "replaced_by": [],
             "decision": "",
             "note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
-        },
-        {
-            "class_name": "ontology_image",
-            "replaced_by": [
-                "observation + intensity",
-                "observation + term",
-                "sampled_body",
-                "relative_time_reference"
-            ],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "ontology_label",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "ontology_table_row",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "openminds",

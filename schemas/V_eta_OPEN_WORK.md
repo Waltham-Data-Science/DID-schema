@@ -21,7 +21,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 |
 | 32 | binding governance (T8): the remaining clause is #129 -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
 | 46 | retire `ngrid`, gated on both consumers -> https://github.com/Waltham-Data-Science/DID-schema/issues/92 |
-| 48 | `receptive_field.value` declares no fields; the hartley_calc fold quarantines -> https://github.com/Waltham-Data-Science/DID-schema/issues/93 |
 | 57 | clock alignment cluster: is `acquisition_channels`' own dependency set covered by the signature? -> https://github.com/Waltham-Data-Science/DID-schema/issues/95 |
 | 62 | `stimulus_parameter` dissolution, blocked on a Marder corpus -> https://github.com/Waltham-Data-Science/DID-schema/issues/96 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id` -> https://github.com/Waltham-Data-Science/DID-schema/issues/105 |
@@ -103,6 +102,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 48 | the hartley_calc fold is re-armed (DID-matlab `+migrators_j/hartley_calc.m`, receptive_field_calculation with sampled bodies); `receptive_field.value` needs no inline fields under value_inline_or_body ([data_body amendment 5]); end state accepted in [confirm sheet matches]; #93 closed 2026-10-30 |
 | 142 | element name and reference stored apart: `name` written, the reference after it (DID-matlab element.m, on V2 via 0e25c5b, #299; NDI-matlab 461d8a6 reads it); carry-055 retired, 2026-10-30 |
 | 141 | an author with several affiliations in `metadata_editor`: one `affiliated_with` relation per affiliation (DID-matlab metadata_editor.m, on V2 via dde94c44 #278), Jess Haley 2026-10-27 [one affiliation relation each]; carry-054 retired (issue #148) |
 | 133 | an image's differing `data_limits`: a valid [min max] pair is written as a value range (DID-matlab image_stack.m, on V2 via f6486be); what remains is a malformed `data_limits` (carry-011, carry-012), Jess Haley 2026-10-26 [data_limits not a pair is malformed] (issue #138) |
@@ -1503,3 +1503,5 @@ RE-DERIVED 2026-10-29 (Jess Haley [quantity reference type], did-schema #66; `ch
 RE-DERIVED 2026-10-30 (thirty-three retire classes deleted, Jess Haley [one folder, final classes only], V_eta_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **119 distinct V_eta class names** (was 152; -33: daqsystem, distance_metadata, electrode_offset_voltage, element, filter, fitcurve, jrclust_clusters, kiasort_clusters, kilosort_clusters, measurement, neuron_extracellular, oneepoch, openminds_element, openminds_subject, position_metadata, probe_geometry, probe_location, pyraview, simple_calc, site2channelmap, sorting_parameters, spike_clusters, spike_extraction_parameters, spike_extraction_parameters_modification, spikewaves, stimulus_parameter, subjectmeasurement, syncgraph, syncrule_mapping, vmneuralresponseresiduals, vmspikefilteringparameters, vmspikefit, vmspikesummary); tombstone classes compared: 25 (was 56). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-30 (`draft/linked_session.json` removed, Jess Haley [linked_session withdrawn], V_eta_linked_session_plan.md; `check_prose_counts` re-derives all nouns): **118 distinct V_eta class names** (was 119; -1: linked_session). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-30 (six more retire classes deleted, Jess Haley [one folder, final classes only], V_eta_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **112 distinct V_eta class names** (was 118; -6: binaryseries_parameters, daqmetadatareader, daqmetadatareader_epochdata_ingested, ontology_image, ontology_label, ontology_table_row); tombstone classes compared: 19 (was 25). Re-derive with `check_prose_counts`, do not quote these directly.
