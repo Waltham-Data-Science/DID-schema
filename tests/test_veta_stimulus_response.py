@@ -549,7 +549,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # final classes only]; RETIRED_CLASSES in tools/veta_record.py). `element`
     # was one, so its two inert cells (element.direct, element.reference) left
     # the INERT list with it; the rest were not in it.
-    assert walked == 119, f"schema count moved; re-derive the inert set ({walked})"
+    # THIRTY-FOURTH MOVEMENT, re-derived not bumped: 119 -> 118 on 2026-10-30,
+    # `linked_session` removed ([linked_session withdrawn]). It was not in the
+    # INERT list, which is checked, not assumed.
+    assert walked == 118, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

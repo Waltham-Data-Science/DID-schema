@@ -14,8 +14,8 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 126 |
-| settled (persist) | 95 |
+| target classes | 125 |
+| settled (persist) | 94 |
 | `retire`, file still in the tree (open: delete it once nothing passes through it, [one folder, final classes only]) | 31 |
 | **still open (`in_progress`)** | **0** |
 | **`retire` with no migrator YET** | **1** |

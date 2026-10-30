@@ -10892,6 +10892,18 @@
       "synonyms": []
     },
     {
+      "name": "Naka-Rushton function",
+      "node": "EMPTY:0000416",
+      "definition": "A saturating function of contrast, R(c) = Rm c^n / (c^(n s) + c50^(n s)), used to describe the contrast response of a neuron.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [Naka-Rushton function minted], V_eta_go_forward_class_audit.md: the model term of [Naka-Rushton is one function]; EMPTY:0000416 minted in empty-ontology #32 (synonym in the ontology)",
+      "first_used_in": "no dataset yet: the model of a migrated Naka-Rushton contrast fit (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
       "name": "z-axis",
       "node": "STATO:0000012",
       "definition": "z-axis is a cartesian coordinate axis which is orthogonal to the x-axis and the y-axis",

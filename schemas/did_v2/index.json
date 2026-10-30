@@ -850,17 +850,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "linked_session",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/draft/linked_session.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "logical",
             "tier": "draft",
             "class_version": "1.0.0",
