@@ -2515,6 +2515,20 @@
       "open_work": 164,
       "home": "a data-combination calculation over the per-epoch recordings ([oneepoch method is data combination]), not yet built",
       "kind_basis": "decided"
+    },
+    {
+      "id": "carry-149",
+      "v1_class": "element",
+      "fields": [
+        "base.name"
+      ],
+      "when": "base.name is non-empty: NDI's ndi.element/newdocument never writes one, and entity.name holds element.name (DID-matlab +migrators_j/element.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "element name kept apart, base.name carried"
+      },
+      "kind_basis": "stated"
     }
   ]
 }

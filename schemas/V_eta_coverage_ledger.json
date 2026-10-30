@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 571,
+          "accepted_lines": 572,
           "accepted_lines_by_kind": {
-            "Decided by": 454,
+            "Decided by": 455,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3969,6 +3969,14 @@
               "tag": "redeclaration merge moot",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [redeclaration merge"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1666,
+              "kind": "Decided by",
+              "tag": "element name kept apart, base.name carried",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element name kept apart"
             },
             {
               "document": "V_eta_image_model_plan.md",
