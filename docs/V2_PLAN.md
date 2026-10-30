@@ -458,8 +458,8 @@ Last updated 2026-10-27.
     (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
     rest of the check keeps working]
   - **G71. A virus dilution ([canonical absent only as needs info]).**
-    `virus_AdministrationPND`'s neighbour `virus_dilution` is a v1 number with
-    no unit (e.g. 1000). DID-matlab #311 leaves it as it was (source value, no
+    A virus injection's dilution is a v1 number with no unit (e.g. 1000; the
+    migrator labels it `dilution`). DID-matlab #311 leaves it as it was (source value, no
     canonical). Carry it (carry-155; that carries every virus_injection with a
     dilution, 5 fixtures), or name its canonical in `needs_info` ("a source
     number with no unit")? [needs_info: a dilution is a ratio, nothing is
