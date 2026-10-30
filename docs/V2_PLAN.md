@@ -321,7 +321,7 @@ Last updated 2026-10-27.
     The variable terms for the `breedingType` and `diseaseModel` assertions;
     the vendor -> CURIE prefix table beyond JAX and how the vendor is read (a
     separate openMINDS Organization document); how several identifiers fill
-    `entity.global_identifier`; what "lookupLabel is rebuilt" means.
+    `entity.global_identifier`; what "lookupLabel is rebuilt" means. ANSWERED 2026-10-30 [openMINDS strain leftovers settled].
   - **G50. Two retire classes the migration reshapes ([one folder, final
     classes only]).** `distance_metadata` and `oneepoch` are reshaped into the
     retire class rather than left as v1, so their files cannot go. Carry them
@@ -336,10 +336,10 @@ Last updated 2026-10-27.
     (audit Q1) and the imageStack mask words (Q3,
     `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage? ANSWERED 2026-10-30 [Haley mask words leave the generic stage].
   - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
-    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`.
+    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`. IN PROGRESS: rows A1-A3 ANSWERED 2026-10-30 [assay labels batch 1]; the rest in batches.
   - **G54. The element device-kind table ([element type is a device kind
     term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
-    G17).
+    G17). IN PROGRESS: batch 1 ANSWERED 2026-10-30 [element types batch 1]; the rest in batches.
   - **G55. Element name and reference stored reversibly ([early migration
     pieces fixed], part 5; OPEN_WORK #142).** Which shape? ANSWERED 2026-10-29 [element name and reference stored apart].
   - **G56. Finding a term by a spelling of its name.** DID-matlab's term index

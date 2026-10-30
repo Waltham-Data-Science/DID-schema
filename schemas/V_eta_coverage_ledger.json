@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 588,
+          "accepted_lines": 591,
           "accepted_lines_by_kind": {
-            "Decided by": 471,
+            "Decided by": 474,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4105,6 +4105,30 @@
               "tag": "global-clock oneepoch details",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1700,
+              "kind": "Decided by",
+              "tag": "openMINDS strain leftovers settled",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [openMINDS strain"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1702,
+              "kind": "Decided by",
+              "tag": "assay labels batch 1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1704,
+              "kind": "Decided by",
+              "tag": "element types batch 1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element types batch 1]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",
