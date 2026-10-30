@@ -399,6 +399,37 @@ Last updated 2026-10-27.
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
     own issue: #105, #108, #110.
+- **G64-G68. From the DID-matlab builds of 2026-10-30 (#305, #306). "[...]" is
+  Claude's recommendation, Proposed (not decided).**
+  - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
+    (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
+    day), and it is not in the term registry (`om:hour` and `om:minute-Time`
+    are). Register it? [yes: an existing OM unit, T19]
+  - **G65. Shape of an acquisition time on a UTC clock (G28,
+    [acquisition time on its clock]).** DID-matlab #306 writes a
+    `relative_time_reference` to the session on clock utc, start = datenum x
+    86400 s ("seconds since datenum 0, from the session"), copying
+    jTreatmentAnchor. The other shape is an `absolute_time_reference` holding
+    the ISO UTC instant. [absolute: a UTC instant is not an offset from the
+    session, and the relative form's zero point is not the session's]
+  - **G66. Hartley implied, after G29.** [hartley method implied] says
+    "Hartley" is implied by the method term ndi.calc.vis.hartley; G29 replaces
+    that term with EDAM "Data analysis", so DID-matlab #306's round trip infers
+    Hartley from the `receptive_field_calculation` class instead. Amend the
+    line to say so? [yes]
+  - **G67. A formulation with no amount stated ([canonical absent only as
+    needs info]).** When no ingredient states an amount, the value is blank and
+    `value_inline_or_body` refuses it, so DID-matlab #305 keeps the old NaN
+    there. (a) the value rule accepts a blank value that `needs_info` names;
+    (b) keep NaN. Also: a missing canonical is named
+    `formulation.value.ingredients(k).concentration.canonical`, a path that is
+    not a declared field (a concentration has no single canonical). Keep that
+    convention? [(a); yes]
+  - **G68. Postnatal day 0.** `virus_AdministrationPND` defaults to 0 in NDI's
+    template, and #306 writes 0 as age 0 days, because no decision treats it
+    as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
+    info)? [needs info: the template default is indistinguishable from a
+    recorded 0]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
