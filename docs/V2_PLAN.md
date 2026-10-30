@@ -5,7 +5,75 @@ lines, mostly in `schemas/V_eta_go_forward_class_audit.md`. Open work is
 indexed in `schemas/V_eta_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-10-27.
+Last updated 2026-10-30.
+
+## State at 2026-10-30 (pick up here)
+
+Read this first after a break. Verify each PR's state on GitHub before acting;
+this is a snapshot, not the record.
+
+**Merged 2026-10-30:** DID-matlab #312, #313, #314, #315, #316, #318, #319,
+#320, #321, #323; NDI-matlab #1106, #1107, #1111, #1113; empty-ontology #33.
+did-schema #176 and #129 closed (superseded / stale).
+
+**`Built:` marks still to record in did-schema** (find each PR's decision tag
+in its PR body): DID-matlab #314 (clock nodes), #316 (v1 name own field),
+#318 (canonical or needs info), #321 (spelling is notation), #323 (no retired
+emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
+(final carry sweep). #312, #313, #315, #319, #320 are already marked (37a88d6).
+
+**Open PRs, in merge order:**
+1. DID-matlab fix PR, branch `claude/divergence-final-dependents`: adds
+   `carryFinalDependents` (NDI-only, NDI-matlab #1111) to
+   `crossRepoDivergenceTable`. `testBatchPassWiring` is red on DID-matlab V2
+   until it merges.
+2. DID-matlab #317 and NDI-matlab #1109: layout readers ([schema folders by
+   family], siblings first). #1109's only red check ("V2 import (Haley) --
+   fast") is red on NDI V2 too: see question L1 below.
+3. did-schema #246 (this branch). After it merges: close #144 and #110
+   (decision lines [differing stimulator epoch is malformed], [response unit
+   slot settles 110]).
+4. DID-matlab #325 (carry builds: oneepoch with its element, carry-156 n-trode
+   count, carry-157 bath with no clock). Red until #246 merges (cites
+   carry-156/157). After it merges: retire carry-148 in did-schema.
+5. DID-matlab #304 (stimulator is SNOMEDCT:36645008; b4d626a), #322 (bath
+   variable), #324 (last nine raw-v1 migrators): required checks green, corpus
+   jobs were still running. #304 body still lists stimulator as carried; #324
+   body still says MATLAB has not run. After #304: retire carry-121; mark the
+   DID-matlab part of [stimulator is SNOMED CT Stimulator] Built.
+6. ndi-ontology-matlab #17 (SNOMEDCT lookup): CI had not started. Then mark the
+   ndi-ontology-matlab part of [stimulator is SNOMED CT Stimulator] Built.
+7. NDI-matlab #1108, #1112 (only codecov/project red, -0.02%, looks like
+   noise: #1113 test-only also fails it) and #1110 (codecov/patch 10% is a
+   real coverage gap on the compression code). Team call.
+8. Then the did-schema layout move (one PR): family subfolders, `retiring/`,
+   `registry/` and `generated/` (split the authored parts of index.json and
+   migration_targets.json), the Markdown move and `V_eta_*` -> `did_v2_*`
+   rename redone on current main, README rewrite, web viewer reads. The
+   sibling readers find files by basename; any rename beyond the
+   `V_eta_`/`did_v2_` swap needs them updated first.
+
+**Questions for Jess (batch 3, not yet asked; Proposed, not decided):**
+- L1. NDI `TestLinkedSessions/testAnOlderLinkedSessionDocumentIsStillRead` is
+  filtered because did-schema no longer declares `linked_session`, and the
+  import workflow fails on any filtered test (red on NDI V2). Delete the test
+  (the class is withdrawn) or let the workflow allow it?
+- L2. Correction to the layout proposal: `quantity_list_meta.json` is written
+  by `validate_v_eta.py` (D6), so it goes to `generated/`, not `registry/`.
+- L3. Unit bindings (DID-matlab #320) are armed only by
+  `DID_ENFORCE_UNIT_BINDINGS=1`. Writers give units outside the lists today
+  (NDI Haley video time in `frame`; probe_geometry cm/nm; light-sheet axes).
+  Widen the lists, carry those, or make the binding `preferred`?
+- L4. Compression block (DID-matlab #319): codec terms gzip (EDAM:format_3989),
+  LZW and Blosc (new EMPTY), and parameter variables (inner compressor,
+  compression level, shuffle, block size).
+- L5. #325 open points: more baths now carried in DID-only runs; an n-trode
+  whose epochs disagree gets no count and no carry row; counts only from
+  ingested epochs.
+- Also held: ids for minted documents with no source id; carry-087 into
+  carry-100; recognising a migrated element without the "ndi element class"
+  assertion; Group vs ensemble; widening the equivalents fill (66 rows); a
+  second-pass emitter for `purpose`; #1680 (Haley region names as "the map").
 
 ## Waiting for Jess
 
