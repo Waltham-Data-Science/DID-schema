@@ -234,22 +234,6 @@
       "kind_basis": "stated"
     },
     {
-      "id": "carry-013",
-      "v1_class": "imageStack",
-      "fields": [
-        "imageCollection_id"
-      ],
-      "when": "it has an `imageCollection_id` edge, until the generic migration writes it as a member_of relation to a group entity",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "image file details placed"
-      },
-      "open_work": 134,
-      "home": "member_of a group entity (T20) (Build pending: DID-matlab)",
-      "kind_basis": "decided"
-    },
-    {
       "id": "carry-014",
       "v1_class": "hartley_calc",
       "fields": [

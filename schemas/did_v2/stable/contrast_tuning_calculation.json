@@ -15,14 +15,14 @@
         {
             "name": "interpolated_values",
             "type": "structure",
-            "blank_value": {},
-            "default_value": {},
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Summary points read off the RAW (unfitted) curve by interpolation (v1 `fitless`).",
+            "documentation": "Summary points read off the RAW (unfitted) curve by interpolation (v1 `fitless`). A LIST of entries (Jess Haley 2026-10-30 [interpolated values are a list]): one per reading of the curve, the one read from |response| marked by `response_transform`.",
             "constraints": {},
             "fields": [
                 {
@@ -37,6 +37,23 @@
                     "ontology": null,
                     "documentation": "The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists.",
                     "constraints": {}
+                },
+                {
+                    "name": "response_transform",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "OPTIONAL: a transform applied to the responses before these values were read off the curve, when it is not the curve as stated ('absolute value': read from |response|, v1 `abs.fitless`). Empty: read from the responses as stated. Jess Haley 2026-10-30 [interpolated values are a list], extending [absolute-value fits are fit entries]: one calculator output is one calculation (T10).",
+                    "constraints": {
+                        "enum": [
+                            "absolute value"
+                        ]
+                    }
                 }
             ]
         }
