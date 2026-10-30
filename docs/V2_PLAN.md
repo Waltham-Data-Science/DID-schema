@@ -95,7 +95,7 @@ Last updated 2026-10-27.
   R(c) = Rm c^n / (c^(n s) + c50^(n s)), used to describe the contrast response
   of a neuron.", exact synonym "Naka-Rushton equation", under NCIT:C16870 Mathematical
   Model (as the empty-ontology NCIT import already carries NCIT terms). Mint
-  it? [yes]
+  it? [yes] ANSWERED 2026-10-30 [Naka-Rushton function minted].
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
   - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `schemas/V_eta_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
@@ -235,7 +235,7 @@ Last updated 2026-10-27.
   - **G39. Synonyms in the term registry.** [registry holds nodes]
     (2026-10-22) says the registry "carries no synonym field"; [spelling is
     notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
-    them. Read the later decision as superseding the earlier? [yes]
+    them. Read the later decision as superseding the earlier? [yes] ANSWERED 2026-10-30 [synonyms supersede nodes only].
 - **G40-G45. From the 2026-10-29 afternoon builds (DID-matlab #287-#289,
   NDI-matlab #1094). "[...]" is Claude's recommendation, Proposed (not decided).**
   - **G40. The linked-session link in NDI-written datasets ([linked session

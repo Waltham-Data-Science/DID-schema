@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 572,
+          "accepted_lines": 574,
           "accepted_lines_by_kind": {
-            "Decided by": 455,
+            "Decided by": 457,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3977,6 +3977,22 @@
               "tag": "element name kept apart, base.name carried",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [element name kept apart"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1668,
+              "kind": "Decided by",
+              "tag": "Naka-Rushton function minted",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [Naka-Rushton function"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1670,
+              "kind": "Decided by",
+              "tag": "synonyms supersede nodes only",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [synonyms supersede nodes"
             },
             {
               "document": "V_eta_image_model_plan.md",
