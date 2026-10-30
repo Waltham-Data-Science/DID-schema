@@ -38,7 +38,7 @@
                 "node": "NCIT:C45793",
                 "name": "Reference Point"
             },
-            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma), as a term: the coordinate system's reference point (NCIT:C45793; `origin` until 2026-10-22, Jess Haley [coordinate system names]). A term here because a root coordinate system is not measured within another one.",
+            "documentation": "WHICH point on `referent_id` is zero (image upper-left corner, probe tip, bregma), as a term: the coordinate system's reference point (NCIT:C45793; `origin` until 2026-10-22, Jess Haley [coordinate system names]). A term here because a root coordinate system is not measured within another one. When the source never states it (a v1 probe's zero point), it is left out and named in `base.needs_info` ([missing facts are needs info]).",
             "constraints": {},
             "fields": [
                 {

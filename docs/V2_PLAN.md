@@ -59,7 +59,7 @@ Last updated 2026-10-27.
   list of entries like `model_fit`, each with the optional `response_transform`
   ("absolute value" on the abs one), so one calculation holds both and T10
   holds. Until answered, the second calculation stays (built E1 and E2 only).
-  [yes]
+  [yes] ANSWERED 2026-10-30 [interpolated values are a list].
 - **G6. A single fitted model on the method (DID-matlab #272).** The T10 ANSWERED 2026-10-29: [fit model stated once] in `schemas/V_eta_go_forward_class_audit.md`.
   amendment says the method does not repeat the fitted functions; the decision
   line [one calculation per named calculator output] only says "no `function`
@@ -95,7 +95,7 @@ Last updated 2026-10-27.
   R(c) = Rm c^n / (c^(n s) + c50^(n s)), used to describe the contrast response
   of a neuron.", exact synonym "Naka-Rushton equation", under NCIT:C16870 Mathematical
   Model (as the empty-ontology NCIT import already carries NCIT terms). Mint
-  it? [yes]
+  it? [yes] ANSWERED 2026-10-30 [Naka-Rushton function minted].
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
   - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `schemas/V_eta_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
@@ -129,7 +129,7 @@ Last updated 2026-10-27.
   parameters labelled `daqsystem ch1` / `daqsystem ch2`, the generic rule for
   an unread v1 parameter. Role-named labels ("from trigger channel" / "to
   trigger channel", matching the from/to rig edges) were not decided. Rename?
-  [yes, to match the edges]
+  [yes, to match the edges] ANSWERED 2026-10-30 [trigger channels named by their link].
 - **G14-G17. From the element device-kind build (DID-matlab #277):**
   - **G14. Where the n-trode electrode count comes from.** [n-trode is a
     multielectrode array] puts the count on the device, but NDI's `element`
@@ -146,7 +146,7 @@ Last updated 2026-10-27.
   - **G16. A sorted unit whose probe is not in the batch.** [unit direct and
     subject rebuild from the probe] cannot check its `subject_id`; today it
     converts with a `unit_probe_not_in_batch` note and the round trip reports
-    `subject_id` lost. Carry it as v1 instead (needs a register row)? [yes]
+    `subject_id` lost. Carry it as v1 instead (needs a register row)? [yes] ANSWERED 2026-10-29 [unit with no probe in the batch carried].
   - **G17. The Equipment Type binding's root.** NCIT:C178920 "Equipment
     Type" is bound with root OBI:0000968 (ontology OBI), but most decided
     device kinds are NCIT or Wikidata terms; harmless only while
@@ -160,7 +160,7 @@ Last updated 2026-10-27.
     reads control stimuli from v1]).** Joining `rawV1Classes` alone would
     quarantine every record in a validating run (the writer's `app.name` is
     undeclared on the tombstone). Carry it whole as v1 in pass 1, like
-    `stimulus_presentation`? If so, widen carry-045 or add a row?
+    `stimulus_presentation`? If so, widen carry-045 or add a row? ANSWERED 2026-10-30 [control records carried in pass 1].
   - **G19. A standalone item's control pairing ([control pairing points at ANSWERED 2026-10-29: [standalone item control stays carried] in `schemas/V_eta_go_forward_class_audit.md`.
     the presentation]).** A standalone item has no manipulation: what do the
     calculation's `entity_id` and `input_id` point at? (Today carry-090.)
@@ -210,13 +210,13 @@ Last updated 2026-10-27.
     openMINDS's mapping, or a one-time did-schema data change?
   - **G34. An `app` field outside the control template (NDI-matlab #1093).**
     Read as malformed (carry-100), not as a software field. Right reading of
-    [control record fields split]?
+    [control record fields split]? ANSWERED 2026-10-30 [control records carried in pass 1].
   - **G35. Hartley generator keys the shared basis does not read** (`randState`,
     `rect`, `distance`, `chromhigh`, `reps`, ...): the basis is minted once
     per session, so the presentation has no method of its own. The
     manipulation's inline method?
   - **G36. A second value of a key the grating recipe reads once.** 0 cases in
-    B, Dab and 20211116.
+    B, Dab and 20211116. ANSWERED 2026-10-30 [image raw round trip and single-read keys].
   - **G37. The probe coordinate system ([site frame is a coordinate
     system]).** Its required `reference_point` and depth `positive_direction`
     are recorded as "unknown": which terms? The registry also lacks a z-axis
@@ -231,11 +231,11 @@ Last updated 2026-10-27.
     own writers fill no canonical for a concentration whose unit converts to
     none, and `{source_value: NaN}` for an unrecorded amount (decided
     2026-10-21). Does "exactly one" allow zero then, or must writers convert
-    (and what of a unit that converts to none)?
+    (and what of a unit that converts to none)? ANSWERED 2026-10-30 [canonical absent only as needs info].
   - **G39. Synonyms in the term registry.** [registry holds nodes]
     (2026-10-22) says the registry "carries no synonym field"; [spelling is
     notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
-    them. Read the later decision as superseding the earlier? [yes]
+    them. Read the later decision as superseding the earlier? [yes] ANSWERED 2026-10-30 [synonyms supersede nodes only].
 - **G40-G45. From the 2026-10-29 afternoon builds (DID-matlab #287-#289,
   NDI-matlab #1094). "[...]" is Claude's recommendation, Proposed (not decided).**
   - **G40. The linked-session link in NDI-written datasets ([linked session
@@ -264,16 +264,16 @@ Last updated 2026-10-27.
     the seven `name` ones? How does the validator know which are held: a list
     mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
     merged field then hosted only in the parent's block (a shape change)?
-    [hold pyraview.label too; a schema marker; yes, parent's block only]
+    [hold pyraview.label too; a schema marker; yes, parent's block only] MOOT 2026-10-30 [redeclaration merge moot]. Claude (2026-10-29) proposed it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess.
   - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
     the renamed path, so there is no raw-v1 inverse to carry the label back.
     Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
-    when `image` moves to the raw-v1 path]
+    when `image` moves to the raw-v1 path] ANSWERED 2026-10-30 [image raw round trip and single-read keys].
   - **G43. Two vintage-B ontologyImage cases ([ngrid with no statement
     carried]).** One with no non-empty edge at all (NDI's `imageDocMaker.m:130`
     makes it when given no row), and one with a subject or element edge beside
     the row (no writer makes one). [carry the first like the row-only case
-    (carry-124); the second is malformed]
+    (carry-124); the second is malformed] ANSWERED 2026-10-29 [vintage-B ontologyImage cases].
   - **G44. The global-clock `oneepoch` calculation ([oneepoch is a redundant
     calculation]; not built).** (1) Its `input_id` targets, the per-epoch
     recordings, exist in pass 1 only where an `epochfiles_ingested` cache
@@ -288,7 +288,7 @@ Last updated 2026-10-27.
   - **G45. "Pre-repair" ([old table rows counted and carried], NDI-matlab
     #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
     40dc9aa86 keeps each dependency column in `data`; before it the column
-    was deleted). Right reading? [yes]
+    was deleted). Right reading? [yes] MOOT 2026-10-30 [table rows carried as v1]: every row is carried, pre-repair or not.
 - **G46. NDI's v1 writers in a V2 session ([one folder, final classes only]).**
   NDI-matlab V2's own v1 writers (spike sorter `+app/spikesorter.m:277`, spike
   extractor, element, probe location, openMINDS, syncgraph and others) still
@@ -334,14 +334,14 @@ Last updated 2026-10-27.
   - **G52. Dataset-specific logic left in the generic stage ([dataset-specific
     logic leaves the generic migration]).** Should the Haley encounter map
     (audit Q1) and the imageStack mask words (Q3,
-    `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage?
+    `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage? ANSWERED 2026-10-30 [Haley mask words leave the generic stage].
   - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
     each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`.
   - **G54. The element device-kind table ([element type is a device kind
     term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
     G17).
   - **G55. Element name and reference stored reversibly ([early migration
-    pieces fixed], part 5; OPEN_WORK #142).** Which shape?
+    pieces fixed], part 5; OPEN_WORK #142).** Which shape? ANSWERED 2026-10-29 [element name and reference stored apart].
   - **G56. Finding a term by a spelling of its name.** DID-matlab's term index
     matches a name lowercased only (`+did2/+schema/termIndex.m:70`), so "path
     name" does not find "Pathname"; relation and entity-type handles also ignore
@@ -350,27 +350,33 @@ Last updated 2026-10-27.
     collide under it); (b) add the spelling to the row's `synonyms` (read today
     by one migrator only). [(a)] ANSWERED 2026-10-29 [term names match
     ignoring spacing].
+  - **G57. Decibels ([canonical absent only as needs info]).** A dB value is a
+    log ratio: its linear value is 10^(x/10) for a power ratio and 10^(x/20)
+    for an amplitude ratio, so DID-matlab's unit table gives it no canonical
+    factor (`jSourceUnit.m` TERMONLY). Keep dB as its own canonical unit (no
+    conversion), or convert to a linear ratio using the variable to tell power
+    from amplitude? ANSWERED 2026-10-30 [decibels are their own canonical].
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
   `angle ... best`, and the angle "best" chose is stored only in the curve's
   `log` ("angle best value is 90."). May the rebuild read that value from the
   `log`? If yes, most of the 28,615 Soph carries would likely convert (not
-  measured). [yes, the log is kept verbatim in `notes` anyway]
+  measured). [yes, the log is kept verbatim in `notes` anyway] ANSWERED 2026-10-28 [tuning best value is a condition] (marked 2026-10-29).
 - **E2. One calculation with fits of several functions.** SF and TF hold five
   fitted functions in one calculation; the build writes the method parameter
   `function` as a JSON list (`["dog","movshon","movshon c","spline","gausslog"]`).
   Keep that, or drop the parameter and rely on each fit entry's `model`? [drop it:
-  one place per fact]
+  one place per fact] ANSWERED 2026-10-28 [absolute-value fits are fit entries] (marked 2026-10-29).
 - **E3. Where the Priebe "what differs" goes.** The three Priebe fits are one
   equation (checked: NDIcalc-vis-matlab 00e3e0f, only xi's bounds differ). The
   build records "xi held at 0" in each fit entry's `constraints`, as for
-  Naka-Rushton, not as method parameters. Confirm? [yes]
+  Naka-Rushton, not as method parameters. Confirm? [yes] ANSWERED 2026-10-28 [absolute-value fits are fit entries] (marked 2026-10-29).
 - **F1. A presentation that names no epoch at all (NDI-matlab #1087).** B1 as
   built carries a presentation whose epoch the fold refuses (carry-109); one whose
   `epochid.epochid` is empty keeps its session anchor and is counted in
   `epoch_anchor.no_epoch_string`. Carry it with carry-109 too? [no: v1 named no
-  epoch, so the session anchor loses nothing]
+  epoch, so the session anchor loses nothing] ANSWERED 2026-10-28 [presentations without an epoch keep the session anchor] (marked 2026-10-29).
 - **#208 (tabled by Jess until just before the `notes` storage pass):** rename
   `base`? rename the `session_id` edge? Comments on the issue hold the options.
 

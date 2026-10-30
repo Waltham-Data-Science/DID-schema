@@ -539,7 +539,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 565 decision line(s) accepted, 2 rejected; 43 cited by a class, 522 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 581 decision line(s) accepted, 2 rejected; 43 cited by a class, 538 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -946,6 +946,22 @@ field). If one decides a class's disposition, that class should cite it.
 - V2 ingest is one sampled body per channel group. "Decided by Jess Haley, 2026-10-29 [V2 ingest is one sampled" (V_eta_go_forward_class_audit.md:1648).
 - short last chunk. "Decided by Jess Haley, 2026-10-29 [short last chunk]: (" (V_eta_go_forward_class_audit.md:1650).
 - missing facts are needs info. "Decided by Jess Haley, 2026-10-29 [missing facts are needs" (V_eta_go_forward_class_audit.md:1652).
+- vintage-B ontologyImage cases. "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage" (V_eta_go_forward_class_audit.md:1654).
+- element name and reference stored apart. "Decided by Jess Haley, 2026-10-29 [element name and" (V_eta_go_forward_class_audit.md:1656).
+- unit with no probe in the batch carried. "Decided by Jess Haley, 2026-10-29 [unit with no probe in" (V_eta_go_forward_class_audit.md:1658).
+- table rows carried as v1. "Decided by Jess Haley, 2026-10-30 [table rows carried as" (V_eta_go_forward_class_audit.md:1660).
+- preset name stays on method. "Decided by Jess Haley, 2026-10-30 [preset name stays on" (V_eta_go_forward_class_audit.md:1662).
+- redeclaration merge moot. "Decided by Jess Haley, 2026-10-30 [redeclaration merge" (V_eta_go_forward_class_audit.md:1664).
+- element name kept apart, base.name carried. "Decided by Jess Haley, 2026-10-30 [element name kept apart" (V_eta_go_forward_class_audit.md:1666).
+- Naka-Rushton function minted. "Decided by Jess Haley, 2026-10-30 [Naka-Rushton function" (V_eta_go_forward_class_audit.md:1668).
+- synonyms supersede nodes only. "Decided by Jess Haley, 2026-10-30 [synonyms supersede nodes" (V_eta_go_forward_class_audit.md:1670).
+- interpolated values are a list. "Decided by Jess Haley, 2026-10-30 [interpolated values are" (V_eta_go_forward_class_audit.md:1672).
+- canonical absent only as needs info. "Decided by Jess Haley, 2026-10-30 [canonical absent only as" (V_eta_go_forward_class_audit.md:1674).
+- trigger channels named by their link. "Decided by Jess Haley, 2026-10-30 [trigger channels named" (V_eta_go_forward_class_audit.md:1676).
+- decibels are their own canonical. "Decided by Jess Haley, 2026-10-30 [decibels are their own" (V_eta_go_forward_class_audit.md:1678).
+- Haley mask words leave the generic stage. "Decided by Jess Haley, 2026-10-30 [Haley mask words leave" (V_eta_go_forward_class_audit.md:1680).
+- control records carried in pass 1. "Decided by Jess Haley, 2026-10-30 [control records carried" (V_eta_go_forward_class_audit.md:1682).
+- image raw round trip and single-read keys. "Decided by Jess Haley, 2026-10-30 [image raw round trip and" (V_eta_go_forward_class_audit.md:1684).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

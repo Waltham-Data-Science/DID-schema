@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 565,
+          "accepted_lines": 581,
           "accepted_lines_by_kind": {
-            "Decided by": 448,
+            "Decided by": 464,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3921,6 +3921,134 @@
               "tag": "missing facts are needs info",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [missing facts are needs"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1654,
+              "kind": "Decided by",
+              "tag": "vintage-B ontologyImage cases",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1656,
+              "kind": "Decided by",
+              "tag": "element name and reference stored apart",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [element name and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1658,
+              "kind": "Decided by",
+              "tag": "unit with no probe in the batch carried",
+              "date": "2026-10-29",
+              "anchor": "Decided by Jess Haley, 2026-10-29 [unit with no probe in"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1660,
+              "kind": "Decided by",
+              "tag": "table rows carried as v1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [table rows carried as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1662,
+              "kind": "Decided by",
+              "tag": "preset name stays on method",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [preset name stays on"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1664,
+              "kind": "Decided by",
+              "tag": "redeclaration merge moot",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [redeclaration merge"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1666,
+              "kind": "Decided by",
+              "tag": "element name kept apart, base.name carried",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element name kept apart"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1668,
+              "kind": "Decided by",
+              "tag": "Naka-Rushton function minted",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [Naka-Rushton function"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1670,
+              "kind": "Decided by",
+              "tag": "synonyms supersede nodes only",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [synonyms supersede nodes"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1672,
+              "kind": "Decided by",
+              "tag": "interpolated values are a list",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [interpolated values are"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1674,
+              "kind": "Decided by",
+              "tag": "canonical absent only as needs info",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [canonical absent only as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1676,
+              "kind": "Decided by",
+              "tag": "trigger channels named by their link",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [trigger channels named"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1678,
+              "kind": "Decided by",
+              "tag": "decibels are their own canonical",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [decibels are their own"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1680,
+              "kind": "Decided by",
+              "tag": "Haley mask words leave the generic stage",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [Haley mask words leave"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1682,
+              "kind": "Decided by",
+              "tag": "control records carried in pass 1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [control records carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1684,
+              "kind": "Decided by",
+              "tag": "image raw round trip and single-read keys",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [image raw round trip and"
             },
             {
               "document": "V_eta_image_model_plan.md",
