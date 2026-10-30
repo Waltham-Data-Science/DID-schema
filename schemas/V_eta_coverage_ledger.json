@@ -704,9 +704,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 599,
+          "accepted_lines": 605,
           "accepted_lines_by_kind": {
-            "Decided by": 482,
+            "Decided by": 488,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4213,6 +4213,54 @@
               "tag": "assay labels batch 6",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1722,
+              "kind": "Decided by",
+              "tag": "raw v1 switch finished in batches",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1724,
+              "kind": "Decided by",
+              "tag": "stimulator is SNOMED CT Stimulator",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1726,
+              "kind": "Decided by",
+              "tag": "global-clock oneepoch carried with its element",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1728,
+              "kind": "Decided by",
+              "tag": "differing stimulator epoch is malformed",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [differing stimulator"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1730,
+              "kind": "Decided by",
+              "tag": "response unit slot settles 110",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [response unit slot"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1732,
+              "kind": "Decided by",
+              "tag": "schema folders by family",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [schema folders by"
             },
             {
               "document": "V_eta_image_model_plan.md",

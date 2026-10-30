@@ -10986,6 +10986,18 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Stimulator",
+      "node": "SNOMEDCT:36645008",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [stimulator is SNOMED CT Stimulator], V_eta_go_forward_class_audit.md: the device kind of a v1 stimulator element (SNOMED CT gives no definition)",
+      "first_used_in": "no dataset yet: the device kind of a migrated NDI stimulator element (DID-matlab element migrator; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

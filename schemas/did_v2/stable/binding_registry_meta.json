@@ -88,6 +88,10 @@
                 {
                     "node": "wikidata:Q4531135",
                     "name": "electroencephalograph"
+                },
+                {
+                    "node": "SNOMEDCT:36645008",
+                    "name": "Stimulator"
                 }
             ]
         },

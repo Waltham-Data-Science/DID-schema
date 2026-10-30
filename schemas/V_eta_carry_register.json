@@ -915,17 +915,14 @@
       "id": "carry-050",
       "v1_class": "stimulus_response_scalar",
       "fields": [
-        "stimulus_response.stimulator_epochid",
-        "depends_on stimulus_control_id"
+        "stimulus_response.stimulator_epochid"
       ],
-      "when": "either is set (DID-matlab stimulus_response_scalar.m)",
-      "kind": "awaiting_home",
+      "when": "its `stimulator_epochid` differs from its `element_epochid` (one equal to it is rebuilt; the control link is an `input_id`, [response links: epoch rebuilt, control as input]) (DID-matlab stimulus_response_scalar.m)",
+      "kind": "malformed",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "differing stimulator epoch is malformed"
       },
-      "open_work": 137,
-      "home": "none decided",
       "kind_basis": "decided"
     },
     {
