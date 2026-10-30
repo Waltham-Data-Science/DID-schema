@@ -280,7 +280,7 @@ def test_scan_actually_read_something():
     # 220 -> 170 on 2026-10-08: join leaves and entity classes merged; 152 -> 120
     # class files on 2026-10-30: retire classes deleted ([one folder, final
     # classes only])
-    assert stats["files"] >= 120, _denominator(stats)
+    assert stats["files"] >= 110, _denominator(stats)   # 119 on 2026-10-30, second retire batch
     assert stats["files_with_fields"] >= 110, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass

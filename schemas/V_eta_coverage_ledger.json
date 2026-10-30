@@ -312,9 +312,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 75,
+      "consumed by migrator (no tombstone)": 81,
       "dissolved \u2192 subject": 1,
-      "retire": 28,
+      "retire": 22,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2,
@@ -327,12 +327,12 @@
     "with_migrator": 96,
     "gaps": 2,
     "no_target": {
-      "rows_naming_no_target": 25,
+      "rows_naming_no_target": 27,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 16
+        "unrecorded": 18
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
@@ -344,6 +344,8 @@
         "geneExpression",
         "imageStack_parameters",
         "oneepoch",
+        "ontologyLabel",
+        "ontologyTableRow",
         "site2channelmap",
         "spike_clusters",
         "spikewaves",
@@ -634,8 +636,8 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 16,
-            "no decision citation names this class": 28
+            "no citation names this class, and the row has no V_eta class and no target either": 18,
+            "no decision citation names this class": 26
           },
           "unmoved_rows_by_cause": {
             "no citation names this class, and the row has no V_eta class and no target either": [
@@ -648,6 +650,8 @@
               "distance_metadata",
               "mock",
               "oneepoch",
+              "ontologyLabel",
+              "ontologyTableRow",
               "simple_calc",
               "site2channelmap",
               "spike_clusters",
@@ -667,8 +671,6 @@
               "electrode_offset_voltage",
               "measurement",
               "metadata_editor",
-              "ontologyLabel",
-              "ontologyTableRow",
               "openminds_element",
               "openminds_stimulus",
               "openminds_subject",
@@ -5604,15 +5606,13 @@
     },
     {
       "v1_class": "binaryseries_parameters",
-      "veta_class": "binaryseries_parameters",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "binaryseries_parameters"
-      ],
+      "targets": [],
       "decided_targets": [
         "statement",
         "sampled_body"
@@ -5624,7 +5624,7 @@
         "mapping_fragment": "its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag",
         "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet. (data_body plan AMENDMENT 6, 2026-10-22: the axis is now a `dimension`, and `regular` is deleted -- the presence of a covariate's `origin` + `spacing` says it.)"
       },
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -5651,8 +5651,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.)",
-      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70, carry-122. The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "target_flags": "SUPERSEDED how (before the carry): RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.) | DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "decided_by_citation": {
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "misc singletons",
@@ -5716,7 +5716,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `statement`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6513,8 +6513,8 @@
     },
     {
       "v1_class": "daqmetadatareader",
-      "veta_class": "daqmetadatareader",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -6647,21 +6647,19 @@
     },
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
-      "veta_class": "daqmetadatareader_epochdata_ingested",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqmetadatareader_epochdata_ingested"
-      ],
+      "targets": [],
       "decided_targets": [
         "opaque_body"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -6689,8 +6687,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge.",
-      "target_flags": "BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines. -- #73 review item 61 (2026-09-25, not yet built in the migrator): `acquisition_metadata_file` RETIRES. `data.bin` (a .nbf.tgz of the epoch's parsed stimulus parameters, written by NDI metadatareader.ingest_epochfiles; the reader CONSUMES TSV-like files and STORES this archive) becomes an `opaque_body` owned by the stimulator's term_manipulation for that epoch, format the NDI compressed-metadata archive.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70, carry-046 (its file is the presentation's body, [ingested stimulus file is a body of the presentation]). The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "target_flags": "SUPERSEDED how (before the carry): Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge. | BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines. -- #73 review item 61 (2026-09-25, not yet built in the migrator): `acquisition_metadata_file` RETIRES. `data.bin` (a .nbf.tgz of the epoch's parsed stimulus parameters, written by NDI metadatareader.ingest_epochfiles; the reader CONSUMES TSV-like files and STORES this archive) becomes an `opaque_body` owned by the stimulator's term_manipulation for that epoch, format the NDI compressed-metadata archive.",
       "decided_by_citation": {
         "document": "V_eta_ingested_payload_findings.md",
         "tag": "daq ingested payloads",
@@ -6761,7 +6759,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (`daqmetadatareader_epochdata_ingested`), nor among what any batch post-pass declares it emits. 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `opaque_body` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12354,8 +12352,8 @@
     },
     {
       "v1_class": "ontologyImage",
-      "veta_class": "ontology_image",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -12499,24 +12497,22 @@
     },
     {
       "v1_class": "ontologyLabel",
-      "veta_class": "ontology_label",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "ontology_label"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -12537,15 +12533,15 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is ONE field (`ontology_node`) and ONE edge (`document_id`), and `document_id` points at the document being labelled -- typically an image stack, which is NOT a subject. The subject is one hop further on, through the migrated-id graph, which only the second pass can see.",
-      "target_flags": "WAS a term_observation + anchor. That fold asked for {element_id, subject_id, probe_id} -- none of which the class has -- so `subject_id` came out EMPTY and `document_id` was DISCARDED on roughly 7,000 documents, validating cleanly at every gate. Pass 1 now returns {preBody} at :70 and REJECTS BY NAME any body carrying `ontology_name`/`label_id`/`label` (V_alpha inventions). The second-pass target named in the migrator header is a term_observation about the resolved subject with `derived_from` to the migrated data statement -- decided there, not recorded here. REGION PARTS (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md: a statement about an anatomical region of a subject targets that region's part entity, one per subject and region, `part_of` the subject; replaces D3's located-by-default): a resolved label whose node is an UBERON region becomes an observation of the subject's part for that region (NDI pathSPromotion, mode 'located'). No corpus label is anatomical today (JH's 7,007 are EMPTY:0000129-133), so this is exercised only by unit test.",
+      "how": "PASSES THROUGH UNCHANGED at DID-matlab V2 3c6c4d70 under NDI's own class name `ontologyLabel`, which has no V2 file (counted `passthrough_unvalidated_no_schema`); a label outside its template is carried, carry-100. NDI-matlab's second pass folds it into an observation (`ontologyLabelSubjects`). The V2 `ontology_label` class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "target_flags": "SUPERSEDED how (before the carry): GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is ONE field (`ontology_node`) and ONE edge (`document_id`), and `document_id` points at the document being labelled -- typically an image stack, which is NOT a subject. The subject is one hop further on, through the migrated-id graph, which only the second pass can see. | WAS a term_observation + anchor. That fold asked for {element_id, subject_id, probe_id} -- none of which the class has -- so `subject_id` came out EMPTY and `document_id` was DISCARDED on roughly 7,000 documents, validating cleanly at every gate. Pass 1 now returns {preBody} at :70 and REJECTS BY NAME any body carrying `ontology_name`/`label_id`/`label` (V_alpha inventions). The second-pass target named in the migrator header is a term_observation about the resolved subject with `derived_from` to the migrated data statement -- decided there, not recorded here. REGION PARTS (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md: a statement about an anatomical region of a subject targets that region's part entity, one per subject and region, `part_of` the subject; replaces D3's located-by-default): a resolved label whose node is an UBERON region becomes an observation of the subject's part for that region (NDI pathSPromotion, mode 'located'). No corpus label is anatomical today (JH's 7,007 are EMPTY:0000129-133), so this is exercised only by unit test.",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no decision citation names this class",
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,
@@ -12591,24 +12587,22 @@
     },
     {
       "v1_class": "ontologyTableRow",
-      "veta_class": "ontology_table_row",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "ontology_table_row"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -12629,15 +12623,15 @@
         "entity (subject)"
       ],
       "second_pass": [],
-      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70: every v1 ontologyTableRow, carry-026 ([table rows carried as v1]). The V2 `ontology_table_row` class stays only as the edge target of `ontology_image.ontologyTableRow_id`.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70: every v1 ontologyTableRow, carry-026 ([table rows carried as v1]). The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
       "target_flags": "SUPERSEDED how (before the carry): each column of the legacy key/value table becomes its own statement: timeless facts -> term/assertion + date; timed numeric measures -> a data-type <dim>_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject | DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no decision citation names this class",
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,

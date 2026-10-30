@@ -552,7 +552,13 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # THIRTY-FOURTH MOVEMENT, re-derived not bumped: 119 -> 118 on 2026-10-30,
     # `linked_session` removed ([linked_session withdrawn]). It was not in the
     # INERT list, which is checked, not assumed.
-    assert walked == 118, f"schema count moved; re-derive the inert set ({walked})"
+    # THIRTY-FIFTH MOVEMENT, re-derived not bumped: 118 -> 112 on 2026-10-30,
+    # the second batch of retire classes deleted ([one folder, final classes
+    # only]): binaryseries_parameters, daqmetadatareader,
+    # daqmetadatareader_epochdata_ingested, ontology_image, ontology_label,
+    # ontology_table_row. None of them was in the INERT list, which is checked,
+    # not assumed.
+    assert walked == 112, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

@@ -1186,11 +1186,10 @@ def test_ndi_class_handles_marked_needs_ndi():
     `needs_ndi` -- DID keeps the value for round-trip but cannot resolve the class
     (it lives in NDI-matlab). The marker is a declared, meta-schema-valid property."""
     assert "needs_ndi" in META["$defs"]["field_definition"]["properties"]
-    # daqsystem and syncgraph were deleted 2026-10-30 ([one folder, final
+    # daqsystem, syncgraph and daqmetadatareader were deleted 2026-10-30 ([one folder, final
     # classes only]); the classes still in the tree keep the marker.
     expected = {
         "daqreader": "ndi_daqreader_class",
-        "daqmetadatareader": "ndi_daqmetadatareader_class",
         "filenavigator": "ndi_filenavigator_class",
         "syncrule": "ndi_syncrule_class",
     }
@@ -2814,7 +2813,10 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
     # 2026-09-25 (#73 review item 43): back to the v1 shape -- the v1
     # `reverse_correlation` tombstone declares ngrid, and hartley_calc reaches it
     # through hartley_reverse_correlation. Both consumers are v1 tombstones.
-    assert consumers == ["ontology_image", "reverse_correlation"], (
+    # 2026-10-30: `ontology_image` was deleted ([one folder, final classes
+    # only]; its v1 documents pass through under NDI's `ontologyImage` name or
+    # are carried), so reverse_correlation is the one consumer left.
+    assert consumers == ["reverse_correlation"], (
         f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
         "-- `hartley_calc` reaches ngrid through the v1 reverse_correlation tombstone.")
 

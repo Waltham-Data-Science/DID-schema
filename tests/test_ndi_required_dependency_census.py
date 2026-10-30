@@ -205,13 +205,16 @@ def test_ground_truth_scan_carries_its_denominator():
 
 
 def test_the_motivating_case_is_marked():
-    """`ontology_label.document_id`: NDI `mustbenotempty: 1`, V_eta
-    `mustBeNonEmpty: false`. ~7,007 documents whose only referent this is, and
-    the join key the deferred NDI second pass needs.
+    """The motivating case was `ontology_label.document_id` (NDI
+    `mustbenotempty: 1`, V_eta `mustBeNonEmpty: false`); its class was deleted
+    2026-10-30 ([one folder, final classes only]). The same shape survives in
+    `control_stimulus_ids.stimulus_presentation_id`: NDI requires it, V_eta
+    relaxes it, and it is the join key NDI's second pass folds the control
+    record on.
 
     MUTATION: remove the marker from the built schema -> fails.
     """
-    dep = _deps(_veta()["ontology_label"])["document_id"]
+    dep = _deps(_veta()["control_stimulus_ids"])["stimulus_presentation_id"]
     assert dep["ndi_mustBeNonEmpty"] is True
     assert dep["mustBeNonEmpty"] is False, (
         "REPORT ONLY -- this census must never tighten the edge it counts")
@@ -410,7 +413,8 @@ def test_the_divergence_set_is_non_empty_and_names_the_planning_cases():
             if dep.get(NRS.MARKER) is True and not dep.get("mustBeNonEmpty"):
                 rows.add(f"{cn}.{name}")
     assert rows, "the census found nothing to count -- check the stamp ran"
-    assert "ontology_label.document_id" in rows
+    # ontology_label.document_id left with its class (2026-10-30)
+    assert "control_stimulus_ids.stimulus_presentation_id" in rows
 
 
 @pytest.mark.parametrize("counter", NRS.COUNTERS)

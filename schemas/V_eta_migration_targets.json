@@ -12,13 +12,11 @@
       ]
     },
     "binaryseries_parameters": {
-      "targets": [
-        "binaryseries_parameters"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.)",
-      "flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70, carry-122. The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "flags": "SUPERSEDED how (before the carry): RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `value` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag. (data_body plan AMENDMENT 6, 2026-10-22: the axis is a `dimension` and the time positions a covariate along it; `regular` is deleted, its fact being the presence of the covariate's `origin` + `spacing`.) | DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, value -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -150,13 +148,11 @@
       }
     },
     "daqmetadatareader_epochdata_ingested": {
-      "targets": [
-        "daqmetadatareader_epochdata_ingested"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge.",
-      "flags": "BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines. -- #73 review item 61 (2026-09-25, not yet built in the migrator): `acquisition_metadata_file` RETIRES. `data.bin` (a .nbf.tgz of the epoch's parsed stimulus parameters, written by NDI metadatareader.ingest_epochfiles; the reader CONSUMES TSV-like files and STORES this archive) becomes an `opaque_body` owned by the stimulator's term_manipulation for that epoch, format the NDI compressed-metadata archive.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70, carry-046 (its file is the presentation's body, [ingested stimulus file is a body of the presentation]). The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "flags": "SUPERSEDED how (before the carry): Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge. | BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines. -- #73 review item 61 (2026-09-25, not yet built in the migrator): `acquisition_metadata_file` RETIRES. `data.bin` (a .nbf.tgz of the epoch's parsed stimulus parameters, written by NDI metadatareader.ingest_epochfiles; the reader CONSUMES TSV-like files and STORES this archive) becomes an `opaque_body` owned by the stimulator's term_manipulation for that epoch, format the NDI compressed-metadata archive.",
       "decided_targets": [
         "opaque_body"
       ],
@@ -940,27 +936,23 @@
       ]
     },
     "ontology_label": {
-      "targets": [
-        "ontology_label"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is ONE field (`ontology_node`) and ONE edge (`document_id`), and `document_id` points at the document being labelled -- typically an image stack, which is NOT a subject. The subject is one hop further on, through the migrated-id graph, which only the second pass can see.",
-      "flags": "WAS a term_observation + anchor. That fold asked for {element_id, subject_id, probe_id} -- none of which the class has -- so `subject_id` came out EMPTY and `document_id` was DISCARDED on roughly 7,000 documents, validating cleanly at every gate. Pass 1 now returns {preBody} at :70 and REJECTS BY NAME any body carrying `ontology_name`/`label_id`/`label` (V_alpha inventions). The second-pass target named in the migrator header is a term_observation about the resolved subject with `derived_from` to the migrated data statement -- decided there, not recorded here. REGION PARTS (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md: a statement about an anatomical region of a subject targets that region's part entity, one per subject and region, `part_of` the subject; replaces D3's located-by-default): a resolved label whose node is an UBERON region becomes an observation of the subject's part for that region (NDI pathSPromotion, mode 'located'). No corpus label is anatomical today (JH's 7,007 are EMPTY:0000129-133), so this is exercised only by unit test.",
+      "how": "PASSES THROUGH UNCHANGED at DID-matlab V2 3c6c4d70 under NDI's own class name `ontologyLabel`, which has no V2 file (counted `passthrough_unvalidated_no_schema`); a label outside its template is carried, carry-100. NDI-matlab's second pass folds it into an observation (`ontologyLabelSubjects`). The V2 `ontology_label` class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "flags": "SUPERSEDED how (before the carry): GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is ONE field (`ontology_node`) and ONE edge (`document_id`), and `document_id` points at the document being labelled -- typically an image stack, which is NOT a subject. The subject is one hop further on, through the migrated-id graph, which only the second pass can see. | WAS a term_observation + anchor. That fold asked for {element_id, subject_id, probe_id} -- none of which the class has -- so `subject_id` came out EMPTY and `document_id` was DISCARDED on roughly 7,000 documents, validating cleanly at every gate. Pass 1 now returns {preBody} at :70 and REJECTS BY NAME any body carrying `ontology_name`/`label_id`/`label` (V_alpha inventions). The second-pass target named in the migrator header is a term_observation about the resolved subject with `derived_from` to the migrated data statement -- decided there, not recorded here. REGION PARTS (Jess Haley, 2026-10-21, V_eta_go_forward_class_audit.md: a statement about an anatomical region of a subject targets that region's part entity, one per subject and region, `part_of` the subject; replaces D3's located-by-default): a resolved label whose node is an UBERON region becomes an observation of the subject's part for that region (NDI pathSPromotion, mode 'located'). No corpus label is anatomical today (JH's 7,007 are EMPTY:0000129-133), so this is exercised only by unit test.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
       }
     },
     "ontology_table_row": {
-      "targets": [
-        "ontology_table_row"
-      ],
+      "targets": [],
       "carried": [
         "entity (subject)"
       ],
       "second_pass": [],
-      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70: every v1 ontologyTableRow, carry-026 ([table rows carried as v1]). The V2 `ontology_table_row` class stays only as the edge target of `ontology_image.ontologyTableRow_id`.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70: every v1 ontologyTableRow, carry-026 ([table rows carried as v1]). The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
       "flags": "SUPERSEDED how (before the carry): each column of the legacy key/value table becomes its own statement: timeless facts -> term/assertion + date; timed numeric measures -> a data-type <dim>_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject | DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
       "target_completeness": {
         "state": "carry_forward",

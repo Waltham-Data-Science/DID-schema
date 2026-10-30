@@ -217,18 +217,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "binaryseries_parameters",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/binaryseries_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "Carried whole as v1, needs_mapping (carry-122): [binaryseries parameters carried], Jess Haley 2026-10-29."
-        },
-        {
             "class_name": "calculation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -420,31 +408,6 @@
             ],
             "path": "schemas/did_v2/stable/current.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "daqmetadatareader",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/daqmetadatareader.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "daqmetadatareader_epochdata_ingested",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/stable/daqmetadatareader_epochdata_ingested.json",
-            "disposition": "retire",
-            "disposition_note": "becomes an opaque_body owned by the epoch's stimulus-presentation manipulation (NDI second pass); with no matching presentation it is carried as v1. V_eta_go_forward_class_audit.md [ingested stimulus file is a body of the presentation]"
         },
         {
             "class_name": "daqreader",
@@ -926,43 +889,6 @@
             ],
             "path": "schemas/did_v2/stable/observation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "ontology_image",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "ngrid"
-            ],
-            "path": "schemas/did_v2/stable/ontology_image.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "ontology_label",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/ontology_label.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "ontology_table_row",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/ontology_table_row.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "opaque_body",

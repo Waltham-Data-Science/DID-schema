@@ -40,5 +40,5 @@ Kinds of entity (19, the values of entity.type in entity_type_bindings): organis
 
 ## NOT in the final set (by disposition)
 
-**retire (31):**
-`acquisition_epoch`, `app`, `binaryseries_parameters`, `calculator`, `control_stimulus_ids`, `daqmetadatareader`, `daqmetadatareader_epochdata_ingested`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `ensemble`, `epochfiles_ingested`, `epochid`, `filenavigator`, `generic_file`, `hartley_calc`, `hartley_reverse_correlation`, `ngrid`, `ontology_image`, `ontology_label`, `ontology_table_row`, `openminds`, `openminds_stimulus`, `reverse_correlation`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`, `valid_interval`
+**retire (25):**
+`acquisition_epoch`, `app`, `calculator`, `control_stimulus_ids`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `ensemble`, `epochfiles_ingested`, `epochid`, `filenavigator`, `generic_file`, `hartley_calc`, `hartley_reverse_correlation`, `ngrid`, `openminds`, `openminds_stimulus`, `reverse_correlation`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`, `valid_interval`
