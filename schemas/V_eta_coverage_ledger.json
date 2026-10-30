@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 570,
+          "accepted_lines": 571,
           "accepted_lines_by_kind": {
-            "Decided by": 453,
+            "Decided by": 454,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3961,6 +3961,14 @@
               "tag": "preset name stays on method",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [preset name stays on"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1664,
+              "kind": "Decided by",
+              "tag": "redeclaration merge moot",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [redeclaration merge"
             },
             {
               "document": "V_eta_image_model_plan.md",

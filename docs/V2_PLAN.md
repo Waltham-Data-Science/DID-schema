@@ -264,7 +264,7 @@ Last updated 2026-10-27.
     the seven `name` ones? How does the validator know which are held: a list
     mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
     merged field then hosted only in the parent's block (a shape change)?
-    [hold pyraview.label too; a schema marker; yes, parent's block only] OPEN. Claude (2026-10-29) now proposes it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess.
+    [hold pyraview.label too; a schema marker; yes, parent's block only] MOOT 2026-10-30 [redeclaration merge moot]. Claude (2026-10-29) proposed it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess.
   - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
     the renamed path, so there is no raw-v1 inverse to carry the label back.
     Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,

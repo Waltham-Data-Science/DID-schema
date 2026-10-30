@@ -477,11 +477,11 @@
         "ontologyTableRow.ontologyNodes",
         "ontologyTableRow.data"
       ],
-      "when": "the row has a subject_id edge; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m)",
+      "when": "always: every v1 ontologyTableRow, in the generic migration; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m). carry-098 and carry-125 fold into this row once NDI's second pass stops citing them",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
-        "tag": "dataset audit batch 1 and 2"
+        "tag": "table rows carried as v1"
       },
       "homes": [
         "assertion",
@@ -490,7 +490,7 @@
       ],
       "decides": "the table's column map in its dataset (entity, direction, value kind and unit per column)",
       "resolved_by": "the dataset map's column rows for that table (not yet written)",
-      "kind_basis": "stated"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-027",
