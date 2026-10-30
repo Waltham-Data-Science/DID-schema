@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 569,
+          "accepted_lines": 570,
           "accepted_lines_by_kind": {
-            "Decided by": 452,
+            "Decided by": 453,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3953,6 +3953,14 @@
               "tag": "table rows carried as v1",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [table rows carried as"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1662,
+              "kind": "Decided by",
+              "tag": "preset name stays on method",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [preset name stays on"
             },
             {
               "document": "V_eta_image_model_plan.md",
