@@ -53,7 +53,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
 | 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
-| 142 | element name and reference stored reversibly (carry-055) -> https://github.com/Waltham-Data-Science/DID-schema/issues/149 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 | 144 | a home for a linked session's `session_reference` (carry-074) -> https://github.com/Waltham-Data-Science/DID-schema/issues/153 |
 | 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 |
@@ -104,6 +103,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 142 | element name and reference stored apart: `name` written, the reference after it (DID-matlab element.m, on V2 via 0e25c5b, #299; NDI-matlab 461d8a6 reads it); carry-055 retired, 2026-10-30 |
 | 141 | an author with several affiliations in `metadata_editor`: one `affiliated_with` relation per affiliation (DID-matlab metadata_editor.m, on V2 via dde94c44 #278), Jess Haley 2026-10-27 [one affiliation relation each]; carry-054 retired (issue #148) |
 | 133 | an image's differing `data_limits`: a valid [min max] pair is written as a value range (DID-matlab image_stack.m, on V2 via f6486be); what remains is a malformed `data_limits` (carry-011, carry-012), Jess Haley 2026-10-26 [data_limits not a pair is malformed] (issue #138) |
 | 1-8, 10-24, 26, 33, 36, 39-42, 44, 49, 50, 55 | subject only: descriptions lost in the 2026-08-08 re-provisioning |

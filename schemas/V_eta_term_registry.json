@@ -6691,18 +6691,6 @@
       "synonyms": []
     },
     {
-      "name": "Text",
-      "node": "NCIT:C25704",
-      "definition": "The words of something written.",
-      "status": "decided",
-      "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `tx`",
-      "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
-      "obsolete": false,
-      "number_unit": false,
-      "equivalent": [],
-      "synonyms": []
-    },
-    {
       "name": "analog input channel",
       "node": "EMPTY:0000370",
       "definition": "A channel through which an acquisition system samples a continuously valued signal.",

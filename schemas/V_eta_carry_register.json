@@ -998,23 +998,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-055",
-      "v1_class": "element",
-      "fields": [
-        "element.name",
-        "element.reference"
-      ],
-      "when": "name and reference cannot be packed reversibly as `<name> | <reference>` ([group identifier includes the reference]; DID-matlab element.m, did2.convert.elementLocalIdentifier)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "no invented values"
-      },
-      "open_work": 142,
-      "home": "none decided: two fields, or the reference as its own assertion",
-      "kind_basis": "decided"
-    },
-    {
       "id": "carry-056",
       "v1_class": "calculator",
       "fields": [
