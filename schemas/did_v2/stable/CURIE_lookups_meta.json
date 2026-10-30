@@ -815,6 +815,34 @@
             "spelling": "AFO",
             "spelling_source": "OLS4 `preferredPrefix` `AFO` (https://www.ebi.ac.uk/ols4/api/ontologies/afo, 2026-10-27) and the decision [afo prefix registered], which writes `AFO:AFR_0001158`; Allotrope states no single CURIE prefix of its own (its Turtle uses `af-r:`, `af-e:`, ...)",
             "synonyms": []
+        },
+        "cmo": {
+            "label": "Clinical measurement ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/CMO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `cmo`. Added for [assay labels batch 1]-[assay labels batch 6] (Jess Haley, 2026-10-30): the Dab assay measurement and method terms.",
+            "pattern_source": "https://bioregistry.io/api/registry/cmo (2026-10-30)",
+            "pattern": "^\\d{7}$",
+            "spelling": "CMO",
+            "spelling_source": "OLS4 gives `obo_id` like `CMO:0000262` and IRIs `http://purl.obolibrary.org/obo/CMO_...` (checked 2026-10-30); Bioregistry's preferred prefix is `CMO`",
+            "synonyms": [
+                "CMO"
+            ]
+        },
+        "mmo": {
+            "label": "Measurement method ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/MMO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `mmo`. Added for [assay labels batch 1]-[assay labels batch 6] (Jess Haley, 2026-10-30): the Dab assay measurement and method terms.",
+            "pattern_source": "https://bioregistry.io/api/registry/mmo (2026-10-30)",
+            "pattern": "^\\d{7}$",
+            "spelling": "MMO",
+            "spelling_source": "OLS4 gives `obo_id` like `MMO:0000262` and IRIs `http://purl.obolibrary.org/obo/MMO_...` (checked 2026-10-30); Bioregistry's preferred prefix is `MMO`",
+            "synonyms": [
+                "MMO"
+            ]
         }
     },
     "uri_styles": {

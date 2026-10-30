@@ -10938,6 +10938,54 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Data analysis",
+      "node": "EDAM:operation_2945",
+      "definition": "Apply analytical methods to existing data of a specific type.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [data analysis is the general method], V_eta_go_forward_class_audit.md: the method term of a calculation that is not a fit. Evidence: https://www.ebi.ac.uk/ols4/api/terms?obo_id=EDAM:operation_2945",
+      "first_used_in": "no dataset yet: DID-matlab calculation migrators (tuning curves without a fit, hartley_calc, stimulus_response_scalar)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "breeding",
+      "node": "NCIT:C42877",
+      "definition": "Sexual reproduction that produces offspring, usually animals or plants. However, typically used to refer to the production of animals or plants by selective pairing.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [openMINDS strain leftovers settled], V_eta_go_forward_class_audit.md: the variable of an openMINDS strain's breedingType assertion. Evidence: https://www.ebi.ac.uk/ols4/api/terms?obo_id=NCIT:C42877",
+      "first_used_in": "no dataset yet: NDI-matlab openMINDS strain assembly",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "disease model",
+      "node": "BAO:0010279",
+      "definition": "A disease model is an animal or cells displaying all or some of the pathological processes that are observed in the actual human or animal disease.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [openMINDS strain leftovers settled], V_eta_go_forward_class_audit.md: the variable of an openMINDS strain's diseaseModel assertion. Evidence: https://www.ebi.ac.uk/ols4/api/terms?obo_id=BAO:0010279",
+      "first_used_in": "no dataset yet: NDI-matlab openMINDS strain assembly",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Electrode Device",
+      "node": "NCIT:C49936",
+      "definition": "A conductor that is designed to make contact with part of a circuit or system.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-30 [element types batch 4], V_eta_go_forward_class_audit.md: the device kind of an NDI element of probe type `electrode-$`. Evidence: https://www.ebi.ac.uk/ols4/api/terms?obo_id=NCIT:C49936",
+      "first_used_in": "no dataset yet: DID-matlab element migration",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
