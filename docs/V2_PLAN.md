@@ -207,14 +207,14 @@ Last updated 2026-10-27.
     retire classes leave]). Which, if any, merge into the parent now?
   - **G33. "The fill" of [term equivalents recorded].** 0 of 896 registry
     rows carry an equivalent. A DID-matlab tool that proposes rows from
-    openMINDS's mapping, or a one-time did-schema data change?
+    openMINDS's mapping, or a one-time did-schema data change? ANSWERED 2026-10-30 [equivalents filled in did-schema].
   - **G34. An `app` field outside the control template (NDI-matlab #1093).**
     Read as malformed (carry-100), not as a software field. Right reading of
     [control record fields split]? ANSWERED 2026-10-30 [control records carried in pass 1].
   - **G35. Hartley generator keys the shared basis does not read** (`randState`,
     `rect`, `distance`, `chromhigh`, `reps`, ...): the basis is minted once
     per session, so the presentation has no method of its own. The
-    manipulation's inline method?
+    manipulation's inline method? ANSWERED 2026-10-30 [Hartley settings on the inline method].
   - **G36. A second value of a key the grating recipe reads once.** 0 cases in
     B, Dab and 20211116. ANSWERED 2026-10-30 [image raw round trip and single-read keys].
   - **G37. The probe coordinate system ([site frame is a coordinate
@@ -330,7 +330,7 @@ Last updated 2026-10-27.
     `distance_metadata` needs its own decision] ANSWERED 2026-10-29 [reshaped
     retire classes carried]: carry them whole as v1 for now.
   - **G51. The age-at-injection variable ([age at injection is an
-    observation]).** Which term is the variable of the age observation?
+    observation]).** Which term is the variable of the age observation? ANSWERED 2026-10-30 [age is NCIT Age].
   - **G52. Dataset-specific logic left in the generic stage ([dataset-specific
     logic leaves the generic migration]).** Should the Haley encounter map
     (audit Q1) and the imageStack mask words (Q3,
