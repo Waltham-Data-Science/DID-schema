@@ -21,7 +21,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 |
 | 32 | binding governance (T8): the remaining clause is #129 -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
 | 46 | retire `ngrid`, gated on both consumers -> https://github.com/Waltham-Data-Science/DID-schema/issues/92 |
-| 48 | `receptive_field.value` declares no fields; the hartley_calc fold quarantines -> https://github.com/Waltham-Data-Science/DID-schema/issues/93 |
 | 57 | clock alignment cluster: is `acquisition_channels`' own dependency set covered by the signature? -> https://github.com/Waltham-Data-Science/DID-schema/issues/95 |
 | 62 | `stimulus_parameter` dissolution, blocked on a Marder corpus -> https://github.com/Waltham-Data-Science/DID-schema/issues/96 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id` -> https://github.com/Waltham-Data-Science/DID-schema/issues/105 |
@@ -103,6 +102,7 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 48 | the hartley_calc fold is re-armed (DID-matlab `+migrators_j/hartley_calc.m`, receptive_field_calculation with sampled bodies); `receptive_field.value` needs no inline fields under value_inline_or_body ([data_body amendment 5]); end state accepted in [confirm sheet matches]; #93 closed 2026-10-30 |
 | 142 | element name and reference stored apart: `name` written, the reference after it (DID-matlab element.m, on V2 via 0e25c5b, #299; NDI-matlab 461d8a6 reads it); carry-055 retired, 2026-10-30 |
 | 141 | an author with several affiliations in `metadata_editor`: one `affiliated_with` relation per affiliation (DID-matlab metadata_editor.m, on V2 via dde94c44 #278), Jess Haley 2026-10-27 [one affiliation relation each]; carry-054 retired (issue #148) |
 | 133 | an image's differing `data_limits`: a valid [min max] pair is written as a value range (DID-matlab image_stack.m, on V2 via f6486be); what remains is a malformed `data_limits` (carry-011, carry-012), Jess Haley 2026-10-26 [data_limits not a pair is malformed] (issue #138) |

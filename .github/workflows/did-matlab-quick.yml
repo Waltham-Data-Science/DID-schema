@@ -1,0 +1,140 @@
+name: DID-matlab quick tests against this schema
+
+# A did-schema change that breaks DID-matlab must fail its OWN pull request
+# (#114 item 1, Jess Haley 2026-10-22, "do 1-7"). DID-matlab's CI reads
+# did-schema `main`, so before this job a breaking schema change showed up only
+# after it merged, in every sibling's CI at once (#88 c359949: four named rules
+# did2.build could not check; 2026-10-30: deleted class files DID-matlab tests
+# still read).
+#
+# This job runs DID-matlab's quick suite (its test-migrators-quick.yml: every
+# did2.unittest test except the testCorpus* corpus runs) at DID-matlab's live
+# `V2`, against the schema set of the did-schema commit under test. It is the
+# same test command and the same schema assembly; only the did-schema ref
+# differs. The DID-matlab commit is printed, because "DID-matlab V2 passes on
+# this schema" is a claim about one commit.
+#
+# A red run here means: merging this PR turns DID-matlab's V2 CI red. The fix
+# is in DID-matlab first (CLAUDE.md §3, "Changes the siblings must follow land
+# in the siblings first"), then this PR is re-run.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'schemas/did_v2/**'
+      - 'schemas/V_eta_carry_register.json'
+      - 'schemas/V_eta_term_registry.json'
+      - 'tools/sibling_lock.json'
+      - 'tools/check_empty_ontology_nodes.py'
+      - '.github/workflows/did-matlab-quick.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: did-matlab-quick-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  did-matlab-quick:
+    name: DID-matlab V2 quick tests on this schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out DID-matlab V2
+        uses: actions/checkout@v4
+        with:
+          repository: VH-Lab/DID-matlab
+          ref: V2
+
+      - name: Check out this did-schema commit
+        uses: actions/checkout@v4
+        with:
+          path: did-schema
+
+      - name: Print the two commits under test
+        run: |
+          echo "DID-matlab V2: $(git rev-parse HEAD)"
+          echo "did-schema:    $(git -C did-schema rev-parse HEAD)"
+
+      - name: Assemble the schema set (as DID-matlab's quick job does)
+        run: |
+          mkdir -p "${GITHUB_WORKSPACE}/eta-schemas"
+          SET=did-schema/schemas/did_v2
+          cp "$SET"/stable/*.json "${GITHUB_WORKSPACE}/eta-schemas/"
+          cp "$SET"/draft/*.json  "${GITHUB_WORKSPACE}/eta-schemas/"
+          if [ -d "$SET/deprecated" ]; then cp "$SET"/deprecated/*.json "${GITHUB_WORKSPACE}/eta-schemas/"; fi
+          echo "DENOMINATOR: $(ls "${GITHUB_WORKSPACE}/eta-schemas" | wc -l) schema file(s) assembled"
+          echo "DID_SCHEMA_PATH=${GITHUB_WORKSPACE}/eta-schemas" >> "$GITHUB_ENV"
+
+      - name: Check out NDI-matlab's v1 templates at the locked main
+        # [carried v1 validates against NDI templates]: as in DID-matlab's job,
+        # read from this commit's sibling lock. Without it the check reports
+        # NOT CHECKED; it never turns the run red.
+        continue-on-error: true
+        run: |
+          lock=did-schema/tools/sibling_lock.json
+          sha=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['siblings']['NDI-matlab']['main'])" "$lock")
+          echo "NDI-matlab locked main: $sha"
+          dir="${GITHUB_WORKSPACE}/NDI-templates"
+          git init -q "$dir"
+          git -C "$dir" remote add origin https://github.com/VH-Lab/NDI-matlab.git
+          git -C "$dir" sparse-checkout set src/ndi/ndi_common/database_documents
+          git -C "$dir" fetch -q --depth 1 --filter=blob:none origin "$sha"
+          git -C "$dir" checkout -q FETCH_HEAD
+          t="$dir/src/ndi/ndi_common/database_documents"
+          echo "templates: $(find "$t" -name '*.json' | wc -l) file(s)"
+          echo "DID_NDI_TEMPLATE_PATH=$t" >> "$GITHUB_ENV"
+
+      - name: Every carry note cites a register row of this commit (python)
+        run: python3 tools/check_carry_citations.py --did-schema did-schema
+
+      - name: Unminted ontology terms must not increase (python)
+        run: python3 did-schema/tools/check_empty_ontology_nodes.py --did . --enforce
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v2
+        with:
+          release: latest
+          cache: true
+          products: Statistics_and_Machine_Learning_Toolbox
+
+      - name: Install MatBox
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ehennestad/matbox-actions/install-matbox@v1
+
+      - name: Install DID-matlab's dependencies (mksqlite, vhlab-toolbox-matlab)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: matlab-actions/run-command@v2
+        with:
+          command: |
+            addpath(genpath("src"));
+            addpath(genpath("tools"));
+            matbox.installRequirements(didtools.projectdir());
+
+      - name: Run DID-matlab's quick suite (no corpora)
+        uses: matlab-actions/run-command@v2
+        env:
+          # as in DID-matlab's job: the builder tests use made-up terms
+          DID_ENFORCE_TERM_REGISTRY: '0'
+        with:
+          command: |
+            addpath(genpath("src"));
+            addpath(genpath("tests"));
+            import matlab.unittest.TestRunner;
+            import matlab.unittest.TestSuite;
+            runner = TestRunner.withTextOutput;
+            suite = TestSuite.fromPackage("did2.unittest", "IncludingSubpackages", true);
+            names = string({suite.Name});
+            suite = suite(~contains(names, "testCorpus"));
+            results = runner.run(suite);
+            verdict = struct('n_run', numel(results), 'n_failed', sum([results.Failed]));
+            try
+                verdict = did2.unittest.helpers.reportVerdict(results, "DID-matlab V2 on this did-schema");
+            catch verdictErr
+                fprintf(2, "reportVerdict itself failed (%s) -- counts only\n", verdictErr.message);
+            end
+            assert(verdict.n_run > 0, "no DID-matlab test ran: this run checked nothing");
+            assert(verdict.n_failed == 0, sprintf( ...
+                "%d DID-matlab test(s) fail on this did-schema -- names are in the VERDICT block above", ...
+                verdict.n_failed));
