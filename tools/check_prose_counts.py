@@ -813,6 +813,89 @@ def render(paths, claims, docs_read, lines_read, unreadable,
         out("No document asserts a countable number the tree does not hold.")
 
 
+# --------------------------------------------------------------------------
+# HEAD CLAIMS IN CLAUDE.md (#114 item 2, Jess Haley 2026-10-22, "do 1-7").
+# A commit hash CLAUDE.md describes as a branch's head goes stale the moment
+# the branch moves, and reads exactly like a current fact (dc56951, cd85606 and
+# 7a49a9f were found by hand on 2026-10-22). A hash in the same paragraph as a
+# head word is a HEAD CLAIM; it is checked against the named repository's
+# branch, read from the checkout tools/gates.py resolves. Three states: CURRENT,
+# STALE (fails under --enforce), NOT CHECKED (no checkout, or no repository or
+# branch named) -- never a silent pass.
+# --------------------------------------------------------------------------
+
+HASH_RE = re.compile(r"\b(?=[0-9a-f]*[a-f])(?=[0-9a-f]*[0-9])[0-9a-f]{7,40}\b")
+HEAD_WORD_RE = re.compile(r"\b(head|HEAD|tip|is at|now at|currently at)\b")
+HEAD_REACH = 80
+HEAD_REPOS = (                         # name in prose, env var, folder
+    ("NDIcalc-vis-matlab", "NDICALC_VIS_MATLAB", "NDIcalc-vis-matlab"),
+    ("ndi-ontology-matlab", "NDI_ONTOLOGY_MATLAB", "ndi-ontology-matlab"),
+    ("empty-ontology", "EMPTY_ONTOLOGY", "empty-ontology"),
+    ("NDI-matlab", "NDI_MATLAB", "NDI-matlab"),
+    ("DID-matlab", "DID_MATLAB", "DID-matlab"),
+    ("did-schema", None, None),
+)
+BRANCH_RE = re.compile(r"`?\b(main|V2)\b`?")
+
+
+def _git(path, *args):
+    import subprocess
+    try:
+        out = subprocess.run(["git", "-C", path, *args], capture_output=True,
+                             text=True, check=False)
+    except OSError:
+        return None
+    return out.stdout.strip() if out.returncode == 0 else None
+
+
+def head_claims(path=None):
+    """[(lineno, hash, repo, branch, state, why)] for CLAUDE.md's head claims."""
+    path = path or os.path.join(REPO, "CLAUDE.md")
+    with open(path, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    rows = []
+    for text, spans in blocks(lines):
+        for m in HASH_RE.finditer(text):
+            near = text[max(0, m.start() - HEAD_REACH):m.end() + HEAD_REACH]
+            if not HEAD_WORD_RE.search(near):
+                continue
+            line = _lineno_at(spans, m.start())
+            repo = next((r for r in HEAD_REPOS if r[0] in near), None) or \
+                next((r for r in HEAD_REPOS if r[0] in text), None)
+            b = BRANCH_RE.search(near) or BRANCH_RE.search(text)
+            if repo is None or b is None:
+                rows.append((line, m.group(0), repo and repo[0], b and b.group(1),
+                             "NOT CHECKED", "no repository or branch named beside it"))
+                continue
+            name, env, folder = repo
+            where = REPO if env is None else find_repo(folder, env)
+            if not where:
+                rows.append((line, m.group(0), name, b.group(1), "NOT CHECKED",
+                             f"no {name} checkout here"))
+                continue
+            tip = _git(where, "rev-parse", f"origin/{b.group(1)}") or \
+                _git(where, "rev-parse", b.group(1))
+            if not tip:
+                rows.append((line, m.group(0), name, b.group(1), "NOT CHECKED",
+                             f"{name} has no ref {b.group(1)} here"))
+            elif tip.startswith(m.group(0)):
+                rows.append((line, m.group(0), name, b.group(1), "CURRENT", tip[:12]))
+            else:
+                rows.append((line, m.group(0), name, b.group(1), "STALE",
+                             f"{b.group(1)} is {tip[:12]} in {where}"))
+    return rows
+
+
+def render_head_claims(rows, out=print):
+    n = {s: sum(1 for r in rows if r[4] == s) for s in ("CURRENT", "STALE", "NOT CHECKED")}
+    out("")
+    out(f"HEAD CLAIMS IN CLAUDE.md (#114): {len(rows)} hash(es) beside a head word; "
+        f"{n['CURRENT']} current, {n['STALE']} STALE, {n['NOT CHECKED']} not checked")
+    for line, h, repo, branch, state, why in rows:
+        out(f"  CLAUDE.md:{line}  {h}  {repo or '?'} {branch or '?'}  {state}  ({why})")
+    return n["STALE"]
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--enforce", action="store_true",
@@ -856,7 +939,8 @@ def main(argv=None):
     # defect in the prose, so it never fails. A pair where every claim is
     # quoted history does fail: the document has stopped asserting anything.
     all_history = [p for p in undecidable if p[1] not in unavailable]
-    return 1 if ((disagree or all_history) and args.enforce) else 0
+    stale_heads = render_head_claims(head_claims())
+    return 1 if ((disagree or all_history or stale_heads) and args.enforce) else 0
 
 
 if __name__ == "__main__":

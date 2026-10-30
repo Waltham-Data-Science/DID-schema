@@ -399,7 +399,7 @@ Last updated 2026-10-27.
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
     own issue: #105, #108, #110.
-- **G64-G72. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
+- **G64-G73. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
   Claude's recommendation, Proposed (not decided).**
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
     (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
@@ -469,6 +469,11 @@ Last updated 2026-10-27.
     Register NCIT:C48571 and convert, or keep the source only? (No fixture is
     affected today: every Babu treatment is carried by location.) [register and
     convert]
+  - **G73. #119 part 2, the growth ratchets.** All ten `BASELINE_*` ratchets
+    are listed in docs/v2_working/RATCHETS_119.md. Only B6 (bound fields with
+    no catalogue row; 116, today 95) grows with normal decided work, so it
+    becomes report-only. The other nine stay fail-on-growth, and the five that
+    sit above today's count (B1, B3, B6, B8, B9) are lowered to it. [as listed]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
