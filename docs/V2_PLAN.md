@@ -39,8 +39,7 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
 5. DID-matlab #304 (stimulator is SNOMEDCT:36645008; b4d626a), #322 (bath
    variable), #324 (last nine raw-v1 migrators): required checks green, corpus
    jobs were still running. #304 body still lists stimulator as carried; #324
-   body still says MATLAB has not run. After #304: retire carry-121; mark the
-   DID-matlab part of [stimulator is SNOMED CT Stimulator] Built.
+   body still says MATLAB has not run. (#304, #322, #324 merged 2026-10-30; carry-121 retired.)
 6. ndi-ontology-matlab #17 (SNOMEDCT lookup): CI had not started. Then mark the
    ndi-ontology-matlab part of [stimulator is SNOMED CT Stimulator] Built.
 7. NDI-matlab #1108, #1112 (only codecov/project red, -0.02%, looks like

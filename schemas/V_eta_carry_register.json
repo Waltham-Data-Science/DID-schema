@@ -1992,25 +1992,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-121",
-      "v1_class": "element",
-      "fields": [
-        "element.type"
-      ],
-      "when": "the element's probe type is `wide-field-imaging` or `brightfield-imaging`, which the v1 document alone does not resolve to a microscope (OBI:0400169) or a digital camera (OBI:0001048)",
-      "kind": "needs_mapping",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "imaging probes are microscopes or carried"
-      },
-      "homes": [
-        "the device kind OBI:0400169 microscope or OBI:0001048 digital camera"
-      ],
-      "decides": "whether the imaging device was a microscope or a camera",
-      "resolved_by": "each dataset's import (not yet written)",
-      "kind_basis": "stated"
-    },
-    {
       "id": "carry-122",
       "v1_class": "binaryseries_parameters",
       "fields": [
