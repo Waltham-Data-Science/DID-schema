@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 581,
+          "accepted_lines": 584,
           "accepted_lines_by_kind": {
-            "Decided by": 464,
+            "Decided by": 467,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4049,6 +4049,30 @@
               "tag": "image raw round trip and single-read keys",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [image raw round trip and"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1686,
+              "kind": "Decided by",
+              "tag": "age is NCIT Age",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [age is NCIT Age]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1688,
+              "kind": "Decided by",
+              "tag": "equivalents filled in did-schema",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [equivalents filled in"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1690,
+              "kind": "Decided by",
+              "tag": "Hartley settings on the inline method",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [Hartley settings on the"
             },
             {
               "document": "V_eta_image_model_plan.md",

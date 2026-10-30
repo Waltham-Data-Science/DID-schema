@@ -10929,6 +10929,18 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "Age",
+            "node": "NCIT:C25150",
+            "definition": "How long something has existed; elapsed time since birth.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-30 [age is NCIT Age], V_eta_go_forward_class_audit.md: the variable of the age-at-injection observation ([age at injection is an observation]). Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/ncit/terms?obo_id=NCIT:C25150",
+            "first_used_in": "no dataset yet: v1 virus_injection.virus_AdministrationPND (DID-matlab virus_injection migration; build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
