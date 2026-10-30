@@ -394,7 +394,10 @@ Last updated 2026-10-27.
     [imaging mode is a method term]).** Recording modes voltage (-Vm) and
     current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
     which terms? (Claude to bring candidates from OLS4.)
-  - **G63. The four NDI clock types (did-schema #97).** `utc`,
+  - **G63. The four NDI clock types (did-schema #97).** ANSWERED earlier (my
+    mistake to ask): [clock terms get nodes] (Jess Haley, 2026-10-26) decided
+    them, and the terms are registered (wikidata:Q1536, EMPTY:0000403-0000405);
+    only the DID-matlab and NDI-matlab node comparison is left to build. `utc`,
     `dev_local_time`, `dev_global_time`, `exp_global_time` are bound with empty
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
