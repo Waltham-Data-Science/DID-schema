@@ -2581,6 +2581,26 @@
       "decides": "which count is the device's number of electrodes",
       "resolved_by": "the dataset map entry for that device (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-157",
+      "v1_class": "stimulus_bath",
+      "fields": [
+        "epochid.epochid",
+        "the stimulator's clock for that epoch"
+      ],
+      "when": "its epoch has no clock record for its stimulator, so the bath cannot be anchored to a clock (DID-matlab resolveDeferredBaths.m stimulatorClock; build pending: it defaults to dev_local_time today)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "the bath manipulation anchored to its epoch on the clock the dataset names"
+      ],
+      "decides": "which clock the bath's epoch is on; the v1 document does not say ([no invented values])",
+      "resolved_by": "the dataset map entry for that bath's clock (not yet written)",
+      "kind_basis": "decided"
     }
   ]
 }
