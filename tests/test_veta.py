@@ -1521,7 +1521,10 @@ def test_binding_registry_meta_present():
             assert b["additional_roots"] == [{"ontology": "WBls", "root_node": "WBls:0000075"}]
             continue
         assert (b["class"], b.get("value_kind")) == ("assertion", "term")
-        if b["variable"]["name"] in ("material type", "culture type"):
+        # Equipment Type joined them 2026-10-30 ([equipment type is the device
+        # kind list], Jess Haley, 2026-10-29): a closed list of the registered
+        # device kinds instead of the OBI:0000968 subtree
+        if b["variable"]["name"] in ("material type", "culture type", "Equipment Type"):
             assert "ontology" not in b and "root_node" not in b, b
             assert b.get("node_form") == "curie", b
         else:

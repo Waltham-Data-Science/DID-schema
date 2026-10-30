@@ -46,7 +46,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical pH, the log-scale number; its unit is UO:0000196 pH (Jess Haley 2026-10-22 [pH unit is UO pH]). `source_unit` is kept for lossless provenance (a source may write 'pH', or state a scale).",
+                    "documentation": "Canonical pH, the log-scale number; its unit is UO:0000196 pH (Jess Haley 2026-10-22 [pH unit is UO pH]). `source_unit` is kept for lossless provenance (a source may write 'pH', or state a scale). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {

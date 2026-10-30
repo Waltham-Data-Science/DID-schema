@@ -424,7 +424,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 599 decision line(s) accepted, 2 rejected; 43 cited by a class, 556 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 605 decision line(s) accepted, 2 rejected; 43 cited by a class, 562 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -865,6 +865,12 @@ field). If one decides a class's disposition, that class should cite it.
 - assay labels batch 4. "Decided by Jess Haley, 2026-10-30 [assay labels batch 4]: (" (V_eta_go_forward_class_audit.md:1716).
 - assay labels batch 5. "Decided by Jess Haley, 2026-10-30 [assay labels batch 5]: (" (V_eta_go_forward_class_audit.md:1718).
 - assay labels batch 6. "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: (" (V_eta_go_forward_class_audit.md:1720).
+- raw v1 switch finished in batches. "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished" (V_eta_go_forward_class_audit.md:1722).
+- stimulator is SNOMED CT Stimulator. "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT" (V_eta_go_forward_class_audit.md:1724).
+- global-clock oneepoch carried with its element. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (V_eta_go_forward_class_audit.md:1726).
+- differing stimulator epoch is malformed. "Decided by Jess Haley, 2026-10-30 [differing stimulator" (V_eta_go_forward_class_audit.md:1728).
+- response unit slot settles 110. "Decided by Jess Haley, 2026-10-30 [response unit slot" (V_eta_go_forward_class_audit.md:1730).
+- schema folders by family. "Decided by Jess Haley, 2026-10-30 [schema folders by" (V_eta_go_forward_class_audit.md:1732).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

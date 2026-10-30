@@ -34,7 +34,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 83 | pre-`base` documents: `base.type` / `base.database_version` (also #84(g), #84(h)) -> https://github.com/Waltham-Data-Science/DID-schema/issues/103 |
 | 105 | how many pre-repair `ontologyTableRow` documents carry a plural `document_id`? -> https://github.com/Waltham-Data-Science/DID-schema/issues/111 |
 | 108 | `binaryseries_parameters` has no edges: what do its parameters attach to? -> https://github.com/Waltham-Data-Science/DID-schema/issues/109 |
-| 112 | `tuning_curve.response_units` is never filled by a v1 writer -> https://github.com/Waltham-Data-Science/DID-schema/issues/110 |
 | 114 | `ngrid`: deleted (signed) versus migrated (later decision) -> https://github.com/Waltham-Data-Science/DID-schema/issues/92 |
 | 115 | registry rows: which units are admissible for a variable -> https://github.com/Waltham-Data-Science/DID-schema/issues/90 |
 | 118 | no value kind for an undimensioned observation (with #30(a)) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104 |
@@ -47,7 +46,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
 | 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
-| 137 | a home for `stimulus_response_scalar` stimulator epoch and control links (carry-050) -> https://github.com/Waltham-Data-Science/DID-schema/issues/144 |
 | 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
 | 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
@@ -101,6 +99,8 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 112 | `tuning_curve.response_units`: an optional `response_unit`, filled when stated ([response variable], [unstated response variable]; [response unit slot settles 110]); #110 closed 2026-10-30 |
+| 137 | `stimulus_response_scalar` stimulator epoch and control links: [response links: epoch rebuilt, control as input] (DID-matlab 05d4dcd, #266); a differing epoch is malformed ([differing stimulator epoch is malformed], carry-050); #144 closed 2026-10-30 |
 | 134 | an `imageStack`'s `imageCollection_id`: superseded by [image collection carried until a writer] (no NDI writer writes one; carried, carry-153, DID-matlab 34deec0, #305); carry-013 retired, #139 closed 2026-10-30 |
 | 48 | the hartley_calc fold is re-armed (DID-matlab `+migrators_j/hartley_calc.m`, receptive_field_calculation with sampled bodies); `receptive_field.value` needs no inline fields under value_inline_or_body ([data_body amendment 5]); end state accepted in [confirm sheet matches]; #93 closed 2026-10-30 |
 | 142 | element name and reference stored apart: `name` written, the reference after it (DID-matlab element.m, on V2 via 0e25c5b, #299; NDI-matlab 461d8a6 reads it); carry-055 retired, 2026-10-30 |

@@ -218,8 +218,13 @@ def test_the_decided_closed_value_lists():
         "openminds:semanticDataType/rawData", "openminds:semanticDataType/simulatedData"]
     assert rows["Gene Expression"]["term_valued"] is False
     assert "study design" not in rows and "ethics assessment" not in rows
+    # [equipment type is the device kind list] (Jess Haley, 2026-10-29): the
+    # registered device kinds, n-trode's multielectrode array first; the 17th is
+    # [stimulator is SNOMED CT Stimulator] (2026-10-30)
+    eq = nodes("Equipment Type")
+    assert len(eq) == 17 and eq[0] == "wikidata:Q1952355" and "SNOMEDCT:36645008" in eq
     failures, _, n = ctr.check_value_sets(ctr._load(ctr.SOURCE)["terms"], reg)
-    assert failures == [] and n == 4 + 1 + 2 + 206 + 40 + 227 + 4
+    assert failures == [] and n == 4 + 1 + 2 + 206 + 40 + 227 + 4 + 17
 
 
 def test_every_row_has_one_shape():

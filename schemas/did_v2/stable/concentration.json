@@ -52,7 +52,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -65,7 +65,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -78,7 +78,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration as a mass fraction, in grams per gram (OPTIONAL; `mass_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
+                    "documentation": "Canonical concentration as a mass fraction, in grams per gram (OPTIONAL; `mass_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -91,7 +91,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration as a volume fraction, in liters per liter (OPTIONAL; `volume_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]).",
+                    "documentation": "Canonical concentration as a volume fraction, in liters per liter (OPTIONAL; `volume_fraction` until 2026-10-22, Jess Haley [ratio slots named by unit]). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -104,7 +104,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -117,7 +117,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical).",
+                    "documentation": "Canonical concentration value (OPTIONAL -- filled when the source unit is computable into it; concentration has no single canonical). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -130,7 +130,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical optical density (absorbance, dimensionless; OPTIONAL). The wavelength (600 nm for OD600) is a condition of the statement, or is said by the source unit \"OD600\" (`source_unit`); `od600` until 2026-10-22, Jess Haley [ratio slots named by unit].",
+                    "documentation": "Canonical optical density (absorbance, dimensionless; OPTIONAL). The wavelength (600 nm for OD600) is a condition of the statement, or is said by the source unit \"OD600\" (`source_unit`); `od600` until 2026-10-22, Jess Haley [ratio slots named by unit]. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
