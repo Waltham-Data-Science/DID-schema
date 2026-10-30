@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 568,
+          "accepted_lines": 569,
           "accepted_lines_by_kind": {
-            "Decided by": 451,
+            "Decided by": 452,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -3945,6 +3945,14 @@
               "tag": "unit with no probe in the batch carried",
               "date": "2026-10-29",
               "anchor": "Decided by Jess Haley, 2026-10-29 [unit with no probe in"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1660,
+              "kind": "Decided by",
+              "tag": "table rows carried as v1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [table rows carried as"
             },
             {
               "document": "V_eta_image_model_plan.md",

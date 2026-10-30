@@ -288,7 +288,7 @@ Last updated 2026-10-27.
   - **G45. "Pre-repair" ([old table rows counted and carried], NDI-matlab
     #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
     40dc9aa86 keeps each dependency column in `data`; before it the column
-    was deleted). Right reading? [yes]
+    was deleted). Right reading? [yes] MOOT 2026-10-30 [table rows carried as v1]: every row is carried, pre-repair or not.
 - **G46. NDI's v1 writers in a V2 session ([one folder, final classes only]).**
   NDI-matlab V2's own v1 writers (spike sorter `+app/spikesorter.m:277`, spike
   extractor, element, probe location, openMINDS, syncgraph and others) still
