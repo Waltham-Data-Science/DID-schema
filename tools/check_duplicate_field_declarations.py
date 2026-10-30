@@ -168,7 +168,11 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # 18 -> 8 (2026-10-08, signed, V_eta_entity_composition_plan.md): `subject`,
 # `session` and the nine V1-ONLY-SLOT entities merged into one `entity`, whose
 # `name` beside `base.name` is ONE V1-ONLY-SLOT row (OVERRIDES), so ten rows went.
-BASELINE = 8
+# 8 -> 3 (2026-10-30, [one folder, final classes only]): the retire classes
+# nothing passes through were deleted, and with them five rows (among them
+# measurement.name and stimulus_parameter.name beside base.name). The three left
+# are the V1-ONLY-SLOT rows in OVERRIDES.
+BASELINE = 3
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"

@@ -544,10 +544,13 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # spatial_gene_expression classes, spike_interface_sorting_outputs,
     # tuning_fit. None of them was in the INERT list, which is checked, not
     # assumed.
-    assert walked == 152, f'schema count moved; re-derive the inert set ({walked})'
+    # THIRTY-THIRD MOVEMENT, re-derived not bumped: 152 -> 119 on 2026-10-30,
+    # thirty-three retire classes nothing passes through deleted ([one folder,
+    # final classes only]; RETIRED_CLASSES in tools/veta_record.py). `element`
+    # was one, so its two inert cells (element.direct, element.reference) left
+    # the INERT list with it; the rest were not in it.
+    assert walked == 119, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
-        "element.direct",
-        "element.reference",
         "stimulus_response_scalar_parameters_basic.isspike",
     ]
 

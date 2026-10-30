@@ -79,32 +79,6 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "daqsystem",
-            "replaced_by": [
-                "acquisition_system"
-            ],
-            "decision": "",
-            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "distance_metadata",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "electrode_offset_voltage",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "element",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
-        },
-        {
             "class_name": "ensemble",
             "replaced_by": [
                 "entity (subject)",
@@ -135,20 +109,6 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "filter",
-            "replaced_by": [],
-            "decision": "",
-            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "fitcurve",
-            "replaced_by": [
-                "calculation + model_fit"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "generic_file",
             "replaced_by": [],
             "decision": "",
@@ -167,60 +127,10 @@
             "note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
         {
-            "class_name": "jrclust_clusters",
-            "replaced_by": [
-                "calculation + label"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "kiasort_clusters",
-            "replaced_by": [
-                "calculation + label"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "kilosort_clusters",
-            "replaced_by": [
-                "calculation + label"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "measurement",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "neuron_extracellular",
-            "replaced_by": [
-                "entity (subject)",
-                "directed_relation",
-                "calculation + label",
-                "calculation + score",
-                "calculation + voltage",
-                "relative_time_reference",
-                "entity (software)"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "ngrid",
             "replaced_by": [],
             "decision": "",
             "note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
-        },
-        {
-            "class_name": "oneepoch",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
         },
         {
             "class_name": "ontology_image",
@@ -252,112 +162,16 @@
             "note": "Phase-8 source (migrator → delete)"
         },
         {
-            "class_name": "openminds_element",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
-        },
-        {
             "class_name": "openminds_stimulus",
             "replaced_by": [],
             "decision": "",
             "note": "Phase-8 source (migrator → delete)"
         },
         {
-            "class_name": "openminds_subject",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
-        },
-        {
-            "class_name": "position_metadata",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "probe_geometry",
-            "replaced_by": [
-                "observation + position",
-                "assertion + term",
-                "relative_time_reference"
-            ],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "probe_location",
-            "replaced_by": [],
-            "decision": "",
-            "note": "→ observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "pyraview",
-            "replaced_by": [
-                "sampled_body"
-            ],
-            "decision": "",
-            "note": "2.D → data_body fold"
-        },
-        {
             "class_name": "reverse_correlation",
             "replaced_by": [],
             "decision": "",
             "note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
-        },
-        {
-            "class_name": "simple_calc",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "site2channelmap",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "sorting_parameters",
-            "replaced_by": [
-                "method"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_clusters",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_extraction_parameters",
-            "replaced_by": [
-                "method"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_extraction_parameters_modification",
-            "replaced_by": [
-                "method"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spikewaves",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "stimulus_parameter",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_presentation",
@@ -394,31 +208,9 @@
             "note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "subjectmeasurement",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
-        },
-        {
-            "class_name": "syncgraph",
-            "replaced_by": [
-                "clock_alignment_policy"
-            ],
-            "decision": "",
-            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
             "class_name": "syncrule",
             "replaced_by": [
                 "clock_alignment_configuration"
-            ],
-            "decision": "",
-            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "syncrule_mapping",
-            "replaced_by": [
-                "clock_alignment"
             ],
             "decision": "",
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
@@ -430,34 +222,6 @@
             ],
             "decision": "",
             "note": "Phase-8 source (migrator → delete)"
-        },
-        {
-            "class_name": "vmneuralresponseresiduals",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikefilteringparameters",
-            "replaced_by": [
-                "method"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikefit",
-            "replaced_by": [
-                "calculation + model_fit"
-            ],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikesummary",
-            "replaced_by": [],
-            "decision": "",
-            "note": "D-C analysis-tier decompose"
         }
     ]
 }

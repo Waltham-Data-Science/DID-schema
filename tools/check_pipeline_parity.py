@@ -67,9 +67,16 @@ NDI_MIGRATE = os.path.join("src", "ndi", "+ndi", "+migrate")
 # timestamp helper, not a pass: it returns the run's creation time and pins it
 # (DID-matlab +did2/+convert/migrationTime.m, [no invented values]); NDI's
 # ndi.migrate.local pins it once around the pipeline, and the passes call it.
+# `roundtrip` is the subpackage that rebuilds v1 documents to CHECK a batch
+# (did2.convert.roundtrip.wholeBatch, [every v1 id survives]); it writes no
+# document, so it is a check, not a post-pass. NDI's production pipeline does
+# not run it (no `roundtrip` call under +ndi/+migrate at NDI-matlab V2 3e0a2ca8).
+# `epochIndex` is named on the NDI side only through its static key helper
+# (did2.convert.epochIndex.pairKey, in +internal/expectedEpochPairs.m), which
+# builds a lookup key and is not a pass.
 NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
               "migrators_e", "migrators_i", "migrators_j", "v",
-              "migrationTime"}
+              "migrationTime", "roundtrip", "epochIndex"}
 
 # ---------------------------------------------------------------------------
 # THE DECLARED DIVERGENCES. Each entry is a pass that one side runs and the

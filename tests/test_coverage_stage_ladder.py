@@ -785,7 +785,17 @@ class TestTheCommittedLedger(unittest.TestCase):
         # decided target was their own tombstone, deleted with every
         # deprecated/ class; they are carried whole as v1, with no V2 target
         # to be built ahead of ([carried v1 validates against NDI templates]).
-        self.assertEqual(failed, ["ensemble"])
+        # `epochclocktimes` joined on 2026-10-30, when the lock moved to
+        # DID-matlab V2 3c6c4d70. It is the question the comment above asks,
+        # answered: NO channel can see an emitter because there is none. Its
+        # superclass block migrator was deleted as unreached ([unreached
+        # superclass migrators deleted], Jess Haley, 2026-10-27); its block
+        # rides on pyraview, which reads it raw; and its decided target, the
+        # `relative_time_reference` epochMint should mint (OPEN_WORK row #113),
+        # is still not built. Schema ahead of migrator, which is what this
+        # list names. (`filter`, deleted the same way, climbs through the
+        # authored `emitted_by` channel instead: pyraview writes its `method`.)
+        self.assertEqual(failed, ["ensemble", "epochclocktimes"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

@@ -297,21 +297,57 @@ def test_the_marker_is_absent_where_ndi_stated_nothing():
     Schema form states no required-ness, so its V_eta edges must carry NO
     marker -- not `false`.
 
+    The five JSON Schema-form classes (binnedspikeratevm and the four vm*
+    classes) have no V_eta class since the retire classes nothing passes
+    through were deleted (2026-10-29 and 2026-10-30, [one folder, final classes
+    only]). So the stamp is run on a copy of the tree that holds a minimal class
+    for each, carrying NDI's own edge names, and those edges are checked.
+
     MUTATION: stamp `False` for every unstated edge -> fails.
     """
     gt = _gt()
-    veta = _veta()
-    checked = 0
-    for cn, rec in gt["classes"].items():
-        if rec["schema_document_form"] != "json_schema":
-            continue
-        for cand in (cn, NRS.ndi_snake(cn), _rename_map().get(NRS.ndi_snake(cn))):
-            if cand and cand in veta:
-                for name, dep in _deps(veta[cand]).items():
-                    assert NRS.MARKER not in dep, (
-                        f"{cand}.{name} carries a verdict NDI never stated")
-                    checked += 1
-                break
+    tmp = os.path.join(REPO_ROOT, "schemas", ".V_eta_stamp_unstated")
+    if os.path.exists(tmp):
+        shutil.rmtree(tmp)
+    shutil.copytree(VETA, tmp)
+    try:
+        veta = _veta()
+        for cn, rec in gt["classes"].items():
+            if rec["schema_document_form"] != "json_schema":
+                continue
+            if any(c and c in veta for c in
+                   (cn, NRS.ndi_snake(cn), _rename_map().get(NRS.ndi_snake(cn)))):
+                continue
+            doc = {"document_class": {"class_name": NRS.ndi_snake(cn),
+                                      "superclasses": []},
+                   "depends_on": [{"name": e, "mustBeNonEmpty": False,
+                                   "must_refer_to_document_class": ""}
+                                  for e in rec["depends_on"]],
+                   "fields": []}
+            with open(os.path.join(tmp, "stable", NRS.ndi_snake(cn) + ".json"), "w") as f:
+                json.dump(doc, f)
+        NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS, META_FILES)
+        stamped = {}
+        for p in glob.glob(os.path.join(tmp, "*", "*.json")):
+            if os.path.basename(p) in META_FILES:
+                continue
+            with open(p) as f:
+                d = json.load(f)
+            if "document_class" in d:
+                stamped[d["document_class"]["class_name"]] = d
+        checked = 0
+        for cn, rec in gt["classes"].items():
+            if rec["schema_document_form"] != "json_schema":
+                continue
+            for cand in (cn, NRS.ndi_snake(cn), _rename_map().get(NRS.ndi_snake(cn))):
+                if cand and cand in stamped:
+                    for name, dep in _deps(stamped[cand]).items():
+                        assert NRS.MARKER not in dep, (
+                            f"{cand}.{name} carries a verdict NDI never stated")
+                        checked += 1
+                    break
+    finally:
+        shutil.rmtree(tmp)
     assert checked > 0, (
         "no JSON Schema-form class resolved to a V_eta class -- this test "
         "asserted nothing, which is the zero it exists to prevent")

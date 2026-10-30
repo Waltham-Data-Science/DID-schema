@@ -356,6 +356,50 @@ Last updated 2026-10-27.
     factor (`jSourceUnit.m` TERMONLY). Keep dB as its own canonical unit (no
     conversion), or convert to a linear ratio using the variable to tell power
     from amplitude? ANSWERED 2026-10-30 [decibels are their own canonical].
+- **G58-G63. From the 2026-10-30 overnight builds. "[...]" is Claude's
+  recommendation, Proposed (not decided).**
+  - **G58. `stimulator` and its cascade ([element types batch 4]).** Carrying a
+    v1 `stimulator` element (vhlab: a visual-stimulus computer; Marder: an
+    electrical stimulator) carries everything that depends on it (carry-064):
+    its element_epochs, and the probe-map stimulus manipulations lose their
+    `instrument_id`, reaching Dab baths and vhlab stimulus data (DID-matlab
+    #304). No general stimulator device term exists (OLS4, 2026-10-30). (a)
+    carry anyway; (b) mint EMPTY "stimulator" ("A device that delivers a
+    stimulus to a subject", under OBI device) for both writers, and drop the
+    exact synonym "stimulator" from EMPTY:0000413. [(b)]
+  - **G59. The V2 ingest's open details ([V2 ingest is one sampled body per
+    channel group]).** NDI's live ingest knows the daq system, reader and v1
+    epoch_id, but no recording observation exists then. (1) Owner: does the
+    ingest mint the epoch and one observation per element from the
+    epochprobemap, or one observation per daq-system epoch? Its variable and
+    value kind, and for ti/di/ax groups? (2) `channel_list.bin` (names, types,
+    groups, sample rates, offsets, scales): channel-dimension covariates, a
+    separate opaque_body, or conditions? (3) The event/marker/text file (not
+    sampled) and the `ti` time group: own bodies, or covariates? (4) Files are
+    `<prefix>_group<g>_seg.nbf_<s>` from 1; the schema names members
+    `body_data_k` from 0: rename, or map with 'Files'? (5) How the reader finds
+    an epoch's bodies, and where the epochtable's t0/t1 and clocks go. (6) Is
+    the v1 ingested document still written? (NDI-matlab agent report; nothing
+    built.)
+  - **G60. A dataset with no single `dataset` document ([linked session link
+    details]).** NDI-matlab #1103 puts the link's method on the session's
+    relation to its study when there is no dataset document, and makes a linked
+    session with neither an error (`ndi:setup:V2:noLinkParent`). Right?
+  - **G61. openMINDS fragment text beyond Species ([openMINDS strain
+    leftovers]).** The decision stops storing a Species or GeneticStrainType
+    fragment's definition and synonyms (read back from the term). Apply the
+    same to breeding-type and disease-model fragments? (Reverted from NDI-matlab
+    #1104 until decided.)
+  - **G62. The remaining mode terms ([element type is a device kind term],
+    [imaging mode is a method term]).** Recording modes voltage (-Vm) and
+    current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
+    which terms? (Claude to bring candidates from OLS4.)
+  - **G63. The four NDI clock types (did-schema #97).** `utc`,
+    `dev_local_time`, `dev_global_time`, `exp_global_time` are bound with empty
+    nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
+    existing terms where they exist (UTC has candidates)? Also open, each in its
+    own issue: #105, #108, #110.
+
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
