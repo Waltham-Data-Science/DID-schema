@@ -59,7 +59,7 @@ Last updated 2026-10-27.
   list of entries like `model_fit`, each with the optional `response_transform`
   ("absolute value" on the abs one), so one calculation holds both and T10
   holds. Until answered, the second calculation stays (built E1 and E2 only).
-  [yes]
+  [yes] ANSWERED 2026-10-30 [interpolated values are a list].
 - **G6. A single fitted model on the method (DID-matlab #272).** The T10 ANSWERED 2026-10-29: [fit model stated once] in `schemas/V_eta_go_forward_class_audit.md`.
   amendment says the method does not repeat the fitted functions; the decision
   line [one calculation per named calculator output] only says "no `function`
@@ -129,7 +129,7 @@ Last updated 2026-10-27.
   parameters labelled `daqsystem ch1` / `daqsystem ch2`, the generic rule for
   an unread v1 parameter. Role-named labels ("from trigger channel" / "to
   trigger channel", matching the from/to rig edges) were not decided. Rename?
-  [yes, to match the edges]
+  [yes, to match the edges] ANSWERED 2026-10-30 [trigger channels named by their link].
 - **G14-G17. From the element device-kind build (DID-matlab #277):**
   - **G14. Where the n-trode electrode count comes from.** [n-trode is a
     multielectrode array] puts the count on the device, but NDI's `element`
@@ -231,7 +231,7 @@ Last updated 2026-10-27.
     own writers fill no canonical for a concentration whose unit converts to
     none, and `{source_value: NaN}` for an unrecorded amount (decided
     2026-10-21). Does "exactly one" allow zero then, or must writers convert
-    (and what of a unit that converts to none)?
+    (and what of a unit that converts to none)? ANSWERED 2026-10-30 [canonical absent only as needs info].
   - **G39. Synonyms in the term registry.** [registry holds nodes]
     (2026-10-22) says the registry "carries no synonym field"; [spelling is
     notation] (2026-10-26) puts synonyms there, and did-schema ccd05db built
@@ -350,6 +350,12 @@ Last updated 2026-10-27.
     collide under it); (b) add the spelling to the row's `synonyms` (read today
     by one migrator only). [(a)] ANSWERED 2026-10-29 [term names match
     ignoring spacing].
+  - **G57. Decibels ([canonical absent only as needs info]).** A dB value is a
+    log ratio: its linear value is 10^(x/10) for a power ratio and 10^(x/20)
+    for an amplitude ratio, so DID-matlab's unit table gives it no canonical
+    factor (`jSourceUnit.m` TERMONLY). Keep dB as its own canonical unit (no
+    conversion), or convert to a linear ratio using the variable to tell power
+    from amplitude?
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected
