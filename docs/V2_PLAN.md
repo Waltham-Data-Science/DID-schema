@@ -399,7 +399,7 @@ Last updated 2026-10-27.
     nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
     existing terms where they exist (UTC has candidates)? Also open, each in its
     own issue: #105, #108, #110.
-- **G64-G69. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
+- **G64-G70. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
   Claude's recommendation, Proposed (not decided).**
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
     (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
@@ -448,6 +448,15 @@ Last updated 2026-10-27.
     [obsolete all five; `consider` as listed there, none for B13]; Q14(a),
     A61's UO:0000031 "minute" clashes with the registered `om:minute-Time`
     [use om:minute-Time].
+  - **G70. #119 part 1 (skip OPEN_WORK's dated RE-DERIVED log in
+    `check_prose_counts`).** Built and reverted the same hour: with the 64 log
+    paragraphs skipped, OPEN_WORK keeps 4 older in-row counts that only the
+    log's current figures were satisfying (lines 431, 523 and 568, "91 NDI
+    templates"; line 963, "42 direct subclasses of `data_type`"), so the gate
+    fails. (a) mark those in-row counts as dated (e.g. "at <date>: 91
+    templates", which the check reads as history); (b) skip all of OPEN_WORK;
+    (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
+    rest of the check keeps working]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
