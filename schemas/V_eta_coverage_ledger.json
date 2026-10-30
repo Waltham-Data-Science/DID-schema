@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 591,
+          "accepted_lines": 599,
           "accepted_lines_by_kind": {
-            "Decided by": 474,
+            "Decided by": 482,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4129,6 +4129,70 @@
               "tag": "element types batch 1",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [element types batch 1]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1706,
+              "kind": "Decided by",
+              "tag": "assay labels batch 2",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 2]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1708,
+              "kind": "Decided by",
+              "tag": "element types batch 2",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element types batch 2]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1710,
+              "kind": "Decided by",
+              "tag": "assay labels batch 3",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 3]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1712,
+              "kind": "Decided by",
+              "tag": "element types batch 3",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element types batch 3]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1714,
+              "kind": "Decided by",
+              "tag": "element types batch 4",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [element types batch 4]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1716,
+              "kind": "Decided by",
+              "tag": "assay labels batch 4",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 4]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1718,
+              "kind": "Decided by",
+              "tag": "assay labels batch 5",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 5]: ("
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1720,
+              "kind": "Decided by",
+              "tag": "assay labels batch 6",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: ("
             },
             {
               "document": "V_eta_image_model_plan.md",

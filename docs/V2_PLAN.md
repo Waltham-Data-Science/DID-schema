@@ -336,10 +336,10 @@ Last updated 2026-10-27.
     (audit Q1) and the imageStack mask words (Q3,
     `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage? ANSWERED 2026-10-30 [Haley mask words leave the generic stage].
   - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
-    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`. IN PROGRESS: rows A1-A3 ANSWERED 2026-10-30 [assay labels batch 1]; the rest in batches.
+    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`. ANSWERED 2026-10-30 [assay labels batch 1]-[assay labels batch 6].
   - **G54. The element device-kind table ([element type is a device kind
     term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
-    G17). IN PROGRESS: batch 1 ANSWERED 2026-10-30 [element types batch 1]; the rest in batches.
+    G17). ANSWERED 2026-10-30 [element types batch 1]-[element types batch 4].
   - **G55. Element name and reference stored reversibly ([early migration
     pieces fixed], part 5; OPEN_WORK #142).** Which shape? ANSWERED 2026-10-29 [element name and reference stored apart].
   - **G56. Finding a term by a spelling of its name.** DID-matlab's term index
