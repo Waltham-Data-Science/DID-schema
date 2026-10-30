@@ -354,8 +354,8 @@
       "targets": [],
       "carried": [],
       "second_pass": [],
-      "how": "RESHAPE ONLY, 1 -> 1: the flat v1 A/B endpoint fields collapse into the nested `endpoints` array + an `units` ontology_term, by delegating to the proven V_delta migrator (did2.convert.migrators.distance_metadata) and wrapping its single body. The distance itself is NOT here -- it lives in the linked `distance` timeseries element.",
-      "flags": "Emits NO new document class, and both omissions are deliberate and recorded in the migrator header: no `length_observation` (there is no scalar distance in the metadata doc -- do not fabricate a values-less observation) and no endpoint relation (both endpoint ids are PRE-migration ids that dangle in a single-doc pass; Part A was tried and reverted at 946faf95 -- 4,156 JH orphans, a gating failure). The reshape cleared the ~2,078 JH quarantines; the observation and the spatial relation need the second pass, which sees the migrated-id graph.",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70, carry-147 ([reshaped retire classes carried]). The V2 class was deleted 2026-10-30 ([one folder, final classes only]).",
+      "flags": "SUPERSEDED how (before the carry): RESHAPE ONLY, 1 -> 1: the flat v1 A/B endpoint fields collapse into the nested `endpoints` array + an `units` ontology_term, by delegating to the proven V_delta migrator (did2.convert.migrators.distance_metadata) and wrapping its single body. The distance itself is NOT here -- it lives in the linked `distance` timeseries element. | Emits NO new document class, and both omissions are deliberate and recorded in the migrator header: no `length_observation` (there is no scalar distance in the metadata doc -- do not fabricate a values-less observation) and no endpoint relation (both endpoint ids are PRE-migration ids that dangle in a single-doc pass; Part A was tried and reverted at 946faf95 -- 4,156 JH orphans, a gating failure). The reshape cleared the ~2,078 JH quarantines; the observation and the spatial relation need the second pass, which sees the migrated-id graph.",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -960,8 +960,8 @@
         "entity (subject)"
       ],
       "second_pass": [],
-      "how": "each column of the legacy key/value table becomes its own statement: timeless facts -> term/assertion + date; timed numeric measures -> a data-type <dim>_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject",
-      "flags": "DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
+      "how": "CARRIED WHOLE AS v1 at DID-matlab V2 3c6c4d70: every v1 ontologyTableRow, carry-026 ([table rows carried as v1]). The V2 `ontology_table_row` class stays only as the edge target of `ontology_image.ontologyTableRow_id`.",
+      "flags": "SUPERSEDED how (before the carry): each column of the legacy key/value table becomes its own statement: timeless facts -> term/assertion + date; timed numeric measures -> a data-type <dim>_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject | DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11",
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
