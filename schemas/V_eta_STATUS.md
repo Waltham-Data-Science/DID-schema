@@ -539,7 +539,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 63 document(s) read (3 generated copies excluded); 584 decision line(s) accepted, 2 rejected; 43 cited by a class, 541 cited by none.
+DENOMINATOR: 63 document(s) read (3 generated copies excluded); 588 decision line(s) accepted, 2 rejected; 43 cited by a class, 545 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -965,6 +965,10 @@ field). If one decides a class's disposition, that class should cite it.
 - age is NCIT Age. "Decided by Jess Haley, 2026-10-30 [age is NCIT Age]: (" (V_eta_go_forward_class_audit.md:1686).
 - equivalents filled in did-schema. "Decided by Jess Haley, 2026-10-30 [equivalents filled in" (V_eta_go_forward_class_audit.md:1688).
 - Hartley settings on the inline method. "Decided by Jess Haley, 2026-10-30 [Hartley settings on the" (V_eta_go_forward_class_audit.md:1690).
+- acquisition time on its clock. "Decided by Jess Haley, 2026-10-30 [acquisition time on its" (V_eta_go_forward_class_audit.md:1692).
+- data analysis is the general method. "Decided by Jess Haley, 2026-10-30 [data analysis is the" (V_eta_go_forward_class_audit.md:1694).
+- image collection carried until a writer. "Decided by Jess Haley, 2026-10-30 [image collection carried" (V_eta_go_forward_class_audit.md:1696).
+- global-clock oneepoch details. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (V_eta_go_forward_class_audit.md:1698).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (V_eta_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (V_eta_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (V_eta_linked_session_plan.md:97).

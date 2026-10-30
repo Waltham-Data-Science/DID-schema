@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 584,
+          "accepted_lines": 588,
           "accepted_lines_by_kind": {
-            "Decided by": 467,
+            "Decided by": 471,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4073,6 +4073,38 @@
               "tag": "Hartley settings on the inline method",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [Hartley settings on the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1692,
+              "kind": "Decided by",
+              "tag": "acquisition time on its clock",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [acquisition time on its"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1694,
+              "kind": "Decided by",
+              "tag": "data analysis is the general method",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [data analysis is the"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1696,
+              "kind": "Decided by",
+              "tag": "image collection carried until a writer",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [image collection carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1698,
+              "kind": "Decided by",
+              "tag": "global-clock oneepoch details",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch"
             },
             {
               "document": "V_eta_image_model_plan.md",
