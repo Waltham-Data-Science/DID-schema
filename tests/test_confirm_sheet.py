@@ -399,6 +399,20 @@ class DestinationsAndUnreadTargetsCase(unittest.TestCase):
         self.assertEqual(inter, [])
         self.assertEqual(unknown, ["no_such_class"])
 
+    def test_a_composed_statement_is_read_through_its_parts(self):
+        # #123: `assertion + text` is direction plus value kind (T2, T3), never
+        # an index key, and was reported UNKNOWN on every row that emits one.
+        disp = {"assertion": "persist", "text": "persist",
+                "observation": "persist", "daqreader": "in_progress"}
+        final, inter, unknown = cs.destinations(
+            ["assertion + text", "observation + nope", "observation + daqreader"],
+            disp)
+        self.assertEqual(final, ["assertion + text"])
+        # a part that is not in the index keeps the target unknown, not final
+        self.assertEqual(unknown, ["observation + nope"])
+        self.assertEqual([(c, d) for c, d, _ in inter],
+                         [("observation + daqreader", "in_progress")])
+
     def test_the_QUESTION_names_destinations_not_every_minted_class(self):
         # The question is the line a reviewer actually reads. It used to recite
         # `targets` verbatim, so `daqreader_ndr` was put to the team as

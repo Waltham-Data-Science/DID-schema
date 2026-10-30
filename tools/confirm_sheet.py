@@ -249,6 +249,21 @@ def load_dispositions():
              for s in idx.get("schemas", [])}, "")
 
 
+def _disposition(cls, disp):
+    """The disposition of an emitted target, a composed one included.
+
+    A statement is emitted as `<direction> + <value kind>` (`assertion + text`;
+    T2, T3), a string that is never an index key. Each part is looked up: the
+    target is unknown when either part is, `persist` when both are, and
+    otherwise takes the first part's disposition that is not `persist`.
+    """
+    parts = [p.strip() for p in cls.split(" + ")] if " + " in cls else [cls]
+    ds = [disp.get(p) for p in parts]
+    if any(d is None for d in ds):
+        return None
+    return next((d for d in ds if d != "persist"), "persist")
+
+
 def destinations(emits, disp):
     """Split an emitted set into FINAL destinations and intermediates.
 
@@ -258,7 +273,7 @@ def destinations(emits, disp):
     """
     final, intermediate, unknown = [], [], []
     for cls in emits:
-        d = disp.get(cls)
+        d = _disposition(cls, disp)
         if d is None:
             unknown.append(cls)
         elif d == "persist":
