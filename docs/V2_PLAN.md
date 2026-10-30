@@ -160,7 +160,7 @@ Last updated 2026-10-27.
     reads control stimuli from v1]).** Joining `rawV1Classes` alone would
     quarantine every record in a validating run (the writer's `app.name` is
     undeclared on the tombstone). Carry it whole as v1 in pass 1, like
-    `stimulus_presentation`? If so, widen carry-045 or add a row?
+    `stimulus_presentation`? If so, widen carry-045 or add a row? ANSWERED 2026-10-30 [control records carried in pass 1].
   - **G19. A standalone item's control pairing ([control pairing points at ANSWERED 2026-10-29: [standalone item control stays carried] in `schemas/V_eta_go_forward_class_audit.md`.
     the presentation]).** A standalone item has no manipulation: what do the
     calculation's `entity_id` and `input_id` point at? (Today carry-090.)
@@ -210,13 +210,13 @@ Last updated 2026-10-27.
     openMINDS's mapping, or a one-time did-schema data change?
   - **G34. An `app` field outside the control template (NDI-matlab #1093).**
     Read as malformed (carry-100), not as a software field. Right reading of
-    [control record fields split]?
+    [control record fields split]? ANSWERED 2026-10-30 [control records carried in pass 1].
   - **G35. Hartley generator keys the shared basis does not read** (`randState`,
     `rect`, `distance`, `chromhigh`, `reps`, ...): the basis is minted once
     per session, so the presentation has no method of its own. The
     manipulation's inline method?
   - **G36. A second value of a key the grating recipe reads once.** 0 cases in
-    B, Dab and 20211116.
+    B, Dab and 20211116. ANSWERED 2026-10-30 [image raw round trip and single-read keys].
   - **G37. The probe coordinate system ([site frame is a coordinate
     system]).** Its required `reference_point` and depth `positive_direction`
     are recorded as "unknown": which terms? The registry also lacks a z-axis
@@ -268,7 +268,7 @@ Last updated 2026-10-27.
   - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
     the renamed path, so there is no raw-v1 inverse to carry the label back.
     Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
-    when `image` moves to the raw-v1 path]
+    when `image` moves to the raw-v1 path] ANSWERED 2026-10-30 [image raw round trip and single-read keys].
   - **G43. Two vintage-B ontologyImage cases ([ngrid with no statement
     carried]).** One with no non-empty edge at all (NDI's `imageDocMaker.m:130`
     makes it when given no row), and one with a subject or element edge beside
@@ -334,7 +334,7 @@ Last updated 2026-10-27.
   - **G52. Dataset-specific logic left in the generic stage ([dataset-specific
     logic leaves the generic migration]).** Should the Haley encounter map
     (audit Q1) and the imageStack mask words (Q3,
-    `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage?
+    `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage? ANSWERED 2026-10-30 [Haley mask words leave the generic stage].
   - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
     each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`.
   - **G54. The element device-kind table ([element type is a device kind
@@ -355,7 +355,7 @@ Last updated 2026-10-27.
     for an amplitude ratio, so DID-matlab's unit table gives it no canonical
     factor (`jSourceUnit.m` TERMONLY). Keep dB as its own canonical unit (no
     conversion), or convert to a linear ratio using the variable to tell power
-    from amplitude?
+    from amplitude? ANSWERED 2026-10-30 [decibels are their own canonical].
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected

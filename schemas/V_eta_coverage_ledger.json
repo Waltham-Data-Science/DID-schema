@@ -684,9 +684,9 @@
             "V_eta_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 577,
+          "accepted_lines": 581,
           "accepted_lines_by_kind": {
-            "Decided by": 460,
+            "Decided by": 464,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4017,6 +4017,38 @@
               "tag": "trigger channels named by their link",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [trigger channels named"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1678,
+              "kind": "Decided by",
+              "tag": "decibels are their own canonical",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [decibels are their own"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1680,
+              "kind": "Decided by",
+              "tag": "Haley mask words leave the generic stage",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [Haley mask words leave"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1682,
+              "kind": "Decided by",
+              "tag": "control records carried in pass 1",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [control records carried"
+            },
+            {
+              "document": "V_eta_go_forward_class_audit.md",
+              "line": 1684,
+              "kind": "Decided by",
+              "tag": "image raw round trip and single-read keys",
+              "date": "2026-10-30",
+              "anchor": "Decided by Jess Haley, 2026-10-30 [image raw round trip and"
             },
             {
               "document": "V_eta_image_model_plan.md",
