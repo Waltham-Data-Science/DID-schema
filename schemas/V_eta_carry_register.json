@@ -2114,7 +2114,7 @@
       "fields": [
         "the whole document"
       ],
-      "when": "a vintage-B ontologyImage whose only non-empty edge is `ontologyTableRow_id`: its ngrid names no statement for its sampled_body (DID-matlab +migrators_j/ontology_image.m)",
+      "when": "a vintage-B ontologyImage whose only non-empty edge is `ontologyTableRow_id`, or that has no non-empty edge at all (NDI imageDocMaker.m makes one when given no row): its ngrid names no statement for its sampled_body (DID-matlab +migrators_j/ontology_image.m; [vintage-B ontologyImage cases] (a))",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -2528,6 +2528,112 @@
         "document": "V_eta_go_forward_class_audit.md",
         "tag": "element name kept apart, base.name carried"
       },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-150",
+      "v1_class": "ontologyImage",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a vintage-B ontologyImage with a subject or element edge beside its ontologyTableRow_id (no NDI writer makes one) (DID-matlab +migrators_j/ontology_image.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "vintage-B ontologyImage cases"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-151",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a sorted unit whose probe element is not in the migration batch, so its subject cannot be rebuilt from the probe ([unit direct and subject rebuild from the probe]) (DID-matlab unit migrator, unit_probe_not_in_batch)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "unit with no probe in the batch carried"
+      },
+      "homes": [
+        "the unit entity, its subject rebuilt from the probe"
+      ],
+      "decides": "which subject the unit belongs to",
+      "resolved_by": "a migration batch that holds the unit's probe",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-152",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always in DID's pass 1: decomposed by NDI's second pass ([second pass reads control stimuli from v1]), as stimulus_presentation is (carry-045)",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "control records carried in pass 1"
+      },
+      "do_not": {
+        "line": "do not give `manipulation` the v1 control record block (`control_stimulus_ids`): its V2 form is made by NDI's second pass ([second pass reads control stimuli from v1])",
+        "class": "manipulation",
+        "fields": [
+          "control_stimulus_ids"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-153",
+      "v1_class": "image",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a non-empty `imageCollection_id` edge: no NDI writer writes one (only the imageCollection template and schema name it, NDI main at the locked sha) (DID-matlab +migrators_j/image.m, image_stack.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "image collection carried until a writer"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-154",
+      "v1_class": "imageStack",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a mask whose region the generic stage cannot read: the region words (arena, bacteria/lawn, reference mark) are the Haley import's ([Haley mask words leave the generic stage]) (DID-matlab +migrators_j/image_stack.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "Haley mask words leave the generic stage"
+      },
+      "homes": [
+        "a logical calculation of the named region"
+      ],
+      "decides": "which region the mask marks",
+      "resolved_by": "the dataset's import map (the Haley V2 import for Haley's words)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-155",
+      "v1_class": "*",
+      "fields": [
+        "a quantity's source_unit"
+      ],
+      "when": "a unit spelling the migrator's unit table does not recognise: a canonical value cannot be computed, and none is guessed ([canonical absent only as needs info]) (DID-matlab +migrators_j/private/jSourceUnit.m callers)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "canonical absent only as needs info"
+      },
+      "homes": [
+        "the quantity's value cell, its canonical computed from the recognised unit"
+      ],
+      "decides": "which unit the spelling names",
+      "resolved_by": "the dataset's import map, or a new row in the unit table",
       "kind_basis": "stated"
     }
   ]

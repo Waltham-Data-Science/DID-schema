@@ -179,7 +179,7 @@ Last updated 2026-10-27.
   - **G24. The image collection link ([image file details placed]).**
     `imageCollection_id` as `member_of` a group: who mints the group and with
     what id; does `member_of` start at the observation or the body; where do
-    the collection's label, format and subject go?
+    the collection's label, format and subject go? ANSWERED 2026-10-30 [image collection carried until a writer].
   - **G25. [image label goes to notes] before the rename.** `data_body` has ANSWERED 2026-10-29: [image label goes to the observation's notes] in `schemas/V_eta_go_forward_class_audit.md`.
     no `notes` yet, only `description`, which the stack's name already uses.
     Wait for the did_v2 rename, or write it elsewhere now?
@@ -191,11 +191,11 @@ Last updated 2026-10-27.
     a needs-home row?
   - **G28. Where the clock of "acquisition time" goes ([afo prefix
     registered]).** It sits in the label today and the round trip reads it
-    from there.
+    from there. ANSWERED 2026-10-30 [acquisition time on its clock].
   - **G29. The general method term for tuning curves that are not fits,
     hartley_calc and stimulus_response_scalar ([method terms are
     general]),** and whether jrclust and the generic fits gain Spike sorting
-    / curve fitting.
+    / curve fitting. ANSWERED 2026-10-30 [data analysis is the general method].
   - **G30. [oneepoch is a redundant calculation].** No "concatenation" term, ANSWERED 2026-10-29: [oneepoch method is data combination] in `schemas/V_eta_go_forward_class_audit.md`.
     no row for the device-local carry, the per-epoch `input_id` links need a
     batch pass, and what the calculation's value holds is not stated.
@@ -284,7 +284,7 @@ Last updated 2026-10-27.
     `redundant: true` on the calculation, the body, or both? (5) Fork A1 mints
     no epoch for `whole_session_<ref>`: what is it anchored to? [(1) NDI's
     second pass links them; (2) yes; (3) opaque_body, re-described by NDI as
-    today; (4) the body; (5) the session]
+    today; (4) the body; (5) the session] ANSWERED 2026-10-30 [global-clock oneepoch details].
   - **G45. "Pre-repair" ([old table rows counted and carried], NDI-matlab
     #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
     40dc9aa86 keeps each dependency column in `data`; before it the column
@@ -321,7 +321,7 @@ Last updated 2026-10-27.
     The variable terms for the `breedingType` and `diseaseModel` assertions;
     the vendor -> CURIE prefix table beyond JAX and how the vendor is read (a
     separate openMINDS Organization document); how several identifiers fill
-    `entity.global_identifier`; what "lookupLabel is rebuilt" means.
+    `entity.global_identifier`; what "lookupLabel is rebuilt" means. ANSWERED 2026-10-30 [openMINDS strain leftovers settled].
   - **G50. Two retire classes the migration reshapes ([one folder, final
     classes only]).** `distance_metadata` and `oneepoch` are reshaped into the
     retire class rather than left as v1, so their files cannot go. Carry them
@@ -336,10 +336,10 @@ Last updated 2026-10-27.
     (audit Q1) and the imageStack mask words (Q3,
     `docs/v2_working/DATASET_SPECIFIC_AUDIT.md`) leave the generic stage? ANSWERED 2026-10-30 [Haley mask words leave the generic stage].
   - **G53. The EMPTY assay labels ([old EMPTY labels generalised]).** Approve
-    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`.
+    each row of `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`. ANSWERED 2026-10-30 [assay labels batch 1]-[assay labels batch 6].
   - **G54. The element device-kind table ([element type is a device kind
     term]).** Approve the per-type table in `ELEMENT_TYPES_DRAFT.md` (with G15,
-    G17).
+    G17). ANSWERED 2026-10-30 [element types batch 1]-[element types batch 4].
   - **G55. Element name and reference stored reversibly ([early migration
     pieces fixed], part 5; OPEN_WORK #142).** Which shape? ANSWERED 2026-10-29 [element name and reference stored apart].
   - **G56. Finding a term by a spelling of its name.** DID-matlab's term index
