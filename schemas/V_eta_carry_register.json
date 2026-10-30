@@ -461,7 +461,7 @@
         "ontologyTableRow.ontologyNodes",
         "ontologyTableRow.data"
       ],
-      "when": "always: every v1 ontologyTableRow, in the generic migration; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m). carry-098 and carry-125 fold into this row once NDI's second pass stops citing them",
+      "when": "always: every v1 ontologyTableRow, in the generic migration; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m); carry-098 and carry-125 folded into this row on 2026-10-30, when no DID-matlab or NDI-matlab site cited them",
       "kind": "needs_mapping",
       "decision": {
         "document": "V_eta_go_forward_class_audit.md",
@@ -1633,30 +1633,6 @@
       "kind_basis": "proposed"
     },
     {
-      "id": "carry-098",
-      "v1_class": "ontologyTableRow",
-      "fields": [
-        "ontologyTableRow.names",
-        "ontologyTableRow.variableNames",
-        "ontologyTableRow.ontologyNodes",
-        "ontologyTableRow.data"
-      ],
-      "when": "a row with no subject_id edge whose subject NDI's second pass does not resolve (no candidate, a candidate missing or not a subject, a local identifier missing or ambiguous, conflicting document-id candidates, or a document_id edge the fold would drop), or whose re-fold writes no statement (NDI-matlab +migrate/+internal/ontologyRowSubjects.m; local.m resolveOntologyRowSubjects); carry-026 is the row that has a subject_id edge",
-      "kind": "needs_mapping",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "table rows into the dataset audit"
-      },
-      "homes": [
-        "assertion",
-        "observation",
-        "manipulation"
-      ],
-      "decides": "which entity the row is about, and the table's column map (entity, direction, value kind and unit per column)",
-      "resolved_by": "the dataset map's column rows for that table (not yet written)",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-099",
       "v1_class": "ensemble",
       "fields": [
@@ -2093,25 +2069,6 @@
       "decides": "which statement holds the image's values",
       "resolved_by": "each dataset's import (not yet written)",
       "kind_basis": "decided"
-    },
-    {
-      "id": "carry-125",
-      "v1_class": "ontologyTableRow",
-      "fields": [
-        "depends_on document_id_1..n"
-      ],
-      "when": "a pre-repair row (an edge value no `data` cell holds) with more than one non-empty document_id, in NDI's second pass (NDI-matlab +migrate/+internal/ontologyRowSubjects.m)",
-      "kind": "needs_mapping",
-      "decision": {
-        "document": "V_eta_go_forward_class_audit.md",
-        "tag": "old table rows carried by NDI"
-      },
-      "homes": [
-        "the statements of the subject each edge names, once the dataset says which edge the row is about"
-      ],
-      "decides": "which of the row's edges the row is about",
-      "resolved_by": "each dataset's import (not yet written)",
-      "kind_basis": "stated"
     },
     {
       "id": "carry-126",
@@ -2601,6 +2558,28 @@
       ],
       "decides": "which unit the spelling names",
       "resolved_by": "the dataset's import map, or a new row in the unit table",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-156",
+      "v1_class": "element",
+      "fields": [
+        "element.type ('n-trode')",
+        "the channels its epochprobemap `devicestring` names",
+        "the sites of its `probe_geometry` / `site2channelmap`"
+      ],
+      "when": "an n-trode whose channel count (from its epochprobemap `devicestring`) disagrees with the number of sites of its `probe_geometry` / `site2channelmap` (DID-matlab +migrators_j/element.m; build pending)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "tag": "n-trode count from the channel list"
+      },
+      "homes": [
+        "the \"number of electrodes\" (EMPTY:0000408) from the channel list",
+        "the \"number of electrodes\" from the geometry's sites"
+      ],
+      "decides": "which count is the device's number of electrodes",
+      "resolved_by": "the dataset map entry for that device (not yet written)",
       "kind_basis": "stated"
     }
   ]

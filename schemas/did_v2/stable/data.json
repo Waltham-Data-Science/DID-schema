@@ -111,7 +111,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "sampled_body ONLY (rule `dimension_chunk_sampled_only`). Positions per chunk along this dimension when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`. Every chunk is stored at the FULL chunk shape: positions at or past `n` in an edge chunk are padding, not values. A missing member holds `fill_value` everywhere, and is not allowed when no `fill_value` is declared. Absent = this dimension is not split. (On the key entry until 2026-10-22, when a sparse body's missing member was no rows; `complete` is deleted, data_body plan AMENDMENT 6 [no complete].)",
+                    "documentation": "sampled_body ONLY (rule `dimension_chunk_sampled_only`). Positions per chunk along this dimension when the bytes are split across several files (a tiled image). Chunk k is numbered row-major over the chunk grid, from 0, and lives in file-series member `body_data_k`. An edge chunk may be short, holding only the positions that remain (Jess Haley 2026-10-29 [short last chunk]); one stored at the full chunk shape holds padding at positions at or past `n`, not values. A missing member holds `fill_value` everywhere, and is not allowed when no `fill_value` is declared. Absent = this dimension is not split. (On the key entry until 2026-10-22, when a sparse body's missing member was no rows; `complete` is deleted, data_body plan AMENDMENT 6 [no complete].)",
                     "constraints": {}
                 }
             ]

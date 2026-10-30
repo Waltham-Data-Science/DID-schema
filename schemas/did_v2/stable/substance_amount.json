@@ -46,7 +46,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical substance_amount value -- the normalised, cross-document comparable number.",
+                    "documentation": "Canonical substance_amount value -- the normalised, cross-document comparable number. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {

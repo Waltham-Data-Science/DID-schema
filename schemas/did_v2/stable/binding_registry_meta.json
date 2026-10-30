@@ -21,10 +21,75 @@
                 "name": "Equipment Type"
             },
             "class": "assertion",
-            "ontology": "OBI",
-            "root_node": "OBI:0000968",
+            "node_form": "curie",
             "subject_defining": true,
-            "value_kind": "term"
+            "value_kind": "term",
+            "values": [
+                {
+                    "node": "wikidata:Q1952355",
+                    "name": "multielectrode array"
+                },
+                {
+                    "node": "EMPTY:0000411",
+                    "name": "patch electrode"
+                },
+                {
+                    "node": "EMPTY:0000412",
+                    "name": "sharp electrode"
+                },
+                {
+                    "node": "EMPTY:0000413",
+                    "name": "electrical stimulator"
+                },
+                {
+                    "node": "EMPTY:0000414",
+                    "name": "lick spout"
+                },
+                {
+                    "node": "EMPTY:0000415",
+                    "name": "reward port"
+                },
+                {
+                    "node": "OBI:0400169",
+                    "name": "microscope"
+                },
+                {
+                    "node": "OBI:0001048",
+                    "name": "digital camera"
+                },
+                {
+                    "node": "NCIT:C49936",
+                    "name": "Electrode Device"
+                },
+                {
+                    "node": "NCIT:C50343",
+                    "name": "Cannula Device"
+                },
+                {
+                    "node": "NCIT:C50358",
+                    "name": "Fiber Optic Device"
+                },
+                {
+                    "node": "NCIT:C88166",
+                    "name": "Accelerometer"
+                },
+                {
+                    "node": "NCIT:C50059",
+                    "name": "Thermometer Device"
+                },
+                {
+                    "node": "NCIT:C224112",
+                    "name": "Photoplethysmography Sensor"
+                },
+                {
+                    "node": "OBI:0003806",
+                    "name": "electrocardiograph"
+                },
+                {
+                    "node": "wikidata:Q4531135",
+                    "name": "electroencephalograph"
+                }
+            ]
         },
         {
             "variable": {
