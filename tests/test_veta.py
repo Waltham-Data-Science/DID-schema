@@ -140,7 +140,7 @@ def test_superclasses_resolve():
     # DENOMINATOR. Without it this passes when RECORDS is EMPTY -- a build that
     # produced no schemas would go green on the sweep that exists to check them
     # all. Same failure as a census reporting 0 while reading nothing.
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
     names = set(RECORDS)
     for name, (_, d) in RECORDS.items():
         for s in d["document_class"]["superclasses"]:
@@ -842,7 +842,9 @@ def test_zarr_pyramid_orphans_dissolved():
     # zarr DELETED (signed sec.10); pyraview STAYS -- it has real NDI presence
     # and folds at the observation tier with #9. The two were paired here on the
     # old reading that zarr was a kept storage descriptor.
-    assert "zarr" not in RECORDS and "pyraview" in RECORDS
+    # pyraview was then deleted with the retire classes nothing passes through
+    # (2026-10-30, [one folder, final classes only]).
+    assert "zarr" not in RECORDS and "pyraview" not in RECORDS
 
 
 def test_data_type_value_is_body_backable():
@@ -864,8 +866,9 @@ def test_phase1_source_cleanup_and_dep_typing():
     for gone in ("dataset_remote", "dataset_session_info", "session_in_a_dataset",
                  "metadata_editor"):
         assert gone not in RECORDS
-    # still present (held): need migrators / entangled with #9
-    assert "openminds" in RECORDS and "measurement" in RECORDS
+    # held then; openminds stays, measurement was deleted 2026-10-30 with the
+    # retire classes nothing passes through ([one folder, final classes only])
+    assert "openminds" in RECORDS and "measurement" not in RECORDS
     def _dep(cls, name):
         return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
     # `daqreader_epochdata_ingested` USED to be asserted here as carrying an
@@ -1183,12 +1186,12 @@ def test_ndi_class_handles_marked_needs_ndi():
     `needs_ndi` -- DID keeps the value for round-trip but cannot resolve the class
     (it lives in NDI-matlab). The marker is a declared, meta-schema-valid property."""
     assert "needs_ndi" in META["$defs"]["field_definition"]["properties"]
+    # daqsystem and syncgraph were deleted 2026-10-30 ([one folder, final
+    # classes only]); the classes still in the tree keep the marker.
     expected = {
-        "daqsystem": "ndi_daqsystem_class",
         "daqreader": "ndi_daqreader_class",
         "daqmetadatareader": "ndi_daqmetadatareader_class",
         "filenavigator": "ndi_filenavigator_class",
-        "syncgraph": "ndi_syncgraph_class",
         "syncrule": "ndi_syncrule_class",
     }
     for cls, fname in expected.items():
@@ -1202,37 +1205,8 @@ def test_ndi_class_handles_marked_needs_ndi():
                 assert f["name"].startswith("ndi_") and f["name"].endswith("_class")
 
 
-def test_syncrule_mapping_epochnode_routed_through_time_reference():
-    """Governance part 3: the sync epoch nodes state their clock time through the
-    time_reference model -- each epochnode_* carries a `time_reference` sub-structure
-    (epoch_bounded_reference shape: kind + epoch_clock + epoch_id), not bare
-    epoch_clock/epoch_id char fields. epoch_id stays a name (epoch is not a doc), so
-    it is an embedded reference, not a dep."""
-    d = RECORDS["syncrule_mapping"][1]
-    for node in ("epochnode_a", "epochnode_b"):
-        f = next(f for f in d["fields"] if f["name"] == node)
-        subs = {s["name"]: s for s in f["fields"]}
-        # the bare clock fields are gone from the top level of the node
-        assert "epoch_clock" not in subs and "epoch_id" not in subs
-        tr = subs["time_reference"]
-        assert tr["type"] == "structure"
-        tr_subs = {s["name"] for s in tr["fields"]}
-        assert {"kind", "epoch_clock", "epoch_id"} <= tr_subs
-        # node metadata is retained
-        assert {"epoch_session_id", "epochprobemap", "objectclass"} <= set(subs)
-        # #58: objectname is READ BY A LIVE NDI QUERY (syncgraph.m:406-407) and was
-        # dropped by this reshape; t0_t1 went with it. Both restored.
-        assert {"objectname", "t0_t1"} <= set(subs)
-    # #58, INVERTED: this test used to assert an `epochid` dependency existed and was
-    # untyped "by design". There is no such dependency in did_v1 -- NDI's template AND
-    # schema declare `syncgraph_id` + `syncrule_id`, both "mustbenotempty": 1 -- and it
-    # was empty on all 5,316 corpus documents, one of the five invented-empty-edge rows.
-    # The edge the live query actually reads is `syncgraph_id`.
-    names = {x["name"] for x in d["depends_on"]}
-    assert "epochid" not in names
-    assert names == {"syncgraph_id", "syncrule_id"}
-    assert all(x["mustBeNonEmpty"] for x in d["depends_on"])
-
+# test_syncrule_mapping_epochnode_routed_through_time_reference: removed 2026-10-30; syncrule_mapping was deleted
+# with the retire classes nothing passes through ([one folder, final classes only]).
 
 def test_writer_set_dependencies_are_reported():
     """#54: the ground truth reports the dependency names NDI's WRITERS set, and
@@ -1419,9 +1393,8 @@ def test_numbered_edge_families_declare_cardinality():
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
     assert ("interaction", "time_reference_id") in required
     assert ("interaction_purpose", "interaction_id") in required
-    # NDI's own schema says syncrule_id_# may be empty -- V_eta had tightened it
-    sg = next(d for c, d in fams if c == "syncgraph" and d["name"] == "syncrule_id_#")
-    assert sg["min_count"] == 0
+    # (syncgraph, whose syncrule_id_# NDI lets be empty, was deleted 2026-10-30
+    # with the retire classes nothing passes through.)
 
 
 def test_data_body_carrier_dispositions():
@@ -1445,7 +1418,7 @@ def test_data_body_carrier_dispositions():
     # the same change -- a disposition for a name nothing declares would make the
     # final class set report on a phantom.
     assert "zarr" not in disp
-    assert disp["pyraview"] == "retire"
+    assert "pyraview" not in disp   # deleted 2026-10-30 ([one folder, final classes only])
     # a persisting class never has a RETIRING superclass (the image bug: a kept
     # class whose mixin was marked retire). in_progress supers are fine -- they are
     # kept infra whose ⑥/⑦ disposition is just not finalized.
@@ -1939,14 +1912,9 @@ def test_duplicate_field_fidelity_split_is_derived_from_the_ground_truth():
                 "declaring class has a did_v1 counterpart -- the ground truth "
                 "could have answered it")
 
-    # The exact row the drift misfiled. Its provenance is NDI's, so it must
-    # never come back as an open question a reader might close by deleting.
-    sp = [r for r in classified
-          if (r["leaf"], r["name"]) == ("stimulus_parameter", "name")]
-    assert sp and sp[0]["derived"] == mod.V1_FIDELITY, (
-        "stimulus_parameter.name must derive as V1-FIDELITY -- NDI's schema "
-        f"declares it and migrators_j/stimulus_parameter.m passes documents "
-        f"through unchanged; got {sp!r}")
+    # The row the drift misfiled was stimulus_parameter.name. That class was
+    # deleted 2026-10-30 ([one folder, final classes only]; RETIRED_CLASSES in
+    # tools/veta_record.py), so the row no longer exists to pin.
 
 
 def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
@@ -1964,6 +1932,13 @@ def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
     assert gt_stats["present"], gt_stats
     rows = mod.find_duplicates(classes)
 
+    # The tree may hold no derivable row (the last, stimulus_parameter.name,
+    # left with its class on 2026-10-30). The override mechanics are tested on
+    # that row, built from the v1 truth: did_v1 declares `name` in both base and
+    # stimulus_parameter, so the ground truth answers it.
+    if not any(r["derived"] != mod.NOT_DERIVABLE
+               for r in mod.classify(rows, gt_index, gt_stats)[0]):
+        rows = rows + [("stimulus_parameter", "name", ("base", "stimulus_parameter"))]
     derivable = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
                  if r["derived"] != mod.NOT_DERIVABLE]
     undecided = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
@@ -2829,7 +2804,7 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         if any(s.get("class_name") == "ngrid"
                for s in body["document_class"]["superclasses"]))
     # DENOMINATOR FIRST. Without it this passes when RECORDS is empty.
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
     if "ngrid" not in RECORDS:
         assert not consumers, (
             f'`ngrid` was retired while {len(consumers)} class(es) still declare it a superclass ({", ".join(consumers)}). Retirement is gated on BOTH consumers (#46): ontology_image (#47) and hartley_calc via reverse_correlation (#48). Fold them first, or every passthrough quarantines on undeclaredField.')
@@ -3011,7 +2986,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
 
     Asserted from the BUILT set, so it cannot go stale the way a comment does.
     """
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
 
     # the statement the team named (#73 item 51: intensity_observation, not image_observation)
     assert "image_observation" not in RECORDS
@@ -3209,7 +3184,7 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     Nothing else watches this: `check_tombstones.py` compares against the NDI
     template, which cannot express "this shape is what the deferred pass needs",
     and no MATLAB fixture pins the superclass chain."""
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
     assert "openminds_stimulus" in RECORDS, (
         "the openminds_stimulus tombstone was deleted; migrators_j/"
         "openminds_stimulus.m passes every document through, so there would be "
@@ -3290,26 +3265,9 @@ def test_acquisition_epoch_declares_the_vhsb_payload():
         f"verbatim -- its documents all carry it; got {files!r}")
 
 
-def test_oneepoch_and_acquisition_epoch_agree_about_the_payload():
-    """The two halves of one v1 shape must not disagree.
-
-    In NDI, `oneepoch`'s ONLY declared superclass is `element_epoch`, so it
-    INHERITS the `.vhsb` declaration and declares no file of its own. V_eta
-    renames `element_epoch` to `acquisition_epoch` and re-roots `oneepoch` on
-    `base, epochid`, so there is no parent left to inherit from and the
-    declaration has to be flattened onto both.
-
-    `oneepoch` was flattened first, and its build comment said so in its own
-    words -- "the `.vhsb` file is declared, which `acquisition_epoch` does NOT
-    do ... this class should not inherit the bug". This pins that the two now
-    agree, so a future edit cannot silently re-open the gap from either side.
-    """
-    ae = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
-    oe = [f["name"] for f in RECORDS["oneepoch"][1].get("file", [])]
-    assert ae == oe == ["epoch_binary_data.vhsb"], (
-        "acquisition_epoch and oneepoch both carry the element_epoch payload "
-        f"and must declare the same file; got {ae!r} and {oe!r}")
-
+# test_oneepoch_and_acquisition_epoch_agree_about_the_payload: removed 2026-10-30; oneepoch was deleted with
+# the retire classes nothing passes through ([one folder, final classes only]), so
+# acquisition_epoch has no second half to disagree with.
 
 def test_directed_relation_has_an_optional_epoch_id_slot():
     """The DID-schema half of a recorded, signed blocker.
@@ -3881,7 +3839,7 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
             for v in x:
                 walk(v)
     walk(idx)
-    assert len(found) > 150, f"only {len(found)} dispositions read from index.json"
+    assert len(found) > 100, f"only {len(found)} dispositions read from index.json"
     for name in ("hartley_calc", "ngrid"):
         assert found.get(name) == "retire", f"{name} is {found.get(name)!r}, not retire"
 
@@ -4189,7 +4147,7 @@ def test_key_id_takes_positions_from_one_data_type():
     assert "document" in names and "positions_from" not in names
     doc = next(f for f in cov["fields"] if f["name"] == "document")
     assert doc["type"] == "integer" and doc["blank_value"] == -1
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
     for cls, (_tier, d) in RECORDS.items():
         assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
     # the calculation leaves are a mixin since 2026-10-08; the values stay
@@ -4424,7 +4382,7 @@ def test_a6_no_class_declares_the_removed_fields():
                 hits.append(p)
             walk(f.get("fields"), p + ".")
 
-    assert len(RECORDS) > 150
+    assert len(RECORDS) > 100
     for cls, (tier, d) in RECORDS.items():
         if tier == "deprecated":
             continue
@@ -4527,7 +4485,7 @@ def test_no_deprecated_tier():
     `v1_to_v2.m` counts such a document (`passthrough_unvalidated_no_schema`)
     and DID-matlab's passthrough tests assert it is not quarantined.
     """
-    assert len(RECORDS) > 150, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
     tiers = {e["tier"] for e in INDEX["schemas"]}
     assert "deprecated" not in tiers, tiers
     assert not os.path.isdir(os.path.join(VETA, "deprecated"))

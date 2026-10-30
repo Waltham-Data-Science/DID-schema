@@ -196,9 +196,8 @@ KNOWN_DIVERGENT = {
     # methods], Jess Haley, 2026-10-22: the filter is a `method`)
     ("length", "value", "length"),
     ("mass", "value", "mass"),
-    ("pyraview", "decimation_levels", "matrix"),
-    ("pyraview", "decimation_sampling_rates", "matrix"),
-    ("pyraview", "decimation_start_times", "matrix"),
+    # the three pyraview rows left with the class (deleted 2026-10-30, [one
+    # folder, final classes only])
     ("relative_time_reference", "value.duration", "time"),
     ("relative_time_reference", "value.end", "time"),   # CHANGE 6 (2026-10-02): the same time cell as start/duration
     ("relative_time_reference", "value.start", "time"),
@@ -278,8 +277,11 @@ def test_scan_actually_read_something():
     """Rule 5. A zero-denominator scan reports 'clean' and means 'blind'."""
     stats, _, _ = _scan()
     print(_denominator(stats))
-    assert stats["files"] >= 150, _denominator(stats)   # 220 -> 170 on 2026-10-08: join leaves and entity classes merged
-    assert stats["files_with_fields"] >= 150, _denominator(stats)
+    # 220 -> 170 on 2026-10-08: join leaves and entity classes merged; 152 -> 120
+    # class files on 2026-10-30: retire classes deleted ([one folder, final
+    # classes only])
+    assert stats["files"] >= 120, _denominator(stats)
+    assert stats["files_with_fields"] >= 110, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass
     # vacuously; it is 38 types today.

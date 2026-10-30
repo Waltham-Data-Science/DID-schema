@@ -6694,18 +6694,6 @@
             "synonyms": []
         },
         {
-            "name": "Text",
-            "node": "NCIT:C25704",
-            "definition": "The words of something written.",
-            "status": "decided",
-            "decided": "Jess Haley, 2026-10-22 [channel types], V_eta_go_forward_class_audit.md: acquisition channel type, v1 prefix `tx`",
-            "first_used_in": "acquisition_channels.channels.type (NDI ndi.daq.system.mfdaq prefixes)",
-            "obsolete": false,
-            "number_unit": false,
-            "equivalent": [],
-            "synonyms": []
-        },
-        {
             "name": "analog input channel",
             "node": "EMPTY:0000370",
             "definition": "A channel through which an acquisition system samples a continuously valued signal.",
@@ -10889,6 +10877,18 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-10-28 [device kinds minted], [device kind labels and synonyms], V_eta_go_forward_class_audit.md: a device kind of an NDI element; EMPTY:0000415 minted in empty-ontology #31 (synonyms are in the ontology)",
             "first_used_in": "no dataset yet: the device kind of a migrated NDI element (DID-matlab element migrator; build pending, [element type is a device kind term])",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "Naka-Rushton function",
+            "node": "EMPTY:0000416",
+            "definition": "A saturating function of contrast, R(c) = Rm c^n / (c^(n s) + c50^(n s)), used to describe the contrast response of a neuron.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-10-30 [Naka-Rushton function minted], V_eta_go_forward_class_audit.md: the model term of [Naka-Rushton is one function]; EMPTY:0000416 minted in empty-ontology #32 (synonym in the ontology)",
+            "first_used_in": "no dataset yet: the model of a migrated Naka-Rushton contrast fit (DID-matlab jTuningCurve; build pending)",
             "obsolete": false,
             "number_unit": false,
             "equivalent": [],

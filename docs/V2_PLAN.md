@@ -356,6 +356,108 @@ Last updated 2026-10-27.
     factor (`jSourceUnit.m` TERMONLY). Keep dB as its own canonical unit (no
     conversion), or convert to a linear ratio using the variable to tell power
     from amplitude? ANSWERED 2026-10-30 [decibels are their own canonical].
+- **G58-G63. From the 2026-10-30 overnight builds. "[...]" is Claude's
+  recommendation, Proposed (not decided).**
+  - **G58. `stimulator` and its cascade ([element types batch 4]).** Carrying a
+    v1 `stimulator` element (vhlab: a visual-stimulus computer; Marder: an
+    electrical stimulator) carries everything that depends on it (carry-064):
+    its element_epochs, and the probe-map stimulus manipulations lose their
+    `instrument_id`, reaching Dab baths and vhlab stimulus data (DID-matlab
+    #304). No general stimulator device term exists (OLS4, 2026-10-30). (a)
+    carry anyway; (b) mint EMPTY "stimulator" ("A device that delivers a
+    stimulus to a subject", under OBI device) for both writers, and drop the
+    exact synonym "stimulator" from EMPTY:0000413. [(b)]
+  - **G59. The V2 ingest's open details ([V2 ingest is one sampled body per
+    channel group]).** NDI's live ingest knows the daq system, reader and v1
+    epoch_id, but no recording observation exists then. (1) Owner: does the
+    ingest mint the epoch and one observation per element from the
+    epochprobemap, or one observation per daq-system epoch? Its variable and
+    value kind, and for ti/di/ax groups? (2) `channel_list.bin` (names, types,
+    groups, sample rates, offsets, scales): channel-dimension covariates, a
+    separate opaque_body, or conditions? (3) The event/marker/text file (not
+    sampled) and the `ti` time group: own bodies, or covariates? (4) Files are
+    `<prefix>_group<g>_seg.nbf_<s>` from 1; the schema names members
+    `body_data_k` from 0: rename, or map with 'Files'? (5) How the reader finds
+    an epoch's bodies, and where the epochtable's t0/t1 and clocks go. (6) Is
+    the v1 ingested document still written? (NDI-matlab agent report; nothing
+    built.)
+  - **G60. A dataset with no single `dataset` document ([linked session link
+    details]).** NDI-matlab #1103 puts the link's method on the session's
+    relation to its study when there is no dataset document, and makes a linked
+    session with neither an error (`ndi:setup:V2:noLinkParent`). Right?
+  - **G61. openMINDS fragment text beyond Species ([openMINDS strain
+    leftovers]).** The decision stops storing a Species or GeneticStrainType
+    fragment's definition and synonyms (read back from the term). Apply the
+    same to breeding-type and disease-model fragments? (Reverted from NDI-matlab
+    #1104 until decided.)
+  - **G62. The remaining mode terms ([element type is a device kind term],
+    [imaging mode is a method term]).** Recording modes voltage (-Vm) and
+    current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
+    which terms? (Claude to bring candidates from OLS4.)
+  - **G63. The four NDI clock types (did-schema #97).** `utc`,
+    `dev_local_time`, `dev_global_time`, `exp_global_time` are bound with empty
+    nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
+    existing terms where they exist (UTC has candidates)? Also open, each in its
+    own issue: #105, #108, #110.
+- **G64-G70. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
+  Claude's recommendation, Proposed (not decided).**
+  - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
+    (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
+    day), and it is not in the term registry (`om:hour` and `om:minute-Time`
+    are). Register it? [yes: an existing OM unit, T19]
+  - **G65. Shape of an acquisition time on a UTC clock (G28,
+    [acquisition time on its clock]).** DID-matlab #306 writes a
+    `relative_time_reference` to the session on clock utc, start = datenum x
+    86400 s ("seconds since datenum 0, from the session"), copying
+    jTreatmentAnchor. The other shape is an `absolute_time_reference` holding
+    the ISO UTC instant. [absolute: a UTC instant is not an offset from the
+    session, and the relative form's zero point is not the session's]
+  - **G66. Hartley implied, after G29.** [hartley method implied] says
+    "Hartley" is implied by the method term ndi.calc.vis.hartley; G29 replaces
+    that term with EDAM "Data analysis", so DID-matlab #306's round trip infers
+    Hartley from the `receptive_field_calculation` class instead. Amend the
+    line to say so? [yes]
+  - **G67. A formulation with no amount stated ([canonical absent only as
+    needs info]).** When no ingredient states an amount, the value is blank and
+    `value_inline_or_body` refuses it, so DID-matlab #305 keeps the old NaN
+    there. (a) the value rule accepts a blank value that `needs_info` names;
+    (b) keep NaN. Also: a missing canonical is named
+    `formulation.value.ingredients(k).concentration.canonical`, a path that is
+    not a declared field (a concentration has no single canonical). Keep that
+    convention? [(a); yes]
+  - **G68. Postnatal day 0.** `virus_AdministrationPND` defaults to 0 in NDI's
+    template, and #306 writes 0 as age 0 days, because no decision treats it
+    as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
+    info)? [needs info: the template default is indistinguishable from a
+    recorded 0]
+  - **G69. Building G53 ([assay labels batch 1]..[6]).** A read-only plan,
+    docs/v2_working/G53_BUILD_PLAN.md, finds 91 EMPTY terms touched, none in the
+    term registry, 73 v1 dictionary entries (Dab, Hunsberger, Babu, Haley)
+    looking them up by LABEL, and no V2 importer yet for Dab, Babu or
+    Hunsberger. Its section 4 has 16 questions; the ones that block a build:
+    Q1, seven nodes each get the same three labels (R2 refuses duplicate names):
+    [relabel the lowest node of each, obsolete the other six with `consider` it];
+    Q2, a relabelled general term keeps its elevated-plus-maze parent? [no: move
+    it under the general parent]; Q4, no definition is given for the ten
+    relabels [Claude drafts from the current ones, assay and units stripped, for
+    approval]; Q7, the Babu and Hunsberger imports also write these terms [in
+    scope; name them]; Q8, "EMPTY:0000129/0000256/0000257 readers first" [NDI
+    reads them by node, which survives obsoletion: nothing to build]; Q9, the v1
+    dictionaries' label lookups [move them to nodes before empty-ontology
+    releases the change to main]; Q11, five obsoletes with no replacing term
+    [obsolete all five; `consider` as listed there, none for B13]; Q14(a),
+    A61's UO:0000031 "minute" clashes with the registered `om:minute-Time`
+    [use om:minute-Time].
+  - **G70. #119 part 1 (skip OPEN_WORK's dated RE-DERIVED log in
+    `check_prose_counts`).** Built and reverted the same hour: with the 64 log
+    paragraphs skipped, OPEN_WORK keeps 4 older in-row counts that only the
+    log's current figures were satisfying (lines 431, 523 and 568, "91 NDI
+    templates"; line 963, "42 direct subclasses of `data_type`"), so the gate
+    fails. (a) mark those in-row counts as dated (e.g. "at <date>: 91
+    templates", which the check reads as history); (b) skip all of OPEN_WORK;
+    (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
+    rest of the check keeps working]
+
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
   5,991 of 34,606. Every failing curve printed (3 per corpus) selected

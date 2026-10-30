@@ -721,9 +721,12 @@ _IDIOM_SOURCES = [
     # treatment_drug.m's temperature manipulation left the generic migration
     # (DID-matlab dd8acc9e, "Move dataset-specific logic out of the generic
     # migration"); treatment_transfer.m's act is the same idiom.
-    ("5 wrapper with ValueKind", "treatment_transfer.m", None,
-     "act = jStatement(preBody, 'manipulation'",
-     ("private/jStatement.m", "jStatement"), "manipulation + term"),
+    # Re-pointed again when the lock moved to DID-matlab 3c6c4d70:
+    # treatment_transfer is carried whole as v1 there (carry-107), so its act
+    # is gone; probe_location.m's observation is the same idiom.
+    ("5 wrapper with ValueKind", "probe_location.m", None,
+     "obs = jStatement(preBody, 'observation'",
+     ("private/jStatement.m", "jStatement"), "observation + term"),
     ("5 wrapper with a leaf name", "probe_location.m", PORT_MERGE,
      "obs = jStatement(preBody, 'term_observation'",
      ("private/jStatement.m", "jStatement"), "observation + term"),
@@ -787,17 +790,17 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_a_wrapper_value_kind_is_not_mistaken_for_a_class(tmp_path):
     """The #88 analogue of the superclass test: `jStatement(preBody,
-    'manipulation', ..., 'ValueKind', 'term')` names a direction and a
+    'observation', ..., 'ValueKind', 'term')` names a direction and a
     value kind and mints ONE document. The kind is not a document of its own,
     and the direction alone is not the identity."""
-    text, _ = _idiom_fixture(tmp_path, "treatment_transfer.m", None,
-                             "act = jStatement(preBody, 'manipulation'",
+    text, _ = _idiom_fixture(tmp_path, "probe_location.m", None,
+                             "obs = jStatement(preBody, 'observation'",
                              ("private/jStatement.m", "jStatement"))
     p = tmp_path / "fixture.m"
     p.write_text(text)
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
-    assert minted == {"manipulation + term"}, sorted(minted)
+    assert minted == {"observation + term"}, sorted(minted)
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -824,8 +827,8 @@ def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
     assert minted == {"session_relative_reference"}
 
     # ... and the #88 wrapper, the same way.
-    text, _ = _idiom_fixture(tmp_path, "treatment_transfer.m", None,
-                             "act = jStatement(preBody, 'manipulation'",
+    text, _ = _idiom_fixture(tmp_path, "probe_location.m", None,
+                             "obs = jStatement(preBody, 'observation'",
                              ("private/jStatement.m", "jStatement"))
     text = text.replace("jStatement", "makeTheStatement")
     p.write_text(text)
@@ -835,7 +838,7 @@ def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
     assert set(sb.builder_wrappers(lines)) == {"makeTheStatement"}, (
         "the builder wrapper is being recognised by NAME")
     minted = {c for c, _l in sb.emitted_document_classes(lines)}
-    assert minted == {"manipulation + term"}, sorted(minted)
+    assert minted == {"observation + term"}, sorted(minted)
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")

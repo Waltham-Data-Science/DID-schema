@@ -486,18 +486,6 @@
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "daqsystem",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/daqsystem.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
             "class_name": "data",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -553,18 +541,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "distance_metadata",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/distance_metadata.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
             "class_name": "dose",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -574,30 +550,6 @@
             ],
             "path": "schemas/did_v2/stable/dose.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "electrode_offset_voltage",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/electrode_offset_voltage.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "element",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/element.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "energy",
@@ -692,30 +644,6 @@
             "path": "schemas/did_v2/stable/filenavigator.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "filter",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/filter.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "fitcurve",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/fitcurve.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "force",
@@ -900,45 +828,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "jrclust_clusters",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/jrclust_clusters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "kiasort_clusters",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/kiasort_clusters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "kilosort_clusters",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/kilosort_clusters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "label",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -958,17 +847,6 @@
                 "value"
             ],
             "path": "schemas/did_v2/stable/length.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "linked_session",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/draft/linked_session.json",
             "disposition": "persist"
         },
         {
@@ -1005,18 +883,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "measurement",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/measurement.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "method",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1037,19 +903,6 @@
             ],
             "path": "schemas/did_v2/draft/model_fit.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "neuron_extracellular",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/neuron_extracellular.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "ngrid",
@@ -1073,19 +926,6 @@
             ],
             "path": "schemas/did_v2/stable/observation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "oneepoch",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/stable/oneepoch.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "ontology_image",
@@ -1148,19 +988,6 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
-            "class_name": "openminds_element",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "openminds"
-            ],
-            "path": "schemas/did_v2/stable/openminds_element.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "openminds_stimulus",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -1171,19 +998,6 @@
                 "epochid"
             ],
             "path": "schemas/did_v2/stable/openminds_stimulus.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "openminds_subject",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "openminds"
-            ],
-            "path": "schemas/did_v2/stable/openminds_subject.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
@@ -1232,18 +1046,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "position_metadata",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/position_metadata.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
             "class_name": "power",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1264,44 +1066,6 @@
             ],
             "path": "schemas/did_v2/stable/pressure.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "probe_geometry",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/probe_geometry.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "probe_location",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/probe_location.json",
-            "disposition": "retire",
-            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
-        },
-        {
-            "class_name": "pyraview",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "filter",
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/stable/pyraview.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "receptive_field",
@@ -1395,44 +1159,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "simple_calc",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/simple_calc.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "site2channelmap",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/site2channelmap.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "sorting_parameters",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/sorting_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "spatial_frequency_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1455,59 +1181,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "spike_clusters",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/spike_clusters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_extraction_parameters",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/spike_extraction_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spike_extraction_parameters_modification",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/spike_extraction_parameters_modification.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "spikewaves",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/spikewaves.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
             "class_name": "statement",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1517,19 +1190,6 @@
             ],
             "path": "schemas/did_v2/stable/statement.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "stimulus_parameter",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/stable/stimulus_parameter.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_presentation",
@@ -1596,18 +1256,6 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "subjectmeasurement",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/subjectmeasurement.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "substance_amount",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1619,18 +1267,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "syncgraph",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/syncgraph.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
             "class_name": "syncrule",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1639,18 +1275,6 @@
                 "base"
             ],
             "path": "schemas/did_v2/stable/syncrule.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "syncrule_mapping",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/syncrule_mapping.json",
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
@@ -1788,59 +1412,6 @@
             ],
             "path": "schemas/did_v2/stable/velocity.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "vmneuralresponseresiduals",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/stable/vmneuralresponseresiduals.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikefilteringparameters",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/vmspikefilteringparameters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikefit",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid",
-                "app"
-            ],
-            "path": "schemas/did_v2/stable/vmspikefit.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "vmspikesummary",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/stable/vmspikesummary.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "voltage",

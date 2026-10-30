@@ -179,6 +179,45 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # [linked_session withdrawn] (V_eta_linked_session_plan.md): no writer makes
+    # one after NDI-matlab 915bbb3 (#1103); NDI reads an older one as a fallback
+    "linked_session",
+    # retire classes deleted 2026-10-30 ([one folder, final classes only]): an
+    # audit of DID-matlab V2 3c6c4d70 and NDI-matlab V2 3e0a2ca8 found every
+    # migrator path converts or carries with a note, and nothing reads the file
+    "daqsystem",
+    "distance_metadata",
+    "electrode_offset_voltage",
+    "element",
+    "filter",   # a block of pyraview only: no NDI writer makes one alone
+    "fitcurve",
+    "jrclust_clusters",
+    "kiasort_clusters",
+    "kilosort_clusters",
+    "measurement",
+    "neuron_extracellular",
+    "oneepoch",
+    "openminds_element",
+    "openminds_subject",
+    "position_metadata",
+    "probe_geometry",
+    "probe_location",
+    "pyraview",
+    "simple_calc",
+    "site2channelmap",
+    "sorting_parameters",
+    "spike_clusters",
+    "spike_extraction_parameters",
+    "spike_extraction_parameters_modification",
+    "spikewaves",
+    "stimulus_parameter",
+    "subjectmeasurement",
+    "syncgraph",
+    "syncrule_mapping",
+    "vmneuralresponseresiduals",
+    "vmspikefilteringparameters",
+    "vmspikefit",
+    "vmspikesummary",
     # retire classes deleted 2026-10-29 ([one folder, final classes only]): each is
     # always carried as v1, keeps its v1 camelCase name, or is abstract, and
     # nothing in DID-matlab or NDI-matlab V2 reads the V2 file

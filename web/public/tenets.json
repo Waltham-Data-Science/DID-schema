@@ -64,7 +64,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 34,
+  "classes_in_the_built_set": 29,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -135,7 +135,6 @@
     ],
     "element": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "subject": [
@@ -177,7 +176,6 @@
     ],
     "daqsystem": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ]
    },
@@ -347,7 +345,6 @@
     ],
     "daqsystem": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "software": [
@@ -463,7 +460,6 @@
     ],
     "element": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "element_epoch": [
@@ -543,7 +539,6 @@
    "class_registers": {
     "openminds_subject": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "strain": [
@@ -793,8 +788,7 @@
    },
    "class_registers": {
     "fitcurve": [
-     "v1_source",
-     "built"
+     "v1_source"
     ],
     "tuning_curve": [
      "built",
@@ -1037,7 +1031,6 @@
     ],
     "syncgraph": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ]
    },

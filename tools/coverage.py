@@ -2268,6 +2268,20 @@ def _rung_consumed(row):
                        "records the SHARED HELPER(s) "
                        + ", ".join(f"`{h}`" for h in helpers)
                        + " DECLARING that they consume this class")
+    # THE FIFTH CHANNEL. A SUPERCLASS-ONLY class has no document of its own:
+    # its block rides on another class's document, and that class's migrator
+    # reads it. Until 2026-10-27 a superclass block migrator named after the
+    # class (+migrators/filter.m) answered this rung; [unreached superclass
+    # migrators deleted] (Jess Haley, 2026-10-27) removed it, and the block is
+    # now read raw by the migrator the target map's authored `emitted_by` names.
+    # `.get`, as in _rung_emits_decided: the channel is authored and optional.
+    eb = bs.get("emitted_by_migrator")
+    if eb:
+        return S_YES, ("no per-class migrator, no `second_pass` entry, no "
+                       "batch post-pass and no shared helper, but the class is "
+                       "SUPERCLASS-ONLY and the target map's authored "
+                       "`emitted_by` names `" + str(eb) + "`, whose migrator "
+                       "reads its block")
     s = BATCH_PASS_SCAN
     if not s["measured"]:
         unread = (" The batch post-pass declarations were NOT READ in this run "
