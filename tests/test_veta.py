@@ -2551,14 +2551,6 @@ NDI_CLOCKTYPES = {
 # The FOUR the signed walkthrough keeps (did_v2_time_reference_model_plan.md:468,
 # TEAM-SIGN-OFF [time_reference] 2026-08-08, CHANGE 3 + CHANGE 4).
 DID_CLOCKTYPE_TERMS = ["utc", "dev_local_time", "dev_global_time", "exp_global_time"]
-# [clock terms get nodes] / [census terms] T4 (Jess Haley, 2026-10-26): each
-# stored value is the registered term, node and label (empty-ontology 25188df).
-DID_CLOCKTYPE_NODES = {
-    "utc": ("wikidata:Q1536", "UTC"),
-    "dev_local_time": ("EMPTY:0000403", "device local time"),
-    "dev_global_time": ("EMPTY:0000404", "device global time"),
-    "exp_global_time": ("EMPTY:0000405", "experiment global time"),
-}
 
 # Every field that carries the vocabulary. Gate 1 of the clock-alignment sign-off
 # says clock_alignment_configuration.clock "must use the same four" as the time
@@ -2664,7 +2656,7 @@ def test_clock_fields_are_ontology_terms_bound_to_the_same_four():
         # values are NodeRefs, not bare strings -- the field is a {node, name}
         # cell, so a bare "utc" cannot say which half it is. Same rule the
         # registry already states (test_subject_statement_bindings_well_formed).
-        assert [v["name"] for v in b["values"]] == [DID_CLOCKTYPE_NODES[t][1] for t in DID_CLOCKTYPE_TERMS], where
+        assert [v["name"] for v in b["values"]] == DID_CLOCKTYPE_TERMS, where
         assert all(set(v) == {"node", "name"} for v in b["values"]), where
         # maxLength was a char-cell constraint and has no meaning on a NodeRef
         assert "maxLength" not in fld["constraints"], where
@@ -2675,13 +2667,8 @@ def test_clock_fields_are_ontology_terms_bound_to_the_same_four():
         "clock-alignment sign-off requires the SAME four")
 
 
-def test_clocktype_nodes_are_the_registered_terms():
-    """INVERTED 2026-10-31 ([clock terms get nodes], built by did-schema after
-    DID-matlab f510a050 (#314) and NDI-matlab 86038a21 (#1106) compare clock
-    nodes). The nodes are no longer EMPTY: [census terms] T4 decided utc ->
-    wikidata:Q1536 and minted EMPTY:0000403-0000405 (empty-ontology 25188df),
-    registered in did_v2_term_registry.json. What this test used to say, kept
-    for the record: the nodes were EMPTY deliberately.
+def test_clocktype_nodes_are_staged_empty_not_invented():
+    """The four nodes are EMPTY, deliberately.
 
     An NDI-side CURIE would be `NDIC:<identifier>` (NDI writes
     ['NDIC:' int2str(item.Identifier)] in +setup/+conv/+marder/
@@ -2700,11 +2687,12 @@ def test_clocktype_nodes_are_the_registered_terms():
         _tier, d = RECORDS[cls]
         b = _field_at(d, path)["constraints"]["binding"]
         assert len(b["values"]) == 4, cls
-        assert [(v["node"], v["name"]) for v in b["values"]] == [
-            DID_CLOCKTYPE_NODES[t] for t in DID_CLOCKTYPE_TERMS], cls
+        assert all(v["node"] == "" for v in b["values"]), (
+            f"{cls}: a clocktype node was filled in. If a real NDIC CURIE was "
+            "assigned, update this test and cite the source; do not invent one.")
         checked += len(b["values"])
     assert checked == 8, (
-        f"expected 8 nodes (4 terms x 2 carriers); inspected {checked}")
+        f"expected 8 staged nodes (4 terms x 2 carriers); inspected {checked}")
 
 
 def test_retiring_epoch_clock_fields_untouched_by_67():
