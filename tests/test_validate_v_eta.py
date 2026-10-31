@@ -362,3 +362,25 @@ def test_a_class_needs_a_disposition_row(tree):
     p.write_text(json.dumps(d, indent=4, ensure_ascii=False) + "\n")
     rc, out = _run(tree)
     assert rc == 1 and "statement needs a `disposition`" in out, out
+
+
+def test_in_progress_is_refused():
+    """[one folder, final classes only] (Jess Haley, 2026-10-29): "No draft or in
+    progress". The registry holds persist and retire only, and the validator
+    refuses an `in_progress` row."""
+    d = json.loads(open(V.SP.CLASS_DISPOSITIONS).read())
+    counts = {}
+    for row in d["classes"].values():
+        counts[row["disposition"]] = counts.get(row["disposition"], 0) + 1
+    assert sum(counts.values()) > 100, counts   # denominator
+    assert set(counts) <= {"persist", "retire"}, counts
+    assert "in_progress" not in V.DISPOSITIONS
+
+
+def test_an_in_progress_row_fails(tree):
+    p = tree.parent / "registry" / "did_v2_class_dispositions.json"
+    d = json.loads(p.read_text())
+    d["classes"]["statement"]["disposition"] = "in_progress"
+    p.write_text(json.dumps(d, indent=4, ensure_ascii=False) + "\n")
+    rc, out = _run(tree)
+    assert rc == 1 and "statement needs a `disposition`" in out, out

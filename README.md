@@ -67,7 +67,7 @@ A class file has four top-level keys:
 ## Changing a class
 
 1. Edit or add `schemas/did_v2/<family>/<class_name>.json` (JSON, indent 4).
-2. For a new class, add its `disposition` (`persist`, `retire` or `in_progress`) to `schemas/registry/did_v2_class_dispositions.json`. A `retire` class lives in `schemas/did_v2/retiring/`.
+2. For a new class, add its `disposition` (`persist` or `retire`) to `schemas/registry/did_v2_class_dispositions.json`. A `retire` class lives in `schemas/did_v2/retiring/`.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites `schemas/generated/` (the index and the built registries); do not hand-edit anything there.
 4. A schema change the sibling code must follow lands in DID-matlab and NDI-matlab first (CLAUDE.md, section 3).
 

@@ -86,7 +86,9 @@ META_FILES = SP.META_FILES
 VERBATIM = {"ndi_reserved_keys.json"}
 NON_ASCII = {"term_registry_meta.json", "class_disposition_meta.json",
              "quantity_list_meta.json"}
-DISPOSITIONS = {"persist", "retire", "in_progress"}
+# [one folder, final classes only] (Jess Haley, 2026-10-29): "no class is
+# in_progress"; `in_progress` is refused.
+DISPOSITIONS = {"persist", "retire"}
 PASSES = {"assertions", "distributive", "context", "nothing"}
 ENTRY_LISTS = ("conditions", "parameters")
 # the time_reference families governed by the uniqueness rule (#52, CHANGE 5)

@@ -1,5 +1,5 @@
 {
-    "_comment": "AUTHORED: each V2 class's `disposition` (persist, retire or in_progress) and its optional `disposition_note`. Split out of schemas/generated/index.json ([schema folders by family], did_v2_go_forward_class_audit.md), so generated/ holds only what tools write: tools/validate_v_eta.py copies these columns into generated/index.json. A new class needs a row here; a `retire` class lives in schemas/did_v2/retiring/.",
+    "_comment": "AUTHORED: each V2 class's `disposition` (persist or retire; no class is in_progress, [one folder, final classes only]) and its optional `disposition_note`. Split out of schemas/generated/index.json ([schema folders by family], did_v2_go_forward_class_audit.md), so generated/ holds only what tools write: tools/validate_v_eta.py copies these columns into generated/index.json. A new class needs a row here; a `retire` class lives in schemas/did_v2/retiring/.",
     "classes": {
         "absolute_time_reference": {
             "disposition": "persist"
