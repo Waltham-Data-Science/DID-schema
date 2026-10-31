@@ -24,8 +24,7 @@ CATEGORIES = ["①", "②", "③", "④", "⑤", "⑥", "⑦"]
 def _class(name, supers=()):
     return {
         "document_class": {"class_name": name, "class_version": "1.0.0",
-                           "superclasses": [{"class_name": s} for s in supers],
-                           "maturity_level": "stable"},
+                           "superclasses": [{"class_name": s} for s in supers]},
         "depends_on": [], "file": [], "fields": [],
     }
 

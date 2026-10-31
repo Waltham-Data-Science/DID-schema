@@ -34,11 +34,11 @@ Kinds of entity (19, the values of entity.type in entity_type_bindings): organis
 `opaque_body`, `sampled_body`
 
 ## ⑦ Acquisition & infra (keep) (13)
-`acquisition_channels`, `acquisition_reader`, `acquisition_system`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `ingestion_manifest`, `interaction_purpose`, `method`
+`acquisition_channels`, `acquisition_reader`, `acquisition_system`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `ingestion_manifest`, `method`, `purpose`
 
 ---
 
 ## NOT in the final set (by disposition)
 
-**retire (25):**
-`acquisition_epoch`, `app`, `calculator`, `control_stimulus_ids`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `ensemble`, `epochfiles_ingested`, `epochid`, `filenavigator`, `generic_file`, `hartley_calc`, `hartley_reverse_correlation`, `ngrid`, `openminds`, `openminds_stimulus`, `reverse_correlation`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`, `valid_interval`
+**retire (21):**
+`acquisition_epoch`, `app`, `calculator`, `control_stimulus_ids`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `ensemble`, `epochfiles_ingested`, `epochid`, `filenavigator`, `generic_file`, `openminds`, `openminds_stimulus`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`, `valid_interval`

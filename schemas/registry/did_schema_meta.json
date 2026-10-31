@@ -85,8 +85,7 @@
             "required": [
                 "class_name",
                 "class_version",
-                "superclasses",
-                "maturity_level"
+                "superclasses"
             ],
             "additionalProperties": false,
             "properties": {
@@ -106,15 +105,6 @@
                         "$ref": "#/$defs/superclass_reference"
                     },
                     "description": "Array of superclass reference objects (class_name + schema path)."
-                },
-                "maturity_level": {
-                    "type": "string",
-                    "enum": [
-                        "stable",
-                        "draft",
-                        "deprecated"
-                    ],
-                    "description": "Maturity level of this schema. Must agree with the schema's tier folder (stable/draft/deprecated) under schemas/V_eta/."
                 },
                 "abstract": {
                     "type": "boolean",

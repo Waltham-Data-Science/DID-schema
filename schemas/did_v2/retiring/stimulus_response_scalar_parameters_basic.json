@@ -9,8 +9,7 @@
             {
                 "class_name": "stimulus_response_scalar_parameters"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [],
     "file": [],

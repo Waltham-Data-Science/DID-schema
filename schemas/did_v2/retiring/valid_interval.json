@@ -9,8 +9,7 @@
             {
                 "class_name": "app"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [
         {

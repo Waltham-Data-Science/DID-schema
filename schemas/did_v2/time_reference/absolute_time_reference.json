@@ -6,8 +6,7 @@
             {
                 "class_name": "time_reference"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [],
     "file": [],

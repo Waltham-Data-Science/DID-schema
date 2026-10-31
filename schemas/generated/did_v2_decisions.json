@@ -2,18 +2,18 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is docs/generated/did_v2_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 76,
+    "classes": 74,
     "classes_citing": 73,
-    "citations": 85,
+    "citations": 86,
     "citations_unresolved": 0,
-    "open_classes": 25,
+    "open_classes": 21,
     "by_state": {
       "decided": 73,
-      "proposed (not decided)": 3
+      "proposed (not decided)": 1
     },
     "open_by_state": {
-      "decided": 22,
-      "proposed (not decided)": 3
+      "decided": 20,
+      "proposed (not decided)": 1
     },
     "state_labels": {
       "decided": "decided: cites a decision line that exists",
@@ -743,8 +743,8 @@
     },
     "hartley_calc": {
       "class_name": "hartley_calc",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -764,16 +764,6 @@
           "why": null
         }
       ]
-    },
-    "hartley_reverse_correlation": {
-      "class_name": "hartley_reverse_correlation",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "image": {
       "class_name": "image",
@@ -879,30 +869,6 @@
         }
       ]
     },
-    "interaction_purpose": {
-      "class_name": "interaction_purpose",
-      "disposition": "persist",
-      "open": false,
-      "state": "decided",
-      "state_label": "decided: cites a decision line that exists",
-      "decided_in": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "misc singletons",
-        "line": 9,
-        "kind": "TEAM-SIGN-OFF"
-      },
-      "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
-      "citations": [
-        {
-          "document": "did_v2_go_forward_class_audit.md",
-          "tag": "misc singletons",
-          "resolved": true,
-          "line": 9,
-          "kind": "TEAM-SIGN-OFF",
-          "why": null
-        }
-      ]
-    },
     "jrclust_clusters": {
       "class_name": "jrclust_clusters",
       "disposition": "consumed by migrator (no tombstone)",
@@ -990,7 +956,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "line": 317,
         "kind": "TEAM-SIGN-OFF"
@@ -998,7 +964,7 @@
       "decision": "jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.",
       "citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -1014,7 +980,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "line": 317,
         "kind": "TEAM-SIGN-OFF"
@@ -1022,7 +988,7 @@
       "decision": "jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.",
       "citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -1057,8 +1023,8 @@
     },
     "ngrid": {
       "class_name": "ngrid",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "consumed by migrator (no tombstone)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1241,6 +1207,38 @@
         }
       ]
     },
+    "purpose": {
+      "class_name": "purpose",
+      "disposition": "persist",
+      "open": false,
+      "state": "decided",
+      "state_label": "decided: cites a decision line that exists",
+      "decided_in": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "misc singletons",
+        "line": 9,
+        "kind": "TEAM-SIGN-OFF"
+      },
+      "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
+      "citations": [
+        {
+          "document": "did_v2_go_forward_class_audit.md",
+          "tag": "misc singletons",
+          "resolved": true,
+          "line": 9,
+          "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "did_v2_go_forward_class_audit.md",
+          "tag": "purpose class",
+          "resolved": true,
+          "line": 1550,
+          "kind": "Decided by",
+          "why": null
+        }
+      ]
+    },
     "pyraview": {
       "class_name": "pyraview",
       "disposition": "consumed by migrator (no tombstone)",
@@ -1272,16 +1270,6 @@
           "why": null
         }
       ]
-    },
-    "reverse_correlation": {
-      "class_name": "reverse_correlation",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
     },
     "session": {
       "class_name": "session",
@@ -1887,7 +1875,7 @@
         "line": 574,
         "kind": "TEAM-SIGN-OFF"
       },
-      "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
+      "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
       "citations": [
         {
           "document": "did_v2_spatial_transcriptomics_plan.md",
@@ -1912,7 +1900,7 @@
         "packages_missing": [],
         "files_read": 442,
         "lines_read": 82517,
-        "classes_queried": 25,
+        "classes_queried": 21,
         "classes_emitted_as_document_class": 4,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2062,7 +2050,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 25
+        "classes_queried": 21
       },
       "batch_consumers": {
         "files_scanned": 49,
@@ -2076,8 +2064,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 3,
-      "b_built_awaiting_corpus_proof": 22,
+      "a_nothing_built": 2,
+      "b_built_awaiting_corpus_proof": 19,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -3408,337 +3396,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "hartley_calc",
-        "decision": "decided",
-        "decided_in": "did_v2_ngrid_family_findings.md:358 [receptive field fold]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/hartley_calc.m`",
-          "2 consuming reference(s) (1 per-document migrator, 1 batch post-pass)",
-          "decided target(s) built: `receptive_field_calculation`, `sampled_body`, `assertion + text`, `entity`, `relative_time_reference`"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/hartley_calc.m",
-        "n_consuming_refs": 2,
-        "consuming_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:116 (field_read)",
-          "DID-matlab:migrators_j/hartley_calc.m:425 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:122 (field_write)"
-        ],
-        "n_named_refs": 7,
-        "named_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:64 (named)",
-          "DID-matlab:convert/rawV1Classes.m:518 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:269 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:277 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:349 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:412 (named)"
-        ],
-        "n_comment_mentions": 47,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:115 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:2 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:20 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:22 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:265 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/hartley_calc.m:425 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 5,
-            "named_refs": [
-              "DID-matlab:migrators_j/hartley_calc.m:269 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:277 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:349 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:412 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:418 (named)"
-            ],
-            "n_comment_mentions": 27,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/+super/ngrid.m:56 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:545 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:765 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:100 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:134 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:204 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:116 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:122 (field_write)"
-            ],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:64 (named)",
-              "DID-matlab:convert/rawV1Classes.m:518 (named)"
-            ],
-            "n_comment_mentions": 20,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:115 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:2 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:20 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:22 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:265 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "receptive_field_calculation",
-          "sampled_body",
-          "assertion + text",
-          "entity",
-          "relative_time_reference"
-        ],
-        "decided_targets_built": [
-          "receptive_field_calculation",
-          "sampled_body",
-          "assertion + text",
-          "entity",
-          "relative_time_reference"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "hartley_reverse_correlation",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "8 consuming reference(s) (8 per-document migrator)"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 8,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:416 (guard)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:417 (field_read)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:418 (field_read)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:445 (guard)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:446 (field_read)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:447 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:205 (field_write)"
-        ],
-        "n_named_refs": 4,
-        "named_refs": [
-          "DID-matlab:migrators_j/hartley_calc.m:318 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:422 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:750 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:751 (named)"
-        ],
-        "n_comment_mentions": 11,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:24 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:131 (comment_mention)",
-          "DID-matlab:migrators_j/hartley_calc.m:137 (comment_mention)",
-          "DID-matlab:migrators_j/hartley_calc.m:142 (comment_mention)",
-          "DID-matlab:migrators_j/hartley_calc.m:145 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 8,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:416 (guard)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:417 (field_read)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:418 (field_read)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:445 (guard)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:446 (field_read)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:447 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 4,
-            "named_refs": [
-              "DID-matlab:migrators_j/hartley_calc.m:318 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:422 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:750 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:751 (named)"
-            ],
-            "n_comment_mentions": 8,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/hartley_calc.m:137 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:142 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:145 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:147 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:61 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:740 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:205 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 3,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:24 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:131 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "ngrid",
-        "decision": "decided",
-        "decided_in": "did_v2_image_model_plan.md:154 [image / ngrid]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "9 consuming reference(s) (9 per-document migrator)"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 9,
-        "consuming_refs": [
-          "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
-          "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
-          "DID-matlab:migrators_j/hartley_calc.m:282 (field_read)",
-          "DID-matlab:migrators_j/hartley_calc.m:324 (guard)",
-          "DID-matlab:migrators_j/hartley_calc.m:463 (field_read)",
-          "DID-matlab:migrators_j/ontology_image.m:288 (field_read)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 2,
-        "field_write_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:206 (field_write)",
-          "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
-        ],
-        "n_named_refs": 4,
-        "named_refs": [
-          "DID-matlab:migrators_j/hartley_calc.m:422 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:763 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:764 (named)",
-          "DID-matlab:migrators_j/ontology_image.m:293 (named)"
-        ],
-        "n_comment_mentions": 110,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:132 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:39 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:40 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:41 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:42 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 9,
-            "consuming_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
-              "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
-              "DID-matlab:migrators_j/hartley_calc.m:282 (field_read)",
-              "DID-matlab:migrators_j/hartley_calc.m:324 (guard)",
-              "DID-matlab:migrators_j/hartley_calc.m:463 (field_read)",
-              "DID-matlab:migrators_j/ontology_image.m:288 (field_read)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
-            ],
-            "n_named_refs": 4,
-            "named_refs": [
-              "DID-matlab:migrators_j/hartley_calc.m:422 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:763 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:764 (named)",
-              "DID-matlab:migrators_j/ontology_image.m:293 (named)"
-            ],
-            "n_comment_mentions": 97,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:20 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:21 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:32 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:38 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:206 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 13,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:12 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:132 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:39 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:40 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:41 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:42 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "openminds",
         "decision": "decided",
         "decided_in": "did_v2_openminds_family_record.md:10 [2026-08-08]",
@@ -3945,92 +3602,6 @@
               "DID-matlab:convert/+roundtrip/openminds_stimulus.m:6 (comment_mention)",
               "DID-matlab:convert/+roundtrip/openminds_stimulus.m:8 (comment_mention)",
               "DID-matlab:convert/rawV1Classes.m:473 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "reverse_correlation",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "a_nothing_built",
-        "state_label": "(a) nothing built (the decision state is a separate column)",
-        "build_evidence": [],
-        "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 1,
-        "field_write_refs": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:211 (field_write)"
-        ],
-        "n_named_refs": 3,
-        "named_refs": [
-          "DID-matlab:migrators_j/hartley_calc.m:317 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:423 (named)",
-          "DID-matlab:migrators_j/hartley_calc.m:772 (named)"
-        ],
-        "n_comment_mentions": 13,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:208 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/hartley_calc.m:44 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:132 (comment_mention)",
-          "DID-matlab:migrators_j/hartley_calc.m:121 (comment_mention)",
-          "DID-matlab:migrators_j/hartley_calc.m:129 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:migrators_j/hartley_calc.m:317 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:423 (named)",
-              "DID-matlab:migrators_j/hartley_calc.m:772 (named)"
-            ],
-            "n_comment_mentions": 9,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/hartley_calc.m:121 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:129 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:30 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:385 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:61 (comment_mention)",
-              "DID-matlab:migrators_j/hartley_calc.m:746 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 1,
-            "field_write_refs": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:211 (field_write)"
-            ],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 4,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:11 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:208 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/hartley_calc.m:44 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:132 (comment_mention)"
             ]
           }
         },

@@ -18,11 +18,16 @@ did-schema/
 +-- schemas/
 |   +-- did_v2/              class files only, one <class_name>.json per class, by family:
 |   |   +-- *.json           the core classes (base, entity, statement and its directions,
-|   |   |                    relations, value, data_body, method, acquisition, ...)
-|   |   +-- value/           the value kinds (mass, length, term, text, ...)
-|   |   +-- calculation/     the named calculation classes (tuning curves, receptive fields)
-|   |   +-- data_body/       sampled_body, opaque_body
-|   |   +-- time_reference/  time_reference and its absolute / relative forms
+|   |   |                    method, ...)
+|   |   +-- value/           value and the value kinds (mass, length, term, text, ...)
+|   |   +-- calculation/     calculation and the named calculation classes (tuning curves,
+|   |   |                    receptive fields)
+|   |   +-- data_body/       data_body, sampled_body, opaque_body
+|   |   +-- time_reference/  time_reference, its absolute / relative forms, and clock_alignment,
+|   |   |                    clock_alignment_configuration, clock_alignment_policy
+|   |   +-- relation/        relation, directed_relation, undirected_relation
+|   |   +-- acquisition/     acquisition_system, acquisition_channels, acquisition_reader,
+|   |   |                    epoch_file_pattern, epoch_parameter_reader, ingestion_manifest
 |   |   +-- retiring/        the retire classes still in the tree, until each is deleted
 |   +-- registry/            authored data: did_schema_meta.json (the meta-schema),
 |   |                        binding_registry_meta, CURIE_lookups_meta, ndi_reserved_keys,
@@ -39,6 +44,7 @@ did-schema/
 |   +-- generated/           did_v2_STATUS.md, did_v2_coverage_ledger.md,
 |   |                        did_v2_final_class_set.md (do not hand-edit)
 |   +-- history/             superseded documents, kept for their record
+|   +-- references/          reference papers V2 follows (PDF + citation and licence note)
 |   +-- v2_working/, V2_PLAN.md   working notes and the working plan (not the record)
 +-- tools/                   gates.py and the tools it runs; schema_paths.py and
 |                            doc_paths.py say where every file lives
@@ -46,13 +52,13 @@ did-schema/
 +-- web/                     the schema viewer (see web/README.md)
 ```
 
-A folder under `schemas/did_v2/` means a family, never a tier or a maturity. Class names are unique across the tree, and no file name repeats anywhere under `schemas/`: DID-matlab and NDI-matlab find class files at any depth under `schemas/did_v2/` and every other file by its name. A document cited by bare name (`did_v2_epoch_plan.md`) is the unique file of that name under `docs/`.
+A folder under `schemas/did_v2/` means a family, never a tier or a maturity. A family's root class lives in its family folder (`value/value.json`, `relation/relation.json`). Class names are unique across the tree, and no file name repeats anywhere under `schemas/`: DID-matlab and NDI-matlab find class files at any depth under `schemas/did_v2/` and every other file by its name. A document cited by bare name (`did_v2_epoch_plan.md`) is the unique file of that name under `docs/`.
 
 ## A class file
 
 A class file has four top-level keys:
 
-- **`document_class`**: `class_name` (the file name), `class_version` (`"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), `maturity_level`
+- **`document_class`**: `class_name` (the file name), `class_version` (`"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), and optionally `abstract`
 - **`depends_on`**: the class's edges to other documents
 - **`file`**: the files a document of the class may carry
 - **`fields`**: field definitions, nested for structures; each has `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation` and `constraints`
@@ -62,7 +68,7 @@ A class file has four top-level keys:
 ## Changing a class
 
 1. Edit or add `schemas/did_v2/<family>/<class_name>.json` (JSON, indent 4).
-2. For a new class, add its `disposition` (`persist`, `retire` or `in_progress`) to `schemas/registry/did_v2_class_dispositions.json`. A `retire` class lives in `schemas/did_v2/retiring/`.
+2. For a new class, add its `disposition` (`persist` or `retire`) to `schemas/registry/did_v2_class_dispositions.json`. A `retire` class lives in `schemas/did_v2/retiring/`.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites `schemas/generated/` (the index and the built registries); do not hand-edit anything there.
 4. A schema change the sibling code must follow lands in DID-matlab and NDI-matlab first (CLAUDE.md, section 3).
 

@@ -38,18 +38,18 @@ type Panel =
   | { kind: "veta" }
   | { kind: "walkthrough"; v1Class: string };
 
-// The toggleable filter tags shown in the legend: a class is visible only when
-// BOTH its maturity tag and its disposition tag are active (meta files are
-// governed by the single "meta" tag). All on by default.
-const MATURITY_TAGS = ["stable", "draft", "deprecated", "meta"] as const;
-const DISPOSITION_TAGS = ["persist", "retire", "in_progress"] as const;
+// The toggleable filter tags shown in the legend: a class is visible when its
+// disposition tag is active (meta files are governed by the single "meta" tag).
+// No class carries a maturity level ([one folder, final classes only]). All on
+// by default.
+const MATURITY_TAGS = ["meta"] as const;
+const DISPOSITION_TAGS = ["persist", "retire"] as const;
 const ALL_TAGS: string[] = [...MATURITY_TAGS, ...DISPOSITION_TAGS];
 
 function entryVisible(e: IndexEntry, active: Set<string>): boolean {
   if (e.is_meta) return active.has("meta");
-  const maturity = e.maturity_level ?? "meta";
   const disposition = e.disposition ?? "persist";
-  return active.has(maturity) && active.has(disposition);
+  return active.has(disposition);
 }
 
 // Prune a tree to nodes that pass the predicate OR have a surviving descendant,
@@ -346,13 +346,9 @@ function Legend({
 }) {
   // tag -> [css class, visible label, tooltip]
   const items: Array<[string, string, string, string]> = [
-    ["stable", "maturity-stable", "stable", "maturity: stable"],
-    ["draft", "maturity-draft", "draft", "maturity: draft"],
-    ["deprecated", "maturity-deprecated", "deprecated", "maturity: deprecated"],
     ["meta", "maturity-meta", "meta", "schema-machinery meta files"],
     ["persist", "badge-persist", "persist", "settled go-forward class (final V1)"],
     ["retire", "badge-retire", "retire", "decided to dissolve/delete; not in final V1"],
-    ["in_progress", "badge-wip", "wip", "persists but its 6/7 disposition is not yet finalized"],
   ];
   return (
     <div className="legend" role="group" aria-label="Filter classes by tag">

@@ -174,8 +174,8 @@ and the `V_alpha`..`V_zeta` trees are deleted". Git history keeps every deleted 
 9. `V_beta_notes.md` (deleted tree). Pointer: `schemas/V_eta/conversions/from_did_v1/_universal_renames.md`.
 10. `V_gamma_SPEC.md` (deleted tree). Pointers: `schemas/V_eta/stable/CURIE_lookups_meta.json`,
     `schemas/V_eta/stable/did_schema_meta.json` (description text, so this is a schema-file edit),
-    `conversions/from_did_v1/_universal_renames.md`, `review/73/audit_B_composites.md`,
-    `review/tenet-audit-2026-10-22/audit_T8-T14.md`. ASK if the team wants it in history instead.
+    `conversions/from_did_v1/_universal_renames.md`, `docs/history/review/73/audit_B_composites.md`,
+    `docs/history/review/tenet-audit-2026-10-22/audit_T8-T14.md`. ASK if the team wants it in history instead.
 11. `V_gamma_notes.md` (deleted tree). Pointers: `conversions/from_did_v1/_universal_renames.md`, `probe_location.md`.
 12. `V_delta_SPEC.md` (deleted tree). Pointers: `did_v2_SPEC.md`, `schemas/V_eta/microschemas/_DESIGN.md`.
 13. `V_eta_notes.md`: describes `V_eta/` as a sandbox "copied to `schemas/V1/`", built by `build_v_eta.py`.
@@ -207,4 +207,4 @@ nonsubject_cohesiveness_plan, migration_plan, infra_family_decisions. Also kept:
   `did_v2_ndi_ground_truth.json`, `did_v2_openminds_crosswalk.json`, `did_v2_term_registry.json`. They are not schema
   sets, and many tools read them (status_board, coverage, validate_v_eta, check_term_registry, …). ASK: same step or later?
 - `review/` (26 .md) and the root `Ideas.md` / `todo.md` are not covered by the decision. decision_citations
-  reads `review/73/OPEN_ITEMS.md` by path.
+  reads `docs/history/review/73/OPEN_ITEMS.md` by path.

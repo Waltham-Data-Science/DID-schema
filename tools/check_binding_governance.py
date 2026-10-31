@@ -19,7 +19,7 @@ DIFFERENT binding shapes, declared in two places, checked by almost nothing:
                                                                 (3 fields)
   SHAPE 4  node_form      the three pivot fields (statement.variable,
                           interaction.method,
-                          interaction_purpose.purpose): a LEXICAL rule on the
+                          purpose.purpose): a LEXICAL rule on the
                           value's `node` -- must be a well-formed CURIE -- and
                           no admissible set                      (3 fields)
   SHAPE 5  strength-only  a strength and nothing else. ZERO fields today: this

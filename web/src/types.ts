@@ -1,7 +1,6 @@
 // The family folder of a class under schemas/did_v2/ ([schema folders by
 // family]): `core` is the top of the folder. Null for a meta registry.
 export type Family = string | null;
-export type Maturity = "stable" | "draft" | "deprecated" | null;
 // Migration disposition (authored in schemas/registry/did_v2_class_dispositions.json,
 // copied into schemas/generated/index.json by tools/validate_v_eta.py):
 //   persist     — settled go-forward class (in the final V1 set)
@@ -13,7 +12,6 @@ export interface IndexEntry {
   class_name: string;
   family: Family;
   class_version: string | null;
-  maturity_level: Maturity;
   superclasses: string[];
   path: string;
   is_meta?: boolean;
@@ -334,7 +332,6 @@ export interface SchemaDocument {
     class_name: string;
     class_version?: string;
     superclasses?: SuperclassRef[];
-    maturity_level?: Maturity;
   };
   depends_on?: DependsOnEntry[];
   file?: FileEntry[];

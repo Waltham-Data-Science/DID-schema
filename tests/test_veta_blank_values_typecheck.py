@@ -277,8 +277,10 @@ def test_scan_actually_read_something():
     # 220 -> 170 on 2026-10-08: join leaves and entity classes merged; 152 -> 120
     # class files on 2026-10-30: retire classes deleted ([one folder, final
     # classes only])
-    assert stats["files"] >= 110, _denominator(stats)   # 119 on 2026-10-30, second retire batch
-    assert stats["files_with_fields"] >= 110, _denominator(stats)
+    # 108 on 2026-10-31 ([retire check now]: hartley_calc,
+    # hartley_reverse_correlation, reverse_correlation and ngrid deleted)
+    assert stats["files"] >= 100, _denominator(stats)   # 119 on 2026-10-30, second retire batch
+    assert stats["files_with_fields"] >= 100, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass
     # vacuously; it is 38 types today.

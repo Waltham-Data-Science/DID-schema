@@ -6,8 +6,7 @@
             {
                 "class_name": "tuning_curve_calculation"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [],
     "file": [],

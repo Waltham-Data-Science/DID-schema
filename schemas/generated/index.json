@@ -13,6 +13,8 @@
         "calculation",
         "data_body",
         "time_reference",
+        "relation",
+        "acquisition",
         "retiring"
     ],
     "schemas": [
@@ -20,7 +22,6 @@
             "class_name": "CURIE_lookups_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/registry/CURIE_lookups_meta.json",
             "is_meta": true,
@@ -30,7 +31,6 @@
             "class_name": "binding_registry_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/registry/binding_registry_meta.json",
             "is_meta": true,
@@ -40,7 +40,6 @@
             "class_name": "class_disposition_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/generated/class_disposition_meta.json",
             "is_meta": true,
@@ -50,7 +49,6 @@
             "class_name": "did_schema_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/registry/did_schema_meta.json",
             "is_meta": true,
@@ -60,7 +58,6 @@
             "class_name": "ndi_reserved_keys",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/registry/ndi_reserved_keys.json",
             "is_meta": true,
@@ -70,7 +67,6 @@
             "class_name": "quantity_list_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/generated/quantity_list_meta.json",
             "is_meta": true,
@@ -80,7 +76,6 @@
             "class_name": "term_registry_meta",
             "family": null,
             "class_version": null,
-            "maturity_level": null,
             "superclasses": [],
             "path": "schemas/generated/term_registry_meta.json",
             "is_meta": true,
@@ -90,7 +85,6 @@
             "class_name": "absolute_time_reference",
             "family": "time_reference",
             "class_version": "3.1.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
             ],
@@ -101,7 +95,6 @@
             "class_name": "acceleration",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -110,20 +103,18 @@
         },
         {
             "class_name": "acquisition_channels",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_channels.json",
+            "path": "schemas/did_v2/acquisition/acquisition_channels.json",
             "disposition": "persist"
         },
         {
             "class_name": "acquisition_epoch",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "epochid"
@@ -134,31 +125,28 @@
         },
         {
             "class_name": "acquisition_reader",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_reader.json",
+            "path": "schemas/did_v2/acquisition/acquisition_reader.json",
             "disposition": "persist"
         },
         {
             "class_name": "acquisition_system",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_system.json",
+            "path": "schemas/did_v2/acquisition/acquisition_system.json",
             "disposition": "persist"
         },
         {
             "class_name": "angle",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -169,7 +157,6 @@
             "class_name": "angular_velocity",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -180,7 +167,6 @@
             "class_name": "app",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -192,7 +178,6 @@
             "class_name": "area",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -203,7 +188,6 @@
             "class_name": "assertion",
             "family": "core",
             "class_version": "3.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "statement"
             ],
@@ -214,27 +198,24 @@
             "class_name": "base",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [],
             "path": "schemas/did_v2/base.json",
             "disposition": "persist"
         },
         {
             "class_name": "calculation",
-            "family": "core",
+            "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "interaction"
             ],
-            "path": "schemas/did_v2/calculation.json",
+            "path": "schemas/did_v2/calculation/calculation.json",
             "disposition": "persist"
         },
         {
             "class_name": "calculator",
             "family": "retiring",
             "class_version": "3.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "app"
@@ -247,7 +228,6 @@
             "class_name": "capacitance",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -258,7 +238,6 @@
             "class_name": "charge",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -269,7 +248,6 @@
             "class_name": "chemical",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -278,43 +256,39 @@
         },
         {
             "class_name": "clock_alignment",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "relation",
                 "polynomial"
             ],
-            "path": "schemas/did_v2/clock_alignment.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment.json",
             "disposition": "persist"
         },
         {
             "class_name": "clock_alignment_configuration",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/clock_alignment_configuration.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment_configuration.json",
             "disposition": "persist"
         },
         {
             "class_name": "clock_alignment_policy",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/clock_alignment_policy.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment_policy.json",
             "disposition": "persist"
         },
         {
             "class_name": "concentration",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -325,7 +299,6 @@
             "class_name": "conductance",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -336,7 +309,6 @@
             "class_name": "contrast_sensitivity",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -347,7 +319,6 @@
             "class_name": "contrast_sensitivity_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "calculation",
                 "contrast_sensitivity"
@@ -359,7 +330,6 @@
             "class_name": "contrast_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "tuning_curve_calculation"
             ],
@@ -370,7 +340,6 @@
             "class_name": "control_stimulus_ids",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "app"
@@ -383,7 +352,6 @@
             "class_name": "coordinate_system",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -394,7 +362,6 @@
             "class_name": "count",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -405,7 +372,6 @@
             "class_name": "current",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -416,7 +382,6 @@
             "class_name": "daqreader",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -428,7 +393,6 @@
             "class_name": "daqreader_epochdata_ingested",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "epochid"
@@ -441,7 +405,6 @@
             "class_name": "daqreader_image_epochdata_ingested",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "daqreader_epochdata_ingested",
@@ -455,7 +418,6 @@
             "class_name": "data",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -464,20 +426,18 @@
         },
         {
             "class_name": "data_body",
-            "family": "core",
+            "family": "data_body",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/did_v2/data_body.json",
+            "path": "schemas/did_v2/data_body/data_body.json",
             "disposition": "persist"
         },
         {
             "class_name": "date",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -488,7 +448,6 @@
             "class_name": "demo",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -497,20 +456,18 @@
         },
         {
             "class_name": "directed_relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/did_v2/directed_relation.json",
+            "path": "schemas/did_v2/relation/directed_relation.json",
             "disposition": "persist"
         },
         {
             "class_name": "dose",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -521,7 +478,6 @@
             "class_name": "energy",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -532,7 +488,6 @@
             "class_name": "ensemble",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "epochid",
@@ -546,7 +501,6 @@
             "class_name": "entity",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -555,31 +509,28 @@
         },
         {
             "class_name": "epoch_file_pattern",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/epoch_file_pattern.json",
+            "path": "schemas/did_v2/acquisition/epoch_file_pattern.json",
             "disposition": "persist"
         },
         {
             "class_name": "epoch_parameter_reader",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/epoch_parameter_reader.json",
+            "path": "schemas/did_v2/acquisition/epoch_parameter_reader.json",
             "disposition": "persist"
         },
         {
             "class_name": "epochfiles_ingested",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -591,7 +542,6 @@
             "class_name": "epochid",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -603,7 +553,6 @@
             "class_name": "filenavigator",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -615,7 +564,6 @@
             "class_name": "force",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -626,7 +574,6 @@
             "class_name": "formulation",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -637,7 +584,6 @@
             "class_name": "fraction",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -648,7 +594,6 @@
             "class_name": "frequency",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -659,7 +604,6 @@
             "class_name": "gain",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -670,7 +614,6 @@
             "class_name": "generic_file",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -682,7 +625,6 @@
             "class_name": "harmonic_component",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -690,36 +632,9 @@
             "disposition": "persist"
         },
         {
-            "class_name": "hartley_calc",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "calculator",
-                "hartley_reverse_correlation"
-            ],
-            "path": "schemas/did_v2/retiring/hartley_calc.json",
-            "disposition": "retire",
-            "disposition_note": "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, signed 2026-08-17). Tombstone kept so unmigrated documents validate"
-        },
-        {
-            "class_name": "hartley_reverse_correlation",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "reverse_correlation"
-            ],
-            "path": "schemas/did_v2/retiring/hartley_reverse_correlation.json",
-            "disposition": "retire",
-            "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
-        },
-        {
             "class_name": "humidity",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -728,20 +643,18 @@
         },
         {
             "class_name": "ingestion_manifest",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/ingestion_manifest.json",
+            "path": "schemas/did_v2/acquisition/ingestion_manifest.json",
             "disposition": "persist"
         },
         {
             "class_name": "intensity",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -752,7 +665,6 @@
             "class_name": "interaction",
             "family": "core",
             "class_version": "3.1.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "statement"
             ],
@@ -760,22 +672,9 @@
             "disposition": "persist"
         },
         {
-            "class_name": "interaction_purpose",
-            "family": "core",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/interaction_purpose.json",
-            "disposition": "persist",
-            "disposition_note": "Kept, to be renamed `purpose` with its edge to interactions only: [purpose class], Jess Haley 2026-10-27 (the rename waits on NDI-matlab's second pass)."
-        },
-        {
             "class_name": "irradiance",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -786,7 +685,6 @@
             "class_name": "item",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -797,7 +695,6 @@
             "class_name": "label",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -808,7 +705,6 @@
             "class_name": "length",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -819,7 +715,6 @@
             "class_name": "logical",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -830,7 +725,6 @@
             "class_name": "manipulation",
             "family": "core",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "interaction"
             ],
@@ -841,7 +735,6 @@
             "class_name": "mass",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -852,7 +745,6 @@
             "class_name": "method",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -863,7 +755,6 @@
             "class_name": "model_fit",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -871,22 +762,9 @@
             "disposition": "persist"
         },
         {
-            "class_name": "ngrid",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/ngrid.json",
-            "disposition": "retire",
-            "disposition_note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
-        },
-        {
             "class_name": "observation",
             "family": "core",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "interaction"
             ],
@@ -897,7 +775,6 @@
             "class_name": "opaque_body",
             "family": "data_body",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "data_body"
             ],
@@ -908,7 +785,6 @@
             "class_name": "openminds",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -920,7 +796,6 @@
             "class_name": "openminds_stimulus",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "openminds",
@@ -934,7 +809,6 @@
             "class_name": "orientation_direction_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "tuning_curve_calculation"
             ],
@@ -945,7 +819,6 @@
             "class_name": "ph",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -956,7 +829,6 @@
             "class_name": "polynomial",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -967,7 +839,6 @@
             "class_name": "position",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -978,7 +849,6 @@
             "class_name": "power",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -989,7 +859,6 @@
             "class_name": "pressure",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -997,10 +866,20 @@
             "disposition": "persist"
         },
         {
+            "class_name": "purpose",
+            "family": "core",
+            "class_version": "1.0.0",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/did_v2/purpose.json",
+            "disposition": "persist",
+            "disposition_note": "Kept, to be renamed `purpose` with its edge to interactions only: [purpose class], Jess Haley 2026-10-27 (the rename waits on NDI-matlab's second pass)."
+        },
+        {
             "class_name": "receptive_field",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1011,7 +890,6 @@
             "class_name": "receptive_field_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "calculation",
                 "receptive_field"
@@ -1021,20 +899,18 @@
         },
         {
             "class_name": "relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/relation.json",
+            "path": "schemas/did_v2/relation/relation.json",
             "disposition": "persist"
         },
         {
             "class_name": "relative_time_reference",
             "family": "time_reference",
             "class_version": "2.2.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
             ],
@@ -1045,7 +921,6 @@
             "class_name": "resistance",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1053,23 +928,9 @@
             "disposition": "persist"
         },
         {
-            "class_name": "reverse_correlation",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "ngrid"
-            ],
-            "path": "schemas/did_v2/retiring/reverse_correlation.json",
-            "disposition": "retire",
-            "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
-        },
-        {
             "class_name": "sampled_body",
             "family": "data_body",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "data_body"
             ],
@@ -1080,7 +941,6 @@
             "class_name": "score",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1091,7 +951,6 @@
             "class_name": "spatial_frequency_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "tuning_curve_calculation"
             ],
@@ -1102,7 +961,6 @@
             "class_name": "speed_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "tuning_curve_calculation"
             ],
@@ -1113,7 +971,6 @@
             "class_name": "statement",
             "family": "core",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -1124,7 +981,6 @@
             "class_name": "stimulus_presentation",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "app",
@@ -1138,7 +994,6 @@
             "class_name": "stimulus_response",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -1150,7 +1005,6 @@
             "class_name": "stimulus_response_scalar",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "stimulus_response"
@@ -1163,7 +1017,6 @@
             "class_name": "stimulus_response_scalar_parameters",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -1175,7 +1028,6 @@
             "class_name": "stimulus_response_scalar_parameters_basic",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "stimulus_response_scalar_parameters"
@@ -1188,7 +1040,6 @@
             "class_name": "substance_amount",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1199,7 +1050,6 @@
             "class_name": "syncrule",
             "family": "retiring",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -1211,7 +1061,6 @@
             "class_name": "temperature",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1222,7 +1071,6 @@
             "class_name": "temporal_frequency_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "tuning_curve_calculation"
             ],
@@ -1233,7 +1081,6 @@
             "class_name": "term",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1244,7 +1091,6 @@
             "class_name": "text",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "draft",
             "superclasses": [
                 "value"
             ],
@@ -1255,7 +1101,6 @@
             "class_name": "time",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1266,7 +1111,6 @@
             "class_name": "time_reference",
             "family": "time_reference",
             "class_version": "4.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
@@ -1277,7 +1121,6 @@
             "class_name": "tuning_curve",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1288,7 +1131,6 @@
             "class_name": "tuning_curve_calculation",
             "family": "calculation",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "calculation",
                 "tuning_curve"
@@ -1298,20 +1140,18 @@
         },
         {
             "class_name": "undirected_relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/did_v2/undirected_relation.json",
+            "path": "schemas/did_v2/relation/undirected_relation.json",
             "disposition": "persist"
         },
         {
             "class_name": "valid_interval",
             "family": "retiring",
             "class_version": "2.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "base",
                 "app"
@@ -1322,20 +1162,18 @@
         },
         {
             "class_name": "value",
-            "family": "core",
+            "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/did_v2/value.json",
+            "path": "schemas/did_v2/value/value.json",
             "disposition": "persist"
         },
         {
             "class_name": "velocity",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1346,7 +1184,6 @@
             "class_name": "voltage",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],
@@ -1357,7 +1194,6 @@
             "class_name": "volume",
             "family": "value",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
             "superclasses": [
                 "value"
             ],

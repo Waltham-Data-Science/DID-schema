@@ -29,6 +29,8 @@ META_FILES = {
 
 # did_v1 / V_zeta class name -> the V_eta class it became (section 1 of the builder)
 RENAME = {
+    # [purpose class] / [purpose renamed now] (did_v2_go_forward_class_audit.md)
+    "interaction_purpose": "purpose",
     "observation": "subject_observation",
     "manipulation": "subject_manipulation",
     "categorical_observation": "term_observation",
@@ -179,6 +181,15 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # retire classes deleted 2026-10-31 ([retire check now]): no v1 document
+    # passes through under them in DID-matlab V2 a78299d8 (hartley_calc converts,
+    # carries with a note or quarantines; a standalone ngrid is carried; the
+    # other two are v1 superclass blocks with no documents of their own), and
+    # no sibling reads their files
+    "hartley_calc",
+    "hartley_reverse_correlation",
+    "ngrid",
+    "reverse_correlation",
     # retire classes deleted 2026-10-30, second batch ([one folder, final
     # classes only]): DID-matlab #308 and #309 made its tests independent of
     # the files; daqmetadatareader and ontology_table_row were kept only as

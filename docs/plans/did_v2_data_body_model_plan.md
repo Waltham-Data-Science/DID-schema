@@ -33,7 +33,7 @@
 > of each entry, `count` flattened, `quantity` as {value, source_value}.
 >
 > **AND THE LIGHTSHEET WALKTHROUGH (2026-09-25, NDI-matlab PR #979; agreed with jess, NOT
-> signed; record in `review/73/OPEN_ITEMS.md` L1–L4) changed the tier, and is BUILT
+> signed; record in `docs/history/review/73/OPEN_ITEMS.md` L1–L4) changed the tier, and is BUILT
 > schema-side:** the two bodies split by WHO LAYS OUT THE BYTES — `sampled_body` = raw bytes
 > V_eta lays out (`byte_order`, `datum_order`, `chunk`, new `fill_value`); `opaque_body` =
 > bytes laid out by their own `format`. `keys`, `complete` and the `key_labels_id` edge moved
@@ -1544,7 +1544,7 @@ Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the `pressure` canonical s
 
 Decided by Jess Haley, 2026-10-22 [pH unit one]: the `ph` canonical slot's unit is om:one ("Unit one is a unit of dimension one."); the value kind names the quantity, the unit stays plain, as [response variable] and [dF/F as variable] do; no UO prefix is registered (answer "J4c"). Built: registry row om:one (shared with dF/F responses) and canonical-unit node. SUPERSEDED the same day by [pH unit is UO pH].
 
-Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the `ph` canonical slot's unit is UO:0000196 "pH" ("A dimensionless concentration notation which denotes the acidity of a solution in terms of activity of hydrogen ions (H+)."), replacing [pH unit one]: T14 makes a canonical unit the one the field's practitioners use, and OM has pH only as the quantity om:Acidity, with no unit. The UO prefix is registered for this unit; other units stay OM (answer "agreed on J3 and J4", after review against T14). [pressure in mmHg] is reconfirmed on the same review: T14 names `mmhg`, and pascal was already reversed on 2026-09-29 (review/73/audit2_SUMMARY.md D10 (e)). Built: UO prefix in CURIE_lookups_meta.json, registry row UO:0000196, canonical-unit node; om:one stays for dF/F.
+Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the `ph` canonical slot's unit is UO:0000196 "pH" ("A dimensionless concentration notation which denotes the acidity of a solution in terms of activity of hydrogen ions (H+)."), replacing [pH unit one]: T14 makes a canonical unit the one the field's practitioners use, and OM has pH only as the quantity om:Acidity, with no unit. The UO prefix is registered for this unit; other units stay OM (answer "agreed on J3 and J4", after review against T14). [pressure in mmHg] is reconfirmed on the same review: T14 names `mmhg`, and pascal was already reversed on 2026-09-29 (docs/history/review/73/audit2_SUMMARY.md D10 (e)). Built: UO prefix in CURIE_lookups_meta.json, registry row UO:0000196, canonical-unit node; om:one stays for dF/F.
 
 Decided by Jess Haley, 2026-10-22 [humidity in percent]: the `humidity` canonical slot `percent_relative_humidity` keeps its name; its unit is om:percent ("The percent is a unit of dimension one defined as 1/100."): OM's relative humidity unit "commonly has unit" percent, T14 names the slot, and the value kind says what the percent is of (answer "J5a", confirmed "ok"). Built: registry row om:percent; the canonical unit's name is "percent" (R11: it equals the registry name).
 
@@ -1565,3 +1565,5 @@ RE-DERIVED 2026-10-30 (thirty-three retire classes deleted, Jess Haley [one fold
 RE-DERIVED 2026-10-30 (`draft/linked_session.json` removed, Jess Haley [linked_session withdrawn], did_v2_linked_session_plan.md; `check_prose_counts` re-derives all nouns): **118 distinct V_eta class names** (was 119; -1: linked_session). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-30 (six more retire classes deleted, Jess Haley [one folder, final classes only], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **112 distinct V_eta class names** (was 118; -6: binaryseries_parameters, daqmetadatareader, daqmetadatareader_epochdata_ingested, ontology_image, ontology_label, ontology_table_row); tombstone classes compared: 19 (was 25). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-31 (four retire classes deleted, Jess Haley [retire check now], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **108 distinct V_eta class names** (was 112; -4: hartley_calc, hartley_reverse_correlation, reverse_correlation, ngrid); tombstone classes compared: 18 (was 19). Re-derive with `check_prose_counts`, do not quote these directly.

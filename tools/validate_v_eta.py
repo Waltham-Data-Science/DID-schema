@@ -17,7 +17,7 @@ the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D6) are copies of a fact held elsewhere, so they are
 written, not hand-edited:
-  D1  generated/index.json: family, class_version, maturity_level,
+  D1  generated/index.json: family, class_version,
       superclasses and path of every class, read from its file, and its
       `disposition` / `disposition_note`, copied from the authored
       registry/did_v2_class_dispositions.json (split out of the index,
@@ -86,7 +86,9 @@ META_FILES = SP.META_FILES
 VERBATIM = {"ndi_reserved_keys.json"}
 NON_ASCII = {"term_registry_meta.json", "class_disposition_meta.json",
              "quantity_list_meta.json"}
-DISPOSITIONS = {"persist", "retire", "in_progress"}
+# [one folder, final classes only] (Jess Haley, 2026-10-29): "no class is
+# in_progress"; `in_progress` is refused.
+DISPOSITIONS = {"persist", "retire"}
 PASSES = {"assertions", "distributive", "context", "nothing"}
 ENTRY_LISTS = ("conditions", "parameters")
 # the time_reference families governed by the uniqueness rule (#52, CHANGE 5)
@@ -194,7 +196,8 @@ def r1_format(t):
 def r2_identity(t):
     """class_name is the file name; one class per name across the tree;
     schemas/did_v2/ holds class files only, in the decided family folders
-    ([schema folders by family]); no basename repeats under schemas/ (the
+    ([schema folders by family]), each family's root class in its own folder
+    ([family roots and relation folder]); no basename repeats under schemas/ (the
     siblings read every non-class file by its basename)."""
     bad = [f"unreadable: {u}" for u in t.unreadable]
     bad += [f"{n} is declared twice" for n in t.dupes]
@@ -213,6 +216,15 @@ def r2_identity(t):
         for f in filenames:
             if not f.endswith(".json"):
                 bad.append(f"schemas/did_v2/{'' if rel == '.' else rel + '/'}{f} is not a class file")
+    # [family roots and relation folder]: a family's root class lives in its
+    # family folder, and only there.
+    for fam in SP.ROOTED_FAMILIES:
+        if fam not in t.classes:
+            bad.append(f"family {fam}: its root class {fam} has no file; it lives in "
+                       f"schemas/did_v2/{fam}/{fam}.json ([family roots and relation folder])")
+        elif t.classes[fam][0] != fam:
+            bad.append(f"family root {fam} is in {SP.rel(t.classes[fam][1], t.root)}; it "
+                       f"lives in schemas/did_v2/{fam}/ ([family roots and relation folder])")
     for name, paths in SP.duplicate_basenames(t.root).items():
         bad.append(f"{name} is held by {len(paths)} files under schemas/: "
                    + ", ".join(SP.rel(p, t.root) for p in paths))
@@ -745,7 +757,7 @@ def d1_index(t):
     for base in sorted(t.meta):
         _, mp, _ = t.meta[base]
         schemas.append({"class_name": base[:-5], "family": None,
-                        "class_version": None, "maturity_level": None,
+                        "class_version": None,
                         "superclasses": [], "path": SP.rel(mp, t.root),
                         "is_meta": True, "disposition": "persist"})
     for name in sorted(t.classes, key=lambda n: (n is None, n or "")):
@@ -762,7 +774,6 @@ def d1_index(t):
                        f"{SP.RETIRING}/ and only there ([schema folders by family])")
         e = {"class_name": dc["class_name"], "family": fam,
              "class_version": dc["class_version"],
-             "maturity_level": dc["maturity_level"],
              "superclasses": [s["class_name"] for s in dc["superclasses"]],
              "path": SP.rel(f, t.root), "disposition": disp}
         if "disposition_note" in prev:

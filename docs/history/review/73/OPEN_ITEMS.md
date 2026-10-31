@@ -370,7 +370,7 @@ TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]: jess@walthamdatascience
 - 182 → 180 persist classes. Of the 180-odd audited: ~46 signed in current form, 16 signed
   then revised without a new signature, 4 field-level only, 19 decided but unsigned, 97 with
   no decision record (mostly the inherited quantity family). See `govtable.md`.
-- The #73 decisions (items 1–49) carry no `TEAM-SIGN-OFF` line. `team_signoff_lines_DRAFT.md`
+- The #73 decisions (items 1–49) carry no `TEAM-SIGN-OFF` line. `team_signoff_lines_DRAFT.md` HISTORICAL-SIGNOFF-CLAIM
   is an out-of-date draft, not a signature.
 - `tools/status_board.py` counts a sign-off quoted inside a code block
   (`did_v2_method_parameters_plan.md:683`) and still counts the superseded 2026-09-22 spatial

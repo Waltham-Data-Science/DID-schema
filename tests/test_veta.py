@@ -2,7 +2,7 @@
 
 Validate the V_eta set on its own terms: every schema file passes the
 meta-schema, index.json agrees with disk, superclass and dependency references
-resolve, the tier folder matches maturity_level, and the Brainstorm-J subject
+resolve, each class is in its family folder, and the Brainstorm-J subject
 model composes (bare-identity subject, restored statement, the
 subject_relation branch, the assertion genus, and the renamed
 observation / manipulation direction classes).
@@ -65,8 +65,8 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     for one fact; now there is one. A statement points at a shared
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` used until 2026-10-29."""
-    si = _load(os.path.join(VETA, "interaction.json"))
-    ac = _load(os.path.join(VETA, "acquisition_channels.json"))
+    si = _load(SP.class_path("interaction"))
+    ac = _load(SP.class_path("acquisition_channels"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_system_id" not in si_edges
@@ -78,13 +78,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     # DECIDED required (item 56); stays optional until the DID-matlab minting pass
     # lands -- test_veta_acquisition_system_edge_typing pins that.
     assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
-    rig = _load(os.path.join(VETA, "acquisition_system.json"))
+    rig = _load(SP.class_path("acquisition_system"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
     req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
     assert req == {"reader_id", "epoch_file_pattern_id"}, req
-    cac = _load(os.path.join(VETA, "clock_alignment_configuration.json"))
+    cac = _load(SP.class_path("clock_alignment_configuration"))
     # Jess Haley 2026-10-27 [sync configuration links its rigs]
     # (did_v2_go_forward_class_audit.md): the configuration links its two rigs
     # directly, role-named, and no longer points at `acquisition_channels`.
@@ -1106,7 +1106,7 @@ def test_openminds_crosswalk_round_trips():
     valid_kinds = {"field", "relation", "global_identifier", "implied", "projection",
                    "assertion"}
     curie = _load(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json"))
-    ent = _load(os.path.join(VETA, "entity.json"))
+    ent = _load(SP.class_path("entity"))
     types = {v["name"] for v in next(
         f for f in ent["fields"] if f["name"] == "type")["constraints"]["binding"]["values"]}
     for type_name, spec in xw["types"].items():
@@ -1393,7 +1393,7 @@ def test_numbered_edge_families_declare_cardinality():
     # the spine and the purpose edge are the two that must be PRESENT
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
     assert ("interaction", "time_reference_id") in required
-    assert ("interaction_purpose", "interaction_id") in required
+    assert ("purpose", "interaction_id") in required
     # (syncgraph, whose syncrule_id_# NDI lets be empty, was deleted 2026-10-30
     # with the retire classes nothing passes through.)
 
@@ -2375,7 +2375,7 @@ _PIVOT_BINDINGS = [
     ("statement", "variable"),
     # the bound term inside the `method` block since 2026-10-21 (did_v2_method_plan.md)
     ("interaction", "method.term"),
-    ("interaction_purpose", "purpose"),
+    ("purpose", "purpose"),   # interaction_purpose until [purpose renamed now]
 ]
 
 
@@ -2487,7 +2487,7 @@ def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fai
                     if not r["variable"].get("node")]
     assert without_node == [], (
         f"{len(without_node)} binding variable row(s) lost their node: {without_node}")
-    stmt = _load(os.path.join(VETA, "statement.json"))
+    stmt = _load(SP.class_path("statement"))
     var = next(f for f in stmt["fields"] if f["name"] == "variable")
     binding = var["constraints"]["binding"]
     assert binding.get("strength") == "preferred", (
@@ -2740,99 +2740,6 @@ def test_no_list_valued_field_is_typed_char():
         f"list-valued fields typed `char` cannot validate; use `string`: {bad!r}")
 
 
-def test_ngrid_tombstone_is_the_did_v1_shape_and_carries_coordinates():
-    """#46 gate 2, made EXECUTABLE. The `ngrid` tombstone is restated from the
-    WRITER, and nothing in Python asserted it until now.
-
-    The schema half of that repair (build_v_eta.py) and the migrator half
-    (DID-matlab +migrators_j/+super/ngrid.m) are LOCKSTEP -- either alone
-    quarantines every consumer -- but the migrator half is covered only by
-    `tests/+did2/+unittest/testNgridCoordinates.m`, which has NEVER RUN (there is
-    no MATLAB in the container it was written in). So until this test the entire
-    repair had zero executable coverage, and a re-introduction of the invented
-    names would have gone green.
-
-    did_v1 GROUND TRUTH, NDI origin/main @ 42c94e5 (read 2026-08-10):
-
-        database_documents/data/ngrid.json
-            "ngrid": {data_size, data_type, data_dim, coordinates}
-            superclasses [base];  NO depends_on;  NO files
-        schema_documents/data/ngrid_schema.json  -- the same four, typed
-        the ONLY writer: +ndi/+fun/+data/mat2ngrid.m, which sets exactly those four
-
-    `ndims` and `dim_sizes` are the V_DELTA MIGRATOR'S OUTPUT, not v1 fields;
-    `dim_labels`, the `element_id` dep and `ngrid_file` appear in no NDI template,
-    schema or writer. V_eta declared all five, with `ndims` REQUIRED -- so a real
-    document quarantined on that alone.
-
-    `coordinates` is asserted PRESENT, not landed. Its decided destination is
-    `axes[k].values` (did_v2_image_model_plan.md, TEAM-SIGN-OFF 2026-08-08), which
-    belongs to the data_body tier (#45, blocked on #32). Asserting a home would
-    assert a build that has not happened; asserting the CARRY is what stops the
-    silent deletion coming back.
-    """
-    assert "ngrid" in RECORDS, (
-        "#46 is NOT retirement-ready: both consumers are unfolded, so the "
-        "tombstone must survive -- see test_ngrid_may_not_be_retired_while_consumers_exist")
-    _tier, d = RECORDS["ngrid"]
-    fields = {f["name"]: f for f in d.get("fields", [])}
-    assert set(fields) == {"data_size", "data_type", "data_dim", "coordinates"}, (
-        f"the tombstone must declare the four did_v1 names and nothing else; got {sorted(fields)!r}")
-    # the V_delta migrator's output, and the three downstream inventions
-    for invented in ("ndims", "dim_sizes", "dim_labels"):
-        assert invented not in fields, (
-            f"{invented} has no did_v1 existence -- it is V_delta output or a downstream "
-            "invention, and declaring it (REQUIRED, for ndims) quarantines every "
-            "real document")
-    assert d.get("depends_on") == [], "did_v1 ngrid declares no dependencies"
-    assert d.get("file") == [], (
-        "did_v1 ngrid declares no file of its own -- the CONSUMER does "
-        "(`ontologyImage.ngrid` in ontologyImage.json's file_list)")
-    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["base"]
-
-
-def test_ngrid_may_not_be_retired_while_consumers_exist():
-    """#46's GATE, made mechanical instead of remembered.
-
-    `ngrid` retirement is gated on BOTH consumers, and the record has already
-    been wrong about that once: build_v_eta.py called `reverse_correlation`
-    "its only consumer", which is the sentence did_v2_ngrid_family_findings.md F4
-    says made `ngrid` look like a one-class item when it is not.
-
-    Deleting a source tombstone whose documents still arrive is not hypothetical
-    damage: it is the `epochfiles_ingested` regression, 2,484 quarantines in
-    corpus B on a 0-quarantine gate, caused by a rename that bypassed
-    `_DELETE_PHASE8` by removing the file directly. This test closes the same
-    door for `ngrid` -- whichever way a future build removes it.
-
-    The gate is derived from the BUILT SET, so it cannot go stale the way the
-    comment did: if any V_eta class still declares `ngrid` a superclass, those
-    documents reach validation carrying an `ngrid` block, and a missing tombstone
-    means `undeclaredField` on every one of them.
-    """
-    consumers = sorted(
-        name for name, (_t, body) in RECORDS.items()
-        if any(s.get("class_name") == "ngrid"
-               for s in body["document_class"]["superclasses"]))
-    # DENOMINATOR FIRST. Without it this passes when RECORDS is empty.
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
-    if "ngrid" not in RECORDS:
-        assert not consumers, (
-            f'`ngrid` was retired while {len(consumers)} class(es) still declare it a superclass ({", ".join(consumers)}). Retirement is gated on BOTH consumers (#46): ontology_image (#47) and hartley_calc via reverse_correlation (#48). Fold them first, or every passthrough quarantines on undeclaredField.')
-        return
-    # Today: the gate is CLOSED, and this records who is holding it shut, so a
-    # reader does not have to take the prose's word for the count.
-    # 2026-09-25 (#73 review item 43): back to the v1 shape -- the v1
-    # `reverse_correlation` tombstone declares ngrid, and hartley_calc reaches it
-    # through hartley_reverse_correlation. Both consumers are v1 tombstones.
-    # 2026-10-30: `ontology_image` was deleted ([one folder, final classes
-    # only]; its v1 documents pass through under NDI's `ontologyImage` name or
-    # are carried), so reverse_correlation is the one consumer left.
-    assert consumers == ["reverse_correlation"], (
-        f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
-        "-- `hartley_calc` reaches ngrid through the v1 reverse_correlation tombstone.")
-
-
 def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     """INVERTED 2026-08-14. This asserted the slot does NOT exist; it does now.
 
@@ -3070,87 +2977,29 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     assert "data_body" in {f["name"] for f in dt["fields"]}
 
 
-def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley():
-    """WHY `reverse_correlation` KEPT its `ngrid` superclass until 2026-09-25, and
-    where the block lives now (the `hartley_calc` tombstone), recorded as a
-    check rather than as prose.
-
-    A discrepancy worth reconciling, and both halves of it are true:
-
-      - The BUILT schema marks `reverse_correlation` CONCRETE (no `abstract`
-        flag), and so is `hartley_reverse_correlation`.
-      - `did_v2_ngrid_family_findings.md` F1 reads the WRITER
-        (`NDIcalc-vis +ndi/+calc/+vis/hartley.m:448`) and finds ONE document
-        constructed, of class `hartley_calc`, carrying the `hartley_calc`,
-        `hartley_reverse_correlation`, `reverse_correlation` and `ngrid` blocks.
-        Neither intermediate class is ever minted standalone.
-
-    They agree once the question is split: the CLASSES are declared instantiable,
-    and NO DOCUMENT OF EITHER IS EVER WRITTEN. The mechanical half of that is
-    checked here — neither name appears in the 102-class v1 source universe, so
-    the coverage ledger does not carry a row for either, so no did_v1 document
-    can arrive under those names.
-
-    THE CONSEQUENCE IS THE POINT. "Superclass-only" is exactly why
-    `reverse_correlation` may NOT be re-pointed off `ngrid`: it has no documents
-    of its own to fold, and the block it declares is inherited by `hartley_calc`,
-    which HAS documents (>=210 in the 20211116 corpus). Removing the superclass
-    would leave every one of them carrying an undeclared `ngrid` block —
-    `undeclaredField`, on a 0-quarantine gate. The fold that would release it is
-    the RF one (#48), and the repo it needs (VH-Lab/NDIcalc-vis-matlab) is not in
-    scope.
-    """
-    ledger = _load(os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json"))
-    rows = ledger["rows"]
-    # DENOMINATOR FIRST. An empty ledger would make every "not a source" claim
-    # below trivially true. Was 102 until 2026-09; NDI-matlab origin/main gained
-    # 10 new templates (cellTypeLabels, demoNDISeries, demoNDISeriesMixed,
-    # fileReference, geneExpression, geneList, geneListMapping,
-    # spatialGeneExpressionCells/Pyramid/Tiles) and #67 added the `calculator`
-    # v1 name-collision, so the join carries 113 rows; NDI-matlab#979 then added
-    # lightsheetZarrPyramid and lightsheetZarrLevel (2026-10), so 115.
-    assert len(rows) == 115, (
-        f'the v1 source universe is 115 classes (104 NDI templates + 11 vhlab app classes); read {len(rows)}')
-    v1 = {r["v1_class"] for r in rows}
-
-    for name in ("reverse_correlation", "hartley_reverse_correlation"):
-        assert name in RECORDS, f"{name} is still in the built set"
-        assert name not in v1, (
-            f"{name} became a v1 SOURCE class. F1 read the writer and found it "
-            "superclass-only; if that changed, the ngrid gate changes with it.")
-    # and the one class that IS a source, and that inherits ngrid through them
-    assert "hartley_calc" in v1
-    chain = [s["class_name"]
-             for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
-    assert "hartley_reverse_correlation" in chain, (
-        f"hartley_calc no longer reaches ngrid through the RF chain: {chain!r}")
-    # 2026-09-25 (#73 review item 43, supersedes item 38): the RF chain is v1 again.
-    # A passed-through v1 hartley_calc document carries `reverse_correlation`,
-    # `hartley_reverse_correlation` and `ngrid` blocks with FIELDS; every one must be
-    # declared on its chain, and nothing may require a V_eta block (the
-    # `receptive_field.value` the 9/21 chain demanded) it never has.
-    rc_supers = [s["class_name"]
-                 for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
-    assert rc_supers == ["base", "ngrid"], rc_supers
-    V1_BLOCKS = {
-        "reverse_correlation": {"method", "dimension_labels"},
-        "hartley_reverse_correlation": {"stimulus_properties", "reconstruction_properties",
-                                        "spiketimes", "frame_times", "hartley_numbers"},
-    }
-    for cls, want in V1_BLOCKS.items():
-        have = {f["name"] for f in RECORDS[cls][1]["fields"]}
-        assert want <= have, f"{cls} lost v1 fields: {sorted(want - have)}"
-    seen, todo = set(), ["hartley_calc"]
-    while todo:
-        c = todo.pop()
-        if c in seen or c not in RECORDS:
-            continue
-        seen.add(c)
-        todo += [s["class_name"] for s in RECORDS[c][1]["document_class"]["superclasses"]]
-    assert "ngrid" in seen, f"hartley_calc cannot reach ngrid: {sorted(seen)}"
-    assert "receptive_field" not in seen, (
-        "the v1 hartley_calc tombstone inherits the V_eta receptive_field composite "
-        "again -- its required `value` block is one no v1 document carries")
+def test_the_rf_family_and_ngrid_are_retired_and_nothing_inherits_them():
+    """[retire check now] (Jess Haley, 2026-10-31, did_v2_go_forward_class_audit.md)
+    REPLACES five tests that pinned the v1 tombstones `hartley_calc`,
+    `hartley_reverse_correlation`, `reverse_correlation` and `ngrid` "so unmigrated documents validate" (`calculator` stays: it has no
+    migrator, so a v1 `calculator` document would pass through under it). That premise ended with
+    [passthrough stays v1: how]: a carried document is stamped did_v1 and never
+    validated against V2 (DID-matlab v1_to_v2.m, "A CARRIED DOCUMENT IS v1 END
+    TO END"). DID-matlab V2 a78299d8's hartley_calc migrator converts to
+    receptive_field_calculation, carries with a `carried_as_v1` note
+    (carry-049, carry-100, carry-138) or quarantines; a standalone ngrid is
+    carried by +migrators/ngrid.m. No v1 document passes through under any of
+    the four, so their files are deleted and their names are RETIRED_CLASSES.
+    What must hold now: none is in the tree, and no class reaches one."""
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
+    gone = ("hartley_calc", "hartley_reverse_correlation", "reverse_correlation",
+            "ngrid")
+    for name in gone:
+        assert name not in RECORDS, name
+    for name, (_t, body) in RECORDS.items():
+        supers = {s["class_name"] for s in body["document_class"]["superclasses"]}
+        assert not supers & set(gone), (name, supers & set(gone))
+        for e in body.get("depends_on", []):
+            assert e.get("must_refer_to_document_class") not in gone, (name, e["name"])
 
 
 def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
@@ -3235,18 +3084,24 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     # The destination the sign-off names must exist, and must not be emittable
     # with a blank required edge -- which is the standing reason the build stays
     # a second pass rather than a pass-1 migrator.
-    assert "interaction_purpose" in RECORDS, (
+    # `interaction_purpose` was renamed `purpose` ([purpose class], built by
+    # [purpose renamed now], did_v2_go_forward_class_audit.md, 2026-10-31).
+    assert "purpose" in RECORDS, (
         "the signed destination for these 635 documents no longer exists")
-    ip = {d["name"]: d for d in RECORDS["interaction_purpose"][1]["depends_on"]}
+    assert "interaction_purpose" not in RECORDS, "the rename is a move, not a copy"
+    ip = {d["name"]: d for d in RECORDS["purpose"][1]["depends_on"]}
     assert ip["interaction_id"]["min_count"] >= 1, (
         "interaction_id is REQUIRED, so a pass that cannot resolve an "
         "interaction must pass through rather than emit a blank edge")
-    purpose = next(f for f in RECORDS["interaction_purpose"][1]["fields"]
+    purpose = next(f for f in RECORDS["purpose"][1]["fields"]
                    if f["name"] == "purpose")
+    # [notes on three classes]: its one free-text field is `notes`, as on statement
+    own = {f["name"] for f in RECORDS["purpose"][1]["fields"]}
+    assert "notes" in own and "comment" not in own, sorted(own)
     assert purpose["mustBeScalar"] is True, (
         "one purpose per document is what keeps the v1 and V_eta counts equal at "
         "635: an epoch carrying two approach names was two v1 documents and "
-        "becomes two interaction_purpose documents")
+        "becomes two purpose documents")
 
 
 def test_acquisition_epoch_declares_the_vhsb_payload():
@@ -3832,32 +3687,6 @@ def test_t15_ordered_flags_match_the_table():
     ], ordered
 
 
-def test_v1_tombstones_under_a_composite_chain_still_retire():
-    """REGRESSION (217d305 -> fixed 2026-09-25). #73 item 19 widened _disposition's
-    structural rule to "any value ancestor persists", and the v1 `hartley_calc`
-    tombstone -- which sits under hartley_reverse_correlation -> reverse_correlation
-    -> receptive_field -> value so passthrough documents validate -- flipped
-    retire -> persist with no one deciding it. `ngrid` moved from in_progress to
-    retire in the same fix: both readings of its disputed record end with no V_eta
-    class."""
-    idx = _load(os.path.join(REPO_ROOT, "schemas", "generated", "index.json"))
-    found = {}
-
-    def walk(x):
-        if isinstance(x, dict):
-            if "class_name" in x and "disposition" in x:
-                found[x["class_name"]] = x["disposition"]
-            for v in x.values():
-                walk(v)
-        elif isinstance(x, list):
-            for v in x:
-                walk(v)
-    walk(idx)
-    assert len(found) > 100, f"only {len(found)} dispositions read from index.json"
-    for name in ("hartley_calc", "ngrid"):
-        assert found.get(name) == "retire", f"{name} is {found.get(name)!r}, not retire"
-
-
 def test_leaves_exist_only_when_needed():
     """#73 item 50 (team, 2026-09-25): every value stays; a direction leaf exists
     only once a writer or a decided target needs it. The 52 leaves nothing needed are
@@ -3942,7 +3771,7 @@ def test_conditions_have_amendment_2_shape():
 
 
 def test_bodies_split_by_who_lays_out_the_bytes():
-    """Lightsheet walkthrough L1-L3 (2026-09-25, review/73/OPEN_ITEMS.md; not
+    """Lightsheet walkthrough L1-L3 (2026-09-25, docs/history/review/73/OPEN_ITEMS.md; not
     signed). `keys`, `complete` and `conditions` live on data_body, so an opaque
     body may describe its array and any body may carry a one-value fact of its own;
     only sampled_body declares a byte layout, and it gains `fill_value`.
@@ -4060,28 +3889,6 @@ def test_value_descriptors_live_with_the_value():
                                                      "coordinate_system_id"}
     for name in RECORDS:
         assert "storage_mode" not in _flat_field_types(name), name
-
-
-def test_hartley_calc_tombstone_is_restated_from_its_writer():
-    """NDIcalc-vis-matlab hartley.m:489-494 writes a `hartley_calc` block
-    {input_parameters {T, X_sample, Y_sample}, depends_on} plus `calculator` and
-    `app` blocks, and sets element_id + stimulus_presentation_id. The tombstone
-    must declare all of them, or an unmigrated v1 document cannot validate."""
-    d = RECORDS["hartley_calc"][1]
-    supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    assert supers == ["calculator", "hartley_reverse_correlation"]
-    fields = {f["name"]: f for f in d["fields"]}
-    assert set(fields) == {"input_parameters", "depends_on"}
-    assert {s["name"] for s in fields["input_parameters"]["fields"]} == {
-        "T", "X_sample", "Y_sample"}
-    # The two edges are NOT redeclared since #73 audit 2 D12: reverse_correlation
-    # declares them required, the validator's required set is the chain union, so an
-    # optional redeclaration here was void. They are inherited, required.
-    assert d["depends_on"] == []
-    rc = RECORDS["reverse_correlation"][1]
-    assert {e["name"]: e["mustBeNonEmpty"] for e in rc["depends_on"]} == {
-        "element_id": True, "stimulus_presentation_id": True}
-
 
 
 def test_value_bearing_classes_are_data_types():

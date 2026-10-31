@@ -136,6 +136,40 @@ def test_stale_relation_values_are_reported_not_fixed_in_check_mode(tree):
     assert (_f(tree, "directed_relation.json")).read_text() == before
 
 
+def test_the_tree_holds_each_family_root_in_its_folder():
+    """[family roots and relation folder] (Jess Haley, 2026-10-31): each
+    family's root class lives in its family folder, as time_reference does."""
+    assert len(V.SP.ROOTED_FAMILIES) >= 5   # denominator
+    for fam in V.SP.ROOTED_FAMILIES:
+        p = V.SP.class_path(fam)
+        assert p is not None, fam
+        assert V.SP.family(p) == fam, (fam, p)
+    for name in ("directed_relation", "undirected_relation"):
+        assert V.SP.family(V.SP.class_path(name)) == "relation", name
+
+
+def test_the_acquisition_classes_are_in_acquisition():
+    """[acquisition folder] (Jess Haley, 2026-10-31)."""
+    names = ("acquisition_system", "acquisition_channels", "acquisition_reader",
+             "epoch_file_pattern", "epoch_parameter_reader", "ingestion_manifest")
+    for name in names:
+        assert V.SP.family(V.SP.class_path(name)) == "acquisition", name
+
+
+def test_the_clock_alignment_classes_are_in_time_reference():
+    """[clock alignment in time_reference] (Jess Haley, 2026-10-31)."""
+    for name in ("clock_alignment", "clock_alignment_configuration", "clock_alignment_policy"):
+        assert V.SP.family(V.SP.class_path(name)) == "time_reference", name
+
+
+@pytest.mark.parametrize("fam", ["value", "relation", "data_body"])
+def test_a_family_root_outside_its_folder_is_refused(tree, fam):
+    src = _f(tree, fam + ".json")
+    shutil.move(str(src), str(tree / (fam + ".json")))
+    rc, out = _run(tree)
+    assert rc == 1 and f"family root {fam} is in schemas/did_v2/{fam}.json" in out, out
+
+
 def test_a_hand_layout_is_refused(tree):
     p = _f(tree, "statement.json")
     p.write_text(json.dumps(json.loads(p.read_text()), indent=2) + "\n")
@@ -195,7 +229,7 @@ def _value_field(name):
 
 
 def test_value_declares_the_rule_and_the_nine_no_longer_require_value():
-    with open(os.path.join(VETA, "value.json")) as f:
+    with open(V.SP.class_path("value")) as f:
         rules = {r["name"]: r for r in json.load(f)["rules"]}
     assert set(rules["value_inline_or_body"]["fields"]) == {"value", "data_body", "value_id"}
     assert "data_type_when_bytes" in rules
@@ -275,7 +309,7 @@ def test_data_type_is_required_only_for_plain_array_bytes():
     """Jess Haley, 2026-10-21: `data_type` only when the bytes are a plain
     array (a sampled_body, or an untyped inline array); an opaque_body's
     `format` term is the encoding, so it needs none."""
-    with open(os.path.join(VETA, "value.json")) as f:
+    with open(V.SP.class_path("value")) as f:
         rules = {r["name"]: r for r in json.load(f)["rules"]}
     st = rules["data_type_when_bytes"]["statement"]
     assert "sampled_body" in st and "opaque_body" in st and "`format`" in st
@@ -325,6 +359,29 @@ def test_a_class_needs_a_disposition_row(tree):
     p = tree.parent / "registry" / "did_v2_class_dispositions.json"
     d = json.loads(p.read_text())
     del d["classes"]["statement"]
+    p.write_text(json.dumps(d, indent=4, ensure_ascii=False) + "\n")
+    rc, out = _run(tree)
+    assert rc == 1 and "statement needs a `disposition`" in out, out
+
+
+def test_in_progress_is_refused():
+    """[one folder, final classes only] (Jess Haley, 2026-10-29): "No draft or in
+    progress". The registry holds persist and retire only, and the validator
+    refuses an `in_progress` row."""
+    with open(V.SP.CLASS_DISPOSITIONS) as fh:
+        d = json.load(fh)
+    counts = {}
+    for row in d["classes"].values():
+        counts[row["disposition"]] = counts.get(row["disposition"], 0) + 1
+    assert sum(counts.values()) > 100, counts   # denominator
+    assert set(counts) <= {"persist", "retire"}, counts
+    assert "in_progress" not in V.DISPOSITIONS
+
+
+def test_an_in_progress_row_fails(tree):
+    p = tree.parent / "registry" / "did_v2_class_dispositions.json"
+    d = json.loads(p.read_text())
+    d["classes"]["statement"]["disposition"] = "in_progress"
     p.write_text(json.dumps(d, indent=4, ensure_ascii=False) + "\n")
     rc, out = _run(tree)
     assert rc == 1 and "statement needs a `disposition`" in out, out

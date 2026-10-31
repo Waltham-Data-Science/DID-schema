@@ -854,7 +854,7 @@ Amendment 1 did for the key entry this one was modelled on. The `parameter[]` en
 `{variable, unit, source_unit, value {value, source_value}, term, text}` — the key /
 condition entry's shape — at all three mounts (`subject_interaction`, `method_parameters`,
 `clock_alignment_configuration`). The canonical `value.value` is in `unit`, a term left
-unbound until the unit vocabulary is chosen (`review/73/OPEN_ITEMS.md` item 24). The
+unbound until the unit vocabulary is chosen (`docs/history/review/73/OPEN_ITEMS.md` item 24). The
 "modelled on the `axis` entry" wording in the field documentation is replaced. The signature
 line above is unchanged; whether it reaches this amendment is for the team (sign-off sheet,
 audit 2 D7c).
@@ -892,3 +892,5 @@ RE-DERIVED 2026-10-30 (thirty-three retire classes deleted, Jess Haley [one fold
 RE-DERIVED 2026-10-30 (`draft/linked_session.json` removed, Jess Haley [linked_session withdrawn], did_v2_linked_session_plan.md; `check_prose_counts` re-derives all nouns): **118 distinct V_eta class names** (was 119; -1: linked_session). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-10-30 (six more retire classes deleted, Jess Haley [one folder, final classes only], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **112 distinct V_eta class names** (was 118; -6: binaryseries_parameters, daqmetadatareader, daqmetadatareader_epochdata_ingested, ontology_image, ontology_label, ontology_table_row); tombstone classes compared: 19 (was 25). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-10-31 (four retire classes deleted, Jess Haley [retire check now], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **108 distinct V_eta class names** (was 112; -4: hartley_calc, hartley_reverse_correlation, reverse_correlation, ngrid); tombstone classes compared: 18 (was 19). Re-derive with `check_prose_counts`, do not quote these directly.

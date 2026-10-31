@@ -7,7 +7,6 @@
                 "class_name": "data"
             }
         ],
-        "maturity_level": "draft",
         "abstract": true
     },
     "depends_on": [

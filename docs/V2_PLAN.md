@@ -22,9 +22,11 @@ its `Built:` mark recorded. Open PRs left are not ours (NDI-matlab #1114,
 
 **Still pending to build** (`python3 tools/decision_citations.py --pending`):
 the sibling half of [markdown cleanup and rename]; under [one folder, final
-classes only], the in_progress dispositions, deleting each retire class and
-removing `maturity_level`; deleting `universalRenames` ([migrators read raw
-v1], #143).
+classes only], deleting the 21 retire classes that remain (no `in_progress`
+class and no `maturity_level` are left, and four retire classes were deleted,
+on 2026-10-31); deleting `universalRenames` ([migrators read raw
+v1], #143); did-schema #117 (`geneListMapping`, [gene list mapping is built]),
+whose DID-matlab build waits on GL1-GL7.
 
 **Questions for Jess (batch 3, not yet asked; Proposed, not decided):**
 - L1. NDI `TestLinkedSessions/testAnOlderLinkedSessionDocumentIsStillRead` is
@@ -33,6 +35,7 @@ v1], #143).
   (the class is withdrawn) or let the workflow allow it?
 - L2. Correction to the layout proposal: `quantity_list_meta.json` is written
   by `validate_v_eta.py` (D6), so it goes to `generated/`, not `registry/`.
+  ANSWERED 2026-10-31: [layout calls stand].
 - L3. Unit bindings (DID-matlab #320) are armed only by
   `DID_ENFORCE_UNIT_BINDINGS=1`. Writers give units outside the lists today
   (NDI Haley video time in `frame`; probe_geometry cm/nm; light-sheet axes).
@@ -48,11 +51,21 @@ v1], #143).
   `acquisition/` folders were not created; `value.json`, `calculation.json`,
   `data_body.json` stay at the top while `time_reference.json` is in its
   folder; NDI-matlab's locked `main` kept at 441530d0.
+  ANSWERED 2026-10-31: [layout calls stand] (the `relation/` and `acquisition/`
+  folders and the family roots are built on this branch).
 - L7. daqreader_ndr's confirmed set is stale since DID-matlab 77866d81 stopped
   writing `daqreader`: re-confirm it as `{acquisition_reader, entity
-  (software)}`?
+  (software)}`? ANSWERED 2026-10-31: [daqreader_ndr confirmed set].
 - L8. CLAUDE.md rule 1 still says "DO NOT WRITE TO `schemas/`", though plan
   documents now live in `docs/`. Extend it to `docs/plans/`?
+- GL. did-schema #117 (`geneListMapping`, [gene list mapping is built]); Jess will answer later. No NDI writer exists (the template `geneListMapping.json`/`.md` at the locked NDI main is the only v1 truth) and no corpus holds one.
+  - GL1. A mapping's ends must be gene-list `term` documents, but `gene_list.m` still passes v1 `geneList` through. Build item 21 (geneList -> standalone `term`) first, keeping the v1 id so `geneList_id_a`/`_b` resolve? Item 22 (derived_from to annotation/assembly datasets) too? ANSWERED 2026-10-31 (item 21 first, keeping a valid v1 id): [gene list mapping in the generic stage].
+  - GL2. `score` or `logical` when `has_score` is 0? With a score, what `scale` (rubric) term, since v1 records none?
+  - GL3. Keys: sparse pairs (one entry per `mapping.tsv` row, as v1 stores it) or a dense A x B grid? Inline values or a `sampled_body` parsed from `mapping.tsv` (no precedent for reading file contents in the generic stage)?
+  - GL4. `method` is one free-text string ("OrthoFinder v2.5.5"): split into a registered tool term + version, carry it, or add a registry row per tool?
+  - GL5. Homes for `symmetric` (a `directed_relation` cannot say "either direction"), `label`, and the recomputable `n_pairs`, `n_genes_mapped_a`, `n_genes_mapped_b` (drop like item 21's counts?).
+  - GL6. `mapping_type` other than `alias` (EMPTY:0000381) and `ortholog` (EMPTY:0000386): carry the document whole as v1?
+  - GL7. Build in the generic stage (`+migrators_j`) despite [migration not generalizable] / [v1 import stages], or in a per-dataset import? ANSWERED 2026-10-31 (generic): [gene list mapping in the generic stage].
 - Also held: ids for minted documents with no source id; carry-087 into
   carry-100; recognising a migrated element without the "ndi element class"
   assertion; Group vs ensemble; widening the equivalents fill (66 rows); a

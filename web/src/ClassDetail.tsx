@@ -813,9 +813,7 @@ function TargetSchema({ entry, onSelect }: {
     <details className="cw-target-schema" open>
       <summary>
         <code>{entry.class_name}</code>
-        <span className={`maturity-${entry.maturity_level ?? "meta"}`}>
-          {entry.maturity_level ?? "meta"}
-        </span>
+        <span className="maturity-meta">{entry.family ?? "meta"}</span>
         {entry.disposition === "retire" && (
           <span className="badge-retire">retire</span>
         )}

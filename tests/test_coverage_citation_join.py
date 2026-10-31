@@ -473,10 +473,11 @@ class TestTheRuleOnConstructedDocuments(unittest.TestCase):
         self.assertIn("TAG NOT UNIQUE", r["why"])
 
     def test_every_real_decided_by_line_is_tagged_unique_and_by_the_team(self):
-        """The record itself: no `Decided by` line under docs/ or review/
-        is rejected for its name, a missing tag or a shared tag."""
+        """The record itself: no `Decided by` line under docs/ (review/ moved to
+        docs/history/review/ on 2026-10-31) is rejected for its name, a missing
+        tag or a shared tag."""
         bad = []
-        for root in (DOCS, os.path.join(REPO_ROOT, "review")):
+        for root in (DOCS,):
             for dirpath, _dirs, files in os.walk(root):
                 for f in files:
                     if not f.endswith(".md") or f in dc.GENERATED_MARKDOWN:

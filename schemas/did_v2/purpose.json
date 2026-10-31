@@ -1,30 +1,28 @@
 {
     "document_class": {
-        "class_name": "undirected_relation",
+        "class_name": "purpose",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "relation"
+                "class_name": "base"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [
         {
-            "name": "entity_id",
+            "name": "interaction_id",
             "mustBeNonEmpty": false,
-            "documentation": "The unordered pair of entities (exactly two); order is meaningless.",
-            "must_refer_to_document_class": "entity",
+            "documentation": "The interaction(s) this purpose applies to.",
+            "must_refer_to_document_class": "interaction",
             "multiple": true,
-            "min_count": 2,
-            "max_count": 2,
+            "min_count": 1,
             "ordered": false
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "relation",
+            "name": "purpose",
             "type": "ontology_term",
             "blank_value": {
                 "node": "",
@@ -39,23 +37,11 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The relation, as a term. Bound (preferred) to the undirected rows of binding_registry_meta.relation_bindings, from which the allowed values are generated at build time (#73 audit 2 D5).",
+            "documentation": "The ontology-based 'why' of the interaction(s).",
             "constraints": {
                 "binding": {
-                    "root": "did_relation_undirected",
-                    "expansion": "value_set",
-                    "values": [
-                        {
-                            "node": "EMPTY:0000380",
-                            "name": "paired with"
-                        },
-                        {
-                            "node": "owl:sameAs",
-                            "name": "sameAs"
-                        }
-                    ],
                     "strength": "preferred",
-                    "source": "binding_registry_meta.relation_bindings"
+                    "node_form": "curie"
                 }
             },
             "fields": [
@@ -86,6 +72,21 @@
                     "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional: irreducible human prose about this purpose. Documentation, not queryable structured data. Was `comment` ([notes on three classes], [purpose renamed now], did_v2_go_forward_class_audit.md).",
+            "constraints": {
+                "maxLength": 4096
+            }
         }
     ]
 }

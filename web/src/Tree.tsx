@@ -130,11 +130,10 @@ function ClassLabel({
   selected: boolean;
   onSelect: (className: string) => void;
 }) {
-  const maturity = entry.maturity_level ?? "meta";
   const disposition = entry.disposition ?? "persist";
   const cls = [
     "tree-label",
-    `maturity-${maturity}`,
+    entry.is_meta ? "maturity-meta" : "",
     `disposition-${disposition}`,
     selected ? "selected" : "",
   ]

@@ -312,9 +312,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 81,
+      "consumed by migrator (no tombstone)": 83,
       "dissolved \u2192 subject": 1,
-      "retire": 22,
+      "retire": 20,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2,
@@ -378,8 +378,8 @@
       "by_stage_reached": {
         "0": 14,
         "1": 25,
-        "2": 17,
-        "3": 59,
+        "2": 16,
+        "3": 60,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -399,8 +399,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 56,
-          "no": 19,
+          "yes": 57,
+          "no": 18,
           "n/a": 8
         },
         "4": {
@@ -410,7 +410,7 @@
       "per_stage_satisfied_independently": {
         "1": 101,
         "2": 75,
-        "3": 56,
+        "3": 57,
         "4": 0
       },
       "capped": {
@@ -423,8 +423,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 12,
           "1": 28,
-          "2": 19,
-          "3": 56,
+          "2": 18,
+          "3": 57,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -625,7 +625,7 @@
             "did_v2_OPEN_WORK.md": 2,
             "did_v2_ngrid_family_findings.md": 1,
             "did_v2_image_model_plan.md": 2,
-            "review/73/OPEN_ITEMS.md": 2,
+            "OPEN_ITEMS.md": 2,
             "did_v2_openminds_family_record.md": 1,
             "did_v2_method_parameters_plan.md": 4,
             "did_v2_stimulus_parameter_plan.md": 2,
@@ -694,20 +694,18 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 94,
-          "documents_read_outside_docs": [
-            "review/73/OPEN_ITEMS.md"
-          ],
+          "documents_read": 121,
+          "documents_read_outside_docs": [],
           "documents_excluded_as_generated": [
             "did_v2_STATUS.md",
             "did_v2_coverage_ledger.md",
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 605,
+          "accepted_lines": 618,
           "accepted_lines_by_kind": {
-            "Decided by": 488,
-            "TEAM-SIGN-OFF": 117
+            "Decided by": 498,
+            "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
             {
@@ -730,10 +728,26 @@
             }
           ],
           "classes_citing": 73,
-          "citations_total": 85,
+          "citations_total": 86,
           "citations_unresolved": [],
-          "lines_cited": 43,
+          "lines_cited": 44,
           "uncited_lines": [
+            {
+              "document": "OPEN_ITEMS.md",
+              "line": 349,
+              "kind": "TEAM-SIGN-OFF",
+              "tag": "lightsheet reader questions R1-R6",
+              "date": "2026-10-19",
+              "anchor": "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]"
+            },
+            {
+              "document": "OPEN_ITEMS.md",
+              "line": 362,
+              "kind": "TEAM-SIGN-OFF",
+              "tag": "developed_by, hosted_by, distributed_as",
+              "date": "2026-10-19",
+              "anchor": "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]"
+            },
             {
               "document": "did_v2_clock_alignment_cluster_plan.md",
               "line": 638,
@@ -3528,14 +3542,6 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1550,
-              "kind": "Decided by",
-              "tag": "purpose class",
-              "date": "2026-10-27",
-              "anchor": "Decided by Jess Haley, 2026-10-27 [purpose class]: ("
-            },
-            {
-              "document": "did_v2_go_forward_class_audit.md",
               "line": 1552,
               "kind": "Decided by",
               "tag": "redeclarations only narrow",
@@ -4263,6 +4269,86 @@
               "anchor": "Decided by Jess Haley, 2026-10-30 [schema folders by"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1734,
+              "kind": "Decided by",
+              "tag": "family roots and relation folder",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [family roots and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1736,
+              "kind": "Decided by",
+              "tag": "retire check now",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [retire check now]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1738,
+              "kind": "Decided by",
+              "tag": "purpose renamed now",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1740,
+              "kind": "Decided by",
+              "tag": "acquisition folder",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [acquisition folder]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1742,
+              "kind": "Decided by",
+              "tag": "clock alignment in time_reference",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [clock alignment in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1744,
+              "kind": "Decided by",
+              "tag": "reference papers as v2 guidance",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [reference papers as v2"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1746,
+              "kind": "Decided by",
+              "tag": "gene list mapping is built",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [gene list mapping is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1748,
+              "kind": "Decided by",
+              "tag": "gene list mapping in the generic stage",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [gene list mapping in the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1750,
+              "kind": "Decided by",
+              "tag": "daqreader_ndr confirmed set",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1752,
+              "kind": "Decided by",
+              "tag": "layout calls stand",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [layout calls stand]: ("
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -4960,7 +5046,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 846,
+              "line": 863,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": null,
@@ -4968,7 +5054,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1071,
+              "line": 1088,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-20",
               "date": "2026-10-21",
@@ -4976,7 +5062,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1073,
+              "line": 1090,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet amendments 2026-10-21",
               "date": "2026-10-21",
@@ -4984,7 +5070,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1074,
+              "line": 1091,
               "kind": "TEAM-SIGN-OFF",
               "tag": "tenet T20, group entities",
               "date": "2026-10-21",
@@ -4992,7 +5078,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1076,
+              "line": 1093,
               "kind": "Decided by",
               "tag": "tenet signature text",
               "date": "2026-10-22",
@@ -5000,7 +5086,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1078,
+              "line": 1095,
               "kind": "Decided by",
               "tag": "T1 and T5 signed",
               "date": "2026-10-22",
@@ -5008,7 +5094,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1080,
+              "line": 1097,
               "kind": "Decided by",
               "tag": "T2 time-varying property",
               "date": "2026-10-22",
@@ -5016,7 +5102,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1082,
+              "line": 1099,
               "kind": "Decided by",
               "tag": "ordered inputs",
               "date": "2026-10-22",
@@ -5024,7 +5110,7 @@
             },
             {
               "document": "did_v2_tenets.md",
-              "line": 1084,
+              "line": 1101,
               "kind": "Decided by",
               "tag": "tenet stale names",
               "date": "2026-10-22",
@@ -5215,20 +5301,28 @@
               "anchor": "Decided by Jess Haley, 2026-10-23 [contrast sensitivity"
             },
             {
-              "document": "review/73/OPEN_ITEMS.md",
-              "line": 349,
+              "document": "team_signoff_lines_DRAFT.md",
+              "line": 13,
               "kind": "TEAM-SIGN-OFF",
-              "tag": "lightsheet reader questions R1-R6",
-              "date": "2026-10-19",
-              "anchor": "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]"
+              "tag": "calculator mixin dropped (#73)",
+              "date": "2026-09-23",
+              "anchor": "TEAM-SIGN-OFF [calculator mixin dropped (#73)]"
             },
             {
-              "document": "review/73/OPEN_ITEMS.md",
-              "line": 362,
+              "document": "team_signoff_lines_DRAFT.md",
+              "line": 16,
               "kind": "TEAM-SIGN-OFF",
-              "tag": "developed_by, hosted_by, distributed_as",
-              "date": "2026-10-19",
-              "anchor": "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]"
+              "tag": "observation vs calculation (#73)",
+              "date": "2026-09-23",
+              "anchor": "TEAM-SIGN-OFF [observation vs calculation (#73)]"
+            },
+            {
+              "document": "team_signoff_lines_DRAFT.md",
+              "line": 19,
+              "kind": "TEAM-SIGN-OFF",
+              "tag": "tuning restructure (#73)",
+              "date": "2026-09-23",
+              "anchor": "TEAM-SIGN-OFF [tuning restructure (#73)]"
             }
           ]
         }
@@ -7400,7 +7494,6 @@
         "entity"
       ],
       "decided_targets": [
-        "daqreader",
         "acquisition_reader",
         "entity (software)"
       ],
@@ -7413,14 +7506,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 3,
+        "schema_targets_named": 2,
         "schema_targets_built": [
           "acquisition_reader",
-          "daqreader",
           "entity (software)"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7485,10 +7577,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -7500,13 +7592,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `daqreader`, `acquisition_reader`, `entity (software)` are not all among what the migrator emits today (`acquisition_reader`, `assertion + text`, `entity`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7516,7 +7608,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10373,8 +10465,8 @@
     },
     {
       "v1_class": "hartley_calc",
-      "veta_class": "hartley_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -11527,10 +11619,10 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "#73 lightsheet walkthrough L1-L4 (review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line; the migrator points that followed are signed: the [lightsheet migrator points 1-11] sign-off in review/73/OPEN_ITEMS.md, jess 2026-10-19), built on items 29, 51 and 58 of did_v2_spatial_transcriptomics_plan.md: a level that HOLDS bytes (chunk.bin_1..N) becomes a sampled_body of the pyramid's observation + intensity (chunk.bin_k -> body_data_{k-1}; chunks -> each key's chunk; fill_value; level 0 the measurement, reduced levels `redundant` with the body condition `summary statistic: mean|maximum`); codec blosc -> compression 'blosc', raw -> none, codec_params dropped (L4). A level holding NO bytes (the writer's default, materializeChunks false) folds to nothing, counted, after the migrator confirms no inbound edge.",
+      "how": "#73 lightsheet walkthrough L1-L4 (docs/history/review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line; the migrator points that followed are signed: the [lightsheet migrator points 1-11] sign-off in docs/history/review/73/OPEN_ITEMS.md, jess 2026-10-19), built on items 29, 51 and 58 of did_v2_spatial_transcriptomics_plan.md: a level that HOLDS bytes (chunk.bin_1..N) becomes a sampled_body of the pyramid's observation + intensity (chunk.bin_k -> body_data_{k-1}; chunks -> each key's chunk; fill_value; level 0 the measurement, reduced levels `redundant` with the body condition `summary statistic: mean|maximum`); codec blosc -> compression 'blosc', raw -> none, codec_params dropped (L4). A level holding NO bytes (the writer's default, materializeChunks false) folds to nothing, counted, after the migrator confirms no inbound edge.",
       "target_flags": "No migrator yet (DID-matlab follow-up once NDI-matlab#979 merged). L4's blosc self-description is to be checked on a real NDI chunk by the migrator test.",
       "decided_by_citation": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "resolved": true,
         "line": 317,
@@ -11544,7 +11636,7 @@
       },
       "decision_citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -11561,7 +11653,7 @@
       "governance": {
         "state": "decided",
         "signoff": {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -11573,7 +11665,7 @@
           "matched_name": "lightsheetZarrLevel",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `review/73/OPEN_ITEMS.md` [lightsheet migrator points 1-11] (as `lightsheetZarrLevel`), which resolves to the TEAM-SIGN-OFF line at `review/73/OPEN_ITEMS.md`:317. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `OPEN_ITEMS.md` [lightsheet migrator points 1-11] (as `lightsheetZarrLevel`), which resolves to the TEAM-SIGN-OFF line at `OPEN_ITEMS.md`:317. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -11669,10 +11761,10 @@
         "entity (subject)"
       ],
       "second_pass": [],
-      "how": "#73 lightsheet walkthrough L1-L4 (review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line; the migrator points that followed are signed: the [lightsheet migrator points 1-11] sign-off in review/73/OPEN_ITEMS.md, jess 2026-10-19), built on items 29, 51 and 58 of did_v2_spatial_transcriptomics_plan.md: the pyramid becomes an observation + intensity of its subject over keys [t, c, z, y, x] (axes, voxel size, translation and units from the pyramid; dtype -> datum_type + byte_order), element_id -> instrument_id, pipeline_version -> a software entity; the OME-Zarr store (source_file_id's fileReference) becomes an unheld opaque_body of the observation with keys for the full-resolution array; its .zattrs MD5 does NOT go into content_hash.",
+      "how": "#73 lightsheet walkthrough L1-L4 (docs/history/review/73/OPEN_ITEMS.md, walked 2026-09-25, agreed with no sign-off line; the migrator points that followed are signed: the [lightsheet migrator points 1-11] sign-off in docs/history/review/73/OPEN_ITEMS.md, jess 2026-10-19), built on items 29, 51 and 58 of did_v2_spatial_transcriptomics_plan.md: the pyramid becomes an observation + intensity of its subject over keys [t, c, z, y, x] (axes, voxel size, translation and units from the pyramid; dtype -> datum_type + byte_order), element_id -> instrument_id, pipeline_version -> a software entity; the OME-Zarr store (source_file_id's fileReference) becomes an unheld opaque_body of the observation with keys for the full-resolution array; its .zattrs MD5 does NOT go into content_hash.",
       "target_flags": "No migrator yet (DID-matlab follow-up once NDI-matlab#979 merged).",
       "decided_by_citation": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "resolved": true,
         "line": 317,
@@ -11686,7 +11778,7 @@
       },
       "decision_citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -11703,7 +11795,7 @@
       "governance": {
         "state": "decided",
         "signoff": {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -11715,7 +11807,7 @@
           "matched_name": "lightsheetZarrPyramid",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `review/73/OPEN_ITEMS.md` [lightsheet migrator points 1-11] (as `lightsheetZarrPyramid`), which resolves to the TEAM-SIGN-OFF line at `review/73/OPEN_ITEMS.md`:317. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `OPEN_ITEMS.md` [lightsheet migrator points 1-11] (as `lightsheetZarrPyramid`), which resolves to the TEAM-SIGN-OFF line at `OPEN_ITEMS.md`:317. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -12192,8 +12284,8 @@
     },
     {
       "v1_class": "ngrid",
-      "veta_class": "ngrid",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -12997,9 +13089,9 @@
       },
       "carried": [],
       "second_pass": [
-        "interaction_purpose"
+        "purpose"
       ],
-      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 assertion + term on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 assertion + term on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `purpose` (named `interaction_purpose` until [purpose renamed now], 2026-10-31), which needs the migrated graph to resolve which interactions the purpose covers.",
       "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name",
       "decided_by_citation": null,
       "decision_citations": [],
@@ -19032,7 +19124,7 @@
         "resolved": true,
         "line": 574,
         "kind": "TEAM-SIGN-OFF",
-        "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
+        "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
         "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
         "matches": 1,
         "why": null,
@@ -19046,7 +19138,7 @@
           "resolved": true,
           "line": 574,
           "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
+          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
           "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
           "matches": 1,
           "why": null,
@@ -19063,7 +19155,7 @@
           "resolved": true,
           "line": 574,
           "kind": "TEAM-SIGN-OFF",
-          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
+          "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
           "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
           "matches": 1,
           "why": null,

@@ -6,7 +6,9 @@ and item (6) of [markdown cleanup and rename]:
 
   schemas/did_v2/      class files only, in subfolders by family (a folder
                        means a family, never a tier or maturity): the core
-                       classes at the top, and FAMILIES below; the retire
+                       classes at the top, and FAMILIES below, each
+                       family's root class in its own folder ([family roots
+                       and relation folder]); the retire
                        classes that remain live in `retiring/`. Class names
                        are unique across the tree.
   schemas/registry/    authored data: the term, binding, CURIE and carry
@@ -42,7 +44,19 @@ import os
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SET = "did_v2"
-FAMILIES = ("value", "calculation", "data_body", "time_reference")
+# [family roots and relation folder] (2026-10-31, amending [schema folders by
+# family]): a family's root class lives in its family folder, as
+# `time_reference/time_reference.json` does; `relation/` holds relation,
+# directed_relation and undirected_relation. ROOTED_FAMILIES are the folders
+# named after their root class; validate_v_eta checks that the root is there
+# and that no class named after a family sits anywhere else.
+ROOTED_FAMILIES = ("value", "calculation", "data_body", "time_reference", "relation")
+# [acquisition folder] (2026-10-31): `acquisition/` groups the acquisition
+# classes (acquisition_system, acquisition_channels, acquisition_reader,
+# epoch_file_pattern, epoch_parameter_reader, ingestion_manifest); it is a
+# family folder with no root class.
+GROUPING_FAMILIES = ("acquisition",)
+FAMILIES = ROOTED_FAMILIES + GROUPING_FAMILIES
 RETIRING = "retiring"
 FOLDERS = FAMILIES + (RETIRING,)
 CORE = "core"   # the family name of a class at the top of schemas/did_v2/
