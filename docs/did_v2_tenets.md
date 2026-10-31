@@ -24,6 +24,23 @@ then rebuilds the subject side around it.
 
 ---
 
+## V2 guidance (reference papers)
+
+Two papers V2 follows. Each copy is kept unmodified in `docs/references/`, with a
+note giving its citation and licence.
+
+- **Bandrowski et al. 2016, "The Ontology for Biomedical Investigations."** PLoS ONE
+  11(4): e0154556, doi:10.1371/journal.pone.0154556
+  ([PDF](references/bandrowski_2016_obi.pdf), [note](references/bandrowski_2016_obi.md)).
+  How an investigation is described (planned process, assay, device, specimen); OBI
+  terms fill V2 vocabulary slots.
+- **Lepsky et al. 2026, "A motif for domain-specific analysis applets that are easy to
+  learn, reuse, test, and to compose into pipelines: application to vision science."**
+  bioRxiv, doi:10.64898/2026.04.27.721136
+  ([PDF](references/lepsky_2026_calculators.pdf), [note](references/lepsky_2026_calculators.md)).
+  The NDIcalc-vis calculators whose outputs the V2 calculation classes must stay
+  faithful to.
+
 ## The tenets
 
 ### T1 — The subject is a bare identity; there is no privileged level.
