@@ -155,27 +155,27 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHICH timeline within the referent the offsets are measured on. NDI times an epoch on several clocks at once and they drift, so '10 seconds in' is ambiguous until the clock is named. FOUR terms (#67): the `approx_` variants de-encode to time_reference.clock_tolerance, `no_time` means NO REFERENCE AT ALL, and `inherited` is what `referent_id` already says. Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any repository in scope; the evidence is in did_v2_clock_alignment_cluster_plan.md and tools/check_empty_ontology_nodes.py.",
+                    "documentation": "WHICH timeline within the referent the offsets are measured on. NDI times an epoch on several clocks at once and they drift, so '10 seconds in' is ambiguous until the clock is named. FOUR terms (#67): the `approx_` variants de-encode to time_reference.clock_tolerance, `no_time` means NO REFERENCE AT ALL, and `inherited` is what `referent_id` already says. Each value is a registered term ([clock terms get nodes], did_v2_go_forward_class_audit.md): utc wikidata:Q1536 \"UTC\", dev_local_time EMPTY:0000403 \"device local time\", dev_global_time EMPTY:0000404 \"device global time\", exp_global_time EMPTY:0000405 \"experiment global time\"; the stored name is the term label, and DID-matlab and NDI-matlab compare the node.",
                     "constraints": {
                         "binding": {
                             "root": "did_clocktype",
                             "expansion": "value_set",
                             "values": [
                                 {
-                                    "node": "",
-                                    "name": "utc"
+                                    "node": "wikidata:Q1536",
+                                    "name": "UTC"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "dev_local_time"
+                                    "node": "EMPTY:0000403",
+                                    "name": "device local time"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "dev_global_time"
+                                    "node": "EMPTY:0000404",
+                                    "name": "device global time"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "exp_global_time"
+                                    "node": "EMPTY:0000405",
+                                    "name": "experiment global time"
                                 }
                             ],
                             "strength": "required",

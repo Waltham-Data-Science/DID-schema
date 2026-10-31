@@ -383,7 +383,12 @@ BASELINE_MIGRATORS = 16
 # filter is a `method`, whose design and band terms are registered nodes
 # (Wikidata items and EMPTY:0000387-0000396). Left (20): did_clocktype 8,
 # did_response_type 10, did_entity_type 1, did_relation_clock_alignment 1.
-BASELINE_SCHEMAS = 20
+#
+# LOWERED 20 -> 12 on 2026-10-31 ([clock terms get nodes], Jess Haley,
+# 2026-10-26): the did_clocktype values hold their registered nodes
+# (wikidata:Q1536, EMPTY:0000403-0000405) on both carriers. Left (12):
+# did_response_type 10, did_entity_type 1, did_relation_clock_alignment 1.
+BASELINE_SCHEMAS = 12
 
 CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
 # THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that
