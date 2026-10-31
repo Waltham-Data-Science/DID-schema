@@ -46,7 +46,7 @@ WHERE A CITATION MAY POINT
 A document is a bare file name (`did_v2_epoch_plan.md`), which resolves to the
 unique file of that name under `docs/` (`tools/doc_paths.py`; [markdown cleanup
 and rename] part (5)), or a path from the repository root
-(`review/73/OPEN_ITEMS.md`). The generated markdown
+(`docs/history/review/73/OPEN_ITEMS.md`). The generated markdown
 files (GENERATED_MARKDOWN) are never read: they quote decisions, they do not
 hold them.
 
@@ -233,18 +233,18 @@ CITATIONS = {
     # [control as covariate]": the class becomes no V2 document.
     "control_stimulus_ids": [("did_v2_stimulus_response_model_plan.md", "control as covariate")],
     "probe_geometry": [_ST_REVIEW],         # item 50: position_observation "is now `probe_geometry`'s decided target"
-    # The [#73 audit 2, D1-D13] line signs D1-D13 of review/73/audit2_SUMMARY.md's
+    # The [#73 audit 2, D1-D13] line signs D1-D13 of docs/history/review/73/audit2_SUMMARY.md's
     # decision log; D7 (a) reads "`vmspikefit` -> `model_fit_calculation`".
     "vmspikefit": [_ST_AUDIT2],
     # Named in the 2026-09-29 line: "`kilosort_clusters`, `kiasort_clusters` and
     # `jrclust_clusters` migrate to `label_calculation`".
     "kilosort_clusters": [(_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
     "kiasort_clusters": [(_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
-    # Signed in review/73/OPEN_ITEMS.md: "the pyramid is an intensity observation
+    # Signed in docs/history/review/73/OPEN_ITEMS.md: "the pyramid is an intensity observation
     # ...; level 0 is the measurement, reduced levels redundant; ... the store ...
     # an unheld opaque_body ...; the software entity is the builder".
-    "lightsheetZarrPyramid": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
-    "lightsheetZarrLevel": [("review/73/OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
+    "lightsheetZarrPyramid": [("OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
+    "lightsheetZarrLevel": [("OPEN_ITEMS.md", "lightsheet migrator points 1-11")],
     # ADDED 2026-10-21 (later the same day): Jess's two "Decided by Jess Haley"
     # lines of that date. The bath line: "A bath is a manipulation whose value
     # is the formulation (pointed at through `value_id`), not a dose".

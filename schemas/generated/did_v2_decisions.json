@@ -956,7 +956,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "line": 317,
         "kind": "TEAM-SIGN-OFF"
@@ -964,7 +964,7 @@
       "decision": "jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.",
       "citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -980,7 +980,7 @@
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
-        "document": "review/73/OPEN_ITEMS.md",
+        "document": "OPEN_ITEMS.md",
         "tag": "lightsheet migrator points 1-11",
         "line": 317,
         "kind": "TEAM-SIGN-OFF"
@@ -988,7 +988,7 @@
       "decision": "jess@walthamdatascience.com / 2026-10-19 -- points 1-11 as recorded above: the pyramid is an intensity observation anchored during its session by the batch pass; keys on each level's body; level 0 is the measurement, reduced levels redundant; body members 0-based; the store (OME-Zarr or SmartSPIM TIFF folder) an unheld opaque_body with a bound format term; the software entity is the builder, pipeline_version its version; units and channel names copied from the pyramid; the terms filled from OLS; a level's body keeps the level's id.",
       "citations": [
         {
-          "document": "review/73/OPEN_ITEMS.md",
+          "document": "OPEN_ITEMS.md",
           "tag": "lightsheet migrator points 1-11",
           "resolved": true,
           "line": 317,
@@ -1875,7 +1875,7 @@
         "line": 574,
         "kind": "TEAM-SIGN-OFF"
       },
-      "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
+      "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
       "citations": [
         {
           "document": "did_v2_spatial_transcriptomics_plan.md",

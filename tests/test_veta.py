@@ -3783,7 +3783,7 @@ def test_conditions_have_amendment_2_shape():
 
 
 def test_bodies_split_by_who_lays_out_the_bytes():
-    """Lightsheet walkthrough L1-L3 (2026-09-25, review/73/OPEN_ITEMS.md; not
+    """Lightsheet walkthrough L1-L3 (2026-09-25, docs/history/review/73/OPEN_ITEMS.md; not
     signed). `keys`, `complete` and `conditions` live on data_body, so an opaque
     body may describe its array and any body may carry a one-value fact of its own;
     only sampled_body declares a byte layout, and it gains `fill_value`.

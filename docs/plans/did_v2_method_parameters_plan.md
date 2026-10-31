@@ -854,7 +854,7 @@ Amendment 1 did for the key entry this one was modelled on. The `parameter[]` en
 `{variable, unit, source_unit, value {value, source_value}, term, text}` — the key /
 condition entry's shape — at all three mounts (`subject_interaction`, `method_parameters`,
 `clock_alignment_configuration`). The canonical `value.value` is in `unit`, a term left
-unbound until the unit vocabulary is chosen (`review/73/OPEN_ITEMS.md` item 24). The
+unbound until the unit vocabulary is chosen (`docs/history/review/73/OPEN_ITEMS.md` item 24). The
 "modelled on the `axis` entry" wording in the field documentation is replaced. The signature
 line above is unchanged; whether it reaches this amendment is for the team (sign-off sheet,
 audit 2 D7c).

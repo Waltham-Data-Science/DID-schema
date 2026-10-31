@@ -370,8 +370,8 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `jrclust_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kiasort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kilosort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
-| `lightsheetZarrLevel` | consumed by migrator (no tombstone) | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
-| `lightsheetZarrPyramid` | consumed by migrator (no tombstone) | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (review/73/OPEN_ITEMS.md:317). |
+| `lightsheetZarrLevel` | consumed by migrator (no tombstone) | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (OPEN_ITEMS.md:317). |
+| `lightsheetZarrPyramid` | consumed by migrator (no tombstone) | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (OPEN_ITEMS.md:317). |
 | `neuron_extracellular` | consumed by migrator (no tombstone) | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
 | `ngrid` | consumed by migrator (no tombstone) | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (did_v2_image_model_plan.md:154). |
 | `ontologyImage` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
@@ -413,12 +413,14 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 94 document(s) read (3 generated copies excluded); 610 decision line(s) accepted, 2 rejected; 44 cited by a class, 566 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 615 decision line(s) accepted, 2 rejected; 44 cited by a class, 571 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
 field). If one decides a class's disposition, that class should cite it.
 
+- lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (OPEN_ITEMS.md:349).
+- developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (OPEN_ITEMS.md:362).
 - sync configuration amendment 1. "TEAM-SIGN-OFF [sync configuration amendment 1]" (did_v2_clock_alignment_cluster_plan.md:638).
 - data_body. "TEAM-SIGN-OFF [data_body]: jess@walthamdatascience.com /" (did_v2_data_body_model_plan.md:673).
 - data_body amendment 4. "TEAM-SIGN-OFF [data_body amendment 4]" (did_v2_data_body_model_plan.md:1287).
@@ -864,6 +866,8 @@ field). If one decides a class's disposition, that class should cite it.
 - purpose renamed now. "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: (" (did_v2_go_forward_class_audit.md:1738).
 - acquisition folder. "Decided by Jess Haley, 2026-10-31 [acquisition folder]: (" (did_v2_go_forward_class_audit.md:1740).
 - clock alignment in time_reference. "Decided by Jess Haley, 2026-10-31 [clock alignment in" (did_v2_go_forward_class_audit.md:1742).
+- reference papers as v2 guidance. "Decided by Jess Haley, 2026-10-31 [reference papers as v2" (did_v2_go_forward_class_audit.md:1744).
+- gene list mapping is built. "Decided by Jess Haley, 2026-10-31 [gene list mapping is" (did_v2_go_forward_class_audit.md:1746).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -951,15 +955,15 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:529).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (did_v2_tenets.md:846).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (did_v2_tenets.md:1071).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (did_v2_tenets.md:1073).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (did_v2_tenets.md:1074).
-- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (did_v2_tenets.md:1076).
-- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (did_v2_tenets.md:1078).
-- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (did_v2_tenets.md:1080).
-- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (did_v2_tenets.md:1082).
-- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (did_v2_tenets.md:1084).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (did_v2_tenets.md:863).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (did_v2_tenets.md:1088).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (did_v2_tenets.md:1090).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (did_v2_tenets.md:1091).
+- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (did_v2_tenets.md:1093).
+- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (did_v2_tenets.md:1095).
+- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (did_v2_tenets.md:1097).
+- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (did_v2_tenets.md:1099).
+- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (did_v2_tenets.md:1101).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (did_v2_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (did_v2_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (did_v2_term_registry_plan.md:180).
@@ -983,8 +987,9 @@ field). If one decides a class's disposition, that class should cite it.
 - significance with results. "Decided by Jess Haley, 2026-10-22 [significance with" (did_v2_tuning_model_plan.md:269).
 - calculator units. "Decided by Jess Haley, 2026-10-22 [calculator units]" (did_v2_tuning_model_plan.md:271).
 - contrast sensitivity lossless. "Decided by Jess Haley, 2026-10-23 [contrast sensitivity" (did_v2_tuning_model_plan.md:273).
-- lightsheet reader questions R1-R6. "TEAM-SIGN-OFF [lightsheet reader questions R1-R6]" (review/73/OPEN_ITEMS.md:349).
-- developed_by, hosted_by, distributed_as. "TEAM-SIGN-OFF [developed_by, hosted_by, distributed_as]" (review/73/OPEN_ITEMS.md:362).
+- calculator mixin dropped (#73). "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (team_signoff_lines_DRAFT.md:13).
+- observation vs calculation (#73). "TEAM-SIGN-OFF [observation vs calculation (#73)]" (team_signoff_lines_DRAFT.md:16).
+- tuning restructure (#73). "TEAM-SIGN-OFF [tuning restructure (#73)]" (team_signoff_lines_DRAFT.md:19).
 
 ## v1 source side (from the coverage ledger)
 

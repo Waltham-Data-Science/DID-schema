@@ -345,7 +345,7 @@ Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `o
       inheritance (audit 19).
 
 58. **Bodies split by who lays out the bytes** (2026-09-25, the lightsheet walkthrough
-    L1–L4, prompted by VH-Lab/NDI-matlab#979; record in `review/73/OPEN_ITEMS.md`).
+    L1–L4, prompted by VH-Lab/NDI-matlab#979; record in `docs/history/review/73/OPEN_ITEMS.md`).
     `sampled_body` holds raw bytes V_eta lays out (`byte_order`, `datum_order`, `chunk`,
     new `fill_value`); `opaque_body` holds bytes laid out by their own `format`. `keys`,
     `complete` and `key_labels_id` move up to `data_body` (keys required on a sampled
@@ -544,7 +544,7 @@ Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `o
     keyed by the statement's `variable`.
 
 72. **Audit 2 decisions D2-D13** (2026-09-29, jess; decided, not signed; BUILT together at
-    the end of the walkthrough). The record is `review/73/audit2_SUMMARY.md`'s decision log;
+    the end of the walkthrough). The record is `docs/history/review/73/audit2_SUMMARY.md`'s decision log;
     the build is the "#73 AUDIT 2 BATCHED BUILD" block of `tools/build_v_eta.py`. In short:
     one fit entry (D2); tuning / contrast keyed by `keys`, bound `response_type`,
     `response_unit` on every response type (D3); a `unit` on the parameter entry (D4);
@@ -571,7 +571,7 @@ change (PR #76 checklists); the per-member hash (a recorded gap).
 
 TEAM-SIGN-OFF [spatial_transcriptomics_family]: jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).
 
-TEAM-SIGN-OFF [#73 audit 2, D1-D13]: jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).
+TEAM-SIGN-OFF [#73 audit 2, D1-D13]: jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).
 
 ## G. Amendment 1 — a `strain` can be an ingredient (2026-10-02)
 

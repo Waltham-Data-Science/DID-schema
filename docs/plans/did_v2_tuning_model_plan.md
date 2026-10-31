@@ -231,7 +231,7 @@ read either. Closing all of this is the DID-matlab half of #73.
 ## Amendment — #73 audit 2 (2026-09-29, jess; decided, not signed)
 
 Recorded as amendments to the signed shape above; no signature line is added or changed here.
-The decisions are in `review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
+The decisions are in `docs/history/review/73/audit2_SUMMARY.md` (decision log, D2 and D3).
 
 - **D2 — one fit entry.** `model_fit[].coefficients` is no longer a structure with no declared
   fields: it is a NAMED list, `coefficients[] {variable, value}`, the same entry

@@ -172,7 +172,7 @@ only because its child, `web_resource`, did; the host itself was never meant to 
 unrecorded, and the Haley import then listed the NDI Cloud copy's host as having no place.
 The stored copy stays one of the dataset's identifiers, as section 7 says; `stored_at` and
 `has_homepage` stay retired. Built in `tools/build_v_eta.py` (relation rows, beside
-`developed_by`, software -> organization, added the same day); see `review/73/OPEN_ITEMS.md`.
+`developed_by`, software -> organization, added the same day); see `docs/history/review/73/OPEN_ITEMS.md`.
 
 To be signed: hosted_by returns with the dataset as its child; developed_by and distributed_as are added
 TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-19 -- hosted_by returns (dataset -> organization); developed_by (software -> organization) and distributed_as (strain -> product) are added

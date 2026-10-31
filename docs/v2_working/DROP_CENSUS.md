@@ -101,7 +101,7 @@ Corpus abbreviations: **Soph**, **2021** (20211116), **Dab**, **JH**.
 
 ### Cross-reference: the audit's "What blocks a lossless generic stage" lists and the earlier table
 
-The audit lists are in `review/corpus-code-audit-2026-10-24/{DID-matlab,NDI-matlab}.md`. The earlier table is `carry_fields_TABLE.md`.
+The audit lists are in `docs/history/review/corpus-code-audit-2026-10-24/{DID-matlab,NDI-matlab}.md`. The earlier table is `carry_fields_TABLE.md`.
 
 - **Changed by the lossless build:** DID items 1-9, 13, 15, the element half of 14, the treatment half of 14, and the universalRenames half of 10. NDI items 2, 4, 5, 7, 8 and 12.
 - **Not changed** (file not in the diff):
