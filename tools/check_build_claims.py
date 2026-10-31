@@ -129,7 +129,7 @@ def find_repo(name):
 def signature_index():
     """(signature names, plan documents carrying >=1 signature).
 
-    Read from the documents themselves rather than from V_eta_decisions.json:
+    Read from the documents themselves rather than from did_v2_decisions.json:
     the generated artifact groups by FAMILY, and a comment names whatever it
     names.
 

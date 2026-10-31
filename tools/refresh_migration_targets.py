@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Refresh the `targets` field of `schemas/V_eta_migration_targets.json`.
+"""Refresh the `targets` field of `schemas/generated/did_v2_migration_targets.json`.
 
 WHAT THIS TOOL OWNS, AND WHAT IT DELIBERATELY DOES NOT.
-`V_eta_migration_targets.json` mixes two kinds of statement, and the file's own
-`_comment` draws the line:
+The migration target map holds two kinds of statement. Since [schema folders
+by family] they are two files: the generated half,
+`schemas/generated/did_v2_migration_targets.json` (`targets`,
+`target_completeness`), which this tool writes, and the authored half,
+`schemas/registry/did_v2_migration_decisions.json`, which it only reads (the
+row set is the authored file's). The line between them:
 
     targets      "the V_eta document class(es) its migrator ACTUALLY EMITS"
                  -- a fact about code, MECHANICALLY DERIVABLE.
@@ -111,11 +115,12 @@ import json
 import os
 import re
 import sys
-from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_ROOT = os.path.dirname(HERE)
-TARGETS_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+TARGETS_JSON = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_migration_targets.json")
+sys.path.insert(0, HERE)
+import schema_paths  # noqa: E402
 
 
 def _load(name, path):
@@ -600,7 +605,7 @@ def entry_points():
 #                       self-target passthrough at `targets_for` is never
 #                       derived. Rows LOSE targets and the tool reports a
 #                       smaller derivation as if it were the answer -- and this
-#                       one writes V_eta_migration_targets.json.
+#                       one writes did_v2_migration_targets.json.
 #   refresh()           `veta = None` skips the INSTRUMENT CHECK entirely, so
 #                       the line that says how many derived names are absent
 #                       from the built schema set does not appear at all. A
@@ -872,8 +877,10 @@ def _rel(path):
 # ---------------------------------------------------------------------------
 
 def refresh(write=True, out=sys.stdout):
-    doc = json.loads(Path(TARGETS_JSON).read_text())
+    doc = schema_paths.load_migration_targets(SCHEMA_ROOT)
     classes = doc["classes"]
+    with open(TARGETS_JSON) as fh:
+        gen_doc = json.load(fh)
     an = Analyser()
 
     rows = sorted(classes)
@@ -1044,8 +1051,12 @@ def refresh(write=True, out=sys.stdout):
         p("")
 
     if write and (changed or completeness_changed):
+        # Only the generated half is written; the authored columns live in
+        # schemas/registry/did_v2_migration_decisions.json and are never
+        # touched here ([schema folders by family]).
+        gen_doc["classes"] = schema_paths.split_migration_targets(doc)[0]
         with open(TARGETS_JSON, "w") as fh:
-            json.dump(doc, fh, indent=2, ensure_ascii=False)
+            json.dump(gen_doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
         p(f"WROTE {TARGETS_JSON}")
     elif not (changed or completeness_changed):

@@ -7,11 +7,12 @@ group holds of each member.
 import json
 from pathlib import Path
 
-STABLE = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable"
+CLASSES = Path(__file__).resolve().parent.parent / "schemas/did_v2"
 
 
 def _fields(cls):
-    with (STABLE / f"{cls}.json").open() as f:
+    path = next(CLASSES.rglob(f"{cls}.json"))   # its family folder
+    with path.open() as f:
         return {x["name"]: x for x in json.load(f)["fields"]}
 
 

@@ -106,7 +106,7 @@ Column totals: assertion 30, observation 32, manipulation 14, calculation 10, pl
    - The edge was added "at the team's direction" on 2026-08-11 (`tools/build_v_eta.py:6647-6649`), with no sign-off. The same comment says the emitter still drops it (`:6669-6672`).
    - *Suggestion:* decide where this edge should point once #53 fans `ontologyTableRow` out into typed statements, and record that decision in the image plan.
 
-3. **STALE-DOC — `V_eta_migration_targets.json` still routes the stimulus second pass to the superseded leaf.**
+3. **STALE-DOC — `did_v2_migration_targets.json` still routes the stimulus second pass to the superseded leaf.**
    - `/classes/stimulus_presentation/second_pass = ["visual_grating_manipulation", "sampled_body"]`, and its `how` says "assembles ONE body-backed visual_grating_manipulation".
    - The signed target is `timed_sequence_manipulation`. `visual_grating_manipulation` is kept only for the presentation-less single-grating case (`V_eta_stimulus_model_plan.md:224`, `:270`).
    - `timed_sequence_manipulation` does not appear anywhere in that JSON (`grep -c '"timed_sequence_manipulation"'` = 0).
@@ -126,20 +126,20 @@ Column totals: assertion 30, observation 32, manipulation 14, calculation 10, pl
 
 6. **QUESTION (T12) — manipulation leaves resting only on a code comment.**
    - `voltage_manipulation`, `current_manipulation`, `force_manipulation` and `concentration_manipulation` are minted at `tools/build_v_eta.py:8623-8628` ("IMPOSABLE subset of data_types (Q2) ... velocity, power, ph, angular_velocity are candidates left off pending confirmation").
-   - `grep -rl` over `schemas/*.md` finds no plan document naming any of the four, and none is a target in `V_eta_migration_targets.json`.
+   - `grep -rl` over `schemas/*.md` finds no plan document naming any of the four, and none is a target in `did_v2_migration_targets.json`.
    - `concentration_manipulation` also overlaps the signed `dose_manipulation` ("the delivered substance", `V_eta_go_forward_class_audit.md:719`).
    - *Suggestion:* record what "Q2" was, or put these four on the team list.
 
 7. **QUESTION (T12) — `gain_assertion` / `gain_observation` have no warrant on record.**
    - Zero mentions in any `schemas/*.md` (`grep -lw` returns nothing), and no migrator target.
    - `gain` was minted "for exactly these two fields" of `frequency_filter` (`V_eta_frequency_filter_model_plan.md:125`), which uses it as a field type, not as a statement leaf.
-   - Wider denominator: **53 of 91 leaves appear nowhere in `V_eta_migration_targets.json`**. That is not evidence they are unused (second passes such as `timed_sequence_manipulation` do not appear there either), but it is the population T12 would have to justify.
+   - Wider denominator: **53 of 91 leaves appear nowhere in `did_v2_migration_targets.json`**. That is not evidence they are unused (second passes such as `timed_sequence_manipulation` do not appear there either), but it is the population T12 would have to justify.
    - *Suggestion:* team review of leaves that have no emitter and no plan line.
 
 8. **QUESTION (T2 provenance) — two v1 sources are routed to `_observation` leaves although their inputs are in the dataset.**
    - `fitcurve` → `score_observation` ("generic curve fit -> a goodness-of-fit score_observation").
    - `neuron_extracellular` → `score_observation` + `voltage_observation` (a sorted unit's sort quality and waveform).
-   - Both are in `V_eta_migration_targets.json` `/classes/*/targets`.
+   - Both are in `did_v2_migration_targets.json` `/classes/*/targets`.
    - Under the #73 provenance rule (`V_eta_tenets.md` T2, "inputs are other statements in the dataset → subject_calculation"), and by the same reasoning the team applied to sorters (`V_eta_subject_calculation_plan.md:338-356`), these read as calculations. `score_calculation` exists; `voltage_calculation` does not.
    - *Suggestion:* put both on the #73 follow-up list next to the sorter retarget.
 

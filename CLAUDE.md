@@ -124,12 +124,12 @@ Never quote a count from prose. Re-derive it with the tool that prints it.
 
 | artifact | answers | made by |
 |---|---|---|
-| `schemas/V_eta_STATUS.md` + `schemas/V_eta_decisions.json` | how much of V_eta is left | `tools/status_board.py` |
+| `schemas/V_eta_STATUS.md` + `schemas/generated/did_v2_decisions.json` | how much of V_eta is left | `tools/status_board.py` |
 | `schemas/V_eta_coverage_ledger.md` / `.json` | each v1 source class, its V_eta target, and its completion ladder stage | `tools/coverage.py` |
 | `schemas/V_eta_final_class_set.md` | the persist set, by category | `tools/regen_final_class_set.py` |
-| `schemas/V_eta_ndi_ground_truth.json` | what NDI templates and writers declare | `tools/ndi_ground_truth.py` |
-| `schemas/V_eta_migration_targets.json` | per v1 class: emitted `targets` (generated) and authored `decided_targets`, `how`, `flags` | `tools/refresh_migration_targets.py` (the `targets` column only) |
-| `schemas/did_v2/index.json` | tier, version and superclasses of every class (derived); `disposition` (hand-written) | `tools/validate_v_eta.py` |
+| `schemas/generated/did_v2_ndi_ground_truth.json` | what NDI templates and writers declare | `tools/ndi_ground_truth.py` |
+| `schemas/generated/did_v2_migration_targets.json` | per v1 class: emitted `targets` (generated) and authored `decided_targets`, `how`, `flags` | `tools/refresh_migration_targets.py` (the `targets` column only) |
+| `schemas/generated/index.json` | tier, version and superclasses of every class (derived); `disposition` (hand-written) | `tools/validate_v_eta.py` |
 
 Do not run these one at a time. Run the chain:
 
@@ -322,7 +322,7 @@ templates; the classes carried as v1 are `CARRIED_AS_V1` in
 
 1. Edit its file under `schemas/did_v2/<tier>/` (JSON, indent 4).
 2. For a new class, add a hand-written `disposition` (`persist`, `retire` or
-   `in_progress`) to its entry in `schemas/did_v2/index.json`. The other index
+   `in_progress`) to its entry in `schemas/generated/index.json`. The other index
    fields are derived.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the rules the
    old builder enforced and rewrites the derived pieces: `index.json`,
@@ -335,8 +335,8 @@ retired name means deleting it there.
 
 ### The term registry (T19)
 
-- Source: `schemas/V_eta_term_registry.json`. Built copy:
-  `schemas/did_v2/stable/term_registry_meta.json` (derived; do not edit).
+- Source: `schemas/registry/did_v2_term_registry.json`. Built copy:
+  `schemas/generated/term_registry_meta.json` (derived; do not edit).
 - It holds every ontology term a V2 import writes in a vocabulary slot.
   DID-matlab's `did2.build` refuses a term it does not hold (strict mode
   `TermRegistry`, armed by default; `did2.convert` turns it off while
@@ -352,7 +352,7 @@ retired name means deleting it there.
 
 ### The binding registry
 
-- `schemas/did_v2/stable/binding_registry_meta.json`. Its lists include
+- `schemas/registry/binding_registry_meta.json`. Its lists include
   `subject_statement_bindings` (variable-keyed statement bindings),
   `relation_bindings` (each row declares `passes`), `entity_field_bindings`
   and `entity_type_bindings` (what each `entity.type` requires).

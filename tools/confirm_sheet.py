@@ -7,7 +7,7 @@ The completion ladder puts 68 of 102 v1 classes at stage 1: a migrator consumes
 the class, and rung 2 -- "its decided target classes EXIST in the build" --
 reads `not measured`. That reads like 68 classes of unbuilt work. It is not.
 
-`V_eta_migration_targets.json` says so in its own header: `targets` is GENERATED
+`did_v2_migration_targets.json` says so in its own header: `targets` is GENERATED
 from the call graph, while `decided_targets` is AUTHORED and means specifically
 "a signed decision no migrator implements yet". So `decided_targets` is only ever
 populated where a gap is ALREADY KNOWN. A class whose migrator emits something,
@@ -51,8 +51,10 @@ import re
 import sys
 
 SCHEMA_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
-TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
+TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_migration_targets.json")
+DECISIONS_AUTHORED = os.path.join(SCHEMA_ROOT, "schemas", "registry",
+                                  "did_v2_migration_decisions.json")
 
 # The buckets. ORDER IS THE ORDER A REVIEWER SHOULD WORK IN: the cheapest
 # answers first, so a sitting that runs out of time has cleared the confirmable
@@ -239,7 +241,7 @@ _FOLDED_BY = {
 
 def load_dispositions():
     """{class_name: disposition} from the built V_eta index, or {} with a why."""
-    path = os.path.join(SCHEMA_ROOT, "schemas", "did_v2", "index.json")
+    path = os.path.join(SCHEMA_ROOT, "schemas", "generated", "index.json")
     try:
         with open(path) as fh:
             idx = json.load(fh)
@@ -458,12 +460,14 @@ def main(argv=None):
     ap.add_argument("--markdown", dest="md_out")
     args = ap.parse_args(argv)
 
-    for path in (LEDGER, TARGETS):
+    for path in (LEDGER, TARGETS, DECISIONS_AUTHORED):
         if not os.path.exists(path):
             sys.exit("confirm_sheet: %s is missing -- run tools/gates.py first"
                      % os.path.relpath(path, SCHEMA_ROOT))
     ledger = load(LEDGER)
-    targets_map = load(TARGETS)["classes"]
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import schema_paths
+    targets_map = schema_paths.load_migration_targets(SCHEMA_ROOT)["classes"]
     rows, unclassified = build(ledger, targets_map, stage=args.stage)
     render(rows, unclassified, len(ledger["rows"]), args.stage)
 

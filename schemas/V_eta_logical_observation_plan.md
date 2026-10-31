@@ -358,7 +358,7 @@ was removed from the observation chain in #73.
 | `DID-matlab src/did/+did2/+convert/resolveValidIntervals.m` | the dormant pass + the preserved decomposition |
 | `DID-matlab tests/+did2/+unittest/testValidIntervalDecompose.m` | dormancy gate + the preserved logic, armed |
 | `DID-matlab tools/census_digest.py` | how the dormant report renders |
-| `schemas/V_eta_migration_targets.json` (`valid_interval`) | the ledger's account of all of the above |
+| `schemas/generated/did_v2_migration_targets.json` (`valid_interval`) | the ledger's account of all of the above |
 
 ## TEAM SIGN-OFF
 
@@ -414,7 +414,7 @@ one entry per grid dimension.
 than discovered after it:** `valid_interval` is `logical_observation`'s ONLY
 consumer.
 
-        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json;
+        DENOMINATOR: 102 ledger rows read from schemas/generated/did_v2_coverage_ledger.json;
                      1 names logical_observation
           valid_interval -> []
 

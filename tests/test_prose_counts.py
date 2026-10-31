@@ -167,14 +167,14 @@ def test_derivations_match_an_independent_recomputation():
     assert C.derive_veta_schema_files() == len(files.stdout.split())
 
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_coverage_ledger.json")) as fh:
+                           "generated", "did_v2_coverage_ledger.json")) as fh:
         assert C.derive_ledger_rows() == len(json.load(fh)["rows"])
 
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_ndi_ground_truth.json")) as fh:
+                           "generated", "did_v2_ndi_ground_truth.json")) as fh:
         assert C.derive_ndi_templates() == len(json.load(fh)["classes"])
 
-    with open(os.path.join(veta, "stable", "binding_registry_meta.json")) as fh:
+    with open(os.path.join(os.path.dirname(veta), "registry", "binding_registry_meta.json")) as fh:
         reg = json.load(fh)
     assert C.derive_registry_rows() == (len(reg["subject_statement_bindings"])
                                         + len(reg["relation_bindings"])

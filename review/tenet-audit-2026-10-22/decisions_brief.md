@@ -83,7 +83,7 @@ signed by `V_eta_method_plan.md` TEAM-SIGN-OFF [method]), ~804 (T17; line 1019),
 2026-10-21; record a decision line so "signed by her" stands.
 
 **D2 [ensemble retired]** ("a"). Retire the `ensemble` class. Migrate v1 ensembles
-per `V_eta_migration_targets.json` ensemble.how: a group entity, `member_of` per
+per `did_v2_migration_targets.json` ensemble.how: a group entity, `member_of` per
 neuron carrying `order` (column order) and its epoch, per-neuron spike times in a
 `sampled_body`.
 

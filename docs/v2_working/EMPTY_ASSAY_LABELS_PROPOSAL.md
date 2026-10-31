@@ -20,7 +20,7 @@ is not done here.
 | minted before 2026-10-20 | 315 (286 live, 29 obsolete) | author date of the commit that first added the declaration (`git log --reverse -p` of the file) |
 | **listed here** | **91**: tier A 70, tier B 21 | the selection below |
 | live pre-2026-10-20 labels with a `:` or an assay word, not listed | 34 (named at the end, with why) | same script |
-| listed rows held in the did-schema term registry | 0 of 91 | `schemas/V_eta_term_registry.json` at this commit |
+| listed rows held in the did-schema term registry | 0 of 91 | `schemas/registry/did_v2_term_registry.json` at this commit |
 | listed rows referenced by code or docs | NDI-matlab 5 (EMPTY:0000006, 0000129, 0000255, 0000256, 0000257); DID-matlab 4 (0000097, 0000129, 0000256, 0000257) | `git grep -P 'EMPTY[:_][0-9]{7}(?![0-9])'` at the locked heads NDI-matlab a2ab2d152, DID-matlab 1447a432 |
 | OLS4 searches | 162 label queries (full label, and the part after the colon) + 35 topic queries; 0 errors | `www.ebi.ac.uk/ols4/api/search` |
 
@@ -44,7 +44,7 @@ and the zone on the document.
   OMO:0003008 previous name, empty-ontology `docs/conventions.md`); a replacement
   makes the EMPTY term obsolete with `consider` the replacing node.
 - CMO (Clinical Measurement Ontology) is **not** in the CURIE registry
-  (`schemas/did_v2/stable/CURIE_lookups_meta.json`): a CMO row needs the prefix
+  (`schemas/registry/CURIE_lookups_meta.json`): a CMO row needs the prefix
   first (and ndi-ontology-matlab lookups).
 - The did-schema term registry holds none of these rows today, so `check_term_registry`
   R7 is not affected until one is registered.

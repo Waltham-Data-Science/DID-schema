@@ -1008,7 +1008,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
    writes V2 only when the v1 document alone gives exactly one correct
    reading ([one correct reading]).
 2. **Every carry has a reason on record.** Each reason is a row in the carry
-   register (`schemas/V_eta_carry_register.json`, [carry register]):
+   register (`schemas/registry/did_v2_carry_register.json`, [carry register]):
    awaiting a home, needs a dataset mapping, not modelled, or malformed. An
    awaiting-home row must point at an open OPEN_WORK row
    ([awaiting home is tracked]).

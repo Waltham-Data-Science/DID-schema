@@ -79,7 +79,7 @@ high-risk divergence remains.
   python3 tools/check_tombstones.py --enforce-files
   python3 tools/check_tombstones.py --all      # include low-risk rows in full
 
-Ground truth is `V_eta_ndi_ground_truth.json` (regenerate with
+Ground truth is `did_v2_ndi_ground_truth.json` (regenerate with
 tools/ndi_ground_truth.py); it reads NDI `origin/main`, never a feature branch.
 """
 
@@ -93,7 +93,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-GT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GT = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 VETA = os.path.join(REPO, "schemas", "did_v2")
 DIDM = os.environ.get("DID_MATLAB", os.path.join(os.path.dirname(REPO), "DID-matlab"))
 
@@ -175,17 +175,15 @@ def rename_map():
 def veta_dispositions():
     """{class_name: disposition} from the built index -- 'persist' marks a class
     the go-forward schema KEEPS, which is how a name collision is spotted."""
-    idx = json.loads(Path(os.path.join(VETA, "index.json")).read_text())
+    idx = json.loads(Path(os.path.join(REPO, "schemas", "generated", "index.json")).read_text())
     return {e["class_name"]: e.get("disposition", "?") for e in idx["schemas"]}
 
 
 def veta_schemas():
     """{class_name: parsed schema} for every built V_eta schema."""
     out = {}
-    for p in glob.glob(os.path.join(VETA, "*", "*.json")):
+    for p in glob.glob(os.path.join(VETA, "**", "*.json"), recursive=True):
         name = os.path.basename(p)[:-5]
-        if name in ("index", "did_schema_meta"):
-            continue
         try:
             out[name] = json.loads(Path(p).read_text())
         except ValueError:

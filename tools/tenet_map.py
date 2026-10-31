@@ -53,8 +53,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 SCHEMAS = REPO / "schemas"
 TENETS_DOC = SCHEMAS / "V_eta_tenets.md"
-LEDGER = SCHEMAS / "V_eta_coverage_ledger.json"
-VETA_INDEX = SCHEMAS / "did_v2" / "index.json"
+LEDGER = SCHEMAS / "generated" / "did_v2_coverage_ledger.json"
+VETA_INDEX = SCHEMAS / "generated" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
 
 TENET_IDS = [f"T{i}" for i in range(1, 20)]

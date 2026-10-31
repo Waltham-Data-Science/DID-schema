@@ -102,7 +102,7 @@ def _built():
     `examples/` is not in it.
     """
     out = {}
-    for path in sorted(glob.glob(os.path.join(VETA, "*", "*.json"))):
+    for path in sorted(glob.glob(os.path.join(VETA, "**", "*.json"), recursive=True)):
         if os.path.basename(os.path.dirname(path)) == "examples":
             continue
         with open(path) as fh:
@@ -367,7 +367,7 @@ def test_relation_still_binds_all_thirteen_allen_relations():
 def test_the_time_curie_prefix_resolves():
     """A binding that LOOKS governed and is not is worse than a plain enum. The
     fold writes real `time:` CURIEs, so the prefix has to expand."""
-    with open(os.path.join(VETA, "stable", "CURIE_lookups_meta.json")) as fh:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json")) as fh:
         curies = json.load(fh)
     assert curies["prefixes"]["time"]["uri_base"] == "http://www.w3.org/2006/time#"
 

@@ -114,9 +114,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_DIR = os.path.join(REPO, "schemas")
 VETA = os.path.join(SCHEMA_DIR, "did_v2")
-LEDGER = os.path.join(SCHEMA_DIR, "V_eta_coverage_ledger.json")
-GROUND_TRUTH = os.path.join(SCHEMA_DIR, "V_eta_ndi_ground_truth.json")
-REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
+LEDGER = os.path.join(SCHEMA_DIR, "generated", "did_v2_coverage_ledger.json")
+GROUND_TRUTH = os.path.join(SCHEMA_DIR, "generated", "did_v2_ndi_ground_truth.json")
+REGISTRY = os.path.join(SCHEMA_DIR, "registry", "binding_registry_meta.json")
 BUILDER = os.path.join(HERE, "veta_record.py")   # build_v_eta.py's literals, 2026-10-21
 
 
@@ -198,7 +198,7 @@ def _load_json(path, what):
 
 def derive_ndi_templates():
     """NDI production templates, from the generated ground truth artifact."""
-    gt = _load_json(GROUND_TRUTH, "V_eta_ndi_ground_truth.json")
+    gt = _load_json(GROUND_TRUTH, "did_v2_ndi_ground_truth.json")
     classes = gt.get("classes")
     if not isinstance(classes, dict):
         raise Unavailable("ground truth carries no `classes` map")
@@ -206,7 +206,7 @@ def derive_ndi_templates():
 
 
 def derive_ledger_rows():
-    led = _load_json(LEDGER, "V_eta_coverage_ledger.json")
+    led = _load_json(LEDGER, "did_v2_coverage_ledger.json")
     rows = led.get("rows")
     if not isinstance(rows, list):
         raise Unavailable("coverage ledger carries no `rows` list")

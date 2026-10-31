@@ -62,7 +62,7 @@ A bare LOOSENED does not say whether the child is wrong or the ancestor was
 over-tightened, and the first run gave a reader nothing to answer that with. Two
 mechanical facts, both DERIVED rather than hand-listed, are now printed per row.
 
-1. **v1 PROVENANCE.** Read off `schemas/V_eta_ndi_ground_truth.json` (which
+1. **v1 PROVENANCE.** Read off `schemas/generated/did_v2_ndi_ground_truth.json` (which
    `tools/ndi_ground_truth.py` extracts from NDI `origin/main`): does did_v1
    ITSELF declare this field in BOTH blocks? If it does, the shadow is not
    V_eta's -- a source tombstone that dropped it would stop matching the writer,
@@ -177,12 +177,16 @@ SCHEMA_ROOT = os.path.join(REPO, "schemas", "did_v2")
 # READ, never written here. Its absence is REPORTED, not worked around: a
 # provenance column that quietly says "not in NDI" because the file was missing
 # is the exact failure mode this repository keeps paying for.
-GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GROUND_TRUTH = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 
-# Tiers named by schemas/did_v2/index.json. Read all three, and REPORT which of
-# them was actually found on disk, so "0 rows" and "read nothing" cannot look
-# alike from the output.
-TIERS = ("stable", "draft", "deprecated")
+# The family folders of schemas/did_v2/ ([schema folders by family]; "core" is
+# the top of the folder). Read every one, and REPORT which of them was actually
+# found on disk, so "0 rows" and "read nothing" cannot look alike from the
+# output. The stats keep the word "tier" for a folder.
+sys.path.insert(0, HERE)
+import schema_paths as SP  # noqa: E402
+
+TIERS = (SP.CORE,) + SP.FOLDERS
 
 # REPORT-ONLY, BY DESIGN. #69 landed reporting so the team can pick a threshold
 # from real counts rather than from a guess. Setting this to an int turns
@@ -307,7 +311,7 @@ def load_classes(root=SCHEMA_ROOT, tiers=TIERS):
         "per_tier": {},
     }
     for tier in tiers:
-        d = os.path.join(root, tier)
+        d = root if tier == SP.CORE else os.path.join(root, tier)
         if not os.path.isdir(d):
             stats["tiers_missing"].append(tier)
             continue

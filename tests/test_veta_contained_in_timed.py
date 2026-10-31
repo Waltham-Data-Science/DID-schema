@@ -7,7 +7,7 @@ registry must declare that the relation may carry a time_reference.
 import json
 from pathlib import Path
 
-REGISTRY = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable/binding_registry_meta.json"
+REGISTRY = Path(__file__).resolve().parent.parent / "schemas/registry/binding_registry_meta.json"
 
 
 def _relation_rows(node):

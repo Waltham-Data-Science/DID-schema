@@ -49,8 +49,8 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMAS = os.path.join(REPO_ROOT, "schemas")
 LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
-LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
-INDEX = os.path.join(SCHEMAS, "did_v2", "index.json")
+LEDGER_JSON = os.path.join(SCHEMAS, "generated", "did_v2_coverage_ledger.json")
+INDEX = os.path.join(SCHEMAS, "generated", "index.json")
 
 
 def _ledger():
@@ -428,13 +428,13 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
 def test_a_decided_target_is_recorded_in_exactly_one_place():
     """Two records of one fact agree by coincidence until they do not.
 
-    The curated `V_eta_migration_targets.json` and the sign-off transcriptions
+    The curated `did_v2_migration_decisions.json` and the sign-off transcriptions
     in `coverage.py` must never both name a class. This repository already has
     one live instance of the same shape open (#32, binding strength stated on
     both the field and the registry, agreeing today "by coincidence rather than
     by construction"); it is not worth a second.
     """
-    with open(os.path.join(SCHEMAS, "V_eta_migration_targets.json")) as fh:
+    with open(os.path.join(SCHEMAS, "registry", "did_v2_migration_decisions.json")) as fh:
         curated = json.load(fh)["classes"]
     rows = _rows()
     both = []

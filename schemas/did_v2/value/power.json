@@ -1,0 +1,178 @@
+{
+    "document_class": {
+        "class_name": "power",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "value"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "power",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "watts": 0.0,
+                    "source_unit": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "source_value": 0.0,
+                    "approximate": false,
+                    "tolerance": {}
+                }
+            ],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A value cell for a W quantity (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "watts",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical power value -- the normalised, cross-document comparable number. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "tolerance",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (watts). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "minus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (watts) (for a time: how much EARLIER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        },
+                        {
+                            "name": "plus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (watts) (for a time: how much LATER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

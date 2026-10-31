@@ -23,8 +23,8 @@ on:
     branches: [main]
     paths:
       - 'schemas/did_v2/**'
-      - 'schemas/V_eta_carry_register.json'
-      - 'schemas/V_eta_term_registry.json'
+      - 'schemas/registry/**'
+      - 'schemas/generated/**'
       - 'tools/sibling_lock.json'
       - 'tools/check_empty_ontology_nodes.py'
       - '.github/workflows/did-matlab-quick.yml'
@@ -56,12 +56,13 @@ jobs:
           echo "did-schema:    $(git -C did-schema rev-parse HEAD)"
 
       - name: Assemble the schema set (as DID-matlab's quick job does)
+        # [schema folders by family]: class files sit at any depth under
+        # schemas/did_v2/, the registries in schemas/registry/ and
+        # schemas/generated/. DID-matlab's own assembler flattens them into
+        # one folder (classes recursively, every *_meta.json, the reserved
+        # keys and registry/*.json; a repeated basename is an error).
         run: |
-          mkdir -p "${GITHUB_WORKSPACE}/eta-schemas"
-          SET=did-schema/schemas/did_v2
-          cp "$SET"/stable/*.json "${GITHUB_WORKSPACE}/eta-schemas/"
-          cp "$SET"/draft/*.json  "${GITHUB_WORKSPACE}/eta-schemas/"
-          if [ -d "$SET/deprecated" ]; then cp "$SET"/deprecated/*.json "${GITHUB_WORKSPACE}/eta-schemas/"; fi
+          python3 tools/assemble_schema_set.py did-schema/schemas "${GITHUB_WORKSPACE}/eta-schemas"
           echo "DENOMINATOR: $(ls "${GITHUB_WORKSPACE}/eta-schemas" | wc -l) schema file(s) assembled"
           echo "DID_SCHEMA_PATH=${GITHUB_WORKSPACE}/eta-schemas" >> "$GITHUB_ENV"
 

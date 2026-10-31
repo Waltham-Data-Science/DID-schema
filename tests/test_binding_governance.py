@@ -86,7 +86,7 @@ def test_b5_scans_every_registry_row_not_just_the_three_it_can_pair():
     So assert the sweep's reach against the registry file itself, read
     independently here rather than taken from the tool.
     """
-    reg = json.loads(Path(os.path.join(VETA, "stable", "binding_registry_meta.json")).read_text())
+    reg = json.loads(Path(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json")).read_text())
     total_rows = sum(len(v) for v in reg.values() if isinstance(v, list))
     f = LIVE["findings"]["B5_strength_stored_twice"]
     assert f["registry_rows_scanned"] == total_rows, (
@@ -158,9 +158,9 @@ def synthetic(tmp_path):
       B6  four uncatalogued bound fields  (5 bound, 1 catalogued)
       B8  one unregistered prefix         (`ZZZ:1` in a registry row)
     """
-    root = tmp_path / "V_eta"
-    for tier in ("stable", "draft", "deprecated"):
-        (root / tier).mkdir(parents=True)
+    root = tmp_path / "schemas" / "did_v2"
+    root.mkdir(parents=True)
+    (root.parent / "registry").mkdir()
 
     meta = {"$defs": {"field_definition": {"properties": {"constraints": {
         "type": "object",
@@ -169,9 +169,9 @@ def synthetic(tmp_path):
             "vocabulary": {}, "term_set": {}, "root": {},
         }}},
     }}}}}
-    (root / "stable" / "did_schema_meta.json").write_text(json.dumps(meta))
+    (root.parent / "registry" / "did_schema_meta.json").write_text(json.dumps(meta))
 
-    (root / "stable" / "CURIE_lookups_meta.json").write_text(json.dumps(
+    (root.parent / "registry" / "CURIE_lookups_meta.json").write_text(json.dumps(
         {"prefixes": {"uberon": {"uri_base": "x"}}}))
 
     registry = {
@@ -188,10 +188,10 @@ def synthetic(tmp_path):
         ],
         "controlled_vocabularies": {"openMINDS": {"version": None}},
     }
-    (root / "stable" / "binding_registry_meta.json").write_text(json.dumps(registry))
+    (root.parent / "registry" / "binding_registry_meta.json").write_text(json.dumps(registry))
 
     def write(n, d):
-        (root / "stable" / (n + ".json")).write_text(json.dumps(d))
+        (root / (n + ".json")).write_text(json.dumps(d))
     write("alpha", _minimal_class("alpha", [
         _field("a", "ontology_term",
                {"strength": "required", "root": "vs_x", "invented_key": 1,
@@ -308,17 +308,17 @@ def test_b8_reads_spelling_and_synonyms(tmp_path):
     prefix by key, spelling or synonym, ignoring case. `PMID:` is registered
     (a synonym and the spelling of `pubmed`), `WBStrain:` is registered (the
     legacy rewrite on `wormbase`), and only `ZZZ:` is not."""
-    root = tmp_path / "V_eta"
-    for tier in ("stable", "draft", "deprecated"):
-        (root / tier).mkdir(parents=True)
-    (root / "stable" / "did_schema_meta.json").write_text(json.dumps({"$defs": {
+    root = tmp_path / "schemas" / "did_v2"
+    root.mkdir(parents=True)
+    (root.parent / "registry").mkdir()
+    (root.parent / "registry" / "did_schema_meta.json").write_text(json.dumps({"$defs": {
         "field_definition": {"properties": {"constraints": {"properties": {}}}}}}))
-    (root / "stable" / "CURIE_lookups_meta.json").write_text(json.dumps({"prefixes": {
+    (root.parent / "registry" / "CURIE_lookups_meta.json").write_text(json.dumps({"prefixes": {
         "pubmed": {"uri_base": "x", "spelling": "PMID", "synonyms": ["pmid"]},
         "wormbase": {"uri_base": "y", "spelling": "WormBase", "synonyms": [],
                      "legacy_rewrite": {"legacy_prefix": "WBStrain",
                                         "id_prefix": "WBStrain"}}}}))
-    (root / "stable" / "binding_registry_meta.json").write_text(json.dumps({
+    (root.parent / "registry" / "binding_registry_meta.json").write_text(json.dumps({
         "subject_statement_bindings": [
             {"variable": {"node": "", "name": n}, "class": "term_assertion",
              "root_node": node}
@@ -484,10 +484,10 @@ def test_tool_reports_failure_when_it_reads_nothing(tmp_path, synthetic):
     every bound field leaves the walker with nothing to find, and the counts all
     go to zero -- the exact shape of the `silentLoss` failure."""
     import shutil
-    empty = str(tmp_path / "empty" / "V_eta")
-    shutil.copytree(synthetic, empty)
-    for fn in os.listdir(os.path.join(empty, "stable")):
-        p = os.path.join(empty, "stable", fn)
+    empty = str(tmp_path / "empty" / "schemas" / "did_v2")
+    shutil.copytree(os.path.dirname(str(synthetic)), os.path.dirname(empty))
+    for fn in os.listdir(empty):
+        p = os.path.join(empty, fn)
         d = json.loads(Path(p).read_text())
         if "document_class" not in d:
             continue

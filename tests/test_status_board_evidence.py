@@ -32,8 +32,8 @@ import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
-INDEX = os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json")
-DECISIONS = os.path.join(REPO_ROOT, "schemas", "V_eta_decisions.json")
+INDEX = os.path.join(REPO_ROOT, "schemas", "generated", "index.json")
+DECISIONS = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_decisions.json")
 STATUS = os.path.join(REPO_ROOT, "schemas", "V_eta_STATUS.md")
 
 
@@ -79,7 +79,7 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     the top of `tools/status_board.py` needs rewriting -- which is the point.
 
     Since 2026-10-21 (OPEN_WORK #128) the declaration is DATA: `disposition` in
-    schemas/did_v2/index.json, written by hand. Until then it was a literal in
+    schemas/generated/index.json, written by hand. Until then it was a literal in
     build_v_eta.py (`_DECIDED_PENDING` / `_IN_PROGRESS`). validate_v_eta.py
     rewrites every other index field from the class files and keeps this one,
     so it is still a declaration and never a measurement.
@@ -523,7 +523,7 @@ def test_committed_board_carries_the_evidence_snapshot():
     the evidence as absent."""
     with open(DECISIONS) as fh:
         ocs = json.load(fh).get("open_class_state")
-    assert ocs, "V_eta_decisions.json carries no open_class_state block"
+    assert ocs, "did_v2_decisions.json carries no open_class_state block"
     named = {r["class_name"] for r in ocs["classes"]}
     assert named == set(_open_classes()), (
         "the snapshot and the built index disagree about which classes are open")

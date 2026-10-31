@@ -27,7 +27,7 @@ INPUTS
   * one or more `<corpus>-summary.json` corpus reports (the per-corpus v1 class
     census is `source_census.by_class`; keys are v1 SOURCE class names). Same
     files census_digest.py / corpus_proven.py read.
-  * schemas/V_eta_coverage_ledger.json -- per-class `targets` (GENERATED: what
+  * schemas/generated/did_v2_coverage_ledger.json -- per-class `targets` (GENERATED: what
     the migrator emits), `decided_targets` (AUTHORED: a signed gap), `stage`
     (the ladder), `governance`, `disposition`, `target_source`.
 
@@ -64,7 +64,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-LEDGER = HERE.parent / "schemas" / "V_eta_coverage_ledger.json"
+LEDGER = HERE.parent / "schemas" / "generated" / "did_v2_coverage_ledger.json"
 
 
 # ---- the husk/bridge overlay -------------------------------------------------

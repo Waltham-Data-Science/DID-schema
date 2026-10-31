@@ -3,7 +3,7 @@
 
 Decision: Jess Haley, 2026-10-30, V_eta_go_forward_class_audit.md
 [equivalents filled in did-schema] ("B"): the `equivalent` column of
-schemas/V_eta_term_registry.json ([term equivalents recorded]) is filled by a
+schemas/registry/did_v2_term_registry.json ([term equivalents recorded]) is filled by a
 one-time did-schema data change, made by a did-schema script and reviewed in
 its PR. "The first fill is the species rows from openMINDS's species
 instances." This is that script.
@@ -67,8 +67,8 @@ import urllib.request
 from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REGISTRY = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
-CURIES = os.path.join(ROOT, "schemas", "did_v2", "stable", "CURIE_lookups_meta.json")
+REGISTRY = os.path.join(ROOT, "schemas", "registry", "did_v2_term_registry.json")
+CURIES = os.path.join(ROOT, "schemas", "registry", "CURIE_lookups_meta.json")
 OLS_API = "https://www.ebi.ac.uk/ols4/api/v2/entities"
 
 SKOS_EXACT = "http://www.w3.org/2004/02/skos/core#exactMatch"

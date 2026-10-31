@@ -27,7 +27,7 @@ sys.path.insert(0, str(REPO / "tools"))
 import gen_class_walkthrough as gen  # noqa: E402
 
 ASSET = REPO / "web" / "public" / "class_walkthrough.json"
-LEDGER = REPO / "schemas" / "V_eta_coverage_ledger.json"
+LEDGER = REPO / "schemas" / "generated" / "did_v2_coverage_ledger.json"
 
 
 def _asset():
@@ -58,7 +58,7 @@ def test_the_asset_copies_no_volatile_fact():
     loads). Neither may come back."""
     a = _asset()
     assert "built_schemas" not in a, (
-        "the built-schema table duplicates schemas/did_v2/index.json, which the "
+        "the built-schema table duplicates schemas/generated/index.json, which the "
         "viewer already loads, and couples this asset to every build")
     # DENOMINATOR FIRST, and it is not decoration: the loop below asserts a
     # property of every migrator entry, so an asset with no entries would pass

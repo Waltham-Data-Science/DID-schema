@@ -13,11 +13,11 @@ meta-schema `binding` formalization) is an in-progress follow-up; those tests
 land with that increment.
 """
 import contextlib
-import glob
 import io
 import json
 import os
 import re
+import sys
 
 import jsonschema
 import pytest
@@ -41,7 +41,9 @@ def _load_tool(name):
     spec.loader.exec_module(mod)
     return mod
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
-TIERS = ["stable", "draft", "deprecated"]
+sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+import schema_paths as SP  # noqa: E402
+
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json",
               "term_registry_meta.json", "class_disposition_meta.json",
@@ -53,7 +55,7 @@ def _load(path):
         return json.load(f)
 
 
-META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+META = _load(os.path.join(os.path.dirname(VETA), "registry", "did_schema_meta.json"))
 
 
 def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
@@ -63,8 +65,8 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     for one fact; now there is one. A statement points at a shared
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` used until 2026-10-29."""
-    si = _load(os.path.join(VETA, "stable", "interaction.json"))
-    ac = _load(os.path.join(VETA, "stable", "acquisition_channels.json"))
+    si = _load(os.path.join(VETA, "interaction.json"))
+    ac = _load(os.path.join(VETA, "acquisition_channels.json"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_system_id" not in si_edges
@@ -76,15 +78,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     # DECIDED required (item 56); stays optional until the DID-matlab minting pass
     # lands -- test_veta_acquisition_system_edge_typing pins that.
     assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
-    rig = _load(os.path.join(VETA, "stable", "acquisition_system.json"))
+    rig = _load(os.path.join(VETA, "acquisition_system.json"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
     req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
     assert req == {"reader_id", "epoch_file_pattern_id"}, req
-    cac = _load(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
-        if os.path.exists(os.path.join(VETA, "draft", "clock_alignment_configuration.json")) \
-        else _load(os.path.join(VETA, "stable", "clock_alignment_configuration.json"))
+    cac = _load(os.path.join(VETA, "clock_alignment_configuration.json"))
     # Jess Haley 2026-10-27 [sync configuration links its rigs]
     # (V_eta_go_forward_class_audit.md): the configuration links its two rigs
     # directly, role-named, and no longer points at `acquisition_channels`.
@@ -92,16 +92,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     assert "acquisition_channels_id" not in cac_edges
     for name in ("from_acquisition_system_id", "to_acquisition_system_id"):
         assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system"
-INDEX = _load(os.path.join(VETA, "index.json"))
+INDEX = _load(SP.INDEX)
 
 
 def _doc_files():
-    out = []
-    for tier in TIERS:
-        for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
-            if os.path.basename(p) not in META_FILES:
-                out.append((tier, p))
-    return out
+    """(family folder, path) for every class file under schemas/did_v2/."""
+    return [(fam, p) for fam, p in SP.folder_files(VETA)
+            if os.path.basename(p) not in META_FILES]
 
 
 def _records():
@@ -123,9 +120,14 @@ def test_file_passes_meta_schema(tier, path):
 
 @pytest.mark.parametrize("tier,path", DOC_FILES, ids=[os.path.basename(p) for _, p in DOC_FILES])
 def test_filename_matches_class_and_tier(tier, path):
+    """[schema folders by family]: a folder means a family, never a tier or
+    maturity, so the folder is one of the decided ones and a retire class is
+    in retiring/ and nowhere else."""
     dc = _load(path)["document_class"]
     assert dc["class_name"] + ".json" == os.path.basename(path)
-    assert dc["maturity_level"] == tier
+    assert tier in (SP.CORE,) + SP.FOLDERS, (tier, path)
+    disp = {e["class_name"]: e["disposition"] for e in INDEX["schemas"]}
+    assert (disp[dc["class_name"]] == "retire") == (tier == SP.RETIRING), (tier, path)
 
 
 def test_index_agrees_with_disk():
@@ -369,7 +371,7 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     the signed 2026-08-13 rename)."""
     f = _local_id("entity")
     assert f is not None and f["mustBeNonEmpty"] is False
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     req = {r["type"]: r["requires"] for r in reg["entity_type_bindings"]}
     # rows keyed by the stored type, the ontology label since 2026-10-22 (Jess
     # Haley [vocabulary nodes] L2): group, material, session, epoch / dataset,
@@ -619,7 +621,7 @@ def test_data_body_classes():
     assert statement.get("ordered") is False
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
-        assert RECORDS[body][0] == "draft"
+        assert RECORDS[body][0] == "data_body"   # its family folder
         # and NEITHER child re-declares it: a child cannot tighten a parent
         # field (#69) and redeclaring is SILENT, so a re-declaration here would
         # be invisible drift rather than an error.
@@ -1031,7 +1033,7 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
     IRIs: openMINDS is an export target, reached through the crosswalk, and its
     term sets change between versions (v6 drops ProductAccessibility and
     EthicsAssessment)."""
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]
             if r.get("entity_type") == "Data Set"}  # the label (L2, 2026-10-22)
     expected = {
@@ -1081,8 +1083,8 @@ def test_openminds_crosswalk_round_trips():
     whose target resolves to a real V_eta field / relation term / global_identifier --
     or is explicitly implied/projection/deferred (visible, never silently dropped).
     This is the enforcement point behind the openMINDS field parity."""
-    xw = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_openminds_crosswalk.json"))
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    xw = _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_openminds_crosswalk.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     relation_terms = {r["relation"]["name"] for r in reg["relation_bindings"]}
 
     # 1. completeness: the crosswalk covers the full DatasetVersion surface, exactly.
@@ -1103,8 +1105,8 @@ def test_openminds_crosswalk_round_trips():
     # a fact that was a field on the old class is a statement about the entity.
     valid_kinds = {"field", "relation", "global_identifier", "implied", "projection",
                    "assertion"}
-    curie = _load(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"))
-    ent = _load(os.path.join(VETA, "stable", "entity.json"))
+    curie = _load(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json"))
+    ent = _load(os.path.join(VETA, "entity.json"))
     types = {v["name"] for v in next(
         f for f in ent["fields"] if f["name"] == "type")["constraints"]["binding"]["values"]}
     for type_name, spec in xw["types"].items():
@@ -1147,7 +1149,7 @@ def test_software_crosswalks_to_openminds_softwareversion():
     """R1 kept the entity named `software` (not `software_version`) -- version is a
     field, not part of the name (T13). openMINDS parity is therefore a crosswalk-entry
     concern, and this is that entry."""
-    xw = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_openminds_crosswalk.json"))
+    xw = _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_openminds_crosswalk.json"))
     sv = xw["types"]["SoftwareVersion"]
     assert sv["ndi_entity"] == "entity" and sv["entity_type"] == "software"
     props = sv["properties"]
@@ -1236,7 +1238,7 @@ def test_writer_set_dependencies_are_reported():
     So: zero undeclared is allowed and is the current answer. A scan that looked at
     almost nothing is not."""
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_ndi_ground_truth.json")) as fh:
+                           "generated", "did_v2_ndi_ground_truth.json")) as fh:
         gt = json.load(fh)
     assert "writer_dependencies" in gt, "the #54 sweep is missing from the ground truth"
     scan = gt["summary"].get("writer_dependency_scan")
@@ -1340,7 +1342,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
     gi = next(f for f in RECORDS["entity"][1]["fields"] if f["name"] == "global_identifier")
     assert gi["mustBeNonEmpty"] is False
     assert gi["mustBeScalar"] is False, "global_identifier must be repeatable"
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     # by node (Jess Haley 2026-10-22 [vocabulary nodes] L1): derived_from,
     # instance_of; entity types by their label (L2)
     rel = {r["relation"]["node"]: r for r in reg["relation_bindings"]}
@@ -1357,7 +1359,7 @@ def test_term_assertion_keeps_its_inline_value_and_gains_strain_id():
     `instance_of` it: one representation, and no assertion carries an edge."""
     assert "term_assertion" not in RECORDS
     assert "strain_id" not in _flat_dep_names("assertion")
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     # instance_of by node, endpoint types by label ([vocabulary nodes] L1, L2)
     io = next(r for r in reg["relation_bindings"] if r["relation"]["node"] == "EMPTY:0000382")
     assert io["relation"]["name"] == "instance of"
@@ -1479,7 +1481,7 @@ def test_openminds_import_is_absent():
     assert "openminds_import" not in RECORDS, (
         "openminds_import was removed by team decision; re-adding it needs an "
         "import path that actually stamps it (see V_eta_tenet_audit.md)")
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     om = reg["controlled_vocabularies"]["openMINDS"]
     assert om["version"] is None
     # the note must not promise resolution from a class that no longer exists
@@ -1497,7 +1499,7 @@ def test_binding_registry_meta_present():
     """D9: the binding registry ships with the subject_defining bindings (the kind
     ingestion invariant) folded into subject_statement_bindings as a flagged
     subset, not a separate kind_variables list."""
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     # the old separate lists are gone -- folded into subject_statement_bindings
     assert "kind_variables" not in reg and "subject_kind_variables" not in reg
     ssb = reg["subject_statement_bindings"]
@@ -1538,7 +1540,7 @@ def test_subject_statement_bindings_well_formed():
     concrete statement leaf `class`; no `value` (the leaf fixes the type).
     (`test_binding_examples_well_formed` until 2026-10-21, when the illustrative
     `binding_examples` block was deleted.)"""
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     assert "bindings" not in reg  # renamed -> subject_statement_bindings
     assert "binding_examples" not in reg  # deleted 2026-10-21 (Jess Haley)
     concrete = {r[1]["document_class"]["class_name"]: r[1]["document_class"]
@@ -1564,7 +1566,7 @@ def test_relation_bindings_present():
     relation terms — the single source of truth for `directed_relation.relation`
     values (subject-side + entity-side), each pinned to its carrier `class` with
     typed `from`/`to` endpoints."""
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     assert "relation_vocabulary" not in reg  # renamed -> relation_bindings
     rows = reg["relation_bindings"]
     # keyed by NAME for the checks on names, and by NODE for the rest: since
@@ -1662,10 +1664,10 @@ def test_stored_vocabulary_names_are_the_labels_of_their_nodes():
     `derived_from` is prov:wasDerivedFrom stored as PROV-O's rdfs:label
     "wasDerivedFrom" ([derived from general], [derived from label]); nothing is
     pending."""
-    terms = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_term_registry.json"))["terms"]
+    terms = _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_term_registry.json"))["terms"]
     label = {t["node"]: t["name"] for t in terms}
     pending = set()
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     stored = [("relation_bindings", r["relation"]["node"], r["relation"]["name"])
               for r in reg["relation_bindings"]]
     stored += [("entity_type_bindings", r["node"], r["type"])
@@ -1839,7 +1841,7 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     # A RATCHET, not a zero. Most rows are V1 FIDELITY: NDI's own templates
     # declare a class-block `name` beside `base.name`, and a tombstone that
     # dropped it would stop matching the writer. The fidelity split is DERIVED
-    # from schemas/V_eta_ndi_ground_truth.json -- see the tests below, and the
+    # from schemas/generated/did_v2_ndi_ground_truth.json -- see the tests below, and the
     # tool's docstring for why the hand list it replaced had to go.
     # LOADED BY PATH, not imported. `tools/` has no __init__.py and the package
     # is installed with `pip install -e .`, so `import tools.x` resolves locally
@@ -2100,7 +2102,7 @@ def test_ndi_schema_documents_are_all_read():
     depends_on blocks. One of them is `valid_interval`, an UNVERIFIED coverage row.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_ndi_ground_truth.json")) as fh:
+                           "generated", "did_v2_ndi_ground_truth.json")) as fh:
         gt = json.load(fh)
     scan = gt["summary"].get("ndi_schema_document_scan")
     assert scan, "no denominator for the schema-document sweep"
@@ -2125,7 +2127,7 @@ def test_ndi_schema_documents_are_all_read():
 
 
 # ---------------------------------------------------------------------------
-# The per-class decisions artifact (schemas/V_eta_decisions.json). Until
+# The per-class decisions artifact (schemas/generated/did_v2_decisions.json). Until
 # 2026-10-21 it held decision FAMILIES; each class now cites its own decision
 # line (tools/decision_citations.py).
 #
@@ -2138,7 +2140,7 @@ def test_ndi_schema_documents_are_all_read():
 # further from the plan document than the board ever was.
 # ---------------------------------------------------------------------------
 
-DECISIONS = os.path.join(REPO_ROOT, "schemas", "V_eta_decisions.json")
+DECISIONS = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_decisions.json")
 
 
 def _decisions():
@@ -2148,7 +2150,7 @@ def _decisions():
 
 def test_decisions_artifact_exists_and_covers_every_open_class():
     dec = _decisions()
-    with open(os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json")) as fh:
+    with open(os.path.join(REPO_ROOT, "schemas", "generated", "index.json")) as fh:
         idx = json.load(fh)
     open_classes = {s["class_name"] for s in idx["schemas"]
                     if s.get("disposition") == "in_progress"}
@@ -2226,12 +2228,15 @@ def test_the_viewer_actually_syncs_the_decisions_artifact():
     # `schemas/V_*/**` does not match a file sitting directly under schemas/.
     with open(os.path.join(REPO_ROOT, "web", "scripts", "sync-schemas.mjs")) as fh:
         sync = fh.read()
-    assert "V_eta_decisions.json" in sync
+    assert "did_v2_decisions.json" in sync
     assert "decisions.json" in sync
     with open(os.path.join(
             REPO_ROOT, ".github", "workflows", "deploy-web.yml")) as fh:
         deploy = fh.read()
-    assert "V_*_decisions.json" in deploy, (
+    # Since [schema folders by family] the decisions are
+    # schemas/generated/did_v2_decisions.json, and one recursive pattern
+    # covers every path under schemas/.
+    assert '"schemas/**"' in deploy, (
         "deploy-web.yml will not redeploy when the decisions change")
 
 
@@ -2247,7 +2252,7 @@ def test_target_source_distinguishes_emitted_from_passthrough():
     finding.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_coverage_ledger.json")) as fh:
+                           "generated", "did_v2_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
     assert rows, "empty ledger -- the sweep is broken"
     for r in rows:
@@ -2295,7 +2300,7 @@ def test_no_passthrough_row_claims_a_migrator_emits_it():
     full meaning; the sibling below holds `decided` to its own.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_coverage_ledger.json")) as fh:
+                           "generated", "did_v2_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
     assert sum(1 for r in rows if r["target_source"] == "emitted") > 0, (
         "no emitted rows -- this sweep would check nothing")
@@ -2316,7 +2321,7 @@ def test_decided_rows_record_a_disposition_without_claiming_a_migration():
     carry the prose that justifies the label.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_coverage_ledger.json")) as fh:
+                           "generated", "did_v2_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
     decided = [r for r in rows if r["target_source"] == "decided"]
     assert decided, "no decided rows -- this sweep would check nothing"
@@ -2345,11 +2350,11 @@ def test_uncurated_stays_at_zero():
     Same defect as a census reporting 0 while reading no documents.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_coverage_ledger.json")) as fh:
+                           "generated", "did_v2_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
     unc = sorted(r["v1_class"] for r in rows if r["target_source"] == "uncurated")
     assert unc == [], (
-        f"{len(unc)} migrator(s) with no entry in V_eta_migration_targets.json: "
+        f"{len(unc)} migrator(s) with no entry in did_v2_migration_targets.json: "
         f"{unc}. The ledger cannot say what they emit, so it says nothing -- add "
         "the row by READING THE MIGRATOR, never by copying what a plan intends.")
     # the denominator, so a sweep that silently stopped classifying is visible
@@ -2463,7 +2468,7 @@ def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fai
     fills every node in, this test fails and says to re-examine the strength
     -- which is the moment the question should be reopened.
     """
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     rows = reg["subject_statement_bindings"]
     assert rows, "no rows -- this test would verify nothing"
     # THE TRIPWIRE FIRED ON 2026-10-21. Jess Haley's binding-variable decision
@@ -2478,7 +2483,7 @@ def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fai
                     if not r["variable"].get("node")]
     assert without_node == [], (
         f"{len(without_node)} binding variable row(s) lost their node: {without_node}")
-    stmt = _load(os.path.join(VETA, "stable", "statement.json"))
+    stmt = _load(os.path.join(VETA, "statement.json"))
     var = next(f for f in stmt["fields"] if f["name"] == "variable")
     binding = var["constraints"]["binding"]
     assert binding.get("strength") == "preferred", (
@@ -2498,7 +2503,7 @@ def test_field_and_registry_strengths_agree():
     """
     # NOT in RECORDS: the registry is a meta file with no `document_class`, so
     # it is not a schema record. Load it by path.
-    with open(os.path.join(VETA, "stable", "binding_registry_meta.json")) as fh:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json")) as fh:
         reg = json.load(fh)
     efb = {(r["class"], r["field"]): r.get("strength")
            for r in reg["entity_field_bindings"]}
@@ -3091,7 +3096,7 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
     the RF one (#48), and the repo it needs (VH-Lab/NDIcalc-vis-matlab) is not in
     scope.
     """
-    ledger = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json"))
+    ledger = _load(os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json"))
     rows = ledger["rows"]
     # DENOMINATOR FIRST. An empty ledger would make every "not a source" claim
     # below trivially true. Was 102 until 2026-09; NDI-matlab origin/main gained
@@ -3346,7 +3351,7 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
 
 def _ndi_ground_truth():
     with open(os.path.join(REPO_ROOT, "schemas",
-                           "V_eta_ndi_ground_truth.json")) as fh:
+                           "generated", "did_v2_ndi_ground_truth.json")) as fh:
         return json.load(fh)
 
 
@@ -3416,7 +3421,7 @@ def test_ensemble_declares_ndis_own_file_name_not_a_snake_cased_one():
 def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
     """Denominator-first: compare the whole declaration, not the two fields we fixed.
 
-    The generated `V_eta_ndi_ground_truth.json` is the artifact; this test is
+    The generated `did_v2_ndi_ground_truth.json` is the artifact; this test is
     prose about it, so the artifact wins when they disagree. Comparing the FULL
     surface is the point -- fixing the two rows a checker happened to name, and
     asserting only those, is how a restatement drifts on its third field.
@@ -3481,7 +3486,7 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     validator will read. `binding` is not enforced yet, so this costs nothing
     today and gets expensive the moment something reads it.
     """
-    with open(os.path.join(VETA, "stable", "binding_registry_meta.json")) as fh:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json")) as fh:
         reg = json.load(fh)
     # member_of by node; its stored name is "member of" since 2026-10-22 (Jess
     # Haley [vocabulary nodes] L1)
@@ -3831,7 +3836,7 @@ def test_v1_tombstones_under_a_composite_chain_still_retire():
     retire -> persist with no one deciding it. `ngrid` moved from in_progress to
     retire in the same fix: both readings of its disputed record end with no V_eta
     class."""
-    idx = _load(os.path.join(REPO_ROOT, "schemas", "did_v2", "index.json"))
+    idx = _load(os.path.join(REPO_ROOT, "schemas", "generated", "index.json"))
     found = {}
 
     def walk(x):
@@ -4017,7 +4022,7 @@ def test_chemical_formulation_dose_are_documents_with_one_how_much_each():
     # a product is an `entity` of type product since 2026-10-08 (signed): its
     # catalog and lot numbers are text assertions, its vendor a `sold_by` relation
     assert "product" not in RECORDS
-    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     # sold_by by node (OBI:0000647 has_supplier, [vocabulary nodes] K4, L1)
     sold = next(r for r in reg["relation_bindings"] if r["relation"]["node"] == "OBI:0000647")
     assert sold["child_types"] == ["Product"] and sold["parent_types"] == ["organization"]
@@ -4399,11 +4404,10 @@ def test_a6_no_class_declares_the_removed_fields():
 
 def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(root, "schemas", "did_v2", "stable",
-                           "CURIE_lookups_meta.json")) as fh:
+    with open(os.path.join(root, "schemas", "registry", "CURIE_lookups_meta.json")) as fh:
         xco = json.load(fh)["prefixes"]["xco"]
     assert xco["spelling"] == "XCO" and xco["uri_base"].endswith("/obo/XCO_")
-    with open(os.path.join(root, "schemas", "V_eta_term_registry.json")) as fh:
+    with open(os.path.join(root, "schemas", "registry", "did_v2_term_registry.json")) as fh:
         terms = json.load(fh)["terms"]
     row = [t for t in terms if t["node"] == "XCO:0000099"]
     assert len(row) == 1 and row[0]["name"] == "control condition", row
@@ -4456,7 +4460,7 @@ def test_a6_variable_once_counterexamples():
 
 def test_a6_presentation_onset_offset_terms_are_registered():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(root, "schemas", "V_eta_term_registry.json")) as fh:
+    with open(os.path.join(root, "schemas", "registry", "did_v2_term_registry.json")) as fh:
         terms = json.load(fh)["terms"]
     want = {"OBI:0000807": ("presentation of stimulus", "[presentation dimension term]"),
             "EMPTY:0000368": ("onset time", "[onset and offset terms]"),
@@ -4491,8 +4495,8 @@ def test_no_deprecated_tier():
     and DID-matlab's passthrough tests assert it is not quarantined.
     """
     assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
-    tiers = {e["tier"] for e in INDEX["schemas"]}
-    assert "deprecated" not in tiers, tiers
+    folders = {e["family"] for e in INDEX["schemas"]}
+    assert "deprecated" not in folders, folders
     assert not os.path.isdir(os.path.join(VETA, "deprecated"))
     for cls in ("image", "image_collection", "image_stack", "image_stack_parameters",
                 "lightsheet_zarr_level", "lightsheet_zarr_pyramid", "projectvar",

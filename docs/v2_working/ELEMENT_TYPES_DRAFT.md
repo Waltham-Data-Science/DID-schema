@@ -38,7 +38,7 @@ Under `otherwise`, every JH `position` / `distance` element becomes a `device`.
 - [one correct reading] (`V_eta_go_forward_class_audit.md:1220`): the generic migration writes a V2 document only when the v1 document by itself gives exactly one correct V2 reading. Otherwise the document is carried whole as v1 with a `needs_mapping` register row.
 - [dataset-specific logic leaves the generic migration] (`:1208`) and [dataset audit batch 1 and 2] (`:1228`, item 1): the Haley worm-track shapes leave the generic migration, and "the Haley V2 import makes the tracks".
 - T1 (`V_eta_tenets.md:39`): `entity.type` is the coarse kind, a bound and required field. The finer kind is a term assertion.
-- `entity_type_bindings` (`schemas/did_v2/stable/binding_registry_meta.json`): 19 rows, at lines 2746-2890. The rows used here:
+- `entity_type_bindings` (`schemas/registry/binding_registry_meta.json`): 19 rows, at lines 2746-2890. The rows used here:
   - `cell` (`:2770`): "one cell".
   - `Group` (`:2778`, description `:2780`): "an entity whose members are entities, by `member_of`: a cohort, an ensemble".
   - `device` (`:2786`, description `:2788`): "an instrument or a piece of apparatus".

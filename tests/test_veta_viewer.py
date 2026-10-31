@@ -55,12 +55,13 @@ def make_repo(tmp_path, names=None, final_set=None, tenets=None):
     for f in ("sources.ts", "grammar.json"):
         shutil.copy(os.path.join(REPO_ROOT, "web", "src", "veta", f), veta / f)
     names = names if names is not None else [f"class_{i}" for i in range(7)] + ["gone_one"]
-    stable = root / "schemas" / "did_v2" / "stable"
-    stable.mkdir(parents=True)
+    classes = root / "schemas" / "did_v2"
+    classes.mkdir(parents=True)
     for n in names:
-        (stable / f"{n}.json").write_text(json.dumps(_class(n)))
-    (root / "schemas" / "did_v2" / "index.json").write_text(json.dumps(
-        {"schemas": [{"class_name": n, "path": f"schemas/did_v2/stable/{n}.json"}
+        (classes / f"{n}.json").write_text(json.dumps(_class(n)))
+    (root / "schemas" / "generated").mkdir(parents=True)
+    (root / "schemas" / "generated" / "index.json").write_text(json.dumps(
+        {"schemas": [{"class_name": n, "path": f"schemas/did_v2/{n}.json"}
                      for n in names]}))
     if final_set is None:
         final_set = _final_set([[f"class_{i}"] for i in range(7)], ["gone_one"])
@@ -79,7 +80,8 @@ def test_a_clean_fixture_passes(tmp_path):
 
 def test_a_class_in_no_category_fails(tmp_path):
     root = make_repo(tmp_path)
-    (root / "schemas" / "did_v2" / "stable" / "orphan_class.json").write_text(
+    (root / "schemas" / "did_v2" / "value").mkdir()
+    (root / "schemas" / "did_v2" / "value" / "orphan_class.json").write_text(
         json.dumps(_class("orphan_class")))
     fails = cv.check(str(root))
     assert any("orphan_class" in f and "in no category" in f for f in fails)
@@ -138,7 +140,9 @@ def test_a_class_name_written_into_the_viewer_fails(tmp_path):
 def test_an_empty_tree_is_a_failure_not_a_clean_zero(tmp_path):
     fails = cv.check(str(make_repo(tmp_path, names=[],
                                    final_set=_final_set([[]] * 7))))
-    assert "the glob matched no files" not in fails  # index.json still matches
+    # The index is outside the class folder now ([schema folders by family]),
+    # so an empty class tree matches nothing at all -- and both are failures.
+    assert "the glob matched no files" in fails
     assert "no class files were found" in fails
 
 

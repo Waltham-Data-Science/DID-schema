@@ -68,7 +68,7 @@ No other tenet violation was found in the 93 non-retire stable/draft classes. Ch
 
 **B2. MEDIUM: one concept, two variables (the finer kind of a sample or material).**
 - T1 amendment: "finer kind … is one `term` assertion (Sample Type for samples and materials …)".
-- `V_eta_term_registry.json` registers "Sample Type" NCIT:C210102 ("decided": "Jess Haley, 2026-10-20"). `V_eta_term_registry_plan.md` says it is "registered as the variable that says what kind of thing a subject is (a patch's `bacterial patch`)".
+- `did_v2_term_registry.json` registers "Sample Type" NCIT:C210102 ("decided": "Jess Haley, 2026-10-20"). `V_eta_term_registry_plan.md` says it is "registered as the variable that says what kind of thing a subject is (a patch's `bacterial patch`)".
 - `subject_statement_bindings` holds no Sample Type row. Instead it binds `material type` EMPTY:0000354 and `culture type` EMPTY:0000357, the latter with values `[bacterial patch]` (TEAM-SIGN-OFF [term registry closed value sets] 2026-10-21).
 - So a bacterial patch's kind has two candidate variables. Which one the Haley writer emits: not measured.
 

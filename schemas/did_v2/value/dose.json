@@ -1,0 +1,600 @@
+{
+    "document_class": {
+        "class_name": "dose",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "value"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "formulation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "What was given. A '1x' / '10x' strength is a formulation of its own, made from the stock.",
+            "must_refer_to_document_class": "formulation"
+        },
+        {
+            "name": "ingredient_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: an ingredient of the formulation whose own amount this dose states, in the order of `value.ingredients` (entry k describes edge k, 0-based; the order carries no other meaning). Each one must also be an `ingredient_id` of the dose's formulation (rule `ingredient_in_formulation`). Used when the source gives the amount of one ingredient rather than of the whole mixture: 1 mg/kg of alprazolam, given in saline (Jess Haley, 2026-10-21 [dose per ingredient]).",
+            "must_refer_to_document_class": "chemical,formulation,entity",
+            "multiple": true,
+            "ordered": true,
+            "min_count": 0
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How much was given. The top-level quantities are the amount of the WHOLE formulation (the injected solution); the amount of one specific ingredient (the active chemical) goes in `ingredients`, one entry per `ingredient_id` edge (Jess Haley, 2026-10-21 [dose per ingredient]). A dose is a quantity the subject takes in, so it always has an amount: fill at least one of the slots below, at the top level or in `ingredients`. A subject immersed in a formulation (a bath, perfusion, an assay droplet) is not given a quantity and is not a dose: it is a `manipulation` whose value is the formulation, through `value_id` (Jess Haley, 2026-10-21; V_eta_go_forward_class_audit.md). A dose whose amount the source does not record states the amount as unknown, never leaves it empty: it writes NaN in the quantity's canonical slot, e.g. `volume.liters: NaN` (Jess Haley, 2026-10-21). NaN is a stated value under `value_inline_or_body`, and V2 stores it as V1 does, as the literal NaN in the document text.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "mass",
+                    "type": "mass",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "grams": 0.0,
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
+                        "source_value": 0.0,
+                        "approximate": false,
+                        "tolerance": {}
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Mass, optional.",
+                    "constraints": {}
+                },
+                {
+                    "name": "volume",
+                    "type": "volume",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "liters": 0.0,
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
+                        "source_value": 0.0,
+                        "approximate": false,
+                        "tolerance": {}
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Volume, optional.",
+                    "constraints": {}
+                },
+                {
+                    "name": "substance_amount",
+                    "type": "substance_amount",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "moles": 0.0,
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
+                        "source_value": 0.0,
+                        "approximate": false,
+                        "tolerance": {}
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Moles, optional.",
+                    "constraints": {}
+                },
+                {
+                    "name": "count",
+                    "type": "count",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "count": 0,
+                        "approximate": false,
+                        "tolerance": {}
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A count of entities (e.g. viral genomes), optional.",
+                    "constraints": {}
+                },
+                {
+                    "name": "amount_per_body_mass",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Optional: how much per gram of the subject's body mass (mg/kg -> grams_per_gram 1e-6). Canonical slots name their full unit; fill what the source unit converts to.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "grams_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Grams given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "liters_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Liters given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "moles_per_gram",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Moles given per gram of body mass.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the unit of the canonical slot that is filled. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "ingredients",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The amount of specific ingredients of the formulation that were given, as opposed to the amount of the whole formulation (the top-level quantities). Exactly one entry per `ingredient_id` edge on this dose, same order (0-based). Example: alprazolam 1 mg/kg given in saline is a dose of the alprazolam-in-saline formulation with one `ingredient_id` edge to the alprazolam chemical and `ingredients[0].amount_per_body_mass.grams_per_gram` = 1e-6; the injected volume, if unrecorded, stays NaN at the top level.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "mass",
+                            "type": "mass",
+                            "blank_value": 0.0,
+                            "default_value": {
+                                "grams": 0.0,
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
+                                "source_value": 0.0,
+                                "approximate": false,
+                                "tolerance": {}
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Mass, optional.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "volume",
+                            "type": "volume",
+                            "blank_value": 0.0,
+                            "default_value": {
+                                "liters": 0.0,
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
+                                "source_value": 0.0,
+                                "approximate": false,
+                                "tolerance": {}
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Volume, optional.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "substance_amount",
+                            "type": "substance_amount",
+                            "blank_value": 0.0,
+                            "default_value": {
+                                "moles": 0.0,
+                                "source_unit": {
+                                    "node": "",
+                                    "name": ""
+                                },
+                                "source_value": 0.0,
+                                "approximate": false,
+                                "tolerance": {}
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Moles, optional.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "count",
+                            "type": "count",
+                            "blank_value": 0.0,
+                            "default_value": {
+                                "count": 0,
+                                "approximate": false,
+                                "tolerance": {}
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "A count of entities (e.g. viral genomes), optional.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "amount_per_body_mass",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Optional: how much per gram of the subject's body mass (mg/kg -> grams_per_gram 1e-6). Canonical slots name their full unit; fill what the source unit converts to.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "grams_per_gram",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Grams given per gram of body mass.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "liters_per_gram",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Liters given per gram of body mass.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "moles_per_gram",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Moles given per gram of body mass.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "source_value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The number as given, in `source_unit`.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "approximate",
+                                    "type": "boolean",
+                                    "blank_value": false,
+                                    "default_value": false,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "True when the value is approximate.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "tolerance",
+                                    "type": "structure",
+                                    "blank_value": {},
+                                    "default_value": {},
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the unit of the canonical slot that is filled. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "minus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far BELOW the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much EARLIER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        },
+                                        {
+                                            "name": "plus",
+                                            "type": "double",
+                                            "blank_value": 0.0,
+                                            "default_value": 0.0,
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "How far ABOVE the stated value the true value may lie, in the unit of the canonical slot that is filled (for a time: how much LATER). Non-negative.",
+                                            "constraints": {
+                                                "minimum": 0
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "name": "ingredients_match_edges",
+            "fields": [
+                "value.ingredients",
+                "ingredient_id"
+            ],
+            "statement": "`value.ingredients` has exactly one entry per `ingredient_id` edge on the dose, in the same order (entry k describes edge k, 0-based). Checkable on the dose alone."
+        },
+        {
+            "name": "ingredient_in_formulation",
+            "fields": [
+                "ingredient_id",
+                "formulation_id"
+            ],
+            "statement": "Each `ingredient_id` on a dose is also one of the `ingredient_id` edges of the formulation its `formulation_id` names. Not checkable on the dose alone -- it needs the formulation document -- so it is a batch (database) check, or a builder check when the formulation is at hand (Jess Haley, 2026-10-21 [dose per ingredient])."
+        }
+    ]
+}

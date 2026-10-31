@@ -231,7 +231,7 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     it, or a decision names it as a target. The rule is written into T3. **51 leaves are
     deleted**, measured over 1,232 `.m` files (DID-matlab + NDI-matlab `src`, V_eta
     branches, comments stripped, plus `jQuantityLeaf`'s runtime-built names) and
-    `V_eta_migration_targets.json`: 48 had no writer and no decided use; three were written
+    `did_v2_migration_targets.json`: 48 had no writer and no decided use; three were written
     only by dead or superseded code (`angle_observation` by `jDecomposeScalars`, which
     nothing calls; `visual_grating_manipulation` by the old NDI assembler `local.m` no
     longer calls; `count_assertion`, replaced by item 48). **`image_manipulation` is
@@ -563,7 +563,7 @@ Decided by Jess Haley, 2026-10-21 [calculation-os-optional]: "A calculation's `o
 `complete` + `labels_from` / `cyclic` / `chunk` + `axis_labels_#`; the image value;
 `data_body.owner` + file series + identity fields + `redundant`; `relation.method` +
 `value_id`; every data type concrete; the eight spatial copies retired, with their
-decided targets in `V_eta_migration_targets.json`.
+decided targets in `did_v2_migration_targets.json`.
 
 **Not built:** the vocabulary (the term worksheet — axis, direction, origin, assay and
 variable terms; registries were unreachable from the review's container); every emitter

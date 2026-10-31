@@ -96,7 +96,7 @@ That is why this proposal relies on `element_epochid` and not on the presentatio
 
 **Proposed home (not decided): `input_id`, beside the presentation.** Under [control pairing is a calculation], each `control_stimulus_ids` record becomes a `calculation` that keeps the record's id (`stimulusPresentationToItem.m:181`, "base.id = THE RECORD's id"). The v1 edge therefore already resolves to that calculation.
 
-`calculation.input_id` is `multiple`, unordered and typed to `statement` (`schemas/did_v2/stable/calculation.json`). Both inputs are statements:
+`calculation.input_id` is `multiple`, unordered and typed to `statement` (`schemas/did_v2/calculation.json`). Both inputs are statements:
 
 - the presentation is a `manipulation`;
 - the pairing is a `calculation` with the method term "control stimulus pairing".
@@ -168,7 +168,7 @@ So the two are told apart by the document each one names.
 
 So the text cannot be rebuilt by rule, and parsing it would not give [one correct reading].
 
-**Proposed home (not decided):** `statement.notes`, verbatim. Its definition is "irreducible human prose about this statement -- what happened" (`schemas/did_v2/stable/statement.json`). An empty log writes nothing.
+**Proposed home (not decided):** `statement.notes`, verbatim. Its definition is "irreducible human prose about this statement -- what happened" (`schemas/did_v2/statement.json`). An empty log writes nothing.
 
 - **Change needed:** code only.
 - **Round trip:** exact. If notes are absent, the rebuild writes `''`.
@@ -206,7 +206,7 @@ Each value, from `+vis/+contrast/+indexes/`:
 - **Saturation index:** `contrastfit2saturationindex.m:9` "SI = (Rmax - R(100)) / (Rmax - R(0))". It is NaN when undefined.
 - **Sensitivity:** a 1 × 10 vector. `fitindexes.m:52-54` "contrast sensitivity with criteria of [1 ... 10] standard deviations of the control response", and `:111-116`. Each entry is 1/(the first contrast where the fit exceeds the criterion), or 0 if it never does (`contrastfit2sensitivity.m:8-11`). Its length is 10 on 68,688 of 68,688 fit blocks (inline check).
 
-**Proposed home (not decided):** three optional fields in `tuning_curve.value.model_fit[].metrics`, named as `contrast_sensitivity.value.model_fit[]` already names the same three per-spatial-frequency values (`schemas/did_v2/stable/contrast_sensitivity.json`):
+**Proposed home (not decided):** three optional fields in `tuning_curve.value.model_fit[].metrics`, named as `contrast_sensitivity.value.model_fit[]` already names the same three per-spatial-frequency values (`schemas/did_v2/value/contrast_sensitivity.json`):
 
 - `relative_max_gain` (double);
 - `saturation_index` (double);
@@ -245,7 +245,7 @@ TF is the same (`temporal_frequency_tuning.m:294-303`). Each `abs` holds `fit_do
 
 This reuses `spatial_frequency_tuning_calculation` and `temporal_frequency_tuning_calculation` unchanged. The alternative, an option for Q6, is a schema change: a new `response_transform` field on the fit entry (`model_fit.value`, rule R17) plus a second `interpolated_values` block.
 
-- **Change needed:** code (DID-matlab `jCalculation` / `jTuningCurve`), plus one registry row, "absolute value", or a label until a term is chosen. The registry has 880 rows and none is "absolute value" (grep of `schemas/V_eta_term_registry.json`).
+- **Change needed:** code (DID-matlab `jCalculation` / `jTuningCurve`), plus one registry row, "absolute value", or a label until a term is chosen. The registry has 880 rows and none is "absolute value" (grep of `schemas/registry/did_v2_term_registry.json`).
 - **Round trip:** exact. The reverse migrator finds the child through its `input_id` and rebuilds `abs.*` from it. The child's id is new; v1 gave the `abs` block no id.
 
 ## 3. Summary

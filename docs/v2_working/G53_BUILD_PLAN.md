@@ -19,7 +19,7 @@ docs/V2_PLAN.md G69.
 | ndi-ontology-matlab | `origin/main` 7b51308 (cloned read-only into scratch `g53/ext/`) | `git log -1 origin/main` |
 | EMPTY terms the six lines touch | **91** (tier A 70, tier B 21) | row->node map parsed from `docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md`, checked: 91 rows, all match the proposal's node column |
 | term registry rows | 914 | `json.load(...)['terms']` |
-| of the 91, registered in the term registry | **0** | `git grep -c -P "$PAT" HEAD -- schemas/V_eta_term_registry.json schemas/did_v2` -> no output, exit=1 |
+| of the 91, registered in the term registry | **0** | `git grep -c -P "$PAT" HEAD -- schemas/registry/did_v2_term_registry.json schemas/did_v2` -> no output, exit=1 |
 
 `$PAT` (all 91 nodes, both spellings) is in `g53/pat.txt`:
 `EMPTY[:_](0000003|0000004|...|0000257)(?![0-9])`.
@@ -198,10 +198,10 @@ dictionary entry, which writes "EMPTY:Elevated Plus Maze: open arm (north) - ent
     HEAD:docs/v2_working/EMPTY_ASSAY_LABELS_PROPOSAL.md:96
     HEAD:review/tenet-audit-2026-10-22/synonym_audit_alternative_names.md:7
     HEAD:review/tenet-audit-2026-10-22/synonym_audit_writer_strings.md:91
-    HEAD:schemas/V_eta_coverage_ledger.json:1
+    HEAD:schemas/generated/did_v2_coverage_ledger.json:1
     HEAD:schemas/V_eta_coverage_ledger.md:1
     HEAD:schemas/V_eta_go_forward_class_audit.md:6
-    HEAD:schemas/V_eta_migration_targets.json:1
+    HEAD:schemas/generated/did_v2_migration_targets.json:1
     HEAD:tests/test_term_registry.py:2
     == empty-ontology: git grep -c -P "$PAT" origin/V2
     origin/V2:docs/conventions.md:1
@@ -209,7 +209,7 @@ dictionary entry, which writes "EMPTY:Elevated Plus Maze: open arm (north) - ent
     origin/V2:src/ontology/empty-edit.owl:535
     origin/V2:src/ontology/rename_map.tsv:80
 
-    == git grep -c -P "$PAT" HEAD -- schemas/V_eta_term_registry.json schemas/did_v2
+    == git grep -c -P "$PAT" HEAD -- schemas/registry/did_v2_term_registry.json schemas/did_v2
     (no output) exit=1        -> none of the 91 is in the term registry, binding registry or any class file
 
 DID-matlab `src/`: `git -C DID-matlab grep -c -P 'EMPTY[:_]0000(129|256|257)(?![0-9])' origin/V2 -- src`
@@ -217,7 +217,7 @@ printed nothing, exit 1. So every DID-matlab hit is a **test fixture** (v1 docum
 NDI's writers give them), not a reader in `src/`.
 
 did-schema non-record hits: `schemas/V_eta_coverage_ledger.{md,json}` and
-`schemas/V_eta_migration_targets.json` carry one authored flag sentence each ("JH's 7,007 are
+`schemas/generated/did_v2_migration_targets.json` carry one authored flag sentence each ("JH's 7,007 are
 EMPTY:0000129-133", the `ontologyLabel` row); `tests/test_term_registry.py:262-263` uses
 EMPTY:0000003 / 0000004 as synthetic R12 fixtures (names "w", "x"; not read against the ontology).
 The empty-ontology release artefacts (`empty-base.owl` etc.) were last regenerated 2026-04-04
@@ -480,7 +480,7 @@ lands no later than its writer. Obsoleted EMPTY nodes need no row (no V2 writer;
 **Step 7. did-schema: close the lines.** For each repository, change the six lines'
 `Build pending: <repo> (...)` to `Built: <repo> <commit>` in the same or next did-schema PR
 (rule 4). The authored flag sentence "JH's 7,007 are EMPTY:0000129-133" in
-`schemas/V_eta_migration_targets.json` (and the generated ledger) describes v1 data and stays true.
+`schemas/generated/did_v2_migration_targets.json` (and the generated ledger) describes v1 data and stays true.
 
 ---
 
@@ -584,7 +584,7 @@ named. A closed `values` list in `binding_registry_meta.json`, or any WBls term?
 
 ## 5. New registry rows needed
 
-Checked against `schemas/V_eta_term_registry.json` at did-schema HEAD (914 rows): by node (exact,
+Checked against `schemas/registry/did_v2_term_registry.json` at did-schema HEAD (914 rows): by node (exact,
 case-insensitive), by node suffix, and by name/synonym with R2's normalisation (lower case, spaces,
 `_` and `-` removed). Script output: every CURIE below "NOT IN REGISTRY" except the four marked;
 name clashes only where noted.

@@ -15,7 +15,7 @@ READ-ONLY. DID-schema `claude/ecstatic-pascal-md91fw` at `51250ef`. Siblings as 
   - The other 6 are the tuning family: `tuning_curve_calculation` and its 5 single-parent family leaves (the signed shape).
   - 33 of the 40 declare nothing of their own. The 7 that do: `term_assertion` has one edge; the 6 tuning leaves have fields.
 - **Who needs a leaf.**
-  - The 105 rows of `schemas/V_eta_migration_targets.json`, reading `targets`, `decided_targets` and `second_pass`.
+  - The 105 rows of `schemas/generated/did_v2_migration_targets.json`, reading `targets`, `decided_targets` and `second_pass`.
   - 1,232 `.m` files: 291 under DID-matlab `src`, 941 under NDI-matlab `src`. I searched them for each leaf name as a quoted string literal, skipping comment-only lines. Leaf names built at runtime, such as `[leaf '_observation']` at `jMeasurementFold.m:82`, cannot be found this way.
 - **Governance.**
   - `status_board.signature_census()` reads 53 `schemas/*.md` files; 3 generated files are excluded. It accepts 48 sign-off lines and rejects 2: the code-fence quotation at `V_eta_method_parameters_plan.md:694` and the superseded line at `V_eta_go_forward_class_audit.md:798`.
@@ -57,7 +57,7 @@ The five most important findings:
 
 Columns:
 - **dir × type**: the leaf's two parents.
-- **who needs it**: string-literal hits, then `V_eta_migration_targets.json` lists.
+- **who needs it**: string-literal hits, then `did_v2_migration_targets.json` lists.
   - "targets" is GENERATED from the call graph; "decided" is authored.
   - The first three files are named.
 - **governance (mechanical)**: whether the leaf's name appears in the paragraph of an accepted `TEAM-SIGN-OFF` line.
@@ -120,9 +120,9 @@ Columns:
 ### A. The leaves (T2, T3, T14)
 
 1. **VIOLATION (T2) — `vmspikefit` → `score_observation`, a calculation routed as an observation, with no decision covering it.**
-   - Its generated targets are `V_eta_migration_targets.json` `/classes/vmspikefit/targets = ["score_observation", "session_relative_reference", "software"]`, with how "r_squared -> a goodness-of-fit score_observation".
+   - Its generated targets are `did_v2_migration_targets.json` `/classes/vmspikefit/targets = ["score_observation", "session_relative_reference", "software"]`, with how "r_squared -> a goodness-of-fit score_observation".
    - The emitter is `DID-matlab …/+migrators_j/vmspikefit.m:99`, `classBlock('score_observation', {'subject_observation', 'score'})`.
-   - The v1 template is `V_eta_ndi_ground_truth.json` `classes.vmspikefit`, with deps `['fit_input_id', 'element_id']`. Its fields are `fit_constraints, fit_equation, fit_name, fit_parameter_names, fit_parameters, fit_sse, fit_sse_perpoint`, the `fitcurve` field set.
+   - The v1 template is `did_v2_ndi_ground_truth.json` `classes.vmspikefit`, with deps `['fit_input_id', 'element_id']`. Its fields are `fit_constraints, fit_equation, fit_name, fit_parameter_names, fit_parameters, fit_sse, fit_sse_perpoint`, the `fitcurve` field set.
    - T2 says "A statement whose inputs are other statements in the dataset is a `subject_calculation`". Item 68 routes `fitcurve`, with the same fields, to `model_fit_calculation`.
    - `vmspikefit` has no `decided_targets`. Items 48 and 68 fixed its two siblings and missed it.
    - *Suggestion:* put `vmspikefit` on the team list next to item 68 (a `model_fit_calculation` with `input_id` → `fit_input_id`).
@@ -161,13 +161,13 @@ Columns:
    - Not new: the build acknowledges this at `tools/build_v_eta.py` (the `_DELETE_NO_V1_PROVENANCE` comment: "PR #76 DID-matlab checklist").
    - *Suggestion:* none beyond the existing PR #76 checklist. It is listed so the Bar-2 reading does not assume these leaves are emitted.
 
-6. **STALE-DOC — the `stimulus_response_scalar` row in `V_eta_migration_targets.json` contradicts itself and the migrator.**
+6. **STALE-DOC — the `stimulus_response_scalar` row in `did_v2_migration_targets.json` contradicts itself and the migrator.**
    - The row's `flags` say "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via … into `harmonic_component_calculation` … TARGET SUPERSEDED per issue #67 -- pending new signed target".
    - The same row's `how` says "RESTORED TARGET (#73 review … item 37) … The migrator is a guarded passthrough today (PR #68)".
    - The migrator header agrees with `how`: "CONVERTED TO A GUARDED PASSTHROUGH in PR #68" (`stimulus_response_scalar.m:2-7`).
    - *Suggestion:* rewrite `flags` to match `how`.
 
-7. **STALE-DOC — `V_eta_migration_targets.json` `/classes/app/how` still says "Run-specific os/interpreter details move to `execution_environment` on the interaction".** Item 53 dropped `execution_environment` and moved os and interpreter to `subject_calculation.interpreter_id` / `operating_system_id`. *Suggestion:* repoint the sentence to item 53.
+7. **STALE-DOC — `did_v2_migration_targets.json` `/classes/app/how` still says "Run-specific os/interpreter details move to `execution_environment` on the interaction".** Item 53 dropped `execution_environment` and moved os and interpreter to `subject_calculation.interpreter_id` / `operating_system_id`. *Suggestion:* repoint the sentence to item 53.
 
 8. **STALE-DOC — `term_assertion` edge `strain_id` argues from a count and a convention that no longer hold.**
    - Its doc reads "Named for its target per the convention measured across 97 dependency declarations (45 distinct names, all `<target>_id`)".
@@ -258,7 +258,7 @@ All 12 bound fields, with their strength:
 
 14. **VIOLATION (T13 tombstone rule; item 18) — the retired spatial "tombstones" are not the v1 shape. `spatial_gene_expression_pyramid` inherits the V_eta spine.**
     - The pyramid tombstone (`stable/spatial_gene_expression_pyramid.json`) is ⊂ `[base, gene_expression, subject_observation]` and REQUIRES edge `gene_list_id`.
-    - The v1 template is ⊂ `[base, geneExpression]`, with deps `subject_id` and `geneList_id` (`V_eta_ndi_ground_truth.json` `classes.spatialGeneExpressionPyramid`).
+    - The v1 template is ⊂ `[base, geneExpression]`, with deps `subject_id` and `geneList_id` (`did_v2_ndi_ground_truth.json` `classes.spatialGeneExpressionPyramid`).
     - The same snake_casing of REQUIRED v1 edges appears on three more tombstones:
       - `spatial_gene_expression_cells.spatial_gene_expression_pyramid_id` (v1 `spatialGeneExpressionPyramid_id`);
       - `spatial_gene_expression_tiles.spatial_gene_expression_pyramid_id` (v1 `spatialGeneExpressionPyramid_id`);
@@ -350,7 +350,7 @@ All 12 bound fields, with their strength:
 | 1 | `reverse_correlation` / `hartley_reverse_correlation` fieldless persist markers under `receptive_field` | FIXED | item 43; `index.json`: both `retire`, ⊂ `[base, ngrid]` / `[base, reverse_correlation]` |
 | 2 | `image_observation.ontology_table_row_id` edge to a retiring class | MOOT | item 42 dropped the edge; item 51 retired `image_observation` (no file in the tree) |
 | 3 | `migration_targets` routes the stimulus second pass to `visual_grating_manipulation` | FIXED | `/classes/stimulus_presentation/second_pass = [timed_sequence_manipulation, timed_sequence, visual_grating, sampled_body]` |
-| 4 | `"duration_observation"` in `migration_targets` | FIXED | `grep -c '"duration_observation"' schemas/V_eta_migration_targets.json` = 0 |
+| 4 | `"duration_observation"` in `migration_targets` | FIXED | `grep -c '"duration_observation"' schemas/generated/did_v2_migration_targets.json` = 0 |
 | 5 | `logical_observation` persists with no consumer | FIXED | item 52; no file in the tree |
 | 6 | `voltage_`/`current_`/`force_`/`concentration_manipulation` with no warrant | FIXED | item 50; none of the four in `index.json` |
 | 7 | `gain_assertion` / `gain_observation` with no warrant | FIXED | item 50; neither in `index.json` (the `gain` composite stays, per T3) |

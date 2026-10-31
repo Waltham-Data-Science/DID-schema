@@ -5,7 +5,7 @@ Read-only. Nothing written under /home/user/DID-schema.
 ## Where and when this was measured
 
 - did-schema `claude/ecstatic-pascal-md91fw` at `701a5de`. `git pull` printed "Already up to date."
-- **The working tree changed while I was reading it.** Another process modified 7 files between 14:44 and 14:49 UTC: `V_eta_STATUS.md`, `V_eta_coverage_ledger.*`, `V_eta_data_body_model_plan.md` (it appended a `Decided by ... [index covariates]` line), `V_eta_decisions.json`, `V_eta_go_forward_class_audit.md` and `web/public/class_walkthrough.json`. I did not make these changes. None of the class files, the binding registry, the term registry or the tenets are among them.
+- **The working tree changed while I was reading it.** Another process modified 7 files between 14:44 and 14:49 UTC: `V_eta_STATUS.md`, `V_eta_coverage_ledger.*`, `V_eta_data_body_model_plan.md` (it appended a `Decided by ... [index covariates]` line), `did_v2_decisions.json`, `V_eta_go_forward_class_audit.md` and `web/public/class_walkthrough.json`. I did not make these changes. None of the class files, the binding registry, the term registry or the tenets are among them.
 - Sibling checkouts I used as evidence:
   - NDI-matlab: local `235801928`, which is behind `origin/claude/v2-object-layer` at `584b419`. I re-checked every NDI quote at `584b419`.
   - DID-matlab: detached at `8eec66a`.
@@ -103,7 +103,7 @@ Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs i
 
 **M5. The relation and entity-type vocabularies are outside the term registry and T19's order (C).**
 - 29 of the 34 relation_bindings rows have `"node": ""`.
-- None of the 34 relation names is in `V_eta_term_registry.json`.
+- None of the 34 relation names is in `did_v2_term_registry.json`.
 - Every `entity.type` value has `"node": ""`.
 - The registry's description limits its scope to "a variable, method, unit, condition, parameter or key".
 - T19 says: "A term reached at step 2 or 3 is registered before it is used."
@@ -139,7 +139,7 @@ Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs i
 | `statement.json` and `directed_relation.json` `distributive` | "`subject.type` group" | should be `entity.type` |
 | `index.json` `notes` | "subject_relation documents, restored subject_statement/subject_assertion ... term_observation" | retired names |
 | `ensemble.json` `neuron_id_#` | "Typed to `subject`" | retired subject class |
-| `V_eta_term_registry.json` `description` | "tools/build_v_eta.py copies it" and "or key" | script deleted; keys replaced by AMENDMENT 6 |
+| `did_v2_term_registry.json` `description` | "tools/build_v_eta.py copies it" and "or key" | script deleted; keys replaced by AMENDMENT 6 |
 | `V_eta_duplicate_entities_plan.md` "Where it is stored" | "like the `part_of` relations that make a session a member" | superseded by `included_in` (`TEAM-SIGN-OFF [relation inheritance]`). The T18 text in the tenets was updated; the plan was not. |
 
 **L2. Two relation names and their endpoint types.**

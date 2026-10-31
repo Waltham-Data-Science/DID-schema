@@ -20,7 +20,7 @@ and `review/73/audit2_SUMMARY.md` (the audit 2 decision log, D1-D13). Decider th
 | A6 | [tuning] #67 `independent_variables[]` | dropped; the dimensions are the value's `keys` | audit 2 D3 | V_eta_tuning_model_plan.md (amendment appended) |
 | A7 | [spike processing parameters] "no `unit` field" | the parameter entry carries a bound `unit` | audit 2 D4 | V_eta_method_parameters_plan.md (amendment appended) |
 | A8 | [stimulus] onsets on a body owned by the manipulation | onsets are the sequence's own time key; `offset` field | audit 2 D11 | V_eta_stimulus_model_plan.md (amendment inline) |
-| A9 | [pyraview pyramid] confirmed 2026-08-13: `voltage_observation` + `sampled_body` is the end state | the levels are `redundant` sampled bodies owned by the RECORDING's observation (second-pass join), not a second `voltage_observation` | audit 2 D7 | V_eta_recording_observation_plan.md; then move `confirmed_targets` -> `decided_targets` in V_eta_migration_targets.json |
+| A9 | [pyraview pyramid] confirmed 2026-08-13: `voltage_observation` + `sampled_body` is the end state | the levels are `redundant` sampled bodies owned by the RECORDING's observation (second-pass join), not a second `voltage_observation` | audit 2 D7 | V_eta_recording_observation_plan.md; then move `confirmed_targets` -> `decided_targets` in did_v2_migration_targets.json |
 
 Also open, carried from earlier: whether the time-reference signature (`V_eta_time_reference_model_plan.md:468`) reaches CHANGE 5 (the `value.clock` uniqueness rule, built).
 

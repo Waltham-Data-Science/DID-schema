@@ -14,7 +14,7 @@ green and the data quietly goes missing. `distance_metadata`, `ontology_image` a
 So this tool makes the real thing machine-readable, and every later phase checks
 against it rather than against anything on the DID side.
 
-WHAT IT EMITS  (schemas/V_eta_ndi_ground_truth.json)
+WHAT IT EMITS  (schemas/generated/did_v2_ndi_ground_truth.json)
 ----------------------------------------------------
   classes[<ndi class name>]:
       fields            declared property-block field names (snake-cased)
@@ -104,7 +104,7 @@ sys.path.insert(0, HERE)
 # for, so the ground truth moves only when the lock does.
 import sibling_lock  # noqa: E402
 
-OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+OUT = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
 # Filled by _schema_deps; reported in the ground-truth summary.

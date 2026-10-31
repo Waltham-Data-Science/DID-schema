@@ -39,7 +39,7 @@ def _load(path):
 
 
 def _places():
-    files = [f for f in glob.glob(os.path.join(ROOT, "*", "*.json"))
+    files = [f for f in glob.glob(os.path.join(ROOT, "**", "*.json"), recursive=True)
              if "document_class" in _load(f)]
     out = []
     # A nested quantity names its value class and carries no cell of its own

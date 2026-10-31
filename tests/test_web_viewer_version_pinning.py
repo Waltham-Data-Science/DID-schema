@@ -116,18 +116,32 @@ def test_every_set_the_picker_can_reach_actually_ships_a_meta_schema():
     dependency on every selectable set carrying the file -- so check it, rather
     than assume it, and fail with the set named.
     """
-    schemas_dir = os.path.join(REPO_ROOT, "schemas")
-    sets = sorted(
-        d for d in os.listdir(schemas_dir)
-        if d.startswith(("V_", "did_v"))
-        and os.path.isfile(os.path.join(schemas_dir, d, "index.json")))
+    # The selection rule and the copy contract are read from the sync script
+    # by the freshness gate; reuse them rather than restate them. Since
+    # [schema folders by family] a set's meta-schema is not in its folder
+    # (schemas/registry/did_schema_meta.json); the sync copies it to
+    # public/schemas/<set>/did_schema_meta.json, where the editor fetches it.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_cwaf", os.path.join(REPO_ROOT, "tools", "check_web_assets_fresh.py"))
+    w = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(w)
+    copies, _inplace, _set_root, _data = w.read_contract(REPO_ROOT)
+    sets = w.schema_sets(REPO_ROOT)
     assert sets, "no schema sets with an index.json -- nothing to check"
-    missing = [
-        s for s in sets
-        if not os.path.isfile(
-            os.path.join(schemas_dir, s, "stable", "did_schema_meta.json"))]
+    schemas_dir = os.path.join(REPO_ROOT, "schemas")
+
+    def served_meta_source(s):
+        own = os.path.join(schemas_dir, s, "did_schema_meta.json")
+        if os.path.isfile(own):
+            return own
+        src = copies.get(f"schemas/{s}/did_schema_meta.json")
+        return os.path.join(schemas_dir, src) if src else None
+
+    missing = [s for s in sets
+               if not (served_meta_source(s) and os.path.isfile(served_meta_source(s)))]
     assert not missing, (
-        f'{len(missing)} of {len(sets)} selectable set(s) ship no stable/did_schema_meta.json, so choosing one in the viewer breaks the editor: {", ".join(missing)}')
+        f'{len(missing)} of {len(sets)} selectable set(s) serve no did_schema_meta.json, so choosing one in the viewer breaks the editor: {", ".join(missing)}')
 
 
 def test_the_editor_names_the_set_it_validated_against():

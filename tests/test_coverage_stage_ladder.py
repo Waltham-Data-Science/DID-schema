@@ -3,7 +3,7 @@
 WHY THIS FILE EXISTS
 --------------------
 "How far has this v1 class actually got?" was a judgement assembled by hand from
-five fields of `V_eta_coverage_ledger.json`. Five people assemble it five ways
+five fields of `did_v2_coverage_ledger.json`. Five people assemble it five ways
 and none of them is re-derivable next week. `tools/coverage.py` DERIVES a stage
 per class, and this file is the thing that keeps it honest.
 
@@ -71,7 +71,7 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 
 import coverage  # noqa: E402
 
-LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
 LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
 
 # PINNED, DELIBERATELY. The v1 source universe is 113 (was 102 until 2026-08;
@@ -771,7 +771,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # migrators were still queued as OPEN_WORK #122. Session 2's
         # DID-matlab PR #151 (merged as commit 932d653 into the veta
         # branch) closed that gap: all 8 migrators exist in
-        # +migrators_j/, the row set in V_eta_migration_targets.json was
+        # +migrators_j/, the row set in did_v2_migration_targets.json was
         # extended via `refresh_migration_targets.py`, and each class now
         # reaches stage 3 (migrator emits its decided targets), which is
         # the SAME climb `app`->`software` made -- so like `app`, the
@@ -1302,7 +1302,7 @@ class ConfirmedTargetsCase(unittest.TestCase):
     """
 
     def test_the_five_answered_rows_reach_stage_3(self):
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         # element and pyraview LEFT this list 2026-09-25: #65 increment 3b deleted
@@ -1356,7 +1356,7 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # record with no document. Confirming a target set is not signing a
         # disposition; the governance citation must still come from the class's own
         # decision citation (tools/decision_citations.py).
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
@@ -1368,9 +1368,11 @@ class ConfirmedTargetsCase(unittest.TestCase):
     def test_confirmed_and_decided_cannot_both_be_recorded(self):
         # "already right" and "still owed" are opposites. A row asserting both
         # must stop the ledger, not have one silently win.
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
-        with open(path) as fh:
-            doc = json.load(fh)
+        # The merged map: the authored registry/did_v2_migration_decisions.json
+        # with the generated targets ([schema folders by family] split it).
+        sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+        import schema_paths
+        doc = schema_paths.load_migration_targets(REPO_ROOT)
         rows = doc.get("classes") or doc
         both = [k for k, v in rows.items()
                 if isinstance(v, dict) and (v.get("confirmed_targets") or {}).get("targets")
@@ -1389,10 +1391,10 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # emitted for rung 3. The DID-matlab #88 port (#218, 229c12e) removed
         # `mk`: element.m now builds through did2.build, the derivation reads
         # it in full, and it mints no observation. So the authored entry is
-        # gone from V_eta_migration_targets.json (with that evidence in the
+        # gone from did_v2_migration_targets.json (with that evidence in the
         # row's flags), and the confirmed observations must now read as NOT
         # emitted -- the gap is real, and hiding it is what this rung is for.
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]

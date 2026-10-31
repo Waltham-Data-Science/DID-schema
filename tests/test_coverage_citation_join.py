@@ -43,7 +43,7 @@ import decision_citations as dc  # noqa: E402
 import status_board  # noqa: E402
 
 SCHEMAS = os.path.join(REPO_ROOT, "schemas")
-LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(SCHEMAS, "generated", "did_v2_coverage_ledger.json")
 LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
 
 # 115: NDI-matlab#979 added lightsheetZarrPyramid + lightsheetZarrLevel (2026-10).

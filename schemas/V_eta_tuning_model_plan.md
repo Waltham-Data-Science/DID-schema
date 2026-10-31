@@ -123,7 +123,7 @@ be re-verified on the corpus after the re-target, not assumed.
    ARRAY entry (`model` term + coefficients + goodness); map the `vector`/`significance`/
    `fitless` scalars into the TYPED metrics block (queryable), NOT into `model_fit`.
 5. **Retire the five per-tuning composite class names + `stimulus_tuningcurve`** as distinct
-   composites (they become instances of `tuning_curve`); update `V_eta_migration_targets.json`
+   composites (they become instances of `tuning_curve`); update `did_v2_migration_targets.json`
    (the 12 tuning-family entries) to point at `tuning_curve_calculation` — the 13th
    calc-family entry, `contrast_sensitivity_calc`, stays on `contrast_sensitivity_calculation`;
    update

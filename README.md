@@ -15,7 +15,7 @@ The schema in use is **V_eta**. Each document class is one JSON file under `sche
 
 Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`, plus `fields` for a structure.
 
-`schemas/did_v2/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/did_v2/stable/*_meta.json`; the term registry's source is `schemas/V_eta_term_registry.json`.
+`schemas/generated/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/did_v2/stable/*_meta.json`; the term registry's source is `schemas/registry/did_v2_term_registry.json`.
 
 The model in one paragraph: every identifiable thing is an `entity` with a bound `type`; what is said about it is a statement (`assertion`, `observation`, `manipulation` or `calculation`) whose value kind is a mixin in its `superclasses`; relations are `directed_relation` documents; values are inline or in data bodies (`sampled_body`, `opaque_body`). The principles are in [schemas/V_eta_tenets.md](schemas/V_eta_tenets.md), and each decision is recorded in a plan document under `schemas/` (`Decided by <name>, <date> [<tag>]` lines). [schemas/V_eta_SPEC.md](schemas/V_eta_SPEC.md) predates the 2026-10-08 entity merge; where it disagrees with the tenets or a plan document, those win.
 
@@ -32,7 +32,7 @@ did-schema/
 |   |   +-- index.json                  <- class index (tier, version, superclasses, disposition)
 |   |   +-- stable/  draft/  deprecated/  <- one <class_name>.json per class; *_meta.json registries
 |   |   +-- conversions/from_did_v1/    <- per-class v1 -> V_eta conversion notes
-|   +-- V_eta_term_registry.json        <- source of the term registry
+|   +-- did_v2_term_registry.json        <- source of the term registry
 |   +-- V_eta_*_plan.md, V_eta_tenets.md  <- decisions and principles
 |   +-- V_eta_STATUS.md, V_eta_coverage_ledger.*, ...  <- generated (do not hand-edit)
 +-- tools/                              <- gates.py and the tools it runs
@@ -65,7 +65,7 @@ Some gates read the sibling repositories (NDI-matlab, DID-matlab, empty-ontology
 ## Adding or changing a class
 
 1. Edit or add `schemas/did_v2/<tier>/<class_name>.json` (JSON, indent 4).
-2. For a new class, add a hand-written `disposition` to its entry in `schemas/did_v2/index.json`; the other index fields are derived.
+2. For a new class, add a hand-written `disposition` to its entry in `schemas/generated/index.json`; the other index fields are derived.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites the derived files (`index.json`, the built registries); do not hand-edit those.
 4. Record the decision behind the change in the plan document it belongs to.
 

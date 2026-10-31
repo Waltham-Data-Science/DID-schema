@@ -108,7 +108,7 @@ TEAM-SIGN-OFF [raw recording observation]: jess@walthamdatascience.com / 2026-08
     NOT FOLDED, AND DELIBERATELY SO: PRED holds TWO `voltage_observation` documents, element's raw trace and pyraview's pyramid. They now agree on subject and instrument and differ only in their data bodies. Whether the pyramid should hang off element's observation instead of minting its own is a SEPARATE modelling question this signature does not answer.
     (Recorded by Claude at the signer's explicit instruction in session_01BenWtpJyRu3QhEZqCErpwm. The signer was shown the generated confirm-sheet row for `pyraview` -- question, named answer options, the emitted set with both time-reference handles marked as intermediates and their folding passes named, and `governance: no signature found` -- and answered "Yes to those 5 rows". The DECISION is the signer's; the transcription is Claude's, and Operating Rule 4 forbids Claude writing such a line unprompted. Corpus state at signing: PRED, corpus-PROVEN in run 31746748355; the attribution verified by TestMigrateLocalEtaPRED in run 31748129747, 8/8.)
 
-TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]: jess@walthamdatascience.com / 2026-09-29 -- a `pyraview` pyramid's levels are `redundant` `sampled_body` documents OWNED BY THE RECORDING's observation (a second-pass join), not a second `voltage_observation` (#73 audit 2 D7). In V_eta_migration_targets.json, `pyraview`'s `confirmed_targets` becomes `decided_targets: [sampled_body]`.
+TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]: jess@walthamdatascience.com / 2026-09-29 -- a `pyraview` pyramid's levels are `redundant` `sampled_body` documents OWNED BY THE RECORDING's observation (a second-pass join), not a second `voltage_observation` (#73 audit 2 D7). In did_v2_migration_targets.json, `pyraview`'s `confirmed_targets` becomes `decided_targets: [sampled_body]`.
 
 ## 2026-10-21 — migrated recordings link their epoch files as data bodies (native V2 shape)
 
@@ -164,7 +164,7 @@ What it means for the migration, and why:
 
 Decided by Jess Haley, 2026-10-21 [preview attribution without epoch files]: when a corpus has no epoch files (so no per-epoch recording observation exists to take the specimen from), a pyraview's observation takes its specimen from the element's own v1 `observes` relation (the probe observes the organism), which the migration keeps. (Answer "Yes" to the proposed option (a).)
 
-Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted set]: what v1 `daqreader_mfdaq_epochdata_ingested` becomes is the end state: pass 1 renames it to the generic `daqreader_epochdata_ingested` (its `parameters` an optional field) and lifts its epoch table into `relative_time_reference` documents; resolveEpochProbemap then retires the archive under [ingested epoch documents retired] (answer "K4 a"). Recorded as `confirmed_targets` in `V_eta_migration_targets.json`.
+Decided by Jess Haley, 2026-10-23 [mfdaq archive emitted set]: what v1 `daqreader_mfdaq_epochdata_ingested` becomes is the end state: pass 1 renames it to the generic `daqreader_epochdata_ingested` (its `parameters` an optional field) and lifts its epoch table into `relative_time_reference` documents; resolveEpochProbemap then retires the archive under [ingested epoch documents retired] (answer "K4 a"). Recorded as `confirmed_targets` in `did_v2_migration_targets.json`.
 
 ## AMENDMENT [Guard A amended]
 

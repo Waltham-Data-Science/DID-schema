@@ -38,15 +38,19 @@ sys.path.insert(0, HERE)
 # closes (HTML comments, quotations in code fences, template placeholders) to
 # reopen.
 import decision_citations as dc  # noqa: E402
+import schema_paths  # noqa: E402
 
 # THE SIBLING LOCK (tools/sibling_lock.json): NDI `origin/main` is read at the
 # LOCKED sha, so the v1 universe moves only when the lock does.
 import sibling_lock  # noqa: E402
 
 SCHEMA_ROOT = os.path.dirname(HERE)
-INDEX = os.path.join(SCHEMA_ROOT, "schemas", "did_v2", "index.json")
+INDEX = os.path.join(SCHEMA_ROOT, "schemas", "generated", "index.json")
 LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
-TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
+TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_migration_targets.json")
+# The authored half of the target map ([schema folders by family] split it).
+TARGETS_AUTHORED = os.path.join(SCHEMA_ROOT, "schemas", "registry",
+                                "did_v2_migration_decisions.json")
 
 
 # DENOMINATORS for the two reads this tool's whole left-hand side is built from.
@@ -65,7 +69,8 @@ TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
 
 
 def targets_map():
-    """Curated did_v1 -> V_eta emitted-target map (schemas/V_eta_migration_targets.json):
+    """Curated did_v1 -> V_eta emitted-target map (schemas/registry/did_v2_migration_decisions.json,
+    with the generated `targets` of schemas/generated/did_v2_migration_targets.json merged in):
     for each source class, the V_eta document class(es) its migrator actually emits
     (superclasses excluded), plus carried/second_pass/how/flags. Keyed by snake-cased
     source class name. Empty if the file is absent.
@@ -78,7 +83,8 @@ def targets_map():
     stated in the output with the row count beside them.
     """
     try:
-        rows = json.loads(Path(TARGETS).read_text()).get("classes", {})
+        rows = schema_paths.load_migration_targets_from(
+            TARGETS_AUTHORED, TARGETS).get("classes", {})
     except OSError as exc:
         TARGETS_SCAN["why"] = f"{type(exc).__name__}: {exc}"
         return {}
@@ -247,7 +253,7 @@ _MIG_HELPERS = {
 # WHY IT SURFACED ONLY NOW, which is the useful part: the ledger's own guard,
 # test_no_passthrough_row_claims_a_migrator_emits_it, fires when a row is marked
 # `emitted` while nothing backs it. This row only became `emitted` when
-# V_eta_migration_targets.json was refreshed and gave it non-empty targets.
+# did_v2_migration_targets.json was refreshed and gave it non-empty targets.
 # Before that it sat in a state the guard does not inspect, so a wrong exclusion
 # and a missing target cancelled each other out and the row looked consistent.
 # Two errors agreeing is not the same as being right.
@@ -439,7 +445,7 @@ def emitted_classes():
 # this tool reported it at stage 0, "source identified" -- because rung 1 asks
 # whether a migrator file NAMED AFTER the class exists, and a batch post-pass is
 # not one. `_rung_consumed` said so in its own comment for weeks: *"the fix is a
-# field in V_eta_migration_targets.json, not a grep in this function: a bare
+# field in did_v2_migration_targets.json, not a grep in this function: a bare
 # name sweep over the convert package matches `base` in 9 of the 9 passes and
 # `app` in universalRenames, which is noise a stage cannot be built on."*
 #
@@ -1004,7 +1010,7 @@ def guardrail(veta, emitted):
     return new, ack
 
 
-LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
+LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
 
 
 # ============================================================================
@@ -1290,7 +1296,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     # are REMOVED, 2026-09-25. The #73 review (jess) replaced that decision:
     # "none of these carry forward into V_eta; they all need to be migrated"
     # (V_eta_spatial_transcriptomics_plan.md item 18). The new decided targets are
-    # CURATED in V_eta_migration_targets.json -- one fact, one place -- and this
+    # CURATED in did_v2_migration_targets.json -- one fact, one place -- and this
     # table only transcribes SIGNED lines, so it cannot carry them until the team
     # adds the review's TEAM-SIGN-OFF line (Operating Rule 4). Until then those
     # rows read "decided, unsigned", which is the truth. `geneExpression`
@@ -1747,7 +1753,7 @@ def build_ledger():
             disp = "no V_eta home, no migrator -- UNVERIFIED"
 
         # ---- decided targets: the curated file, PLUS the signed transcriptions
-        # ONE FACT, ONE PLACE. `V_eta_migration_targets.json` is the curated
+        # ONE FACT, ONE PLACE. `did_v2_migration_targets.json` is the curated
         # home for `decided_targets`; the table above fills rows it never got.
         # If both ever name the same class the ledger stops rather than picking
         # one -- two records of one fact that agree by coincidence is the
@@ -1788,7 +1794,7 @@ def build_ledger():
         if signed and curated_decided:
             raise SystemExit(
                 f"coverage: `{cn}` has decided_targets in BOTH "
-                f"V_eta_migration_targets.json ({curated_decided}) and "
+                f"did_v2_migration_targets.json ({curated_decided}) and "
                 f"DECIDED_TARGETS_BY_SIGNOFF ({signed[0]}). One fact, one place -- "
                 "delete whichever is the copy.")
         if signed:
@@ -2189,7 +2195,7 @@ def governance_state(row):
                         + ". A citation that names no decision line decides "
                           "nothing")}
     claim = row.get("decided_targets_source") == "curated_targets_file"
-    extra = ("; V_eta_migration_targets.json DOES claim a signed decision for "
+    extra = ("; did_v2_migration_targets.json DOES claim a signed decision for "
              "this class (`decided_targets`), but that claim is authored and "
              "UNCHECKED" if claim else "")
     return {"state": G_NOT_FOUND, "signoff": None,
@@ -3396,7 +3402,7 @@ def _stage_rollup_md(s):
     if sr["decision_claimed_but_unchecked"]:
         out += [
             "**{n} row(s) claim a decision this tool cannot find** "
-            "-- `V_eta_migration_targets.json` gives them `decided_targets`, "
+            "-- `did_v2_migration_targets.json` gives them `decided_targets`, "
             "which its own header calls \"a signed decision no migrator "
             "implements yet\", but no decision line is quoted and checked "
             "for them and the class cites none. This caps NOTHING (the "
@@ -3566,7 +3572,7 @@ def write_ledger(veta, v1, rows):
         "",
         "*Generated by `tools/coverage.py` -- do NOT hand-edit; re-run after a schema "
         "or migrator change. " + LEDGER_BLURB + " Each row shows the V_eta document "
-        "class(es) the v1 class MIGRATES INTO (from the curated `V_eta_migration_targets."
+        "class(es) the v1 class MIGRATES INTO (from the curated `did_v2_migration_targets."
         "json`), its disposition, and its writer.*",
         "",
         f"**{s['total']} v1 source classes** ({s['by_source'].get('ndi', 0)} NDI/main "
@@ -3652,7 +3658,7 @@ def write_ledger(veta, v1, rows):
         elif r.get("target_source") == "uncurated":
             # A migrator runs but nothing records what it emits. Distinct from
             # both a measured target and a passthrough, and actionable: it is a
-            # missing row in V_eta_migration_targets.json.
+            # missing row in did_v2_migration_targets.json.
             tgt = "⚠ migrator runs, **output unrecorded**"
         elif r.get("target_source") == "passthrough":
             # NOT rendered as a migration. No migrator emits this; the document
@@ -3687,7 +3693,7 @@ def write_ledger(veta, v1, rows):
             elif r.get("no_target_reason") == NO_TARGET_DISPUTED:
                 tgt += " · ⚠ **DISPUTED disposition**"
         # THE ACCOUNT, IN THE TABLE. This footer used to say "see
-        # V_eta_migration_targets.json for the per-class `how`" -- which is to say,
+        # did_v2_migration_targets.json for the per-class `how`" -- which is to say,
         # the one field that answers the question was in a different file, behind
         # a git checkout. That is exactly why the question could not be answered
         # for a team. Pipes and newlines are escaped so a long sentence cannot

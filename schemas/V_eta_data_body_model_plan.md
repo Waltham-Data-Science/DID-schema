@@ -1254,7 +1254,7 @@ variable, unit, source_unit, approximate
 ## NOISE COLOURS (Jess, 2026-10-21)
 
 - Colour values are in **`NCIT:C75765` "Arbitrary Unit"** (registered in
-  `V_eta_term_registry.json`). A colour channel is a device level, not a physical
+  `did_v2_term_registry.json`). A colour channel is a device level, not a physical
   quantity.
 - The scale goes in the data, not in a convention: a separate **"bit depth"**
   parameter, a `count` (8), so that 255 = full scale is recorded on the document.

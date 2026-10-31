@@ -32,17 +32,12 @@ on:
     branches: ["claude/**", "main"]
     paths:
       - "web/**"
-      # The build runs `sync-schemas` first, which copies every V_* set plus
-      # the generated ledger and decision families into public/. A change to
-      # any of them is therefore an input to this build -- and the two
-      # generated files sit DIRECTLY under schemas/, which `schemas/V_*/**`
-      # does not match. deploy-web.yml documents that same trap at length;
-      # repeating the paths here rather than narrowing to `web/**` is what
-      # keeps a ledger-only commit from skipping the compile.
-      - "schemas/V_*/**"
-      - "schemas/did_v*/**"
-      - "schemas/V_*_coverage_ledger.json"
-      - "schemas/V_*_decisions.json"
+      # The build runs `sync-schemas` first, which copies the did_v2 class
+      # tree, the generated index, the registries the index lists, the
+      # generated ledger and the decision families into public/. A change to
+      # any of them is an input to this build, so every path under schemas/
+      # is (deploy-web.yml documents the trap a narrower pattern fell into).
+      - "schemas/**"
       # The V_eta shape panel imports these two at build time (?raw) -- see
       # web/src/veta/sources.ts. Like the ledger they sit directly under
       # schemas/, which `schemas/V_*/**` does not match.
@@ -52,10 +47,7 @@ on:
   pull_request:
     paths:
       - "web/**"
-      - "schemas/V_*/**"
-      - "schemas/did_v*/**"
-      - "schemas/V_*_coverage_ledger.json"
-      - "schemas/V_*_decisions.json"
+      - "schemas/**"
       # The V_eta shape panel imports these two at build time (?raw) -- see
       # web/src/veta/sources.ts. Like the ledger they sit directly under
       # schemas/, which `schemas/V_*/**` does not match.

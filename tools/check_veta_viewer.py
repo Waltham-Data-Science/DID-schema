@@ -28,7 +28,8 @@ This gate catches every one of those before `npm run build` would ship them.
 THE CONTRACT IS DERIVED, NOT RESTATED
 -------------------------------------
 Which files the viewer loads is read out of `web/src/veta/sources.ts` itself
-(its `import.meta.glob(...)` pattern and its `?raw` imports), and how the two
+(its `import.meta.glob(...)` pattern, its one JSON import -- the generated
+index -- and its `?raw` imports), and how the two
 markdown files are parsed is read out of `web/src/veta/grammar.json` -- the
 SAME file `web/src/veta/model.ts` imports. So the gate and the viewer cannot
 disagree about what a category heading or a tenet heading looks like: there is
@@ -60,6 +61,7 @@ GRAMMAR = os.path.join(VETA_DIR, "grammar.json")
 
 GLOB_RE = re.compile(r'import\.meta\.glob\(\s*"([^"]+)"')
 RAW_RE = re.compile(r'from\s+"([^"]+)\?raw"')
+JSON_IMPORT_RE = re.compile(r'^import\s+\w+\s+from\s+"([^"]+\.json)"', re.MULTILINE)
 STRING_LITERAL_RE = re.compile(r'"([A-Za-z][A-Za-z0-9_]*)"')
 
 
@@ -93,7 +95,14 @@ def derive_contract(root):
     if len(raws) != 2:
         raise ContractError(
             f"{SOURCES} must declare exactly two ?raw imports; found {len(raws)}")
-    return {"glob": globs[0], "raws": raws, "grammar": grammar}
+    # The index is not under the class folder ([schema folders by family]:
+    # schemas/did_v2/ holds class files only), so sources.ts imports it by
+    # name: exactly one JSON import, and it must be the grammar's index.
+    jsons = [_rel(root, j) for j in JSON_IMPORT_RE.findall(src)]
+    if len(jsons) != 1:
+        raise ContractError(
+            f"{SOURCES} must import exactly one JSON file (the index); found {len(jsons)}")
+    return {"glob": globs[0], "raws": raws, "index": jsons[0], "grammar": grammar}
 
 
 def parse_final_class_set(text, g):
@@ -141,15 +150,19 @@ def load_classes(root, glob_pattern, tiers, index_rel):
         os.path.relpath(p, root).replace(os.sep, "/")
         for p in glob.glob(os.path.join(root, glob_pattern), recursive=True))
     classes, meta = {}, set()
+    ip = os.path.join(root, index_rel)
+    if os.path.exists(ip):
+        with open(ip, encoding="utf-8") as fh:
+            meta = {e["class_name"] for e in json.load(fh).get("schemas", [])
+                    if e.get("is_meta")}
     for rel in files:
         with open(os.path.join(root, rel), encoding="utf-8") as fh:
             data = json.load(fh)
         if rel == index_rel:
-            meta = {e["class_name"] for e in data.get("schemas", [])
-                    if e.get("is_meta")}
             continue
+        # schemas/did_v2/<family>/<file>.json, or a core class at the top.
         parts = rel.split("/")
-        tier = parts[2] if len(parts) > 3 else None
+        tier = parts[2] if len(parts) > 3 else "core"
         dc = data.get("document_class") if isinstance(data, dict) else None
         if tier in tiers and isinstance(dc, dict) and "fields" in data:
             classes[dc["class_name"]] = rel
@@ -179,6 +192,11 @@ def check(root):
     fcs, ten, tree = g["final_class_set"], g["tenets"], g["schema_tree"]
     failures = []
 
+    if c["index"] != tree["index"]:
+        failures.append(f"sources.ts imports the index {c['index']!r} but grammar.json "
+                        f"names {tree['index']!r}")
+    if not os.path.exists(os.path.join(root, tree["index"])):
+        failures.append(f"{tree['index']} is missing")
     if c["glob"] != tree["glob"]:
         failures.append(f"sources.ts globs {c['glob']!r} but grammar.json "
                         f"names {tree['glob']!r}")

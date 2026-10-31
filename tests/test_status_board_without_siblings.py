@@ -71,7 +71,7 @@ def test_the_board_is_byte_identical_with_no_sibling_checkout():
 
         before = {rel: (root / rel).read_bytes()
                   for rel in ("schemas/V_eta_STATUS.md",
-                              "schemas/V_eta_decisions.json")}
+                              "schemas/generated/did_v2_decisions.json")}
         p = _run_board(root, ["--did", nowhere, "--ndi", nowhere])
         after = {rel: (root / rel).read_bytes() for rel in before}
 

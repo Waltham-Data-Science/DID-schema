@@ -17,7 +17,7 @@
   },
   "schema_tree": {
     "glob": "schemas/did_v2/**/*.json",
-    "class_tiers": ["stable", "draft", "deprecated"],
-    "index": "schemas/did_v2/index.json"
+    "class_tiers": ["core", "value", "calculation", "data_body", "time_reference", "retiring"],
+    "index": "schemas/generated/index.json"
   }
 }

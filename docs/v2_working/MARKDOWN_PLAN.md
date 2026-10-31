@@ -203,8 +203,8 @@ nonsubject_cohesiveness_plan, migration_plan, infra_family_decisions. Also kept:
 
 - 28 `.md` inside `schemas/V_eta/` (conversions/from_did_v1 x27, microschemas/_DESIGN.md): do they ship with
   `did_v2/` or move to `docs/`? ASK.
-- 6 top-level JSON: `V_eta_coverage_ledger.json`, `V_eta_decisions.json`, `V_eta_migration_targets.json`,
-  `V_eta_ndi_ground_truth.json`, `V_eta_openminds_crosswalk.json`, `V_eta_term_registry.json`. They are not schema
+- 6 top-level JSON: `did_v2_coverage_ledger.json`, `did_v2_decisions.json`, `did_v2_migration_targets.json`,
+  `did_v2_ndi_ground_truth.json`, `did_v2_openminds_crosswalk.json`, `did_v2_term_registry.json`. They are not schema
   sets, and many tools read them (status_board, coverage, validate_v_eta, check_term_registry, …). ASK: same step or later?
 - `review/` (26 .md) and the root `Ideas.md` / `todo.md` are not covered by the decision. decision_citations
   reads `review/73/OPEN_ITEMS.md` by path.

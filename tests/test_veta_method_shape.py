@@ -31,7 +31,7 @@ def _walk(fields, cls, path, sites, skipped):
 
 
 def test_every_method_block_has_the_one_shape():
-    files = sorted(glob.glob(os.path.join(ROOT, "*", "*.json")))
+    files = sorted(glob.glob(os.path.join(ROOT, "**", "*.json"), recursive=True))
     classes, sites, skipped = 0, {}, []
     document = None
     for p in files:

@@ -56,16 +56,18 @@ export function Editor({ index, version, onCancel }: EditorProps) {
   // `epoch`, three of the spine classes a new author is most likely to imitate.
   // The editor would have taught the schema's own rules wrong.
   //
-  // All four sets carrying an `index.json` ship `stable/did_schema_meta.json`
-  // (V_delta, V_epsilon, V_zeta, V_eta), so following the selector cannot 404
-  // on any set the version picker can reach. If a future set omits one, the
+  // Every set the version picker can reach serves its meta-schema as
+  // `did_schema_meta.json` in its own folder: web/scripts/sync-schemas.mjs
+  // copies schemas/registry/did_schema_meta.json there for did_v2, whose
+  // non-class files left schemas/did_v2/ ([schema folders by family]), so
+  // following the selector cannot 404. If a future set omits one, the
   // error surfaces in the panel below rather than silently falling back to an
   // older meta-schema -- a wrong validator is worse than a missing one,
   // because only one of the two announces itself.
   useEffect(() => {
     if (!version) return;
     let cancelled = false;
-    fetch(`${BASE}schemas/${version}/stable/did_schema_meta.json`)
+    fetch(`${BASE}schemas/${version}/did_schema_meta.json`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();

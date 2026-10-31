@@ -60,7 +60,7 @@ empty-ontology `origin/V2` a16c805; Dab corpus zip
 - Today the generic stage passes these rows through (no subject edge,
   DID-matlab `ontology_table_row.m:6, 54`); a row whose subject NDI resolves
   is carried whole as v1 with a `needs_mapping` note (`ontology_table_row.m:79`;
-  carry register `carry-026`, `V_eta_carry_register.json:475`). These map
+  carry register `carry-026`, `did_v2_carry_register.json:475`). These map
   rows are what `carry-026` says resolves it ("the dataset map's column rows
   for that table (not yet written)").
 
@@ -343,7 +343,7 @@ EMPTY:0000200 def@1967: "... 'CNO' for Clozapine-N-oxide administration (2 mg/kg
   before fear conditioning and before EPM testing."
 ```
 
-**E5. Term registry** (`schemas/V_eta_term_registry.json`, 865 terms):
+**E5. Term registry** (`schemas/registry/did_v2_term_registry.json`, 865 terms):
 
 ```
 EMPTY nodes from Dab tables found in registry: ['EMPTY:0000074', 'EMPTY:0000358']
@@ -371,8 +371,8 @@ score substance_amount temperature term time tuning_curve velocity voltage volum
   `+migrate/+internal/ontologyRowSubjects.m:131-152`.
 - DID-matlab `origin/V2` f6486be: `+did2/+convert/+migrators_j/ontology_table_row.m:6, 54, 79`.
 - did-schema 078ab84: `docs/v2_working/DATASET_MAP_PROPOSAL.md:190-212, 291-293, 328-329`;
-  `schemas/V_eta_carry_register.json:475` (carry-026);
+  `schemas/registry/did_v2_carry_register.json:475` (carry-026);
   `schemas/V_eta_go_forward_class_audit.md:1142, 1152, 1212, 1220, 1228, 1238, 1244, 1246, 1250, 1252`;
   `schemas/V_eta_tenets.md` T2 (:49), T3 (:123), T12 (:368), T19 (:946), T20 (:1016);
   `schemas/did_v2/stable/{interaction,statement,dose,intensity}.json`,
-  `schemas/did_v2/draft/label.json`.
+  `schemas/did_v2/value/label.json`.

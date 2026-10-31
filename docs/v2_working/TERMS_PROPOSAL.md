@@ -10,7 +10,7 @@ their verdicts), `tech.json` / `sdt.json` (the parsed openMINDS files), `ols*.tx
 | what | count | source |
 |---|---|---|
 | did-schema HEAD | 77cf59e "Record [clock terms get nodes]" | `git log --oneline -1` |
-| term registry entries | 624 (1 with node "") | `schemas/V_eta_term_registry.json` `terms` |
+| term registry entries | 624 (1 with node "") | `schemas/registry/did_v2_term_registry.json` `terms` |
 | CURIE registry prefixes | 55 | `schemas/V_eta/stable/CURIE_lookups_meta.json` |
 | EMPTY ids allocated | EMPTY:0000001-0000398, none free below 399 | empty-ontology `V2` 2dc90d4 (= `origin/V2`), `src/ontology/empty-edit.owl`, `docs/conventions.md` rule 7 |
 | openMINDS `technique` instances | 227 | openMINDS_instances main 3750716 (2026-10-21), `instances/latest/terminologies/technique/*.jsonld` |
@@ -196,7 +196,7 @@ it knows its own clock across recording epochs)"; `dev_local_time` "A device kee
 time only within epochs".
 
 **Staged nodes today:** none minted anywhere.
-- Registry: `grep -n -i 'clock\|utc' schemas/V_eta_term_registry.json` gives 1 line, an unrelated
+- Registry: `grep -n -i 'clock\|utc' schemas/registry/did_v2_term_registry.json` gives 1 line, an unrelated
   definition (line 4578); no clock term.
 - empty-ontology `V2` `empty-edit.owl`: no label or definition naming a clock (grep `clock|utc`
   matched only the licence comment and unrelated text).

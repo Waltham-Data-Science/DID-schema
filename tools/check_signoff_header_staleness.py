@@ -66,7 +66,7 @@ Fixing the six documents surfaced SEVEN MORE instances one layer down, in
 generated output reports as signed. The board rendered "0 awaiting a signature"
 while its source said the opposite about seven of the eighteen.
 
-So: if `V_eta_decisions.json` reports ZERO families awaiting a signature, no file
+So: if `did_v2_decisions.json` reports ZERO families awaiting a signature, no file
 under `tools/` may claim any family is awaiting one. Driven off the generated
 artifact rather than a hardcoded expectation, so it relaxes automatically the
 moment a genuinely unsigned family appears. Phrases that are RENDERING STRINGS
@@ -132,7 +132,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_DIR = os.path.join(REPO, "schemas")
-DECISIONS = os.path.join(SCHEMA_DIR, "V_eta_decisions.json")
+DECISIONS = os.path.join(SCHEMA_DIR, "generated", "did_v2_decisions.json")
 TOOLS_DIR = HERE
 
 # "NO `TEAM-SIGN-OFF` LINE", "no TEAM-SIGN-OFF line", "NO TEAM SIGN-OFF LINE".
@@ -308,7 +308,7 @@ def main():
     awaiting, total = families_awaiting_signature()
     tool_rows, tool_files = [], 0
     if awaiting is None:
-        print("V_eta_decisions.json is unreadable -- the tool-source rule could "
+        print("did_v2_decisions.json is unreadable -- the tool-source rule could "
               "not run. That is a failure, not a pass.")
         return 1
     print(f'DECISIONS ARTIFACT: {total} class(es) cite a decision line, {awaiting} of them do not resolve')

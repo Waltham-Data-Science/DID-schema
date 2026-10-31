@@ -51,12 +51,12 @@ paths. **Where we invented the shape**, only one shape ever existed and the migr
 
 ---
 
-## Phase 0 — establish ground truth  *(DONE — `tools/ndi_ground_truth.py` → `V_eta_ndi_ground_truth.json`)*
+## Phase 0 — establish ground truth  *(DONE — `tools/ndi_ground_truth.py` → `did_v2_ndi_ground_truth.json`)*
 
 Produce a machine-readable reference every later phase checks against.
 
 - **0.1** Extract the NDI templates from `origin/main`: class → fields → dependencies → files.
-  Emitted as `V_eta_ndi_ground_truth.json` by `tools/ndi_ground_truth.py`.
+  Emitted as `did_v2_ndi_ground_truth.json` by `tools/ndi_ground_truth.py`.
 - **0.2** Record **writer divergences** — where the shipped writer emits something the template
   does not declare. Known already:
   - `ontologyImage`: template `ontologyNode`, writer `ontologyNodes` (a comma-joined list of

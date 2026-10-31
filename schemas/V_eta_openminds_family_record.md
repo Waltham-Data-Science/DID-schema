@@ -415,7 +415,7 @@ are different in kind:
 
 ## A defect found while checking the above
 
-`V_eta_openminds_crosswalk.json` claims the round-trip guarantee:
+`did_v2_openminds_crosswalk.json` claims the round-trip guarantee:
 
 ```
 "Consumed by the round-trip CI test … asserts every openMINDS property has an

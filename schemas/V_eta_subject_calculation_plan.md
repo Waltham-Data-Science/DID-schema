@@ -308,7 +308,7 @@ stand. Source: Waltham-Data-Science/DID-schema#73.
   Provenance stays an edge.
 - **What remains named `calculator`.** NDI ships
   `database_documents/calculator.json` (⊂ [`base`, `app`], no fields, no deps;
-  `V_eta_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
+  `did_v2_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
   `retire` source tombstone restating that template, in no V_eta chain, so a v1
   document carrying it can still pass through. Nothing in the tree establishes
   that none exists.
@@ -354,7 +354,7 @@ depend on knowing which software counts as a "calculator":
   its emitted `count_observation` as the end state. NOT BUILT: `count_calculation` does
   not exist yet, and the retarget is DID-matlab work. The target is NOT in
   `decided_targets` (a decided target must name a built class); it is carried in the
-  three rows' `flags` in `V_eta_migration_targets.json` until `count_calculation` exists.
+  three rows' `flags` in `did_v2_migration_targets.json` until `count_calculation` exists.
   `spike_interface_sorting_outputs` is untouched: it still passes through, undecided.
 - **Amended 2026-09-24: the sorter target is `label_calculation`, not `count_calculation`.**
   A cluster assignment ("spike 17 is in cluster 4") names a group that means nothing

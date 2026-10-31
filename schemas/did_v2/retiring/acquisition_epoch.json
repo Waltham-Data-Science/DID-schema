@@ -1,0 +1,796 @@
+{
+    "document_class": {
+        "class_name": "acquisition_epoch",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The entity this epoch's samples belong to (a v1 element, promoted to an entity with its id preserved).",
+            "must_refer_to_document_class": "entity",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [
+        {
+            "name": "epoch_binary_data.vhsb",
+            "documentation": "The element's samples for this epoch, written by ndi.element.timeseries.addepoch. NDI's OWN file_list entry verbatim, NOT snake_cased -- universalRenames skips the `file`/`files` keys, so a migrated document still carries this spelling. Under the signed #60 model this payload becomes a `sampled_body`; until that lands (blocked on #65 -> #67/#32) the bytes stay here and must be DECLARED, or every document carries an undeclared file."
+        }
+    ],
+    "fields": [
+        {
+            "name": "clocks",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Array-of-records: one entry per clock reference frame in which this element's epoch is timed. Each entry carries the clock identifier (`name`) and the start/stop times (`t0`, `t1`) in that clock's units. The single-clock case (most v1 documents) is a 1-element array; v1 documents that recorded the same epoch in multiple clocks (e.g., 'dev_local_time' + 'exp_global_time') become multi-element arrays. Comma-separated v1 `epoch_clock` strings split on `,` to populate clocks[i].name; v1's N\u00d72 `t0_t1` splits row-wise to populate clocks[i].t0 and clocks[i].t1.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "dev_local_time",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Clock identifier (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "t0",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Start time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t1",
+                    "type": "double",
+                    "blank_value": 1.0,
+                    "default_value": 1.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Stop time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional intrinsic channel descriptors (count, native unit, storage relationship).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Channel name/identity (optional for homogeneous array bundles).",
+                    "constraints": {}
+                },
+                {
+                    "name": "native_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the stored signal (volt | microvolt | digital_count | arbitrary_unit | dimensionless | ...).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "gain",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Scale factor: native = (stored - offset) * gain.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offset",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Offset applied before gain.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "storage",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical storage descriptor for the epoch's bulk data.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "format",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Physical encoding (vhsb | zarr | ome_ngff | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "chunk_shape",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-axis chunk sizes enabling partial/ROI reads.",
+                    "constraints": {}
+                },
+                {
+                    "name": "codec",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Compression/filter pipeline.",
+                    "constraints": {}
+                },
+                {
+                    "name": "data_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric pixel/sample storage type (e.g. 'uint16', 'single', 'double'). Folded from the retired image_stack_parameters.data_type.",
+                    "constraints": {
+                        "maxLength": 32
+                    }
+                },
+                {
+                    "name": "data_limits",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "2-element [min, max] range of valid stored values for data_type (e.g. [0, 65535] for uint16). Folded from image_stack_parameters.data_limits.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "dimensions",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The axes of the epoch's stored array, in array order: dimensions[k] IS array axis k. Empty for a bare scalar. acquisition_epoch's own copy of `data`'s `dimensions` (the class does not derive from `data`; deriving it waits for the epoch-family re-walk, #73 audit 2 D13), moved with it from `keys` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [epoch covariates], answer \"4y\"). What is known along a dimension is a `covariate`. An epoch's dimensions carry no `chunk` (Jess Haley 2026-10-22 [covariate details], 5.3a): `chunk` is a sampled_body's.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "term",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "What the axis is (time, channel, presentation, row, spatial position, ...). REQUIRED ([along by index]: \"Why do dimensions not have terms?\"; \"3y\"). NOT unique: a channel x channel matrix has two `channel` dimensions, so a dimension is named by its INDEX, never by its term.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `document` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "covariates",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What is known about the epoch's positions along one or more of its `dimensions` (the sample times along the time dimension, a channel's label along the channel dimension). The same entry as `data.covariates` (data_body plan AMENDMENT 6, [epoch covariates]): {variable, along, unit, source_unit, approximate, cyclic}} plus EXACTLY ONE value form; `along` lists 0-based dimension indices, never empty. `document` is NOT usable here (no `key_id` edge).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). UNIQUE within the list, and a variable appears at most once across a statement's conditions, its value's covariates and any one of its bodies' (a batch check).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "along",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The dimensions this covariate runs along: 0-based indices into `dimensions` (T14), NON-EMPTY and distinct, each below the number of dimensions (rule `covariate_along`). By index, not by term, because a term may repeat ([along by index]: \"I'm still not sold on along referencing the name of the dimension term rather than the index\"). One index for a per-position fact (an onset time per presentation, a depth per channel); several for a fact that varies over a grid (a pixel's coordinate along [row, column]), in the order the covariate's own array is laid out. Never empty: a fact true of the whole value is a `condition` ([conditions stay on the statement]).",
+                    "constraints": {}
+                },
+                {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "source_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Applies to the whole covariate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "origin",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Where REGULAR positions start: position k is origin + k * spacing, in `unit`. With `spacing` it is ONE value form (rule `covariate_one_value_form`), numeric, and only along exactly ONE dimension (rule `covariate_single_dimension_forms`). Its presence says the positions are regular (data_body plan AMENDMENT 6: the key's `regular` flag is deleted).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "spacing",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The step between regular positions, in `unit`. Present if and only if `origin` is.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "quantity",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric positions in `unit`: `value` the canonical numbers and `source_value` what the source wrote, each sized by the extents of the `along` dimensions, in that order. One value form (rule `covariate_one_value_form`). (`values {values, source_values}` until 2026-10-19.)",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical values.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded values.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "count",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Integer positions (a trial number, a spike count per bin), sized by the extents of the `along` dimensions. No unit. One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "term",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical positions, sized by the extents of the `along` dimensions: each a TERM ({node, name}) or a LABEL ({name}, no node: meaningful only locally, e.g. a cluster number). One value form (rule `covariate_one_value_form`). (`labels` until 2026-10-19.)",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "text",
+                    "type": "string",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Free-text positions, one string per position, sized by the extents of the `along` dimensions. One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "logical",
+                    "type": "boolean",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
+                    "constraints": {}
+                },
+                {
+                    "name": "matrix",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "A whole numeric array AT EACH POSITION, in `unit` (absent for unitless numbers): its shape is the extents of the `along` dimensions followed by the array's own shape, row-major as JSON nested arrays (data_body AMENDMENT 4). The value's `dimensions` stay exactly its own axes; the array's extra axes are not dimensions ([matrix covariate], answer \"B\"). One value form (rule `covariate_one_value_form`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "document",
+                    "type": "integer",
+                    "blank_value": -1,
+                    "default_value": -1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's private copy of the covariate entry, and the class declares no `key_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13). (`positions_from` until 2026-10-22.)",
+                    "constraints": {}
+                },
+                {
+                    "name": "cyclic",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on an `origin`+`spacing` or a `quantity` covariate along exactly ONE dimension (rule `covariate_cyclic`; Jess Haley 2026-10-22 [covariate details], 5.1a: not on `count` or `matrix`). Absent = false.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

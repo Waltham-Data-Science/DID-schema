@@ -5,22 +5,13 @@ on:
     branches: [main]
     paths:
       - "web/**"
-      - "schemas/V_*/**"
-      - "schemas/did_v*/**"
-      # `schemas/did_v*/**` needs a directory segment, so it matches
-      # schemas/did_v2/stable/foo.json but NOT the generated ledger, which is a
-      # file sitting directly under schemas/. Without this line a commit that
-      # only re-runs tools/coverage.py updates the ledger and deploys nothing,
-      # and the viewer's Coverage panel drifts behind the schemas with no signal
-      # that it has.
-      - "schemas/V_*_coverage_ledger.json"
-      # Same trap, same reason: the decision families are a file directly under
-      # schemas/, so `schemas/V_*/**` does not match them either. Without this
-      # line, signing off a family or landing its build would update the
-      # artifact the viewer reads and deploy nothing -- and the viewer would go
-      # on showing a settled family as open, which is the precise failure the
-      # artifact was added to remove.
-      - "schemas/V_*_decisions.json"
+      # Everything under schemas/: the class tree (schemas/did_v2/, any depth)
+      # and the registries and generated files the viewer serves
+      # (schemas/registry/, schemas/generated/: the index, the coverage ledger,
+      # the decision families). They used to sit directly under schemas/ and
+      # needed a line each, because `schemas/V_*/**` needs a directory segment;
+      # one recursive pattern cannot miss a regenerated ledger or decisions file.
+      - "schemas/**"
       # The V_eta shape panel's two markdown inputs (web/src/veta/sources.ts),
       # imported at build time. Same trap as the two files above: without
       # these lines, regenerating the final class set or editing a tenet would

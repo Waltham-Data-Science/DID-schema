@@ -33,7 +33,7 @@ else is **Proposed (not decided)**, whatever any prose says.
 ## What is actually left on the 25 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
-open because its hand-written `disposition` in `schemas/did_v2/index.json` is
+open because its hand-written `disposition` in `schemas/registry/did_v2_class_dispositions.json` is
 `in_progress`, and it leaves the list only when a person changes that entry.
 Nothing about a landed migrator, a passing test or a green corpus
 moves it. The table below does not change that membership -- only the team
@@ -223,7 +223,7 @@ family stay where they are however many sites emit them. The list is
 transcribed from the sign-off lines in
 `tools/status_board.py:RETIRED_BY_ITS_OWN_DECISION`, and every replacement
 named there is checked to exist. Note this is an OPEN CONTRADICTION between
-two committed records, not a settled fact: `V_eta_migration_targets.json`
+two committed records, not a settled fact: `did_v2_migration_targets.json`
 still lists `session_relative_reference` as a decided target of 40+ v1
 sources, written before the time model collapsed it. The board takes the
 under-reporting side and does not settle it.

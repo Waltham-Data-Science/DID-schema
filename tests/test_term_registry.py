@@ -112,8 +112,7 @@ def test_a_binding_variable_the_registry_names_must_carry_its_node():
 
 
 def test_the_built_bindings_take_their_nodes_from_the_registry():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
-                                 "binding_registry_meta.json"))
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "registry", "binding_registry_meta.json"))
     nodes = {r["variable"]["name"]: r["variable"]["node"]
              for r in reg["subject_statement_bindings"]}
     # named by the registered labels (Jess Haley 2026-10-22 [developmental stage])
@@ -137,8 +136,7 @@ DECIDED_BINDING_VARIABLES = {
 
 
 def test_the_decided_binding_variables_carry_their_registered_term():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
-                                 "binding_registry_meta.json"))
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "registry", "binding_registry_meta.json"))
     nodes = {r["variable"]["name"]: r["variable"]["node"]
              for r in reg["subject_statement_bindings"]}
     for name, node in DECIDED_BINDING_VARIABLES.items():
@@ -153,8 +151,7 @@ def test_the_decided_binding_variables_carry_their_registered_term():
 
 def test_no_binding_variable_is_unregistered():
     terms = [t for t in ctr._load(ctr.SOURCE)["terms"]]
-    built = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
-                                   "binding_registry_meta.json"))
+    built = ctr._load(os.path.join(ctr.ROOT, "schemas", "registry", "binding_registry_meta.json"))
     failures, report = ctr.check_bindings(terms, built)
     assert failures == []
     assert not [r for r in report if "NOT in the term registry" in r], report
@@ -190,8 +187,7 @@ def test_a_row_that_is_not_term_valued_is_not_a_gap():
 
 
 def test_the_decided_closed_value_lists():
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
-                                 "binding_registry_meta.json"))
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "registry", "binding_registry_meta.json"))
     rows = {r["variable"]["name"]: r for r in reg["subject_statement_bindings"]}
 
     def nodes(name):
@@ -346,8 +342,7 @@ def test_unit_bindings_name_registered_terms():
     unit, a renamed variable, a unit listed twice, a second row for one variable
     and an empty list are each reported."""
     terms = ctr._load(ctr.SOURCE)["terms"]
-    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "did_v2", "stable",
-                                 "binding_registry_meta.json"))
+    reg = ctr._load(os.path.join(ctr.ROOT, "schemas", "registry", "binding_registry_meta.json"))
     failures, n_rows, n_units = ctr.check_unit_bindings(terms, reg)
     assert failures == [] and n_rows >= 2 and n_units >= n_rows
     sec = {"node": "om:second-Time", "name": "second"}

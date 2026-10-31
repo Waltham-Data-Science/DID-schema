@@ -37,7 +37,7 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
-LIVE_REGISTRY = os.path.join(VETA, "stable", "binding_registry_meta.json")
+LIVE_REGISTRY = os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json")
 
 
 def _load_tool(name):
@@ -67,16 +67,16 @@ def _field(name, binding=None, subfields=None):
 
 def _make_tree(tmp_path, classes, registry):
     """Write a V_eta-shaped scratch tree. Returns (veta_root, registry_path)."""
-    veta = tmp_path / "V_eta"
-    for tier in rbs.TIERS:
-        (veta / tier).mkdir(parents=True)
+    veta = tmp_path / "schemas" / "did_v2"
+    veta.mkdir(parents=True)
+    (veta.parent / "registry").mkdir()
     for cls_name, fields in classes.items():
         doc = {"document_class": {"class_name": cls_name, "class_version": 1,
                                   "superclasses": []},
                "fields": fields}
-        (veta / "stable" / (cls_name + ".json")).write_text(
+        (veta / (cls_name + ".json")).write_text(
             json.dumps(doc, indent=4) + "\n")
-    reg_path = veta / "stable" / "binding_registry_meta.json"
+    reg_path = veta.parent / "registry" / "binding_registry_meta.json"
     reg_path.write_text(json.dumps(registry, indent=4) + "\n")
     return str(veta), str(reg_path)
 
@@ -138,7 +138,7 @@ def test_a_change_to_the_field_moves_the_registry_column(tmp_path):
     assert rc == 0, out
     first = _rows(reg)[0]["strength"]
 
-    cls_path = os.path.join(veta, "stable", "demo.json")
+    cls_path = os.path.join(veta, "demo.json")
     doc = json.loads(Path(cls_path).read_text())
     doc["fields"][0]["constraints"]["binding"]["strength"] = "preferred"
     Path(cls_path).write_text(json.dumps(doc, indent=4) + "\n")

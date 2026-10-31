@@ -63,7 +63,7 @@ interface RawIndexEntry {
 export interface VetaClass {
   name: string;
   path: string; // repository-relative, e.g. schemas/did_v2/stable/strain.json
-  tier: string; // stable | draft | deprecated
+  tier: string; // its family folder: core | value | calculation | data_body | time_reference | retiring
   version: string | null;
   maturity: string | null;
   abstract: boolean;
@@ -365,9 +365,11 @@ export function buildModel(
       nonClassFiles.push(path);
       continue;
     }
-    // schemas/did_v2/<tier>/<file>.json -- examples/ holds document INSTANCES
-    // that carry a document_class too, so the tier is what decides.
-    const tier = path.split("/")[2];
+    // schemas/did_v2/<family>/<file>.json, or schemas/did_v2/<file>.json for a
+    // core class ([schema folders by family]: a folder is a family). The
+    // family is what the viewer calls the class's tier.
+    const parts = path.split("/");
+    const tier = parts.length > 3 ? parts[2] : "core";
     if (!tiers.has(tier) || !isClassFile(data)) {
       nonClassFiles.push(path);
       continue;

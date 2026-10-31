@@ -48,7 +48,7 @@ dropped declaration leaves a field every real document carries undeclared ->
 
 A list that describes an external fact, maintained by hand next to a prose
 description of itself, will disagree with one of the two eventually. So the split
-is now READ from `schemas/V_eta_ndi_ground_truth.json` -- the artifact
+is now READ from `schemas/generated/did_v2_ndi_ground_truth.json` -- the artifact
 `tools/ndi_ground_truth.py` extracts from NDI `origin/main` -- exactly the way
 `tools/check_constraint_refinement.py` already derives its provenance column.
 Names are matched with underscores stripped and case folded, because V_eta is
@@ -133,7 +133,7 @@ SCHEMA_ROOT = os.path.join(REPO, "schemas", "did_v2")
 # READ, never written here. Its absence is an ERROR, not a fallback: a split that
 # quietly reports every row as unclassifiable because the file was missing would
 # look exactly like a clean run to the ratchet.
-GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GROUND_TRUTH = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 
 # The count as of 2026-08-12. May fall freely; an increase fails, and so does a
 # fall that is not recorded here.
@@ -202,16 +202,14 @@ def _norm(s):
 
 
 def load_classes(root=SCHEMA_ROOT):
-    """Every built V_eta class, keyed by class_name."""
+    """Every V2 class under schemas/did_v2/ (any family folder), keyed by class_name."""
     classes = {}
-    for sub in ("stable", "draft"):
-        d = os.path.join(root, sub)
-        if not os.path.isdir(d):
-            continue
-        for fn in sorted(os.listdir(d)):
-            if not fn.endswith(".json") or fn == "index.json":
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames.sort()
+        for fn in sorted(filenames):
+            if not fn.endswith(".json"):
                 continue
-            with open(os.path.join(d, fn)) as fh:
+            with open(os.path.join(dirpath, fn)) as fh:
                 j = json.load(fh)
             cn = j.get("document_class", {}).get("class_name")
             if cn:

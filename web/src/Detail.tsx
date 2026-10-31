@@ -132,8 +132,8 @@ export function Detail({ entry }: Props) {
             {entry.disposition ?? "persist"}
             {entry.disposition_note ? ` — ${entry.disposition_note}` : ""}
           </dd>
-          <dt>Tier</dt>
-          <dd>{entry.tier}</dd>
+          <dt>Family</dt>
+          <dd>{entry.family ?? "registry"}</dd>
           <dt>Superclasses</dt>
           <dd>
             {dc.superclasses && dc.superclasses.length > 0 ? (

@@ -63,7 +63,7 @@ UNIQUE_BY = ["value.clock", "referent_id"]
 
 
 def _index():
-    with open(os.path.join(VETA, "index.json")) as f:
+    with open(os.path.join(os.path.dirname(VETA), "generated", "index.json")) as f:
         return json.load(f)["schemas"]
 
 
@@ -92,7 +92,7 @@ def _families():
 def test_the_meta_schema_can_express_the_rule_at_all():
     # Without this the declaration below is an undeclared key and every schema
     # fails meta-validation (`additionalProperties: false`).
-    with open(os.path.join(VETA, "stable", "did_schema_meta.json")) as f:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "did_schema_meta.json")) as f:
         meta = json.load(f)
     props = meta["$defs"]["dependency_object"]["properties"]
     assert "referent_unique_by" in props, (

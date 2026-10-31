@@ -47,7 +47,7 @@ QUOTE_MARKER = "THIS DOCUMENTATION READ"
 
 
 def _index():
-    with open(os.path.join(VETA, "index.json")) as f:
+    with open(os.path.join(os.path.dirname(VETA), "generated", "index.json")) as f:
         return json.load(f)["schemas"]
 
 

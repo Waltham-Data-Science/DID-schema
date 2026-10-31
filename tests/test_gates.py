@@ -77,7 +77,7 @@ def test_the_four_orderings_this_repo_gets_wrong_by_hand():
       ndi_ground_truth -> validate_v_eta the validator stamps ndi_mustBeNonEmpty from it
       validate_v_eta   -> coverage      the ledger grades V_eta/index.json
       coverage         -> status_board  the board joins the ledger JSON
-      status_board     -> the signoff gate, which reads V_eta_decisions.json
+      status_board     -> the signoff gate, which reads did_v2_decisions.json
     """
     pos = {n: i for i, n in enumerate(g.ORDER)}
     pairs = [("ndi_ground_truth", "validate_v_eta"),

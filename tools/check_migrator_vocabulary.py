@@ -3,7 +3,7 @@
 did_v1 vocabulary?
 
 Compares every `+migrators_j` migrator's field reads against the NDI templates
-captured in `V_eta_ndi_ground_truth.json`, and reports names that appear in
+captured in `did_v2_ndi_ground_truth.json`, and reports names that appear in
 DID-schema's own `V_alpha` snapshot but in NO NDI template. Those are names the
 migrator can only have picked up from the snapshot, and a migrator reading a
 field the source document does not have emits an empty-but-valid document that
@@ -28,7 +28,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-GT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GT = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 
 # Confirmed by reading the template AND the writer, so they are expected here
 # until Phase 2 fixes them. Listing them keeps the report honest about what is

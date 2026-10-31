@@ -94,8 +94,8 @@ import sys
 from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX = os.path.join(REPO, "schemas", "did_v2", "index.json")
-LEDGER = os.path.join(REPO, "schemas", "V_eta_coverage_ledger.json")
+INDEX = os.path.join(REPO, "schemas", "generated", "index.json")
+LEDGER = os.path.join(REPO, "schemas", "generated", "did_v2_coverage_ledger.json")
 OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # The machine-readable twin of the board, for the schema viewer.
 #
@@ -111,7 +111,7 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # decision a proposal.
 #
 # Generated, never hand-edited, and stale-checked in CI like the other four.
-DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
+DECISIONS_OUT = os.path.join(REPO, "schemas", "generated", "did_v2_decisions.json")
 
 # DECISIONS. A class is DECIDED if and only if it CITES a decision line that
 # exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:`
@@ -153,7 +153,7 @@ def load():
 #                      documents of this class still survive migration".
 #
 # Neither repo is checked out in this repo's CI, so both are SNAPSHOTTED into
-# the generated `V_eta_decisions.json` and reused verbatim when the live source
+# the generated `did_v2_decisions.json` and reused verbatim when the live source
 # is unreachable. That keeps `--check` meaningful: a developer with the sibling
 # repos re-measures, and a change in the evidence changes the committed file
 # exactly like a change in the schema does. Nothing time-stamped goes into the
@@ -1546,7 +1546,7 @@ def census_evidence(classes, roots):
 # `session_relative_reference` the first time the migrator scan was written.
 #
 # Nothing derivable separates the two. Both are `disposition: in_progress`;
-# both are named as decided targets in `V_eta_migration_targets.json` (which
+# both are named as decided targets in `did_v2_migration_targets.json` (which
 # still lists `session_relative_reference` as the target of 40+ sources, written
 # before the time model collapsed it -- an open question, not a fact this tool
 # may settle). So the distinction is written here, TRANSCRIBED FROM THE SIGNED
@@ -1777,7 +1777,7 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
 
 
 def committed_snapshot():
-    """The `open_class_state` block already committed in V_eta_decisions.json."""
+    """The `open_class_state` block already committed in did_v2_decisions.json."""
     try:
         with open(DECISIONS_OUT) as fh:
             return json.load(fh).get("open_class_state") or {}
@@ -1852,7 +1852,7 @@ def render_open_state(p, ocs):
     p(f'## What is actually left on the {len(rowsv)} open classes')
     p("")
     p("`in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is")
-    p("open because its hand-written `disposition` in `schemas/did_v2/index.json` is")
+    p("open because its hand-written `disposition` in `schemas/registry/did_v2_class_dispositions.json` is")
     p("`in_progress`, and it leaves the list only when a person changes that entry.")
     p("Nothing about a landed migrator, a passing test or a green corpus")
     p("moves it. The table below does not change that membership -- only the team")
@@ -2059,7 +2059,7 @@ def render_open_state(p, ocs):
     p("transcribed from the sign-off lines in")
     p("`tools/status_board.py:RETIRED_BY_ITS_OWN_DECISION`, and every replacement")
     p("named there is checked to exist. Note this is an OPEN CONTRADICTION between")
-    p("two committed records, not a settled fact: `V_eta_migration_targets.json`")
+    p("two committed records, not a settled fact: `did_v2_migration_targets.json`")
     p("still lists `session_relative_reference` as a decided target of 40+ v1")
     p("sources, written before the time model collapsed it. The board takes the")
     p("under-reporting side and does not settle it.")
@@ -2249,7 +2249,7 @@ def build(ocs=None, didm=None, log=None):
     # `find_repo` inside it is what let it ignore `--did` and render a
     # figure no sibling-less machine could ever reproduce. Neither value
     # may enter `ocs`: everything under `ocs["sources"]` is serialised
-    # into V_eta_decisions.json, and an absolute checkout path there
+    # into did_v2_decisions.json, and an absolute checkout path there
     # would make the artifact differ between every machine that writes it.
     schemas, rows = load()
 
@@ -2484,7 +2484,7 @@ def build(ocs=None, didm=None, log=None):
             # same pass that took the measurement. `reused` and
             # `roots_missing` are DELIBERATELY not persisted -- they
             # describe the RUN, not the finding, and writing them made
-            # V_eta_decisions.json itself differ between a machine with
+            # did_v2_decisions.json itself differ between a machine with
             # DID-matlab and one without, moving the staleness one file
             # sideways instead of removing it.
             ocs.setdefault("sources", {})["batch_consumers"] = {
@@ -2627,7 +2627,7 @@ def decisions_text(ocs=None):
 
 def parse_args(argv):
     ap = argparse.ArgumentParser(
-        description="Generate schemas/V_eta_STATUS.md + V_eta_decisions.json.")
+        description="Generate schemas/V_eta_STATUS.md + did_v2_decisions.json.")
     ap.add_argument("--check", action="store_true",
                     help="exit non-zero if the committed board is out of date")
     ap.add_argument("--did", default=find_repo("DID-matlab", "DID_MATLAB")
@@ -2677,12 +2677,12 @@ def main(argv):
             return 1
         dcur = Path(DECISIONS_OUT).read_text() if os.path.exists(DECISIONS_OUT) else ""
         if dcur != dtext:
-            print("V_eta_decisions.json is STALE. Run: python3 tools/status_board.py")
+            print("did_v2_decisions.json is STALE. Run: python3 tools/status_board.py")
             return 1
         if not ok:
             print("Status board reports unclaimed or duplicated open classes.")
             return 1
-        print("V_eta_STATUS.md + V_eta_decisions.json are current.")
+        print("V_eta_STATUS.md + did_v2_decisions.json are current.")
         return 0
     with open(OUT, "w") as fh:
         fh.write(text)
