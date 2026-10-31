@@ -23,7 +23,8 @@ did-schema/
 |   |   +-- calculation/     calculation and the named calculation classes (tuning curves,
 |   |   |                    receptive fields)
 |   |   +-- data_body/       data_body, sampled_body, opaque_body
-|   |   +-- time_reference/  time_reference and its absolute / relative forms
+|   |   +-- time_reference/  time_reference, its absolute / relative forms, and clock_alignment,
+|   |   |                    clock_alignment_configuration, clock_alignment_policy
 |   |   +-- relation/        relation, directed_relation, undirected_relation
 |   |   +-- acquisition/     acquisition_system, acquisition_channels, acquisition_reader,
 |   |   |                    epoch_file_pattern, epoch_parameter_reader, ingestion_manifest

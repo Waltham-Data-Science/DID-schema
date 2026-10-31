@@ -280,36 +280,36 @@
         },
         {
             "class_name": "clock_alignment",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
                 "relation",
                 "polynomial"
             ],
-            "path": "schemas/did_v2/clock_alignment.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment.json",
             "disposition": "persist"
         },
         {
             "class_name": "clock_alignment_configuration",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/clock_alignment_configuration.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment_configuration.json",
             "disposition": "persist"
         },
         {
             "class_name": "clock_alignment_policy",
-            "family": "core",
+            "family": "time_reference",
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/clock_alignment_policy.json",
+            "path": "schemas/did_v2/time_reference/clock_alignment_policy.json",
             "disposition": "persist"
         },
         {

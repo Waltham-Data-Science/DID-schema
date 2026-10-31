@@ -156,6 +156,12 @@ def test_the_acquisition_classes_are_in_acquisition():
         assert V.SP.family(V.SP.class_path(name)) == "acquisition", name
 
 
+def test_the_clock_alignment_classes_are_in_time_reference():
+    """[clock alignment in time_reference] (Jess Haley, 2026-10-31)."""
+    for name in ("clock_alignment", "clock_alignment_configuration", "clock_alignment_policy"):
+        assert V.SP.family(V.SP.class_path(name)) == "time_reference", name
+
+
 @pytest.mark.parametrize("fam", ["value", "relation", "data_body"])
 def test_a_family_root_outside_its_folder_is_refused(tree, fam):
     src = _f(tree, fam + ".json")
