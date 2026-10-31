@@ -342,7 +342,7 @@ DENOMINATOR: 25 open class(es); 22 cite a decision line that exists. The decisio
 
 ## Every decision citation
 
-DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
@@ -379,7 +379,6 @@ DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve
 | `imageCollection` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:824).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1494). |
 | `imageStack` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
 | `imageStack_parameters` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (did_v2_image_model_plan.md:154). |
-| `interaction_purpose` | persist | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9). |
 | `jrclust_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kiasort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kilosort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
@@ -393,6 +392,7 @@ DENOMINATOR: 73 class(es) cite 85 decision line(s); 0 citation(s) do not resolve
 | `probe_geometry` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
 | `probe_location` | consumed by migrator (no tombstone) | 2 of 2 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
 | `projectvar` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1494). |
+| `purpose` | persist | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [purpose class]. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (did_v2_go_forward_class_audit.md:1550). |
 | `pyraview` | consumed by migrator (no tombstone) | 1 of 1 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (did_v2_recording_observation_plan.md:99).; [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]. "TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13" (did_v2_recording_observation_plan.md:111). |
 | `session` | consumed by migrator (no tombstone) | 1 of 1 | [session]. "TEAM-SIGN-OFF [session]: jess@walthamdatascience.com /" (did_v2_go_forward_class_audit.md:664). |
 | `sorting_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
@@ -425,7 +425,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 94 document(s) read (3 generated copies excluded); 610 decision line(s) accepted, 2 rejected; 43 cited by a class, 567 cited by none.
+DENOMINATOR: 94 document(s) read (3 generated copies excluded); 610 decision line(s) accepted, 2 rejected; 44 cited by a class, 566 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -780,7 +780,6 @@ field). If one decides a class's disposition, that class should cite it.
 - Guard A amended. "Decided by Jess Haley, 2026-10-27 [Guard A amended]: (" (did_v2_go_forward_class_audit.md:1544).
 - documents without base carry. "Decided by Jess Haley, 2026-10-27 [documents without base" (did_v2_go_forward_class_audit.md:1546).
 - oneepoch is a redundant calculation. "Decided by Jess Haley, 2026-10-27 [oneepoch is a redundant" (did_v2_go_forward_class_audit.md:1548).
-- purpose class. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (did_v2_go_forward_class_audit.md:1550).
 - redeclarations only narrow. "Decided by Jess Haley, 2026-10-27 [redeclarations only" (did_v2_go_forward_class_audit.md:1552).
 - no value rollup now. "Decided by Jess Haley, 2026-10-27 [no value rollup now]: (" (did_v2_go_forward_class_audit.md:1554).
 - ngrid migrates to sampled bodies. "Decided by Jess Haley, 2026-10-27 [ngrid migrates to" (did_v2_go_forward_class_audit.md:1556).

@@ -730,9 +730,9 @@
             }
           ],
           "classes_citing": 73,
-          "citations_total": 85,
+          "citations_total": 86,
           "citations_unresolved": [],
-          "lines_cited": 43,
+          "lines_cited": 44,
           "uncited_lines": [
             {
               "document": "did_v2_clock_alignment_cluster_plan.md",
@@ -3525,14 +3525,6 @@
               "tag": "oneepoch is a redundant calculation",
               "date": "2026-10-27",
               "anchor": "Decided by Jess Haley, 2026-10-27 [oneepoch is a redundant"
-            },
-            {
-              "document": "did_v2_go_forward_class_audit.md",
-              "line": 1550,
-              "kind": "Decided by",
-              "tag": "purpose class",
-              "date": "2026-10-27",
-              "anchor": "Decided by Jess Haley, 2026-10-27 [purpose class]: ("
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
@@ -13037,9 +13029,9 @@
       },
       "carried": [],
       "second_pass": [
-        "interaction_purpose"
+        "purpose"
       ],
-      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 assertion + term on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 assertion + term on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `purpose` (named `interaction_purpose` until [purpose renamed now], 2026-10-31), which needs the migrated graph to resolve which interactions the purpose covers.",
       "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name",
       "decided_by_citation": null,
       "decision_citations": [],

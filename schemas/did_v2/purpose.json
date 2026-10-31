@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "interaction_purpose",
+        "class_name": "purpose",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -75,7 +75,7 @@
             ]
         },
         {
-            "name": "comment",
+            "name": "notes",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -84,9 +84,9 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Curator free-text note (genuinely new info, not a denormalized ontology description).",
+            "documentation": "Optional: irreducible human prose about this purpose. Documentation, not queryable structured data. Was `comment` ([notes on three classes], [purpose renamed now], did_v2_go_forward_class_audit.md).",
             "constraints": {
-                "maxLength": 2048
+                "maxLength": 4096
             }
         }
     ]

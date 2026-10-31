@@ -34,7 +34,7 @@ Kinds of entity (19, the values of entity.type in entity_type_bindings): organis
 `opaque_body`, `sampled_body`
 
 ## ⑦ Acquisition & infra (keep) (13)
-`acquisition_channels`, `acquisition_reader`, `acquisition_system`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `ingestion_manifest`, `interaction_purpose`, `method`
+`acquisition_channels`, `acquisition_reader`, `acquisition_system`, `clock_alignment`, `clock_alignment_configuration`, `clock_alignment_policy`, `coordinate_system`, `demo`, `epoch_file_pattern`, `epoch_parameter_reader`, `ingestion_manifest`, `method`, `purpose`
 
 ---
 

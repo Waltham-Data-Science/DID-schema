@@ -464,7 +464,7 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     # 2026-10-21 (did_v2_method_plan.md); the bound term is now `method.term`.
     want = {("statement", "variable"),
             ("interaction", "method.term"),
-            ("interaction_purpose", "purpose")}
+            ("purpose", "purpose")}
     got = {(i["class"], i["field"]): i for i in LIVE["inventory"]}
     assert want <= set(got), sorted(got)
     for key in want:

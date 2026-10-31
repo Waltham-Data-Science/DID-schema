@@ -4,7 +4,7 @@
   "summary": {
     "classes": 76,
     "classes_citing": 73,
-    "citations": 85,
+    "citations": 86,
     "citations_unresolved": 0,
     "open_classes": 25,
     "by_state": {
@@ -879,30 +879,6 @@
         }
       ]
     },
-    "interaction_purpose": {
-      "class_name": "interaction_purpose",
-      "disposition": "persist",
-      "open": false,
-      "state": "decided",
-      "state_label": "decided: cites a decision line that exists",
-      "decided_in": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "misc singletons",
-        "line": 9,
-        "kind": "TEAM-SIGN-OFF"
-      },
-      "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
-      "citations": [
-        {
-          "document": "did_v2_go_forward_class_audit.md",
-          "tag": "misc singletons",
-          "resolved": true,
-          "line": 9,
-          "kind": "TEAM-SIGN-OFF",
-          "why": null
-        }
-      ]
-    },
     "jrclust_clusters": {
       "class_name": "jrclust_clusters",
       "disposition": "consumed by migrator (no tombstone)",
@@ -1236,6 +1212,38 @@
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
           "line": 1494,
+          "kind": "Decided by",
+          "why": null
+        }
+      ]
+    },
+    "purpose": {
+      "class_name": "purpose",
+      "disposition": "persist",
+      "open": false,
+      "state": "decided",
+      "state_label": "decided: cites a decision line that exists",
+      "decided_in": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "misc singletons",
+        "line": 9,
+        "kind": "TEAM-SIGN-OFF"
+      },
+      "decision": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
+      "citations": [
+        {
+          "document": "did_v2_go_forward_class_audit.md",
+          "tag": "misc singletons",
+          "resolved": true,
+          "line": 9,
+          "kind": "TEAM-SIGN-OFF",
+          "why": null
+        },
+        {
+          "document": "did_v2_go_forward_class_audit.md",
+          "tag": "purpose class",
+          "resolved": true,
+          "line": 1550,
           "kind": "Decided by",
           "why": null
         }

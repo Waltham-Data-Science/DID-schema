@@ -1393,7 +1393,7 @@ def test_numbered_edge_families_declare_cardinality():
     # the spine and the purpose edge are the two that must be PRESENT
     required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
     assert ("interaction", "time_reference_id") in required
-    assert ("interaction_purpose", "interaction_id") in required
+    assert ("purpose", "interaction_id") in required
     # (syncgraph, whose syncrule_id_# NDI lets be empty, was deleted 2026-10-30
     # with the retire classes nothing passes through.)
 
@@ -2375,7 +2375,7 @@ _PIVOT_BINDINGS = [
     ("statement", "variable"),
     # the bound term inside the `method` block since 2026-10-21 (did_v2_method_plan.md)
     ("interaction", "method.term"),
-    ("interaction_purpose", "purpose"),
+    ("purpose", "purpose"),   # interaction_purpose until [purpose renamed now]
 ]
 
 
@@ -3235,18 +3235,24 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     # The destination the sign-off names must exist, and must not be emittable
     # with a blank required edge -- which is the standing reason the build stays
     # a second pass rather than a pass-1 migrator.
-    assert "interaction_purpose" in RECORDS, (
+    # `interaction_purpose` was renamed `purpose` ([purpose class], built by
+    # [purpose renamed now], did_v2_go_forward_class_audit.md, 2026-10-31).
+    assert "purpose" in RECORDS, (
         "the signed destination for these 635 documents no longer exists")
-    ip = {d["name"]: d for d in RECORDS["interaction_purpose"][1]["depends_on"]}
+    assert "interaction_purpose" not in RECORDS, "the rename is a move, not a copy"
+    ip = {d["name"]: d for d in RECORDS["purpose"][1]["depends_on"]}
     assert ip["interaction_id"]["min_count"] >= 1, (
         "interaction_id is REQUIRED, so a pass that cannot resolve an "
         "interaction must pass through rather than emit a blank edge")
-    purpose = next(f for f in RECORDS["interaction_purpose"][1]["fields"]
+    purpose = next(f for f in RECORDS["purpose"][1]["fields"]
                    if f["name"] == "purpose")
+    # [notes on three classes]: its one free-text field is `notes`, as on statement
+    own = {f["name"] for f in RECORDS["purpose"][1]["fields"]}
+    assert "notes" in own and "comment" not in own, sorted(own)
     assert purpose["mustBeScalar"] is True, (
         "one purpose per document is what keeps the v1 and V_eta counts equal at "
         "635: an epoch carrying two approach names was two v1 documents and "
-        "becomes two interaction_purpose documents")
+        "becomes two purpose documents")
 
 
 def test_acquisition_epoch_declares_the_vhsb_payload():

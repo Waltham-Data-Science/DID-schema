@@ -29,6 +29,8 @@ META_FILES = {
 
 # did_v1 / V_zeta class name -> the V_eta class it became (section 1 of the builder)
 RENAME = {
+    # [purpose class] / [purpose renamed now] (did_v2_go_forward_class_audit.md)
+    "interaction_purpose": "purpose",
     "observation": "subject_observation",
     "manipulation": "subject_manipulation",
     "categorical_observation": "term_observation",

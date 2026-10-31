@@ -207,7 +207,7 @@ CITATIONS = {
     "subject": [(_GFA, "subject")],
     "session": [(_GFA, "session")],
     "binaryseries_parameters": [(_GFA, "misc singletons")],
-    "interaction_purpose": [(_GFA, "misc singletons")],
+    "purpose": [(_GFA, "misc singletons"), (_GFA, "purpose class")],
     "projectvar": [(_GFA, "misc singletons"),
                    (_GFA, "carried v1 validates against NDI templates")],
     "spatialGeneExpressionPyramid": [_ST_REVIEW],

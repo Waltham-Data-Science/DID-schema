@@ -20,7 +20,7 @@
             "description": "Annotation families: curatorial classifications such as group membership.",
             "classes": [
                 "group_assignment",
-                "interaction_purpose"
+                "purpose"
             ],
             "topics": []
         },

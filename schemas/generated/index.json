@@ -762,18 +762,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "interaction_purpose",
-            "family": "core",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/interaction_purpose.json",
-            "disposition": "persist",
-            "disposition_note": "Kept, to be renamed `purpose` with its edge to interactions only: [purpose class], Jess Haley 2026-10-27 (the rename waits on NDI-matlab's second pass)."
-        },
-        {
             "class_name": "irradiance",
             "family": "value",
             "class_version": "1.0.0",
@@ -997,6 +985,18 @@
             ],
             "path": "schemas/did_v2/value/pressure.json",
             "disposition": "persist"
+        },
+        {
+            "class_name": "purpose",
+            "family": "core",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/did_v2/purpose.json",
+            "disposition": "persist",
+            "disposition_note": "Kept, to be renamed `purpose` with its edge to interactions only: [purpose class], Jess Haley 2026-10-27 (the rename waits on NDI-matlab's second pass)."
         },
         {
             "class_name": "receptive_field",
