@@ -44,6 +44,7 @@ did-schema/
 |   +-- generated/           did_v2_STATUS.md, did_v2_coverage_ledger.md,
 |   |                        did_v2_final_class_set.md (do not hand-edit)
 |   +-- history/             superseded documents, kept for their record
+|   +-- references/          reference papers V2 follows (PDF + citation and licence note)
 |   +-- v2_working/, V2_PLAN.md   working notes and the working plan (not the record)
 +-- tools/                   gates.py and the tools it runs; schema_paths.py and
 |                            doc_paths.py say where every file lives

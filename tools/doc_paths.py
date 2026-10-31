@@ -8,7 +8,8 @@ a citation, and a citation never has to say which subfolder it means.
 
 Layout (part (3)): `docs/` (entry points), `docs/plans/` (flat),
 `docs/generated/` (written by tools; they quote decisions, they hold none),
-`docs/history/`, and the working notes already under `docs/`.
+`docs/history/`, `docs/references/` (reference papers with a citation note
+each), and the working notes already under `docs/`.
 
 A name with a `/` in it is a path from the repository root and is returned as
 such. Every reader of a document by name asks this module; none carries its
@@ -25,6 +26,9 @@ HISTORY = os.path.join(DOCS, "history")
 # Working notes: "a proposal or a measurement at the commits it names. It is
 # not the record" (docs/v2_working/README.md).
 WORKING = os.path.join(DOCS, "v2_working")
+# Reference papers V2 follows, each a PDF with a citation and licence note
+# beside it (`<author>_<year>_<topic>.md`).
+REFERENCES = os.path.join(DOCS, "references")
 
 
 class DuplicateDocumentName(ValueError):
