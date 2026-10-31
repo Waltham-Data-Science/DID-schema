@@ -35,7 +35,7 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
    slot settles 110]).
 4. DID-matlab #325 (carry builds: oneepoch with its element, carry-156 n-trode
    count, carry-157 bath with no clock). Red until #246 merges (cites
-   carry-156/157). After it merges: retire carry-148 in did-schema.
+   carry-156/157). Merged 2026-10-30 (a78299d8); carry-148 retired.
 5. DID-matlab #304 (stimulator is SNOMEDCT:36645008; b4d626a), #322 (bath
    variable), #324 (last nine raw-v1 migrators): required checks green, corpus
    jobs were still running. #304 body still lists stimulator as carried; #324
