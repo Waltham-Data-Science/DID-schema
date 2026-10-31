@@ -136,6 +136,26 @@ def test_stale_relation_values_are_reported_not_fixed_in_check_mode(tree):
     assert (_f(tree, "directed_relation.json")).read_text() == before
 
 
+def test_the_tree_holds_each_family_root_in_its_folder():
+    """[family roots and relation folder] (Jess Haley, 2026-10-31): each
+    family's root class lives in its family folder, as time_reference does."""
+    assert len(V.SP.ROOTED_FAMILIES) >= 5   # denominator
+    for fam in V.SP.ROOTED_FAMILIES:
+        p = V.SP.class_path(fam)
+        assert p is not None, fam
+        assert V.SP.family(p) == fam, (fam, p)
+    for name in ("directed_relation", "undirected_relation"):
+        assert V.SP.family(V.SP.class_path(name)) == "relation", name
+
+
+@pytest.mark.parametrize("fam", ["value", "relation", "data_body"])
+def test_a_family_root_outside_its_folder_is_refused(tree, fam):
+    src = _f(tree, fam + ".json")
+    shutil.move(str(src), str(tree / (fam + ".json")))
+    rc, out = _run(tree)
+    assert rc == 1 and f"family root {fam} is in schemas/did_v2/{fam}.json" in out, out
+
+
 def test_a_hand_layout_is_refused(tree):
     p = _f(tree, "statement.json")
     p.write_text(json.dumps(json.loads(p.read_text()), indent=2) + "\n")
@@ -195,7 +215,7 @@ def _value_field(name):
 
 
 def test_value_declares_the_rule_and_the_nine_no_longer_require_value():
-    with open(os.path.join(VETA, "value.json")) as f:
+    with open(V.SP.class_path("value")) as f:
         rules = {r["name"]: r for r in json.load(f)["rules"]}
     assert set(rules["value_inline_or_body"]["fields"]) == {"value", "data_body", "value_id"}
     assert "data_type_when_bytes" in rules
@@ -275,7 +295,7 @@ def test_data_type_is_required_only_for_plain_array_bytes():
     """Jess Haley, 2026-10-21: `data_type` only when the bytes are a plain
     array (a sampled_body, or an untyped inline array); an opaque_body's
     `format` term is the encoding, so it needs none."""
-    with open(os.path.join(VETA, "value.json")) as f:
+    with open(V.SP.class_path("value")) as f:
         rules = {r["name"]: r for r in json.load(f)["rules"]}
     st = rules["data_type_when_bytes"]["statement"]
     assert "sampled_body" in st and "opaque_body" in st and "`format`" in st

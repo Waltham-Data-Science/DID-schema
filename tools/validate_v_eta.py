@@ -194,7 +194,8 @@ def r1_format(t):
 def r2_identity(t):
     """class_name is the file name; one class per name across the tree;
     schemas/did_v2/ holds class files only, in the decided family folders
-    ([schema folders by family]); no basename repeats under schemas/ (the
+    ([schema folders by family]), each family's root class in its own folder
+    ([family roots and relation folder]); no basename repeats under schemas/ (the
     siblings read every non-class file by its basename)."""
     bad = [f"unreadable: {u}" for u in t.unreadable]
     bad += [f"{n} is declared twice" for n in t.dupes]
@@ -213,6 +214,15 @@ def r2_identity(t):
         for f in filenames:
             if not f.endswith(".json"):
                 bad.append(f"schemas/did_v2/{'' if rel == '.' else rel + '/'}{f} is not a class file")
+    # [family roots and relation folder]: a family's root class lives in its
+    # family folder, and only there.
+    for fam in SP.ROOTED_FAMILIES:
+        if fam not in t.classes:
+            bad.append(f"family {fam}: its root class {fam} has no file; it lives in "
+                       f"schemas/did_v2/{fam}/{fam}.json ([family roots and relation folder])")
+        elif t.classes[fam][0] != fam:
+            bad.append(f"family root {fam} is in {SP.rel(t.classes[fam][1], t.root)}; it "
+                       f"lives in schemas/did_v2/{fam}/ ([family roots and relation folder])")
     for name, paths in SP.duplicate_basenames(t.root).items():
         bad.append(f"{name} is held by {len(paths)} files under schemas/: "
                    + ", ".join(SP.rel(p, t.root) for p in paths))

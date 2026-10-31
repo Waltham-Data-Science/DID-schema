@@ -65,8 +65,8 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     for one fact; now there is one. A statement points at a shared
     `acquisition_channels` document by `acquisition_channels_id`, the edge name
     `clock_alignment_configuration` used until 2026-10-29."""
-    si = _load(os.path.join(VETA, "interaction.json"))
-    ac = _load(os.path.join(VETA, "acquisition_channels.json"))
+    si = _load(SP.class_path("interaction"))
+    ac = _load(SP.class_path("acquisition_channels"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_system_id" not in si_edges
@@ -78,13 +78,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     # DECIDED required (item 56); stays optional until the DID-matlab minting pass
     # lands -- test_veta_acquisition_system_edge_typing pins that.
     assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
-    rig = _load(os.path.join(VETA, "acquisition_system.json"))
+    rig = _load(SP.class_path("acquisition_system"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
     req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
     assert req == {"reader_id", "epoch_file_pattern_id"}, req
-    cac = _load(os.path.join(VETA, "clock_alignment_configuration.json"))
+    cac = _load(SP.class_path("clock_alignment_configuration"))
     # Jess Haley 2026-10-27 [sync configuration links its rigs]
     # (did_v2_go_forward_class_audit.md): the configuration links its two rigs
     # directly, role-named, and no longer points at `acquisition_channels`.
@@ -1106,7 +1106,7 @@ def test_openminds_crosswalk_round_trips():
     valid_kinds = {"field", "relation", "global_identifier", "implied", "projection",
                    "assertion"}
     curie = _load(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json"))
-    ent = _load(os.path.join(VETA, "entity.json"))
+    ent = _load(SP.class_path("entity"))
     types = {v["name"] for v in next(
         f for f in ent["fields"] if f["name"] == "type")["constraints"]["binding"]["values"]}
     for type_name, spec in xw["types"].items():
@@ -2487,7 +2487,7 @@ def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fai
                     if not r["variable"].get("node")]
     assert without_node == [], (
         f"{len(without_node)} binding variable row(s) lost their node: {without_node}")
-    stmt = _load(os.path.join(VETA, "statement.json"))
+    stmt = _load(SP.class_path("statement"))
     var = next(f for f in stmt["fields"] if f["name"] == "variable")
     binding = var["constraints"]["binding"]
     assert binding.get("strength") == "preferred", (

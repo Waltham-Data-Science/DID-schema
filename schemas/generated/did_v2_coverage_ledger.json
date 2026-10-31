@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 605,
+          "accepted_lines": 610,
           "accepted_lines_by_kind": {
-            "Decided by": 488,
+            "Decided by": 493,
             "TEAM-SIGN-OFF": 117
           },
           "rejected_lines": [
@@ -4261,6 +4261,46 @@
               "tag": "schema folders by family",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [schema folders by"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1734,
+              "kind": "Decided by",
+              "tag": "family roots and relation folder",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [family roots and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1736,
+              "kind": "Decided by",
+              "tag": "retire check now",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [retire check now]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1738,
+              "kind": "Decided by",
+              "tag": "purpose renamed now",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1740,
+              "kind": "Decided by",
+              "tag": "acquisition folder",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [acquisition folder]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1742,
+              "kind": "Decided by",
+              "tag": "clock alignment in time_reference",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [clock alignment in"
             },
             {
               "document": "did_v2_image_model_plan.md",

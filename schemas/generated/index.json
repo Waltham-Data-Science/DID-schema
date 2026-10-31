@@ -13,6 +13,7 @@
         "calculation",
         "data_body",
         "time_reference",
+        "relation",
         "retiring"
     ],
     "schemas": [
@@ -221,13 +222,13 @@
         },
         {
             "class_name": "calculation",
-            "family": "core",
+            "family": "calculation",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "interaction"
             ],
-            "path": "schemas/did_v2/calculation.json",
+            "path": "schemas/did_v2/calculation/calculation.json",
             "disposition": "persist"
         },
         {
@@ -464,13 +465,13 @@
         },
         {
             "class_name": "data_body",
-            "family": "core",
+            "family": "data_body",
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/did_v2/data_body.json",
+            "path": "schemas/did_v2/data_body/data_body.json",
             "disposition": "persist"
         },
         {
@@ -497,13 +498,13 @@
         },
         {
             "class_name": "directed_relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/did_v2/directed_relation.json",
+            "path": "schemas/did_v2/relation/directed_relation.json",
             "disposition": "persist"
         },
         {
@@ -1021,13 +1022,13 @@
         },
         {
             "class_name": "relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/relation.json",
+            "path": "schemas/did_v2/relation/relation.json",
             "disposition": "persist"
         },
         {
@@ -1298,13 +1299,13 @@
         },
         {
             "class_name": "undirected_relation",
-            "family": "core",
+            "family": "relation",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/did_v2/undirected_relation.json",
+            "path": "schemas/did_v2/relation/undirected_relation.json",
             "disposition": "persist"
         },
         {
@@ -1322,13 +1323,13 @@
         },
         {
             "class_name": "value",
-            "family": "core",
+            "family": "value",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/did_v2/value.json",
+            "path": "schemas/did_v2/value/value.json",
             "disposition": "persist"
         },
         {

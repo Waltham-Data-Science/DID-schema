@@ -18,11 +18,13 @@ did-schema/
 +-- schemas/
 |   +-- did_v2/              class files only, one <class_name>.json per class, by family:
 |   |   +-- *.json           the core classes (base, entity, statement and its directions,
-|   |   |                    relations, value, data_body, method, acquisition, ...)
-|   |   +-- value/           the value kinds (mass, length, term, text, ...)
-|   |   +-- calculation/     the named calculation classes (tuning curves, receptive fields)
-|   |   +-- data_body/       sampled_body, opaque_body
+|   |   |                    method, acquisition, ...)
+|   |   +-- value/           value and the value kinds (mass, length, term, text, ...)
+|   |   +-- calculation/     calculation and the named calculation classes (tuning curves,
+|   |   |                    receptive fields)
+|   |   +-- data_body/       data_body, sampled_body, opaque_body
 |   |   +-- time_reference/  time_reference and its absolute / relative forms
+|   |   +-- relation/        relation, directed_relation, undirected_relation
 |   |   +-- retiring/        the retire classes still in the tree, until each is deleted
 |   +-- registry/            authored data: did_schema_meta.json (the meta-schema),
 |   |                        binding_registry_meta, CURIE_lookups_meta, ndi_reserved_keys,
@@ -46,7 +48,7 @@ did-schema/
 +-- web/                     the schema viewer (see web/README.md)
 ```
 
-A folder under `schemas/did_v2/` means a family, never a tier or a maturity. Class names are unique across the tree, and no file name repeats anywhere under `schemas/`: DID-matlab and NDI-matlab find class files at any depth under `schemas/did_v2/` and every other file by its name. A document cited by bare name (`did_v2_epoch_plan.md`) is the unique file of that name under `docs/`.
+A folder under `schemas/did_v2/` means a family, never a tier or a maturity. A family's root class lives in its family folder (`value/value.json`, `relation/relation.json`). Class names are unique across the tree, and no file name repeats anywhere under `schemas/`: DID-matlab and NDI-matlab find class files at any depth under `schemas/did_v2/` and every other file by its name. A document cited by bare name (`did_v2_epoch_plan.md`) is the unique file of that name under `docs/`.
 
 ## A class file
 
