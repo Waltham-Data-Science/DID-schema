@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 618,
+          "accepted_lines": 620,
           "accepted_lines_by_kind": {
-            "Decided by": 498,
+            "Decided by": 500,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -2392,13 +2392,21 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 1260,
               "kind": "Decided by",
+              "tag": "classes without a migrator carry as v1",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [classes without a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1262,
+              "kind": "Decided by",
               "tag": "early migration pieces fixed",
               "date": "2026-10-26",
               "anchor": "Decided by Jess Haley, 2026-10-26 [early migration pieces"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1262,
+              "line": 1264,
               "kind": "Decided by",
               "tag": "migration reliability practices",
               "date": "2026-10-26",
@@ -2406,7 +2414,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1264,
+              "line": 1266,
               "kind": "Decided by",
               "tag": "carry register kinds 2",
               "date": "2026-10-26",
@@ -2414,7 +2422,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1266,
+              "line": 1268,
               "kind": "Decided by",
               "tag": "unnamed groups named by the map",
               "date": "2026-10-26",
@@ -2422,7 +2430,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1268,
+              "line": 1270,
               "kind": "Decided by",
               "tag": "vehicle rate needs a map",
               "date": "2026-10-26",
@@ -2430,7 +2438,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1270,
+              "line": 1272,
               "kind": "Decided by",
               "tag": "second measurement value needs a map",
               "date": "2026-10-26",
@@ -2438,7 +2446,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1272,
+              "line": 1274,
               "kind": "Decided by",
               "tag": "ingested session membership",
               "date": "2026-10-26",
@@ -2446,7 +2454,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1274,
+              "line": 1276,
               "kind": "Decided by",
               "tag": "data_limits not a pair is malformed",
               "date": "2026-10-26",
@@ -2454,7 +2462,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1276,
+              "line": 1278,
               "kind": "Decided by",
               "tag": "pass-through filter sample frequency",
               "date": "2026-10-26",
@@ -2462,7 +2470,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1278,
+              "line": 1280,
               "kind": "Decided by",
               "tag": "untied epochs keep the session anchor",
               "date": "2026-10-26",
@@ -2470,7 +2478,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1280,
+              "line": 1282,
               "kind": "Decided by",
               "tag": "sorted units are cells or groups",
               "date": "2026-10-26",
@@ -2478,7 +2486,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1282,
+              "line": 1284,
               "kind": "Decided by",
               "tag": "unlabelled units need a map",
               "date": "2026-10-26",
@@ -2486,7 +2494,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1284,
+              "line": 1286,
               "kind": "Decided by",
               "tag": "element types have no default",
               "date": "2026-10-26",
@@ -2494,7 +2502,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1286,
+              "line": 1288,
               "kind": "Decided by",
               "tag": "dependents of a carried document carry",
               "date": "2026-10-26",
@@ -2502,7 +2510,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1288,
+              "line": 1290,
               "kind": "Decided by",
               "tag": "electrode spellings and imaging types are devices",
               "date": "2026-10-26",
@@ -2510,7 +2518,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1290,
+              "line": 1292,
               "kind": "Decided by",
               "tag": "event lines and environment probes are devices",
               "date": "2026-10-26",
@@ -2518,7 +2526,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1292,
+              "line": 1294,
               "kind": "Decided by",
               "tag": "migrator writes the registry spelling",
               "date": "2026-10-26",
@@ -2526,7 +2534,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1294,
+              "line": 1296,
               "kind": "Decided by",
               "tag": "location carries need a map",
               "date": "2026-10-26",
@@ -2534,7 +2542,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1296,
+              "line": 1298,
               "kind": "Decided by",
               "tag": "presentation outside the batch needs a map",
               "date": "2026-10-26",
@@ -2542,7 +2550,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1298,
+              "line": 1300,
               "kind": "Decided by",
               "tag": "missing is_linked is malformed",
               "date": "2026-10-26",
@@ -2550,7 +2558,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1300,
+              "line": 1302,
               "kind": "Decided by",
               "tag": "term labels stay as the ontology spells them",
               "date": "2026-10-26",
@@ -2558,7 +2566,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1302,
+              "line": 1304,
               "kind": "Decided by",
               "tag": "element local identifier is name and reference",
               "date": "2026-10-26",
@@ -2566,7 +2574,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1304,
+              "line": 1306,
               "kind": "Decided by",
               "tag": "bath is two statements",
               "date": "2026-10-26",
@@ -2574,7 +2582,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1306,
+              "line": 1308,
               "kind": "Decided by",
               "tag": "chooseLevel skips empty levels",
               "date": "2026-10-26",
@@ -2582,7 +2590,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1308,
+              "line": 1310,
               "kind": "Decided by",
               "tag": "ingested stimulus reader finds the body",
               "date": "2026-10-26",
@@ -2590,7 +2598,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1310,
+              "line": 1312,
               "kind": "Decided by",
               "tag": "markdown cleanup and rename",
               "date": "2026-10-26",
@@ -2598,7 +2606,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1312,
+              "line": 1314,
               "kind": "Decided by",
               "tag": "pipeline defects are not carries",
               "date": "2026-10-26",
@@ -2606,7 +2614,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1314,
+              "line": 1316,
               "kind": "Decided by",
               "tag": "unresolved recorded elements make a standalone item",
               "date": "2026-10-26",
@@ -2614,7 +2622,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1316,
+              "line": 1318,
               "kind": "Decided by",
               "tag": "extra field on an ingested stimulus file is malformed",
               "date": "2026-10-26",
@@ -2622,7 +2630,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1318,
+              "line": 1320,
               "kind": "Decided by",
               "tag": "NaN control means no control",
               "date": "2026-10-26",
@@ -2630,7 +2638,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1320,
+              "line": 1322,
               "kind": "Decided by",
               "tag": "conflicting animal records need a map",
               "date": "2026-10-26",
@@ -2638,7 +2646,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1322,
+              "line": 1324,
               "kind": "Decided by",
               "tag": "method terms are general",
               "date": "2026-10-26",
@@ -2646,7 +2654,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1324,
+              "line": 1326,
               "kind": "Decided by",
               "tag": "Naka-Rushton is one function",
               "date": "2026-10-26",
@@ -2654,7 +2662,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1326,
+              "line": 1328,
               "kind": "Decided by",
               "tag": "fields outside the template are malformed",
               "date": "2026-10-27",
@@ -2662,7 +2670,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1328,
+              "line": 1330,
               "kind": "Decided by",
               "tag": "probe location terms",
               "date": "2026-10-27",
@@ -2670,7 +2678,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1330,
+              "line": 1332,
               "kind": "Decided by",
               "tag": "cell spellings are one meaning",
               "date": "2026-10-27",
@@ -2678,7 +2686,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1332,
+              "line": 1334,
               "kind": "Decided by",
               "tag": "v1 name is the entity name",
               "date": "2026-10-27",
@@ -2686,7 +2694,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1334,
+              "line": 1336,
               "kind": "Decided by",
               "tag": "member edge number is notation",
               "date": "2026-10-27",
@@ -2694,7 +2702,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1336,
+              "line": 1338,
               "kind": "Decided by",
               "tag": "afo prefix registered",
               "date": "2026-10-27",
@@ -2702,7 +2710,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1338,
+              "line": 1340,
               "kind": "Decided by",
               "tag": "n-trode is a multielectrode array",
               "date": "2026-10-27",
@@ -2710,7 +2718,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1340,
+              "line": 1342,
               "kind": "Decided by",
               "tag": "site positions are coordinates",
               "date": "2026-10-27",
@@ -2718,7 +2726,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1342,
+              "line": 1344,
               "kind": "Decided by",
               "tag": "move the locked mains",
               "date": "2026-10-27",
@@ -2726,7 +2734,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1344,
+              "line": 1346,
               "kind": "Decided by",
               "tag": "merge main into V2",
               "date": "2026-10-27",
@@ -2734,7 +2742,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1346,
+              "line": 1348,
               "kind": "Decided by",
               "tag": "lock NDIcalc-vis-matlab",
               "date": "2026-10-27",
@@ -2742,7 +2750,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1348,
+              "line": 1350,
               "kind": "Decided by",
               "tag": "tuning stray fields are malformed",
               "date": "2026-10-27",
@@ -2750,7 +2758,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1350,
+              "line": 1352,
               "kind": "Decided by",
               "tag": "cell spellings amended",
               "date": "2026-10-27",
@@ -2758,7 +2766,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1352,
+              "line": 1354,
               "kind": "Decided by",
               "tag": "element type is a device kind term",
               "date": "2026-10-27",
@@ -2766,7 +2774,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1354,
+              "line": 1356,
               "kind": "Decided by",
               "tag": "ndi element class not kept",
               "date": "2026-10-27",
@@ -2774,7 +2782,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1356,
+              "line": 1358,
               "kind": "Decided by",
               "tag": "number of electrodes minted",
               "date": "2026-10-27",
@@ -2782,7 +2790,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1358,
+              "line": 1360,
               "kind": "Decided by",
               "tag": "site frame is a coordinate system",
               "date": "2026-10-27",
@@ -2790,7 +2798,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1360,
+              "line": 1362,
               "kind": "Decided by",
               "tag": "ground truth reads NDIcalc-vis templates",
               "date": "2026-10-27",
@@ -2798,7 +2806,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1362,
+              "line": 1364,
               "kind": "Decided by",
               "tag": "writer fields over the template are template fields",
               "date": "2026-10-27",
@@ -2806,7 +2814,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1364,
+              "line": 1366,
               "kind": "Decided by",
               "tag": "tuning split covers the shared fold",
               "date": "2026-10-27",
@@ -2814,7 +2822,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1366,
+              "line": 1368,
               "kind": "Decided by",
               "tag": "unreached superclass migrators deleted",
               "date": "2026-10-27",
@@ -2822,7 +2830,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1368,
+              "line": 1370,
               "kind": "Decided by",
               "tag": "unknown filter parameter is malformed",
               "date": "2026-10-27",
@@ -2830,7 +2838,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1370,
+              "line": 1372,
               "kind": "Decided by",
               "tag": "five probe kinds from NCIT",
               "date": "2026-10-27",
@@ -2838,7 +2846,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1372,
+              "line": 1374,
               "kind": "Decided by",
               "tag": "ecg and eeg are recorders",
               "date": "2026-10-27",
@@ -2846,7 +2854,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1374,
+              "line": 1376,
               "kind": "Decided by",
               "tag": "imaging probes are microscopes or carried",
               "date": "2026-10-27",
@@ -2854,7 +2862,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1376,
+              "line": 1378,
               "kind": "Decided by",
               "tag": "pyraview level keeps its file info",
               "date": "2026-10-27",
@@ -2862,7 +2870,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1378,
+              "line": 1380,
               "kind": "Decided by",
               "tag": "values no writer produces are malformed",
               "date": "2026-10-27",
@@ -2870,7 +2878,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1380,
+              "line": 1382,
               "kind": "Decided by",
               "tag": "carried file references are not folded",
               "date": "2026-10-27",
@@ -2878,7 +2886,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1382,
+              "line": 1384,
               "kind": "Decided by",
               "tag": "light-sheet level fields rebuild from the pyramid",
               "date": "2026-10-27",
@@ -2886,7 +2894,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1384,
+              "line": 1386,
               "kind": "Decided by",
               "tag": "one bath shape",
               "date": "2026-10-27",
@@ -2894,7 +2902,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1386,
+              "line": 1388,
               "kind": "Decided by",
               "tag": "group identifier includes the reference",
               "date": "2026-10-27",
@@ -2902,7 +2910,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1388,
+              "line": 1390,
               "kind": "Decided by",
               "tag": "drug end and duration on the anchor",
               "date": "2026-10-27",
@@ -2910,7 +2918,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1390,
+              "line": 1392,
               "kind": "Decided by",
               "tag": "age at injection is an observation",
               "date": "2026-10-27",
@@ -2918,7 +2926,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1392,
+              "line": 1394,
               "kind": "Decided by",
               "tag": "transfer method keeps its node",
               "date": "2026-10-27",
@@ -2926,7 +2934,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1394,
+              "line": 1396,
               "kind": "Decided by",
               "tag": "sync configuration stays a class",
               "date": "2026-10-27",
@@ -2934,7 +2942,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1396,
+              "line": 1398,
               "kind": "Decided by",
               "tag": "sync configuration links its rigs",
               "date": "2026-10-27",
@@ -2942,7 +2950,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1398,
+              "line": 1400,
               "kind": "Decided by",
               "tag": "sync rule direction is recorded",
               "date": "2026-10-27",
@@ -2950,7 +2958,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1400,
+              "line": 1402,
               "kind": "Decided by",
               "tag": "acquisition channels kept for wiring",
               "date": "2026-10-27",
@@ -2958,7 +2966,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1402,
+              "line": 1404,
               "kind": "Decided by",
               "tag": "handed-on documents do not carry dependents",
               "date": "2026-10-27",
@@ -2966,7 +2974,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1404,
+              "line": 1406,
               "kind": "Decided by",
               "tag": "unit direct and subject rebuild from the probe",
               "date": "2026-10-27",
@@ -2974,7 +2982,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1406,
+              "line": 1408,
               "kind": "Decided by",
               "tag": "broken transfer values are malformed",
               "date": "2026-10-27",
@@ -2982,7 +2990,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1408,
+              "line": 1410,
               "kind": "Decided by",
               "tag": "treatment transfer stays v1",
               "date": "2026-10-27",
@@ -2990,7 +2998,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1410,
+              "line": 1412,
               "kind": "Decided by",
               "tag": "bath ph and osmolarity are formulation fields",
               "date": "2026-10-27",
@@ -2998,7 +3006,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1412,
+              "line": 1414,
               "kind": "Decided by",
               "tag": "light-sheet level label is a note",
               "date": "2026-10-27",
@@ -3006,7 +3014,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1414,
+              "line": 1416,
               "kind": "Decided by",
               "tag": "unreadable responses are malformed",
               "date": "2026-10-27",
@@ -3014,7 +3022,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1416,
+              "line": 1418,
               "kind": "Decided by",
               "tag": "unbuilt spike classes carry as needs home",
               "date": "2026-10-27",
@@ -3022,7 +3030,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1418,
+              "line": 1420,
               "kind": "Decided by",
               "tag": "input names rebuild from the input class",
               "date": "2026-10-27",
@@ -3030,7 +3038,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1420,
+              "line": 1422,
               "kind": "Decided by",
               "tag": "neuron uses the sorted unit's cell",
               "date": "2026-10-27",
@@ -3038,7 +3046,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1422,
+              "line": 1424,
               "kind": "Decided by",
               "tag": "sample times equal within one rounding step",
               "date": "2026-10-27",
@@ -3046,7 +3054,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1424,
+              "line": 1426,
               "kind": "Decided by",
               "tag": "contrast SF bug is a dataset decision",
               "date": "2026-10-27",
@@ -3054,7 +3062,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1426,
+              "line": 1428,
               "kind": "Decided by",
               "tag": "whole-batch round trip",
               "date": "2026-10-27",
@@ -3062,7 +3070,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1428,
+              "line": 1430,
               "kind": "Decided by",
               "tag": "carried documents may point at converted ones",
               "date": "2026-10-27",
@@ -3070,7 +3078,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1430,
+              "line": 1432,
               "kind": "Decided by",
               "tag": "simple_calc carries as needs home",
               "date": "2026-10-27",
@@ -3078,7 +3086,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1432,
+              "line": 1434,
               "kind": "Decided by",
               "tag": "empty prestimulus normalization is zero",
               "date": "2026-10-27",
@@ -3086,7 +3094,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1434,
+              "line": 1436,
               "kind": "Decided by",
               "tag": "importer bugs are dataset decisions",
               "date": "2026-10-27",
@@ -3094,7 +3102,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1436,
+              "line": 1438,
               "kind": "Decided by",
               "tag": "hotelling spellings are one field",
               "date": "2026-10-27",
@@ -3102,7 +3110,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1438,
+              "line": 1440,
               "kind": "Decided by",
               "tag": "Priebe fits are one function",
               "date": "2026-10-27",
@@ -3110,7 +3118,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1440,
+              "line": 1442,
               "kind": "Decided by",
               "tag": "NDI CI picks did-schema branch",
               "date": "2026-10-27",
@@ -3118,7 +3126,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1442,
+              "line": 1444,
               "kind": "Decided by",
               "tag": "sorter labels map",
               "date": "2026-10-27",
@@ -3126,7 +3134,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1444,
+              "line": 1446,
               "kind": "Decided by",
               "tag": "image stack name goes to notes",
               "date": "2026-10-27",
@@ -3134,7 +3142,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1446,
+              "line": 1448,
               "kind": "Decided by",
               "tag": "carry-055 wording follows the group identifier",
               "date": "2026-10-27",
@@ -3142,7 +3150,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1448,
+              "line": 1450,
               "kind": "Decided by",
               "tag": "treatment location name is the node",
               "date": "2026-10-27",
@@ -3150,7 +3158,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1450,
+              "line": 1452,
               "kind": "Decided by",
               "tag": "ingested stimulus body link follow-up",
               "date": "2026-10-27",
@@ -3158,7 +3166,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1452,
+              "line": 1454,
               "kind": "Decided by",
               "tag": "cloud organization id is a global identifier",
               "date": "2026-10-27",
@@ -3166,7 +3174,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1454,
+              "line": 1456,
               "kind": "Decided by",
               "tag": "curve fitting is the fit method term",
               "date": "2026-10-27",
@@ -3174,7 +3182,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1456,
+              "line": 1458,
               "kind": "Decided by",
               "tag": "bath solution minted",
               "date": "2026-10-27",
@@ -3182,7 +3190,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1458,
+              "line": 1460,
               "kind": "Decided by",
               "tag": "second pass reads control stimuli from v1",
               "date": "2026-10-27",
@@ -3190,7 +3198,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1460,
+              "line": 1462,
               "kind": "Decided by",
               "tag": "tuning fits use curve fitting now",
               "date": "2026-10-27",
@@ -3198,7 +3206,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1462,
+              "line": 1464,
               "kind": "Decided by",
               "tag": "presentation anchored to its epoch",
               "date": "2026-10-27",
@@ -3206,7 +3214,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1464,
+              "line": 1466,
               "kind": "Decided by",
               "tag": "response links: epoch rebuilt, control as input",
               "date": "2026-10-27",
@@ -3214,7 +3222,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1466,
+              "line": 1468,
               "kind": "Decided by",
               "tag": "openMINDS subject leftovers",
               "date": "2026-10-27",
@@ -3222,7 +3230,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1468,
+              "line": 1470,
               "kind": "Decided by",
               "tag": "term equivalents recorded",
               "date": "2026-10-27",
@@ -3230,7 +3238,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1470,
+              "line": 1472,
               "kind": "Decided by",
               "tag": "dataset form lists carried until homed",
               "date": "2026-10-27",
@@ -3238,7 +3246,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1472,
+              "line": 1474,
               "kind": "Decided by",
               "tag": "old ndi_document blocks carry",
               "date": "2026-10-27",
@@ -3246,7 +3254,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1474,
+              "line": 1476,
               "kind": "Decided by",
               "tag": "tuning stimids rebuild",
               "date": "2026-10-27",
@@ -3254,7 +3262,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1476,
+              "line": 1478,
               "kind": "Decided by",
               "tag": "tuning log in notes",
               "date": "2026-10-27",
@@ -3262,7 +3270,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1478,
+              "line": 1480,
               "kind": "Decided by",
               "tag": "varied properties are conditions by V2 name",
               "date": "2026-10-27",
@@ -3270,7 +3278,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1480,
+              "line": 1482,
               "kind": "Decided by",
               "tag": "absolute-value fits are a second calculation",
               "date": "2026-10-27",
@@ -3278,7 +3286,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1482,
+              "line": 1484,
               "kind": "Decided by",
               "tag": "contrast metrics added",
               "date": "2026-10-27",
@@ -3286,7 +3294,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1484,
+              "line": 1486,
               "kind": "Decided by",
               "tag": "parameter names map by table",
               "date": "2026-10-27",
@@ -3294,7 +3302,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1486,
+              "line": 1488,
               "kind": "Decided by",
               "tag": "E. coli stacks are a dataset decision",
               "date": "2026-10-27",
@@ -3302,7 +3310,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1488,
+              "line": 1490,
               "kind": "Decided by",
               "tag": "every v1 id survives",
               "date": "2026-10-27",
@@ -3310,7 +3318,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1490,
+              "line": 1492,
               "kind": "Decided by",
               "tag": "axis letters derive from labels",
               "date": "2026-10-27",
@@ -3318,7 +3326,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1492,
+              "line": 1494,
               "kind": "Decided by",
               "tag": "v1 name goes to the class's own name field",
               "date": "2026-10-27",
@@ -3326,7 +3334,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1496,
+              "line": 1498,
               "kind": "Decided by",
               "tag": "base.name kept until retire classes leave",
               "date": "2026-10-29",
@@ -3334,7 +3342,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1498,
+              "line": 1500,
               "kind": "Decided by",
               "tag": "treatment groups are a dataset decision",
               "date": "2026-10-27",
@@ -3342,7 +3350,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1500,
+              "line": 1502,
               "kind": "Decided by",
               "tag": "fit classes kept; session list rebuilt",
               "date": "2026-10-27",
@@ -3350,7 +3358,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1502,
+              "line": 1504,
               "kind": "Decided by",
               "tag": "event lines are event channels",
               "date": "2026-10-27",
@@ -3358,7 +3366,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1504,
+              "line": 1506,
               "kind": "Decided by",
               "tag": "labels are a field on what they label",
               "date": "2026-10-27",
@@ -3366,7 +3374,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1506,
+              "line": 1508,
               "kind": "Decided by",
               "tag": "ontologyLabel row split",
               "date": "2026-10-27",
@@ -3374,7 +3382,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1508,
+              "line": 1510,
               "kind": "Decided by",
               "tag": "openMINDS strain leftovers",
               "date": "2026-10-27",
@@ -3382,7 +3390,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1510,
+              "line": 1512,
               "kind": "Decided by",
               "tag": "control pairing points at the presentation",
               "date": "2026-10-27",
@@ -3390,7 +3398,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1512,
+              "line": 1514,
               "kind": "Decided by",
               "tag": "control record fields split",
               "date": "2026-10-27",
@@ -3398,7 +3406,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1514,
+              "line": 1516,
               "kind": "Decided by",
               "tag": "unread stimulus parameters are method parameters",
               "date": "2026-10-27",
@@ -3406,7 +3414,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1516,
+              "line": 1518,
               "kind": "Decided by",
               "tag": "session opener inputs",
               "date": "2026-10-27",
@@ -3414,7 +3422,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1518,
+              "line": 1520,
               "kind": "Decided by",
               "tag": "linked session reference follows the ingested rule",
               "date": "2026-10-27",
@@ -3422,7 +3430,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1520,
+              "line": 1522,
               "kind": "Decided by",
               "tag": "one affiliation relation each",
               "date": "2026-10-27",
@@ -3430,7 +3438,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1522,
+              "line": 1524,
               "kind": "Decided by",
               "tag": "position and its metadata are one statement",
               "date": "2026-10-27",
@@ -3438,7 +3446,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1524,
+              "line": 1526,
               "kind": "Decided by",
               "tag": "image stack link needs mapping",
               "date": "2026-10-27",
@@ -3446,7 +3454,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1526,
+              "line": 1528,
               "kind": "Decided by",
               "tag": "image label goes to notes",
               "date": "2026-10-27",
@@ -3454,7 +3462,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1528,
+              "line": 1530,
               "kind": "Decided by",
               "tag": "hartley labels stay carried",
               "date": "2026-10-27",
@@ -3462,7 +3470,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1530,
+              "line": 1532,
               "kind": "Decided by",
               "tag": "filter label is the method name",
               "date": "2026-10-27",
@@ -3470,7 +3478,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1532,
+              "line": 1534,
               "kind": "Decided by",
               "tag": "contact geometry stays carried",
               "date": "2026-10-27",
@@ -3478,7 +3486,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1534,
+              "line": 1536,
               "kind": "Decided by",
               "tag": "scanner test issue closed",
               "date": "2026-10-27",
@@ -3486,7 +3494,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1536,
+              "line": 1538,
               "kind": "Decided by",
               "tag": "old EMPTY labels generalised",
               "date": "2026-10-27",
@@ -3494,7 +3502,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1538,
+              "line": 1540,
               "kind": "Decided by",
               "tag": "no about edge for now",
               "date": "2026-10-27",
@@ -3502,7 +3510,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1540,
+              "line": 1542,
               "kind": "Decided by",
               "tag": "old table rows counted and carried",
               "date": "2026-10-27",
@@ -3510,7 +3518,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1542,
+              "line": 1544,
               "kind": "Decided by",
               "tag": "binaryseries parameters fold as decided",
               "date": "2026-10-27",
@@ -3518,7 +3526,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1544,
+              "line": 1546,
               "kind": "Decided by",
               "tag": "Guard A amended",
               "date": "2026-10-27",
@@ -3526,7 +3534,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1546,
+              "line": 1548,
               "kind": "Decided by",
               "tag": "documents without base carry",
               "date": "2026-10-27",
@@ -3534,7 +3542,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1548,
+              "line": 1550,
               "kind": "Decided by",
               "tag": "oneepoch is a redundant calculation",
               "date": "2026-10-27",
@@ -3542,7 +3550,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1552,
+              "line": 1554,
               "kind": "Decided by",
               "tag": "redeclarations only narrow",
               "date": "2026-10-27",
@@ -3550,7 +3558,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1554,
+              "line": 1556,
               "kind": "Decided by",
               "tag": "no value rollup now",
               "date": "2026-10-27",
@@ -3558,7 +3566,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1556,
+              "line": 1558,
               "kind": "Decided by",
               "tag": "ngrid migrates to sampled bodies",
               "date": "2026-10-27",
@@ -3566,7 +3574,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1558,
+              "line": 1560,
               "kind": "Decided by",
               "tag": "allowed units are closed source_unit lists",
               "date": "2026-10-27",
@@ -3574,7 +3582,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1560,
+              "line": 1562,
               "kind": "Decided by",
               "tag": "quantity reference type",
               "date": "2026-10-27",
@@ -3582,7 +3590,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1562,
+              "line": 1564,
               "kind": "Decided by",
               "tag": "epoch-less presentations carry",
               "date": "2026-10-27",
@@ -3590,7 +3598,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1564,
+              "line": 1566,
               "kind": "Decided by",
               "tag": "Babu and Soph workbooks",
               "date": "2026-10-27",
@@ -3598,7 +3606,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1566,
+              "line": 1568,
               "kind": "Decided by",
               "tag": "sample times within eight rounding steps",
               "date": "2026-10-27",
@@ -3606,7 +3614,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1568,
+              "line": 1570,
               "kind": "Decided by",
               "tag": "a rebuilt document may lose its id",
               "date": "2026-10-27",
@@ -3614,7 +3622,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1570,
+              "line": 1572,
               "kind": "Decided by",
               "tag": "jrclust default name is notation",
               "date": "2026-10-27",
@@ -3622,7 +3630,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1572,
+              "line": 1574,
               "kind": "Decided by",
               "tag": "organization needs a name or an identifier",
               "date": "2026-10-27",
@@ -3630,7 +3638,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1574,
+              "line": 1576,
               "kind": "Decided by",
               "tag": "empty ndi_document block is notation",
               "date": "2026-10-27",
@@ -3638,7 +3646,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1576,
+              "line": 1578,
               "kind": "Decided by",
               "tag": "device kinds minted",
               "date": "2026-10-28",
@@ -3646,7 +3654,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1578,
+              "line": 1580,
               "kind": "Decided by",
               "tag": "device kind labels and synonyms",
               "date": "2026-10-28",
@@ -3654,7 +3662,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1580,
+              "line": 1582,
               "kind": "Decided by",
               "tag": "tuning best value is a condition",
               "date": "2026-10-28",
@@ -3662,7 +3670,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1582,
+              "line": 1584,
               "kind": "Decided by",
               "tag": "one calculation per named calculator output",
               "date": "2026-10-28",
@@ -3670,7 +3678,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1584,
+              "line": 1586,
               "kind": "Decided by",
               "tag": "absolute-value fits are fit entries",
               "date": "2026-10-28",
@@ -3678,7 +3686,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1586,
+              "line": 1588,
               "kind": "Decided by",
               "tag": "presentations without an epoch keep the session anchor",
               "date": "2026-10-28",
@@ -3686,7 +3694,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1588,
+              "line": 1590,
               "kind": "Decided by",
               "tag": "image label goes to the observation's notes",
               "date": "2026-10-29",
@@ -3694,7 +3702,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1590,
+              "line": 1592,
               "kind": "Decided by",
               "tag": "binaryseries parameters carried",
               "date": "2026-10-29",
@@ -3702,7 +3710,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1592,
+              "line": 1594,
               "kind": "Decided by",
               "tag": "ngrid with no statement carried",
               "date": "2026-10-29",
@@ -3710,7 +3718,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1594,
+              "line": 1596,
               "kind": "Decided by",
               "tag": "old table rows carried by NDI",
               "date": "2026-10-29",
@@ -3718,7 +3726,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1596,
+              "line": 1598,
               "kind": "Decided by",
               "tag": "allowed units are source units",
               "date": "2026-10-29",
@@ -3726,7 +3734,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1598,
+              "line": 1600,
               "kind": "Decided by",
               "tag": "standalone item control stays carried",
               "date": "2026-10-29",
@@ -3734,7 +3742,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1600,
+              "line": 1602,
               "kind": "Decided by",
               "tag": "oneepoch method is data combination",
               "date": "2026-10-29",
@@ -3742,7 +3750,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1602,
+              "line": 1604,
               "kind": "Decided by",
               "tag": "redeclarations merge when base.name goes",
               "date": "2026-10-29",
@@ -3750,7 +3758,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1604,
+              "line": 1606,
               "kind": "Decided by",
               "tag": "linked session not in the batch",
               "date": "2026-10-29",
@@ -3758,7 +3766,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1606,
+              "line": 1608,
               "kind": "Decided by",
               "tag": "unstated session creator carried",
               "date": "2026-10-29",
@@ -3766,7 +3774,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1608,
+              "line": 1610,
               "kind": "Decided by",
               "tag": "drug end without start needs mapping",
               "date": "2026-10-29",
@@ -3774,7 +3782,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1610,
+              "line": 1612,
               "kind": "Decided by",
               "tag": "drug times that disagree need mapping",
               "date": "2026-10-29",
@@ -3782,7 +3790,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1612,
+              "line": 1614,
               "kind": "Decided by",
               "tag": "text channel replaces NCIT Text",
               "date": "2026-10-29",
@@ -3790,7 +3798,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1614,
+              "line": 1616,
               "kind": "Decided by",
               "tag": "cell-attached is OBI",
               "date": "2026-10-29",
@@ -3798,7 +3806,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1616,
+              "line": 1618,
               "kind": "Decided by",
               "tag": "linked session link on a direct dataset relation",
               "date": "2026-10-29",
@@ -3806,7 +3814,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1618,
+              "line": 1620,
               "kind": "Decided by",
               "tag": "fit model stated once",
               "date": "2026-10-29",
@@ -3814,7 +3822,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1620,
+              "line": 1622,
               "kind": "Decided by",
               "tag": "term names compare by node",
               "date": "2026-10-29",
@@ -3822,7 +3830,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1622,
+              "line": 1624,
               "kind": "Decided by",
               "tag": "species text is the openMINDS equivalent",
               "date": "2026-10-29",
@@ -3830,7 +3838,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1624,
+              "line": 1626,
               "kind": "Decided by",
               "tag": "openMINDS element leftovers carried",
               "date": "2026-10-29",
@@ -3838,7 +3846,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1626,
+              "line": 1628,
               "kind": "Decided by",
               "tag": "segment length is the time chunk",
               "date": "2026-10-29",
@@ -3846,7 +3854,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1628,
+              "line": 1630,
               "kind": "Decided by",
               "tag": "one folder, final classes only",
               "date": "2026-10-29",
@@ -3854,7 +3862,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1630,
+              "line": 1632,
               "kind": "Decided by",
               "tag": "v1 writes into a V2 session",
               "date": "2026-10-29",
@@ -3862,7 +3870,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1632,
+              "line": 1634,
               "kind": "Decided by",
               "tag": "linked session link details",
               "date": "2026-10-29",
@@ -3870,7 +3878,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1634,
+              "line": 1636,
               "kind": "Decided by",
               "tag": "reshaped retire classes carried",
               "date": "2026-10-29",
@@ -3878,7 +3886,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1636,
+              "line": 1638,
               "kind": "Decided by",
               "tag": "linked session pathname",
               "date": "2026-10-29",
@@ -3886,7 +3894,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1638,
+              "line": 1640,
               "kind": "Decided by",
               "tag": "addSessionV2 folded back",
               "date": "2026-10-29",
@@ -3894,7 +3902,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1640,
+              "line": 1642,
               "kind": "Decided by",
               "tag": "term names match ignoring spacing",
               "date": "2026-10-29",
@@ -3902,7 +3910,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1642,
+              "line": 1644,
               "kind": "Decided by",
               "tag": "n-trode count from the channel list",
               "date": "2026-10-29",
@@ -3910,7 +3918,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1644,
+              "line": 1646,
               "kind": "Decided by",
               "tag": "imaging mode is a method term",
               "date": "2026-10-29",
@@ -3918,7 +3926,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1646,
+              "line": 1648,
               "kind": "Decided by",
               "tag": "equipment type is the device kind list",
               "date": "2026-10-29",
@@ -3926,7 +3934,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1648,
+              "line": 1650,
               "kind": "Decided by",
               "tag": "V2 ingest is one sampled body per channel group",
               "date": "2026-10-29",
@@ -3934,7 +3942,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1650,
+              "line": 1652,
               "kind": "Decided by",
               "tag": "short last chunk",
               "date": "2026-10-29",
@@ -3942,7 +3950,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1652,
+              "line": 1654,
               "kind": "Decided by",
               "tag": "missing facts are needs info",
               "date": "2026-10-29",
@@ -3950,7 +3958,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1654,
+              "line": 1656,
               "kind": "Decided by",
               "tag": "vintage-B ontologyImage cases",
               "date": "2026-10-29",
@@ -3958,7 +3966,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1656,
+              "line": 1658,
               "kind": "Decided by",
               "tag": "element name and reference stored apart",
               "date": "2026-10-29",
@@ -3966,7 +3974,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1658,
+              "line": 1660,
               "kind": "Decided by",
               "tag": "unit with no probe in the batch carried",
               "date": "2026-10-29",
@@ -3974,7 +3982,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1660,
+              "line": 1662,
               "kind": "Decided by",
               "tag": "table rows carried as v1",
               "date": "2026-10-30",
@@ -3982,7 +3990,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1662,
+              "line": 1664,
               "kind": "Decided by",
               "tag": "preset name stays on method",
               "date": "2026-10-30",
@@ -3990,7 +3998,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1664,
+              "line": 1666,
               "kind": "Decided by",
               "tag": "redeclaration merge moot",
               "date": "2026-10-30",
@@ -3998,7 +4006,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1666,
+              "line": 1668,
               "kind": "Decided by",
               "tag": "element name kept apart, base.name carried",
               "date": "2026-10-30",
@@ -4006,7 +4014,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1668,
+              "line": 1670,
               "kind": "Decided by",
               "tag": "Naka-Rushton function minted",
               "date": "2026-10-30",
@@ -4014,7 +4022,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1670,
+              "line": 1672,
               "kind": "Decided by",
               "tag": "synonyms supersede nodes only",
               "date": "2026-10-30",
@@ -4022,7 +4030,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1672,
+              "line": 1674,
               "kind": "Decided by",
               "tag": "interpolated values are a list",
               "date": "2026-10-30",
@@ -4030,7 +4038,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1674,
+              "line": 1676,
               "kind": "Decided by",
               "tag": "canonical absent only as needs info",
               "date": "2026-10-30",
@@ -4038,7 +4046,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1676,
+              "line": 1678,
               "kind": "Decided by",
               "tag": "trigger channels named by their link",
               "date": "2026-10-30",
@@ -4046,7 +4054,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1678,
+              "line": 1680,
               "kind": "Decided by",
               "tag": "decibels are their own canonical",
               "date": "2026-10-30",
@@ -4054,7 +4062,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1680,
+              "line": 1682,
               "kind": "Decided by",
               "tag": "Haley mask words leave the generic stage",
               "date": "2026-10-30",
@@ -4062,7 +4070,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1682,
+              "line": 1684,
               "kind": "Decided by",
               "tag": "control records carried in pass 1",
               "date": "2026-10-30",
@@ -4070,7 +4078,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1684,
+              "line": 1686,
               "kind": "Decided by",
               "tag": "image raw round trip and single-read keys",
               "date": "2026-10-30",
@@ -4078,7 +4086,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1686,
+              "line": 1688,
               "kind": "Decided by",
               "tag": "age is NCIT Age",
               "date": "2026-10-30",
@@ -4086,7 +4094,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1688,
+              "line": 1690,
               "kind": "Decided by",
               "tag": "equivalents filled in did-schema",
               "date": "2026-10-30",
@@ -4094,7 +4102,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1690,
+              "line": 1692,
               "kind": "Decided by",
               "tag": "Hartley settings on the inline method",
               "date": "2026-10-30",
@@ -4102,7 +4110,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1692,
+              "line": 1694,
               "kind": "Decided by",
               "tag": "acquisition time on its clock",
               "date": "2026-10-30",
@@ -4110,7 +4118,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1694,
+              "line": 1696,
               "kind": "Decided by",
               "tag": "data analysis is the general method",
               "date": "2026-10-30",
@@ -4118,7 +4126,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1696,
+              "line": 1698,
               "kind": "Decided by",
               "tag": "image collection carried until a writer",
               "date": "2026-10-30",
@@ -4126,7 +4134,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1698,
+              "line": 1700,
               "kind": "Decided by",
               "tag": "global-clock oneepoch details",
               "date": "2026-10-30",
@@ -4134,7 +4142,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1700,
+              "line": 1702,
               "kind": "Decided by",
               "tag": "openMINDS strain leftovers settled",
               "date": "2026-10-30",
@@ -4142,7 +4150,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1702,
+              "line": 1704,
               "kind": "Decided by",
               "tag": "assay labels batch 1",
               "date": "2026-10-30",
@@ -4150,7 +4158,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1704,
+              "line": 1706,
               "kind": "Decided by",
               "tag": "element types batch 1",
               "date": "2026-10-30",
@@ -4158,7 +4166,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1706,
+              "line": 1708,
               "kind": "Decided by",
               "tag": "assay labels batch 2",
               "date": "2026-10-30",
@@ -4166,7 +4174,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1708,
+              "line": 1710,
               "kind": "Decided by",
               "tag": "element types batch 2",
               "date": "2026-10-30",
@@ -4174,7 +4182,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1710,
+              "line": 1712,
               "kind": "Decided by",
               "tag": "assay labels batch 3",
               "date": "2026-10-30",
@@ -4182,7 +4190,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1712,
+              "line": 1714,
               "kind": "Decided by",
               "tag": "element types batch 3",
               "date": "2026-10-30",
@@ -4190,7 +4198,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1714,
+              "line": 1716,
               "kind": "Decided by",
               "tag": "element types batch 4",
               "date": "2026-10-30",
@@ -4198,7 +4206,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1716,
+              "line": 1718,
               "kind": "Decided by",
               "tag": "assay labels batch 4",
               "date": "2026-10-30",
@@ -4206,7 +4214,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1718,
+              "line": 1720,
               "kind": "Decided by",
               "tag": "assay labels batch 5",
               "date": "2026-10-30",
@@ -4214,7 +4222,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1720,
+              "line": 1722,
               "kind": "Decided by",
               "tag": "assay labels batch 6",
               "date": "2026-10-30",
@@ -4222,7 +4230,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1722,
+              "line": 1724,
               "kind": "Decided by",
               "tag": "raw v1 switch finished in batches",
               "date": "2026-10-30",
@@ -4230,7 +4238,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1724,
+              "line": 1726,
               "kind": "Decided by",
               "tag": "stimulator is SNOMED CT Stimulator",
               "date": "2026-10-30",
@@ -4238,7 +4246,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1726,
+              "line": 1728,
               "kind": "Decided by",
               "tag": "global-clock oneepoch carried with its element",
               "date": "2026-10-30",
@@ -4246,7 +4254,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1728,
+              "line": 1730,
               "kind": "Decided by",
               "tag": "differing stimulator epoch is malformed",
               "date": "2026-10-30",
@@ -4254,7 +4262,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1730,
+              "line": 1732,
               "kind": "Decided by",
               "tag": "response unit slot settles 110",
               "date": "2026-10-30",
@@ -4262,7 +4270,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1732,
+              "line": 1734,
               "kind": "Decided by",
               "tag": "schema folders by family",
               "date": "2026-10-30",
@@ -4270,7 +4278,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1734,
+              "line": 1736,
               "kind": "Decided by",
               "tag": "family roots and relation folder",
               "date": "2026-10-31",
@@ -4278,7 +4286,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1736,
+              "line": 1738,
               "kind": "Decided by",
               "tag": "retire check now",
               "date": "2026-10-31",
@@ -4286,7 +4294,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1738,
+              "line": 1740,
               "kind": "Decided by",
               "tag": "purpose renamed now",
               "date": "2026-10-31",
@@ -4294,7 +4302,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1740,
+              "line": 1742,
               "kind": "Decided by",
               "tag": "acquisition folder",
               "date": "2026-10-31",
@@ -4302,7 +4310,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1742,
+              "line": 1744,
               "kind": "Decided by",
               "tag": "clock alignment in time_reference",
               "date": "2026-10-31",
@@ -4310,7 +4318,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1744,
+              "line": 1746,
               "kind": "Decided by",
               "tag": "reference papers as v2 guidance",
               "date": "2026-10-31",
@@ -4318,7 +4326,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1746,
+              "line": 1748,
               "kind": "Decided by",
               "tag": "gene list mapping is built",
               "date": "2026-10-31",
@@ -4326,7 +4334,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1748,
+              "line": 1750,
               "kind": "Decided by",
               "tag": "gene list mapping in the generic stage",
               "date": "2026-10-31",
@@ -4334,7 +4342,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1750,
+              "line": 1752,
               "kind": "Decided by",
               "tag": "daqreader_ndr confirmed set",
               "date": "2026-10-31",
@@ -4342,7 +4350,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1752,
+              "line": 1754,
               "kind": "Decided by",
               "tag": "layout calls stand",
               "date": "2026-10-31",
@@ -4379,6 +4387,14 @@
               "tag": "nested studies",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [nested studies]: a study"
+            },
+            {
+              "document": "did_v2_linked_session_plan.md",
+              "line": 101,
+              "kind": "Decided by",
+              "tag": "older linked_session reader deleted",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [older linked_session"
             },
             {
               "document": "did_v2_method_parameters_plan.md",
@@ -10821,7 +10837,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
@@ -13929,7 +13945,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
@@ -16282,7 +16298,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",

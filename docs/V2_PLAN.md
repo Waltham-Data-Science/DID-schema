@@ -5,7 +5,7 @@ lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
 indexed in `docs/did_v2_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-10-30.
+Last updated 2026-10-31.
 
 ## State at 2026-10-31 (pick up here)
 
@@ -33,6 +33,9 @@ whose DID-matlab build waits on GL1-GL7.
   filtered because did-schema no longer declares `linked_session`, and the
   import workflow fails on any filtered test (red on NDI V2). Delete the test
   (the class is withdrawn) or let the workflow allow it?
+  ANSWERED 2026-10-31 (delete the test and NDI's reader of an older
+  `linked_session`): [older linked_session reader deleted]
+  (`did_v2_linked_session_plan.md`).
 - L2. Correction to the layout proposal: `quantity_list_meta.json` is written
   by `validate_v_eta.py` (D6), so it goes to `generated/`, not `registry/`.
   ANSWERED 2026-10-31: [layout calls stand].
@@ -58,6 +61,28 @@ whose DID-matlab build waits on GL1-GL7.
   (software)}`? ANSWERED 2026-10-31: [daqreader_ndr confirmed set].
 - L8. CLAUDE.md rule 1 still says "DO NOT WRITE TO `schemas/`", though plan
   documents now live in `docs/`. Extend it to `docs/plans/`?
+- #143 (delete `universalRenames`, [migrators read raw v1]; OPEN_WORK #136).
+  Proposed (not decided):
+  - Q1. Split carry-049 into a permanent row for the old `ndi_document` block
+    beside `base` ([old ndi_document blocks carry], 2026-10-27), plus
+    class-specific collision rows for the 11 classes whose migrator has an
+    explicit collision site?
+  - Q2. The 9 v1 classes with no migrator are kept unchanged as v1, each with
+    a carry row. ANSWERED 2026-10-31: [classes without a migrator carry as v1]
+    (built for 7 classes: carry-158..carry-164).
+  - Q3. Are `depends_on` version / second-id collisions and camelCase /
+    snake_case twin collisions carry-049-style rows, or carry-100 (malformed)?
+  - Q4. `ensemble` and `generic_file` were in Q2's list, but each already has
+    a conversion: NDI's second pass converts `ensemble` ([ensemble retired],
+    `did_v2_ensemble_plan.md`), and DID-matlab `foldGenericFiles` converts
+    `generic_file`. Carrying them whole as v1 in pass 1 would undo that, so
+    neither was built. Do they stay on their conversions (no carry row), or
+    does Q2's answer replace them?
+  - Not in Q2's list, still on the renamed path at DID-matlab V2 (#324): the
+    superclass-only templates (app, base, calculator, epochclocktimes,
+    epochid, filter, imageStack_parameters, mock, ngrid, stimulus_response,
+    stimulus_response_scalar_parameters) if one is written as a leaf, and
+    NDIcalc-vis-matlab's hartley_reverse_correlation and reverse_correlation.
 - GL. did-schema #117 (`geneListMapping`, [gene list mapping is built]); Jess will answer later. No NDI writer exists (the template `geneListMapping.json`/`.md` at the locked NDI main is the only v1 truth) and no corpus holds one.
   - GL1. A mapping's ends must be gene-list `term` documents, but `gene_list.m` still passes v1 `geneList` through. Build item 21 (geneList -> standalone `term`) first, keeping the v1 id so `geneList_id_a`/`_b` resolve? Item 22 (derived_from to annotation/assembly datasets) too? ANSWERED 2026-10-31 (item 21 first, keeping a valid v1 id): [gene list mapping in the generic stage].
   - GL2. `score` or `logical` when `has_score` is 0? With a score, what `scale` (rubric) term, since v1 records none?

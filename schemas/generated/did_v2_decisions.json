@@ -815,7 +815,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "why": null
         }
@@ -1201,7 +1201,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "why": null
         }
@@ -1233,7 +1233,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "purpose class",
           "resolved": true,
-          "line": 1550,
+          "line": 1552,
           "kind": "Decided by",
           "why": null
         }
@@ -1513,7 +1513,7 @@
           "document": "did_v2_go_forward_class_audit.md",
           "tag": "carried v1 validates against NDI templates",
           "resolved": true,
-          "line": 1494,
+          "line": 1496,
           "kind": "Decided by",
           "why": null
         }
