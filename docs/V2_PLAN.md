@@ -24,7 +24,8 @@ its `Built:` mark recorded. Open PRs left are not ours (NDI-matlab #1114,
 the sibling half of [markdown cleanup and rename]; under [one folder, final
 classes only], the in_progress dispositions, deleting each retire class and
 removing `maturity_level`; deleting `universalRenames` ([migrators read raw
-v1], #143).
+v1], #143); did-schema #117 (`geneListMapping`, [gene list mapping is built]),
+whose DID-matlab build waits on GL1-GL7.
 
 **Questions for Jess (batch 3, not yet asked; Proposed, not decided):**
 - L1. NDI `TestLinkedSessions/testAnOlderLinkedSessionDocumentIsStillRead` is
@@ -53,6 +54,14 @@ v1], #143).
   (software)}`?
 - L8. CLAUDE.md rule 1 still says "DO NOT WRITE TO `schemas/`", though plan
   documents now live in `docs/`. Extend it to `docs/plans/`?
+- GL. did-schema #117 (`geneListMapping`, [gene list mapping is built]); Jess will answer later. No NDI writer exists (the template `geneListMapping.json`/`.md` at the locked NDI main is the only v1 truth) and no corpus holds one.
+  - GL1. A mapping's ends must be gene-list `term` documents, but `gene_list.m` still passes v1 `geneList` through. Build item 21 (geneList -> standalone `term`) first, keeping the v1 id so `geneList_id_a`/`_b` resolve? Item 22 (derived_from to annotation/assembly datasets) too?
+  - GL2. `score` or `logical` when `has_score` is 0? With a score, what `scale` (rubric) term, since v1 records none?
+  - GL3. Keys: sparse pairs (one entry per `mapping.tsv` row, as v1 stores it) or a dense A x B grid? Inline values or a `sampled_body` parsed from `mapping.tsv` (no precedent for reading file contents in the generic stage)?
+  - GL4. `method` is one free-text string ("OrthoFinder v2.5.5"): split into a registered tool term + version, carry it, or add a registry row per tool?
+  - GL5. Homes for `symmetric` (a `directed_relation` cannot say "either direction"), `label`, and the recomputable `n_pairs`, `n_genes_mapped_a`, `n_genes_mapped_b` (drop like item 21's counts?).
+  - GL6. `mapping_type` other than `alias` (EMPTY:0000381) and `ortholog` (EMPTY:0000386): carry the document whole as v1?
+  - GL7. Build in the generic stage (`+migrators_j`) despite [migration not generalizable] / [v1 import stages], or in a per-dataset import?
 - Also held: ids for minted documents with no source id; carry-087 into
   carry-100; recognising a migrated element without the "ndi element class"
   assertion; Group vs ensemble; widening the equivalents fill (66 rows); a
