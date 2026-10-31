@@ -1326,7 +1326,19 @@ class ConfirmedTargetsCase(unittest.TestCase):
         py = rows["pyraview"]
         self.assertEqual(py["stage"]["reached"], 3, f"pyraview: {py['stage']}")
         self.assertNotEqual(py.get("decided_targets_source"), "confirmed_emission")
-        for cls in ("daqreader_ndr", "session", "subject"):
+        # daqreader_ndr LEFT this list 2026-10-31 (sibling lock moved to DID-matlab
+        # a78299d8): DID-matlab 77866d81 builds [retired classes leave V2] (1) and
+        # the migrator no longer writes the retired `daqreader`, which its
+        # 2026-08-13 confirmed set still names. The ladder reports that
+        # confirmation as stale (rung 3 `no`), as this key's `why` says it must.
+        # Re-confirming the set is the team's call, not this test's. Pinned so the
+        # stale confirmation cannot read as finished work.
+        nd = rows["daqreader_ndr"]["stage"]
+        self.assertEqual(nd["reached"], 2, f"daqreader_ndr: {nd}")
+        self.assertEqual(nd["blocked_by"], 3, f"daqreader_ndr: {nd}")
+        self.assertEqual(rows["daqreader_ndr"]["decided_targets_source"],
+                         "confirmed_emission")
+        for cls in ("session", "subject"):
             st = rows[cls]["stage"]
             self.assertEqual(
                 st["reached"], 3,

@@ -378,8 +378,8 @@
       "by_stage_reached": {
         "0": 14,
         "1": 25,
-        "2": 16,
-        "3": 60,
+        "2": 17,
+        "3": 59,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -399,8 +399,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 57,
-          "no": 18,
+          "yes": 56,
+          "no": 19,
           "n/a": 8
         },
         "4": {
@@ -410,7 +410,7 @@
       "per_stage_satisfied_independently": {
         "1": 101,
         "2": 75,
-        "3": 57,
+        "3": 56,
         "4": 0
       },
       "capped": {
@@ -423,8 +423,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 12,
           "1": 28,
-          "2": 18,
-          "3": 57,
+          "2": 19,
+          "3": 56,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -7395,7 +7395,6 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "daqreader",
         "acquisition_reader",
         "assertion + text",
         "entity"
@@ -7421,7 +7420,7 @@
           "entity (software)"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -7486,10 +7485,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -7506,8 +7505,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `daqreader`, `acquisition_reader`, `entity (software)` are not all among what the migrator emits today (`acquisition_reader`, `assertion + text`, `entity`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7517,7 +7516,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8400,7 +8399,8 @@
       "targets": [
         "assertion + term",
         "directed_relation",
-        "entity"
+        "entity",
+        "assertion + count"
       ],
       "decided_targets": [
         "entity (subject)",
@@ -18655,7 +18655,8 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "relative_time_reference"
+        "relative_time_reference",
+        "observation + time"
       ],
       "decided_targets": [
         "manipulation + dose",

@@ -237,7 +237,6 @@
     },
     "daqreader_ndr": {
       "targets": [
-        "daqreader",
         "acquisition_reader",
         "assertion + text",
         "entity"
@@ -386,7 +385,8 @@
       "targets": [
         "assertion + term",
         "directed_relation",
-        "entity"
+        "entity",
+        "assertion + count"
       ],
       "carried": [],
       "second_pass": [],
@@ -1902,7 +1902,8 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "relative_time_reference"
+        "relative_time_reference",
+        "observation + time"
       ],
       "carried": [
         "entity (subject)"
