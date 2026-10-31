@@ -144,13 +144,12 @@
       "flags": "BUILT (migrators_j/daqreader_ndr.m -> migrators_j/daqreader.m, DID-matlab 5d3f532). THIS `how` DESCRIBED THE PRE-5d3f532 BEHAVIOUR UNTIL 2026-08-13 -- it said the subtype 'dissolves into generic daqreader' and flagged an 'in-place class rename', which was true when written and stopped being true when the delegation landed. The confirm sheet renders this text, so the stale record was making a completed fold read as a `daqreader` tombstone, i.e. as work still owed. WHY `daqreader` IS STILL IN `targets`, WHICH IS GENERATED AND CORRECT: refresh_migration_targets follows the call graph and sees both the literal `class_name = 'daqreader'` assignment here and daqreader.m's guard-1 passthrough, which returns the body unfolded when it carries NEITHER a class name NOR a reader string. That branch is REACHABLE IN GENERAL and unreachable for PRED: both PRED `daqreader_ndr` documents carry `ndr_reader_string: 'intan'` AND a populated `ndi_daqreader_class` (`ndi.daq.reader.mfdaq.ndr`, `ndi.setup.daq.reader.mfdaq.stimulus.rayolab_intanseries`), read from the corpus zip directly, so both take the folding path. NOT VERIFIED BY EXECUTION.",
       "confirmed_targets": {
         "targets": [
-          "daqreader",
           "acquisition_reader",
           "entity (software)"
         ],
-        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
-        "signoff": "did_v2_daq_family_decisions.md [daq reader subtype]",
-        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
+        "confirmed": "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed set]: (\"Ok\", to L7) the confirmed set is {acquisition_reader, entity (software)}, replacing the 2026-08-13 set, since DID-matlab 77866d81 stopped writing the retired `daqreader`.",
+        "signoff": "did_v2_go_forward_class_audit.md [daqreader_ndr confirmed set]",
+        "why": "THE EMITTED SET, confirmed. The 2026-08-13 confirmation (did_v2_daq_family_decisions.md [daq reader subtype]) named `daqreader` too; DID-matlab 77866d81 builds [retired classes leave V2] (1) and no longer writes it, so the ladder read that set as stale. Recorded by Claude at the decider's instruction; the decision is the team's."
       }
     },
     "daqsystem": {
