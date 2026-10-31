@@ -368,7 +368,8 @@ def test_in_progress_is_refused():
     """[one folder, final classes only] (Jess Haley, 2026-10-29): "No draft or in
     progress". The registry holds persist and retire only, and the validator
     refuses an `in_progress` row."""
-    d = json.loads(open(V.SP.CLASS_DISPOSITIONS).read())
+    with open(V.SP.CLASS_DISPOSITIONS) as fh:
+        d = json.load(fh)
     counts = {}
     for row in d["classes"].values():
         counts[row["disposition"]] = counts.get(row["disposition"], 0) + 1
