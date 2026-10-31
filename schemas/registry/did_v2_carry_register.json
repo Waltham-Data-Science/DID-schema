@@ -2563,6 +2563,118 @@
       "decides": "which clock the bath's epoch is on; the v1 document does not say ([no invented values])",
       "resolved_by": "the dataset map entry for that bath's clock (not yet written)",
       "kind_basis": "decided"
+    },
+    {
+      "id": "carry-158",
+      "v1_class": "animalsubject",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `animalsubject` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-159",
+      "v1_class": "demoNDISeries",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `demoNDISeries` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-160",
+      "v1_class": "demoNDISeriesMixed",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `demoNDISeriesMixed` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-161",
+      "v1_class": "imageCollection",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `imageCollection` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row. An `image` whose `imageCollection_id` edge is set is carried under carry-153.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-162",
+      "v1_class": "projectvar",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `projectvar` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-163",
+      "v1_class": "stimulus_parameter_table",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `stimulus_parameter_table` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-164",
+      "v1_class": "valid_interval",
+      "fields": [
+        "the whole document (the class has no migrator)"
+      ],
+      "when": "always: a v1 `valid_interval` has no migrator, so it is carried whole as v1, the untouched v1 source, and does not go through universalRenames (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A migrator written for the class replaces this row. Its decided target (an observation of value kind logical, [logical_observation]) waits on a time axis; DID-matlab `resolveValidIntervals` is dormant by decision and emits nothing.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "classes without a migrator carry as v1"
+      },
+      "open_work": 136,
+      "home": "none decided: a migrator for the class, which replaces this row",
+      "kind_basis": "proposed"
     }
   ]
 }
