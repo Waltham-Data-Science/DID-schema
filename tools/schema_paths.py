@@ -51,7 +51,12 @@ SET = "did_v2"
 # named after their root class; validate_v_eta checks that the root is there
 # and that no class named after a family sits anywhere else.
 ROOTED_FAMILIES = ("value", "calculation", "data_body", "time_reference", "relation")
-FAMILIES = ROOTED_FAMILIES
+# [acquisition folder] (2026-10-31): `acquisition/` groups the acquisition
+# classes (acquisition_system, acquisition_channels, acquisition_reader,
+# epoch_file_pattern, epoch_parameter_reader, ingestion_manifest); it is a
+# family folder with no root class.
+GROUPING_FAMILIES = ("acquisition",)
+FAMILIES = ROOTED_FAMILIES + GROUPING_FAMILIES
 RETIRING = "retiring"
 FOLDERS = FAMILIES + (RETIRING,)
 CORE = "core"   # the family name of a class at the top of schemas/did_v2/

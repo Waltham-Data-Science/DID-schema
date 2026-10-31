@@ -14,6 +14,7 @@
         "data_body",
         "time_reference",
         "relation",
+        "acquisition",
         "retiring"
     ],
     "schemas": [
@@ -111,13 +112,13 @@
         },
         {
             "class_name": "acquisition_channels",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_channels.json",
+            "path": "schemas/did_v2/acquisition/acquisition_channels.json",
             "disposition": "persist"
         },
         {
@@ -135,24 +136,24 @@
         },
         {
             "class_name": "acquisition_reader",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_reader.json",
+            "path": "schemas/did_v2/acquisition/acquisition_reader.json",
             "disposition": "persist"
         },
         {
             "class_name": "acquisition_system",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/acquisition_system.json",
+            "path": "schemas/did_v2/acquisition/acquisition_system.json",
             "disposition": "persist"
         },
         {
@@ -556,24 +557,24 @@
         },
         {
             "class_name": "epoch_file_pattern",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/epoch_file_pattern.json",
+            "path": "schemas/did_v2/acquisition/epoch_file_pattern.json",
             "disposition": "persist"
         },
         {
             "class_name": "epoch_parameter_reader",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/epoch_parameter_reader.json",
+            "path": "schemas/did_v2/acquisition/epoch_parameter_reader.json",
             "disposition": "persist"
         },
         {
@@ -729,13 +730,13 @@
         },
         {
             "class_name": "ingestion_manifest",
-            "family": "core",
+            "family": "acquisition",
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/did_v2/ingestion_manifest.json",
+            "path": "schemas/did_v2/acquisition/ingestion_manifest.json",
             "disposition": "persist"
         },
         {

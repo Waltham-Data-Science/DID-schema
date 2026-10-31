@@ -18,13 +18,15 @@ did-schema/
 +-- schemas/
 |   +-- did_v2/              class files only, one <class_name>.json per class, by family:
 |   |   +-- *.json           the core classes (base, entity, statement and its directions,
-|   |   |                    method, acquisition, ...)
+|   |   |                    method, ...)
 |   |   +-- value/           value and the value kinds (mass, length, term, text, ...)
 |   |   +-- calculation/     calculation and the named calculation classes (tuning curves,
 |   |   |                    receptive fields)
 |   |   +-- data_body/       data_body, sampled_body, opaque_body
 |   |   +-- time_reference/  time_reference and its absolute / relative forms
 |   |   +-- relation/        relation, directed_relation, undirected_relation
+|   |   +-- acquisition/     acquisition_system, acquisition_channels, acquisition_reader,
+|   |   |                    epoch_file_pattern, epoch_parameter_reader, ingestion_manifest
 |   |   +-- retiring/        the retire classes still in the tree, until each is deleted
 |   +-- registry/            authored data: did_schema_meta.json (the meta-schema),
 |   |                        binding_registry_meta, CURIE_lookups_meta, ndi_reserved_keys,
