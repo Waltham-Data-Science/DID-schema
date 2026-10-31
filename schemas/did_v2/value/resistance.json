@@ -6,8 +6,7 @@
             {
                 "class_name": "value"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [],
     "file": [],

@@ -2,8 +2,7 @@
     "document_class": {
         "class_name": "base",
         "class_version": "1.0.0",
-        "superclasses": [],
-        "maturity_level": "stable"
+        "superclasses": []
     },
     "depends_on": [
         {

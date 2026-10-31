@@ -15,7 +15,6 @@ const BLANK_SCHEMA = {
     class_name: "",
     class_version: "0.1.0",
     superclasses: [{ class_name: "base" }],
-    maturity_level: "draft",
   },
   depends_on: [],
   fields: [],

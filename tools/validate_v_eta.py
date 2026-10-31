@@ -17,7 +17,7 @@ the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D6) are copies of a fact held elsewhere, so they are
 written, not hand-edited:
-  D1  generated/index.json: family, class_version, maturity_level,
+  D1  generated/index.json: family, class_version,
       superclasses and path of every class, read from its file, and its
       `disposition` / `disposition_note`, copied from the authored
       registry/did_v2_class_dispositions.json (split out of the index,
@@ -755,7 +755,7 @@ def d1_index(t):
     for base in sorted(t.meta):
         _, mp, _ = t.meta[base]
         schemas.append({"class_name": base[:-5], "family": None,
-                        "class_version": None, "maturity_level": None,
+                        "class_version": None,
                         "superclasses": [], "path": SP.rel(mp, t.root),
                         "is_meta": True, "disposition": "persist"})
     for name in sorted(t.classes, key=lambda n: (n is None, n or "")):
@@ -772,7 +772,6 @@ def d1_index(t):
                        f"{SP.RETIRING}/ and only there ([schema folders by family])")
         e = {"class_name": dc["class_name"], "family": fam,
              "class_version": dc["class_version"],
-             "maturity_level": dc["maturity_level"],
              "superclasses": [s["class_name"] for s in dc["superclasses"]],
              "path": SP.rel(f, t.root), "disposition": disp}
         if "disposition_note" in prev:

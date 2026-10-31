@@ -88,7 +88,8 @@ def test_the_target_class_exists_in_the_built_set():
     assert supers == ["base"], (
         f"{TARGET} is ⊂ {supers}, not ⊂ base -- the 2026-10-08 entity decision "
         "makes it configuration, so a change here is a decision, not a drift")
-    assert d["document_class"]["maturity_level"] == "stable"
+    # no maturity_level ([one folder, final classes only])
+    assert "maturity_level" not in d["document_class"]
 
 
 def test_the_edge_is_typed_at_acquisition_system_specifically():

@@ -6,8 +6,7 @@
             {
                 "class_name": "relation"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [
         {

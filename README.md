@@ -57,7 +57,7 @@ A folder under `schemas/did_v2/` means a family, never a tier or a maturity. A f
 
 A class file has four top-level keys:
 
-- **`document_class`**: `class_name` (the file name), `class_version` (`"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), `maturity_level`
+- **`document_class`**: `class_name` (the file name), `class_version` (`"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), and optionally `abstract`
 - **`depends_on`**: the class's edges to other documents
 - **`file`**: the files a document of the class may carry
 - **`fields`**: field definitions, nested for structures; each has `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation` and `constraints`

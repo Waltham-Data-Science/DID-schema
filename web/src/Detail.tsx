@@ -98,9 +98,7 @@ export function Detail({ entry }: Props) {
     class_name: entry.class_name,
     class_version: entry.class_version ?? undefined,
     superclasses: entry.superclasses,
-    maturity_level: entry.maturity_level,
   };
-  const maturity = dc.maturity_level ?? entry.maturity_level ?? null;
 
   const family = dec ? dec.by_class[dc.class_name] : undefined;
 
@@ -121,12 +119,8 @@ export function Detail({ entry }: Props) {
         <dl className="detail-meta">
           <dt>Version</dt>
           <dd>{dc.class_version ?? "—"}</dd>
-          <dt>Maturity</dt>
-          <dd>
-            <span className={`maturity-${maturity ?? "meta"}`}>
-              {maturity ?? "(none)"}
-            </span>
-          </dd>
+          <dt>Family</dt>
+          <dd>{entry.family ?? "(meta)"}</dd>
           <dt>Disposition</dt>
           <dd>
             {entry.disposition ?? "persist"}

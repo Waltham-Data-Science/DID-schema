@@ -676,7 +676,6 @@ def _synthetic_fold_case(tmp_path, targets, target_docs):
 
 def _cls(cn, deps, supers=()):
     return {"document_class": {"class_name": cn, "class_version": 1,
-                               "maturity_level": "stable",
                                "superclasses": [{"class_name": s}
                                                 for s in supers]},
             "depends_on": deps}

@@ -88,7 +88,7 @@ def test_harmonic_component_is_a_concrete_data_type_composite():
     standalone composite is CONTENT, not a claim."""
     tier, d = BUILT["harmonic_component"]
     assert tier == "value"   # its family folder ([schema folders by family])
-    assert d["document_class"]["maturity_level"] == "draft"
+    assert "maturity_level" not in d["document_class"]   # [one folder, final classes only]
     assert not d["document_class"].get("abstract")
     assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["value"]
     # T14: ONE `value` slot, structure, not a bag of loose top-level fields.
@@ -580,9 +580,10 @@ def test_the_new_pair_stays_in_draft_until_the_resolver_lands(cls):
     The paired `harmonic_component_calculation` was DELETED per #67
     TEAM-SIGN-OFF 2026-09-21 (see `test_harmonic_component_calculation_is_deleted`
     above); only the composite half is still parameterized here."""
-    # The folder is a family, not a maturity ([schema folders by family]), so
-    # DRAFT is read from the class's own maturity_level.
-    assert BUILT[cls][1]["document_class"]["maturity_level"] == "draft"
+    # [one folder, final classes only] (Jess Haley, 2026-10-29): no class carries
+    # a maturity_level any more, so "draft" is no longer stated on the class;
+    # what is unbuilt is recorded in the plan, not in a tag.
+    assert "maturity_level" not in BUILT[cls][1]["document_class"]
 
 
 def test_subject_statement_now_has_the_axes_stimid_needs():

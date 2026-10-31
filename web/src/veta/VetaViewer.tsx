@@ -434,9 +434,7 @@ function ClassCard({
         {cls.version && <span className="muted"> v{cls.version}</span>}
       </h3>
       <div className="veta-badges">
-        <span className={`cov-badge maturity-${cls.maturity ?? "meta"}`}>
-          {cls.maturity ?? cls.tier}
-        </span>
+        <span className="cov-badge maturity-meta">{cls.tier}</span>
         {cls.disposition && (
           <span className={`cov-badge cov-${cls.disposition === "in_progress" ? "wip" : cls.disposition}`}>
             {cls.disposition}

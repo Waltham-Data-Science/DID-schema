@@ -9,8 +9,7 @@
             {
                 "class_name": "polynomial"
             }
-        ],
-        "maturity_level": "draft"
+        ]
     },
     "depends_on": [
         {

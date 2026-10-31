@@ -12,8 +12,7 @@
             {
                 "class_name": "epochid"
             }
-        ],
-        "maturity_level": "stable"
+        ]
     },
     "depends_on": [
         {

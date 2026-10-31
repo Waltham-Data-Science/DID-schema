@@ -132,7 +132,7 @@ def test_every_finding_reports_a_denominator():
 def _minimal_class(name, fields):
     return {
         "document_class": {"class_name": name, "class_version": "1.0.0",
-                           "superclasses": [], "maturity_level": "stable"},
+                           "superclasses": []},
         "depends_on": [], "file": [], "fields": fields,
     }
 

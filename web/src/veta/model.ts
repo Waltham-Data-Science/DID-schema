@@ -43,7 +43,6 @@ interface RawClassFile {
     class_name: string;
     class_version?: string | null;
     superclasses?: Array<string | { class_name: string }>;
-    maturity_level?: string | null;
     abstract?: boolean;
   };
   depends_on?: RawDependency[];
@@ -65,7 +64,6 @@ export interface VetaClass {
   path: string; // repository-relative, e.g. schemas/did_v2/stable/strain.json
   tier: string; // its family folder: core | value | calculation | data_body | time_reference | retiring
   version: string | null;
-  maturity: string | null;
   abstract: boolean;
   disposition: string | null; // from index.json
   superclasses: string[];
@@ -381,7 +379,6 @@ export function buildModel(
       path,
       tier,
       version: dc.class_version ?? null,
-      maturity: dc.maturity_level ?? null,
       abstract: dc.abstract === true,
       disposition: null,
       superclasses: (dc.superclasses ?? []).map((s) =>

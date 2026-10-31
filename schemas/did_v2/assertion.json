@@ -7,7 +7,6 @@
                 "class_name": "statement"
             }
         ],
-        "maturity_level": "stable",
         "value_kind": {
             "root": "value",
             "count": 1

@@ -2,7 +2,7 @@
 
 Validate the V_eta set on its own terms: every schema file passes the
 meta-schema, index.json agrees with disk, superclass and dependency references
-resolve, the tier folder matches maturity_level, and the Brainstorm-J subject
+resolve, each class is in its family folder, and the Brainstorm-J subject
 model composes (bare-identity subject, restored statement, the
 subject_relation branch, the assertion genus, and the renamed
 observation / manipulation direction classes).
