@@ -312,9 +312,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 81,
+      "consumed by migrator (no tombstone)": 83,
       "dissolved \u2192 subject": 1,
-      "retire": 22,
+      "retire": 20,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2,
@@ -10405,8 +10405,8 @@
     },
     {
       "v1_class": "hartley_calc",
-      "veta_class": "hartley_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -12224,8 +12224,8 @@
     },
     {
       "v1_class": "ngrid",
-      "veta_class": "ngrid",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,

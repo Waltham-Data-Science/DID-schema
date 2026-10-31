@@ -559,7 +559,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # daqmetadatareader_epochdata_ingested, ontology_image, ontology_label,
     # ontology_table_row. None of them was in the INERT list, which is checked,
     # not assumed.
-    assert walked == 112, f"schema count moved; re-derive the inert set ({walked})"
+    # THIRTY-SIXTH MOVEMENT, re-derived not bumped: 112 -> 108 on 2026-10-31,
+    # [retire check now]: hartley_calc, hartley_reverse_correlation,
+    # reverse_correlation and ngrid deleted. None of them was in the INERT list.
+    assert walked == 108, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

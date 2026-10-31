@@ -172,14 +172,6 @@
         "harmonic_component": {
             "disposition": "persist"
         },
-        "hartley_calc": {
-            "disposition": "retire",
-            "disposition_note": "v1 source; folds 1->1 to receptive_field_calculation (migrators_j.hartley_calc, signed 2026-08-17). Tombstone kept so unmigrated documents validate"
-        },
-        "hartley_reverse_correlation": {
-            "disposition": "retire",
-            "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
-        },
         "humidity": {
             "disposition": "persist"
         },
@@ -218,10 +210,6 @@
         },
         "model_fit": {
             "disposition": "persist"
-        },
-        "ngrid": {
-            "disposition": "retire",
-            "disposition_note": "R4: folds into sampled_body. DELETION IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is CARRIED VERBATIM by migrators_j/+super/ngrid.m. UPDATED 2026-09-25: the fold is now EXPRESSIBLE -- axes[].values landed 2026-08-14 and is keys[].values since #73 (data_size/data_dim -> key n, data_type -> datum_type, coordinates -> keys[].values) -- and consumer B IS folded: migrators_j/hartley_calc.m (signed 2026-08-17) reads the block into receptive_field_calculation + sampled_body. What still holds ngrid: (1) ontology_image, whose vintage-B documents pass through carrying it until the NDI second pass (#47) homes them; (2) the v1 reverse_correlation tombstone (its v1 parent), so unmigrated hartley_calc documents validate; (3) the plan record is CONTESTED (sign-off says DELETED, R4 says folds into sampled_body) -- a team call"
         },
         "observation": {
             "disposition": "persist"
@@ -273,10 +261,6 @@
         },
         "resistance": {
             "disposition": "persist"
-        },
-        "reverse_correlation": {
-            "disposition": "retire",
-            "disposition_note": "v1 superclass block of hartley_calc (NDIcalc-vis); no documents of its own. Kept as a tombstone so unmigrated hartley_calc documents validate; the V_eta home of its content is receptive_field_calculation"
         },
         "sampled_body": {
             "disposition": "persist"
