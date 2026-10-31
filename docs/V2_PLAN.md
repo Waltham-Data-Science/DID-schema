@@ -22,8 +22,9 @@ its `Built:` mark recorded. Open PRs left are not ours (NDI-matlab #1114,
 
 **Still pending to build** (`python3 tools/decision_citations.py --pending`):
 the sibling half of [markdown cleanup and rename]; under [one folder, final
-classes only], the in_progress dispositions, deleting each retire class and
-removing `maturity_level`; deleting `universalRenames` ([migrators read raw
+classes only], deleting the 21 retire classes that remain (no `in_progress`
+class and no `maturity_level` are left, and four retire classes were deleted,
+on 2026-10-31); deleting `universalRenames` ([migrators read raw
 v1], #143); did-schema #117 (`geneListMapping`, [gene list mapping is built]),
 whose DID-matlab build waits on GL1-GL7.
 
