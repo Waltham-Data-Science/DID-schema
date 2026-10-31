@@ -460,12 +460,13 @@ whose DID-matlab build waits on GL1-GL7.
     which terms? (Claude to bring candidates from OLS4.)
   - **G63. The four NDI clock types (did-schema #97).** ANSWERED earlier (my
     mistake to ask): [clock terms get nodes] (Jess Haley, 2026-10-26) decided
-    them, and the terms are registered (wikidata:Q1536, EMPTY:0000403-0000405);
-    only the DID-matlab and NDI-matlab node comparison is left to build. `utc`,
-    `dev_local_time`, `dev_global_time`, `exp_global_time` are bound with empty
-    nodes. Mint four EMPTY terms (T19 names EMPTY the minting authority), or use
-    existing terms where they exist (UTC has candidates)? Also open, each in its
-    own issue: #105, #108, #110.
+    them, and the terms are registered (wikidata:Q1536, EMPTY:0000403-0000405).
+    Now built: the four clock values (`utc`, `dev_local_time`,
+    `dev_global_time`, `exp_global_time`) hold their term nodes (did-schema
+    #251, merged e580e04), and the DID-matlab and NDI-matlab tests compare the
+    clock by node (DID-matlab #328, 41b66219; NDI-matlab #1117, 5b50ba7d).
+    Nothing is left to ask here. Also open, each in its own issue: #105, #108,
+    #110.
 - **G64-G73. From the DID-matlab builds of 2026-10-30 (#305, #306) and the G53 build plan. "[...]" is
   Claude's recommendation, Proposed (not decided).**
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
