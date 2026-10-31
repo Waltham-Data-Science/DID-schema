@@ -7,7 +7,7 @@ Python and this container has one. The MATLAB half of #65
 has NEVER been executed -- there is no MATLAB here. Nothing in this file proves
 anything about the migrators.
 
-Guards the SIGNED shape (`schemas/V_eta_time_reference_model_plan.md:468`,
+Guards the SIGNED shape (`docs/plans/did_v2_time_reference_model_plan.md:468`,
 TEAM-SIGN-OFF [time_reference], jess@walthamdatascience.com / 2026-08-08):
 
     CHANGE 1  `end` becomes `duration` on BOTH children -- anchor and extent are
@@ -102,7 +102,7 @@ def _built():
     `examples/` is not in it.
     """
     out = {}
-    for path in sorted(glob.glob(os.path.join(VETA, "*", "*.json"))):
+    for path in sorted(glob.glob(os.path.join(VETA, "**", "*.json"), recursive=True)):
         if os.path.basename(os.path.dirname(path)) == "examples":
             continue
         with open(path) as fh:
@@ -367,7 +367,7 @@ def test_relation_still_binds_all_thirteen_allen_relations():
 def test_the_time_curie_prefix_resolves():
     """A binding that LOOKS governed and is not is worse than a plain enum. The
     fold writes real `time:` CURIEs, so the prefix has to expand."""
-    with open(os.path.join(VETA, "stable", "CURIE_lookups_meta.json")) as fh:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json")) as fh:
         curies = json.load(fh)
     assert curies["prefixes"]["time"]["uri_base"] == "http://www.w3.org/2006/time#"
 

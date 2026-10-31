@@ -4,7 +4,7 @@
 The step it replaces is the hand-written one in "Adding terms for a new
 dataset" (NDI-matlab Using_V2.md): a V2 import lists the terms the registry
 does not hold (did2.build.unregisteredTerms), someone picks a node for each,
-and then each one has to be written into schemas/V_eta_term_registry.json by
+and then each one has to be written into schemas/registry/did_v2_term_registry.json by
 hand -- the registry's exact name for a node it already holds, the prefix in
 the CURIE registry's spelling, an EMPTY term's label and definition copied
 letter for letter from empty-ontology. A slip in any of those is found only
@@ -103,7 +103,7 @@ def classify(batch, registry, curies, owl=None, decided="", first_used_in=""):
             if not k:
                 verdicts.append(("FAIL", label, (f"R4 the CURIE registry does not know the "
                                  f"prefix {pre!r}: add it (did-schema "
-                                 f"schemas/did_v2/stable/CURIE_lookups_meta.json, with a "
+                                 f"schemas/registry/CURIE_lookups_meta.json, with a "
                                  f"`spelling`; ndi-ontology-matlab for lookups) before the term")))
                 continue
             if k in by_key:
@@ -226,7 +226,7 @@ def main(argv=None):
               for v in ("REGISTERED", "USE REGISTRY", "ADD", "FAIL")}
     print("SUMMARY: " + ", ".join(f"{n} {v}" for v, n in counts.items()))
     if rows:
-        print("\nROWS TO APPEND to the end of `terms` in schemas/V_eta_term_registry.json"
+        print("\nROWS TO APPEND to the end of `terms` in schemas/registry/did_v2_term_registry.json"
               " (add a comma after the entry before them):")
         print(render_rows(rows))
     return 1 if counts["FAIL"] else 0

@@ -429,7 +429,7 @@ exempt object-reconstruction software from dataset-level dedup, or reverse #29.
 
 ### P4 (medium). The signed §8 (`device_id`, epochs `recorded_by` the system) is emitted by neither writer and cannot validate as declared
 
-`V_eta_entity_composition_plan.md` §8:
+`did_v2_entity_composition_plan.md` §8:
 *"TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is configuration off base,
 with an optional device_id; epochs are recorded_by it"*.
 
@@ -485,7 +485,7 @@ documentation does not say they are required in practice.
 
 ### P8 (low). Stale prose
 
-- `V_eta_daq_family_decisions.md` still presents `acquisition_system ⊂ entity`
+- `did_v2_daq_family_decisions.md` still presents `acquisition_system ⊂ entity`
   and `acquisition_metadata_reader_#` as the model, with no pointer to the
   superseding §8 (2026-10-08) or the item-65 rename.
 - The same stale description is repeated in the `+migrators_j/daqsystem.m` header

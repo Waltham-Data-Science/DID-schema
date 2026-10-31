@@ -218,11 +218,8 @@ KNOWN_DIVERGENT = {
 
 def _schema_files():
     out = []
-    for tier in sorted(os.listdir(VETA)):
-        d = os.path.join(VETA, tier)
-        if not os.path.isdir(d):
-            continue
-        for name in sorted(os.listdir(d)):
+    for d, _dirs, names in sorted(os.walk(VETA)):
+        for name in sorted(names):
             if name.endswith(".json") and name not in NON_SCHEMA:
                 out.append(os.path.join(d, name))
     return out

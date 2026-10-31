@@ -1,6 +1,6 @@
 """A CURIE's prefix is written the way its issuer cites it.
 
-Signed 2026-10-19, V_eta_prefix_spelling_plan.md, TEAM-SIGN-OFF [prefix spelling]:
+Signed 2026-10-19, did_v2_prefix_spelling_plan.md, TEAM-SIGN-OFF [prefix spelling]:
 "a CURIE's prefix is written as its issuer cites it (the registry entry's spelling:
 ORCID:, ROR:, PMID:, PMCID:, RRID:, doi:, WormBase:, EDAM:format_), for identifiers
 and term nodes alike; readers match a prefix by key, spelling or synonym, ignoring
@@ -26,7 +26,7 @@ def _load(p):
 
 
 def _registry():
-    return _load(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"))
+    return _load(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json"))
 
 
 def _prefixes():
@@ -125,7 +125,7 @@ def test_the_new_entries_of_section_3a():
 
 
 def test_the_openminds_prefix():
-    """Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [census terms] T2:
+    """Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [census terms] T2:
     openMINDS controlled terms are identified by openMINDS's own stable ids under
     a newly registered `openminds:` prefix. An instance's @id is
     https://openminds.om-i.org/instances/<terminology>/<name>, so the node is
@@ -168,7 +168,7 @@ def test_every_node_in_the_built_schema_uses_its_spelling():
     the class files and the binding registry starts with an entry's spelling,
     exactly (not a key in another case, not a synonym)."""
     spellings = _spelling_index()
-    files = [p for p in glob.glob(os.path.join(VETA, "*", "*.json"))
+    files = [p for p in glob.glob(os.path.join(VETA, "**", "*.json"), recursive=True)
              if os.path.basename(p) not in META_FILES - {"binding_registry_meta.json"}]
     nodes = []
     for p in files:
@@ -181,7 +181,7 @@ def test_every_node_in_the_built_schema_uses_its_spelling():
 
 
 def test_global_identifier_examples_use_the_spelling():
-    ent = _load(os.path.join(VETA, "stable", "entity.json"))
+    ent = _load(os.path.join(VETA, "entity.json"))
     doc = next(f for f in ent["fields"] if f["name"] == "global_identifier")
     text = json.dumps(doc)
     assert "'ORCID:0000-0002-1825-0097'" in text

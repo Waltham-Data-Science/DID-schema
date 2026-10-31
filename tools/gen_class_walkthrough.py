@@ -6,9 +6,9 @@ class" one row at a time. It cannot answer "what condition is THIS class in",
 because the three facts that would settle it live in three different places and
 only one of them reaches the browser:
 
-    the v1 source as NDI declares it   schemas/V_eta_ndi_ground_truth.json
+    the v1 source as NDI declares it   schemas/generated/did_v2_ndi_ground_truth.json
     what consumes it                   DID-matlab +did2/+convert/**
-    what it becomes, and is it built   schemas/V_eta_coverage_ledger.json
+    what it becomes, and is it built   schemas/generated/did_v2_coverage_ledger.json
                                        + the built schemas/did_v2 tree
 
 The ledger and the built tree are already served (public/coverage.json and
@@ -29,7 +29,7 @@ were removed after the gate caught them:
     a reader nothing they wanted. A gate that fires on the size of somebody
     else's file is noise that teaches people to ignore gates.
   * the BUILT SCHEMA TABLE (class -> path/tier/maturity/disposition). It
-    duplicated `schemas/did_v2/index.json`, which the viewer already loads for
+    duplicated `schemas/generated/index.json`, which the viewer already loads for
     its class tree, and it coupled this asset to every `build_v_eta.py` run.
     The viewer joins against the index it already has.
 
@@ -56,8 +56,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
-LEDGER = REPO / "schemas" / "V_eta_coverage_ledger.json"
-GROUND_TRUTH = REPO / "schemas" / "V_eta_ndi_ground_truth.json"
+LEDGER = REPO / "schemas" / "generated" / "did_v2_coverage_ledger.json"
+GROUND_TRUTH = REPO / "schemas" / "generated" / "did_v2_ndi_ground_truth.json"
 OUT = REPO / "web" / "public" / "class_walkthrough.json"
 
 # The three convert packages tools/coverage.py reads, in the same order and for
@@ -265,8 +265,8 @@ def build():
             "search of the convert package -- no new facts."),
         "generated_by": "tools/gen_class_walkthrough.py",
         "sources": {
-            "ledger": "schemas/V_eta_coverage_ledger.json",
-            "ground_truth": "schemas/V_eta_ndi_ground_truth.json",
+            "ledger": "schemas/generated/did_v2_coverage_ledger.json",
+            "ground_truth": "schemas/generated/did_v2_ndi_ground_truth.json",
             "did_matlab": CONVERT_REL if DIDM else None,
         },
         "denominator": {

@@ -47,7 +47,7 @@ def _load_tool(name):
 
 CT = _load_tool("check_tombstones")
 GT = json.loads(Path(os.path.join(REPO_ROOT, "schemas",
-                                "V_eta_ndi_ground_truth.json")).read_text())
+                                "generated", "did_v2_ndi_ground_truth.json")).read_text())
 VETA = CT.veta_schemas()
 
 

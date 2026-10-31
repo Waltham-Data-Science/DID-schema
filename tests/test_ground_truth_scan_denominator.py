@@ -31,7 +31,7 @@ import sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 TOOL = REPO / "tools" / "ndi_ground_truth.py"
-OUT = REPO / "schemas" / "V_eta_ndi_ground_truth.json"
+OUT = REPO / "schemas" / "generated" / "did_v2_ndi_ground_truth.json"
 
 
 def _scan():

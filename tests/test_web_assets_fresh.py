@@ -69,14 +69,14 @@ import { cp, writeFile } from "node:fs/promises";
 const schemasDir = resolve(repoRoot, "schemas");
 const publicSchemas = resolve(publicDir, "schemas");
 const versions = entries.filter((d) => /^(V_|did_v)/.test(d.name) &&
-  existsSync(resolve(schemasDir, d.name, "index.json"))).map((d) => d.name);
+  (existsSync(resolve(schemasDir, d.name, "index.json")) || d.name === generatedSet)).map((d) => d.name);
 for (const v of versions) {
   await cp(resolve(schemasDir, v), resolve(publicSchemas, v), { recursive: true });
 }
 await writeFile(resolve(publicSchemas, "versions.json"), JSON.stringify({}));
-const ledgerSrc = resolve(schemasDir, "V_eta_coverage_ledger.json");
+const ledgerSrc = resolve(schemasDir, "generated/did_v2_coverage_ledger.json");
 await cp(ledgerSrc, resolve(publicDir, "coverage.json"));
-const decisionsSrc = resolve(schemasDir, "V_eta_decisions.json");
+const decisionsSrc = resolve(schemasDir, "generated/did_v2_decisions.json");
 await cp(decisionsSrc, resolve(publicDir, "decisions.json"));
 '''
 
@@ -92,10 +92,12 @@ def make_repo(tmp_path, sync_js=SYNC_JS):
     root = str(tmp_path / "repo")
     _write(os.path.join(root, "web", "scripts", "sync-schemas.mjs"), sync_js)
     _write(os.path.join(root, "schemas", "V_zeta", "index.json"), '{"set": "zeta"}\n')
-    _write(os.path.join(root, "schemas", "did_v2", "index.json"), '{"set": "eta"}\n')
-    _write(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"), '{"c": 1}\n')
-    _write(os.path.join(root, "schemas", "V_eta_coverage_ledger.json"), '{"rows": 102}\n')
-    _write(os.path.join(root, "schemas", "V_eta_decisions.json"), '{"families": 9}\n')
+    # did_v2 has no index.json of its own: the generated index names it.
+    _write(os.path.join(root, "schemas", "generated", "index.json"),
+           '{"set_version": "did_v2", "schemas": []}\n')
+    _write(os.path.join(root, "schemas", "did_v2", "value", "strain.json"), '{"c": 1}\n')
+    _write(os.path.join(root, "schemas", "generated", "did_v2_coverage_ledger.json"), '{"rows": 102}\n')
+    _write(os.path.join(root, "schemas", "generated", "did_v2_decisions.json"), '{"families": 9}\n')
     sync(root)
     return root
 
@@ -115,8 +117,8 @@ def sync(root):
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 with open(os.path.join(base, f), "rb") as a, open(dst, "wb") as b:
                     b.write(a.read())
-    for served, srcname in (("coverage.json", "V_eta_coverage_ledger.json"),
-                            ("decisions.json", "V_eta_decisions.json")):
+    for served, srcname in (("coverage.json", "generated/did_v2_coverage_ledger.json"),
+                            ("decisions.json", "generated/did_v2_decisions.json")):
         s = os.path.join(root, "schemas", srcname)
         if os.path.exists(s):
             with open(s, "rb") as a, open(os.path.join(pub, served), "wb") as b:
@@ -172,24 +174,24 @@ def test_a_stale_served_file_reddens(tmp_path):
     not. THIS is the test that goes red under the always-equal mutation
     below."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "V_eta_coverage_ledger.json"),
+    _write(os.path.join(root, "schemas", "generated", "did_v2_coverage_ledger.json"),
            '{"rows": 102, "binaryseries_parameters": "resolved"}\n')
     rc, out = run(root)
     assert rc != 0, out
     assert "STALE -- served bytes differ from the source: 1" in out, out
     assert "coverage.json" in out
-    assert "schemas/V_eta_coverage_ledger.json" in out
+    assert "schemas/generated/did_v2_coverage_ledger.json" in out
 
 
 def test_a_stale_served_schema_reddens_too(tmp_path):
     """Not just the two named JSONs: the whole copied schema set is graded, and
     seven of the nine real findings were files under schemas/did_v2."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"),
+    _write(os.path.join(root, "schemas", "did_v2", "value", "strain.json"),
            '{"c": 2}\n')
     rc, out = run(root)
     assert rc != 0, out
-    assert "stable/strain.json" in out, out
+    assert "value/strain.json" in out, out
 
 
 def test_an_unpairable_served_file_is_reported_and_fails(tmp_path):
@@ -208,7 +210,7 @@ def test_a_served_copy_whose_source_was_deleted_is_an_ORPHAN_not_an_unknown(tmp_
     classes since deleted from `schemas/`; calling them 'unexplained' would
     hide that the viewer is still serving a class that no longer exists."""
     root = make_repo(tmp_path)
-    os.remove(os.path.join(root, "schemas", "did_v2", "stable", "strain.json"))
+    os.remove(os.path.join(root, "schemas", "did_v2", "value", "strain.json"))
     rc, out = run(root)
     assert rc != 0, out
     assert "ORPHANED -- served, but the source no longer exists: 1" in out, out
@@ -220,7 +222,7 @@ def test_a_source_with_no_served_copy_is_reported(tmp_path):
     since the last sync is invisible in the viewer, and invisible is exactly
     what a check over the served files alone would also be."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "did_v2", "stable", "logical.json"), "{}\n")
+    _write(os.path.join(root, "schemas", "did_v2", "value", "logical.json"), "{}\n")
     rc, out = run(root)
     assert rc != 0, out
     assert "UNSERVED -- the contract serves it, no served copy exists: 1" in out, out
@@ -302,7 +304,7 @@ def test_stubbing_the_comparison_to_always_equal_makes_the_stale_finding_vanish(
     second half, `test_a_stale_served_file_reddens` could be passing for some
     reason other than the comparison."""
     root = make_repo(tmp_path)
-    _write(os.path.join(root, "schemas", "V_eta_coverage_ledger.json"),
+    _write(os.path.join(root, "schemas", "generated", "did_v2_coverage_ledger.json"),
            '{"rows": 102, "changed": true}\n')
 
     rc_real, out_real = run(root)
@@ -368,15 +370,15 @@ def test_the_contract_moves_when_the_sync_script_moves(tmp_path):
     hand-kept copy of the mapping would not, and would then grade the tree
     against a contract nobody follows -- the same drift one level up."""
     root = make_repo(tmp_path)
-    copies, _inplace, set_root = w.read_contract(root)
-    assert copies["coverage.json"] == "V_eta_coverage_ledger.json"
+    copies, _inplace, set_root, _data = w.read_contract(root)
+    assert copies["coverage.json"] == "generated/did_v2_coverage_ledger.json"
     assert set_root == "schemas"
 
     moved = SYNC_JS.replace('"coverage.json"', '"ledger.json"')
     root2 = make_repo(tmp_path / "b", sync_js=moved)
-    copies2, _i2, _s2 = w.read_contract(root2)
+    copies2, _i2, _s2, _d2 = w.read_contract(root2)
     assert "coverage.json" not in copies2
-    assert copies2["ledger.json"] == "V_eta_coverage_ledger.json"
+    assert copies2["ledger.json"] == "generated/did_v2_coverage_ledger.json"
 
 
 def test_a_generated_viewer_input_the_contract_stops_serving_is_a_HOLE(tmp_path):
@@ -385,11 +387,11 @@ def test_a_generated_viewer_input_the_contract_stops_serving_is_a_HOLE(tmp_path)
     would report nothing. The ledger and the decision families are named here
     because both are produced by tools/gates.py and read by a panel."""
     root = make_repo(tmp_path, sync_js=SYNC_JS.replace(
-        'const decisionsSrc = resolve(schemasDir, "V_eta_decisions.json");', ""))
+        'const decisionsSrc = resolve(schemasDir, "generated/did_v2_decisions.json");', ""))
     rc, out = run(root)
     assert rc != 0, out
     assert "CONTRACT HOLES" in out
-    assert "V_eta_decisions.json exists and the contract serves no copy of it" in out, out
+    assert "did_v2_decisions.json exists and the contract serves no copy of it" in out, out
 
 
 def test_a_file_a_TOOL_writes_into_public_is_paired_with_that_tool(tmp_path):

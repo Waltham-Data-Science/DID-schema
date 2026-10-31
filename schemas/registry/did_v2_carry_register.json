@@ -1,0 +1,2568 @@
+{
+  "description": "The carry register (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (V2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the V2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (V2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
+  "kinds": [
+    "awaiting_home",
+    "needs_mapping",
+    "not_modelled",
+    "malformed"
+  ],
+  "rows": [
+    {
+      "id": "carry-001",
+      "v1_class": "probe_geometry",
+      "fields": [
+        "probe_geometry.shank_id",
+        "probe_geometry.contact_shape",
+        "probe_geometry.contact_shape_width",
+        "probe_geometry.contact_shape_height",
+        "probe_geometry.contact_shape_radius",
+        "probe_geometry.manufacturer",
+        "probe_geometry.has_planar_contour",
+        "probe_geometry.contour_x",
+        "probe_geometry.contour_y"
+      ],
+      "when": "any of these is set",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "probe contact geometry carried"
+      },
+      "open_work": 130,
+      "home": "a V2 contact-geometry model (none yet)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-002",
+      "v1_class": "sorting_parameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-003",
+      "v1_class": "spike_extraction_parameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-004",
+      "v1_class": "spike_extraction_parameters_modification",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-005",
+      "v1_class": "vmspikefilteringparameters",
+      "fields": [
+        "app.os",
+        "app.os_version",
+        "app.interpreter",
+        "app.interpreter_version"
+      ],
+      "when": "its `app` block names an OS or interpreter",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "do_not": {
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "class": "method",
+        "fields": [
+          "operating_system_id",
+          "interpreter_id"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-006",
+      "v1_class": "filter",
+      "fields": [
+        "filter.parameters"
+      ],
+      "when": "the filter order is fractional",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-007",
+      "v1_class": "filter",
+      "fields": [
+        "filter.label"
+      ],
+      "when": "the `label` differs from its `type` on an all-pass filter, which builds no method to name (DID-matlab private/jFrequencyFilter.m); any other differing label is the filter method's `name` ([filter label is the method name])",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "open_work": 131,
+      "home": "none decided for the all-pass: a filter method's `name` holds a differing label, but an all-pass builds no method",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-008",
+      "v1_class": "syncrule",
+      "fields": [
+        "syncrule.parameters"
+      ],
+      "when": "a setting the migrator does not read cannot be written as a method parameter",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-009",
+      "v1_class": "element_epoch",
+      "fields": [
+        "t0_t1"
+      ],
+      "when": "`t0_t1` does not match its clocks, or is missing or not numeric",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "small unread settings"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-010",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "lightsheetZarrLevel.codec_params"
+      ],
+      "when": "the level's codec settings go beyond the codec name",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "compression block and empty levels"
+      },
+      "open_work": 132,
+      "home": "data_body.compression as a {term, parameters} block (field type change; DID-matlab and NDI-matlab first)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-011",
+      "v1_class": "image",
+      "fields": [
+        "data_limits"
+      ],
+      "when": "`data_limits` differs from its data type's range and is not a finite [minimum maximum] pair (DID-matlab image_stack.m); a pair that differs is written as a value range (EMPTY:0000402) condition on the body since DID-matlab f6486be (#250)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "data_limits not a pair is malformed"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-012",
+      "v1_class": "imageStack",
+      "fields": [
+        "data_limits"
+      ],
+      "when": "`data_limits` differs from its data type's range and is not a finite [minimum maximum] pair (DID-matlab image_stack.m); a pair that differs is written as a value range (EMPTY:0000402) condition on the body since DID-matlab f6486be (#250)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "data_limits not a pair is malformed"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-014",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.stimulus_properties"
+      ],
+      "when": "its `stimulus_properties` values differ from the presentation's generator settings",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "hartley leftovers checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-015",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.dimension_labels"
+      ],
+      "when": "`dimension_labels` is not empty",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "hartley leftovers checked"
+      },
+      "open_work": 135,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-016",
+      "v1_class": "calculator",
+      "fields": [
+        "depends_on (inner copy in the calculator block)"
+      ],
+      "when": "the calculator block's inner `depends_on` copy differs from the top-level edges",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-017",
+      "v1_class": "daqreader_ndr",
+      "fields": [
+        "daqreader_ndr.ndi_daqreader_ndr_class"
+      ],
+      "when": "the NDR reader class differs from the one the reader string implies",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-018",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.number_of_samples_per_channel",
+        "neuron_extracellular.number_of_channels"
+      ],
+      "when": "the counts differ from the mean waveform's axis lengths",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "restated values checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-019",
+      "v1_class": "lightsheetZarrPyramid",
+      "fields": [
+        "dtype",
+        "source file"
+      ],
+      "when": "no source file and no dtype, so the store body's format is unknown (DID-matlab #247 lightsheet_zarr_pyramid.m: reportNote carried_as_v1)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "no-source pyramid gets a file-less store body"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-020",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyNode",
+        "treatment_drug.location_name",
+        "treatment_drug.mixture_table"
+      ],
+      "when": "a Babu treatment located at agar plate medium (MICRO:0000480) or ambient air (XCO:0000918), the substance the worms live on, whose reading as exposure or dose the v1 document does not decide (NDI-matlab babu TreatmentCreator.m writes every Babu treatment as treatment_drug; carry-028 is the general case)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "exposure (a manipulation: the medium the subjects live on)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "whether the substance is the medium the subjects live on or a dose given to them; the v1 document does not say",
+      "resolved_by": "the Babu dataset map entry, e.g. \"Babu: MICRO:0000480 -> exposure\" ([one correct reading])",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-021",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug"
+      ],
+      "when": "a heat-only treatment (Babu), whose reading as a temperature manipulation or a dose the v1 document does not decide",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "temperature manipulation",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "whether the treatment is heat alone; the v1 document does not say",
+      "resolved_by": "the Babu dataset map entry for its heat treatments (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-022",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.name",
+        "treatment.numeric_value"
+      ],
+      "when": "its term is not a ChEBI substance and does not state its number's kind, so its kind, direction or unit would be chosen from label words (DID-matlab treatment.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "manipulation (dose)",
+        "manipulation (exposure)",
+        "manipulation (temperature)",
+        "manipulation (term)",
+        "observation"
+      ],
+      "decides": "what the treatment means in its dataset; the v1 document states only a label and a number",
+      "resolved_by": "the dataset map entry for that treatment term (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-023",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.numeric_value"
+      ],
+      "when": "a ChEBI substance with no recorded location (DID-matlab jTreatmentBodies.m, route 'unknown')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation (immersion: the subject sat in it)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "where the treatment was given; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-024",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "the recorded location (its site term)"
+      ],
+      "when": "a ChEBI substance whose recorded location is not an UBERON body site (DID-matlab jTreatmentBodies.m, route 'needs_mapping'); carry-028 is the same case for treatment_drug, carry-030 for virus_injection",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "dose (a manipulation: a substance given)",
+        "exposure (a manipulation: the medium the subjects live on)",
+        "temperature manipulation"
+      ],
+      "decides": "what the non-body location means in its dataset",
+      "resolved_by": "the dataset map entry for that location (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-025",
+      "v1_class": "imageStack",
+      "fields": [
+        "image_stack.label"
+      ],
+      "when": "its label marks it as a mask or a label map, which only label words show (DID-matlab image_stack.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "calculation (logical mask)",
+        "calculation (label map, EMPTY:0000132)",
+        "observation (intensity)"
+      ],
+      "decides": "what the image's pixels are, in its dataset",
+      "resolved_by": "the dataset map entry for that image label (not yet written; JH is covered by the Haley V2 import)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-026",
+      "v1_class": "ontologyTableRow",
+      "fields": [
+        "ontologyTableRow.names",
+        "ontologyTableRow.variableNames",
+        "ontologyTableRow.ontologyNodes",
+        "ontologyTableRow.data"
+      ],
+      "when": "always: every v1 ontologyTableRow, in the generic migration; which entity each column is about, its direction, value kind and unit are not stated by the row (DID-matlab ontology_table_row.m); carry-098 and carry-125 folded into this row on 2026-10-30, when no DID-matlab or NDI-matlab site cited them",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "table rows carried as v1"
+      },
+      "homes": [
+        "assertion",
+        "observation",
+        "manipulation"
+      ],
+      "decides": "the table's column map in its dataset (entity, direction, value kind and unit per column)",
+      "resolved_by": "the dataset map's column rows for that table (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-027",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyNode",
+        "treatment_drug.location_name"
+      ],
+      "when": "no recorded location (DID-matlab jTreatmentBodies.m, route 'unknown'); carry-023 is the same case for treatment",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation (immersion: the subject sat in it)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "where the treatment was given; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-028",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyNode",
+        "treatment_drug.location_name"
+      ],
+      "when": "a recorded location that is neither the bath nor an UBERON body site (DID-matlab jTreatmentBodies.m, route 'needs_mapping'); carry-020 is the Babu case, carry-024 the same case for treatment",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "dose (a manipulation: a substance given)",
+        "exposure (a manipulation: the medium the subjects live on)",
+        "temperature manipulation"
+      ],
+      "decides": "what the non-body location means in its dataset",
+      "resolved_by": "the dataset map entry for that location (not yet written; Babu: carry-020)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-029",
+      "v1_class": "virus_injection",
+      "fields": [
+        "virus_injection.virusLocation_OntologyName",
+        "virus_injection.virusLocation_name"
+      ],
+      "when": "no recorded location (DID-matlab jTreatmentBodies.m, route 'unknown'); carry-023 is the same case for treatment",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation (immersion: the subject sat in it)",
+        "dose (a manipulation: a substance given)"
+      ],
+      "decides": "where the virus was given; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that injection (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-030",
+      "v1_class": "virus_injection",
+      "fields": [
+        "virus_injection.virusLocation_OntologyName",
+        "virus_injection.virusLocation_name"
+      ],
+      "when": "a recorded location that is neither the bath nor an UBERON body site (DID-matlab jTreatmentBodies.m, route 'needs_mapping'); carry-024 is the same case for treatment",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "dose (a manipulation: a substance given)",
+        "exposure (a manipulation: the medium the subjects live on)",
+        "temperature manipulation"
+      ],
+      "decides": "what the non-body location means in its dataset",
+      "resolved_by": "the dataset map entry for that location (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-031",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.mixture_table"
+      ],
+      "when": "two mixture-table rows state the same kind of amount for the dose and disagree (DID-matlab jDoseValue.m CONFLICTS, 'conflicting amount')",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-032",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.ontologyName",
+        "treatment.name"
+      ],
+      "when": "its label reads as no act of the experimenter ('date of birth', 'non-survival experiment time', 'experiment time'), which only label words show (DID-matlab treatment.m, was did2:convert:notAManipulation)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset audit batch 1 and 2"
+      },
+      "homes": [
+        "assertion about the subject (e.g. its date of birth)",
+        "a time reference (when the experiment ran)",
+        "manipulation"
+      ],
+      "decides": "what the treatment row states in its dataset; the v1 document states only a label and a value",
+      "resolved_by": "the dataset map entry for that treatment term (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-033",
+      "v1_class": "subject",
+      "fields": [
+        "subject.local_identifier"
+      ],
+      "when": "`local_identifier` is empty, so the entity's required local_identifier would be invented (DID-matlab subject.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "no invented values"
+      },
+      "homes": [
+        "entity (organism) whose local_identifier the dataset map gives"
+      ],
+      "decides": "the subject's identifier, which the v1 document does not state",
+      "resolved_by": "the dataset map entry naming that subject (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-034",
+      "v1_class": "subject_group",
+      "fields": [
+        "subject_group.group_name"
+      ],
+      "when": "no `group_name`, so the group entity's required local_identifier would be invented (DID-matlab subject_group.m); NDI's subject_group template has an empty block, so a writer-shaped group never states one",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unnamed groups named by the map"
+      },
+      "homes": [
+        "entity of type group whose local_identifier the dataset map gives"
+      ],
+      "decides": "the group's identifier, which the v1 document does not state",
+      "resolved_by": "the dataset map entry naming that group (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-035",
+      "v1_class": "treatment_transfer",
+      "fields": [
+        "treatment_transfer.timestamp",
+        "treatment_transfer.clocktype"
+      ],
+      "when": "a finite `timestamp` with no `clocktype` (DID-matlab treatment_transfer.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "manipulation anchored on the device local clock (dev_local_time, seconds)",
+        "manipulation anchored on a global clock (a datenum, days)"
+      ],
+      "decides": "which clock the timestamp is on, and so its unit; the v1 document does not say",
+      "resolved_by": "the dataset map entry for that transfer's clock (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-036",
+      "v1_class": "syncrule_mapping",
+      "fields": [
+        "syncrule_mapping.epochnode_a",
+        "syncrule_mapping.epochnode_b",
+        "syncrule_mapping.mapping"
+      ],
+      "when": "its two ends cannot be placed as per-system time references on the recording epochs (DID-matlab syncrule_mapping.m, jClockAlignmentBodies.m): no epoch or no per-system reference for an end after epochMint, an endpoint that differs from its system or manifest, no finite polynomial, or no syncgraph_id / syncrule_id edge",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "device clocks on one epoch"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-037",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "depends_on lightsheetZarrPyramid_id",
+        "files chunk.bin"
+      ],
+      "when": "a level holding no bytes that names no lightsheetZarrPyramid_id (DID-matlab lightsheet_zarr_level.m); NDI's schema marks that edge mustbenotempty",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "compression block and empty levels"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-038",
+      "v1_class": "element_epoch",
+      "fields": [
+        "element_epoch.epoch_clock",
+        "element_epoch.clocktype"
+      ],
+      "when": "no clock is named (no `epoch_clock` nor legacy `clocktype`), or a legacy `clocktype` differs from `epoch_clock` (DID-matlab +migrators/element_epoch.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "no invented values"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-039",
+      "v1_class": "daqreader_ndr",
+      "fields": [
+        "daqreader_ndr.file_extension"
+      ],
+      "when": "`file_extension` is set (DID-matlab daqreader_ndr.m); no NDI template declares the field",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-040",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.stimulus_properties"
+      ],
+      "when": "its `stimulus_properties` cannot be compared with the presentation's generator settings: not one struct, no stimulus_presentation_id, or a key outside the generator settings (DID-matlab hartley_calc.m); carry-014 is the case where they differ, carry-065 the case where the presentation is not in the batch",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "hartley leftovers checked"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-041",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.number_of_samples_per_channel",
+        "neuron_extracellular.number_of_channels"
+      ],
+      "when": "no mean waveform, and a count that is not an NDI writer's value for an empty waveform (1, 0, absent or empty) (DID-matlab neuron_extracellular.m); carry-018 is the case with a waveform",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "writer default is not set"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-042",
+      "v1_class": "filter",
+      "fields": [
+        "filter.algorithm",
+        "filter.type"
+      ],
+      "when": "its algorithm or type is a spelling with no mapping that is not 'none' or blank (DID-matlab jFrequencyFilter.m, for a pyraview)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "homes": [
+        "method (filter): an algorithm term and a band"
+      ],
+      "decides": "which filter algorithm and band the spelling names",
+      "resolved_by": "the dataset map entry for that spelling (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-043",
+      "v1_class": "metadata_editor",
+      "fields": [
+        "metadata_editor.metadata_structure.ExperimentalApproach",
+        "metadata_editor.metadata_structure.TechniquesEmployed",
+        "metadata_editor.metadata_structure.DataType"
+      ],
+      "when": "a form value that matches no term of its binding's closed list (DID-matlab metadata_editor.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset form terms"
+      },
+      "homes": [
+        "term assertion about the dataset entity, valued by a term of the closed list (experimental approach, technique, scientific data type)"
+      ],
+      "decides": "which closed-list term the form's value means",
+      "resolved_by": "the dataset map entry for that form value (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-044",
+      "v1_class": "metadata_editor",
+      "fields": [
+        "metadata_editor.metadata_structure.EthicsAssessment"
+      ],
+      "when": "an EthicsAssessment that did2.convert.ethicsJurisdiction does not recognise (DID-matlab metadata_editor.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "homes": [
+        "the dataset's ethics statement, by its jurisdiction"
+      ],
+      "decides": "which jurisdiction or approval the free-text assessment names",
+      "resolved_by": "the dataset map entry for that assessment (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-045",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_presentation.presentation_order",
+        "stimulus_presentation.presentation_time",
+        "stimulus_presentation.stimuli",
+        "epochid.epochid"
+      ],
+      "when": "always in DID's pass 1 (DID-matlab stimulus_presentation.m): a retired class, decomposed by NDI's second pass",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "stimulus_presentation retired"
+      },
+      "do_not": {
+        "line": "do not give `manipulation` the v1 presentation block (`presentation_order`, `presentation_time`, `stimuli`) or the retired `epochid`: a presentation's V2 form is a manipulation with value kind item plus method documents, made by NDI's second pass ([stimulus_presentation retired]); `epochid` is retired ([retired classes leave V2])",
+        "class": "manipulation",
+        "fields": [
+          "presentation_order",
+          "presentation_time",
+          "stimuli",
+          "epochid"
+        ]
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-046",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "epochid.epochid",
+        "files data.bin"
+      ],
+      "when": "always in DID's pass 1 (DID-matlab daqmetadatareader_epochdata_ingested.m): a retired class, made an opaque_body of the epoch's presentation by NDI's second pass",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "do_not": {
+        "line": "do not give `opaque_body` the retired `epochid`: the ingested stimulus file is a body of the epoch's stimulus-presentation manipulation, joined by session and epoch id in NDI's second pass ([ingested stimulus file is a body of the presentation]); `epochid` is retired ([retired classes leave V2])",
+        "class": "opaque_body",
+        "fields": [
+          "epochid"
+        ]
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-047",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "epochid.epochid"
+      ],
+      "when": "two or more stimulus-presentation manipulations share its session and epoch (NDI-matlab ingestedStimulusBodies.m, left_several_presentations)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "homes": [
+        "opaque_body owned by one of the epoch's stimulus-presentation manipulations"
+      ],
+      "decides": "which presentation's stimulus file it is",
+      "resolved_by": "the dataset map entry for that epoch (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-048",
+      "v1_class": "element",
+      "fields": [
+        "element.name",
+        "element.reference"
+      ],
+      "when": "`name` and `reference` are both empty, so the entity's required local_identifier would be invented (DID-matlab element.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "no invented values"
+      },
+      "homes": [
+        "entity whose local_identifier the dataset map gives"
+      ],
+      "decides": "the element's identifier, which the v1 document does not state",
+      "resolved_by": "the dataset map entry naming that element (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-049",
+      "v1_class": "*",
+      "fields": [
+        "ndi_document (a legacy block beside `base`)",
+        "any field universalRenames would discard"
+      ],
+      "when": "the v1 document has an `ndi_document` block beside `base` (a block from NDI before `ndi_document.json` was deleted, e.g. one `jrclust_clusters` in Soph), in any class: it is carried whole so the block is never lost ([old ndi_document blocks carry]). Also, until the universal renames pass is deleted, any other v1 value that pass would discard (e.g. `app.name` and `app.app_name` differ), so no migrator runs (DID-matlab v1_to_v2.m, note 'universalRenames would discard'; [renames carry is temporary], OPEN_WORK #136)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "old ndi_document blocks carry"
+      },
+      "open_work": 157,
+      "home": "none decided for the `ndi_document` block; the universalRenames part needs none (migrators read raw v1 and the pass is deleted, [migrators read raw v1], OPEN_WORK #136)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-050",
+      "v1_class": "stimulus_response_scalar",
+      "fields": [
+        "stimulus_response.stimulator_epochid"
+      ],
+      "when": "its `stimulator_epochid` differs from its `element_epochid` (one equal to it is rebuilt; the control link is an `input_id`, [response links: epoch rebuilt, control as input]) (DID-matlab stimulus_response_scalar.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "differing stimulator epoch is malformed"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-051",
+      "v1_class": "image",
+      "fields": [
+        "image.label"
+      ],
+      "when": "`image.label` is not empty (DID-matlab image.m, 'unplaced: image.label')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "open_work": 138,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-052",
+      "v1_class": "imageStack",
+      "fields": [
+        "depends_on document_id"
+      ],
+      "when": "the stack has a `document_id` edge (DID-matlab image_stack.m, 'unplaced: depends_on document_id')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "image stack link needs mapping"
+      },
+      "kind_basis": "decided",
+      "homes": [
+        "whatever each dataset decides the edge means"
+      ],
+      "decides": "what the stack's `document_id` edge means; it varies by writer",
+      "resolved_by": "each dataset's import (not yet written)"
+    },
+    {
+      "id": "carry-053",
+      "v1_class": "position_metadata",
+      "fields": [
+        "position_metadata.units",
+        "position_metadata.dimensions",
+        "position_metadata.ontologyNode"
+      ],
+      "when": "always, until its element's position values are mapped (carry-063): units, dimensions and the body part (`ontologyNode`) become one position calculation with them, and no term observation is written (DID-matlab position_metadata.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "position and its metadata are one statement"
+      },
+      "open_work": 140,
+      "home": "one `calculation` with the `position` value-kind mixin, built where the element is mapped (carry-063)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-056",
+      "v1_class": "calculator",
+      "fields": [
+        "a field the class's NDI template defines (or its writer writes over the template) that the tuning fold has no V2 home for yet: e.g. the contrast fits' relative_max_gain / saturation_index / sensitivity, the SF and TF `abs` block, stimulus_tuningcurve stimid / stimulus_presentation_number, tuningcurve_calc log / stim_property_list, the speed fit block names, a recognised response_units spelling"
+      ],
+      "when": "a tuning-family calculator or result document (and contrastsensitivity_calc, hartley_calc, which share the fold) holds such a field with a value, or a template field whose value the fold cannot place (DID-matlab private/jCalculation.m and private/jSpeedTuning.m, split by did2.convert.v1read.calculatorTemplate); a field, block or edge outside the class's NDI template is carry-100, not this row ([tuning stray fields are malformed])",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "lossless first, homes after"
+      },
+      "open_work": 143,
+      "home": "none decided (per tuning class)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-057",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "the vehicle's per-body-mass amount (e.g. saline '1 mg/kg')"
+      ],
+      "when": "a vehicle row states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-058",
+      "v1_class": "measurement",
+      "fields": [
+        "a second numeric value, or a string beside the number"
+      ],
+      "when": "the measurement holds more than one value (DID-matlab private/jMeasurementFold.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "second measurement value needs a map"
+      },
+      "homes": [
+        "a second statement",
+        "a condition on the first statement",
+        "a note"
+      ],
+      "decides": "what the second value means in that dataset",
+      "resolved_by": "the dataset map entry for that measurement (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-059",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "a second numeric value, or a string beside the number"
+      ],
+      "when": "the measurement holds more than one value (DID-matlab private/jMeasurementFold.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "second measurement value needs a map"
+      },
+      "homes": [
+        "a second statement",
+        "a condition on the first statement",
+        "a note"
+      ],
+      "decides": "what the second value means in that dataset",
+      "resolved_by": "the dataset map entry for that measurement (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-060",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_reference",
+        "the creator class"
+      ],
+      "when": "an ingested session's `session_reference` differs from the session entity's local_identifier (DID-matlab private/jMembershipBodies.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested session membership"
+      },
+      "homes": [
+        "the session entity's local_identifier",
+        "a parameter of the part_of method"
+      ],
+      "decides": "which name the dataset knew the session by",
+      "resolved_by": "the dataset map entry for that session (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-061",
+      "v1_class": "pyraview",
+      "fields": [
+        "filter.parameters.sampleFrequency"
+      ],
+      "when": "an all-pass filter states a sampleFrequency that differs from the pyraview's native_rate (NDI's writer sets both from one variable, makePyraviewDoc.m:53-58, :157, so only a non-writer input differs)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "pass-through filter sample frequency"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-062",
+      "v1_class": "element",
+      "fields": [
+        "element.type ('spikes')",
+        "the sorter's single/multi label (absent)"
+      ],
+      "when": "a sorted unit carries no single/multi label",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unlabelled units need a map"
+      },
+      "homes": [
+        "cell (single unit)",
+        "Group of unidentified cells (multi-unit)"
+      ],
+      "decides": "whether the unit is single or multi; the sorter did not say",
+      "resolved_by": "the dataset map entry for that sorting (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-063",
+      "v1_class": "element",
+      "fields": [
+        "element.type",
+        "element.ndi_element_class"
+      ],
+      "when": "the type is not on the element type list, or is a probe type on an element whose class is not ndi.probe.* (e.g. a oneepoch or downsampled copy)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "element types have no default"
+      },
+      "homes": [
+        "an entity of the type the dataset map names",
+        "an observation of another entity (e.g. a position track of the animal)"
+      ],
+      "decides": "what the element is; the type string alone does not say",
+      "resolved_by": "the dataset map entry for that element type (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-064",
+      "v1_class": "*",
+      "fields": [
+        "the document's edge to a carried document"
+      ],
+      "when": "a document depends on a document that is carried as v1 (e.g. an element_epoch, position_metadata or spike train of a carried element)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dependents of a carried document carry"
+      },
+      "homes": [
+        "converted once the document it depends on converts"
+      ],
+      "decides": "whatever converts the document it depends on",
+      "resolved_by": "the row that resolves the carried document it depends on",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-065",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "hartley_calc.stimulus_properties"
+      ],
+      "when": "the presentation its stimulus_presentation_id names is not in the migrated batch, so its stimulus_properties cannot be compared (DID-matlab hartley_calc.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "presentation outside the batch needs a map"
+      },
+      "homes": [
+        "the hartley calculation, once its presentation is migrated with it"
+      ],
+      "decides": "migrating the hartley_calc together with its presentation",
+      "resolved_by": "a migration run that holds the presentation, or the dataset map entry",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-066",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.is_linked"
+      ],
+      "when": "`is_linked` is empty: NDI's template leaves it empty (session_in_a_dataset.json:16) and its writer always sets 1 or 0 (ndi.dataset, dataset.m:92, :170)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "missing is_linked is malformed"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-067",
+      "v1_class": "image",
+      "fields": [
+        "depends_on document_id"
+      ],
+      "when": "the image has a `document_id` edge (DID-matlab image_stack.m, which migrators_j.image routes a v1 `image` to; 'unplaced: depends_on document_id'); carry-052 is the same case for imageStack",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "open_work": 139,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-068",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.is_linked"
+      ],
+      "when": "`is_linked` is stated but is not one logical or number (e.g. text that is not a number, or several values) (DID-matlab private/jMembershipBodies.m, 'is_linked not readable'); carry-066 is the empty case",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "missing is_linked is malformed"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-069",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_reference"
+      ],
+      "when": "a session's `session_reference` cannot be compared with the session entity's local_identifier because that session is not in the migrated batch: an ingested session, or a linked one since [linked session not in the batch] (Jess Haley, 2026-10-29) (DID-matlab private/jMembershipBodies.m); carry-060 is the case where it is compared and differs",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested session membership"
+      },
+      "homes": [
+        "dropped, when it equals the session entity's local_identifier",
+        "carried for the dataset map (carry-060), when it differs"
+      ],
+      "decides": "whether the reference equals the session's local_identifier, which needs the session",
+      "resolved_by": "a migration run that holds the session, or the dataset map entry for that session (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-070",
+      "v1_class": "treatment",
+      "fields": [
+        "a vehicle's per-body-mass amount"
+      ],
+      "when": "a vehicle states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS, via private/jTreatmentBodies.m 'vehicle amount placeholder'); carry-057 is the same case for treatment_drug",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that treatment (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-071",
+      "v1_class": "treatment",
+      "fields": [
+        "the dose's amounts"
+      ],
+      "when": "two amounts of the same kind for one dose disagree (DID-matlab private/jDoseValue.m CONFLICTS, via private/jTreatmentBodies.m 'conflicting amount'); carry-031 is the same case for treatment_drug",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-072",
+      "v1_class": "virus_injection",
+      "fields": [
+        "a vehicle's per-body-mass amount"
+      ],
+      "when": "a vehicle (e.g. the diluent) states an amount per body mass, a writer placeholder rather than an amount (DID-matlab private/jDoseValue.m PLACEHOLDERS, via private/jTreatmentBodies.m 'vehicle amount placeholder'); carry-057 is the same case for treatment_drug",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "vehicle rate needs a map"
+      },
+      "homes": [
+        "dose with the amount the dataset map gives",
+        "dose with NaN amount (not recorded)"
+      ],
+      "decides": "what the rate means in that dataset",
+      "resolved_by": "the dataset map entry for that injection (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-073",
+      "v1_class": "virus_injection",
+      "fields": [
+        "the dose's amounts"
+      ],
+      "when": "two amounts of the same kind for one dose disagree (DID-matlab private/jDoseValue.m CONFLICTS, via private/jTreatmentBodies.m 'conflicting amount'); carry-031 is the same case for treatment_drug",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-074",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_reference"
+      ],
+      "when": "a LINKED session's session_reference differs from the session entity's local_identifier (equal: dropped as a copy) (DID-matlab private/jMembershipBodies.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "linked session reference follows the ingested rule"
+      },
+      "kind_basis": "decided",
+      "homes": [
+        "the session entity, once the dataset says what the reference names"
+      ],
+      "decides": "what a linked session's reference names when it is not the entity's own identifier",
+      "resolved_by": "each dataset's import (not yet written)"
+    },
+    {
+      "id": "carry-075",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_creator_inputN"
+      ],
+      "when": "a non-empty session_creator_input4..6, which NDI-matlab +ndi/dataset.m never reads (inputs 1 and 3 are copies; input 2 is the linked path, a `Pathname` parameter)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "session opener inputs"
+      },
+      "open_work": 145,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-080",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_presentation.<template fields the decomposition does not write, outside `parameters`>",
+        "stimuli.<template fields beside parameters>"
+      ],
+      "when": "it holds a template field outside `parameters` that the item, its methods and covariates do not write; an unread `parameters` key becomes a method parameter and a field outside the template is carry-100 (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unread stimulus parameters are method parameters"
+      },
+      "open_work": 146,
+      "home": "none decided: per field, on the stimulus method or the item",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-081",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_element_id",
+        "the responding subjects"
+      ],
+      "when": "the lab's records name DIFFERENT animals for one presentation (e.g. the probe map assigns the stimulator to one animal, the epoch's recorded elements to another): conflicting records are not a shared event (did_v2_stimulus_model_plan.md operating rule 4). Several animals recorded together in the session are NOT carried: they get one manipulation on the session's standing cohort (rule 2) (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one correct reading"
+      },
+      "homes": [
+        "manipulation of one of the animals",
+        "manipulation on the session cohort, distributive"
+      ],
+      "decides": "which animal (or the cohort) received the stimulus; the v1 records disagree",
+      "resolved_by": "the dataset map entry for that presentation (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-083",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "base.datestamp",
+        "stimulus_presentation.stimuli",
+        "stimulus_presentation.presentation_order"
+      ],
+      "when": "base id, session_id or datestamp is missing; or there are no stimuli or no presentation_order; or presentation_order indexes outside the stimuli list (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-084",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "stimulus_presentation.stimuli.parameters"
+      ],
+      "when": "a stimulus is of a NewStim kind with no recipe (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m, 'a stimulus kind with no recipe, refused by class: ...')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_method_plan.md",
+        "tag": "non-grating stimuli as methods"
+      },
+      "open_work": 31,
+      "home": "a stimulus method (recipe) for that kind",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-085",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "the hartley_calc enumeration (item_ids, order, frame_times)"
+      ],
+      "when": "the frame sequence a hartley_calc supplies cannot be read: not one struct, no item_ids, an empty id, no order, an order entry outside item_ids, or frame_times of another length (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m readSequence)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-086",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "epochid.epochid",
+        "files"
+      ],
+      "when": "no base.id or session, no epoch id, or its files are not the one data.bin with a location (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m unplaced); the NDI writer (+daq/metadatareader.m ingest_epochfiles) always sets all of them",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-087",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "daqmetadatareader_epochdata_ingested.<any field>",
+        "depends_on other than daqmetadatareader_id and session_id"
+      ],
+      "when": "a field in its block or an edge the body does not write (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m unplaced); the NDI template's block is empty and the writer sets only daqmetadatareader_id",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-088",
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "fields": [
+        "epochid.epochid",
+        "base.session_id"
+      ],
+      "when": "no stimulus-presentation manipulation has its session and epoch (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m, left_no_presentation); carry-047 is the case with several",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ingested stimulus file is a body of the presentation"
+      },
+      "homes": [
+        "opaque_body owned by a stimulus-presentation manipulation of that epoch"
+      ],
+      "decides": "which presentation the stimulus file belongs to, when none in its session and epoch was decomposed (e.g. it was carried as v1 or became a standalone item)",
+      "resolved_by": "the dataset map entry for that epoch (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-089",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "control_stimulus_ids.<template fields the control calculation does not write>"
+      ],
+      "when": "it holds a template field the control calculation does not write; extra `app` fields go to the software entity and a field or edge outside the template is carry-100 (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "control record fields split"
+      },
+      "open_work": 147,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-090",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "control_stimulus_ids.control_stimulus_ids"
+      ],
+      "when": "its presentation became a standalone item (no subject) or a frame sequence (Hartley), so the control pairing calculation has no subject or no trials (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "control pairing is a calculation"
+      },
+      "open_work": 148,
+      "home": "none decided: a control pairing for a standalone item or a frame sequence",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-091",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "base.id",
+        "base.session_id",
+        "control_stimulus_ids.control_stimulus_ids",
+        "control_stimulus_ids.control_stimulus_id_method",
+        "app"
+      ],
+      "when": "no base.id or session; control_stimulus_id_method is not a block; a trial's control is empty (a NaN control is NOT carried: NDI's writer writes NaN for 'no control', [NaN control means no control]); the pairing has another length than the trials or names a non-trial; or its app block is not a block, holds non-text, names no program, or gives an OS or interpreter version with no name (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-092",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.<Strain fields this pass does not write: breedingType, stockNumber, diseaseModel, lookupLabel, digitalIdentifier, alternateIdentifier, ...>",
+        "a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType",
+        "a species or geneticStrainType reference not in the batch, or to a fragment that states nothing"
+      ],
+      "when": "a Strain holds a field the strain entity and its assertions do not write (NDI-matlab +migrate/+internal/strainAssembly.m, 'cannot place ...')",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 149,
+      "home": "none decided: per Strain field",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-093",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.name"
+      ],
+      "when": "a Strain has no name, so the strain entity's required name would be invented (NDI-matlab +migrate/+internal/strainAssembly.m, 'missing name')",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "no invented values"
+      },
+      "homes": [
+        "entity of type strain whose name the dataset map gives"
+      ],
+      "decides": "the strain's name, which the v1 document does not state",
+      "resolved_by": "the dataset map entry naming that strain (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-094",
+      "v1_class": "openminds",
+      "fields": [
+        "openminds.fields.<Species or GeneticStrainType fields beyond name and one identifier>"
+      ],
+      "when": "a Species or GeneticStrainType fragment holds a field the strain's term does not write, or is referenced by a Strain carried as v1 (NDI-matlab +migrate/+internal/strainAssembly.m, fragments_retained)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "partly placed is carried as v1"
+      },
+      "open_work": 149,
+      "home": "none decided: the fragment's other fields (e.g. a Species definition or synonym)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-095",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "ontologyLabel.<template fields beside ontology_node that the term observation does not write>"
+      ],
+      "when": "the label states a template field the term observation does not write; a field outside the template, or an edge other than document_id, is carry-100 (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ontologyLabel row split"
+      },
+      "open_work": 150,
+      "home": "none decided",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-096",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "depends_on document_id"
+      ],
+      "when": "the labelled document has no subject (e.g. an E. coli plate image) or no time reference, so no term observation of a subject can carry the label (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, blocked_target_has_no_subject, unresolved_target_no_time_reference)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "labels are a field on what they label"
+      },
+      "homes": [
+        "a slot of the labelled document: its method, a variable, a condition or a method parameter"
+      ],
+      "decides": "which slot of the labelled document the label fills; the v1 document does not say",
+      "resolved_by": "each dataset's map entry naming that slot (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-097",
+      "v1_class": "ontologyLabel",
+      "fields": [
+        "depends_on document_id",
+        "ontologyLabel.ontology_node"
+      ],
+      "when": "no document_id edge, a document_id naming no document in the migrated set, or no ontology node (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage is lossless"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-099",
+      "v1_class": "ensemble",
+      "fields": [
+        "depends_on element_id",
+        "depends_on element_epoch_id",
+        "depends_on neuron_id_#"
+      ],
+      "when": "its element is no migrated entity, it has no neuron_id edge, no epoch to scope the membership by, a neuron not in the batch, or a neuron with no spike train in that epoch (NDI-matlab +migrate/+internal/ensembleMembership.m, ensemble_maps_kept_*); the NDI writer (+element/ensemble.m buildMapDoc) always sets them",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_ensemble_plan.md",
+        "tag": "ensemble retired"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-100",
+      "v1_class": "*",
+      "fields": [
+        "any field, block or edge the class's NDI template does not define"
+      ],
+      "when": "the v1 document holds a field, block or edge outside its class's NDI template at the locked main, which the migrator therefore does not read (DID-matlab migrators on the raw v1 path; NDI-matlab second pass)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "fields outside the template are malformed"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-101",
+      "v1_class": "spikewaves",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `spikewaves` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-102",
+      "v1_class": "spike_clusters",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `spike_clusters` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-103",
+      "v1_class": "binnedspikeratevm",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `binnedspikeratevm` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unbuilt spike classes carry as needs home"
+      },
+      "open_work": 153,
+      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-104",
+      "v1_class": "simple_calc",
+      "fields": [
+        "the whole document (no V2 class is built for it)"
+      ],
+      "when": "always: a v1 `simple_calc` (NDI-matlab +ndi/+calc/+example/simple.m) is carried whole as v1",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "simple_calc carries as needs home"
+      },
+      "open_work": 154,
+      "home": "none: designed only if a real dataset ever holds one",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-105",
+      "v1_class": "metadata_editor",
+      "fields": [
+        "metadata_editor.metadata_structure.Subjects",
+        "metadata_editor.metadata_structure.SpeciesList",
+        "metadata_editor.metadata_structure.StrainList",
+        "metadata_editor.metadata_structure.BiologicalSexList"
+      ],
+      "when": "any of these lists is non-empty (revises the earlier drop under [lossless means round trip]; DID-matlab metadata_editor.m drops them today)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "dataset form lists carried until homed"
+      },
+      "open_work": 155,
+      "home": "none decided (the decision line names \"likely rebuilt from the subjects\")",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-106",
+      "v1_class": "*",
+      "fields": [
+        "base.name"
+      ],
+      "when": "the v1 document becomes a statement (an assertion, observation, manipulation or calculation) and its `base.name` is not empty; a class with its own name field (`entity`, `method`, `acquisition_system`, `element`, `measurement`) takes the name there, and a data body takes it in `notes`, so neither carries",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "v1 name goes to the class's own name field"
+      },
+      "open_work": 156,
+      "home": "none decided; the number of such statements is counted in the next corpus run (DID-matlab)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-107",
+      "v1_class": "treatment_transfer",
+      "fields": [
+        "the whole document (the `treatment_transfer` block and its edges)"
+      ],
+      "when": "always: the generic stage converts no `treatment_transfer` (its only writer is NDI-matlab +setup/+conv/+babu/TreatmentCreator.m); supersedes, for the generic stage, [transfer method keeps its node] and the transfer cases of [broken transfer values are malformed]; carry-035 is a case of this row",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "treatment transfer stays v1"
+      },
+      "homes": [
+        "whatever the Babu reimport writes for a transfer"
+      ],
+      "decides": "what a transfer means in the Babu dataset, which the Babu reimport decides",
+      "resolved_by": "the Babu full reimport (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-108",
+      "v1_class": "treatment",
+      "fields": [
+        "depends_on manipulation_id"
+      ],
+      "when": "the treatment has a `manipulation_id` link: the lab's group number from `table2treatment`'s `group` column, stored only as a link to the group's first row (NDI-matlab +database/+metadata/table2treatment.m); treatments without the link convert as usual",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "treatment groups are a dataset decision"
+      },
+      "homes": [
+        "whatever each dataset's import decides its groups mean"
+      ],
+      "decides": "what the lab's group means for that dataset; the v1 document stores only a link to the group's first row",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-109",
+      "v1_class": "stimulus_presentation",
+      "fields": [
+        "epochid.epochid",
+        "the stimulator's clock for that epoch"
+      ],
+      "when": "no epoch entity is minted for the presentation's (session, epoch string), or its stimulator's clock for that epoch is no_time, inherited or unknown, so its manipulation cannot be anchored to its epoch (NDI-matlab +migrate/local.m, epochCarryReason)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "epoch-less presentations carry"
+      },
+      "homes": [
+        "the presentation's epoch entity, once the dataset says which epoch it was in"
+      ],
+      "decides": "which epoch the presentation belongs to, when no generic rule can find it",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-110",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.location_ontologyName",
+        "treatment_drug.location_ontologyNode"
+      ],
+      "when": "the document holds both location spellings and they name different nodes (prefix case ignored)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "treatment location name is the node"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-111",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "depends_on element_id"
+      ],
+      "when": "the neuron names no sorted-unit element whose entity it can point at ([neuron uses the sorted unit's cell])",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "neuron uses the sorted unit's cell"
+      },
+      "homes": [
+        "the entity of the sorted unit the neuron came from"
+      ],
+      "decides": "which sorted unit (and so which cell entity) the neuron belongs to",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-112",
+      "v1_class": "*",
+      "fields": [
+        "base.id"
+      ],
+      "when": "no V2 document the source becomes can take its v1 id, and the source is referenced by another document (or is not fully rebuilt from other V2 documents)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "every v1 id survives"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-113",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "neuron_extracellular.waveform_sample_times"
+      ],
+      "when": "start + step misses a v1 sample time by more than 8 ulps of the largest absolute time",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "sample times within eight rounding steps"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-114",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageStack.dimension_order"
+      ],
+      "when": "the V2 dimension labels do not map one-to-one onto the v1 axis letters through the fixed table (DID-matlab did2.convert.axisLetter)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "axis letters derive from labels"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-115",
+      "v1_class": "lightsheetZarrLevel",
+      "fields": [
+        "lightsheetZarrLevel.label"
+      ],
+      "when": "the level's label does not follow the writer's pattern \"<entry name> level <N> (<reduction>)\", so its level number cannot be read back",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "light-sheet level label is a note"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-116",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a controlled term's openminds_id does not rebuild through the term registry's `equivalent` list",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-117",
+      "v1_class": "openminds_subject",
+      "fields": [
+        "openminds.openminds_id"
+      ],
+      "when": "a lab-made strain's openminds_id, whose decided home is the strain entity's `global_identifier`, which pass 1 does not mint yet",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "openMINDS subject leftovers"
+      },
+      "open_work": 159,
+      "home": "the strain entity's `global_identifier` as `openminds:<id>` (decided; strain entity not built)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-118",
+      "v1_class": "dataset_session_info",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "it does not rebuild exactly from the dataset's session memberships, or another document references it",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "fit classes kept; session list rebuilt"
+      },
+      "open_work": 159,
+      "home": "none decided",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-119",
+      "v1_class": "session_in_a_dataset",
+      "fields": [
+        "session_in_a_dataset.session_creator"
+      ],
+      "when": "the session opener class is not `ndi.session.dir`, or no `session_creator` is stated ([unstated session creator carried], Jess Haley, 2026-10-29)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "session opener inputs"
+      },
+      "homes": [
+        "the session's `part_of` method, once the dataset says what the opener class means"
+      ],
+      "decides": "what a session opener other than ndi.session.dir means for the dataset",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-120",
+      "v1_class": "*",
+      "fields": [
+        "a field holding a value no NDI writer produces"
+      ],
+      "when": "a template field holds a value no NDI writer at the locked main produces (e.g. a probe with the wrong number of dimensions, a kilosort checksum in the wrong case, a measurement with no statement)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "values no writer produces are malformed"
+      },
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-122",
+      "v1_class": "binaryseries_parameters",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always: the class has no edges, so nothing says which data body it describes (DID-matlab +migrators_j/binaryseries_parameters.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "binaryseries parameters carried"
+      },
+      "homes": [
+        "the axis description of the data body it describes, as [misc singletons] maps its fields"
+      ],
+      "decides": "which data body the parameters describe",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-123",
+      "v1_class": "ngrid",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a standalone `ngrid` (no NDI writer makes one): it names no statement for its sampled_body (DID-matlab +migrators/ngrid.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ngrid with no statement carried"
+      },
+      "homes": [
+        "a sampled_body under the statement each dataset names"
+      ],
+      "decides": "which statement holds the grid's values",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-124",
+      "v1_class": "ontologyImage",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a vintage-B ontologyImage whose only non-empty edge is `ontologyTableRow_id`, or that has no non-empty edge at all (NDI imageDocMaker.m makes one when given no row): its ngrid names no statement for its sampled_body (DID-matlab +migrators_j/ontology_image.m; [vintage-B ontologyImage cases] (a))",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "ngrid with no statement carried"
+      },
+      "homes": [
+        "a sampled_body under the statement each dataset names"
+      ],
+      "decides": "which statement holds the image's values",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-126",
+      "v1_class": "oneepoch",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "its epoch clock is `dev_local_time` (no global clock): NDI stitched the local times as though the recordings were back to back (NDI-matlab +element/oneepoch.m), so its times exist in no input (DID-matlab +migrators_j/oneepoch.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "oneepoch method is data combination"
+      },
+      "homes": [
+        "a data-combination calculation over the per-epoch recordings, once the dataset says how the stitched times map to them"
+      ],
+      "decides": "how the stitched device-local times relate to the recordings",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-127",
+      "v1_class": "treatment_drug",
+      "fields": [
+        "treatment_drug.administration_onset_time",
+        "treatment_drug.administration_offset_time",
+        "treatment_drug.administration_duration"
+      ],
+      "when": "an offset or a duration with no onset ([drug end without start needs mapping]), or UTC onset, offset and duration that disagree by more than the anchor's `end_consistent` tolerance ([drug times that disagree need mapping]) (DID-matlab +migrators_j/treatment_drug.m, private/jTreatmentAnchor.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "drug end without start needs mapping"
+      },
+      "homes": [
+        "the manipulation's absolute_time_reference start, end and duration, once the dataset says which times to trust"
+      ],
+      "decides": "when administration started, or which of the three times is right",
+      "resolved_by": "each dataset's import (not yet written)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-128",
+      "v1_class": "openminds_element",
+      "fields": [
+        "openminds_element.openminds_id",
+        "openminds_element.fields.description"
+      ],
+      "when": "either is non-empty",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "openMINDS element leftovers carried"
+      },
+      "open_work": 163,
+      "home": "proposed (not decided): the description in the term assertion's `notes`, the openMINDS id as an identifier on it (did-schema #232)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-129",
+      "v1_class": "daqmetadatareader",
+      "fields": [
+        "daqmetadatareader.ndi_daqmetadatareader_class",
+        "daqmetadatareader.tab_separated_file_parameter"
+      ],
+      "when": "both empty: nothing to declare (DID-matlab #293, +migrators_j/daqmetadatareader.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-130",
+      "v1_class": "daqreader",
+      "fields": [
+        "daqreader.ndi_daqreader_class",
+        "daqreader.reader_string"
+      ],
+      "when": "both empty (DID-matlab #293, +migrators_j/daqreader.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-131",
+      "v1_class": "daqsystem",
+      "fields": [
+        "daqsystem.ndi_daqsystem_class",
+        "depends_on"
+      ],
+      "when": "the class and every edge empty (DID-matlab #293, +migrators_j/daqsystem.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-132",
+      "v1_class": "filenavigator",
+      "fields": [
+        "filenavigator.ndi_filenavigator_class",
+        "filenavigator.fileparameters",
+        "filenavigator.epochprobemap_class",
+        "filenavigator.epochprobemap_fileparameters"
+      ],
+      "when": "all empty (DID-matlab #293, +migrators_j/filenavigator.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-133",
+      "v1_class": "electrode_offset_voltage",
+      "fields": [
+        "electrode_offset_voltage.offset"
+      ],
+      "when": "not one finite number (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-134",
+      "v1_class": "probe_geometry",
+      "fields": [
+        "probe_geometry.site_locations_*"
+      ],
+      "when": "no site location has values (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-135",
+      "v1_class": "syncgraph",
+      "fields": [
+        "base.session_id"
+      ],
+      "when": "empty or the empty-id sentinel; resolveClockAlignment refuses these anyway (DID-matlab #293)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-136",
+      "v1_class": "fitcurve",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity, so the fit's statement has no entity_id (DID-matlab #293, private/jModelFit.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a fit with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-137",
+      "v1_class": "vmspikefit",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity (DID-matlab #293, private/jModelFit.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a fit with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-138",
+      "v1_class": "hartley_calc",
+      "fields": [
+        "depends_on element_id",
+        "depends_on subject_id"
+      ],
+      "when": "neither names an entity (DID-matlab #293, +migrators_j/hartley_calc.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided: a calculation with no subject",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-139",
+      "v1_class": "site2channelmap",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-140",
+      "v1_class": "stimulus_parameter",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always, until the stimulus model places it (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "the stimulus model (not decided for this class)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-141",
+      "v1_class": "vmneuralresponseresiduals",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-142",
+      "v1_class": "vmspikesummary",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-143",
+      "v1_class": "vmspikefilteringparameters",
+      "fields": [
+        "vmspikefilteringparameters.spiketimes"
+      ],
+      "when": "non-empty (DID-matlab #293)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-144",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "depends_on subject_id",
+        "subjectmeasurement.measurement",
+        "subjectmeasurement.value"
+      ],
+      "when": "no subject, no measurement, or a value that is not one finite number (DID-matlab #293, +migrators_j/subjectmeasurement.m guards 1-3)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-145",
+      "v1_class": "subjectmeasurement",
+      "fields": [
+        "subjectmeasurement.measurement"
+      ],
+      "when": "the measurement names no quantity kind (DID-matlab #293, guard 4; when jMeasurementFold already wrote carry-059 that note stands)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "open_work": 164,
+      "home": "none decided",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-146",
+      "v1_class": "openminds_element",
+      "fields": [
+        "openminds"
+      ],
+      "when": "no openminds block (DID-matlab #293, +migrators_j/openminds_element.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one folder, final classes only"
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-147",
+      "v1_class": "distance_metadata",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always, until its V2 home is decided (it was reshaped into the retire class; DID-matlab +migrators_j/distance_metadata.m)",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "reshaped retire classes carried"
+      },
+      "open_work": 164,
+      "home": "none decided (docs/V2_PLAN.md G50)",
+      "kind_basis": "decided"
+    },
+    {
+      "id": "carry-149",
+      "v1_class": "element",
+      "fields": [
+        "base.name"
+      ],
+      "when": "base.name is non-empty: NDI's ndi.element/newdocument never writes one, and entity.name holds element.name (DID-matlab +migrators_j/element.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "element name kept apart, base.name carried"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-150",
+      "v1_class": "ontologyImage",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a vintage-B ontologyImage with a subject or element edge beside its ontologyTableRow_id (no NDI writer makes one) (DID-matlab +migrators_j/ontology_image.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "vintage-B ontologyImage cases"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-151",
+      "v1_class": "neuron_extracellular",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a sorted unit whose probe element is not in the migration batch, so its subject cannot be rebuilt from the probe ([unit direct and subject rebuild from the probe]) (DID-matlab unit migrator, unit_probe_not_in_batch)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "unit with no probe in the batch carried"
+      },
+      "homes": [
+        "the unit entity, its subject rebuilt from the probe"
+      ],
+      "decides": "which subject the unit belongs to",
+      "resolved_by": "a migration batch that holds the unit's probe",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-152",
+      "v1_class": "control_stimulus_ids",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always in DID's pass 1: decomposed by NDI's second pass ([second pass reads control stimuli from v1]), as stimulus_presentation is (carry-045)",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "control records carried in pass 1"
+      },
+      "do_not": {
+        "line": "do not give `manipulation` the v1 control record block (`control_stimulus_ids`): its V2 form is made by NDI's second pass ([second pass reads control stimuli from v1])",
+        "class": "manipulation",
+        "fields": [
+          "control_stimulus_ids"
+        ]
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-153",
+      "v1_class": "image",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a non-empty `imageCollection_id` edge: no NDI writer writes one (only the imageCollection template and schema name it, NDI main at the locked sha) (DID-matlab +migrators_j/image.m, image_stack.m)",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "image collection carried until a writer"
+      },
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-154",
+      "v1_class": "imageStack",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "a mask whose region the generic stage cannot read: the region words (arena, bacteria/lawn, reference mark) are the Haley import's ([Haley mask words leave the generic stage]) (DID-matlab +migrators_j/image_stack.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "Haley mask words leave the generic stage"
+      },
+      "homes": [
+        "a logical calculation of the named region"
+      ],
+      "decides": "which region the mask marks",
+      "resolved_by": "the dataset's import map (the Haley V2 import for Haley's words)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-155",
+      "v1_class": "*",
+      "fields": [
+        "a quantity's source_unit"
+      ],
+      "when": "a unit spelling the migrator's unit table does not recognise: a canonical value cannot be computed, and none is guessed ([canonical absent only as needs info]) (DID-matlab +migrators_j/private/jSourceUnit.m callers)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "canonical absent only as needs info"
+      },
+      "homes": [
+        "the quantity's value cell, its canonical computed from the recognised unit"
+      ],
+      "decides": "which unit the spelling names",
+      "resolved_by": "the dataset's import map, or a new row in the unit table",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-156",
+      "v1_class": "element",
+      "fields": [
+        "element.type ('n-trode')",
+        "the channels its epochprobemap `devicestring` names",
+        "the sites of its `probe_geometry` / `site2channelmap`"
+      ],
+      "when": "an n-trode whose channel count (from its epochprobemap `devicestring`) disagrees with the number of sites of its `probe_geometry` / `site2channelmap` (DID-matlab +migrators_j/element.m; build pending)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "n-trode count from the channel list"
+      },
+      "homes": [
+        "the \"number of electrodes\" (EMPTY:0000408) from the channel list",
+        "the \"number of electrodes\" from the geometry's sites"
+      ],
+      "decides": "which count is the device's number of electrodes",
+      "resolved_by": "the dataset map entry for that device (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-157",
+      "v1_class": "stimulus_bath",
+      "fields": [
+        "epochid.epochid",
+        "the stimulator's clock for that epoch"
+      ],
+      "when": "its epoch has no clock record for its stimulator, so the bath cannot be anchored to a clock (DID-matlab resolveDeferredBaths.m stimulatorClock; build pending: it defaults to dev_local_time today)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "one-reading quick answers"
+      },
+      "homes": [
+        "the bath manipulation anchored to its epoch on the clock the dataset names"
+      ],
+      "decides": "which clock the bath's epoch is on; the v1 document does not say ([no invented values])",
+      "resolved_by": "the dataset map entry for that bath's clock (not yet written)",
+      "kind_basis": "decided"
+    }
+  ]
+}

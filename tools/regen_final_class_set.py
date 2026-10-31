@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate schemas/V_eta_final_class_set.md from the BUILT schema's index.json.
+"""Regenerate docs/generated/did_v2_final_class_set.md from the BUILT schema's index.json.
 
 The final class set is derived, never hand-authored -- tools/gates.py runs
 this, so the doc never drifts from the schema. Categories (fixed order):
@@ -14,14 +14,13 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-INDEX = os.path.join(ROOT, "schemas", "did_v2", "index.json")
-REGISTRY = os.path.join(ROOT, "schemas", "did_v2", "stable",
-                        "binding_registry_meta.json")
-OUT = os.path.join(ROOT, "schemas", "V_eta_final_class_set.md")
+INDEX = os.path.join(ROOT, "schemas", "generated", "index.json")
+REGISTRY = os.path.join(ROOT, "schemas", "registry", "binding_registry_meta.json")
+OUT = os.path.join(ROOT, "docs", "generated", "did_v2_final_class_set.md")
 
 # The abstract spine & genus (category 1) -- named explicitly; everything else is
 # classified by its superclass chain. `entity` is NOT spine: since the one-entity
-# schema (V_eta_entity_composition_plan.md) it is the one entity class, so it is
+# schema (did_v2_entity_composition_plan.md) it is the one entity class, so it is
 # category (2), and the kinds of entity are rows of `entity_type_bindings`.
 SPINE = {
     "app", "base", "data", "data_body", "value", "directed_relation",

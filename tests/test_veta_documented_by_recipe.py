@@ -1,11 +1,11 @@
-"""`documented_by` may start at a formulation (V_eta_study_plan.md).
+"""`documented_by` may start at a formulation (did_v2_study_plan.md).
 
 A standard recipe (WormBook's S-Complete or LB) cites where it is written down.
 """
 import json
 from pathlib import Path
 
-REGISTRY = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable/binding_registry_meta.json"
+REGISTRY = Path(__file__).resolve().parent.parent / "schemas/registry/binding_registry_meta.json"
 
 
 def _relation_rows(node):

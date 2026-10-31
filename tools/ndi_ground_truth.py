@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase 0 of V_eta_ground_truth_plan.md -- extract the did_v1 GROUND TRUTH.
+"""Phase 0 of did_v2_ground_truth_plan.md -- extract the did_v1 GROUND TRUTH.
 
 WHY THIS EXISTS
 ---------------
@@ -14,7 +14,7 @@ green and the data quietly goes missing. `distance_metadata`, `ontology_image` a
 So this tool makes the real thing machine-readable, and every later phase checks
 against it rather than against anything on the DID side.
 
-WHAT IT EMITS  (schemas/V_eta_ndi_ground_truth.json)
+WHAT IT EMITS  (schemas/generated/did_v2_ndi_ground_truth.json)
 ----------------------------------------------------
   classes[<ndi class name>]:
       fields            declared property-block field names (snake-cased)
@@ -71,7 +71,7 @@ NDI `origin/main` alone. It said `--all` until 2026-08-11, and 12 of the 67
 provenance rows were being read off refs that are not ancestors of origin/main.
 
 NDICALC-VIS TEMPLATES ([ground truth reads NDIcalc-vis templates], Jess Haley,
-2026-10-27, V_eta_go_forward_class_audit.md)
+2026-10-27, did_v2_go_forward_class_audit.md)
 -------------------------------------------------------------------------
   ndicalc_vis_classes{}  the NDIcalc-vis-matlab document templates (the named
                         tuning calculators and their outputs), parsed exactly as
@@ -104,7 +104,7 @@ sys.path.insert(0, HERE)
 # for, so the ground truth moves only when the lock does.
 import sibling_lock  # noqa: E402
 
-OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+OUT = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
 # Filled by _schema_deps; reported in the ground-truth summary.
@@ -1110,7 +1110,7 @@ def main():
             "V_delta conversion markdown are history, not evidence. Where a template and its "
             "WRITER disagree, the writer wins (see writer_divergence): the data follows the "
             "writer. Regenerate with tools/ndi_ground_truth.py. See "
-            "V_eta_ground_truth_plan.md."),
+            "did_v2_ground_truth_plan.md."),
         "ndi_ref": ref,
         # The commit `ndi_ref` was read at (tools/sibling_lock.json). Changes
         # only when the lock moves; null when no lock was in force.

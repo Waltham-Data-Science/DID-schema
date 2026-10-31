@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """The carry register's gate (Jess Haley, 2026-10-26,
-V_eta_go_forward_class_audit.md [carry register] and [one correct reading]).
+did_v2_go_forward_class_audit.md [carry register] and [one correct reading]).
 
-schemas/V_eta_carry_register.json lists every reason the generic migration
+schemas/registry/did_v2_carry_register.json lists every reason the generic migration
 carries a v1 document whole as v1, so that a carry is never read as "V2 is
 missing a field". This checks, and fails on any of:
 
@@ -18,7 +18,7 @@ missing a field". This checks, and fails on any of:
         malformed      nothing more
       and no other keys.
   C2  a row's `v1_class` that is not a v1 source class of the coverage ledger
-      (schemas/V_eta_coverage_ledger.json); `*` is allowed for a reason that can hit any
+      (schemas/generated/did_v2_coverage_ledger.json); `*` is allowed for a reason that can hit any
       class ([renames carry is temporary])
   C3  a row's decision that does not resolve to an accepted decision line
       (tools/decision_citations.py resolve(): a `Decided by` line by a team
@@ -28,7 +28,7 @@ missing a field". This checks, and fails on any of:
       the forbidden fields or edges, itself or through a superclass. The
       failure quotes the `do_not` line.
   C5  an `awaiting_home` row whose `open_work` number is not a row of the
-      "## OPEN" section of schemas/V_eta_OPEN_WORK.md (a completed row fails:
+      "## OPEN" section of docs/did_v2_OPEN_WORK.md (a completed row fails:
       the home is no longer tracked as awaited).
       (Jess Haley, 2026-10-26: "make the register check fail when missing
       the open work entry".)
@@ -47,11 +47,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import decision_citations as dc  # noqa: E402
 
-REGISTER = os.path.join(ROOT, "schemas", "V_eta_carry_register.json")
-LEDGER = os.path.join(ROOT, "schemas", "V_eta_coverage_ledger.json")
-OPEN_WORK = os.path.join(ROOT, "schemas", "V_eta_OPEN_WORK.md")
+REGISTER = os.path.join(ROOT, "schemas", "registry", "did_v2_carry_register.json")
+LEDGER = os.path.join(ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
+OPEN_WORK = os.path.join(ROOT, "docs", "did_v2_OPEN_WORK.md")
 VETA = os.path.join(ROOT, "schemas", "did_v2")
-INDEX = os.path.join(VETA, "index.json")
+INDEX = os.path.join(ROOT, "schemas", "generated", "index.json")
 
 KINDS = ["awaiting_home", "needs_mapping", "not_modelled", "malformed"]
 BASES = ("stated", "decided", "proposed")
@@ -240,7 +240,7 @@ def check_open_work(rows, known):
         n += 1
         if ow not in known:
             out.append(f"C5 {r['id']}: open_work #{ow} is not an OPEN row of "
-                       f"schemas/V_eta_OPEN_WORK.md")
+                       f"docs/did_v2_OPEN_WORK.md")
     return out, n
 
 
@@ -248,7 +248,7 @@ def main():
     reg = _load(REGISTER)
     rows = reg.get("rows") if isinstance(reg.get("rows"), list) else []
     print(f"DENOMINATOR: {len(rows)} carry register row(s) read from "
-          f"schemas/V_eta_carry_register.json")
+          f"schemas/registry/did_v2_carry_register.json")
     failures = check_shape(reg)
     by_kind = {k: sum(1 for r in rows if isinstance(r, dict) and r.get("kind") == k)
                for k in KINDS}
@@ -270,7 +270,7 @@ def main():
         known = open_rows(f.read())
     ofail, n_ow = check_open_work(rows, known)
     print(f"C5: {n_ow} awaiting_home open_work number(s) checked against "
-          f"{len(known)} OPEN row(s) of V_eta_OPEN_WORK.md")
+          f"{len(known)} OPEN row(s) of did_v2_OPEN_WORK.md")
     failures += ofail
     n_prop = sum(1 for r in rows if isinstance(r, dict) and r.get("kind_basis") == "proposed")
     print(f"  kinds proposed by Claude, not stated by the decision: {n_prop} of {len(rows)}")

@@ -119,10 +119,10 @@ def _field(name="f", **kw):
 def _tree(parent_field, child_field):
     """A two-class chain: `kid` extends `pop`, both declaring one field."""
     return {
-        "pop": ("stable", {"document_class": {"class_name": "pop",
+        "pop": ("core", {"document_class": {"class_name": "pop",
                                               "superclasses": []},
                            "fields": [parent_field], "depends_on": []}),
-        "kid": ("stable", {"document_class": {
+        "kid": ("core", {"document_class": {
             "class_name": "kid",
             "superclasses": [{"class_name": "pop"}]},
             "fields": [child_field], "depends_on": []}),
@@ -217,12 +217,12 @@ def test_synthetic_depends_on_edge():
     """`mustBeNonEmpty` on an edge is declared everywhere and enforced nowhere,
     so a child that relaxes one is doubly silent."""
     tree = {
-        "pop": ("stable", {"document_class": {"class_name": "pop",
+        "pop": ("core", {"document_class": {"class_name": "pop",
                                               "superclasses": []},
                            "fields": [],
                            "depends_on": [{"name": "e", "mustBeNonEmpty": True,
                                            "must_refer_to_document_class": "x"}]}),
-        "kid": ("stable", {"document_class": {
+        "kid": ("core", {"document_class": {
             "class_name": "kid", "superclasses": [{"class_name": "pop"}]},
             "fields": [],
             "depends_on": [{"name": "e", "mustBeNonEmpty": False,
@@ -238,7 +238,7 @@ def test_an_unresolved_superclass_is_counted_not_ignored():
     reports a clean zero. An edge to a class we do not hold must show up in the
     denominator as a comparison that did NOT happen."""
     tree = {
-        "kid": ("stable", {"document_class": {
+        "kid": ("core", {"document_class": {
             "class_name": "kid",
             "superclasses": [{"class_name": "a_class_we_do_not_have"}]},
             "fields": [_field()], "depends_on": []}),
@@ -255,9 +255,9 @@ def test_an_unresolved_superclass_is_counted_not_ignored():
 # ---------------------------------------------------------------------------
 
 def test_agrees_with_the_duplicate_name_checker():
-    """Two tools, two questions, one set of rows. Compared over the tiers they
-    BOTH read (the name-level tool reads stable+draft; this one also reads
-    deprecated), so the check is about agreement, not about tier choice."""
+    """Two tools, two questions, one set of rows. Both read every family
+    folder of schemas/did_v2/ ([schema folders by family]), so the check is
+    about agreement over the same corpus."""
     dup = _load_tool("check_duplicate_field_declarations")
     dup_classes = dup.load_classes()
     assert dup_classes, "the name-level tool read no classes"
@@ -270,9 +270,7 @@ def test_agrees_with_the_duplicate_name_checker():
             if owner != leaf:
                 continue
             theirs.add((leaf, name))
-    mine = {(r["child"], r["name"]) for r in FIELD_ROWS
-            if r["child_tier"] in ("stable", "draft")
-            and r["parent_tier"] in ("stable", "draft")}
+    mine = {(r["child"], r["name"]) for r in FIELD_ROWS}
     assert theirs, "the name-level tool reported no duplicate owners at all"
     assert mine, (
         "this tool found no redeclarations while the name-level tool did -- "

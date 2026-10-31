@@ -28,7 +28,7 @@ different things and either can be broken while the other works:
                  BASELINE_SCHEMAS.
 
 The schema side was added 2026-08-10 with #67, and it was added because a claim
-turned out to be false: `V_eta_OPEN_WORK.md` #57 says the staged
+turned out to be false: `did_v2_OPEN_WORK.md` #57 says the staged
 `clock_alignment_configuration.clock` / `clock_alignment.relation` terms are
 "counted by #70". They were not. This tool walked ONLY `+migrators_j`, so every
 term staged in a SCHEMA was invisible to the one instrument built to make staged
@@ -61,7 +61,6 @@ Usage:  python3 tools/check_empty_ontology_nodes.py [--did /path/to/DID-matlab]
 """
 
 import argparse
-import glob
 import json
 import os
 import re
@@ -70,7 +69,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 VETA = os.path.join(REPO, "schemas", "did_v2")
-TIERS = ("stable", "draft", "deprecated")
+sys.path.insert(0, HERE)
+import schema_paths as SP  # noqa: E402
+
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
               "ndi_reserved_keys.json", "binding_registry_meta.json",
               "term_registry_meta.json", "class_disposition_meta.json",
@@ -377,7 +378,7 @@ BASELINE_MIGRATORS = 16
 # did_relation_clock_alignment 1 (`temporally aligned with`, no node decided).
 #
 # LOWERED 30 -> 20 on 2026-10-26 ([filters are methods], Jess Haley,
-# 2026-10-22, V_eta_frequency_filter_model_plan.md): the frequency_filter class
+# 2026-10-22, did_v2_frequency_filter_model_plan.md): the frequency_filter class
 # is deleted, and with it did_filter_algorithm 6 and did_filter_band 4. The
 # filter is a `method`, whose design and band terms are registered nodes
 # (Wikidata items and EMPTY:0000387-0000396). Left (20): did_clocktype 8,
@@ -458,16 +459,15 @@ def sweep_schemas(veta=VETA):
                                  "name": v.get("name", "")})
             walk(f.get("fields"), here, cls, tier)
 
-    for tier in TIERS:
-        for p in sorted(glob.glob(os.path.join(veta, tier, "*.json"))):
-            if os.path.basename(p) in META_FILES:
-                continue
-            with open(p) as fh:
-                d = json.load(fh)
-            if "document_class" not in d:
-                continue
-            files += 1
-            walk(d.get("fields"), "", d["document_class"]["class_name"], tier)
+    for tier, p in SP.folder_files(veta):
+        if os.path.basename(p) in META_FILES:
+            continue
+        with open(p) as fh:
+            d = json.load(fh)
+        if "document_class" not in d:
+            continue
+        files += 1
+        walk(d.get("fields"), "", d["document_class"]["class_name"], tier)
     return files, fields_seen, rows
 
 

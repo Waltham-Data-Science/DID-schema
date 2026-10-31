@@ -206,7 +206,7 @@ def test_update_on_a_machine_without_an_unlocked_sibling_says_not_locked(tmp_pat
 
 # --------------------------------------------------------------------------
 # NDIcalc-vis-matlab, the third sibling (Jess Haley's decision of 2026-10-27,
-# `V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
+# `did_v2_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
 # --------------------------------------------------------------------------
 
 def test_ndicalc_vis_is_a_locked_sibling_found_through_its_own_variable(tmp_path, monkeypatch):

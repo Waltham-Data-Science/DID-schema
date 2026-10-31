@@ -1,4 +1,4 @@
-"""`subject.type` and `distributive` (V_eta_study_plan.md, 2026-10-02).
+"""`subject.type` and `distributive` (did_v2_study_plan.md, 2026-10-02).
 
 `subject.type` is the coarse kind, as a field; the finer kind stays a
 term_assertion. `distributive` says whether a statement or relation about a
@@ -7,17 +7,18 @@ group holds of each member.
 import json
 from pathlib import Path
 
-STABLE = Path(__file__).resolve().parent.parent / "schemas/did_v2/stable"
+CLASSES = Path(__file__).resolve().parent.parent / "schemas/did_v2"
 
 
 def _fields(cls):
-    with (STABLE / f"{cls}.json").open() as f:
+    path = next(CLASSES.rglob(f"{cls}.json"))   # its family folder
+    with path.open() as f:
         return {x["name"]: x for x in json.load(f)["fields"]}
 
 
 def test_subject_type_is_an_optional_bound_term_over_seven_values():
     """`subject.type` became `entity.type` 2026-10-08 (signed,
-    V_eta_entity_composition_plan.md sec. 4): REQUIRED now, because it is what
+    did_v2_entity_composition_plan.md sec. 4): REQUIRED now, because it is what
     tells a worm from a dataset, and widened past the seven physical kinds,
     which it still begins with."""
     t = _fields("entity")["type"]

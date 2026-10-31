@@ -1,4 +1,4 @@
-"""Every relation declares what passes along it (V_eta_relation_inheritance_plan.md).
+"""Every relation declares what passes along it (did_v2_relation_inheritance_plan.md).
 
 Tenet T17 reads what reaches a child from its parent off the relation's own
 `passes` in binding_registry_meta.json, so a reader cannot disagree with the
@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REG = ROOT / "schemas" / "did_v2" / "stable" / "binding_registry_meta.json"
-BASE = ROOT / "schemas" / "did_v2" / "stable" / "base.json"
+REG = ROOT / "schemas" / "registry" / "binding_registry_meta.json"
+BASE = ROOT / "schemas" / "did_v2" / "base.json"
 PASSES = {"assertions", "distributive", "context", "nothing"}
 # entity types are stored by their ontology label since 2026-10-22 (Jess Haley
 # [vocabulary nodes] L2); culture has no node and keeps its name

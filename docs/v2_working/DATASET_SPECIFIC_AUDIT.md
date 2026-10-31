@@ -2,7 +2,7 @@
 
 READ-ONLY. Nothing in any repository was written, fetched or checked out. Every classification below is a PROPOSAL (not decided). It is for the team under
 "Decided by Jess Haley, 2026-10-26 [dataset-specific logic leaves the generic migration]" and "[table rows into the dataset audit]"
-(did-schema `schemas/V_eta_go_forward_class_audit.md:1208`, `:1212`).
+(did-schema `docs/plans/did_v2_go_forward_class_audit.md:1208`, `:1212`).
 
 ## Heads measured
 

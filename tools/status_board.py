@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate schemas/V_eta_STATUS.md -- the single generated record of V_eta state.
+"""Generate docs/generated/did_v2_STATUS.md -- the single generated record of V_eta state.
 
 WHY THIS EXISTS
 ---------------
@@ -94,9 +94,9 @@ import sys
 from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX = os.path.join(REPO, "schemas", "did_v2", "index.json")
-LEDGER = os.path.join(REPO, "schemas", "V_eta_coverage_ledger.json")
-OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
+INDEX = os.path.join(REPO, "schemas", "generated", "index.json")
+LEDGER = os.path.join(REPO, "schemas", "generated", "did_v2_coverage_ledger.json")
+OUT = os.path.join(REPO, "docs", "generated", "did_v2_STATUS.md")
 # The machine-readable twin of the board, for the schema viewer.
 #
 # WHY IT EXISTS. Until 2026-08-09 the decisions lived ONLY in a table in this
@@ -111,7 +111,7 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 # decision a proposal.
 #
 # Generated, never hand-edited, and stale-checked in CI like the other four.
-DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
+DECISIONS_OUT = os.path.join(REPO, "schemas", "generated", "did_v2_decisions.json")
 
 # DECISIONS. A class is DECIDED if and only if it CITES a decision line that
 # exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:`
@@ -153,7 +153,7 @@ def load():
 #                      documents of this class still survive migration".
 #
 # Neither repo is checked out in this repo's CI, so both are SNAPSHOTTED into
-# the generated `V_eta_decisions.json` and reused verbatim when the live source
+# the generated `did_v2_decisions.json` and reused verbatim when the live source
 # is unreachable. That keeps `--check` meaningful: a developer with the sibling
 # repos re-measures, and a change in the evidence changes the committed file
 # exactly like a change in the schema does. Nothing time-stamped goes into the
@@ -208,7 +208,7 @@ def batch_consumers(classes, didm, snapshot_key="batch_consumers"):
     RUNNER. Until 2026-08-11 this called `find_repo` directly, so the `--did`
     the rest of the tool honours was ignored -- which is why pointing both
     siblings at a path that does not exist reproduced NOTHING locally while CI
-    reported `V_eta_STATUS.md DIFFERS -- 4 changed line(s)` on three
+    reported `did_v2_STATUS.md DIFFERS -- 4 changed line(s)` on three
     consecutive runs. The local "reproduction" was quietly reading the real
     DID-matlab.
 
@@ -1546,7 +1546,7 @@ def census_evidence(classes, roots):
 # `session_relative_reference` the first time the migrator scan was written.
 #
 # Nothing derivable separates the two. Both are `disposition: in_progress`;
-# both are named as decided targets in `V_eta_migration_targets.json` (which
+# both are named as decided targets in `did_v2_migration_targets.json` (which
 # still lists `session_relative_reference` as the target of 40+ sources, written
 # before the time model collapsed it -- an open question, not a fact this tool
 # may settle). So the distinction is written here, TRANSCRIBED FROM THE SIGNED
@@ -1559,7 +1559,7 @@ def census_evidence(classes, roots):
 # typo or a renamed replacement fails loudly instead of silently discounting a
 # class forever.
 RETIRED_BY_ITS_OWN_DECISION = {
-    # V_eta_time_reference_model_plan.md:468 --
+    # did_v2_time_reference_model_plan.md:468 --
     #   "TEAM-SIGN-OFF [time_reference]: ... 8 classes collapse to
     #    absolute_time_reference + relative_time_reference ..."
     # Three of the eight are minted today -- session_relative_reference,
@@ -1573,7 +1573,7 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # two are comments. A hand-written citation in a source file is the one
     # thing in this pipeline nothing regenerates, so it goes stale silently
     # while the artifact beside it stays right. The live sites, with their
-    # repositories, are listed in `schemas/V_eta_STATUS.md` under each class --
+    # repositories, are listed in `docs/generated/did_v2_STATUS.md` under each class --
     # generated, and therefore correct or loudly broken.
     # FOUR ENTRIES REMOVED 2026-08-11 (#65 increment 3a):
     # `epoch_relative_reference` -> relative_time_reference,
@@ -1590,13 +1590,13 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # THE LAST FOUR REMOVED 2026-09-25 (#65 increment 3b), for the same reason:
     # session_bounded/session_relative/epoch_bounded_reference are deleted, and
     # `time_reference` is no longer a retiring class -- it persists as the root.
-    # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
+    # did_v2_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
     # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
     # entity; `epoch_id` is a dependency name, not a class, so the replacement
     # CLASS is `epoch`). Listed to keep the rule general rather than fitted to
     # one family; it changes no state, because `epochid` reaches (b) on nine
     # CONSUMING references and is minted only as a superclass mixin anyway.
-    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): the `epoch`
+    # 2026-10-08 (signed, did_v2_entity_composition_plan.md sec. 4): the `epoch`
     # class merged into `entity` (type epoch), so the replacement CLASS is `entity`.
     "epochid": "entity",
 }
@@ -1777,7 +1777,7 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
 
 
 def committed_snapshot():
-    """The `open_class_state` block already committed in V_eta_decisions.json."""
+    """The `open_class_state` block already committed in did_v2_decisions.json."""
     try:
         with open(DECISIONS_OUT) as fh:
             return json.load(fh).get("open_class_state") or {}
@@ -1852,7 +1852,7 @@ def render_open_state(p, ocs):
     p(f'## What is actually left on the {len(rowsv)} open classes')
     p("")
     p("`in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is")
-    p("open because its hand-written `disposition` in `schemas/did_v2/index.json` is")
+    p("open because its hand-written `disposition` in `schemas/registry/did_v2_class_dispositions.json` is")
     p("`in_progress`, and it leaves the list only when a person changes that entry.")
     p("Nothing about a landed migrator, a passing test or a green corpus")
     p("moves it. The table below does not change that membership -- only the team")
@@ -2059,7 +2059,7 @@ def render_open_state(p, ocs):
     p("transcribed from the sign-off lines in")
     p("`tools/status_board.py:RETIRED_BY_ITS_OWN_DECISION`, and every replacement")
     p("named there is checked to exist. Note this is an OPEN CONTRADICTION between")
-    p("two committed records, not a settled fact: `V_eta_migration_targets.json`")
+    p("two committed records, not a settled fact: `did_v2_migration_targets.json`")
     p("still lists `session_relative_reference` as a decided target of 40+ v1")
     p("sources, written before the time model collapsed it. The board takes the")
     p("under-reporting side and does not settle it.")
@@ -2186,7 +2186,7 @@ def render_open_state(p, ocs):
 
 
 # Decided by Jess Haley, 2026-10-29 [one folder, final classes only]
-# (V_eta_go_forward_class_audit.md): no class is `in_progress` and no `retire`
+# (did_v2_go_forward_class_audit.md): no class is `in_progress` and no `retire`
 # class remains; a retire class's file is deleted once nothing passes through
 # it. So a `retire` class still in the tree is open work too.
 OPEN_DISPOSITIONS = ("in_progress", "retire")
@@ -2249,7 +2249,7 @@ def build(ocs=None, didm=None, log=None):
     # `find_repo` inside it is what let it ignore `--did` and render a
     # figure no sibling-less machine could ever reproduce. Neither value
     # may enter `ocs`: everything under `ocs["sources"]` is serialised
-    # into V_eta_decisions.json, and an absolute checkout path there
+    # into did_v2_decisions.json, and an absolute checkout path there
     # would make the artifact differ between every machine that writes it.
     schemas, rows = load()
 
@@ -2484,7 +2484,7 @@ def build(ocs=None, didm=None, log=None):
             # same pass that took the measurement. `reused` and
             # `roots_missing` are DELIBERATELY not persisted -- they
             # describe the RUN, not the finding, and writing them made
-            # V_eta_decisions.json itself differ between a machine with
+            # did_v2_decisions.json itself differ between a machine with
             # DID-matlab and one without, moving the staleness one file
             # sideways instead of removing it.
             ocs.setdefault("sources", {})["batch_consumers"] = {
@@ -2593,7 +2593,7 @@ def decisions_doc(ocs=None):
         "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
         "description":
             "Regenerate with `python3 tools/status_board.py`. The human-readable "
-            "twin is schemas/V_eta_STATUS.md. A class is decided ONLY when it "
+            "twin is docs/generated/did_v2_STATUS.md. A class is decided ONLY when it "
             "cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line "
             "or a `Decided by <team member>, <date> [<tag>]:` line in the cited document "
             "(tools/decision_citations.py). Everything else is proposed (not "
@@ -2627,7 +2627,7 @@ def decisions_text(ocs=None):
 
 def parse_args(argv):
     ap = argparse.ArgumentParser(
-        description="Generate schemas/V_eta_STATUS.md + V_eta_decisions.json.")
+        description="Generate docs/generated/did_v2_STATUS.md + did_v2_decisions.json.")
     ap.add_argument("--check", action="store_true",
                     help="exit non-zero if the committed board is out of date")
     ap.add_argument("--did", default=find_repo("DID-matlab", "DID_MATLAB")
@@ -2673,16 +2673,16 @@ def main(argv):
     if args.check:
         current = Path(OUT).read_text() if os.path.exists(OUT) else ""
         if current != text:
-            print("V_eta_STATUS.md is STALE. Run: python3 tools/status_board.py")
+            print("did_v2_STATUS.md is STALE. Run: python3 tools/status_board.py")
             return 1
         dcur = Path(DECISIONS_OUT).read_text() if os.path.exists(DECISIONS_OUT) else ""
         if dcur != dtext:
-            print("V_eta_decisions.json is STALE. Run: python3 tools/status_board.py")
+            print("did_v2_decisions.json is STALE. Run: python3 tools/status_board.py")
             return 1
         if not ok:
             print("Status board reports unclaimed or duplicated open classes.")
             return 1
-        print("V_eta_STATUS.md + V_eta_decisions.json are current.")
+        print("did_v2_STATUS.md + did_v2_decisions.json are current.")
         return 0
     with open(OUT, "w") as fh:
         fh.write(text)

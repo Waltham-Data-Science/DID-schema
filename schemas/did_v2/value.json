@@ -1,0 +1,93 @@
+{
+    "document_class": {
+        "class_name": "value",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The element type of this value's bytes when they are a plain array -- the ONE place it lives (a sampled_body never repeats it). Needed only when the bytes are a plain array the schema does not type: a `sampled_body`, or an untyped inline array (rule `data_type_when_bytes`). Bytes in an `opaque_body` need none: its `format` term is the encoding (Jess Haley, 2026-10-21). `datum_type` until 2026-10-08, renamed once the class `data_type` became `value`; it is the v1 spelling of the same fact (binaryseries_parameters, ngrid, ...).",
+            "constraints": {
+                "enum": [
+                    "uint8",
+                    "uint16",
+                    "uint32",
+                    "uint64",
+                    "int8",
+                    "int16",
+                    "int32",
+                    "int64",
+                    "float16",
+                    "float32",
+                    "float64",
+                    "complex64",
+                    "complex128",
+                    "bool",
+                    "utf8"
+                ]
+            }
+        },
+        {
+            "name": "source_data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The source's own spelling, OMITTED when it is already canonical. Kept because the map is NOT invertible -- `bool` maps back to `logical` OR `ubit1`, and `char` has no canonical at all -- so retaining it makes the normalisation AUDITABLE: the corpus can be queried afterwards to verify every `float64` came from a `double` rather than from a default.",
+            "constraints": {}
+        },
+        {
+            "name": "data_body",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True: this value's bytes are in data_body documents that point here through `owner_id`. False (the default): the value is inline in `value`. Never neither (rule `value_inline_or_body`): a value with no inline `value` must say `data_body: true`. A document marked true with no body pointing at it has lost its data -- the batch check (item 60).",
+            "constraints": {}
+        }
+    ],
+    "rules": [
+        {
+            "name": "data_type_when_bytes",
+            "fields": [
+                "data_type",
+                "data_body"
+            ],
+            "statement": "`data_type` is required only when the value's bytes are a plain array: in a `sampled_body`, or an untyped inline value (a bare numeric or text array, not a declared cell). When its bodies are opaque (`opaque_body`), their `format` term is the encoding and no `data_type` is needed; a typed cell already says its type (`temperature.value.celsius` is a double). A body's kind is not visible on the owner, so the sampled_body half is a batch check. (Jess Haley, 2026-10-21; did_v2_data_body_model_plan.md AMENDMENT 5.)"
+        },
+        {
+            "name": "value_inline_or_body",
+            "fields": [
+                "value",
+                "data_body",
+                "value_id"
+            ],
+            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: did_v2_data_body_model_plan.md AMENDMENT 5 and its clarification)."
+        }
+    ]
+}

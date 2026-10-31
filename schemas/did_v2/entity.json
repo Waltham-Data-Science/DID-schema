@@ -1,0 +1,214 @@
+{
+    "document_class": {
+        "class_name": "entity",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "time_reference_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: when this entity existed or took place -- a worm from hatching to death, a plate from pouring to discarding, a session from start to end, an epoch's extent, one member per clock (the epoch's epochtable). #52 (did_v2_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different; entries repeating one name (T15) are otherwise indistinguishable. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it. AMENDED 2026-10-26 (Jess Haley, did_v2_go_forward_class_audit.md [device clocks on one epoch]): one document's time references are unique by clock AND referent -- by (`value.clock`, `referent_id`) on the referenced documents -- so an epoch holding files from several acquisition systems carries one reference per system on one clock (e.g. `dev_local_time`), each with that system's entity as its `referent_id`. `referent_unique_by` declares it as [\"value.clock\", \"referent_id\"], which DID-matlab's readers (did2.validate.timeReferenceFamilies, silentLoss) take since d2c9c1e4.",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true,
+            "min_count": 0,
+            "referent_unique_by": [
+                "value.clock",
+                "referent_id"
+            ],
+            "ordered": false
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "type",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What kind of entity this is -- organism (one whole living individual) | culture (a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture) | tissue (part of an organism: a slice, a biopsy, a region) | cell (one cell) | group (an entity whose members are entities, by `member_of`: a cohort, an ensemble) | device (an instrument or a piece of apparatus) | material (a non-living object or substance: an agar plate) | strain (a genetically defined line; its members are `instance_of` it) | product (something bought: a reagent, a device model; units are `instance_of` it) | software (a program, at a version) | person (a person) | organization (an institution, a lab, a company, a funder) | funding (a grant or award) | dataset (a published body of data, at a version) | study (a unit of research with its own question and design) | publication (an article or preprint) | protocol (a written procedure) | session (a period of work: one sitting at the rig, one day of an assay) | epoch (one recording: the files one acquisition system wrote for one stretch of time). Bound, required. What each type requires is in `binding_registry_meta.json` `entity_type_bindings`. The finer kind (species, cell type, instrument type) is an assertion. Each type has a node (Jess Haley 2026-10-22 [vocabulary nodes]; `culture` has none decided yet), and code matches a type by its node. The stored name becomes the node's ontology label (\"Organism Strain\", \"Data Set\") in the coordinated change with DID-matlab and NDI ([vocabulary nodes] L2); until then the name is the type's handle. The registry holds nodes only: no published V2 data carries the handles, so they need no registry entry.",
+            "constraints": {
+                "binding": {
+                    "root": "did_entity_type",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "COB:0000022",
+                            "name": "organism"
+                        },
+                        {
+                            "node": "",
+                            "name": "culture"
+                        },
+                        {
+                            "node": "UBERON:0000479",
+                            "name": "tissue"
+                        },
+                        {
+                            "node": "CL:0000000",
+                            "name": "cell"
+                        },
+                        {
+                            "node": "NCIT:C43359",
+                            "name": "Group"
+                        },
+                        {
+                            "node": "COB:0001300",
+                            "name": "device"
+                        },
+                        {
+                            "node": "BFO:0000040",
+                            "name": "material entity"
+                        },
+                        {
+                            "node": "NCIT:C14419",
+                            "name": "Organism Strain"
+                        },
+                        {
+                            "node": "schema:Product",
+                            "name": "Product"
+                        },
+                        {
+                            "node": "IAO:0000010",
+                            "name": "software"
+                        },
+                        {
+                            "node": "NCIT:C25190",
+                            "name": "Person"
+                        },
+                        {
+                            "node": "OBI:0000245",
+                            "name": "organization"
+                        },
+                        {
+                            "node": "NCIT:C16644",
+                            "name": "Grant"
+                        },
+                        {
+                            "node": "NCIT:C47824",
+                            "name": "Data Set"
+                        },
+                        {
+                            "node": "NCIT:C63536",
+                            "name": "Study"
+                        },
+                        {
+                            "node": "IAO:0000311",
+                            "name": "publication"
+                        },
+                        {
+                            "node": "OBI:0000272",
+                            "name": "protocol"
+                        },
+                        {
+                            "node": "NCIT:C67447",
+                            "name": "Session"
+                        },
+                        {
+                            "node": "EMPTY:0000383",
+                            "name": "recording epoch"
+                        }
+                    ],
+                    "strength": "required",
+                    "source": "value_set"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A display name, for people ('Assay Plate 0011', 'N2', 'Jess Haley'). Need not be unique.",
+            "constraints": {}
+        },
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A handle, unique within its dataset among entities of its type. Required for the types that `entity_type_bindings` says require it.",
+            "constraints": {}
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free text.",
+            "constraints": {}
+        },
+        {
+            "name": "global_identifier",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Identifiers this entity is known by outside the dataset, each a CURIE whose prefix is registered in CURIE_lookups_meta.json and written as that entry's `spelling`, the way the identifier's issuer cites it ('ORCID:0000-0002-1825-0097', 'doi:10.1234/abc', 'WormBase:WBStrain00000001'), or, where no prefix exists, a full IRI ('https://lab.org/haley'). A reader matches the prefix by the entry's key, spelling or synonyms, ignoring case. The local id must match its prefix's `pattern`. A URL is an address for this entity, so it lives here rather than on a separate document.",
+            "constraints": {}
+        }
+    ]
+}

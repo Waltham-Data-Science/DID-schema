@@ -392,7 +392,7 @@ function TargetCell({
   if (row.target_source === "uncurated") {
     return (
       <span className="cov-uncurated" title={
-        "A migrator consumes this class, but V_eta_migration_targets.json has " +
+        "A migrator consumes this class, but did_v2_migration_targets.json has " +
         "no entry saying what it emits. Actionable: a missing curated row, not " +
         "an open modelling question."
       }>

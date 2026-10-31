@@ -15,13 +15,13 @@ READ-ONLY. DID-schema `claude/ecstatic-pascal-md91fw` at `51250ef`. Siblings as 
   - The other 6 are the tuning family: `tuning_curve_calculation` and its 5 single-parent family leaves (the signed shape).
   - 33 of the 40 declare nothing of their own. The 7 that do: `term_assertion` has one edge; the 6 tuning leaves have fields.
 - **Who needs a leaf.**
-  - The 105 rows of `schemas/V_eta_migration_targets.json`, reading `targets`, `decided_targets` and `second_pass`.
+  - The 105 rows of `schemas/generated/did_v2_migration_targets.json`, reading `targets`, `decided_targets` and `second_pass`.
   - 1,232 `.m` files: 291 under DID-matlab `src`, 941 under NDI-matlab `src`. I searched them for each leaf name as a quoted string literal, skipping comment-only lines. Leaf names built at runtime, such as `[leaf '_observation']` at `jMeasurementFold.m:82`, cannot be found this way.
 - **Governance.**
-  - `status_board.signature_census()` reads 53 `schemas/*.md` files; 3 generated files are excluded. It accepts 48 sign-off lines and rejects 2: the code-fence quotation at `V_eta_method_parameters_plan.md:694` and the superseded line at `V_eta_go_forward_class_audit.md:798`.
+  - `status_board.signature_census()` reads 53 `schemas/*.md` files; 3 generated files are excluded. It accepts 48 sign-off lines and rejects 2: the code-fence quotation at `did_v2_method_parameters_plan.md:694` and the superseded line at `did_v2_go_forward_class_audit.md:798`.
   - The board has 27 families, 25 of them signed. The two unsigned families are `calculator mixin dropped (#73)` and `spatial_transcriptomics_family`.
   - For each class, I matched its name, as a whole word, against the paragraph of every accepted sign-off line.
-- **Yardstick.** Read in full: `V_eta_tenets.md` (504 lines), `V_eta_spatial_transcriptomics_plan.md` (items 1–70, 534 lines), `review/73/OPEN_ITEMS.md`, and `review/73/audit_C_leaves_governance.md`.
+- **Yardstick.** Read in full: `did_v2_tenets.md` (504 lines), `did_v2_spatial_transcriptomics_plan.md` (items 1–70, 534 lines), `review/73/OPEN_ITEMS.md`, and `review/73/audit_C_leaves_governance.md`.
 
 ## Summary
 
@@ -57,7 +57,7 @@ The five most important findings:
 
 Columns:
 - **dir × type**: the leaf's two parents.
-- **who needs it**: string-literal hits, then `V_eta_migration_targets.json` lists.
+- **who needs it**: string-literal hits, then `did_v2_migration_targets.json` lists.
   - "targets" is GENERATED from the call graph; "decided" is authored.
   - The first three files are named.
 - **governance (mechanical)**: whether the leaf's name appears in the paragraph of an accepted `TEAM-SIGN-OFF` line.
@@ -120,9 +120,9 @@ Columns:
 ### A. The leaves (T2, T3, T14)
 
 1. **VIOLATION (T2) — `vmspikefit` → `score_observation`, a calculation routed as an observation, with no decision covering it.**
-   - Its generated targets are `V_eta_migration_targets.json` `/classes/vmspikefit/targets = ["score_observation", "session_relative_reference", "software"]`, with how "r_squared -> a goodness-of-fit score_observation".
+   - Its generated targets are `did_v2_migration_targets.json` `/classes/vmspikefit/targets = ["score_observation", "session_relative_reference", "software"]`, with how "r_squared -> a goodness-of-fit score_observation".
    - The emitter is `DID-matlab …/+migrators_j/vmspikefit.m:99`, `classBlock('score_observation', {'subject_observation', 'score'})`.
-   - The v1 template is `V_eta_ndi_ground_truth.json` `classes.vmspikefit`, with deps `['fit_input_id', 'element_id']`. Its fields are `fit_constraints, fit_equation, fit_name, fit_parameter_names, fit_parameters, fit_sse, fit_sse_perpoint`, the `fitcurve` field set.
+   - The v1 template is `did_v2_ndi_ground_truth.json` `classes.vmspikefit`, with deps `['fit_input_id', 'element_id']`. Its fields are `fit_constraints, fit_equation, fit_name, fit_parameter_names, fit_parameters, fit_sse, fit_sse_perpoint`, the `fitcurve` field set.
    - T2 says "A statement whose inputs are other statements in the dataset is a `subject_calculation`". Item 68 routes `fitcurve`, with the same fields, to `model_fit_calculation`.
    - `vmspikefit` has no `decided_targets`. Items 48 and 68 fixed its two siblings and missed it.
    - *Suggestion:* put `vmspikefit` on the team list next to item 68 (a `model_fit_calculation` with `input_id` → `fit_input_id`).
@@ -138,7 +138,7 @@ Columns:
 
 3. **INCONSISTENCY (T14) — `tuning_curve_calculation.model_fit.coefficients` declares no fields, and the leaf's `model_fit` field diverges from the `model_fit` class of the same name.**
    - The built field is `stable/tuning_curve_calculation.json` `fields[model_fit].fields[coefficients]`: `type: structure`, no `fields`, doc "The fit coefficients (named, per the `model`)".
-   - Item 66 dropped `contrast_sensitivity`'s `model_fit[].goodness` because it was "a structure with no fields (T14)" (`V_eta_spatial_transcriptomics_plan.md:460`).
+   - Item 66 dropped `contrast_sensitivity`'s `model_fit[].goodness` because it was "a structure with no fields (T14)" (`did_v2_spatial_transcriptomics_plan.md:460`).
    - Item 68 says "Tuning keeps its named `coefficients` structure", but nothing names them.
    - The same leaf's `model_fit.model` is doc'd "a controlled term (T8)", while the class `model_fit.value.model` is "a term for a named model …, otherwise a label".
    - Two shapes now share the name `model_fit`. Item 68 synchronises only `goodness` and `sampled_fit`; those two match field-for-field (r2, sse; independent_values, response).
@@ -161,13 +161,13 @@ Columns:
    - Not new: the build acknowledges this at `tools/build_v_eta.py` (the `_DELETE_NO_V1_PROVENANCE` comment: "PR #76 DID-matlab checklist").
    - *Suggestion:* none beyond the existing PR #76 checklist. It is listed so the Bar-2 reading does not assume these leaves are emitted.
 
-6. **STALE-DOC — the `stimulus_response_scalar` row in `V_eta_migration_targets.json` contradicts itself and the migrator.**
+6. **STALE-DOC — the `stimulus_response_scalar` row in `did_v2_migration_targets.json` contradicts itself and the migrator.**
    - The row's `flags` say "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via … into `harmonic_component_calculation` … TARGET SUPERSEDED per issue #67 -- pending new signed target".
    - The same row's `how` says "RESTORED TARGET (#73 review … item 37) … The migrator is a guarded passthrough today (PR #68)".
    - The migrator header agrees with `how`: "CONVERTED TO A GUARDED PASSTHROUGH in PR #68" (`stimulus_response_scalar.m:2-7`).
    - *Suggestion:* rewrite `flags` to match `how`.
 
-7. **STALE-DOC — `V_eta_migration_targets.json` `/classes/app/how` still says "Run-specific os/interpreter details move to `execution_environment` on the interaction".** Item 53 dropped `execution_environment` and moved os and interpreter to `subject_calculation.interpreter_id` / `operating_system_id`. *Suggestion:* repoint the sentence to item 53.
+7. **STALE-DOC — `did_v2_migration_targets.json` `/classes/app/how` still says "Run-specific os/interpreter details move to `execution_environment` on the interaction".** Item 53 dropped `execution_environment` and moved os and interpreter to `subject_calculation.interpreter_id` / `operating_system_id`. *Suggestion:* repoint the sentence to item 53.
 
 8. **STALE-DOC — `term_assertion` edge `strain_id` argues from a count and a convention that no longer hold.**
    - Its doc reads "Named for its target per the convention measured across 97 dependency declarations (45 distinct names, all `<target>_id`)".
@@ -184,7 +184,7 @@ Columns:
 
 ### B. Edges (T15)
 
-10. **STALE-DOC — the T15 vocabulary appendix (`V_eta_tenets.md`, "The vocabulary") no longer matches the tree.**
+10. **STALE-DOC — the T15 vocabulary appendix (`did_v2_tenets.md`, "The vocabulary") no longer matches the tree.**
     - Checked against every edge name in the built tree.
     - "16 names are unchanged" includes three names that no longer exist:
       - `session_id`: no class declares it. Item 57 dropped it.
@@ -258,7 +258,7 @@ All 12 bound fields, with their strength:
 
 14. **VIOLATION (T13 tombstone rule; item 18) — the retired spatial "tombstones" are not the v1 shape. `spatial_gene_expression_pyramid` inherits the V_eta spine.**
     - The pyramid tombstone (`stable/spatial_gene_expression_pyramid.json`) is ⊂ `[base, gene_expression, subject_observation]` and REQUIRES edge `gene_list_id`.
-    - The v1 template is ⊂ `[base, geneExpression]`, with deps `subject_id` and `geneList_id` (`V_eta_ndi_ground_truth.json` `classes.spatialGeneExpressionPyramid`).
+    - The v1 template is ⊂ `[base, geneExpression]`, with deps `subject_id` and `geneList_id` (`did_v2_ndi_ground_truth.json` `classes.spatialGeneExpressionPyramid`).
     - The same snake_casing of REQUIRED v1 edges appears on three more tombstones:
       - `spatial_gene_expression_cells.spatial_gene_expression_pyramid_id` (v1 `spatialGeneExpressionPyramid_id`);
       - `spatial_gene_expression_tiles.spatial_gene_expression_pyramid_id` (v1 `spatialGeneExpressionPyramid_id`);
@@ -272,7 +272,7 @@ All 12 bound fields, with their strength:
     - *Suggestion:* restate the eight tombstones from the v1 writer, as `hartley_calc` was in d78f2fa.
 
 15. **STALE-DOC — `hartley_calc`'s chain in the decision record disagrees with the build.**
-    - Item 43 (`V_eta_spatial_transcriptomics_plan.md:194`) says "`hartley_calc` ⊂ [`base`, `hartley_reverse_correlation`]", and so does `V_eta_subject_calculation_plan.md:315`.
+    - Item 43 (`did_v2_spatial_transcriptomics_plan.md:194`) says "`hartley_calc` ⊂ [`base`, `hartley_reverse_correlation`]", and so does `did_v2_subject_calculation_plan.md:315`.
     - The build has `stable/hartley_calc.json` superclasses `['calculator', 'hartley_reverse_correlation']`, restated from the writer in `d78f2fa`.
     - The change is recorded only in `review/73/OPEN_ITEMS.md` ("To verify … CHECKED AND FIXED").
     - *Suggestion:* amend item 43 with one line.
@@ -301,12 +301,12 @@ All 12 bound fields, with their strength:
 ### G. Governance
 
 18. **INCONSISTENCY (governance) — the calculation leaves rest on an unsigned rule that contradicts a signed line the record still says "stands", and one signed end state was revised without a signature.**
-    - `TEAM-SIGN-OFF [calculator + subject_calculation restructure]` (`V_eta_subject_calculation_plan.md:270`) item (5) says: "`_calculation` suffix reserved for calculator outputs".
+    - `TEAM-SIGN-OFF [calculator + subject_calculation restructure]` (`did_v2_subject_calculation_plan.md:270`) item (5) says: "`_calculation` suffix reserved for calculator outputs".
     - The #73 amendment says "items (3)–(5) stand" (`:289-290`). But:
       - item (3), the `runtime_environment` entity, was deleted by item 53;
       - item (5) is replaced by the provenance rule in the next amendment (`:322-`) and in T2, which also still says `derived_from_#`.
     - Leaves justified only by the provenance rule: `area_`, `count_`, `label_`, `position_`, `score_`, `term_`, `voltage_` and `model_fit_calculation`, plus `harmonic_component_calculation` (item 37, "Rule C decides by provenance").
-    - `TEAM-SIGN-OFF [confirm sheet 2026-08-17]` (`V_eta_go_forward_class_audit.md:717`) signs `jrclust_clusters` → `count_observation` "IS the intended end state". The unsigned #73 decision retargets it to `label_calculation` (`migration_targets` `jrclust_clusters.decided_targets`).
+    - `TEAM-SIGN-OFF [confirm sheet 2026-08-17]` (`did_v2_go_forward_class_audit.md:717`) signs `jrclust_clusters` → `count_observation` "IS the intended end state". The unsigned #73 decision retargets it to `label_calculation` (`migration_targets` `jrclust_clusters.decided_targets`).
     - `[confirm sheet 2026-08-22]` (`:719`) names `session_relative_reference`, which #65 increment 3b deleted.
     - *Suggestion:* put the provenance rule, the item (3) reversal and the sorter retarget on the team's sign-off list together.
 
@@ -319,10 +319,10 @@ All 12 bound fields, with their strength:
     - *Suggestion:* a batch confirmation of the dimensioned-quantity family would close most of the 26.
 
 20. **STALE-DOC — T2 and the tenet audit still describe superseded structure.**
-    - T2 (`V_eta_tenets.md:42-44`) says an interaction "adds `method` (the verb), its per-reading positions as `keys` …".
+    - T2 (`did_v2_tenets.md:42-44`) says an interaction "adds `method` (the verb), its per-reading positions as `keys` …".
       - `keys` is declared on `data` (item 65).
       - `subject_interaction` declares `method` and `method_parameters` and the edges `time_reference_id`, `instrument_id`, `software_id`, `method_parameters_id`, `acquisition_channels_id`.
-    - `V_eta_tenet_audit.md:120` still lists deleted classes as conformant leaves: `numeric_assertion`, `visual_grating_manipulation` (item 50) and `image_observation`.
+    - `did_v2_tenet_audit.md:120` still lists deleted classes as conformant leaves: `numeric_assertion`, `visual_grating_manipulation` (item 50) and `image_observation`.
     - *Suggestion:* correct both in the next prose pass.
 
 ## Mechanical pass over the 40 leaves' documentation
@@ -350,7 +350,7 @@ All 12 bound fields, with their strength:
 | 1 | `reverse_correlation` / `hartley_reverse_correlation` fieldless persist markers under `receptive_field` | FIXED | item 43; `index.json`: both `retire`, ⊂ `[base, ngrid]` / `[base, reverse_correlation]` |
 | 2 | `image_observation.ontology_table_row_id` edge to a retiring class | MOOT | item 42 dropped the edge; item 51 retired `image_observation` (no file in the tree) |
 | 3 | `migration_targets` routes the stimulus second pass to `visual_grating_manipulation` | FIXED | `/classes/stimulus_presentation/second_pass = [timed_sequence_manipulation, timed_sequence, visual_grating, sampled_body]` |
-| 4 | `"duration_observation"` in `migration_targets` | FIXED | `grep -c '"duration_observation"' schemas/V_eta_migration_targets.json` = 0 |
+| 4 | `"duration_observation"` in `migration_targets` | FIXED | `grep -c '"duration_observation"' schemas/generated/did_v2_migration_targets.json` = 0 |
 | 5 | `logical_observation` persists with no consumer | FIXED | item 52; no file in the tree |
 | 6 | `voltage_`/`current_`/`force_`/`concentration_manipulation` with no warrant | FIXED | item 50; none of the four in `index.json` |
 | 7 | `gain_assertion` / `gain_observation` with no warrant | FIXED | item 50; neither in `index.json` (the `gain` composite stays, per T3) |
@@ -358,7 +358,7 @@ All 12 bound fields, with their strength:
 | 9a | T2 prose: `sample_time` cadence | FIXED | T2 now says "the `sample_time` block retired … built #73 item 21"; but see new finding 20 (keys) |
 | 9b | T3 prose: `dtype`/`axes` on the body | FIXED | T3: "its `keys` live on the body, its `datum_type` on the statement" |
 | 9c | `tenet_audit.md:120` lists `numeric_assertion` | STILL OPEN | line 120 unchanged (finding 20) |
-| G1 | the board counts a quoted sign-off (`method_parameters_plan`) | FIXED | census rejects `V_eta_method_parameters_plan.md:694`, "inside a fenced code block" |
-| G2 | the board counts the superseded spatial sign-off | FIXED | census rejects `V_eta_go_forward_class_audit.md:798`, "SUPERSEDED" |
+| G1 | the board counts a quoted sign-off (`method_parameters_plan`) | FIXED | census rejects `did_v2_method_parameters_plan.md:694`, "inside a fenced code block" |
+| G2 | the board counts the superseded spatial sign-off | FIXED | census rejects `did_v2_go_forward_class_audit.md:798`, "SUPERSEDED" |
 | G3 | "182 persist; 97 with no record" | MOOT | the persist set is now 129 after items 50–53, 59, 61, 67 and 68. The re-measure is in finding 19 (a mechanical 26 with no record; the method differs from the old hand count) |
 | clean-note | `visual_grating_manipulation` coexistence signed | MOOT | the class was deleted by item 50 |

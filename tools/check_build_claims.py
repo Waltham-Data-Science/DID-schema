@@ -42,7 +42,7 @@ failed. "Nobody looked" stays a third state.
   subordinate clause is not evidence). The tool errs toward UNDECIDABLE.
 
   RULE B -- COMPLETEDNESS. A comment asserts `#nn` is NOT BUILT, and
-  `V_eta_OPEN_WORK.md` lists row #nn under `## COMPLETED`.
+  `did_v2_OPEN_WORK.md` lists row #nn under `## COMPLETED`.
 
 WHAT IT DOES NOT DO, DELIBERATELY: it never decides whether something is built.
 No artifact in these repositories answers that per comment, and inventing an
@@ -83,8 +83,12 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-SCHEMA_DIR = os.path.join(REPO, "schemas")
-OPEN_WORK = os.path.join(SCHEMA_DIR, "V_eta_OPEN_WORK.md")
+sys.path.insert(0, HERE)
+import doc_paths  # noqa: E402
+
+# The documents: every `.md` under docs/ ([markdown cleanup and rename]).
+DOCS_DIR = doc_paths.DOCS
+OPEN_WORK = doc_paths.path_for("did_v2_OPEN_WORK.md")
 
 EXEMPT = ("HISTORICAL-BUILD-CLAIM", "HISTORICAL-SIGNOFF-CLAIM")
 WINDOW = 2
@@ -108,7 +112,16 @@ UNSIGNED_RE = re.compile(
     re.IGNORECASE)
 NOTBUILT_RE = re.compile(r"\bnot\s+(?:yet\s+)?built\b", re.IGNORECASE)
 ITEM_RE = re.compile(r"#(\d{1,3})\b")
-PLAN_RE = re.compile(r"\b(V_eta_[A-Za-z0-9_]+\.md)\b")
+# A plan document by name. The documents were renamed V_eta_* -> did_v2_*
+# ([markdown cleanup and rename], 2026-10-26); sibling comments still write the
+# old name, so both are read and an old name is looked up by its new one.
+PLAN_RE = re.compile(r"\b((?:did_v2|V_eta)_[A-Za-z0-9_]+\.md)\b")
+
+
+def plans_in(text):
+    """The plan documents a line names, each by its current (did_v2_*) name."""
+    return [("did_v2_" + p[len("V_eta_"):]) if p.startswith("V_eta_") else p
+            for p in PLAN_RE.findall(text)]
 MFILE_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\.m\b")
 
 
@@ -129,7 +142,7 @@ def find_repo(name):
 def signature_index():
     """(signature names, plan documents carrying >=1 signature).
 
-    Read from the documents themselves rather than from V_eta_decisions.json:
+    Read from the documents themselves rather than from did_v2_decisions.json:
     the generated artifact groups by FAMILY, and a comment names whatever it
     names.
 
@@ -144,10 +157,8 @@ def signature_index():
     FILENAME, which no file mentions by accident."""
     names, plans = {}, {}
     read = 0
-    for fn in sorted(os.listdir(SCHEMA_DIR)):
-        if not fn.endswith(".md"):
-            continue
-        path = os.path.join(SCHEMA_DIR, fn)
+    for path in doc_paths.all_markdown(DOCS_DIR):
+        fn = os.path.basename(path)
         try:
             with open(path, encoding="utf-8") as fh:
                 lines = fh.read().splitlines()
@@ -194,7 +205,7 @@ def open_work_rows():
         if m and section:
             num = int(m.group(1))
             rows.setdefault(num, section)
-            plans_for.setdefault(num, sorted(set(PLAN_RE.findall(ln))))
+            plans_for.setdefault(num, sorted(set(plans_in(ln))))
     return rows, plans_for, len(lines)
 
 
@@ -264,7 +275,7 @@ def scan():
 
         if c["unsigned"]:
             # (a) the claim names a plan document that carries a signature.
-            for plan in PLAN_RE.findall(line):
+            for plan in plans_in(line):
                 if sig_plans.get(plan) and plan != os.path.basename(OPEN_WORK):
                     verdicts.append(
                         f"RULE A: names {plan}, which carries "
@@ -292,7 +303,7 @@ def scan():
                         if sig_plans.get(plan):
                             verdicts.append(
                                 f"RULE A: #{num} is labelled unsigned {gap} "
-                                f"char(s) away; its row in V_eta_OPEN_WORK.md "
+                                f"char(s) away; its row in did_v2_OPEN_WORK.md "
                                 f"names {plan}, which carries "
                                 f"{sig_plans[plan]} TEAM-SIGN-OFF line(s)")
 
@@ -301,7 +312,7 @@ def scan():
                 if rows.get(int(num)) == "COMPLETED":
                     verdicts.append(
                         f"RULE B: #{num} is under `## COMPLETED` in "
-                        "V_eta_OPEN_WORK.md")
+                        "did_v2_OPEN_WORK.md")
 
         if MFILE_RE.search(" ".join(c["window"])):
             cites_comment.append(c)
@@ -336,11 +347,11 @@ def main():
           f'{r["comments"]} comment line(s) read')
     print(f'             signature index: {r["signatures"]} distinct '
           f'TEAM-SIGN-OFF name(s) over {r["signed_plans"]} document(s), '
-          f'from {r["docs_read"]} markdown file(s) under schemas/')
+          f'from {r["docs_read"]} markdown file(s) under docs/')
     n_open = sum(1 for v in r["rows"].values() if v == "OPEN")
     n_done = sum(1 for v in r["rows"].values() if v == "COMPLETED")
     print(f'             item index: {len(r["rows"])} numbered row(s) '
-          f'({n_open} OPEN, {n_done} COMPLETED) from V_eta_OPEN_WORK.md '
+          f'({n_open} OPEN, {n_done} COMPLETED) from did_v2_OPEN_WORK.md '
           f'({r["ow_lines"]} lines)')
     print()
 

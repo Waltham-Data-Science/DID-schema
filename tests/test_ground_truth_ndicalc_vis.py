@@ -1,7 +1,7 @@
 """`tools/ndi_ground_truth.py` reads the NDIcalc-vis-matlab templates at the
 LOCKED commit ([ground truth reads NDIcalc-vis templates], Jess Haley,
-2026-10-27, V_eta_go_forward_class_audit.md), so a changed tuning template
-shows up as a diff in `schemas/V_eta_ndi_ground_truth.json`.
+2026-10-27, did_v2_go_forward_class_audit.md), so a changed tuning template
+shows up as a diff in `schemas/generated/did_v2_ndi_ground_truth.json`.
 
 These tests build a throwaway repository, lock it at one commit, then commit a
 changed template and a working-tree edit after it:

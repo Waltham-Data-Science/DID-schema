@@ -96,7 +96,6 @@ Usage:  python3 tools/check_binding_governance.py
 """
 
 import argparse
-import glob
 import json
 import os
 import re
@@ -104,8 +103,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-VETA = os.path.join(REPO, "schemas", "did_v2")
-TIERS = ("stable", "draft", "deprecated")
+sys.path.insert(0, HERE)
+import schema_paths as SP  # noqa: E402
+
+VETA = SP.classes_dir(REPO)
 
 REGISTRY_FILE = "binding_registry_meta.json"
 META_FILE = "did_schema_meta.json"
@@ -119,7 +120,7 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
-    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # 2026-10-08 (signed, did_v2_entity_composition_plan.md sec. 4): what each
     # `entity.type` requires. Normative, and carries no strength of its own.
     "entity_type_bindings": True,
     # 2026-10-29 (Jess Haley [allowed units are source units]): the units a
@@ -185,16 +186,16 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # 17 -> 18 (2026-09-30, jess): `directed_relation.roles`, bound inline to the CRediT
 # roles + `corresponding author` (the same inline_set shape as channels.type).
 # 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
-# subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
+# subject kinds (did_v2_study_plan.md; the same inline_set shape as channels.type).
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
 # node_form: curie} like `study.factors` and `statement.variable`.
-# 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
+# 20 -> 28 (2026-10-04, the tenet audit; did_v2_study_plan.md, to sign): `relation.method`
 # and the `variable` of keys (data, acquisition_epoch; covariates since 2026-10-22,
 # data_body plan AMENDMENT 6, beside the dimensions' bound `term`), conditions (statement,
 # data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.
-# 28 -> 93 (2026-10-21, jess; V_eta_source_unit_plan.md, to sign): every
+# 28 -> 93 (2026-10-21, jess; did_v2_source_unit_plan.md, to sign): every
 # dimensioned value's `source_unit` is now an ontology_term bound {strength:
 # preferred, node_form: curie} like `statement.variable` -- 65 more bound
 # declarations, uncatalogued for the same reason as `variable`.
@@ -222,7 +223,7 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 116
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
 # does not register, matched CASE-INSENSITIVELY by key, spelling or synonym (the
-# reading signed 2026-10-19, V_eta_prefix_spelling_plan.md). The 5 it was set to
+# reading signed 2026-10-19, did_v2_prefix_spelling_plan.md). The 5 it was set to
 # (NCBITaxon, CL, CHEBI, BFO, RO) were all registered by section 6 on
 # 2026-10-08; it reads 0 today and the ceiling is left where it was.
 BASELINE_UNREGISTERED_PREFIXES = 5
@@ -257,29 +258,23 @@ def load(path):
 # ---------------------------------------------------------------------------
 
 def doc_files(veta=VETA):
-    """The three maturity tiers, and a COUNT of what was deliberately skipped.
-
-    `examples/` also holds document_class files. They are instance samples, not
-    class declarations, and test_veta.py's own sweep excludes them the same way
-    -- but "how many did you not look at" is part of a denominator, so it is
-    returned rather than left silent.
+    """Every class file under schemas/did_v2/ (any family folder), and a COUNT
+    of the .json files there that are not classes (none should be: the folder
+    holds class files only, [schema folders by family]). "How many did you not
+    look at" is part of a denominator, so it is returned rather than left
+    silent. The first element of each tuple is the class's family folder.
     """
     out = []
-    for tier in TIERS:
-        for p in sorted(glob.glob(os.path.join(veta, tier, "*.json"))):
-            d = load(p)
-            if isinstance(d, dict) and "document_class" in d:
-                out.append((tier, p, d))
     skipped = 0
-    for p in glob.glob(os.path.join(veta, "**", "*.json"), recursive=True):
-        rel = os.path.relpath(p, veta).split(os.sep)[0]
-        if rel in TIERS:
-            continue
+    for fam, p in SP.folder_files(veta):
         try:
             d = load(p)
         except (OSError, ValueError):
+            skipped += 1
             continue
         if isinstance(d, dict) and "document_class" in d:
+            out.append((fam, p, d))
+        else:
             skipped += 1
     return out, skipped
 
@@ -481,9 +476,9 @@ def strength_agreement(rows, reg):
 def run(veta=VETA):
     files, skipped = doc_files(veta)
     rows, n_files, n_fields = bound_fields(files)
-    meta = load(os.path.join(veta, "stable", META_FILE))
-    reg = load(os.path.join(veta, "stable", REGISTRY_FILE))
-    curie = load(os.path.join(veta, "stable", CURIE_FILE))
+    meta = load(SP.beside(veta, META_FILE))
+    reg = load(SP.beside(veta, REGISTRY_FILE))
+    curie = load(SP.beside(veta, CURIE_FILE))
 
     binding_meta = (meta["$defs"]["field_definition"]["properties"]["constraints"]
                     .get("properties", {}).get("binding", {}))
@@ -647,7 +642,7 @@ def run(veta=VETA):
     prefixes = set(curie.get("prefixes", {}))
     # A reader recognises a prefix by the entry's key, its `spelling` or any of
     # its `synonyms`, ignoring case (signed 2026-10-19,
-    # V_eta_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
+    # did_v2_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
     # its key. `written_as` entries are spelled through another entry, so their
     # spelling names that entry, not them.
     entries = curie.get("prefixes", {})
@@ -755,8 +750,8 @@ def report(r):
     d = r["denominator"]
     print("BINDING GOVERNANCE (#32 / T8) -- schema-side sweep")
     print("  DENOMINATOR")
-    print(f'    V_eta document_class files walked  : {d["schema_files"]}  (tiers {"/".join(TIERS)})')
-    print(f'    document_class files NOT walked    : {d["document_class_files_outside_the_tiers_skipped"]}  (examples/, instance samples)')
+    print(f'    V_eta document_class files walked  : {d["schema_files"]}  (every family folder of schemas/did_v2/)')
+    print(f'    document_class files NOT walked    : {d["document_class_files_outside_the_tiers_skipped"]}  (a .json under schemas/did_v2/ that is not a class)')
     print(f'    field declarations inspected       : {d["field_declarations"]}  (nested sub-fields included)')
     print(f'    fields carrying constraints.binding: {d["bound_fields"]}')
     print(f'    registry rows, NORMATIVE            : {d["registry_rows_normative"]}  {{k: v for k, v in d["registry_lists"].items() if REGISTRY_LISTS[k]}}')

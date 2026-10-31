@@ -48,7 +48,7 @@ dropped declaration leaves a field every real document carries undeclared ->
 
 A list that describes an external fact, maintained by hand next to a prose
 description of itself, will disagree with one of the two eventually. So the split
-is now READ from `schemas/V_eta_ndi_ground_truth.json` -- the artifact
+is now READ from `schemas/generated/did_v2_ndi_ground_truth.json` -- the artifact
 `tools/ndi_ground_truth.py` extracts from NDI `origin/main` -- exactly the way
 `tools/check_constraint_refinement.py` already derives its provenance column.
 Names are matched with underscores stripped and case folded, because V_eta is
@@ -109,7 +109,7 @@ maintained here -- run the tool, do not trust this paragraph:
     NOT-DERIVABLE method_parameters.name, software.name, strain.name -- none of
                   the three leaves has a did_v1 counterpart. Which block is
                   authoritative for them is OPEN and rides with binding
-                  governance (#69, V_eta_OPEN_WORK.md).
+                  governance (#69, did_v2_OPEN_WORK.md).
 
 The old hand list and the derivation agree on all six fidelity rows, which is the
 cross-check that matters: the repair reproduces the corrected list rather than
@@ -133,7 +133,7 @@ SCHEMA_ROOT = os.path.join(REPO, "schemas", "did_v2")
 # READ, never written here. Its absence is an ERROR, not a fallback: a split that
 # quietly reports every row as unclassifiable because the file was missing would
 # look exactly like a clean run to the ratchet.
-GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
+GROUND_TRUTH = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 
 # The count as of 2026-08-12. May fall freely; an increase fails, and so does a
 # fall that is not recorded here.
@@ -165,7 +165,7 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # `subject` is a did_v1 class, so no hand override; V_eta-SHADOW. For a MIGRATED
 # subject the name stays where did_v1 put it (base.name, or nowhere); the element
 # migrator's subject label is a separate concern (`local_identifier`).
-# 18 -> 8 (2026-10-08, signed, V_eta_entity_composition_plan.md): `subject`,
+# 18 -> 8 (2026-10-08, signed, did_v2_entity_composition_plan.md): `subject`,
 # `session` and the nine V1-ONLY-SLOT entities merged into one `entity`, whose
 # `name` beside `base.name` is ONE V1-ONLY-SLOT row (OVERRIDES), so ten rows went.
 # 8 -> 3 (2026-10-30, [one folder, final classes only]): the retire classes
@@ -186,8 +186,8 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 # name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
 OVERRIDES = {
     ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (V_eta_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (V_eta_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (did_v2_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (did_v2_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
 }
 
 
@@ -202,16 +202,14 @@ def _norm(s):
 
 
 def load_classes(root=SCHEMA_ROOT):
-    """Every built V_eta class, keyed by class_name."""
+    """Every V2 class under schemas/did_v2/ (any family folder), keyed by class_name."""
     classes = {}
-    for sub in ("stable", "draft"):
-        d = os.path.join(root, sub)
-        if not os.path.isdir(d):
-            continue
-        for fn in sorted(os.listdir(d)):
-            if not fn.endswith(".json") or fn == "index.json":
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames.sort()
+        for fn in sorted(filenames):
+            if not fn.endswith(".json"):
                 continue
-            with open(os.path.join(d, fn)) as fh:
+            with open(os.path.join(dirpath, fn)) as fh:
                 j = json.load(fh)
             cn = j.get("document_class", {}).get("class_name")
             if cn:

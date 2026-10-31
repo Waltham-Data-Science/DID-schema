@@ -24,14 +24,15 @@ import importlib.util
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
-GT_PATH = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
-TIERS = ["stable", "draft", "deprecated"]
+GT_PATH = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_ndi_ground_truth.json")
+TIERS = None   # every .json under the class folder, any depth
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
               "ndi_reserved_keys.json", "binding_registry_meta.json",
               "term_registry_meta.json", "class_disposition_meta.json",
@@ -59,7 +60,7 @@ def _gt():
 
 def _veta():
     out = {}
-    for p in glob.glob(os.path.join(VETA, "*", "*.json")):
+    for p in glob.glob(os.path.join(VETA, "**", "*.json"), recursive=True):
         if os.path.basename(p) in META_FILES:
             continue
         with open(p) as f:
@@ -96,12 +97,13 @@ def _phase8_set():
     return set(re.findall(r'"([A-Za-z0-9_]+)"', m.group(1)))
 
 
-TARGETS_PATH = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+TARGETS_PATH = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_migration_targets.json")
 
 
 def _targets_map():
-    with open(TARGETS_PATH) as f:
-        return json.load(f)["classes"]
+    sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+    import schema_paths
+    return schema_paths.load_migration_targets(REPO_ROOT)["classes"]
 
 
 def _run_stamp(**kw):
@@ -122,7 +124,7 @@ def _run_stamp(**kw):
 
 
 def _run_stamp_with_causes():
-    return _run_stamp(deleted_phase8=_phase8_set(), targets_path=TARGETS_PATH)
+    return _run_stamp(deleted_phase8=_phase8_set(), targets_path=REPO_ROOT)
 
 
 # ---------------------------------------------------------------- ground truth
@@ -259,7 +261,7 @@ def test_the_stamp_changes_no_mustBeNonEmpty_value():
             return d
 
         before = {}
-        for p in glob.glob(os.path.join(tmp, "*", "*.json")):
+        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
             with open(p) as f:
                 before[p] = without_marker(json.load(f))
         NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS, META_FILES)
@@ -286,7 +288,7 @@ def test_the_stamp_is_idempotent():
     try:
         rn = _rename_map()
         a = NRS.stamp_ndi_required(tmp, GT_PATH, rn, TIERS, META_FILES)
-        snap = {p: Path(p).read_text() for p in glob.glob(os.path.join(tmp, "*", "*.json"))}
+        snap = {p: Path(p).read_text() for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True)}
         b = NRS.stamp_ndi_required(tmp, GT_PATH, rn, TIERS, META_FILES)
         assert a == b
         for p, text in snap.items():
@@ -327,11 +329,11 @@ def test_the_marker_is_absent_where_ndi_stated_nothing():
                                    "must_refer_to_document_class": ""}
                                   for e in rec["depends_on"]],
                    "fields": []}
-            with open(os.path.join(tmp, "stable", NRS.ndi_snake(cn) + ".json"), "w") as f:
+            with open(os.path.join(tmp, NRS.ndi_snake(cn) + ".json"), "w") as f:
                 json.dump(doc, f)
         NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS, META_FILES)
         stamped = {}
-        for p in glob.glob(os.path.join(tmp, "*", "*.json")):
+        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
             if os.path.basename(p) in META_FILES:
                 continue
             with open(p) as f:
@@ -364,7 +366,7 @@ def test_the_marker_is_declared_in_the_meta_schema():
     MUTATION: remove the ndi_mustBeNonEmpty property from the meta-schema ->
     43 test_file_passes_meta_schema cases fail (observed).
     """
-    with open(os.path.join(VETA, "stable", "did_schema_meta.json")) as f:
+    with open(os.path.join(os.path.dirname(VETA), "registry", "did_schema_meta.json")) as f:
         meta = json.load(f)
     dep = meta["$defs"]["dependency_object"]
     assert dep["additionalProperties"] is False, (
@@ -551,7 +553,7 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
     # 6 new templates (the gene-expression family + fileReference) that ship
     # v1 documents with no V_eta home and no migrator yet. These are tracked
     # for team disposition separately from this canary -- see PR #69 /
-    # V_eta_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
+    # did_v2_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
     # in this bucket; only the 6 already known are allowed through.
     KNOWN_UNDISPOSITIONED = {
         "cellTypeLabels", "fileReference", "geneListMapping",
@@ -610,7 +612,7 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
         shutil.rmtree(tmp)
     shutil.copytree(VETA, tmp)
     try:
-        for p in glob.glob(os.path.join(tmp, "*", "*.json")):
+        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
             with open(p) as f:
                 doc = json.load(f)
             if "document_class" not in doc:
@@ -629,7 +631,7 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
             "no fold was followed, so this test asserted nothing about the "
             "negative it exists to prove")
         markers = 0
-        for p in glob.glob(os.path.join(tmp, "*", "*.json")):
+        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
             with open(p) as f:
                 doc = json.load(f)
             markers += sum(1 for e in doc.get("depends_on", [])

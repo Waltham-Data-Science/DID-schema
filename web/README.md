@@ -1,7 +1,9 @@
 # DID schema web app
 
 Browser-based viewer, editor, and submission tool for DID/NDI document
-schemas. Shows V_eta (`schemas/did_v2/`); the earlier versions are retired. Tracking issue: #28.
+schemas. Shows did_v2 (`schemas/did_v2/`, with its index and registries in
+`schemas/generated/` and `schemas/registry/`; `scripts/sync-schemas.mjs`
+serves them); the earlier versions are retired. Tracking issue: #28.
 
 Status: **Steps 1--4 of issue #28 are in.** The site has a working viewer,
 a schema editor with live meta-schema validation, "Download JSON", and
@@ -15,17 +17,19 @@ class set as an inheritance tree starting from `base` -- a class with several
 superclasses appears under each one and says where else it sits. Selecting a
 class shows its fields and value shapes, superclasses and subclasses,
 `depends_on` edges, and disposition / abstract flags. Classes outside
-`schemas/V_eta_final_class_set.md`'s persist set are hidden unless asked for
+`docs/generated/did_v2_final_class_set.md`'s persist set are hidden unless asked for
 (an ancestor of a shown class stays, dimmed), and a class's final-set category
 is shown as a badge on its card. A **Tenets T1–T14** tab renders
-`schemas/V_eta_tenets.md` for skimming: it opens as the 14 one-line headings;
+`docs/did_v2_tenets.md` for skimming: it opens as the 14 one-line headings;
 an opened tenet shows its opening text and then its bold lead-ins as a
 collapsed outline; tenet numbers in the text link to the tenet; and each tenet
 lists the classes it shaped (from `public/tenets.json`, `tools/tenet_map.py`),
 linked into the tree. The text is the document's own, only re-grouped.
 
 Nothing is copied in. `src/veta/sources.ts` globs `schemas/did_v2/**/*.json`
-and imports the two markdown files `?raw`, so Vite reads them at build time:
+(class files only, in family folders), imports the generated index
+`schemas/generated/index.json`, and imports the two markdown files `?raw`, so
+Vite reads them at build time:
 edit a class JSON, rebuild, and the panel follows with no code change.
 `src/veta/grammar.json` is the one description of how the two markdown files
 are parsed; the viewer and the gate both read it.

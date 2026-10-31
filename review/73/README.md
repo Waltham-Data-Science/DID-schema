@@ -1,7 +1,7 @@
 # #73 review working files (2026-09-23 → 2026-09-25)
 
 Saved from the review session so they outlive it. **None of this is the schema record**:
-decisions live in `schemas/V_eta_spatial_transcriptomics_plan.md` and the tenets; nothing here
+decisions live in `docs/plans/did_v2_spatial_transcriptomics_plan.md` and the tenets; nothing here
 is signed, and no tool reads this folder.
 
 | file | what it is |

@@ -1,0 +1,452 @@
+{
+    "document_class": {
+        "class_name": "absolute_time_reference",
+        "class_version": "3.1.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_time_reference. ANCHOR (`start`), EXTENT (`duration`) and END (`end`) are separate facts with separate precisions.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "start",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The ANCHOR: the wall-clock instant this reference is pinned to. A nested cell rather than flat `start_utc`/`source_start` fields so the canonical value and its source provenance travel together, exactly as every dimensioned value does (T14).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "utc",
+                            "type": "timestamp",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical UTC instant -- the normalised, cross-document comparable value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The instant exactly as the source wrote it, before normalisation. ALWAYS set when a source string exists; `utc` is filled only when the string can be read WITHOUT guessing (an unlabelled local time is not convertible).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_timezone",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "IANA time zone name as the source gave it (e.g. 'America/New_York').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_utc_offset",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was available and no zone name.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "TRUE when the ANCHOR is imprecise. Distinct from `duration.approximate` (the EXTENT) and from `time_reference.clock_tolerance` (the TIMELINE).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in seconds. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in seconds (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in seconds (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "duration",
+                    "type": "time",
+                    "blank_value": 0.0,
+                    "default_value": {
+                        "seconds": 0.0,
+                        "source_unit": {
+                            "node": "",
+                            "name": ""
+                        },
+                        "source_value": 0.0,
+                        "approximate": false,
+                        "tolerance": {}
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The EXTENT, measured from `start`. ABSENT (with `end` absent) means an INSTANT, not an interval. CHANGE 1: 'started around 09:00, ran exactly 60 minutes' is expressible -- with two instants alone both would inherit the anchor's fuzziness and the exactness of the span would be lost.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
+                            "constraints": {
+                                "binding": {
+                                    "strength": "preferred",
+                                    "node_form": "curie"
+                                }
+                            },
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in the canonical unit (seconds). Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (seconds) (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (seconds) (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "end",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The END: the wall-clock instant the interval ends, as a fact of its own with its own precision (CHANGE 6) -- so an approximate start and an exact end are both expressible. Optional: an interval may give `duration`, `end`, or both; with both they must agree (end = start + duration; rule end_consistent). Absorbs the former `source_end`: the end as the source wrote it is `end.source_value`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "utc",
+                            "type": "timestamp",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical UTC instant -- the normalised, cross-document comparable value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The end exactly as the source wrote it, before normalisation (formerly `source_end`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_timezone",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "IANA time zone name as the source gave it.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_utc_offset",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "UTC offset as the source gave it, when only an offset was available and no zone name.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": false,
+                            "default_value": false,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "TRUE when the END is imprecise. Distinct from `start.approximate` and `duration.approximate`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The bound on this value: the true value lies between `value - minus` and `value + plus`, in seconds. Asymmetric when the uncertainty is one-sided (a clock time written to the minute is minus 0 / plus 59 s). ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "minus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far BELOW the stated value the true value may lie, in seconds (for a time: how much EARLIER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                },
+                                {
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "How far ABOVE the stated value the true value may lie, in seconds (for a time: how much LATER). Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "name": "end_consistent",
+            "fields": [
+                "value.start",
+                "value.duration",
+                "value.end"
+            ],
+            "statement": "`value.end` needs `value.start`, is not before it, and when `value.duration` is also given they agree: end = start + duration."
+        }
+    ]
+}

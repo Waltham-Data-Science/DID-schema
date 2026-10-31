@@ -47,10 +47,13 @@ import sys
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+import doc_paths  # noqa: E402
+
 SCHEMAS = os.path.join(REPO_ROOT, "schemas")
-LEDGER_MD = os.path.join(SCHEMAS, "V_eta_coverage_ledger.md")
-LEDGER_JSON = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
-INDEX = os.path.join(SCHEMAS, "did_v2", "index.json")
+LEDGER_MD = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_coverage_ledger.md")
+LEDGER_JSON = os.path.join(SCHEMAS, "generated", "did_v2_coverage_ledger.json")
+INDEX = os.path.join(SCHEMAS, "generated", "index.json")
 
 
 def _ledger():
@@ -120,19 +123,19 @@ def _built_classes():
 # ---------------------------------------------------------------------------
 PINNED_DECIDED_TARGETS = {
     # MOVED 2026-10-26, deliberately: [filters are methods] (Decided by Jess
-    # Haley, 2026-10-22, V_eta_frequency_filter_model_plan.md) supersedes the
+    # Haley, 2026-10-22, did_v2_frequency_filter_model_plan.md) supersedes the
     # 2026-07-30 `frequency_filter` model; the filter is a `method` document.
     "filter": (
         ["method"],
-        "V_eta_frequency_filter_model_plan.md",
+        "did_v2_frequency_filter_model_plan.md",
         "jFrequencyFilter writes a `method` document"),
     "epochfiles_ingested": (
         ["ingestion_manifest"],
-        "V_eta_epoch_plan.md",
+        "did_v2_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`"),
     "stimulus_presentation": (
         ["item", "item_manipulation"],
-        "V_eta_stimulus_model_plan.md",
+        "did_v2_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id"),
     # MOVED HERE FROM PINNED_DISPUTED, 2026-08-11: the team ruled the SIGNATURE
     # governs, over the section heading at :459 that names `sampled_body` alone.
@@ -141,23 +144,23 @@ PINNED_DECIDED_TARGETS = {
     # to either single class is the regression this pin exists to catch.
     "binaryseries_parameters": (
         ["statement", "sampled_body"],
-        "V_eta_go_forward_class_audit.md",
+        "did_v2_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
 
 PINNED_DISSOLUTIONS = {
-    "epochid": ("V_eta_epoch_plan.md", "epochid is DROPPED"),
+    "epochid": ("did_v2_epoch_plan.md", "epochid is DROPPED"),
     "stimulus_response": (
-        "V_eta_stimulus_response_model_plan.md",
+        "did_v2_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE"),
     "stimulus_response_scalar_parameters": (
-        "V_eta_stimulus_response_model_plan.md",
+        "did_v2_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE"),
     # MOVED HERE FROM PINNED_DISPUTED, 2026-10-23: the team ruled the two
     # sentences one answer (Decided by Jess Haley [ngrid block into
     # sampled_body]): no document is an ngrid; its contents go into the
     # carrying document's sampled_body.
-    "ngrid": ("V_eta_image_model_plan.md", "is dissolved as a class"),
+    "ngrid": ("did_v2_image_model_plan.md", "is dissolved as a class"),
 }
 
 # NEITHER DICTIONARY ABOVE, and pinned instead as DISPUTED. In both cases ONE
@@ -181,7 +184,7 @@ def _signoff_lines(plan):
     HTML-comment strip that ate real content, say -- calling it here would make
     the test agree with the bug.
     """
-    path = os.path.join(SCHEMAS, plan)
+    path = doc_paths.path_for(plan)
     with open(path) as fh:
         text = fh.read()
     out, in_comment = [], False
@@ -294,7 +297,7 @@ def test_a_contested_row_stays_contested_and_names_no_target(cls):
     cell, _ = _md_row(cls)
     assert "DISPUTED" in cell, (cls, cell)
 
-    with open(os.path.join(SCHEMAS, plan)) as fh:
+    with open(doc_paths.path_for(plan)) as fh:
         text = fh.read()
     hits = [n for n, ln in _signoff_lines(plan) if signoff_frag in ln]
     assert hits, f"{cls}: no TEAM-SIGN-OFF line in {plan} contains {signoff_frag!r}"
@@ -351,7 +354,7 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     mounts, and neither one alone.
 
     Why both, spelled out so a future reader can check the reasoning rather than
-    trust it. The signature (`V_eta_go_forward_class_audit.md`:3) routes:
+    trust it. The signature (`did_v2_go_forward_class_audit.md`:3) routes:
 
         `value`                 -> "the statement's"        UNCONDITIONAL
         `time_type` / `data_dim` /
@@ -359,7 +362,7 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
 
     and the axis entry mounts on `statement` when `storage_mode` is
     inline and on `sampled_body` when it is body -- mutually exclusive, per
-    document (`V_eta_data_body_model_plan.md`:136-137). So `sampled_body` alone
+    document (`did_v2_data_body_model_plan.md`:136-137). So `sampled_body` alone
     (the section heading at :459, which the team ruled does NOT govern) silently
     drops the statement mount that the signature names unconditionally, and
     `statement` alone drops the body mount entirely.
@@ -382,11 +385,11 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     # The mount rule is the whole justification for the second target. If that
     # sentence leaves the plan document, this pair is unsourced -- fail here
     # rather than let the ledger keep asserting it.
-    with open(os.path.join(SCHEMAS, "V_eta_data_body_model_plan.md")) as fh:
+    with open(doc_paths.path_for("did_v2_data_body_model_plan.md")) as fh:
         body = fh.read()
     for frag in ("storage_mode: inline", "storage_mode: body"):
         assert frag in body, (
-            f"V_eta_data_body_model_plan.md no longer states {frag!r} -- the two-mount "
+            f"did_v2_data_body_model_plan.md no longer states {frag!r} -- the two-mount "
             "reading has lost its source and must be re-derived, not kept")
 
 
@@ -398,9 +401,9 @@ def test_ngrid_was_resolved_by_its_own_ruling():
     (2026-10-23, [ngrid block into sampled_body]). That line must still be
     there, and the class must still name no target of its own.
     """
-    hits = [n for n, ln in _signoff_lines("V_eta_image_model_plan.md")
+    hits = [n for n, ln in _signoff_lines("did_v2_image_model_plan.md")
             if "[ngrid block into sampled_body]" in ln]
-    assert hits, "the ruling that resolved ngrid is no longer in V_eta_image_model_plan.md"
+    assert hits, "the ruling that resolved ngrid is no longer in did_v2_image_model_plan.md"
     row = next(r for r in _rows() if r["v1_class"] == "ngrid")
     assert row["no_target_reason"] == "dissolved", row["no_target_reason"]
     assert not row["decided_targets"], (
@@ -428,13 +431,13 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
 def test_a_decided_target_is_recorded_in_exactly_one_place():
     """Two records of one fact agree by coincidence until they do not.
 
-    The curated `V_eta_migration_targets.json` and the sign-off transcriptions
+    The curated `did_v2_migration_decisions.json` and the sign-off transcriptions
     in `coverage.py` must never both name a class. This repository already has
     one live instance of the same shape open (#32, binding strength stated on
     both the field and the registry, agreeing today "by coincidence rather than
     by construction"); it is not worth a second.
     """
-    with open(os.path.join(SCHEMAS, "V_eta_migration_targets.json")) as fh:
+    with open(os.path.join(SCHEMAS, "registry", "did_v2_migration_decisions.json")) as fh:
         curated = json.load(fh)["classes"]
     rows = _rows()
     both = []
@@ -543,7 +546,7 @@ def test_a_corrupted_signoff_citation_stops_the_ledger():
     # Now corrupt one in a SUBPROCESS copy of the module's tables and confirm
     # the check reports it rather than shrugging.
     cov.NO_TARGET_BY_DECISION["epochid"] = (
-        cov.NO_TARGET_DISSOLVED, "V_eta_epoch_plan.md",
+        cov.NO_TARGET_DISSOLVED, "did_v2_epoch_plan.md",
         "epochid is KEPT AND CELEBRATED", "fabricated")
     _lines, fails = cov.check_decision_citations()
     assert fails and any("epochid" in f for f in fails), (
@@ -560,7 +563,7 @@ def test_the_board_does_not_assert_what_it_never_read():
     families: a class reported `no target recorded` must really carry no
     non-self decided target in the ledger.
     """
-    status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
+    status = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_STATUS.md")
     with open(status) as fh:
         text = fh.read()
     banned = ("No member of these families carries a `decided_targets` entry "
@@ -589,7 +592,7 @@ def test_the_board_quotes_the_decision_line_not_prose():
     """
     sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
     import decision_citations as dc
-    status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
+    status = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_STATUS.md")
     with open(status) as fh:
         text = fh.read()
     assert "## Class names the family table asserts" not in text

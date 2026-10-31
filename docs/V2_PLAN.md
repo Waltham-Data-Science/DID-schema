@@ -1,8 +1,8 @@
 # V2 migration plan
 
 This is the working plan, not the record. Decisions live in their `Decided by`
-lines, mostly in `schemas/V_eta_go_forward_class_audit.md`. Open work is
-indexed in `schemas/V_eta_OPEN_WORK.md`. When this file and either of those
+lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
+indexed in `docs/did_v2_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
 Last updated 2026-10-30.
@@ -82,18 +82,18 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
 
 - **D1 (approved 2026-10-28).** Five device kinds minted on empty-ontology
   #31 (EMPTY:0000411-0000415), stacked on #30. Cell-attached is held: see G2.
-- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints ANSWERED 2026-10-29: [text channel replaces NCIT Text] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G1. "text channel" vs NCIT Text.** [event lines are event channels] mints ANSWERED 2026-10-29: [text channel replaces NCIT Text] in `docs/plans/did_v2_go_forward_class_audit.md`.
   EMPTY "text channel" (empty-ontology #30, EMPTY:0000410). The term registry
   already gives the v1 prefix `tx` the channel type NCIT Text (C25704)
   ([channel types]). Should "text channel" replace NCIT Text there, or should
   both stay? [replace: NCIT Text means "the words of something written", not a
   channel; the other channel types are all "... channel"]
-- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an ANSWERED 2026-10-29: [cell-attached is OBI] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G2. Cell-attached recording.** [device kind labels and synonyms] defines an ANSWERED 2026-10-29: [cell-attached is OBI] in `docs/plans/did_v2_go_forward_class_audit.md`.
   EMPTY "cell-attached recording", but OBI:0002179 "cell-attached patch clamp
   assay" exists. T19 puts an existing term first. Use OBI:0002179 (keeping
   "cell-attached patch" and "on-cell recording" as notes), or mint anyway?
   [use OBI:0002179]
-- **G3. Where a linked session's link lives, in NDI-written datasets ANSWERED 2026-10-29: [linked session link on a direct dataset relation] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G3. Where a linked session's link lives, in NDI-written datasets ANSWERED 2026-10-29: [linked session link on a direct dataset relation] in `docs/plans/did_v2_go_forward_class_audit.md`.
   ([linked_session withdrawn]).** The migrator puts "database linking" and the
   Pathname on the session -> dataset `included_in` relation. NDI's writers
   (`ndi.dataset.addSessionV2`, `ndi.setup.V2.writeDataset`) file a session
@@ -105,7 +105,7 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
   it matches the migrated shape] The NDI build (its writers, `datasetSessions`,
   `datasetDatabaseFiles`, and `ndi.dataset`'s convert / unlink, which use the
   `linked_session` id today) waits on this.
-- **G4. Allowed units ([allowed units are closed source_unit lists]).** ANSWERED 2026-10-29: [allowed units are source units] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G4. Allowed units ([allowed units are closed source_unit lists]).** ANSWERED 2026-10-29: [allowed units are source units] in `docs/plans/did_v2_go_forward_class_audit.md`.
   `source_unit` is the unit the SOURCE gave (the number in `source_value`);
   the canonical unit is fixed by the value class. Closing time's `source_unit`
   to [seconds] would refuse every source that gave milliseconds or minutes.
@@ -127,13 +127,13 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
   ("absolute value" on the abs one), so one calculation holds both and T10
   holds. Until answered, the second calculation stays (built E1 and E2 only).
   [yes] ANSWERED 2026-10-30 [interpolated values are a list].
-- **G6. A single fitted model on the method (DID-matlab #272).** The T10 ANSWERED 2026-10-29: [fit model stated once] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G6. A single fitted model on the method (DID-matlab #272).** The T10 ANSWERED 2026-10-29: [fit model stated once] in `docs/plans/did_v2_go_forward_class_audit.md`.
   amendment says the method does not repeat the fitted functions; the decision
   line [one calculation per named calculator output] only says "no `function`
   list". So families whose fits all share one model (Naka-Rushton, Priebe,
   double Gaussian) still write one `{function: <model>}` method parameter
   beside the `model` in each fit entry. Drop it too? [yes: one place per fact]
-- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.** ANSWERED 2026-10-29: (b), [base.name kept until retire classes leave] in `schemas/V_eta_go_forward_class_audit.md`.
+- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.** ANSWERED 2026-10-29: (b), [base.name kept until retire classes leave] in `docs/plans/did_v2_go_forward_class_audit.md`.
   [carried v1 validates against NDI templates] deletes the 8 `deprecated/`
   tombstones and V2 `base.name`. But 73 classes marked `retire` remain in
   `stable/` (generic_file, valid_interval, syncrule, epochfiles_ingested,
@@ -165,7 +165,7 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
   it? [yes] ANSWERED 2026-10-30 [Naka-Rushton function minted].
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
-  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `schemas/V_eta_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
+  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `docs/plans/did_v2_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
     `resolveEpochProbemap` retires the v1 archive once data bodies carry its
     files (the check reads files only). Lost: the v1 id (conflicts with
     [every v1 id survives]; e.g. B `4126900d95ad6706_c0a14ee8785c648f`), the
@@ -173,20 +173,20 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
     `sample_digital_segment` (1e6 / 1e7 there) and the empty `file_list`
     slots. Proposed: keep the archive's id on one V2 document (the reader
     configuration) and its parameters as method parameters there. [yes]
-  - **G10. openMINDS species text** (JH 3,312; sample ANSWERED 2026-10-29: [species text is the openMINDS equivalent] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G10. openMINDS species text** (JH 3,312; sample ANSWERED 2026-10-29: [species text is the openMINDS equivalent] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `41269430c5d0f59d_c09ab830daf16ec5`): v1 `definition` ("Caenorhabditis
     elegans is a species of nematode ...") and `synonym` ("C. elegans") are
     not in V2. [openMINDS subject leftovers] says they are "read back from the
     term", but nothing in DID holds openMINDS's text (the registry's
     NCBITaxon:6239 definition is empty). Proposed: register the definition and
     synonym on the term registry row, so the read-back has a source. [yes]
-  - **G11. `openminds_element`** (Dab 404; sample ANSWERED 2026-10-29: [openMINDS element leftovers carried] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G11. `openminds_element`** (Dab 404; sample ANSWERED 2026-10-29: [openMINDS element leftovers carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `4126945af68c0fad_c0d698b17d043af0`): lost `openminds_id`
     ("CellType/12318b5f-...", a UUID per document) and `fields.description`;
     V2 holds only the term assertion. No decision covers element leftovers.
     Proposed: as for subjects, carry the document as v1 when it holds them,
     with a register row. [yes]
-  - **G12. `probe_location` name** (Dab 404; sample ANSWERED 2026-10-29: [term names compare by node] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G12. `probe_location` name** (Dab 404; sample ANSWERED 2026-10-29: [term names compare by node] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `4126945af68c1b4b_40df43b5cb45324d`): v1 "bed nucleus of stria terminalis
     (BNST)", V2 the registry label "bed nucleus of stria terminalis"
     (UBERON:0001880). Is the v1 spelling notation (compare by node, the 404
@@ -228,32 +228,32 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
     quarantine every record in a validating run (the writer's `app.name` is
     undeclared on the tombstone). Carry it whole as v1 in pass 1, like
     `stimulus_presentation`? If so, widen carry-045 or add a row? ANSWERED 2026-10-30 [control records carried in pass 1].
-  - **G19. A standalone item's control pairing ([control pairing points at ANSWERED 2026-10-29: [standalone item control stays carried] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G19. A standalone item's control pairing ([control pairing points at ANSWERED 2026-10-29: [standalone item control stays carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     the presentation]).** A standalone item has no manipulation: what do the
     calculation's `entity_id` and `input_id` point at? (Today carry-090.)
-  - **G20. A linked session not in the batch ([linked session reference ANSWERED 2026-10-29: [linked session not in the batch] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G20. A linked session not in the batch ([linked session reference ANSWERED 2026-10-29: [linked session not in the batch] in `docs/plans/did_v2_go_forward_class_audit.md`.
     follows the ingested rule]).** Its reference cannot be compared, so the
     membership is carried with no register row. Widen carry-069 (ingested
     only today) to linked sessions, or a new row?
-  - **G21. An unstated `session_creator` ([session opener inputs]).** It still ANSWERED 2026-10-29: [unstated session creator carried] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G21. An unstated `session_creator` ([session opener inputs]).** It still ANSWERED 2026-10-29: [unstated session creator carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     converts, with no "software class" parameter. Carry it under carry-119
     too?
-  - **G22. A drug with an offset or duration but no onset ([drug end and ANSWERED 2026-10-29: [drug end without start needs mapping] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G22. A drug with an offset or duration but no onset ([drug end and ANSWERED 2026-10-29: [drug end without start needs mapping] in `docs/plans/did_v2_go_forward_class_audit.md`.
     duration on the anchor]).** An end needs a start (`end_consistent`).
     Carry the record whole as v1 (needs a register row)?
-  - **G23. UTC onset, offset and duration that disagree.** Writing all three ANSWERED 2026-10-29: [drug times that disagree need mapping] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G23. UTC onset, offset and duration that disagree.** Writing all three ANSWERED 2026-10-29: [drug times that disagree need mapping] in `docs/plans/did_v2_go_forward_class_audit.md`.
     fails `end_consistent`; writing one means choosing. Carry as malformed?
   - **G24. The image collection link ([image file details placed]).**
     `imageCollection_id` as `member_of` a group: who mints the group and with
     what id; does `member_of` start at the observation or the body; where do
     the collection's label, format and subject go? ANSWERED 2026-10-30 [image collection carried until a writer].
-  - **G25. [image label goes to notes] before the rename.** `data_body` has ANSWERED 2026-10-29: [image label goes to the observation's notes] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G25. [image label goes to notes] before the rename.** `data_body` has ANSWERED 2026-10-29: [image label goes to the observation's notes] in `docs/plans/did_v2_go_forward_class_audit.md`.
     no `notes` yet, only `description`, which the stack's name already uses.
     Wait for the did_v2 rename, or write it elsewhere now?
-  - **G26. What an `ngrid` body attaches to when there is no statement ANSWERED 2026-10-29: [ngrid with no statement carried] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G26. What an `ngrid` body attaches to when there is no statement ANSWERED 2026-10-29: [ngrid with no statement carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     ([ngrid migrates to sampled bodies]):** an ontologyImage whose only edge
     is its table row, and a standalone `ngrid` (no NDI writer makes one).
-  - **G27. [binaryseries parameters fold as decided].** The data body it ANSWERED 2026-10-29: [binaryseries parameters carried] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G27. [binaryseries parameters fold as decided].** The data body it ANSWERED 2026-10-29: [binaryseries parameters carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     describes cannot be found (no edges, no NDI writer). Carry it as v1 under
     a needs-home row?
   - **G28. Where the clock of "acquisition time" goes ([afo prefix
@@ -263,13 +263,13 @@ emitters); NDI-matlab #1106 (clock nodes), #1107 (strain openminds id), #1111
     hartley_calc and stimulus_response_scalar ([method terms are
     general]),** and whether jrclust and the generic fits gain Spike sorting
     / curve fitting. ANSWERED 2026-10-30 [data analysis is the general method].
-  - **G30. [oneepoch is a redundant calculation].** No "concatenation" term, ANSWERED 2026-10-29: [oneepoch method is data combination] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G30. [oneepoch is a redundant calculation].** No "concatenation" term, ANSWERED 2026-10-29: [oneepoch method is data combination] in `docs/plans/did_v2_go_forward_class_audit.md`.
     no row for the device-local carry, the per-epoch `input_id` links need a
     batch pass, and what the calculation's value holds is not stated.
-  - **G31. [old table rows counted and carried].** No register row covers it, ANSWERED 2026-10-29: [old table rows carried by NDI] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G31. [old table rows counted and carried].** No register row covers it, ANSWERED 2026-10-29: [old table rows carried by NDI] in `docs/plans/did_v2_go_forward_class_audit.md`.
     and NDI's second pass reads these rows today: carry in DID's pass 1, or
     in NDI's?
-  - **G32. [redeclarations only narrow].** All 8 current redeclarations are ANSWERED 2026-10-29: [redeclarations merge when base.name goes] in `schemas/V_eta_go_forward_class_audit.md`.
+  - **G32. [redeclarations only narrow].** All 8 current redeclarations are ANSWERED 2026-10-29: [redeclarations merge when base.name goes] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `<class>.name` over `base.name`, which stays ([base.name kept until
     retire classes leave]). Which, if any, merge into the parent now?
   - **G33. "The fill" of [term equivalents recorded].** 0 of 896 registry
@@ -1008,7 +1008,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
    writes V2 only when the v1 document alone gives exactly one correct
    reading ([one correct reading]).
 2. **Every carry has a reason on record.** Each reason is a row in the carry
-   register (`schemas/V_eta_carry_register.json`, [carry register]):
+   register (`schemas/registry/did_v2_carry_register.json`, [carry register]):
    awaiting a home, needs a dataset mapping, not modelled, or malformed. An
    awaiting-home row must point at an open OPEN_WORK row
    ([awaiting home is tracked]).

@@ -132,7 +132,7 @@ export function ClassDetail({ v1Class, index, onSelect, onBack }: Props) {
       )}
 
       <Step n="1" title="The v1 source, as NDI declares it"
-        source="schemas/V_eta_ndi_ground_truth.json — NDI templates + writers, read from origin/main">
+        source="schemas/generated/did_v2_ndi_ground_truth.json — NDI templates + writers, read from origin/main">
         {wtError ? (
           <p className="detail-error">
             Could not load the walkthrough asset: {wtError}
@@ -154,17 +154,17 @@ export function ClassDetail({ v1Class, index, onSelect, onBack }: Props) {
       </Step>
 
       <Step n="3" title="What it becomes"
-        source="schemas/V_eta_coverage_ledger.json — targets, decided targets, second pass, carried">
+        source="schemas/generated/did_v2_coverage_ledger.json — targets, decided targets, second pass, carried">
         <Becomes row={row} onSelect={onSelect} />
       </Step>
 
       <Step n="4" title="Build state, in full"
-        source="schemas/V_eta_coverage_ledger.json — build_state, computed by tools/coverage.py">
+        source="schemas/generated/did_v2_coverage_ledger.json — build_state, computed by tools/coverage.py">
         <BuildStatePanel row={row} />
       </Step>
 
       <Step n="5" title="The authored account"
-        source="schemas/V_eta_migration_targets.json — `how` and its caveats, via the ledger">
+        source="schemas/generated/did_v2_migration_targets.json — `how` and its caveats, via the ledger">
         {row?.how ? (
           <>
             <p className="cw-how">{row.how}</p>
@@ -181,7 +181,7 @@ export function ClassDetail({ v1Class, index, onSelect, onBack }: Props) {
       </Step>
 
       <Step n="6" title="Decision and sign-off"
-        source="schemas/V_eta_decisions.json (tools/status_board.py) + the ledger's own citations">
+        source="schemas/generated/did_v2_decisions.json (tools/status_board.py) + the ledger's own citations">
         <Signoff row={row} fam={fam} />
       </Step>
 

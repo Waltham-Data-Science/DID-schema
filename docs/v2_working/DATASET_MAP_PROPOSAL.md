@@ -15,7 +15,7 @@
 All code citations below are `git show origin/V2:<path>` at those commits.
 "By reading" means I read the code and did not run it. No MATLAB was run.
 
-The decision lines are in `schemas/V_eta_go_forward_class_audit.md` (did-schema
+The decision lines are in `docs/plans/did_v2_go_forward_class_audit.md` (did-schema
 660c16c): [one correct reading] :1220, [carry register] :1200,
 [dataset-specific logic leaves the generic migration] :1208,
 [Haley logic leaves the generic migration] :1206, [sliceTetanus to Dab map]
@@ -70,7 +70,7 @@ the refold now returns the row unchanged, so it ends carried.
 
 ### 1.4 The carry register (did-schema `claude/carry-register` d89858e)
 
-`schemas/V_eta_carry_register.json`: 21 rows (8 `malformed`, 7
+`schemas/registry/did_v2_carry_register.json`: 21 rows (8 `malformed`, 7
 `awaiting_home`, 4 `not_modelled`, 2 `needs_mapping`; counted with a
 one-line Python read of `rows`). The two `needs_mapping` rows:
 
@@ -256,7 +256,7 @@ The function moves from `+migrate/+internal/` into the dataset's package.
 - **NDI-matlab test** (one per map file, in CI): the file's shape; every
   `resolves` id exists in did-schema's carry register and is a `needs_mapping`
   row; every term node is in the term registry; every `home.class` is in
-  `schemas/did_v2/index.json`; every `match` field exists in the NDI v1
+  `schemas/generated/index.json`; every `match` field exists in the NDI v1
   template of that class (`origin/main`); every `decision` row exists in the
   dataset's log; every `pass` function exists and has its `test`.
 - **Corpus test** for a dataset with a corpus: generic + map run on the corpus

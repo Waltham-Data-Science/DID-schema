@@ -27,7 +27,7 @@ INPUTS
   * one or more `<corpus>-summary.json` corpus reports (the per-corpus v1 class
     census is `source_census.by_class`; keys are v1 SOURCE class names). Same
     files census_digest.py / corpus_proven.py read.
-  * schemas/V_eta_coverage_ledger.json -- per-class `targets` (GENERATED: what
+  * schemas/generated/did_v2_coverage_ledger.json -- per-class `targets` (GENERATED: what
     the migrator emits), `decided_targets` (AUTHORED: a signed gap), `stage`
     (the ladder), `governance`, `disposition`, `target_source`.
 
@@ -64,7 +64,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-LEDGER = HERE.parent / "schemas" / "V_eta_coverage_ledger.json"
+LEDGER = HERE.parent / "schemas" / "generated" / "did_v2_coverage_ledger.json"
 
 
 # ---- the husk/bridge overlay -------------------------------------------------
@@ -143,7 +143,7 @@ SECOND_PASS = {
                  "item value as the `control condition` covariate (XCO:0000099, "
                  "logical, true where the presentation was a control; all false for "
                  "a v1 NaN control). Jess Haley, 2026-10-22 [control as covariate], "
-                 "V_eta_stimulus_response_model_plan.md, superseding "
+                 "did_v2_stimulus_response_model_plan.md, superseding "
                  "[control record is a calculation]; responses point at the "
                  "presentation only.",
         "assembler": "the stimulus step of ndi.migrate.local, beside "

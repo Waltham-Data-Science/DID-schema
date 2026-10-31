@@ -1,0 +1,110 @@
+{
+    "document_class": {
+        "class_name": "base",
+        "class_version": "1.0.0",
+        "superclasses": [],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The session or dataset this document is stored with: the `entity` document of type session or dataset. A session or dataset entity points at itself, because its base.id IS its session id. Storage scope, never membership: a session is in a study or a dataset by an `included_in` relation. (A field, `base.session_id`, until 2026-10-20: the one link that was not an edge, and it named the session by an id that was not the session document's.)",
+            "must_refer_to_document_class": "entity"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "id",
+            "type": "did_uid",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "IAO:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "Unique identifier for this document instance.",
+            "constraints": {}
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
+            },
+            "documentation": "did_v1 ONLY (#73 item 54). Carried by v1 documents that pass through under a retired tombstone; V_eta documents never write it -- a V_eta class that has a name declares its own `name` field. Deleted when the last passthrough class is converted.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "creation_timestamp",
+            "type": "timestamp",
+            "blank_value": "",
+            "default_value": "2018-12-05T18:36:47.241Z",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:dateCreated",
+                "name": "dateCreated"
+            },
+            "documentation": "UTC timestamp of document creation, ISO 8601. Renamed from `datestamp` 2026-08-13: `datestamp` named the container rather than the content (T13), and `_timestamp` is the kind word because every existing `_time` field in V_eta is a numeric offset or duration, not an instant.",
+            "constraints": {}
+        },
+        {
+            "name": "needs_info",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The facts this document's source never stated, one entry per missing field: [missing facts are needs info] (Jess Haley, 2026-10-29, did_v2_go_forward_class_audit.md). A required field may be absent only when an entry here names it; an entry must not name a field the document gives. A dataset's import may fill the field and drop the entry. Absent on a document that is missing nothing.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "field",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The missing field's path as the builder names it: <block>.<field>, with (k) after a struct-array field, e.g. 'coordinate_system.reference_point', 'coordinate_system.axes(3).positive_direction'.",
+                    "constraints": {}
+                },
+                {
+                    "name": "reason",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Why the source does not state it, in words (e.g. 'v1 probe_geometry has no field for the zero point').",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

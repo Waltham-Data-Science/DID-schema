@@ -25,7 +25,7 @@ NOT_VALUES = {
     # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,
     # so it takes the condition's `approximate` and, like it, no tolerance.
     # Since 2026-10-21 the list is `method.parameters` (one `method` block,
-    # V_eta_method_plan.md), which `relation` now carries too.
+    # did_v2_method_plan.md), which `relation` now carries too.
     "clock_alignment_configuration.method.parameters",
     "interaction.method.parameters",
     "method.parameters",
@@ -39,7 +39,7 @@ def _load(path):
 
 
 def _places():
-    files = [f for f in glob.glob(os.path.join(ROOT, "*", "*.json"))
+    files = [f for f in glob.glob(os.path.join(ROOT, "**", "*.json"), recursive=True)
              if "document_class" in _load(f)]
     out = []
     # A nested quantity names its value class and carries no cell of its own
@@ -84,7 +84,7 @@ def test_every_tolerance_is_a_non_negative_minus_plus_pair():
     _files, places = _places()
     tols = [(p, t) for p, t in places if t is not None]
     # >= 50, not >= 60, since 2026-10-21: the deleted `visual_grating` held nine
-    # tolerance-bearing cells (V_eta_method_plan.md); 57 remained.
+    # tolerance-bearing cells (did_v2_method_plan.md); 57 remained.
     assert len(tols) >= 50, len(tols)
     for p, t in tols:
         assert t["type"] == "structure", p

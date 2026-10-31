@@ -83,7 +83,6 @@ registry strength fails CI two independent ways.
 """
 
 import argparse
-import glob
 import json
 import os
 import sys
@@ -91,10 +90,10 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 VETA = os.path.join(REPO, "schemas", "did_v2")
-TIERS = ("stable", "draft", "deprecated")
+sys.path.insert(0, HERE)
+import schema_paths as SP  # noqa: E402
 
-REGISTRY_REL = os.path.join("schemas", "did_v2", "stable",
-                            "binding_registry_meta.json")
+REGISTRY_REL = os.path.join("schemas", "registry", "binding_registry_meta.json")
 
 # The registry's list-valued blocks. Same set and same normativity flags as
 # tools/check_binding_governance.py REGISTRY_LISTS -- asserted equal by
@@ -104,7 +103,7 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
-    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # 2026-10-08 (signed, did_v2_entity_composition_plan.md sec. 4): what each
     # `entity.type` requires. Normative, and carries no strength of its own.
     "entity_type_bindings": True,
     # 2026-10-29 (Jess Haley [allowed units are source units]): the units a
@@ -151,13 +150,12 @@ def bound_fields(veta=VETA):
                     nested_hits += 1
             walk(f.get("fields"), here + ".", cls, tier, depth + 1)
 
-    for tier in TIERS:
-        for p in sorted(glob.glob(os.path.join(veta, tier, "*.json"))):
-            d = load(p)
-            if not (isinstance(d, dict) and "document_class" in d):
-                continue
-            files_read += 1
-            walk(d.get("fields"), "", d["document_class"]["class_name"], tier, 0)
+    for tier, p in SP.folder_files(veta):
+        d = load(p)
+        if not (isinstance(d, dict) and "document_class" in d):
+            continue
+        files_read += 1
+        walk(d.get("fields"), "", d["document_class"]["class_name"], tier, 0)
 
     return index, {"document_class_files_read": files_read,
                    "field_declarations_walked": fields_walked,

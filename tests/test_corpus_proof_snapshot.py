@@ -172,7 +172,7 @@ rows = [{"v1_class": c, "targets": [c], "decided_targets": [],
                                "state": s, "why": ""}]}}
         for c, s in (("element", "yes"), ("pyraview", "yes"),
                      ("ngrid", "not measured"))]
-with open(os.path.join(schema, "V_eta_coverage_ledger.json"), "w") as fh:
+with open(os.path.join(schema, "did_v2_coverage_ledger.json"), "w") as fh:
     json.dump({"rows": rows}, fh)
 
 stub = lambda repo, roots: {"ran": True, "exit_code": 0, "stdout": ""}
@@ -297,10 +297,10 @@ class ZeroReportSourceCase(unittest.TestCase):
             src = os.path.join(td, "v_eta_corpus_proven.json")
             with open(src, "w") as fh:
                 json.dump(self.zero_report_doc(), fh)
-            snap = os.path.join(td, "V_eta_corpus_proof.json")
+            snap = os.path.join(td, "did_v2_corpus_proof.json")
             old_snap, old_md = SNAP.SNAPSHOT, SNAP.SNAPSHOT_MD
             SNAP.SNAPSHOT = snap
-            SNAP.SNAPSHOT_MD = os.path.join(td, "V_eta_corpus_proof.md")
+            SNAP.SNAPSHOT_MD = os.path.join(td, "did_v2_corpus_proof.md")
             try:
                 argv = sys.argv
                 sys.argv = ["corpus_proof_snapshot.py", "--from", src]

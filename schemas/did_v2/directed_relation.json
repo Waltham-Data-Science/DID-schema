@@ -1,0 +1,358 @@
+{
+    "document_class": {
+        "class_name": "directed_relation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "relation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "child_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The finer/subordinate/derived side: an entity, a statement (a label calculation derived_from an external atlas, item 27) or a standalone data document (a gene list derived_from its annotation, item 22). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "entity,statement,value"
+        },
+        {
+            "name": "parent_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "entity,statement,value"
+        },
+        {
+            "name": "time_reference_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`, or a `derived_from` creation event), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record you anchor other times against (via a `relative_time_reference`). Empty for timeless relations (part_of). (D10 multi-party binding.) #52 (did_v2_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different; entries repeating one name (T15) are otherwise indistinguishable. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it. AMENDED 2026-10-26 (Jess Haley, did_v2_go_forward_class_audit.md [device clocks on one epoch]): one document's time references are unique by clock AND referent -- by (`value.clock`, `referent_id`) on the referenced documents -- so an epoch holding files from several acquisition systems carries one reference per system on one clock (e.g. `dev_local_time`), each with that system's entity as its `referent_id`. `referent_unique_by` declares it as [\"value.clock\", \"referent_id\"], which DID-matlab's readers (did2.validate.timeReferenceFamilies, silentLoss) take since d2c9c1e4.",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true,
+            "min_count": 0,
+            "referent_unique_by": [
+                "value.clock",
+                "referent_id"
+            ],
+            "ordered": false
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL scope: the recording this relation was observed in, for relations whose truth is per-epoch. The ensemble's `member_of` edges are the signed case -- the recorded neuron set changes epoch to epoch, so the roster is preserved as one edge per (member, epoch) rather than lost to the cache. NOT a restatement of `time_reference_id`: that says WHEN the relation happened, this says WHICH RECORDING it holds in. Empty for every timeless or session-wide relation (part_of, has_author, derived_from), which is why it is optional.",
+            "must_refer_to_document_class": "entity"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The relation, as a term. Bound (preferred) to the directed rows of binding_registry_meta.relation_bindings, from which the allowed values are generated at build time (#73 audit 2 D5).",
+            "constraints": {
+                "binding": {
+                    "root": "did_relation_directed",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "BFO:0000050",
+                            "name": "part of"
+                        },
+                        {
+                            "node": "schema:isPartOf",
+                            "name": "isPartOf"
+                        },
+                        {
+                            "node": "RO:0001025",
+                            "name": "located in"
+                        },
+                        {
+                            "node": "RO:0002350",
+                            "name": "member of"
+                        },
+                        {
+                            "node": "prov:wasDerivedFrom",
+                            "name": "wasDerivedFrom"
+                        },
+                        {
+                            "node": "ENVO:01003004",
+                            "name": "derives from part of"
+                        },
+                        {
+                            "node": "RO:0002437",
+                            "name": "biotically interacts with"
+                        },
+                        {
+                            "node": "schema:author",
+                            "name": "author"
+                        },
+                        {
+                            "node": "schema:citation",
+                            "name": "citation"
+                        },
+                        {
+                            "node": "schema:funding",
+                            "name": "funding"
+                        },
+                        {
+                            "node": "schema:funder",
+                            "name": "funder"
+                        },
+                        {
+                            "node": "schema:affiliation",
+                            "name": "affiliation"
+                        },
+                        {
+                            "node": "schema:subjectOf",
+                            "name": "subjectOf"
+                        },
+                        {
+                            "node": "schema:maintainer",
+                            "name": "maintainer"
+                        },
+                        {
+                            "node": "schema:contributor",
+                            "name": "contributor"
+                        },
+                        {
+                            "node": "schema:copyrightHolder",
+                            "name": "copyrightHolder"
+                        },
+                        {
+                            "node": "SIO:000497",
+                            "name": "is version of"
+                        },
+                        {
+                            "node": "schema:isBasedOn",
+                            "name": "isBasedOn"
+                        },
+                        {
+                            "node": "EMPTY:0000378",
+                            "name": "follows protocol"
+                        },
+                        {
+                            "node": "schema:parentOrganization",
+                            "name": "parentOrganization"
+                        },
+                        {
+                            "node": "EMPTY:0000382",
+                            "name": "instance of"
+                        },
+                        {
+                            "node": "schema:fundedItem",
+                            "name": "fundedItem"
+                        },
+                        {
+                            "node": "EMPTY:0000386",
+                            "name": "orthologous gene mapping"
+                        },
+                        {
+                            "node": "EMPTY:0000381",
+                            "name": "gene alias mapping"
+                        },
+                        {
+                            "node": "OBI:0000647",
+                            "name": "has_supplier"
+                        },
+                        {
+                            "node": "schema:producer",
+                            "name": "producer"
+                        },
+                        {
+                            "node": "schema:provider",
+                            "name": "provider"
+                        },
+                        {
+                            "node": "EMPTY:0000379",
+                            "name": "distributed as"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "source": "binding_registry_meta.relation_bindings"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "order",
+            "type": "integer",
+            "blank_value": -1,
+            "default_value": -1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge, a member's position on an ordered group's `member_of` edge, T20). Counts from 0 (T14): the first author is 0 (Decided by Jess Haley, 2026-10-21 [author order from 0], did_v2_study_plan.md). -1 (the blank) = unordered, as for `data.covariates.document`: 0 is a real position. Named `sequence` until the T20 rename (TEAM-SIGN-OFF [tenet T20, group entities], 2026-10-21).",
+            "constraints": {}
+        },
+        {
+            "name": "roles",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the child's roles in this relation, for a contribution edge (`has_author`, `contributed_by`): the 14 CRediT contributor roles plus `corresponding author`. Bound, preferred.",
+            "constraints": {
+                "binding": {
+                    "root": "did_contributor_role",
+                    "expansion": "value_set",
+                    "values": [
+                        {
+                            "node": "credit:conceptualization",
+                            "name": "conceptualization"
+                        },
+                        {
+                            "node": "credit:data-curation",
+                            "name": "data curation"
+                        },
+                        {
+                            "node": "credit:formal-analysis",
+                            "name": "formal analysis"
+                        },
+                        {
+                            "node": "credit:funding-acquisition",
+                            "name": "funding acquisition"
+                        },
+                        {
+                            "node": "credit:investigation",
+                            "name": "investigation"
+                        },
+                        {
+                            "node": "credit:methodology",
+                            "name": "methodology"
+                        },
+                        {
+                            "node": "credit:project-administration",
+                            "name": "project administration"
+                        },
+                        {
+                            "node": "credit:resources",
+                            "name": "resources"
+                        },
+                        {
+                            "node": "credit:software",
+                            "name": "software"
+                        },
+                        {
+                            "node": "credit:supervision",
+                            "name": "supervision"
+                        },
+                        {
+                            "node": "credit:validation",
+                            "name": "validation"
+                        },
+                        {
+                            "node": "credit:visualization",
+                            "name": "visualization"
+                        },
+                        {
+                            "node": "credit:writing-original-draft",
+                            "name": "writing - original draft"
+                        },
+                        {
+                            "node": "credit:writing-review-editing",
+                            "name": "writing - review & editing"
+                        },
+                        {
+                            "node": "NCIT:C164481",
+                            "name": "corresponding author"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "source": "value_set"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "distributive",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional; meaningful only when the subject is a group (`entity.type` group). True: this relation holds of EACH member, as well as of the group (a cohort moved to a plate: each worm was moved). Absent or false: it holds of the group as a whole and of no member by implication (a cohort's size).",
+            "constraints": {}
+        }
+    ]
+}

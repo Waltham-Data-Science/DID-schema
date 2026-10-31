@@ -3,7 +3,7 @@
 WHY THIS FILE EXISTS
 --------------------
 "How far has this v1 class actually got?" was a judgement assembled by hand from
-five fields of `V_eta_coverage_ledger.json`. Five people assemble it five ways
+five fields of `did_v2_coverage_ledger.json`. Five people assemble it five ways
 and none of them is re-derivable next week. `tools/coverage.py` DERIVES a stage
 per class, and this file is the thing that keeps it honest.
 
@@ -71,8 +71,8 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 
 import coverage  # noqa: E402
 
-LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
-LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
+LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
+LEDGER_MD = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_coverage_ledger.md")
 
 # PINNED, DELIBERATELY. The v1 source universe is 113 (was 102 until 2026-08;
 # NDI-matlab origin/main gained 10 templates -- cellTypeLabels, demoNDISeries,
@@ -669,7 +669,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # AND IS NOW EIGHT. The gene-expression family + `fileReference` -- eight
         # of the sixteen -- LEFT this bucket in the direction that matters: the
         # team signed `spatial_transcriptomics_family` (Corrected Option C,
-        # V_eta_go_forward_class_audit.md:796) and this PR built their V_eta
+        # did_v2_go_forward_class_audit.md:796) and this PR built their V_eta
         # target schemas, so rung 2 (target class exists in the built V_eta
         # set) now reads `yes` for each. Rung 1 still reads `no` -- the
         # migrators are #122's scope (Session 2). A class with rung 2
@@ -767,11 +767,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         # spatialGeneExpressionTiles) were briefly build-ahead-of-migrator
         # after DID-schema #64 landed the schemas + `variable` binding
         # (TEAM-SIGN-OFF [spatial_transcriptomics_family], Corrected
-        # Option C, V_eta_go_forward_class_audit.md:796) while Session 2's
+        # Option C, did_v2_go_forward_class_audit.md:796) while Session 2's
         # migrators were still queued as OPEN_WORK #122. Session 2's
         # DID-matlab PR #151 (merged as commit 932d653 into the veta
         # branch) closed that gap: all 8 migrators exist in
-        # +migrators_j/, the row set in V_eta_migration_targets.json was
+        # +migrators_j/, the row set in did_v2_migration_targets.json was
         # extended via `refresh_migration_targets.py`, and each class now
         # reaches stage 3 (migrator emits its decided targets), which is
         # the SAME climb `app`->`software` made -- so like `app`, the
@@ -986,7 +986,7 @@ class TestCorpusRungBecomesComputable(unittest.TestCase):
         ev = coverage.load_corpus_evidence([self.tmp])
         row = self._row(cls="epochid", targets=())
         row["no_target_reason"] = "dissolved"
-        row["no_target_signoff"] = {"document": "V_eta_epoch_plan.md",
+        row["no_target_signoff"] = {"document": "did_v2_epoch_plan.md",
                                     "signoff_fragment": "epochid is DROPPED"}
         row["build_state"]["has_per_class_migrator"] = True
         st = coverage.stage_ladder(row, ev)
@@ -1222,7 +1222,7 @@ class TestMutationsRedden(unittest.TestCase):
                          "introduced by #67's standalone `calculator` class -- "
                          "which raised it to sixteen; sixteen until 2026-09-22, "
                          "when TEAM-SIGN-OFF [spatial_transcriptomics_family] "
-                         "(V_eta_go_forward_class_audit.md:796) landed and this "
+                         "(did_v2_go_forward_class_audit.md:796) landed and this "
                          "PR built the V_eta target schemas for the eight-row "
                          "gene-expression family, moving them into "
                          "`anomalies.over_failed` (build-ahead: rung 2 satisfied "
@@ -1302,7 +1302,7 @@ class ConfirmedTargetsCase(unittest.TestCase):
     """
 
     def test_the_five_answered_rows_reach_stage_3(self):
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         # element and pyraview LEFT this list 2026-09-25: #65 increment 3b deleted
@@ -1326,7 +1326,19 @@ class ConfirmedTargetsCase(unittest.TestCase):
         py = rows["pyraview"]
         self.assertEqual(py["stage"]["reached"], 3, f"pyraview: {py['stage']}")
         self.assertNotEqual(py.get("decided_targets_source"), "confirmed_emission")
-        for cls in ("daqreader_ndr", "session", "subject"):
+        # daqreader_ndr LEFT this list 2026-10-31 (sibling lock moved to DID-matlab
+        # a78299d8): DID-matlab 77866d81 builds [retired classes leave V2] (1) and
+        # the migrator no longer writes the retired `daqreader`, which its
+        # 2026-08-13 confirmed set still names. The ladder reports that
+        # confirmation as stale (rung 3 `no`), as this key's `why` says it must.
+        # Re-confirming the set is the team's call, not this test's. Pinned so the
+        # stale confirmation cannot read as finished work.
+        nd = rows["daqreader_ndr"]["stage"]
+        self.assertEqual(nd["reached"], 2, f"daqreader_ndr: {nd}")
+        self.assertEqual(nd["blocked_by"], 3, f"daqreader_ndr: {nd}")
+        self.assertEqual(rows["daqreader_ndr"]["decided_targets_source"],
+                         "confirmed_emission")
+        for cls in ("session", "subject"):
             st = rows[cls]["stage"]
             self.assertEqual(
                 st["reached"], 3,
@@ -1344,7 +1356,7 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # record with no document. Confirming a target set is not signing a
         # disposition; the governance citation must still come from the class's own
         # decision citation (tools/decision_citations.py).
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
@@ -1356,9 +1368,11 @@ class ConfirmedTargetsCase(unittest.TestCase):
     def test_confirmed_and_decided_cannot_both_be_recorded(self):
         # "already right" and "still owed" are opposites. A row asserting both
         # must stop the ledger, not have one silently win.
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
-        with open(path) as fh:
-            doc = json.load(fh)
+        # The merged map: the authored registry/did_v2_migration_decisions.json
+        # with the generated targets ([schema folders by family] split it).
+        sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+        import schema_paths
+        doc = schema_paths.load_migration_targets(REPO_ROOT)
         rows = doc.get("classes") or doc
         both = [k for k, v in rows.items()
                 if isinstance(v, dict) and (v.get("confirmed_targets") or {}).get("targets")
@@ -1377,10 +1391,10 @@ class ConfirmedTargetsCase(unittest.TestCase):
         # emitted for rung 3. The DID-matlab #88 port (#218, 229c12e) removed
         # `mk`: element.m now builds through did2.build, the derivation reads
         # it in full, and it mints no observation. So the authored entry is
-        # gone from V_eta_migration_targets.json (with that evidence in the
+        # gone from did_v2_migration_targets.json (with that evidence in the
         # row's flags), and the confirmed observations must now read as NOT
         # emitted -- the gap is real, and hiding it is what this rung is for.
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        path = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
         with open(path) as fh:
             rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
         el = rows["element"]

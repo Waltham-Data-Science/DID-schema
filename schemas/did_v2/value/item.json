@@ -1,0 +1,59 @@
+{
+    "document_class": {
+        "class_name": "item",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "value"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "item_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The DISTINCT documents the value names, deduplicated, in order: any document. Value k names the k-th entry (0-based, T14). A stimulus given as a RECIPE is a `method` document, one per distinct stimulus (term \"drifting sinusoidal grating\", parameters orientation / spatial frequency / temporal frequency / contrast / waveform ...; a blank is its own `method` document). A stimulus given as WHAT WAS DELIVERED (a movie's frames, a current trace) is the value for that quantity. A subject, for a track's nearest patch. (did_v2_method_plan.md, 2026-10-21: a stimulus is no longer a class per kind, such as the deleted `visual_grating`.)",
+            "must_refer_to_document_class": "base",
+            "multiple": true,
+            "min_count": 0,
+            "ordered": true
+        }
+    ],
+    "file": [
+        {
+            "name": "presentation_time.bin",
+            "documentation": "Optional: the v1 stimulus presentation's per-presentation onsets and offsets, kept attached as the raw source of the `onset time` / `offset time` covariates NDI's second pass reads from it (Jess Haley 2026-10-22 [presentation times from the file], 7.1c; declared by [presentation file declared]). Absent on documents that never had it."
+        }
+    ],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "At each position along the value's `dimensions`, ONE document out of the ordered list of distinct documents in `item_id`: the stimulus shown at each presentation, the patch nearest the worm in each video frame. The dimensions and their covariates are whatever the statement needs (a stimulus sequence: one presentation dimension with covariates `onset time`, `offset time` when the source recorded ends, and `control condition` (XCO:0000099, `logical`) when it named a control; a track: a frame dimension with a time covariate); the values may sit in a body when there are many, and `value` is then absent (as for every value with a body). The `variable` says what kind of item it is. (`timed_sequence` until 2026-10-04. `offset` and `control_item` were deleted 2026-10-22 for the `offset time` and `control condition` covariates, data_body plan AMENDMENT 6 and Jess Haley, 2026-10-22 [control as covariate], did_v2_stimulus_response_model_plan.md.)",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "item",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "One 0-based position in `item_id` per position along the dimensions (value k names the k-th `item_id` entry). A position with no item is empty: NaN inline, the body's `fill_value` when the values are in a body. (`presentation_order` until 2026-10-04.)",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

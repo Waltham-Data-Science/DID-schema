@@ -2,73 +2,91 @@
 
 ## What is this repo?
 
-`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It defines the canonical JSON format for schema files that describe DID/NDI document types and ships a meta-schema that validates schema files themselves. This repo is not NDI itself -- it is a standalone dependency that both DID and NDI rely on for document type definitions. Language-specific tooling (MATLAB, Python, etc.) lives in separate repositories and consumes these schemas.
+`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It holds **did_v2**, the schema NDI V2 is built on: one JSON file per document class, the registries those classes bind to, the meta-schema that validates the class files themselves, the tools that check all of it, and the record of every decision about it. It is not NDI itself; the MATLAB code that builds, migrates and validates documents lives in [DID-matlab](https://github.com/VH-Lab/DID-matlab) and [NDI-matlab](https://github.com/VH-Lab/NDI-matlab), which read this repository.
 
-## Schema format overview
+How to work here (rules, gates, the sibling lock, who decides) is in [CLAUDE.md](CLAUDE.md).
 
-The schema in use is **V_eta**. Each document class is one JSON file under `schemas/did_v2/<tier>/<class_name>.json`, where the tier is `stable`, `draft` or `deprecated` (v1 tombstones that migrated documents validate through). A class file has four top-level keys:
+## The model in brief
 
-- **`document_class`** -- `class_name`, `class_version` (semantic version `"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), and `maturity_level`
-- **`depends_on`** -- the class's edges to other documents (name, mustBeNonEmpty, documentation)
-- **`file`** -- the files a document of the class may carry (name, documentation)
-- **`fields`** -- field definition objects, nested for structures
+Every identifiable thing is an `entity` with a bound `type` (organism, device, session, dataset, ...). What is said about an entity is a statement whose class is its direction (`assertion`, `observation`, `manipulation` or `calculation`) and whose value kind (`mass`, `term`, `text`, ...) is a mixin in its `superclasses`. Relations are documents (`directed_relation`, `undirected_relation`). A value is inline or in data bodies (`sampled_body`, `opaque_body`). The principles are the tenets, [docs/did_v2_tenets.md](docs/did_v2_tenets.md); each decision is a `Decided by <name>, <date> [<tag>]` line in a plan document under [docs/plans/](docs/plans/).
 
-Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`, plus `fields` for a structure.
-
-`schemas/did_v2/index.json` lists every class with its tier, version and superclasses (derived) and its `disposition` (hand-written: `persist`, `retire` or `in_progress`). The registries the classes bind to live in `schemas/did_v2/stable/*_meta.json`; the term registry's source is `schemas/V_eta_term_registry.json`.
-
-The model in one paragraph: every identifiable thing is an `entity` with a bound `type`; what is said about it is a statement (`assertion`, `observation`, `manipulation` or `calculation`) whose value kind is a mixin in its `superclasses`; relations are `directed_relation` documents; values are inline or in data bodies (`sampled_body`, `opaque_body`). The principles are in [schemas/V_eta_tenets.md](schemas/V_eta_tenets.md), and each decision is recorded in a plan document under `schemas/` (`Decided by <name>, <date> [<tag>]` lines). [schemas/V_eta_SPEC.md](schemas/V_eta_SPEC.md) predates the 2026-10-08 entity merge; where it disagrees with the tenets or a plan document, those win.
-
-The earlier versions (`V_alpha` .. `V_zeta`) are retired: their schema trees are deleted, and only their `*_SPEC.md` / `*_notes.md` files remain in `schemas/` as history.
-
-## Directory layout
+## Layout
 
 ```
 did-schema/
-|
-+-- README.md, CLAUDE.md (how to work in this repository)
++-- README.md, CLAUDE.md
 +-- schemas/
-|   +-- V_eta/
-|   |   +-- index.json                  <- class index (tier, version, superclasses, disposition)
-|   |   +-- stable/  draft/  deprecated/  <- one <class_name>.json per class; *_meta.json registries
-|   |   +-- conversions/from_did_v1/    <- per-class v1 -> V_eta conversion notes
-|   +-- V_eta_term_registry.json        <- source of the term registry
-|   +-- V_eta_*_plan.md, V_eta_tenets.md  <- decisions and principles
-|   +-- V_eta_STATUS.md, V_eta_coverage_ledger.*, ...  <- generated (do not hand-edit)
-+-- tools/                              <- gates.py and the tools it runs
-+-- tests/                              <- pytest suite
-+-- web/                                <- schema viewer (see web/README.md)
+|   +-- did_v2/              class files only, one <class_name>.json per class, by family:
+|   |   +-- *.json           the core classes (base, entity, statement and its directions,
+|   |   |                    relations, value, data_body, method, acquisition, ...)
+|   |   +-- value/           the value kinds (mass, length, term, text, ...)
+|   |   +-- calculation/     the named calculation classes (tuning curves, receptive fields)
+|   |   +-- data_body/       sampled_body, opaque_body
+|   |   +-- time_reference/  time_reference and its absolute / relative forms
+|   |   +-- retiring/        the retire classes still in the tree, until each is deleted
+|   +-- registry/            authored data: did_schema_meta.json (the meta-schema),
+|   |                        binding_registry_meta, CURIE_lookups_meta, ndi_reserved_keys,
+|   |                        topics (viewer), did_v2_term_registry, did_v2_carry_register,
+|   |                        did_v2_openminds_crosswalk, did_v2_class_dispositions,
+|   |                        did_v2_migration_decisions
+|   +-- generated/           written by tools only: index.json, term_registry_meta,
+|   |                        class_disposition_meta, quantity_list_meta, did_v2_coverage_ledger,
+|   |                        did_v2_decisions, did_v2_ndi_ground_truth, did_v2_migration_targets
+|   +-- did_v1/              reserved for the frozen v1 set; until then NDI-matlab main is the v1 truth
++-- docs/
+|   +-- did_v2_tenets.md, did_v2_OPEN_WORK.md, did_query_model.md   entry points
+|   +-- plans/               plan and decision documents (flat)
+|   +-- generated/           did_v2_STATUS.md, did_v2_coverage_ledger.md,
+|   |                        did_v2_final_class_set.md (do not hand-edit)
+|   +-- history/             superseded documents, kept for their record
+|   +-- v2_working/, V2_PLAN.md   working notes and the working plan (not the record)
++-- tools/                   gates.py and the tools it runs; schema_paths.py and
+|                            doc_paths.py say where every file lives
++-- tests/                   pytest suite (run by gates.py)
++-- web/                     the schema viewer (see web/README.md)
 ```
 
-## Versioning
+A folder under `schemas/did_v2/` means a family, never a tier or a maturity. Class names are unique across the tree, and no file name repeats anywhere under `schemas/`: DID-matlab and NDI-matlab find class files at any depth under `schemas/did_v2/` and every other file by its name. A document cited by bare name (`did_v2_epoch_plan.md`) is the unique file of that name under `docs/`.
 
-Schema files use semantic versioning (`MAJOR.MINOR.PATCH`). Increment **MAJOR** when making breaking changes (removing/renaming fields, changing types, adding required constraints or dependencies, modifying superclass hierarchy). Increment **MINOR** when adding new optional fields, relaxing constraints, or improving ontology annotations -- existing documents will still pass validation. Increment **PATCH** for documentation corrections, `default_value` changes, or formatting cleanup with no behavioral effect.
+## A class file
 
-## blank_value vs. default_value
+A class file has four top-level keys:
 
-Every field has both a `blank_value` and a `default_value`. The `blank_value` is the value in a freshly constructed document before the user provides data -- it is allowed to fail validation (common values: `""`, `null`, `[]`). The `default_value` is a fallback that must pass validation and is used during programmatic document construction when the caller does not supply a value.
+- **`document_class`**: `class_name` (the file name), `class_version` (`"MAJOR.MINOR.PATCH"`), `superclasses` (a list of `{class_name}`), `maturity_level`
+- **`depends_on`**: the class's edges to other documents
+- **`file`**: the files a document of the class may carry
+- **`fields`**: field definitions, nested for structures; each has `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation` and `constraints`
 
-## Validation
+`schemas/registry/did_schema_meta.json` is the meta-schema every class file must pass.
 
-Validation is explicit and deferred -- documents do not validate themselves on construction. Consumer tooling (MATLAB, Python, etc.) calls a validate function explicitly, or the database layer triggers validation before insert. Class files are checked by `tools/validate_v_eta.py`, which `tools/gates.py` runs.
+## Changing a class
 
-## Running the tests and gates
+1. Edit or add `schemas/did_v2/<family>/<class_name>.json` (JSON, indent 4).
+2. For a new class, add its `disposition` (`persist`, `retire` or `in_progress`) to `schemas/registry/did_v2_class_dispositions.json`. A `retire` class lives in `schemas/did_v2/retiring/`.
+3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites `schemas/generated/` (the index and the built registries); do not hand-edit anything there.
+4. A schema change the sibling code must follow lands in DID-matlab and NDI-matlab first (CLAUDE.md, section 3).
+
+The team decides; a change is recorded as a decision line in the plan document it belongs to and reaches `main` through a reviewed PR.
+
+## Running the gates
 
 ```bash
 pip install -e ".[test]"
 python3 tools/gates.py            # regenerate every derived artifact, then run every gate (includes pytest)
 python3 tools/gates.py --check    # the same in a scratch mirror; writes nothing
+python3 tools/gates.py --explain  # the order of the steps, and why
 ```
 
-Some gates read the sibling repositories (NDI-matlab, DID-matlab, empty-ontology); point `NDI_MATLAB`, `DID_MATLAB` and `EMPTY_ONTOLOGY` at the checkouts you mean (see `CLAUDE.md`, section 3).
+The gates read the sibling repositories at the commits locked in `tools/sibling_lock.json`. Point `NDI_MATLAB`, `DID_MATLAB`, `NDICALC_VIS_MATLAB` and `EMPTY_ONTOLOGY` at the checkouts you mean, at the locked heads (CLAUDE.md, section 3).
 
-## Adding or changing a class
+## Versioning a class
 
-1. Edit or add `schemas/did_v2/<tier>/<class_name>.json` (JSON, indent 4).
-2. For a new class, add a hand-written `disposition` to its entry in `schemas/did_v2/index.json`; the other index fields are derived.
-3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the class and rewrites the derived files (`index.json`, the built registries); do not hand-edit those.
-4. Record the decision behind the change in the plan document it belongs to.
+Increment **MAJOR** for a breaking change (removing, renaming or retyping a field, adding `mustBeNonEmpty` to an optional field, adding a required dependency, changing the superclasses). Increment **MINOR** for an additive change (a new optional field, a relaxed constraint, an ontology annotation). Increment **PATCH** for documentation, `default_value` or formatting changes with no behavioural effect.
 
-## Contributing
+## blank_value and default_value
 
-When editing a schema file, choose the version bump carefully: use **MAJOR** when removing, renaming, or retyping fields, adding `mustBeNonEmpty` to previously optional fields, adding required dependencies, or changing the superclass hierarchy. Use **MINOR** when adding new optional fields, relaxing constraints, or adding/correcting ontology annotations. Use **PATCH** for documentation fixes, `default_value` adjustments, or formatting changes with no behavioral impact.
+`blank_value` is the value in a freshly constructed document before the user provides data; it may fail validation. `default_value` is the fallback used when a caller supplies nothing; it must pass validation.
+
+## Validation
+
+Validation is explicit: a document does not validate itself on construction. DID-matlab's `did2.build` and the database layer validate against these schemas; `tools/validate_v_eta.py` (run by `tools/gates.py`) validates the schema files themselves.

@@ -67,7 +67,10 @@ for (const f of inBundle) if (!diskSet.has(f)) failures.push(`in the bundle, not
 let classNames = 0;
 const tiers = new Set(grammar.schema_tree.class_tiers);
 for (const f of onDisk) {
-  if (!tiers.has(f.split("/")[2])) continue;
+  // schemas/did_v2/<family>/<file>.json, or a core class at the top
+  // ([schema folders by family]).
+  const parts = f.split("/");
+  if (!tiers.has(parts.length > 3 ? parts[2] : "core")) continue;
   const data = JSON.parse(await readFile(resolve(repoRoot, f), "utf8"));
   const name = data?.document_class?.class_name;
   if (typeof name !== "string") continue;

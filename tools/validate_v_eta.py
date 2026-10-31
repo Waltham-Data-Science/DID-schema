@@ -5,8 +5,9 @@ Until 2026-10-21 `tools/build_v_eta.py` rebuilt `schemas/did_v2/` from V_zeta by
 replaying ~43 dated sections. The built JSON is now edited directly, and this
 tool checks every rule the builder used to guarantee by construction.
 
-A change to a class: edit its JSON under schemas/did_v2/<tier>/, add or edit
-its `index.json` entry's `disposition` if the class is new, then run
+A change to a class: edit its JSON under schemas/did_v2/ (its family folder;
+tools/schema_paths.py has the layout), add or edit its row in
+schemas/registry/did_v2_class_dispositions.json if the class is new, then run
 `python3 tools/gates.py`.
 
 TWO KINDS OF THING
@@ -16,28 +17,30 @@ the fix is an edit to the JSON.
 
 DERIVED pieces (D1-D6) are copies of a fact held elsewhere, so they are
 written, not hand-edited:
-  D1  index.json: tier, class_version, maturity_level, superclasses and path of
-      every class, read from its file. `disposition` / `disposition_note` are
-      DATA in index.json (the source of a class's disposition) and are kept.
-  D2  stable/term_registry_meta.json: schemas/V_eta_term_registry.json, with
-      a header, for did2.build.
+  D1  generated/index.json: family, class_version, maturity_level,
+      superclasses and path of every class, read from its file, and its
+      `disposition` / `disposition_note`, copied from the authored
+      registry/did_v2_class_dispositions.json (split out of the index,
+      [schema folders by family]).
+  D2  generated/term_registry_meta.json: registry/did_v2_term_registry.json,
+      with a header, for did2.build.
   D3  directed_relation.relation / undirected_relation.relation /
       clock_alignment.relation binding values: the registry's relation_bindings
       rows of that carrier, in order (clock_alignment's: Jess Haley 2026-10-22
       [clock alignment relation bound]).
   D4  `ndi_mustBeNonEmpty` on depends_on entries: NDI's required-ness from
-      schemas/V_eta_ndi_ground_truth.json (tools/ndi_required_stamp.py).
-  D5  stable/class_disposition_meta.json: every class in stable/ or draft/
-      whose index.json `disposition` is `retire`, with the classes it is
-      replaced by (schemas/V_eta_migration_targets.json `decided_targets`,
-      authored) and its index `disposition_note`. DID-matlab's did2.build
+      generated/did_v2_ndi_ground_truth.json (tools/ndi_required_stamp.py).
+  D5  generated/class_disposition_meta.json: every class whose `disposition`
+      is `retire` (it lives in did_v2/retiring/), with the classes it is
+      replaced by (registry/did_v2_migration_decisions.json
+      `decided_targets`, authored) and its `disposition_note`. DID-matlab's did2.build
       refuses to build a listed class (strict mode RetiredClasses, DID-matlab
       #230; Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired],
-      V_eta_go_forward_class_audit.md).
-  D6  stable/quantity_list_meta.json: every value class, its canonical slots,
+      did_v2_go_forward_class_audit.md).
+  D6  generated/quantity_list_meta.json: every value class, its canonical slots,
       its `source_unit` closed list where one is declared, and every nested
       field that names it as its type (Decided by Jess Haley, 2026-10-27
-      [quantity reference type], V_eta_go_forward_class_audit.md; did-schema
+      [quantity reference type], did_v2_go_forward_class_audit.md; did-schema
       #66, "a derived quantity list ... for tools and the web viewer").
 Default mode writes them; --check writes nothing and fails if any differs.
 The registry's `strength` column is derived too, by
@@ -53,7 +56,6 @@ Usage:  python3 tools/validate_v_eta.py           # write D1-D6, check all
 """
 import argparse
 import copy
-import glob
 import importlib.util
 import json
 import os
@@ -63,10 +65,10 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-VETA = os.path.join(ROOT, "schemas", "did_v2")
-TERM_SOURCE = os.path.join(ROOT, "schemas", "V_eta_term_registry.json")
-GT_PATH = os.path.join(ROOT, "schemas", "V_eta_ndi_ground_truth.json")
-TARGETS_PATH = os.path.join(ROOT, "schemas", "V_eta_migration_targets.json")
+sys.path.insert(0, HERE)
+import schema_paths as SP  # noqa: E402
+
+VETA = SP.classes_dir(ROOT)
 
 
 def _load_module(name, fname):
@@ -77,8 +79,7 @@ def _load_module(name, fname):
 
 
 REC = _load_module("_veta_record", "veta_record.py")
-TIERS = REC.TIERS
-META_FILES = REC.META_FILES
+META_FILES = SP.META_FILES
 
 # Files written by something other than json.dump(indent=4): ndi_reserved_keys
 # is NDI's file copied verbatim, the term registry copy keeps non-ASCII text.
@@ -113,29 +114,45 @@ def walk_fields(fields, path=""):
 
 
 class Tree:
-    """Every class and meta file under the tiers, read once."""
+    """Every class file under schemas/did_v2/ (any depth) and every meta
+    registry (registry/ and generated/), read once. `veta` is the class
+    folder; the repository root is two levels up."""
 
     def __init__(self, veta):
         self.veta = veta
-        self.classes = {}      # name -> (tier, path, doc)
-        self.meta = {}         # basename -> (tier, path, doc)
+        self.root = os.path.dirname(os.path.dirname(os.path.abspath(veta)))
+        self.classes = {}      # name -> (family, path, doc)
+        self.meta = {}         # basename -> (folder, path, doc)
         self.dupes = []
         self.unreadable = []
-        for tier in TIERS:
-            for p in sorted(glob.glob(os.path.join(veta, tier, "*.json"))):
-                base = os.path.basename(p)
-                try:
-                    d = load(p)
-                except (OSError, ValueError) as e:
-                    self.unreadable.append(f"{p}: {e}")
-                    continue
-                if base in META_FILES:
-                    self.meta[base] = (tier, p, d)
-                    continue
-                cn = (d.get("document_class") or {}).get("class_name")
-                if cn in self.classes:
-                    self.dupes.append(cn)
-                self.classes[cn] = (tier, p, d)
+        self.misplaced_meta = []
+        for p in SP.class_files(self.root):
+            base = os.path.basename(p)
+            fam = SP.family(p, self.root)
+            try:
+                d = load(p)
+            except (OSError, ValueError) as e:
+                self.unreadable.append(f"{p}: {e}")
+                continue
+            if base in META_FILES or "document_class" not in d:
+                self.misplaced_meta.append(p)
+                continue
+            cn = (d.get("document_class") or {}).get("class_name")
+            if cn in self.classes:
+                self.dupes.append(cn)
+            self.classes[cn] = (fam, p, d)
+        for base in sorted(META_FILES):
+            p = SP.data_file(base, self.root)
+            if not os.path.exists(p):
+                continue
+            try:
+                self.meta[base] = (os.path.basename(os.path.dirname(p)), p, load(p))
+            except (OSError, ValueError) as e:
+                self.unreadable.append(f"{p}: {e}")
+
+    def path(self, name):
+        """registry/ or generated/ path of a data file, in this tree's root."""
+        return SP.data_file(name, self.root)
 
     def doc(self, name):
         return self.classes[name][2]
@@ -156,42 +173,49 @@ class Tree:
 # ---------------------------------------------------------------------------
 
 def r1_format(t):
-    """Every file under a tier is json.dump(indent=4) + newline, so a hand edit
-    diffs like a build did."""
+    """Every class file and meta registry is json.dump(indent=4) + newline, so
+    a hand edit diffs like a build did."""
     bad, n = [], 0
-    for tier in TIERS:
-        for p in sorted(glob.glob(os.path.join(t.veta, tier, "*.json"))):
-            base = os.path.basename(p)
-            if base in VERBATIM:
-                continue
-            n += 1
-            with open(p, encoding="utf-8") as f:
-                s = f.read()
-            if dumps(json.loads(s), base not in NON_ASCII) != s:
-                bad.append(f"{tier}/{base} is not indent-4 json.dump output + newline")
-    p = os.path.join(t.veta, "index.json")
-    n += 1
-    with open(p, encoding="utf-8") as f:
-        s = f.read()
-    if dumps(json.loads(s)) != s:
-        bad.append("index.json is not indent-4 json.dump output + newline")
+    files = [p for _, p, _ in t.classes.values()] + [p for _, p, _ in t.meta.values()]
+    files += [t.path("index.json"), t.path("did_v2_class_dispositions.json")]
+    for p in sorted(files):
+        base = os.path.basename(p)
+        if base in VERBATIM or not os.path.exists(p):
+            continue
+        n += 1
+        with open(p, encoding="utf-8") as f:
+            s = f.read()
+        ascii_ = base not in NON_ASCII and base != "did_v2_class_dispositions.json"
+        if dumps(json.loads(s), ascii_) != s:
+            bad.append(f"{SP.rel(p, t.root)} is not indent-4 json.dump output + newline")
     return n, bad
 
 
 def r2_identity(t):
-    """class_name is the file name; one class per name across the tiers."""
+    """class_name is the file name; one class per name across the tree;
+    schemas/did_v2/ holds class files only, in the decided family folders
+    ([schema folders by family]); no basename repeats under schemas/ (the
+    siblings read every non-class file by its basename)."""
     bad = [f"unreadable: {u}" for u in t.unreadable]
     bad += [f"{n} is declared twice" for n in t.dupes]
-    for n, (tier, p, d) in t.classes.items():
+    bad += [f"{SP.rel(p, t.root)} is not a class file; schemas/did_v2/ holds class files only"
+            for p in t.misplaced_meta]
+    for n, (fam, p, d) in t.classes.items():
         if n is None:
             bad.append(f"{p} has no document_class.class_name")
         elif os.path.basename(p) != n + ".json":
             bad.append(f"{p} declares class_name {n!r}")
-    for sub in os.listdir(t.veta):
-        full = os.path.join(t.veta, sub)
-        if os.path.isdir(full) and sub not in TIERS and sub not in (
-                "conversions", "microschemas", "examples"):
-            bad.append(f"unexpected directory {sub}/")
+    for dirpath, dirnames, filenames in os.walk(t.veta):
+        rel = os.path.relpath(dirpath, t.veta).replace(os.sep, "/")
+        if rel != "." and rel not in SP.FOLDERS:
+            bad.append(f"unexpected directory schemas/did_v2/{rel}/ (the folders are "
+                       f"{', '.join(SP.FOLDERS)})")
+        for f in filenames:
+            if not f.endswith(".json"):
+                bad.append(f"schemas/did_v2/{'' if rel == '.' else rel + '/'}{f} is not a class file")
+    for name, paths in SP.duplicate_basenames(t.root).items():
+        bad.append(f"{name} is held by {len(paths)} files under schemas/: "
+                   + ", ".join(SP.rel(p, t.root) for p in paths))
     return len(t.classes), bad
 
 
@@ -473,13 +497,13 @@ def r14_values(t):
     return n, bad
 
 
-def r15_value_sets(reg):
+def r15_value_sets(reg, root=ROOT):
     """A binding row's closed `values` list (Jess Haley, 2026-10-21): a list of
     {node, name} terms, each the one the term registry holds under that node
     and name; an empty list is legal (nothing admitted yet). A row marked
     `term_valued: false` (its value is data, not a term) names no admissible
     set at all."""
-    src = load(TERM_SOURCE)
+    src = load(SP.registry("did_v2_term_registry.json", root))
     by_node = {(t.get("node") or "").lower(): t for t in src.get("terms", []) if t.get("node")}
     bad, n = [], 0
     for r in reg.get("subject_statement_bindings", []):
@@ -677,7 +701,7 @@ RULES = [
     ("R12 source_unit and variable are bound terms", lambda c: r12_vocabulary_slots(c["tree"])),
     ("R13 one method shape, one entry", lambda c: r13_one_shape(c["tree"])),
     ("R14 one `value` per value class", lambda c: r14_values(c["tree"])),
-    ("R15 closed value sets are registered terms", lambda c: r15_value_sets(c["reg"])),
+    ("R15 closed value sets are registered terms", lambda c: r15_value_sets(c["reg"], c["tree"].root)),
     ("R16 a value is inline or in bodies (value_inline_or_body)",
      lambda c: r16_value_inline_or_body(c["tree"])),
     ("R17 one fit entry", lambda c: r17_one_fit_entry(c["tree"])),
@@ -689,41 +713,72 @@ RULES = [
 # DERIVED. Each returns {abs path: new text} for the files it would write.
 # ---------------------------------------------------------------------------
 
+# generated/index.json's header. Written by D1 like the rest of the file, so
+# generated/ holds nothing authored ([schema folders by family]).
+INDEX_HEADER = {
+    "set_version": "did_v2",
+    "schema_version_value": "did_v2",
+    "based_on": "V_zeta",
+    "legacy_schema_version_values": ["did_v1", "V_zeta"],
+    "notes": ("GENERATED by tools/validate_v_eta.py (D1); do not edit. One row per class "
+              "file under schemas/did_v2/ (its family is its folder: `core` at the top, then "
+              "value/, calculation/, data_body/, time_reference/, and retiring/ for the retire "
+              "classes) and per meta registry under schemas/registry/ and schemas/generated/. "
+              "`disposition` and `disposition_note` are copied from the authored "
+              "schemas/registry/did_v2_class_dispositions.json; every other field is read from "
+              "the class file. did_v2: bare-identity entities (one `entity` class with a bound "
+              "type, 2026-10-08), statements by composition (a direction plus a value kind), "
+              "relations as documents (directed_relation / undirected_relation), values inline "
+              "or in the two data bodies (sampled_body, opaque_body), and a hard-validated "
+              "binding registry. Supersedes V_zeta. See did_v2_tenets.md."),
+}
+
+
 def d1_index(t):
-    p = os.path.join(t.veta, "index.json")
-    idx = load(p)
-    old = {e["class_name"]: e for e in idx["schemas"]}
+    """generated/index.json. Every field is derived: the class fields from
+    each class file, `disposition` / `disposition_note` from the authored
+    registry/did_v2_class_dispositions.json. A meta registry is listed with
+    its registry/ or generated/ path, so the viewer can find it."""
+    p = t.path("index.json")
+    disp_src = load(t.path("did_v2_class_dispositions.json")).get("classes", {})
     bad, schemas = [], []
-    for tier in TIERS:
-        for f in sorted(glob.glob(os.path.join(t.veta, tier, "*.json"))):
-            base = os.path.basename(f)
-            if base in META_FILES:
-                schemas.append({"class_name": base[:-5], "tier": tier,
-                                "class_version": None, "maturity_level": None,
-                                "superclasses": [], "path": f"schemas/did_v2/{tier}/{base}",
-                                "is_meta": True, "disposition": "persist"})
-                continue
-            dc = load(f)["document_class"]
-            prev = old.get(dc["class_name"], {})
-            disp = prev.get("disposition")
-            if disp not in DISPOSITIONS:
-                bad.append(f"index.json: {dc['class_name']} needs a `disposition`, one of "
-                           f"{sorted(DISPOSITIONS)} (it is data: add it by hand)")
-            e = {"class_name": dc["class_name"], "tier": tier,
-                 "class_version": dc["class_version"],
-                 "maturity_level": dc["maturity_level"],
-                 "superclasses": [s["class_name"] for s in dc["superclasses"]],
-                 "path": f"schemas/did_v2/{tier}/{base}", "disposition": disp}
-            if "disposition_note" in prev:
-                e["disposition_note"] = prev["disposition_note"]
-            schemas.append(e)
+    for base in sorted(t.meta):
+        _, mp, _ = t.meta[base]
+        schemas.append({"class_name": base[:-5], "family": None,
+                        "class_version": None, "maturity_level": None,
+                        "superclasses": [], "path": SP.rel(mp, t.root),
+                        "is_meta": True, "disposition": "persist"})
+    for name in sorted(t.classes, key=lambda n: (n is None, n or "")):
+        fam, f, d = t.classes[name]
+        dc = d["document_class"]
+        prev = disp_src.get(dc["class_name"], {})
+        disp = prev.get("disposition")
+        if disp not in DISPOSITIONS:
+            bad.append(f"did_v2_class_dispositions.json: {dc['class_name']} needs a `disposition`, "
+                       f"one of {sorted(DISPOSITIONS)} (it is data: add it by hand)")
+        elif (disp == "retire") != (fam == SP.RETIRING):
+            bad.append(f"{dc['class_name']}: disposition {disp!r} but its file is in "
+                       f"{SP.rel(f, t.root)}; a retire class lives in schemas/did_v2/"
+                       f"{SP.RETIRING}/ and only there ([schema folders by family])")
+        e = {"class_name": dc["class_name"], "family": fam,
+             "class_version": dc["class_version"],
+             "maturity_level": dc["maturity_level"],
+             "superclasses": [s["class_name"] for s in dc["superclasses"]],
+             "path": SP.rel(f, t.root), "disposition": disp}
+        if "disposition_note" in prev:
+            e["disposition_note"] = prev["disposition_note"]
+        schemas.append(e)
+    for extra in sorted(set(disp_src) - set(t.classes)):
+        bad.append(f"did_v2_class_dispositions.json: {extra} names no class file")
     schemas.sort(key=lambda e: (0 if e.get("is_meta") else 1, e["class_name"]))
+    idx = dict(INDEX_HEADER)
+    idx["families"] = [SP.CORE] + list(SP.FOLDERS)
     idx["schemas"] = schemas
     return {p: dumps(idx)}, bad
 
 
 def d2_term_registry(t):
-    src = load(TERM_SOURCE)
+    src = load(t.path("did_v2_term_registry.json"))
     out = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$id": "https://did-schema.example.org/meta/term_registry_meta.json",
@@ -731,19 +786,20 @@ def d2_term_registry(t):
         "description": src["description"],
         "terms": src["terms"],
     }
-    return {os.path.join(t.veta, "stable", "term_registry_meta.json"): dumps(out, False)}, []
+    return {t.path("term_registry_meta.json"): dumps(out, False)}, []
 
 
 def d5_class_disposition(t, index_text):
-    """The retired classes still in stable/ or draft/, for did2.build to refuse.
+    """The retired classes still in the tree (schemas/did_v2/retiring/), for
+    did2.build to refuse.
 
-    Reads the index D1 is about to write (index_text), so a class moved to
-    deprecated/ in the same change drops out of the list at once."""
+    Reads the index D1 is about to write (index_text), so a class whose file
+    is deleted in the same change drops out of the list at once."""
     idx = json.loads(index_text)
-    targets = load(os.path.join(ROOT, "schemas", "V_eta_migration_targets.json"))["classes"]
+    targets = load(t.path("did_v2_migration_decisions.json"))["classes"]
     rows = []
     for e in idx["schemas"]:
-        if e.get("is_meta") or e.get("tier") not in ("stable", "draft") or e.get("disposition") != "retire":
+        if e.get("is_meta") or e.get("disposition") != "retire":
             continue
         name = e["class_name"]
         repl = [x for x in (targets.get(name, {}).get("decided_targets") or []) if x != name]
@@ -753,14 +809,15 @@ def d5_class_disposition(t, index_text):
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$id": "https://did-schema.example.org/meta/class_disposition_meta.json",
         "title": "Classes did2.build refuses to build (disposition: retire)",
-        "description": ("DERIVED by tools/validate_v_eta.py (D5) from schemas/did_v2/index.json "
-                        "and schemas/V_eta_migration_targets.json; do not edit. Decided by Jess "
+        "description": ("DERIVED by tools/validate_v_eta.py (D5) from "
+                        "schemas/registry/did_v2_class_dispositions.json and "
+                        "schemas/registry/did_v2_migration_decisions.json; do not edit. Decided by Jess "
                         "Haley, 2026-10-24 [V2 builder refuses retired] "
-                        "(V_eta_go_forward_class_audit.md). Reading v1 and the generic "
+                        "(did_v2_go_forward_class_audit.md). Reading v1 and the generic "
                         "migration are not affected."),
         "retired": rows,
     }
-    return {os.path.join(t.veta, "stable", "class_disposition_meta.json"): dumps(out, False)}, []
+    return {t.path("class_disposition_meta.json"): dumps(out, False)}, []
 
 
 def d6_quantity_list(t):
@@ -786,7 +843,7 @@ def d6_quantity_list(t):
         "title": "The value classes and their cells (the quantity list)",
         "description": ("DERIVED by tools/validate_v_eta.py (D6) from the class tree; do not "
                         "edit. Decided by Jess Haley, 2026-10-27 [quantity reference type] "
-                        "(V_eta_go_forward_class_audit.md; did-schema #66): a nested quantity "
+                        "(did_v2_go_forward_class_audit.md; did-schema #66): a nested quantity "
                         "names its value class as its type, and this list is derived for tools "
                         "and the web viewer. It lists EVERY value class with a cell, as the decision "
                         "says (\"all value classes, including count, score, gain, ph\"); "
@@ -797,7 +854,7 @@ def d6_quantity_list(t):
                         "`named_by` lists every nested field whose type is the class."),
         "quantities": rows,
     }
-    return {os.path.join(t.veta, "stable", "quantity_list_meta.json"): dumps(out, False)}, []
+    return {t.path("quantity_list_meta.json"): dumps(out, False)}, []
 
 
 def d3_relation_values(t, reg):
@@ -823,23 +880,23 @@ def d4_ndi_stamp(t, report, overrides):
     tmp = tempfile.mkdtemp(prefix="veta-stamp-")
     try:
         scratch = os.path.join(tmp, "V_eta")
-        for tier in TIERS:
-            os.makedirs(os.path.join(scratch, tier))
-        for tier, p, d in t.classes.values():
+        os.makedirs(scratch)
+        for _, p, d in t.classes.values():
             d = json.loads(overrides[p]) if p in overrides else copy.deepcopy(d)
             for e in d.get("depends_on", []):
                 e.pop(stamp.MARKER, None)
-            with open(os.path.join(scratch, tier, os.path.basename(p)), "w") as f:
+            with open(os.path.join(scratch, os.path.basename(p)), "w") as f:
                 f.write(dumps(d))
-        res = stamp.stamp_ndi_required(scratch, GT_PATH, REC.RENAME, TIERS, META_FILES,
+        res = stamp.stamp_ndi_required(scratch, t.path("did_v2_ndi_ground_truth.json"),
+                                       REC.RENAME, ["."], META_FILES,
                                        deleted_phase8=REC._DELETE_PHASE8,
-                                       targets_path=TARGETS_PATH)
+                                       targets_path=t.root)
         if report:
             for line in stamp.render_stamp_report(res):
                 print(line)
         out = {}
-        for tier, p, _ in t.classes.values():
-            with open(os.path.join(scratch, tier, os.path.basename(p))) as f:
+        for _, p, _ in t.classes.values():
+            with open(os.path.join(scratch, os.path.basename(p))) as f:
                 out[p] = f.read()
         bad = [] if res.get("ground_truth_readable") else [
             "the NDI ground truth is unreadable; the stamp cannot be derived"]
@@ -863,7 +920,8 @@ def main(argv=None):
     curie = t.meta["CURIE_lookups_meta.json"][2]
     ctx = {"tree": t, "meta": meta, "reg": reg, "curie": curie}
     print(f"DENOMINATOR: {len(t.classes)} class file(s) and {len(t.meta)} meta file(s) "
-          f"read from schemas/did_v2/{{{','.join(TIERS)}}}; {len(t.unreadable)} unreadable; "
+          f"read from schemas/did_v2/ (top and {', '.join(SP.FOLDERS)}), registry/ and "
+          f"generated/; {len(t.unreadable)} unreadable; "
           f"{len(RULES)} rule(s), 6 derived piece(s)")
 
     failed = 0
@@ -883,7 +941,7 @@ def main(argv=None):
                ("D4 ndi_mustBeNonEmpty stamp",
                 lambda: d4_ndi_stamp(t, not a.quiet_stamp, dict(writes))),
                ("D5 class_disposition_meta.json",
-                lambda: d5_class_disposition(t, d1_index(t)[0][os.path.join(t.veta, "index.json")])),
+                lambda: d5_class_disposition(t, d1_index(t)[0][t.path("index.json")])),
                ("D6 quantity_list_meta.json", lambda: d6_quantity_list(t))]
     writes = {}
     for label, fn in derived:

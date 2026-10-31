@@ -80,7 +80,7 @@ class TheMapIsKeyedDifferentlyFromTheLedger(unittest.TestCase):
     """The third instance of one trap in a day, so it gets a test of its own.
 
     The ledger keys rows by the did_v1 class name (`demoNDI`, `ontologyImage`);
-    `V_eta_migration_targets.json` is keyed the way the migrator FILES are named
+    `did_v2_migration_targets.json` is keyed the way the migrator FILES are named
     (`demo_ndi`, `ontology_image`). Looking up by the ledger spelling alone
     reported 8 classes as ABSENT FROM THE TARGET MAP when 7 were present all
     along -- and the direction is what makes it worth a test: it MANUFACTURES
@@ -324,7 +324,7 @@ class AgainstTheLiveLedgerQuestions(unittest.TestCase):
 
 
 class ABatchPostPassIsAnEmission(unittest.TestCase):
-    """`V_eta_OPEN_WORK.md` row #107, shape (2), repeating one layer up.
+    """`did_v2_OPEN_WORK.md` row #107, shape (2), repeating one layer up.
 
     `targets` is GENERATED from the call graph and cannot see a batch post-pass;
     `second_pass` is the AUTHORED record of what that pass emits. Reading only
@@ -455,9 +455,11 @@ class UnreadTargetsSurviveRegenerationCase(unittest.TestCase):
     """
 
     def _rows(self):
-        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
-        with open(path) as fh:
-            doc = json.load(fh)
+        # The merged map: the authored registry/did_v2_migration_decisions.json
+        # with the generated targets ([schema folders by family] split it).
+        sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+        import schema_paths
+        doc = schema_paths.load_migration_targets(REPO_ROOT)
         return doc.get("classes") or doc
 
     def test_the_refresh_tool_never_writes_unread_targets(self):

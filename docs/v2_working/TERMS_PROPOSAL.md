@@ -10,7 +10,7 @@ their verdicts), `tech.json` / `sdt.json` (the parsed openMINDS files), `ols*.tx
 | what | count | source |
 |---|---|---|
 | did-schema HEAD | 77cf59e "Record [clock terms get nodes]" | `git log --oneline -1` |
-| term registry entries | 624 (1 with node "") | `schemas/V_eta_term_registry.json` `terms` |
+| term registry entries | 624 (1 with node "") | `schemas/registry/did_v2_term_registry.json` `terms` |
 | CURIE registry prefixes | 55 | `schemas/V_eta/stable/CURIE_lookups_meta.json` |
 | EMPTY ids allocated | EMPTY:0000001-0000398, none free below 399 | empty-ontology `V2` 2dc90d4 (= `origin/V2`), `src/ontology/empty-edit.owl`, `docs/conventions.md` rule 7 |
 | openMINDS `technique` instances | 227 | openMINDS_instances main 3750716 (2026-10-21), `instances/latest/terminologies/technique/*.jsonld` |
@@ -76,7 +76,7 @@ They are not to be pasted as they stand**: a team decision fills `decided`.
 
 ## A. [session membership records linked or ingested]
 
-Decision text: `V_eta_go_forward_class_audit.md` line 1180 (grep the tag). v1 meaning, read at
+Decision text: `did_v2_go_forward_class_audit.md` line 1180 (grep the tag). v1 meaning, read at
 NDI `main` 3cb19a85:
 - `session_in_a_dataset.json` holds `is_linked`, `session_creator`, `session_creator_input1..6`.
 - `dataset.m` add_linked_session sets `is_linked = 1`, `session_creator = class(ndi_session_obj)`,
@@ -112,7 +112,7 @@ Decision text: line 1182. Precedent read: registry row `experimental approach` E
 (definition "The general kind of scientific approach used to produce the data, ...", decided
 "Jess Haley, 2026-10-21 (binding variables)"); owl comment says NCIT Research Technique
 (C20368) was rejected as "narrower (behavior is not a lab technique)";
-`V_eta_term_registry_plan.md` closed-value-sets table row: 40 openMINDS values by
+`did_v2_term_registry_plan.md` closed-value-sets table row: 40 openMINDS values by
 `preferredOntologyIdentifier`, EMPTY:0000360-0000364 minted for the 5 with none.
 
 **Variables** (OLS `olsB.txt`):
@@ -196,7 +196,7 @@ it knows its own clock across recording epochs)"; `dev_local_time` "A device kee
 time only within epochs".
 
 **Staged nodes today:** none minted anywhere.
-- Registry: `grep -n -i 'clock\|utc' schemas/V_eta_term_registry.json` gives 1 line, an unrelated
+- Registry: `grep -n -i 'clock\|utc' schemas/registry/did_v2_term_registry.json` gives 1 line, an unrelated
   definition (line 4578); no clock term.
 - empty-ontology `V2` `empty-edit.owl`: no label or definition naming a clock (grep `clock|utc`
   matched only the licence comment and unrelated text).
