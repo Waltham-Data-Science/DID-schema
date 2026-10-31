@@ -497,7 +497,7 @@ whose DID-matlab build waits on GL1-GL7.
   - **G64. Register `om:day` "day".** DID-matlab writes it as a source unit
     (jTreatmentAnchor already; #306 for the image-stack datenum and postnatal
     day), and it is not in the term registry (`om:hour` and `om:minute-Time`
-    are). Register it? [yes: an existing OM unit, T19]
+    are). Register it? [yes: an existing OM unit, T19] ANSWERED 2026-10-31: [om day registered].
   - **G65. Shape of an acquisition time on a UTC clock (G28,
     [acquisition time on its clock]).** DID-matlab #306 writes a
     `relative_time_reference` to the session on clock utc, start = datenum x
@@ -505,6 +505,7 @@ whose DID-matlab build waits on GL1-GL7.
     jTreatmentAnchor. The other shape is an `absolute_time_reference` holding
     the ISO UTC instant. [absolute: a UTC instant is not an offset from the
     session, and the relative form's zero point is not the session's]
+    ANSWERED 2026-10-31: [UTC acquisition time is absolute].
   - **G66. Hartley implied, after G29.** [hartley method implied] says
     "Hartley" is implied by the method term ndi.calc.vis.hartley; G29 replaces
     that term with EDAM "Data analysis", so DID-matlab #306's round trip infers
@@ -517,7 +518,7 @@ whose DID-matlab build waits on GL1-GL7.
     (b) keep NaN. Also: a missing canonical is named
     `formulation.value.ingredients(k).concentration.canonical`, a path that is
     not a declared field (a concentration has no single canonical). Keep that
-    convention? [(a); yes]
+    convention? [(a); yes] ANSWERED 2026-10-31: [formulation amount needs info].
   - **G68. Postnatal day 0.** `virus_AdministrationPND` defaults to 0 in NDI's
     template, and #306 writes 0 as age 0 days, because no decision treats it
     as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
@@ -556,7 +557,7 @@ whose DID-matlab build waits on GL1-GL7.
     canonical). Carry it (carry-155; that carries every virus_injection with a
     dilution, 5 fixtures), or name its canonical in `needs_info` ("a source
     number with no unit")? [needs_info: a dilution is a ratio, nothing is
-    unknown about the document but the unit]
+    unknown about the document but the unit] ANSWERED 2026-10-31: [virus dilution needs info].
   - **G72. Percent volume per volume.** Babu writes `Percent Volume per Volume`
     (NCIT:C48571, 11 rows); x0.01 to `concentration.liters_per_liter` is exact.
     Register NCIT:C48571 and convert, or keep the source only? (No fixture is
