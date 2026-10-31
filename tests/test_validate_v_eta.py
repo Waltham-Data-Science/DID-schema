@@ -278,6 +278,36 @@ def test_an_unrecorded_amount_written_as_nan_counts_as_stated():
     assert V.value_inline_or_body(lost)
 
 
+def test_a_blank_value_that_needs_info_names_passes():
+    # [formulation amount needs info] (Jess Haley, 2026-10-31,
+    # did_v2_go_forward_class_audit.md): a blank value is accepted when the
+    # document's needs_info names it or a field within it -- a formulation in
+    # which no ingredient states an amount.
+    doc = {"document_class": {"class_name": "formulation"},
+           "value": {"ingredients": [{}, {}]},
+           "base": {"needs_info": [
+               {"field": "formulation.value.ingredients(1).concentration",
+                "reason": "the source lists this ingredient but states no amount"},
+               {"field": "formulation.value.ingredients(2).concentration",
+                "reason": "the source lists this ingredient but states no amount"}]}}
+    assert V.value_inline_or_body(doc) == []
+    # the value itself, named whole, passes too
+    doc["base"]["needs_info"] = [{"field": "formulation.value", "reason": "not stated"}]
+    assert V.value_inline_or_body(doc) == []
+
+
+def test_a_blank_value_that_needs_info_does_not_name_is_refused():
+    doc = {"document_class": {"class_name": "formulation"},
+           "value": {"ingredients": [{}]}}
+    for entries in ([],
+                    [{"field": "formulation.notes", "reason": "not stated"}],
+                    [{"field": "formulation.values", "reason": "not stated"}],
+                    [{"field": "formulation.value.ingredients(1).concentration",
+                      "reason": ""}]):
+        doc["base"] = {"needs_info": entries}
+        assert V.value_inline_or_body(doc), entries
+
+
 def test_a_required_inline_value_is_refused(tree):
     def fn(d):
         next(x for x in d["fields"] if x["name"] == "value")["mustBeNonEmpty"] = True

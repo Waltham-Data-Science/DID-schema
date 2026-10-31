@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 620 decision line(s) accepted, 2 rejected; 44 cited by a class, 576 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 624 decision line(s) accepted, 2 rejected; 44 cited by a class, 580 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -872,6 +872,10 @@ field). If one decides a class's disposition, that class should cite it.
 - gene list mapping in the generic stage. "Decided by Jess Haley, 2026-10-31 [gene list mapping in the" (did_v2_go_forward_class_audit.md:1750).
 - daqreader_ndr confirmed set. "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed" (did_v2_go_forward_class_audit.md:1752).
 - layout calls stand. "Decided by Jess Haley, 2026-10-31 [layout calls stand]: (" (did_v2_go_forward_class_audit.md:1754).
+- om day registered. "Decided by Jess Haley, 2026-10-31 [om day registered]: (" (did_v2_go_forward_class_audit.md:1756).
+- formulation amount needs info. "Decided by Jess Haley, 2026-10-31 [formulation amount needs" (did_v2_go_forward_class_audit.md:1758).
+- virus dilution needs info. "Decided by Jess Haley, 2026-10-31 [virus dilution needs" (did_v2_go_forward_class_audit.md:1760).
+- UTC acquisition time is absolute. "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is" (did_v2_go_forward_class_audit.md:1762).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

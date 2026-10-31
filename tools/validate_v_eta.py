@@ -59,6 +59,7 @@ import copy
 import importlib.util
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -573,6 +574,26 @@ def _has_edge(doc, name):
     return False
 
 
+_VALUE_PATH = re.compile(r"^(?:[A-Za-z]\w*\.)?value(?:$|[.(])")
+
+
+def _value_named_in_needs_info(doc):
+    """True when a `needs_info` entry (with a reason) names the value or a field
+    within it: `value`, `<block>.value`, `<block>.value.<field>...`."""
+    base = doc.get("base") if isinstance(doc.get("base"), dict) else {}
+    entries = base.get("needs_info", doc.get("needs_info")) or []
+    if isinstance(entries, dict):
+        entries = [entries]
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        field, reason = e.get("field"), e.get("reason")
+        if (isinstance(field, str) and isinstance(reason, str) and reason.strip()
+                and _VALUE_PATH.match(field.strip())):
+            return True
+    return False
+
+
 def value_inline_or_body(doc):
     """THE DOCUMENT CHECK for rule `value_inline_or_body` (Jess Haley,
     2026-10-21, signed; data_body AMENDMENT 5 and its clarification): a value
@@ -583,10 +604,16 @@ def value_inline_or_body(doc):
     edges from `depends_on` ({name, document_id} or {name, value}). Returns a
     list of failures (empty when the document passes). The enforcing
     validator is DID-matlab's; this is the reference statement of the rule
-    that the tests pin."""
+    that the tests pin.
+
+    A blank `value` that the document's `needs_info` names -- the value or a
+    field within it, `<block>.value...` -- also passes: the source never
+    stated it (Jess Haley, 2026-10-31, did_v2_go_forward_class_audit.md
+    [formulation amount needs info]). `needs_info` is read from `base`, else
+    the top level."""
     if doc.get("data_body") is True or _has_edge(doc, "value_id"):
         return []
-    if _is_blank(doc.get("value")):
+    if _is_blank(doc.get("value")) and not _value_named_in_needs_info(doc):
         return [(f"rule {VALUE_RULE}: `value` is empty, `data_body` is not true and "
                  "there is no `value_id` edge -- the value is nowhere")]
     return []
