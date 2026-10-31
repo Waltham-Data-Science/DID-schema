@@ -4,7 +4,7 @@
 
 Status: **drafted**
 
-`subject_group` is **deprecated** in V_eta (see `V_eta_SPEC.md`,
+`subject_group` is **deprecated** in V_eta (see `did_v2_SPEC.md`,
 "Deprecated / folded" table). A group of subjects is modeled as a
 `subject` flagged `is_group: true`, and membership becomes
 `group_assignment` events.

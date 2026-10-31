@@ -251,7 +251,7 @@ def test_an_obsolete_term_matches_the_ontologys_obsolete_label():
 
 
 def test_a_term_states_the_unit_of_its_number():
-    """R12 (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md [term-stated
+    """R12 (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [term-stated
     unit is generic]): when a term's definition states the unit its number takes,
     the registry row says so, as a registered unit term, and a migrator reads it
     there. First case: EMPTY:0000199, "(provided in hours)"."""
@@ -277,7 +277,7 @@ def test_the_live_registry_states_hours_for_grating_training():
 
 
 def test_equivalents_are_curies_with_one_meaning_each():
-    """R13 (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md [term
+    """R13 (Jess Haley, 2026-10-27, did_v2_go_forward_class_audit.md [term
     equivalents recorded]): `equivalent` lists the ids in other vocabularies that
     mean the same thing; each is a CURIE in a known prefix, written in its
     spelling, and no id stands for two registered meanings."""
@@ -304,7 +304,7 @@ def test_every_live_row_has_an_equivalent_list():
 
 
 def test_synonyms_are_spellings_of_one_term_each():
-    """R14 (Jess Haley 2026-10-26, V_eta_go_forward_class_audit.md [spelling is
+    """R14 (Jess Haley 2026-10-26, did_v2_go_forward_class_audit.md [spelling is
     notation]): the spellings a migrator maps to a term, each naming one term."""
     ok = registry(term("hertz", "om:hertz", synonyms=["Hz", "spikes/s"]),
                   term("dF/F", "EMPTY:0000397", synonyms=["dFF"]))

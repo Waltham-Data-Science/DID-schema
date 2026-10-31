@@ -3,7 +3,7 @@
 This repository holds V_eta, the schema that NDI V2 is built on. It also holds
 the tools that check it and the record of every decision about it. This file
 says how to work here today. It is not a history. The history is in git and in
-the plan documents under `schemas/`.
+the plan documents under `docs/`.
 
 ---
 
@@ -101,7 +101,7 @@ names: "Bar-1" there means integrity, "Bar-2" means done.)*
   decided final V_eta shape (no husks, no preserved raw bridges, no
   passed-through v1 tombstones, no superseded emissions), AND corpus-proven.
   Only the classes that corpus contains count.
-- **Done, for a migrated corpus** *(2026-10-24, `V_eta_go_forward_class_audit.md`
+- **Done, for a migrated corpus** *(2026-10-24, `did_v2_go_forward_class_audit.md`
   [migration not generalizable], [v1 import stages])*: integrity AND lossless
   (every v1 item is carried, at a V_eta shape or unchanged as v1). Generic
   migration is plumbing and is frozen; a v1 document carried unchanged is not a
@@ -124,12 +124,12 @@ Never quote a count from prose. Re-derive it with the tool that prints it.
 
 | artifact | answers | made by |
 |---|---|---|
-| `schemas/V_eta_STATUS.md` + `schemas/generated/did_v2_decisions.json` | how much of V_eta is left | `tools/status_board.py` |
-| `schemas/V_eta_coverage_ledger.md` / `.json` | each v1 source class, its V_eta target, and its completion ladder stage | `tools/coverage.py` |
-| `schemas/V_eta_final_class_set.md` | the persist set, by category | `tools/regen_final_class_set.py` |
+| `docs/generated/did_v2_STATUS.md` + `schemas/generated/did_v2_decisions.json` | how much of V_eta is left | `tools/status_board.py` |
+| `docs/generated/did_v2_coverage_ledger.md` / `.json` | each v1 source class, its V_eta target, and its completion ladder stage | `tools/coverage.py` |
+| `docs/generated/did_v2_final_class_set.md` | the persist set, by category | `tools/regen_final_class_set.py` |
 | `schemas/generated/did_v2_ndi_ground_truth.json` | what NDI templates and writers declare | `tools/ndi_ground_truth.py` |
-| `schemas/generated/did_v2_migration_targets.json` | per v1 class: emitted `targets` (generated) and authored `decided_targets`, `how`, `flags` | `tools/refresh_migration_targets.py` (the `targets` column only) |
-| `schemas/generated/index.json` | tier, version and superclasses of every class (derived); `disposition` (hand-written) | `tools/validate_v_eta.py` |
+| `schemas/generated/did_v2_migration_targets.json` | per v1 class: emitted `targets` (generated); the authored `decided_targets`, `how`, `flags` are `schemas/registry/did_v2_migration_decisions.json` | `tools/refresh_migration_targets.py` (the generated half only) |
+| `schemas/generated/index.json` | family (folder), version and superclasses of every class (derived); `disposition` copied from the hand-written `schemas/registry/did_v2_class_dispositions.json` | `tools/validate_v_eta.py` |
 
 Do not run these one at a time. Run the chain:
 
@@ -171,8 +171,8 @@ Rung 4 of the coverage ladder (corpus-proven) is answered by DID-matlab's
 reads `not measured` on every row. That is a property of the container, not a
 result.
 
-The open-work index is `schemas/V_eta_OPEN_WORK.md`. Cite a row as
-"`V_eta_OPEN_WORK.md` row #51", never with a colon after the file name (that
+The open-work index is `docs/did_v2_OPEN_WORK.md`. Cite a row as
+"`did_v2_OPEN_WORK.md` row #51", never with a colon after the file name (that
 reads as a line number). A finding is
 not recorded until it is committed: the task list does not survive a container
 being re-provisioned.
@@ -218,7 +218,7 @@ NDIcalc-vis-matlab:
   line, recorded in `head_ref`);
 - `main`: the commit every read of that sibling's `origin/main` reads instead.
 
-NDIcalc-vis-matlab (`V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
+NDIcalc-vis-matlab (`did_v2_go_forward_class_audit.md` [lock NDIcalc-vis-matlab])
 has no `V2` line: its `head` and `main` are both the commit its tuning templates
 are read from, on `main`. `ndi_ground_truth.py` reads its templates at that commit
 ([ground truth reads NDIcalc-vis templates]).
@@ -252,7 +252,7 @@ branch resolution and no fallback: a missing lock, or a locked commit a clone
 does not hold, fails the step. It then runs `sibling_lock.py --check`.
 
 (DID-matlab's own workflows still resolve NDI-matlab by branch name: Decided
-(Jess Haley, 2026-10-22, `V_eta_go_forward_class_audit.md` [NDI ref fallback]),
+(Jess Haley, 2026-10-22, `did_v2_go_forward_class_audit.md` [NDI ref fallback]),
 the same-name branch, then `V2`, then `main`.)
 
 Three details are load-bearing and fail quietly if they regress (all asserted
@@ -312,7 +312,14 @@ one working tree leave half-built changes that nobody can safely commit.
 ### The JSON under `schemas/did_v2/` is the source
 
 There is no build script. `tools/build_v_eta.py` and the `V_alpha`..`V_zeta`
-trees are deleted (OPEN_WORK #128). The tiers are `stable/` and `draft/`. The
+trees are deleted (OPEN_WORK #128). `schemas/did_v2/` holds class files only,
+in folders by family ([schema folders by family]): core classes at the top,
+`value/`, `calculation/`, `data_body/`, `time_reference/`, and `retiring/` for
+the retire classes. Authored registers are in `schemas/registry/`, files only
+tools write in `schemas/generated/`; `tools/schema_paths.py` holds the layout.
+Plan documents are under `docs/` (`docs/plans/`, `docs/generated/`,
+`docs/history/`); a document cited by bare name is the unique file of that
+name there (`tools/doc_paths.py`). The
 `deprecated/` v1 tombstones were deleted ([carried v1 validates against NDI
 templates]): a document carried whole as v1 is checked against NDI's v1
 templates; the classes carried as v1 are `CARRIED_AS_V1` in
@@ -320,14 +327,16 @@ templates; the classes carried as v1 are `CARRIED_AS_V1` in
 
 **To change a class:**
 
-1. Edit its file under `schemas/did_v2/<tier>/` (JSON, indent 4).
+1. Edit its file under `schemas/did_v2/<family>/` (JSON, indent 4).
 2. For a new class, add a hand-written `disposition` (`persist`, `retire` or
-   `in_progress`) to its entry in `schemas/generated/index.json`. The other index
-   fields are derived.
+   `in_progress`) for it to `schemas/registry/did_v2_class_dispositions.json`.
+   A `retire` class lives in `schemas/did_v2/retiring/`. The index is derived.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the rules the
-   old builder enforced and rewrites the derived pieces: `index.json`,
-   `stable/term_registry_meta.json`, the relation value lists, and the
-   `ndi_mustBeNonEmpty` stamp. Do not hand-edit those.
+   old builder enforced and rewrites the derived pieces:
+   `generated/index.json`, `generated/term_registry_meta.json`,
+   `generated/class_disposition_meta.json`, `generated/quantity_list_meta.json`,
+   the relation value lists, and the `ndi_mustBeNonEmpty` stamp. Do not
+   hand-edit those.
 
 Data the old builder held that tools still read (the `RENAME` map, retired
 class names, `_DELETE_PHASE8`) is in `tools/veta_record.py`. Re-adding a
@@ -344,7 +353,7 @@ retired name means deleting it there.
 - Order of preference (T19): a term already used in an NDI dataset, then an
   existing ontology term, and only then a new EMPTY term.
 - `tools/check_term_registry.py` is a gate: one entry per node and per name,
-  known and correctly spelled prefixes (`V_eta_prefix_spelling_plan.md`),
+  known and correctly spelled prefixes (`did_v2_prefix_spelling_plan.md`),
   definitions on EMPTY and staged terms, EMPTY labels matching the ontology,
   and closed value lists naming registered terms. Its docstring lists the
   rules.
@@ -357,7 +366,7 @@ retired name means deleting it there.
   `relation_bindings` (each row declares `passes`), `entity_field_bindings`
   and `entity_type_bindings` (what each `entity.type` requires).
 - A `subject_statement_bindings` row may carry `values`: a closed list of
-  registered terms (`V_eta_term_registry_plan.md`, "Closed value sets").
+  registered terms (`did_v2_term_registry_plan.md`, "Closed value sets").
 - A binding's `strength` is authoritative on the field. The registry's
   `strength` column is derived by `tools/regen_binding_strengths.py`.
 - Variable bindings are `preferred`. Making them `required` is OPEN_WORK #129
@@ -367,44 +376,44 @@ retired name means deleting it there.
 
 ## 4. The V2 model in brief
 
-Read `schemas/V_eta_tenets.md` (T1–T20, each with its amendments and the
+Read `docs/did_v2_tenets.md` (T1–T20, each with its amendments and the
 sign-off lines at the bottom) before any design or naming question. Answer from
 the tenets, not from the class list. In one paragraph each:
 
 - **One entity class.** Every identifiable thing is an `entity` with a bound,
   required `type` (organism, culture, device, session, dataset, …) and identity
   fields only. A finer kind is one term assertion. Strain is an `instance_of`
-  relation. (T1; `V_eta_entity_composition_plan.md`.)
+  relation. (T1; `did_v2_entity_composition_plan.md`.)
 - **Statements by composition.** A statement's class is its direction:
   `assertion`, `observation`, `manipulation` or `calculation` (the last three
   are `interaction`s). Its value kind (`mass`, `term`, `text`, …) is a mixin
   listed in `superclasses`. There are no `<kind>_<direction>` leaf classes,
   except the named v1 calculators. A statement points at its entity by
-  `entity_id`. (T2, T3; `V_eta_entity_composition_plan.md`.)
+  `entity_id`. (T2, T3; `did_v2_entity_composition_plan.md`.)
 - **Method.** An interaction's method is one block, `{term, parameters}`,
   inline or by `method_id` to a standalone `method` document. (T2, T16;
-  `V_eta_method_plan.md`.)
+  `did_v2_method_plan.md`.)
 - **Value.** A value is inline, or in data bodies (`data_body: true`, with
   `sampled_body` / `opaque_body` documents pointing up at it). There are
   exactly two body classes. Keys, conditions and method parameters share one
-  entry shape. (T6, T14; `V_eta_data_body_model_plan.md`, including its
+  entry shape. (T6, T14; `did_v2_data_body_model_plan.md`, including its
   amendments.)
 - **Relations.** Relations are documents. Each `relation_bindings` row declares
   what passes along it: `assertions`, `distributive`, `context` or `nothing`.
   Records use `included_in`. Every document has a required `session_id` edge.
-  (T4, T5, T17; `V_eta_relation_inheritance_plan.md`.)
+  (T4, T5, T17; `did_v2_relation_inheritance_plan.md`.)
 - **Groups.** A set referred to as a unit is one entity of type group, linked
   by `member_of`. Groups are standing, never minted per statement. Order lives
   on the membership relation. (T20.)
 - **Terms.** A term is as general as its meaning allows; the document carries
-  the rest. (T19; `V_eta_term_registry_plan.md`.)
+  the rest. (T19; `did_v2_term_registry_plan.md`.)
 
-Other signed plans to point at: `V_eta_time_reference_model_plan.md`,
-`V_eta_stimulus_model_plan.md`, `V_eta_tuning_model_plan.md`,
-`V_eta_recording_observation_plan.md`, `V_eta_study_plan.md`,
-`V_eta_source_unit_plan.md`, `V_eta_prefix_spelling_plan.md`,
-`V_eta_duplicate_entities_plan.md`, `V_eta_linked_session_plan.md`.
-`V_eta_SPEC.md` predates the 2026-10-08 entity merge; where it disagrees with
+Other signed plans to point at: `did_v2_time_reference_model_plan.md`,
+`did_v2_stimulus_model_plan.md`, `did_v2_tuning_model_plan.md`,
+`did_v2_recording_observation_plan.md`, `did_v2_study_plan.md`,
+`did_v2_source_unit_plan.md`, `did_v2_prefix_spelling_plan.md`,
+`did_v2_duplicate_entities_plan.md`, `did_v2_linked_session_plan.md`.
+`did_v2_SPEC.md` predates the 2026-10-08 entity merge; where it disagrees with
 the tenets or a signed plan, those win.
 
 **A plan document's state is its decision lines, not its header.** Decisions
@@ -418,7 +427,7 @@ or the status board.
 
 - **NDI `origin/main` templates are the v1 truth, and where a template and its
   writer disagree, the writer wins.** Build fixtures from the writer, never from
-  a DID-side schema. (`schemas/V_eta_ground_truth_plan.md`.)
+  a DID-side schema. (`docs/plans/did_v2_ground_truth_plan.md`.)
 - **A `depends_on` sweep is not a reference check; grep the name too.** v1 joins
   by string in ordinary fields (e.g. `strcmpi(myprobemap.devicename, ...)` in
   NDI `+daq/system.m`; `epochnode_a.objectname` in `+time/syncgraph.m`).
@@ -467,7 +476,7 @@ or the status board.
   `TermRegistry` are armed by default (`~envFlagIsOff(...)`).
 - **Variable bindings are `preferred`, not `required`** (OPEN_WORK #129).
 - **The value rule (`value_inline_or_body`) is decided, not signed**
-  (`V_eta_data_body_model_plan.md`, AMENDMENT 5).
+  (`did_v2_data_body_model_plan.md`, AMENDMENT 5).
 - **NDI `+daq/reader.m` reads `document_properties.epochid.epochid`** for
   ingested epochs. Whether this breaks on a migrated ingested corpus is
   unverified.

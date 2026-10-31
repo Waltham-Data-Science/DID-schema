@@ -76,7 +76,7 @@ They are not to be pasted as they stand**: a team decision fills `decided`.
 
 ## A. [session membership records linked or ingested]
 
-Decision text: `V_eta_go_forward_class_audit.md` line 1180 (grep the tag). v1 meaning, read at
+Decision text: `did_v2_go_forward_class_audit.md` line 1180 (grep the tag). v1 meaning, read at
 NDI `main` 3cb19a85:
 - `session_in_a_dataset.json` holds `is_linked`, `session_creator`, `session_creator_input1..6`.
 - `dataset.m` add_linked_session sets `is_linked = 1`, `session_creator = class(ndi_session_obj)`,
@@ -112,7 +112,7 @@ Decision text: line 1182. Precedent read: registry row `experimental approach` E
 (definition "The general kind of scientific approach used to produce the data, ...", decided
 "Jess Haley, 2026-10-21 (binding variables)"); owl comment says NCIT Research Technique
 (C20368) was rejected as "narrower (behavior is not a lab technique)";
-`V_eta_term_registry_plan.md` closed-value-sets table row: 40 openMINDS values by
+`did_v2_term_registry_plan.md` closed-value-sets table row: 40 openMINDS values by
 `preferredOntologyIdentifier`, EMPTY:0000360-0000364 minted for the 5 with none.
 
 **Variables** (OLS `olsB.txt`):

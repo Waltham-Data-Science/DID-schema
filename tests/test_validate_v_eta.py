@@ -229,7 +229,7 @@ def test_a_term_with_no_inline_value_and_no_data_body_is_refused():
 
 
 def test_an_unrecorded_amount_written_as_nan_counts_as_stated():
-    # Jess Haley, 2026-10-21 (V_eta_go_forward_class_audit.md): an unrecorded
+    # Jess Haley, 2026-10-21 (did_v2_go_forward_class_audit.md): an unrecorded
     # amount is written as NaN in its quantity, e.g. a dose's volume.liters.
     # NaN is a number, not a blank, so the value is stated. The text V2 writes
     # (the literal NaN, as V1 writes it) parses here to float('nan').

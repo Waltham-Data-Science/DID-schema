@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fill the term registry's `equivalent` column from openMINDS and OLS4.
 
-Decision: Jess Haley, 2026-10-30, V_eta_go_forward_class_audit.md
+Decision: Jess Haley, 2026-10-30, did_v2_go_forward_class_audit.md
 [equivalents filled in did-schema] ("B"): the `equivalent` column of
 schemas/registry/did_v2_term_registry.json ([term equivalents recorded]) is filled by a
 one-time did-schema data change, made by a did-schema script and reviewed in

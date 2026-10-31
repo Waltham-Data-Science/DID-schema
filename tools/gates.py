@@ -291,17 +291,17 @@ STEPS = [
 
     Step("coverage", _t("coverage.py"), "generate",
          r"\((\d+) v1 classes", "v1 source classes in the ledger",
-         writes=["schemas/V_eta_coverage_ledger.md",
+         writes=["docs/generated/did_v2_coverage_ledger.md",
                  "schemas/generated/did_v2_coverage_ledger.json"],
          requires=["NDI-matlab", "DID-matlab"]),
 
     Step("regen_final_class_set", _t("regen_final_class_set.py"), "generate",
          r": (\d+) persist \(", "classes in the persist set",
-         writes=["schemas/V_eta_final_class_set.md"]),
+         writes=["docs/generated/did_v2_final_class_set.md"]),
 
     Step("status_board", _t("status_board.py"), "generate",
          r"^\s*open classes: (\d+)", "open classes on the board",
-         writes=["schemas/V_eta_STATUS.md", "schemas/generated/did_v2_decisions.json"],
+         writes=["docs/generated/did_v2_STATUS.md", "schemas/generated/did_v2_decisions.json"],
          check_argv=_t("status_board.py", "--check")),
 
     # ---- gates ----------------------------------------------------------
@@ -366,13 +366,13 @@ STEPS = [
          _t("check_binding_governance.py", "--enforce"), "gate",
          r"V_eta document_class files walked\s+: (\d+)", "class files walked"),
 
-    # Tenet T19 (V_eta_term_registry_plan.md): did2.build refuses a term the
+    # Tenet T19 (did_v2_term_registry_plan.md): did2.build refuses a term the
     # registry does not hold, so the registry itself must hold ONE term per
     # meaning -- no node or name twice, every prefix known and spelled.
     Step("check_term_registry", _t("check_term_registry.py"), "gate",
          r"^term registry terms read: (\d+)", "registered terms"),
 
-    # [carry register] (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md):
+    # [carry register] (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md):
     # every reason the generic migration carries a v1 document whole as v1 is a
     # row of schemas/registry/did_v2_carry_register.json; each row's decision resolves, and
     # no class declares a field a `not_modelled` row forbids.
@@ -557,7 +557,7 @@ STEPS = [
          check_argv=_t("tenet_map.py", "--check")),
 
     # THE V_eta SHAPE PANEL (issue #72). The panel reads schemas/did_v2/**/*.json
-    # and two schemas/*.md files at BUILD TIME (web/src/veta/sources.ts), so
+    # and two docs/ markdown files at BUILD TIME (web/src/veta/sources.ts), so
     # there is no served copy for `check_web_assets_fresh` to compare. What
     # can drift is the inputs against EACH OTHER -- a class built but placed
     # in no category, a category naming a class the tree lost, a tenet
@@ -658,10 +658,10 @@ EDGES = [
          "web/src/veta/grammar.json", r'"schemas/did_v2/\*\*/\*\.json"'),
 
     Edge("regen_final_class_set", "check_veta_viewer",
-         "schemas/V_eta_final_class_set.md",
+         "docs/generated/did_v2_final_class_set.md",
          "the panel groups classes by the categories of the generated "
          "final-set document; a stale one places classes wrongly.",
-         "web/src/veta/grammar.json", r"V_eta_final_class_set\.md"),
+         "web/src/veta/grammar.json", r"did_v2_final_class_set\.md"),
 
     Edge("validate_v_eta", "status_board", "schemas/generated/index.json",
          "the board's class state is read from the built generated/index.json.",
@@ -681,11 +681,11 @@ EDGES = [
 
     # NO EDGE FOR check_build_claims, DELIBERATELY, and the first attempt at one
     # is worth recording because it was wrong in KIND rather than in detail.
-    # It declared `schemas/V_eta_OPEN_WORK.md` as the artifact carrying an
+    # It declared `docs/did_v2_OPEN_WORK.md` as the artifact carrying an
     # ordering dependency from the signature gate. Two tests caught it at once:
     # the edge could not be substantiated (no step WRITES that file), and
     # `test_the_generated_markdown_list_matches_what_gates_declares` reported
-    # V_eta_OPEN_WORK.md as a generated markdown that status_board does not
+    # did_v2_OPEN_WORK.md as a generated markdown that status_board does not
     # generate. Both were right. An Edge here means "step A writes X, step B
     # reads X"; this gate reads only HAND-MAINTAINED documents and the siblings'
     # comments, so it has no generated input and needs no edge. It sits after
@@ -1059,7 +1059,7 @@ def diff_artifact(rel, mirror, root):
     body = [ln for ln in p.stdout.splitlines()
             if ln[:1] in "+-" and not ln.startswith(("+++", "---"))]
     # PRINT THE LINES, NOT JUST HOW MANY. On 2026-08-11 this said
-    # "V_eta_STATUS.md DIFFERS -- 4 changed line(s)" on a runner for three
+    # "did_v2_STATUS.md DIFFERS -- 4 changed line(s)" on a runner for three
     # consecutive runs while the same command reproduced NOTHING locally, and
     # the count alone gave no way to tell an artifact that had genuinely
     # drifted from one whose generator behaves differently where the sibling

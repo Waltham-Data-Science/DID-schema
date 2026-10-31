@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase 1.3 of V_eta_ground_truth_plan.md -- do the migrators speak the real
+"""Phase 1.3 of did_v2_ground_truth_plan.md -- do the migrators speak the real
 did_v1 vocabulary?
 
 Compares every `+migrators_j` migrator's field reads against the NDI templates

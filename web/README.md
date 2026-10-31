@@ -15,10 +15,10 @@ class set as an inheritance tree starting from `base` -- a class with several
 superclasses appears under each one and says where else it sits. Selecting a
 class shows its fields and value shapes, superclasses and subclasses,
 `depends_on` edges, and disposition / abstract flags. Classes outside
-`schemas/V_eta_final_class_set.md`'s persist set are hidden unless asked for
+`docs/generated/did_v2_final_class_set.md`'s persist set are hidden unless asked for
 (an ancestor of a shown class stays, dimmed), and a class's final-set category
 is shown as a badge on its card. A **Tenets T1–T14** tab renders
-`schemas/V_eta_tenets.md` for skimming: it opens as the 14 one-line headings;
+`docs/did_v2_tenets.md` for skimming: it opens as the 14 one-line headings;
 an opened tenet shows its opening text and then its bold lead-ins as a
 collapsed outline; tenet numbers in the text link to the tenet; and each tenet
 lists the classes it shaped (from `public/tenets.json`, `tools/tenet_map.py`),

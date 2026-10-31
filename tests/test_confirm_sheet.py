@@ -324,7 +324,7 @@ class AgainstTheLiveLedgerQuestions(unittest.TestCase):
 
 
 class ABatchPostPassIsAnEmission(unittest.TestCase):
-    """`V_eta_OPEN_WORK.md` row #107, shape (2), repeating one layer up.
+    """`did_v2_OPEN_WORK.md` row #107, shape (2), repeating one layer up.
 
     `targets` is GENERATED from the call graph and cannot see a batch post-pass;
     `second_pass` is the AUTHORED record of what that pass emits. Reading only

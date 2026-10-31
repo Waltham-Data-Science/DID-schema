@@ -72,7 +72,7 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 import coverage  # noqa: E402
 
 LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
-LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
+LEDGER_MD = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_coverage_ledger.md")
 
 # PINNED, DELIBERATELY. The v1 source universe is 113 (was 102 until 2026-08;
 # NDI-matlab origin/main gained 10 templates -- cellTypeLabels, demoNDISeries,
@@ -669,7 +669,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # AND IS NOW EIGHT. The gene-expression family + `fileReference` -- eight
         # of the sixteen -- LEFT this bucket in the direction that matters: the
         # team signed `spatial_transcriptomics_family` (Corrected Option C,
-        # V_eta_go_forward_class_audit.md:796) and this PR built their V_eta
+        # did_v2_go_forward_class_audit.md:796) and this PR built their V_eta
         # target schemas, so rung 2 (target class exists in the built V_eta
         # set) now reads `yes` for each. Rung 1 still reads `no` -- the
         # migrators are #122's scope (Session 2). A class with rung 2
@@ -767,7 +767,7 @@ class TestTheCommittedLedger(unittest.TestCase):
         # spatialGeneExpressionTiles) were briefly build-ahead-of-migrator
         # after DID-schema #64 landed the schemas + `variable` binding
         # (TEAM-SIGN-OFF [spatial_transcriptomics_family], Corrected
-        # Option C, V_eta_go_forward_class_audit.md:796) while Session 2's
+        # Option C, did_v2_go_forward_class_audit.md:796) while Session 2's
         # migrators were still queued as OPEN_WORK #122. Session 2's
         # DID-matlab PR #151 (merged as commit 932d653 into the veta
         # branch) closed that gap: all 8 migrators exist in
@@ -986,7 +986,7 @@ class TestCorpusRungBecomesComputable(unittest.TestCase):
         ev = coverage.load_corpus_evidence([self.tmp])
         row = self._row(cls="epochid", targets=())
         row["no_target_reason"] = "dissolved"
-        row["no_target_signoff"] = {"document": "V_eta_epoch_plan.md",
+        row["no_target_signoff"] = {"document": "did_v2_epoch_plan.md",
                                     "signoff_fragment": "epochid is DROPPED"}
         row["build_state"]["has_per_class_migrator"] = True
         st = coverage.stage_ladder(row, ev)
@@ -1222,7 +1222,7 @@ class TestMutationsRedden(unittest.TestCase):
                          "introduced by #67's standalone `calculator` class -- "
                          "which raised it to sixteen; sixteen until 2026-09-22, "
                          "when TEAM-SIGN-OFF [spatial_transcriptomics_family] "
-                         "(V_eta_go_forward_class_audit.md:796) landed and this "
+                         "(did_v2_go_forward_class_audit.md:796) landed and this "
                          "PR built the V_eta target schemas for the eight-row "
                          "gene-expression family, moving them into "
                          "`anomalies.over_failed` (build-ahead: rung 2 satisfied "

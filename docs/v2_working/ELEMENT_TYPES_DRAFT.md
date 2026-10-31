@@ -15,7 +15,7 @@ Draft written 2026-10-26.
 
 The sibling clones were read with `git show` / `git grep` only, and HEAD was not moved.
 `git rev-parse HEAD origin/main origin/V2` in the NDI clone printed `f273026… 3cb19a8… 9b99061…`. In the DID clone `git rev-parse HEAD origin/V2` printed `a502c76… f6486be…`.
-The did-schema working tree has uncommitted edits in `V_eta_STATUS.md` and the two coverage-ledger files. This draft cites none of them. Every did-schema file cited here is clean (`git status --short` on them printed nothing).
+The did-schema working tree has uncommitted edits in `did_v2_STATUS.md` and the two coverage-ledger files. This draft cites none of them. Every did-schema file cited here is clean (`git status --short` on them printed nothing).
 In the citations below, `NDI:` means NDI-matlab at `3cb19a8` unless another ref is named.
 
 ## What the code does today
@@ -35,9 +35,9 @@ Under `otherwise`, every JH `position` / `distance` element becomes a `device`.
 
 ## The rules this draft applies
 
-- [one correct reading] (`V_eta_go_forward_class_audit.md:1220`): the generic migration writes a V2 document only when the v1 document by itself gives exactly one correct V2 reading. Otherwise the document is carried whole as v1 with a `needs_mapping` register row.
+- [one correct reading] (`did_v2_go_forward_class_audit.md:1220`): the generic migration writes a V2 document only when the v1 document by itself gives exactly one correct V2 reading. Otherwise the document is carried whole as v1 with a `needs_mapping` register row.
 - [dataset-specific logic leaves the generic migration] (`:1208`) and [dataset audit batch 1 and 2] (`:1228`, item 1): the Haley worm-track shapes leave the generic migration, and "the Haley V2 import makes the tracks".
-- T1 (`V_eta_tenets.md:39`): `entity.type` is the coarse kind, a bound and required field. The finer kind is a term assertion.
+- T1 (`did_v2_tenets.md:39`): `entity.type` is the coarse kind, a bound and required field. The finer kind is a term assertion.
 - `entity_type_bindings` (`schemas/registry/binding_registry_meta.json`): 19 rows, at lines 2746-2890. The rows used here:
   - `cell` (`:2770`): "one cell".
   - `Group` (`:2778`, description `:2780`): "an entity whose members are entities, by `member_of`: a cohort, an ensemble".
@@ -108,7 +108,7 @@ Source: `probetype2object.json`, with line numbers in that file.
 | type string | what NDI says it is (evidence) | proposed | confidence and why |
 |---|---|---|---|
 | `spikes` | **A sorted unit.** `ndi.neuron` is "an ndi.element that contains data from a neuron … simply an ndi.element.timeseries object that has a different type" (`NDI: src/ndi/+ndi/neuron.m:2-5`). Writers: `+element/spikesForProbe.m:33`; `+app/spikesorter.m:274-276`; `+element/timeseries.m:233` (default `etype = 'spikes'`, class default `'ndi.neuron'` at `:193`); kilosort, kiasort and jrclust `probe.m` (`+kilosort/probe.m:583`). **But NDI also files multi-unit clusters here:** `spikesorter.m:262-263` gives 'Multi-unit' quality 3 and `:273` keeps every value ≤ 4. kilosort imports `["good" "mua"]` by default (`+kilosort/probe.m:196`; "multi=4" at `:120-122`). | **cell**, contested (Q1) | **Low-medium.** NDI calls it a neuron, but a multi-unit cluster is not "one cell" (`:2772`). The element document cannot tell the two apart: the single/multi label is on a separate `neuron_extracellular` document. In the corpora, 621 of the 1,511 units that have that document are `multi` (see the census). |
-| `ensemble` | "a spiking-neuron ensemble as a timeseries element … (type 'ensemble')" (`NDI: src/ndi/+ndi/+element/ensemble.m:2-4`, literal at `:55`). Created by `+fun/+ensemble/private/ensembleElementFor.m:17`. | **Group** | **High.** TEAM-SIGN-OFF [ensemble] (`V_eta_ensemble_plan.md:10`) says "the ensemble is a GROUP SUBJECT with its id preserved". The `Group` binding description names "an ensemble" (`:2780`). [ensemble retired] (`:284`) puts the migration in NDI's second pass. No corpus has one. |
+| `ensemble` | "a spiking-neuron ensemble as a timeseries element … (type 'ensemble')" (`NDI: src/ndi/+ndi/+element/ensemble.m:2-4`, literal at `:55`). Created by `+fun/+ensemble/private/ensembleElementFor.m:17`. | **Group** | **High.** TEAM-SIGN-OFF [ensemble] (`did_v2_ensemble_plan.md:10`) says "the ensemble is a GROUP SUBJECT with its id preserved". The `Group` binding description names "an ensemble" (`:2780`). [ensemble retired] (`:284`) puts the migration in NDI's second pass. No corpus has one. |
 | `position` | Haley import: `ndi.element.timeseries(session, [worm,'_',bodyPart,'_position'], 1, 'position', [], 0, subject_id)` (`NDI: src/ndi/+ndi/+setup/+conv/+haley/doImport.m:590-591`). It is a time series of x/y pixel coordinates (`:580`, `:597-599`). | **carried: needs_mapping** | **High** that it is not an entity. It is a derived signal about the worm (`subject_id`), with no underlying element. [dataset audit batch 1 and 2] item 1 gives it to the Haley V2 import. The map entry would say "an observation of the subject, variable position". |
 | `distance` | Haley import, `doImport.m:610-611`. Distance to the lawn edge, plus the closest lawn id (`:581-582`, `:617-625`). | **carried: needs_mapping** | **High**: same reason as `position`. |
 | *(source's type, copied)* | `oneepoch.m:63-64` and `downsample.m:41-44` create a derived `ndi.element.timeseries` that carries its source probe's type string. | **carried: needs_mapping** | **High**: a derived signal. This is the case the `ndi.probe.` condition in block A catches. |
@@ -201,4 +201,4 @@ Every probe-type element in these corpora is an `ndi.probe.*` class with `direct
 6. Are the "_Environment_" probes (`lick-spout`, `reward-well`, `intraoral-cannula`) `device` (apparatus), or should they be carried?
 7. Should the four imaging types map to `device`, given that NDI's docs describe them as data while their class is a probe?
 8. When an element is carried as v1, do the V2 documents that depend on it (`element_epoch`, `position_metadata`, …) also carry, or do they point at the v1 document?
-9. Should the migrator write `Group` (the binding's spelling) rather than today's `group`, or is matching by node enough ([registry holds nodes], `V_eta_term_registry_plan.md:188`)?
+9. Should the migrator write `Group` (the binding's spelling) rather than today's `group`, or is matching by node enough ([registry holds nodes], `did_v2_term_registry_plan.md:188`)?

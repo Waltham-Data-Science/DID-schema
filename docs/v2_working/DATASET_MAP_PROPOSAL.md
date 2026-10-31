@@ -15,7 +15,7 @@
 All code citations below are `git show origin/V2:<path>` at those commits.
 "By reading" means I read the code and did not run it. No MATLAB was run.
 
-The decision lines are in `schemas/V_eta_go_forward_class_audit.md` (did-schema
+The decision lines are in `docs/plans/did_v2_go_forward_class_audit.md` (did-schema
 660c16c): [one correct reading] :1220, [carry register] :1200,
 [dataset-specific logic leaves the generic migration] :1208,
 [Haley logic leaves the generic migration] :1206, [sliceTetanus to Dab map]

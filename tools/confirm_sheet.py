@@ -201,7 +201,7 @@ def classify(v1_class, entry):
     # emissions, and was being filed as "investigate first, not a team
     # question" while its question was ready to ask.
     #
-    # This is emission shape (2) of `V_eta_OPEN_WORK.md` row #107 -- the shape
+    # This is emission shape (2) of `did_v2_OPEN_WORK.md` row #107 -- the shape
     # the ladder's rung 3 is already known to miss. Repeating a recorded blind
     # spot one layer up is worse than the original, because the sheet is what a
     # reviewer trusts to be complete.

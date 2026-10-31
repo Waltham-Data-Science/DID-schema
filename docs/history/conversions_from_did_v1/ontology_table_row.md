@@ -1,4 +1,4 @@
-> **V_eta retarget (Brainstorm J).** Each column → a `subject_assertion` leaf (timeless — `term_assertion`/`date_assertion`/`<dim>_assertion`) **or** a `subject_observation` leaf (timed — `<dim>_observation`/`term_observation`), by timelessness (D9/C.2). One-word quantity names (no `scalar_`); term columns → `term_observation`; DOB → `date_assertion`. Anatomy → Path S. See `V_eta_migration_plan.md` Part D.
+> **V_eta retarget (Brainstorm J).** Each column → a `subject_assertion` leaf (timeless — `term_assertion`/`date_assertion`/`<dim>_assertion`) **or** a `subject_observation` leaf (timed — `<dim>_observation`/`term_observation`), by timelessness (D9/C.2). One-word quantity names (no `scalar_`); term columns → `term_observation`; DOB → `date_assertion`. Anatomy → Path S. See `did_v2_migration_plan.md` Part D.
 
 # Conversion: `ontology_table_row` → the Brainstorm-J observation tier
 
@@ -63,7 +63,7 @@ column both become `mass_observation`, distinguished only by their
 
 The former `observation.measured_property` is gone — property identity is the
 spine `variable`. Per-sample timing uses the shaped `time_reference` (§2 of
-`V_eta_SPEC.md`), not a `sample_time` array.
+`did_v2_SPEC.md`), not a `sample_time` array.
 
 ## Timing anchor
 

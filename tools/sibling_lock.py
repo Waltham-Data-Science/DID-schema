@@ -12,7 +12,7 @@ commits this repository is built and checked against.
                                              print one locked sha (CI uses it)
 
 NDIcalc-vis-matlab, THE THIRD SIBLING. Jess Haley's decision of 2026-10-27,
-`V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]: it joins the lock,
+`did_v2_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]: it joins the lock,
 pinned at the commit the tuning templates are read from (00e3e0f), so a tuning
 template cannot change under did-schema unnoticed. It has no V2 line: the
 templates are read from its `main`, so its `head` and `main` are the same

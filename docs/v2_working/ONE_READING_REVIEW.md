@@ -2,7 +2,7 @@
 
 This is research only. No repository was written, committed or checked out. Every verdict is **Proposed (not decided)**.
 
-The rule under test is "Decided by Jess Haley, 2026-10-26 [one correct reading]" (did-schema `schemas/V_eta_go_forward_class_audit.md`, at `e5b8b6e`). It reads together with [carry register], [lossless means round trip] and [dataset-specific logic leaves the generic migration], all dated 2026-10-26.
+The rule under test is "Decided by Jess Haley, 2026-10-26 [one correct reading]" (did-schema `docs/plans/did_v2_go_forward_class_audit.md`, at `e5b8b6e`). It reads together with [carry register], [lossless means round trip] and [dataset-specific logic leaves the generic migration], all dated 2026-10-26.
 
 ## 0. Heads and denominators
 

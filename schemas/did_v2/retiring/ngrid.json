@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Bytes per element (`props.bytes/numel(x)` in mat2ngrid). RESTATES data_type and is marked for the drop at the fold (V_eta_image_model_plan.md); declared here because a passthrough must validate against what the document actually carries.",
+            "documentation": "Bytes per element (`props.bytes/numel(x)` in mat2ngrid). RESTATES data_type and is marked for the drop at the fold (did_v2_image_model_plan.md); declared here because a passthrough must validate against what the document actually carries.",
             "constraints": {}
         },
         {
@@ -66,7 +66,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Vertically concatenated coordinate positions, size [sum(data_dim),1] -- split by data_dim to recover one coordinate vector per axis. CARRIED, NOT DROPPED: its decided destination is `axes[k].values` (V_eta_image_model_plan.md), which belongs to the data_body tier (#45, blocked on #32). The v1 format ADMITS real positions (`mat2ngrid(X,c1,...,cn)`); the one in-tree caller passes a single argument, so every ontologyImage document's coordinates are the default index vector -- which is a fact about today's writers, not about the format.",
+            "documentation": "Vertically concatenated coordinate positions, size [sum(data_dim),1] -- split by data_dim to recover one coordinate vector per axis. CARRIED, NOT DROPPED: its decided destination is `axes[k].values` (did_v2_image_model_plan.md), which belongs to the data_body tier (#45, blocked on #32). The v1 format ADMITS real positions (`mat2ngrid(X,c1,...,cn)`); the one in-tree caller passes a single argument, so every ontologyImage document's coordinates are the default index vector -- which is a fact about today's writers, not about the format.",
             "constraints": {}
         }
     ]

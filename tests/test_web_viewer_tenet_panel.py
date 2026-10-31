@@ -86,7 +86,7 @@ def test_every_row_the_panel_will_draw_carries_a_citation():
     a = asset()
     checked = 0
     for row in a["rows"]:
-        assert row["citation"]["doc"].startswith("schemas/")
+        assert row["citation"]["doc"].startswith("docs/")
         assert row["citation"]["quote"].strip()
         assert row["citation"]["line"] > 0
         checked += 1

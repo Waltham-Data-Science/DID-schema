@@ -16,8 +16,8 @@ on:
       # imported at build time. Same trap as the two files above: without
       # these lines, regenerating the final class set or editing a tenet would
       # deploy nothing and the panel would go on showing the old text.
-      - "schemas/V_eta_final_class_set.md"
-      - "schemas/V_eta_tenets.md"
+      - "docs/generated/did_v2_final_class_set.md"
+      - "docs/did_v2_tenets.md"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 

@@ -45,7 +45,7 @@ WORKFLOW = REPO / ".github" / "workflows" / "tests.yml"
 
 SIBLINGS = ("NDI-matlab", "DID-matlab")
 # Locked and cloned, but read by no gate yet: Jess Haley's decision of
-# 2026-10-27, `V_eta_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]. It has
+# 2026-10-27, `did_v2_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]. It has
 # no V2 line, so its locked head is its locked main.
 LOCKED_ONLY = ("NDIcalc-vis-matlab",)
 NDICALC_VIS_LOCKED = "00e3e0f10eb113aebcfb6428059403e9e6685df8"

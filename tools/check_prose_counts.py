@@ -6,7 +6,7 @@ WHY THIS EXISTS
 This project's most expensive recurring defect is not a wrong schema. It is:
 a fact lives in code or in a generated artifact, a NUMBER ABOUT that fact lives
 in prose, and the prose drifts. On 2026-08-12 alone two hand sweeps corrected
-roughly twenty numeric claims across `CLAUDE.md` and `schemas/V_eta_OPEN_WORK.md`
+roughly twenty numeric claims across `CLAUDE.md` and `docs/did_v2_OPEN_WORK.md`
 -- 224 vs 241 V_eta class names, 38 vs 41 `value` subclasses, 34 vs 38
 registry rows, 8 vs 14 vs 13 bound fields, 17 vs 15 phase-8 deletions, 60 vs 67
 tombstones compared, 45 vs 46 `time_reference` sites, 915 vs 1,002 NDI files.
@@ -35,8 +35,8 @@ disabled, so ASSERTED and QUOTED-AS-HISTORY must be told apart.
 `tools/check_signoff_header_staleness.py` solved its version of this with an
 opt-in marker (`HISTORICAL-SIGNOFF-CLAIM`). THAT MECHANISM IS NOT AVAILABLE
 HERE, and the reason is structural, not stylistic: markers would have to be
-written into `CLAUDE.md` and into `schemas/*.md`, and Operating Rule 1 forbids
-writing to `schemas/` at all. A rule that cannot be applied to the corpus it
+written into `CLAUDE.md` and into the documents (then `schemas/*.md`, now
+`docs/**/*.md`), and Operating Rule 1 forbids writing to the record at all. A rule that cannot be applied to the corpus it
 governs is not a rule. So the distinction is INFERRED, from two properties the
 corrections already have.
 
@@ -103,7 +103,6 @@ Usage:  python3 tools/check_prose_counts.py
 
 import argparse
 import ast
-import glob
 import json
 import os
 import re
@@ -117,6 +116,9 @@ VETA = os.path.join(SCHEMA_DIR, "did_v2")
 LEDGER = os.path.join(SCHEMA_DIR, "generated", "did_v2_coverage_ledger.json")
 GROUND_TRUTH = os.path.join(SCHEMA_DIR, "generated", "did_v2_ndi_ground_truth.json")
 REGISTRY = os.path.join(SCHEMA_DIR, "registry", "binding_registry_meta.json")
+sys.path.insert(0, HERE)
+import doc_paths  # noqa: E402  (the documents: every .md under docs/)
+
 BUILDER = os.path.join(HERE, "veta_record.py")   # build_v_eta.py's literals, 2026-10-21
 
 
@@ -289,7 +291,7 @@ def derive_ndi_m_files():
 
 
 def derive_plan_documents():
-    return len(glob.glob(os.path.join(SCHEMA_DIR, "*.md")))
+    return len(doc_paths.all_markdown())
 
 
 def derive_phase8_deleted():
@@ -412,10 +414,12 @@ NOUNS = [
           r"\bof\s+" + _N + r"\s+NDI files",
           r"grep -c[^\n]{0,60}?\\\.m\$[^\n]{0,20}?=\s*\**" + _N]),
 
-    Noun("plan_documents", "markdown documents under schemas/",
+    # The documents left schemas/ for docs/ ([markdown cleanup and rename],
+    # 2026-10-26); "N markdown files under schemas/" is now dated history.
+    Noun("plan_documents", "markdown documents under docs/",
          derive_plan_documents,
-         [_N + r"\s+markdown files?(?:\(s\))?\s+under\s+`?schemas/",
-          _N + r"\s+markdown file\(s\)\s+under\s+`?schemas/"]),
+         [_N + r"\s+markdown files?(?:\(s\))?\s+under\s+`?docs/",
+          _N + r"\s+markdown file\(s\)\s+under\s+`?docs/"]),
 
     Noun("phase8_deleted", "classes in veta_record.py `_DELETE_PHASE8`",
          derive_phase8_deleted,
@@ -516,9 +520,10 @@ class Claim:
 
 
 def documents():
-    """CLAUDE.md plus every markdown document under schemas/."""
+    """CLAUDE.md plus every markdown document under docs/ except the dated
+    working notes in docs/v2_working/ (doc_paths.current_documents)."""
     paths = [os.path.join(REPO, "CLAUDE.md")]
-    paths += sorted(glob.glob(os.path.join(SCHEMA_DIR, "*.md")))
+    paths += doc_paths.current_documents()
     return [p for p in paths if os.path.exists(p)]
 
 
@@ -529,7 +534,7 @@ def _atomic(line, in_fence):
     """Is this line a unit of its own rather than wrapped prose?
 
     JOINING THE WRONG TWO LINES INVENTS A CLAIM, and it did: a denominator
-    block in `V_eta_OPEN_WORK.md` reads
+    block in `did_v2_OPEN_WORK.md` reads
 
         distinct normalised class names across all six: 45
         ledger rows: 102

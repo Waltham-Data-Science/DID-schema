@@ -300,7 +300,7 @@ class ZeroReportSourceCase(unittest.TestCase):
             snap = os.path.join(td, "did_v2_corpus_proof.json")
             old_snap, old_md = SNAP.SNAPSHOT, SNAP.SNAPSHOT_MD
             SNAP.SNAPSHOT = snap
-            SNAP.SNAPSHOT_MD = os.path.join(td, "V_eta_corpus_proof.md")
+            SNAP.SNAPSHOT_MD = os.path.join(td, "did_v2_corpus_proof.md")
             try:
                 argv = sys.argv
                 sys.argv = ["corpus_proof_snapshot.py", "--from", src]

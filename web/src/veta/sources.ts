@@ -32,10 +32,10 @@ export const VETA_FILES: Record<string, unknown> = {
 
 // The persist set, grouped into the 7 categories. Generated from the built
 // index by tools/regen_final_class_set.py.
-export { default as FINAL_CLASS_SET_MD } from "../../../schemas/V_eta_final_class_set.md?raw";
+export { default as FINAL_CLASS_SET_MD } from "../../../docs/generated/did_v2_final_class_set.md?raw";
 
 // Brainstorm J's thesis and tenets T1-T15.
-export { default as TENETS_MD } from "../../../schemas/V_eta_tenets.md?raw";
+export { default as TENETS_MD } from "../../../docs/did_v2_tenets.md?raw";
 
 // The prefix every VETA_FILES key starts with, so a key can be turned back
 // into a repository path ("schemas/did_v2/value/mass.json").

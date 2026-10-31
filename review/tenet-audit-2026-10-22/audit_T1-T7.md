@@ -25,7 +25,7 @@ Dependency on deprecated classes: 0 of the 140 edges in stable/draft point at a 
 
 **A1. HIGH: a signed relation cannot be written. Bears on T4 ("Endpoints are typed depends_on") and T1/T2 ("configuration is its own class off `base`").**
 - `binding_registry_meta.json` `relation_bindings` row `recorded_by`: `"child_types": ["epoch"], "parent_types": ["acquisition_system"]`.
-- `V_eta_entity_composition_plan.md:190`: `TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is configuration off base, with an optional device_id; epochs are recorded_by it`.
+- `did_v2_entity_composition_plan.md:190`: `TEAM-SIGN-OFF: jess / 2026-10-08 -- acquisition_system is configuration off base, with an optional device_id; epochs are recorded_by it`.
 - `directed_relation.parent_id`: `must_refer_to_document_class: "entity,statement,value"`. `acquisition_system` has superclasses `['base']`, so it is none of these.
 - Result: an epoch `recorded_by` its acquisition system fails referential typing. No later decision found that allows it.
 - No `.m` writer of `recorded_by` turned up in /home/user/DID-matlab (`8eec66a`) or /home/user/NDI-matlab (`claude/v2-object-layer` `235801928`): `grep -rln recorded_by --include=*.m` returned nothing. So this is latent, not measured on a corpus.
@@ -41,7 +41,7 @@ T6: "One exemption, recorded (#73 audit 2 D13): `demo` keeps a file record outsi
 **A3. MEDIUM: a field's own documentation contradicts its declared requirement.**
 - `interaction.software_id` doc: "REQUIRED on calculations (calculation.require_inherited)".
 - `calculation.json`: `"require_inherited": []`.
-- The schema is right. The doc is stale: `V_eta_spatial_transcriptomics_plan.md:610` reads "Decided by Jess Haley, 2026-10-22 [calculation-software-optional decided]: … a calculation's `software_id` is optional". A reader who trusts the doc writes or expects the wrong thing.
+- The schema is right. The doc is stale: `did_v2_spatial_transcriptomics_plan.md:610` reads "Decided by Jess Haley, 2026-10-22 [calculation-software-optional decided]: … a calculation's `software_id` is optional". A reader who trusts the doc writes or expects the wrong thing.
 
 No other tenet violation was found in the 93 non-retire stable/draft classes. Checked and consistent:
 - T1: no class has `entity` as a superclass. `entity` carries only identity fields plus `type`, `time_reference_id` and the inherited `session_id`. The 19 `entity.type` values equal the 19 `entity_type_bindings` names, in the same order.
@@ -68,7 +68,7 @@ No other tenet violation was found in the 93 non-retire stable/draft classes. Ch
 
 **B2. MEDIUM: one concept, two variables (the finer kind of a sample or material).**
 - T1 amendment: "finer kind … is one `term` assertion (Sample Type for samples and materials …)".
-- `did_v2_term_registry.json` registers "Sample Type" NCIT:C210102 ("decided": "Jess Haley, 2026-10-20"). `V_eta_term_registry_plan.md` says it is "registered as the variable that says what kind of thing a subject is (a patch's `bacterial patch`)".
+- `did_v2_term_registry.json` registers "Sample Type" NCIT:C210102 ("decided": "Jess Haley, 2026-10-20"). `did_v2_term_registry_plan.md` says it is "registered as the variable that says what kind of thing a subject is (a patch's `bacterial patch`)".
 - `subject_statement_bindings` holds no Sample Type row. Instead it binds `material type` EMPTY:0000354 and `culture type` EMPTY:0000357, the latter with values `[bacterial patch]` (TEAM-SIGN-OFF [term registry closed value sets] 2026-10-21).
 - So a bacterial patch's kind has two candidate variables. Which one the Haley writer emits: not measured.
 
@@ -91,7 +91,7 @@ No other tenet violation was found in the 93 non-retire stable/draft classes. Ch
 
 **B6. MEDIUM: decided term not reflected in the doc.**
 - `tuning_curve.value` doc: "the `stimulus condition` term is still to be chosen".
-- `V_eta_data_body_model_plan.md`: "Decided by Jess Haley, 2026-10-22 [stimulus condition term]: … is XCO:0000000 "experimental condition"".
+- `did_v2_data_body_model_plan.md`: "Decided by Jess Haley, 2026-10-22 [stimulus condition term]: … is XCO:0000000 "experimental condition"".
 
 **B7. MEDIUM: binding-registry rows are inconsistent.**
 - One `subject_statement_bindings` row is keyed to a retire class: `{"variable": "Gene Expression", "class": "spatial_gene_expression_pyramid", "term_valued": false}`. It uses `term_valued` where every other row uses `value_kind`.
@@ -123,11 +123,11 @@ No other tenet violation was found in the 93 non-retire stable/draft classes. Ch
 
 ## (C) Tenet gaps, conflicts and stale tenet text
 
-**C1. MEDIUM: T2 conflicts with T15.** T2: "`input_id` is declared on `calculation` only". T15 (`V_eta_tenets.md` ~L632): "`input_id` is "what goes in" on a calculation … and on a clock alignment". The schema follows T15: `clock_alignment.input_id` points at `relative_time_reference`, `mustBeNonEmpty: true`. T2 needs the exception.
+**C1. MEDIUM: T2 conflicts with T15.** T2: "`input_id` is declared on `calculation` only". T15 (`did_v2_tenets.md` ~L632): "`input_id` is "what goes in" on a calculation … and on a clock alignment". The schema follows T15: `clock_alignment.input_id` points at `relative_time_reference`, `mustBeNonEmpty: true`. T2 needs the exception.
 
 **C2. MEDIUM: T2 text is stale against a signed decision.**
-- T2: "`method` (… `{term, parameters}` … proposed 2026-10-21, `V_eta_method_plan.md`, not signed …)".
-- `V_eta_method_plan.md:188`: "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com / 2026-10-21 -- one method shape {term, parameters} …".
+- T2: "`method` (… `{term, parameters}` … proposed 2026-10-21, `did_v2_method_plan.md`, not signed …)".
+- `did_v2_method_plan.md:188`: "TEAM-SIGN-OFF [method]: jess@walthamdatascience.com / 2026-10-21 -- one method shape {term, parameters} …".
 
 **C3. MEDIUM (uncertain): T1 and T5 amendment signatures are not visible.**
 - The T1 and T5 amendments say "signed by her 2026-10-21".

@@ -1,6 +1,6 @@
 """`contained_in` is timed: a container holds its contents for a while.
 
-V_eta_study_plan.md, "`contained_in` is timed". The Haley import gives every
+did_v2_study_plan.md, "`contained_in` is timed". The Haley import gives every
 contained_in edge a time window (a worm on each plate in turn), so the
 registry must declare that the relation may carry a time_reference.
 """

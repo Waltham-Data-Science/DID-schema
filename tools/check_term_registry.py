@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The term registry's own gate (tenet T19; V_eta_term_registry_plan.md).
+"""The term registry's own gate (tenet T19; did_v2_term_registry_plan.md).
 
 schemas/registry/did_v2_term_registry.json lists every ontology term an NDI V2 import
 writes in a vocabulary slot, and did2.build refuses a term that is not in it
@@ -13,7 +13,7 @@ per meaning, so this checks, and fails on any of:
       [term names match ignoring spacing], Jess Haley, 2026-10-29)
   R3  a status other than `decided` (a node) or `staged` (no node yet)
   R4  a node whose prefix the CURIE registry does not know, or that is not
-      written in the registry's `spelling` (V_eta_prefix_spelling_plan.md)
+      written in the registry's `spelling` (did_v2_prefix_spelling_plan.md)
   R5  a term we mint (EMPTY) or a staged term with no definition
   R6  the built schemas/generated/term_registry_meta.json listing other
       terms than the source (run tools/validate_v_eta.py)
@@ -44,9 +44,9 @@ per meaning, so this checks, and fails on any of:
       (an OM or UO node, registered under that name): the unit a term's
       definition says its accompanying number takes, read by the generic
       migration from the registry rather than from migrator code (Jess Haley,
-      2026-10-26, V_eta_go_forward_class_audit.md [term-stated unit is generic]).
+      2026-10-26, did_v2_go_forward_class_audit.md [term-stated unit is generic]).
 
-  R13 `equivalent` (Jess Haley, 2026-10-27, V_eta_go_forward_class_audit.md
+  R13 `equivalent` (Jess Haley, 2026-10-27, did_v2_go_forward_class_audit.md
       [term equivalents recorded]) is a list of CURIE strings: the ids in other
       vocabularies that mean the same thing as the term (e.g. openMINDS, Wikidata),
       for variable nodes too. Each has a prefix the CURIE registry knows, written
@@ -55,11 +55,11 @@ per meaning, so this checks, and fails on any of:
       two entries for one meaning, as R1).
 
   R15 `unit_bindings` (binding_registry_meta.json; Jess Haley, 2026-10-29,
-      V_eta_go_forward_class_audit.md [allowed units are source units]): each
+      did_v2_go_forward_class_audit.md [allowed units are source units]): each
       row names a registered variable once and a non-empty list of registered
       source units, each once, every {node, name} as registered.
 
-  R14 `synonyms` (Jess Haley, 2026-10-26, V_eta_go_forward_class_audit.md
+  R14 `synonyms` (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md
       [spelling is notation]) is a list of non-empty strings: the spellings a
       migrator maps to the term (e.g. "Hz", "spikes/s" -> om:hertz), so the
       mapping is documented and reversible as a set. Read trimmed and ignoring

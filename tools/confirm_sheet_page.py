@@ -420,7 +420,7 @@ def build(blob, den):
 <footer>This page decides nothing and records no signature — the dispositions remain
 the team's, and an answer here is your reply to me, not a decision written into the
 record. Regenerate with <code>python3 tools/confirm_sheet.py</code>; the evidence
-behind each row is in <code>V_eta_OPEN_WORK.md</code>.</footer>
+behind each row is in <code>did_v2_OPEN_WORK.md</code>.</footer>
 </div>
 <script>%s</script>
 """ % (CSS, n_team, n_team, n_confirm, n_pass, n_other, esc(den),

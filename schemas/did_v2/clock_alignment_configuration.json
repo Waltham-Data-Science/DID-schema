@@ -19,7 +19,7 @@
         {
             "name": "from_acquisition_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], V_eta_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
+            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], did_v2_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
             "must_refer_to_document_class": "acquisition_system"
         },
         {
@@ -301,7 +301,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",

@@ -399,7 +399,7 @@ def test_check_mode_reports_a_stale_artifact_as_a_difference():
     tmp = tempfile.mkdtemp(prefix="gates-stale-test-")
     try:
         clone = _clone_with_live_driver(tmp)
-        target = os.path.join(clone, "schemas", "V_eta_final_class_set.md")
+        target = os.path.join(clone, "docs", "generated", "did_v2_final_class_set.md")
         with open(target, "a") as fh:
             fh.write("\n## FABRICATED CATEGORY (9999)\n")
         p = subprocess.run([sys.executable, os.path.join(clone, "tools", "gates.py"),
@@ -407,7 +407,7 @@ def test_check_mode_reports_a_stale_artifact_as_a_difference():
                             "--only", "regen_final_class_set"],
                            capture_output=True, text=True, cwd=clone, check=False)
         assert p.returncode != 0, p.stdout
-        assert "V_eta_final_class_set.md" in p.stdout
+        assert "did_v2_final_class_set.md" in p.stdout
         assert "DIFFERS" in p.stdout, p.stdout
         # and the hand edit is still there -- --check reported it, did not fix it
         assert "FABRICATED CATEGORY" in Path(target).read_text()

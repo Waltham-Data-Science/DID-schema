@@ -41,7 +41,7 @@ from datetime import datetime, timezone
 
 SCHEMA_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SNAPSHOT = os.path.join(SCHEMA_ROOT, "schemas", "generated", "did_v2_corpus_proof.json")
-SNAPSHOT_MD = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_corpus_proof.md")
+SNAPSHOT_MD = os.path.join(SCHEMA_ROOT, "docs", "generated", "did_v2_corpus_proof.md")
 
 S_YES, S_NO, S_NOT_MEASURED = "yes", "no", "not measured"
 

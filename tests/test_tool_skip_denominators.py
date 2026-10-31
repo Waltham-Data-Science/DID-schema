@@ -73,7 +73,7 @@ AUDITED = ("coverage.py", "ndi_ground_truth.py", "ndi_required_stamp.py",
 _WRITE_TARGETS = (
     REPO / "schemas/generated/did_v2_ndi_ground_truth.json",
     REPO / "schemas/generated/did_v2_coverage_ledger.json",
-    REPO / "schemas/V_eta_coverage_ledger.md",
+    REPO / "docs/generated/did_v2_coverage_ledger.md",
     REPO / "schemas/generated/did_v2_migration_targets.json",
 )
 

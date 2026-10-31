@@ -49,10 +49,13 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import doc_paths
+
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 SCHEMAS = REPO / "schemas"
-TENETS_DOC = SCHEMAS / "V_eta_tenets.md"
+TENETS_DOC = REPO / "docs" / "did_v2_tenets.md"
 LEDGER = SCHEMAS / "generated" / "did_v2_coverage_ledger.json"
 VETA_INDEX = SCHEMAS / "generated" / "index.json"
 OUT = REPO / "web" / "public" / "tenets.json"
@@ -99,7 +102,7 @@ TENET_MAP = [
         "assertion and where it came from becomes an edge.",
         ["element"],
         ["subject", "term_assertion", "directed_relation"],
-        "V_eta_ensemble_plan.md",
+        "did_v2_ensemble_plan.md",
         "element→subject, id preserved, Path-S",
         "T1 admits no kind-subclasses, so a probe, a neuron and an animal are "
         "all subjects; the difference is what the graph and the ontology say "
@@ -111,7 +114,7 @@ TENET_MAP = [
         "the recording.",
         ["daqsystem"],
         ["acquisition_system"],
-        "V_eta_daq_family_decisions.md",
+        "did_v2_daq_family_decisions.md",
         "T1's bare subject is the thing statements are",
         "The tenet is doing negative work here -- it is the reason a class was "
         "kept OFF the subject spine."),
@@ -121,7 +124,7 @@ TENET_MAP = [
         "T2 puts identity, and the class became the plain boolean type.",
         ["validity", "validity_observation"],
         ["logical"],
-        "V_eta_logical_observation_plan.md",
+        "did_v2_logical_observation_plan.md",
         "The semantic belongs in `subject_statement.variable`.",
         "T2's 'identity rides on `variable`, not the class' is what makes one "
         "query span every statement; a class per semantic breaks it."),
@@ -132,7 +135,7 @@ TENET_MAP = [
         "not exist until a use appears.",
         ["treatment"],
         ["temperature", "observation", "manipulation"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "A leaf class = a direction × a data type",
         "T3 is the factoring move: value x direction, so a new stance on "
         "an existing value costs a leaf, not a design."),
@@ -142,7 +145,7 @@ TENET_MAP = [
         "right, with the per-epoch roster preserved in the graph.",
         ["ensemble"],
         ["subject", "directed_relation", "sampled_body"],
-        "V_eta_ensemble_plan.md",
+        "did_v2_ensemble_plan.md",
         "T4: relations are documents",
         "The per-epoch map document dissolves: once each spike train is keyed "
         "by its neuron-subject id, the column legend carries nothing."),
@@ -152,7 +155,7 @@ TENET_MAP = [
         "a device-subject, and T5 declines to mint one.",
         ["daqsystem", "daqreader"],
         ["acquisition_system", "software"],
-        "V_eta_daq_family_decisions.md",
+        "did_v2_daq_family_decisions.md",
         "does not license minting one",
         "Path S in its refusing mode -- the test is whether the structure is a "
         "thing-in-itself, not whether a name exists for it."),
@@ -162,7 +165,7 @@ TENET_MAP = [
         "would have duplicated it was killed outright.",
         ["ngrid"],
         ["sampled_body"],
-        "V_eta_image_model_plan.md",
+        "did_v2_image_model_plan.md",
         "**`ngrid` → phases into `sampled_body`**",
         "`sampled_body` is already self-describing (axis + typed datum), which "
         "is exactly what a bare numeric grid is."),
@@ -171,7 +174,7 @@ TENET_MAP = [
         "on a body, not a class, and this one has no v1 source to migrate.",
         ["zarr"],
         ["sampled_body", "opaque_body"],
-        "V_eta_data_body_model_plan.md",
+        "did_v2_data_body_model_plan.md",
         "`zarr` is DELETED, not migrated",
         "T6's 'encoding/format is a field, not a class', applied to the one "
         "carrier that never had a did_v1 document behind it."),
@@ -182,7 +185,7 @@ TENET_MAP = [
         "dropped comes back.",
         ["element", "element_epoch"],
         ["voltage_observation", "sampled_body", "acquisition_epoch"],
-        "V_eta_recording_observation_plan.md",
+        "did_v2_recording_observation_plan.md",
         "the `probe observes specimen` relation is REPLACED by the `instrument_id` edge",
         "T7's two questions: whose value is this (subject_id) and what tool "
         "produced it (instrument_id). The electrode is a subject -- just not "
@@ -193,7 +196,7 @@ TENET_MAP = [
         "by (class, field) rather than by a sibling `variable`.",
         ["dataset"],
         ["dataset", "binding_registry_meta"],
-        "V_eta_openminds_controlled_terms_binding_plan.md",
+        "did_v2_openminds_controlled_terms_binding_plan.md",
         "(new) `entity_field_bindings`** — keyed by **(class, field)**",
         "T8 is about hard validation, and the binding shape follows the thing "
         "being validated: an entity field names its own term set."),
@@ -203,7 +206,7 @@ TENET_MAP = [
         "reached by a typed `strain_id` edge.",
         ["openminds_subject"],
         ["strain", "term_assertion"],
-        "V_eta_openminds_family_record.md",
+        "did_v2_openminds_family_record.md",
         "So the edge to a `strain` document is `strain_id`",
         "T9's FAIR entities are what make the openMINDS crosswalk mechanical "
         "rather than per-dataset."),
@@ -218,7 +221,7 @@ TENET_MAP = [
          "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
          "speedtuning_calc", "tuningcurve_calc"],
         ["tuning_curve_calculation", "calculation"],
-        "V_eta_tuning_model_plan.md",
+        "did_v2_tuning_model_plan.md",
         "REVERSE R2/R3's LEAF COLLAPSE",
         "The 11,448-orphan run is what this tenet is made of: id preservation "
         "plus existence-only `must_refer` is why the calculators un-defer with "
@@ -231,7 +234,7 @@ TENET_MAP = [
          "spatial_frequency_tuning", "temporal_frequency_tuning",
          "speed_tuning"],
         ["tuning_curve"],
-        "V_eta_tuning_model_plan.md",
+        "did_v2_tuning_model_plan.md",
         "`subject_statement.variable`, **not** a name suffix (T11) — so we do NOT mint",
         "T11 says the name encodes only the data type and the stance. An "
         "independent variable is neither."),
@@ -242,7 +245,7 @@ TENET_MAP = [
         "infra tier and a build was reverted pending review.",
         ["binaryseries_parameters"],
         ["acquisition_layout"],
-        "V_eta_tenet_audit.md",
+        "did_v2_tenet_audit.md",
         "`binaryseries_parameters` → **`acquisition_layout`**",
         "Rendered because it is the tenet's live edge, not because it is done: "
         "the target does not exist in the built tree and the artifact says so. "
@@ -256,7 +259,7 @@ TENET_MAP = [
          "contrast_tuning", "spatial_frequency_tuning",
          "temporal_frequency_tuning", "speed_tuning"],
         ["tuning_curve", "tuning_curve_calculation"],
-        "V_eta_tuning_model_plan.md",
+        "did_v2_tuning_model_plan.md",
         "ONE `tuning_curve` `data_type` composite",
         "T12's parsimony test: a new composite is warranted only by a new "
         "quantity dimension or a new measurement structure. Five names for one "
@@ -267,7 +270,7 @@ TENET_MAP = [
         "a single slot that would silently drop four of the five.",
         ["fitcurve"],
         ["tuning_curve"],
-        "V_eta_tuning_model_plan.md",
+        "did_v2_tuning_model_plan.md",
         "not a class per fit",
         "The array is the re-audit's correction: spatial and temporal "
         "frequency tunings each carry five co-existing fits."),
@@ -278,7 +281,7 @@ TENET_MAP = [
         "calculator output becomes a deduplicated entity behind an edge.",
         ["app"],
         ["software"],
-        "V_eta_tenet_audit.md",
+        "did_v2_tenet_audit.md",
         "`app` → `software` entity + `software_id` edge + `execution_environment`",
         "T13's abbreviation rule, and T9's entity rule, landing on the same "
         "class from two directions."),
@@ -292,7 +295,7 @@ TENET_MAP = [
         "([control as covariate], data_body plan AMENDMENT 6).)",
         ["control_stimulus_ids"],
         ["item"],
-        "V_eta_tenet_audit.md",
+        "did_v2_tenet_audit.md",
         "`control_stimulus_ids` → **`control_designation`** (drops the `ids` container word, T13)",
         "The same rule kills `parameters`, `data`, `info`, `table`, `record` "
         "and `metadata` wherever they name a class."),
@@ -302,7 +305,7 @@ TENET_MAP = [
         "field-level form of naming the container.",
         ["orientation_direction_tuning"],
         ["tuning_curve"],
-        "V_eta_tenet_audit.md",
+        "did_v2_tenet_audit.md",
         "the `derived_summary` bag is KILLED",
         "`significance` / `circular_statistics` / `interpolated_values` -- and "
         "they stay typed and queryable, which the bag would have cost."),
@@ -312,7 +315,7 @@ TENET_MAP = [
         "[y, x, channel], in the one `value` slot every data type has.",
         ["imageStack"],
         ["intensity", "intensity_observation", "label_calculation"],
-        "V_eta_spatial_transcriptomics_plan.md",
+        "did_v2_spatial_transcriptomics_plan.md",
         "goes by what its pixels measure",
         "One payload slot is what makes T3's factoring mechanical: `mass.value` "
         "means the same thing under every direction."),
@@ -323,7 +326,7 @@ TENET_MAP = [
         "what made the values indexable.",
         ["stimulus_tuningcurve"],
         ["tuning_curve", "voltage", "dose"],
-        "V_eta_tenet_audit.md",
+        "did_v2_tenet_audit.md",
         "26 of 35",
         "T14 is T8 one level down: T8 governs the vocabulary a value may take, "
         "T14 governs the value's own shape."),
@@ -337,7 +340,7 @@ TENET_MAP = [
         ["syncgraph"],
         ["clock_alignment_policy", "calculation", "item",
          "relative_time_reference"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "a repeated edge repeats that one name",
         "Built schema-side 2026-09-25; DID-matlab's depends_on must gain a "
         "position before a repeated name can be stored."),
@@ -350,7 +353,7 @@ TENET_MAP = [
         "plate kind, and the method tells the incubator from the bench.",
         ["treatment_transfer"],
         ["manipulation", "term", "temperature", "dose"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "`variable` names a property, `value` its state, `method` how it was done",
         "Written 2026-10-03 from the Haley import's stage 8 review (NDI-matlab "
         "import_V2_decisions.md #58)."),
@@ -362,7 +365,7 @@ TENET_MAP = [
         "interactions along `contained_in` only as CONTEXT for the overlapping time.",
         [],
         ["statement", "directed_relation"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "A statement describes only its subject; the graph decides what else it holds of",
         "Written 2026-10-08 from the Haley videos question; the reader is "
         "NDI-matlab ndi.subject (statements, 'inherited', 'context')."),
@@ -374,9 +377,9 @@ TENET_MAP = [
         "of one kind is `instance_of` the kind instead.",
         [],
         ["undirected_relation", "directed_relation"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "`same_as` joins two records of one thing; it never joins two things of one kind",
-        "Signed 2026-10-19 (V_eta_duplicate_entities_plan.md); the reader is "
+        "Signed 2026-10-19 (did_v2_duplicate_entities_plan.md); the reader is "
         "NDI-matlab ndi.entity (search and assertions follow a same_as group)."),
     Row("T19",
         "The Haley import's terms named what the document already said (`C. elegans "
@@ -386,7 +389,7 @@ TENET_MAP = [
         "condition's term complete on its own.",
         [],
         ["statement", "interaction"],
-        "V_eta_tenets.md",
+        "did_v2_tenets.md",
         "A term is as general as its meaning allows; the document carries the rest",
         "Written 2026-10-20 at Jess Haley's request; not signed. The terms are "
         "the Haley import's (NDI-matlab haleyTerm)."),
@@ -396,14 +399,22 @@ TENET_MAP = [
 # ---------------------------------------------------------------------------
 # Substantiation
 # ---------------------------------------------------------------------------
+def doc_rel(name):
+    """A cited document's path from the repository root, for the served map."""
+    found = doc_paths.resolve(name)
+    return doc_paths.rel(found) if found else f"docs/**/{name}"
+
+
 def read_doc(name):
-    """Read a plan document under schemas/. Missing is a hard error: a row
-    citing a document that does not exist is exactly the state this generator
-    exists to make impossible."""
-    path = SCHEMAS / name
-    if not path.is_file():
+    """Read a document by its bare name (the unique `docs/**/<name>`,
+    doc_paths.resolve). Missing is a hard error: a row citing a document that
+    does not exist is exactly the state this generator exists to make
+    impossible."""
+    found = doc_paths.resolve(name)
+    path = Path(found) if found else None
+    if path is None or not path.is_file():
         raise FileNotFoundError(
-            f"cited document does not exist: schemas/{name}")
+            f"cited document does not exist: docs/**/{name}")
     return path.read_text(encoding="utf-8")
 
 
@@ -440,7 +451,7 @@ HEAD = re.compile(r"^###\s+(T\d{1,2})\s+—\s+(.*)$")
 
 
 def parse_tenets(text):
-    """Pull `### T<n> — <title>` sections out of V_eta_tenets.md.
+    """Pull `### T<n> — <title>` sections out of did_v2_tenets.md.
 
     The statement of a tenet is quoted from the north-star document, never
     retyped into this file: a paraphrase drifting away from the tenet it claims
@@ -502,7 +513,7 @@ def build(table=None, doc_reader=None, finder=None):
     missing_tenets = [t for t in TENET_IDS if t not in tenets]
     if missing_tenets:
         raise ValueError(
-            f"V_eta_tenets.md declares no section for {missing_tenets} -- the "
+            f"did_v2_tenets.md declares no section for {missing_tenets} -- the "
             "north star and this map disagree about which tenets exist")
 
     v1, built = registers()
@@ -527,7 +538,7 @@ def build(table=None, doc_reader=None, finder=None):
         if row.tenet not in tenets:
             raise ValueError(
                 f"row cites {row.tenet}, which is not a tenet in "
-                f"V_eta_tenets.md (declared: {sorted(tenets)})")
+                f"did_v2_tenets.md (declared: {sorted(tenets)})")
         text = docs[row.doc]
         hits = finder(text, row.anchor)
         if not hits:
@@ -547,7 +558,7 @@ def build(table=None, doc_reader=None, finder=None):
         if unvouched:
             raise ValueError(
                 f"UNKNOWN CLASS NAME(S) in the {row.tenet} row citing "
-                f"schemas/{row.doc}: {unvouched}. None is a v1 source, a built "
+                f"{doc_rel(row.doc)}: {unvouched}. None is a v1 source, a built "
                 "V_eta class, or named in the cited document -- so it is a "
                 "typo or an invention.")
 
@@ -571,7 +582,7 @@ def build(table=None, doc_reader=None, finder=None):
             "plan_only_classes": plan_only,
             "class_registers": classes,
             "citation": {
-                "doc": f"schemas/{row.doc}",
+                "doc": doc_rel(row.doc),
                 "line": line_no,
                 "anchor": row.anchor,
                 "quote": quote,
@@ -592,7 +603,7 @@ def build(table=None, doc_reader=None, finder=None):
             "document and the verbatim line that substantiates it. A row that "
             "could not be substantiated was dropped, not softened."),
         "generated_by": "tools/tenet_map.py",
-        "tenets_document": "schemas/V_eta_tenets.md",
+        "tenets_document": "docs/did_v2_tenets.md",
         "denominator": {
             "tenets_declared": len(TENET_IDS),
             "tenets_with_at_least_one_row": len(TENET_IDS) - len(unmapped),
@@ -605,7 +616,7 @@ def build(table=None, doc_reader=None, finder=None):
                                                 if c in v1]),
             "classes_vouched_only_by_the_cited_plan": sorted(
                 {c for r in rows for c in r["plan_only_classes"]}),
-            "plan_documents_cited": sorted(f"schemas/{d}" for d in docs),
+            "plan_documents_cited": sorted(doc_rel(d) for d in docs),
             "negative_control": (
                 "the substantiation lookup was asked for a canary string that "
                 "cannot occur in any document and did not find it"),
@@ -632,7 +643,7 @@ def serialize(payload):
 def print_denominator(payload):
     d = payload["denominator"]
     print(f"DENOMINATOR: {d['tenets_declared']} tenet(s) declared in "
-          f"schemas/V_eta_tenets.md, {d['tenets_with_at_least_one_row']} with "
+          f"docs/did_v2_tenets.md, {d['tenets_with_at_least_one_row']} with "
           f"at least one substantiated row, {d['rows']} row(s) total, "
           f"{d['distinct_classes_named']} distinct class(es) named, "
           f"{len(d['plan_documents_cited'])} plan document(s) cited")

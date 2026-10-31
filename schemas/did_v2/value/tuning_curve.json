@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A response tuning curve. The stimulus dimensions it is tabulated over (direction, contrast, spatial/temporal frequency, ...) are the value's `dimensions` -- one each, with the levels as a covariate along it (categorical levels as `term`), when the conditions tested form a full grid over those variables; otherwise ONE `stimulus condition` dimension, one position per condition tested, with a covariate per variable along it (Jess Haley 2026-10-22 [tuning grid], V_eta_data_body_model_plan.md; the `stimulus condition` dimension is XCO:0000000 experimental condition, [stimulus condition term]) -- so which family a curve belongs to is its covariates' `variable`s, not a subclass. Statistics of the response are separate named fields (T14: another reading of the same quantity is a position along a dimension, a different statistic of it is its own field). On a calculation the value also holds the fits (`model_fit`) and, beside them, their `significance` (Jess Haley 2026-10-22 [one fit entry], [significance with results]); an observed curve leaves both empty. (#73 audit 2 D3: `independent_variables[]` dropped -- it restated the keys, now `dimensions` + `covariates`.)",
+            "documentation": "A response tuning curve. The stimulus dimensions it is tabulated over (direction, contrast, spatial/temporal frequency, ...) are the value's `dimensions` -- one each, with the levels as a covariate along it (categorical levels as `term`), when the conditions tested form a full grid over those variables; otherwise ONE `stimulus condition` dimension, one position per condition tested, with a covariate per variable along it (Jess Haley 2026-10-22 [tuning grid], did_v2_data_body_model_plan.md; the `stimulus condition` dimension is XCO:0000000 experimental condition, [stimulus condition term]) -- so which family a curve belongs to is its covariates' `variable`s, not a subclass. Statistics of the response are separate named fields (T14: another reading of the same quantity is a position along a dimension, a different statistic of it is its own field). On a calculation the value also holds the fits (`model_fit`) and, beside them, their `significance` (Jess Haley 2026-10-22 [one fit entry], [significance with results]); an observed curve leaves both empty. (#73 audit 2 D3: `independent_variables[]` dropped -- it restated the keys, now `dimensions` + `covariates`.)",
             "constraints": {},
             "fields": [
                 {
@@ -1164,7 +1164,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Relative maximum gain of a contrast fit (Heimel et al. 2005), named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_relative_max_gain`, NDIcalc-vis-matlab vis.contrast.indexes.fitindexes). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "documentation": "Relative maximum gain of a contrast fit (Heimel et al. 2005), named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_relative_max_gain`, NDIcalc-vis-matlab vis.contrast.indexes.fitindexes). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], did_v2_go_forward_class_audit.md).",
                                     "constraints": {}
                                 },
                                 {
@@ -1177,7 +1177,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Saturation index of a contrast fit, named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_saturation_index`; NDIcalc-vis-matlab fitindexes: only meaningful for fits with a saturation term, but provided always, so 0 under the RB fit). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "documentation": "Saturation index of a contrast fit, named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_saturation_index`; NDIcalc-vis-matlab fitindexes: only meaningful for fits with a saturation term, but provided always, so 0 under the RB fit). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], did_v2_go_forward_class_audit.md).",
                                     "constraints": {}
                                 },
                                 {
@@ -1190,7 +1190,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Contrast sensitivity of a contrast fit: 10 entries, entry i the sensitivity (1 / the contrast at which the fit reaches the criterion) at a criterion of i times the control response's standard deviation, i = 1..10; named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_sensitivity`, NDIcalc-vis-matlab fitindexes and contrastfit2sensitivity). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], V_eta_go_forward_class_audit.md).",
+                                    "documentation": "Contrast sensitivity of a contrast fit: 10 entries, entry i the sensitivity (1 / the contrast at which the fit reaches the criterion) at a criterion of i times the control response's standard deviation, i = 1..10; named as on `contrast_sensitivity` (v1 `naka_rushton_<variant>_sensitivity`, NDIcalc-vis-matlab fitindexes and contrastfit2sensitivity). Set on a contrast tuning fit only (Jess Haley 2026-10-27 [contrast metrics added], did_v2_go_forward_class_audit.md).",
                                     "constraints": {}
                                 }
                             ]

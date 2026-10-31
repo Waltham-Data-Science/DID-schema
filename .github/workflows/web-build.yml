@@ -41,8 +41,8 @@ on:
       # The V_eta shape panel imports these two at build time (?raw) -- see
       # web/src/veta/sources.ts. Like the ledger they sit directly under
       # schemas/, which `schemas/V_*/**` does not match.
-      - "schemas/V_eta_final_class_set.md"
-      - "schemas/V_eta_tenets.md"
+      - "docs/generated/did_v2_final_class_set.md"
+      - "docs/did_v2_tenets.md"
       - ".github/workflows/web-build.yml"
   pull_request:
     paths:
@@ -51,8 +51,8 @@ on:
       # The V_eta shape panel imports these two at build time (?raw) -- see
       # web/src/veta/sources.ts. Like the ledger they sit directly under
       # schemas/, which `schemas/V_*/**` does not match.
-      - "schemas/V_eta_final_class_set.md"
-      - "schemas/V_eta_tenets.md"
+      - "docs/generated/did_v2_final_class_set.md"
+      - "docs/did_v2_tenets.md"
       - ".github/workflows/web-build.yml"
   workflow_dispatch:
 

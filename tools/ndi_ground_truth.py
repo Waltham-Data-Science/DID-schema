@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase 0 of V_eta_ground_truth_plan.md -- extract the did_v1 GROUND TRUTH.
+"""Phase 0 of did_v2_ground_truth_plan.md -- extract the did_v1 GROUND TRUTH.
 
 WHY THIS EXISTS
 ---------------
@@ -71,7 +71,7 @@ NDI `origin/main` alone. It said `--all` until 2026-08-11, and 12 of the 67
 provenance rows were being read off refs that are not ancestors of origin/main.
 
 NDICALC-VIS TEMPLATES ([ground truth reads NDIcalc-vis templates], Jess Haley,
-2026-10-27, V_eta_go_forward_class_audit.md)
+2026-10-27, did_v2_go_forward_class_audit.md)
 -------------------------------------------------------------------------
   ndicalc_vis_classes{}  the NDIcalc-vis-matlab document templates (the named
                         tuning calculators and their outputs), parsed exactly as
@@ -1110,7 +1110,7 @@ def main():
             "V_delta conversion markdown are history, not evidence. Where a template and its "
             "WRITER disagree, the writer wins (see writer_divergence): the data follows the "
             "writer. Regenerate with tools/ndi_ground_truth.py. See "
-            "V_eta_ground_truth_plan.md."),
+            "did_v2_ground_truth_plan.md."),
         "ndi_ref": ref,
         # The commit `ndi_ref` was read at (tools/sibling_lock.json). Changes
         # only when the lock moves; null when no lock was in force.

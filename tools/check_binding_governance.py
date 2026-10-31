@@ -120,7 +120,7 @@ REGISTRY_LISTS = {
     "subject_statement_bindings": True,
     "relation_bindings": True,
     "entity_field_bindings": True,
-    # 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 4): what each
+    # 2026-10-08 (signed, did_v2_entity_composition_plan.md sec. 4): what each
     # `entity.type` requires. Normative, and carries no strength of its own.
     "entity_type_bindings": True,
     # 2026-10-29 (Jess Haley [allowed units are source units]): the units a
@@ -186,16 +186,16 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # 17 -> 18 (2026-09-30, jess): `directed_relation.roles`, bound inline to the CRediT
 # roles + `corresponding author` (the same inline_set shape as channels.type).
 # 18 -> 19 (2026-10-02, jess): `subject.type`, bound inline to the seven coarse
-# subject kinds (V_eta_study_plan.md; the same inline_set shape as channels.type).
+# subject kinds (did_v2_study_plan.md; the same inline_set shape as channels.type).
 # 19 -> 20 (2026-10-03, jess): `formulation.value.type`, bound {strength: preferred,
 # node_form: curie} like `study.factors` and `statement.variable`.
-# 20 -> 28 (2026-10-04, the tenet audit; V_eta_study_plan.md, to sign): `relation.method`
+# 20 -> 28 (2026-10-04, the tenet audit; did_v2_study_plan.md, to sign): `relation.method`
 # and the `variable` of keys (data, acquisition_epoch; covariates since 2026-10-22,
 # data_body plan AMENDMENT 6, beside the dimensions' bound `term`), conditions (statement,
 # data_body) and method parameters (interaction, method_parameters,
 # clock_alignment_configuration), all bound {strength: preferred, node_form: curie}
 # like the statement's own `variable` and `method`, which are also uncatalogued.
-# 28 -> 93 (2026-10-21, jess; V_eta_source_unit_plan.md, to sign): every
+# 28 -> 93 (2026-10-21, jess; did_v2_source_unit_plan.md, to sign): every
 # dimensioned value's `source_unit` is now an ontology_term bound {strength:
 # preferred, node_form: curie} like `statement.variable` -- 65 more bound
 # declarations, uncatalogued for the same reason as `variable`.
@@ -223,7 +223,7 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 116
 
 # B8: distinct CURIE prefixes used by admissible sets that CURIE_lookups_meta
 # does not register, matched CASE-INSENSITIVELY by key, spelling or synonym (the
-# reading signed 2026-10-19, V_eta_prefix_spelling_plan.md). The 5 it was set to
+# reading signed 2026-10-19, did_v2_prefix_spelling_plan.md). The 5 it was set to
 # (NCBITaxon, CL, CHEBI, BFO, RO) were all registered by section 6 on
 # 2026-10-08; it reads 0 today and the ceiling is left where it was.
 BASELINE_UNREGISTERED_PREFIXES = 5
@@ -642,7 +642,7 @@ def run(veta=VETA):
     prefixes = set(curie.get("prefixes", {}))
     # A reader recognises a prefix by the entry's key, its `spelling` or any of
     # its `synonyms`, ignoring case (signed 2026-10-19,
-    # V_eta_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
+    # did_v2_prefix_spelling_plan.md). An entry with no `spelling` is spelled as
     # its key. `written_as` entries are spelled through another entry, so their
     # spelling names that entry, not them.
     entries = curie.get("prefixes", {})

@@ -130,7 +130,7 @@
             ],
             "path": "schemas/did_v2/retiring/acquisition_epoch.json",
             "disposition": "retire",
-            "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). V_eta_epoch_plan.md [JH position and distance]"
+            "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). did_v2_epoch_plan.md [JH position and distance]"
         },
         {
             "class_name": "acquisition_reader",
@@ -540,7 +540,7 @@
             ],
             "path": "schemas/did_v2/retiring/ensemble.json",
             "disposition": "retire",
-            "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], V_eta_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (did_v2_migration_targets.json ensemble.how)."
+            "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], did_v2_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (did_v2_migration_targets.json ensemble.how)."
         },
         {
             "class_name": "entity",
@@ -1132,7 +1132,7 @@
             ],
             "path": "schemas/did_v2/retiring/stimulus_presentation.json",
             "disposition": "retire",
-            "disposition_note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. V_eta_go_forward_class_audit.md [stimulus_presentation retired]"
+            "disposition_note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. did_v2_go_forward_class_audit.md [stimulus_presentation retired]"
         },
         {
             "class_name": "stimulus_response",

@@ -9,7 +9,7 @@ accurate on 2026-08-09 (`9180524`). The class was minted on 2026-08-10
 (`8a3cc51`, a DESCENDANT of that commit) and the sentence was never revisited,
 so a generated artifact went on publishing a premise that had lapsed. The target
 itself is not a new decision: the signed model block of this cluster's plan names
-it -- `V_eta_clock_alignment_cluster_plan.md:167`, "acquisition_system_id ->
+it -- `did_v2_clock_alignment_cluster_plan.md:167`, "acquisition_system_id ->
 acquisition_system    the DEVICENAME half" -- and `acquisition_system ⊂ entity`
 is TEAM-SIGN-OFF [daq configuration], jess 2026-08-08.
 
@@ -81,9 +81,9 @@ def test_the_target_class_exists_in_the_built_set():
         f"{TARGET} is not in the built set; the typing below has no referent")
     d = _load(entries[TARGET])
     supers = [s["class_name"] for s in d["document_class"]["superclasses"]]
-    # ⊂ base since 2026-10-08 (signed, V_eta_entity_composition_plan.md sec. 8):
+    # ⊂ base since 2026-10-08 (signed, did_v2_entity_composition_plan.md sec. 8):
     # an acquisition system is configuration, not an entity. This reverses the
-    # `acquisition_system ⊂ entity` of V_eta_daq_family_decisions.md (2026-08-05),
+    # `acquisition_system ⊂ entity` of did_v2_daq_family_decisions.md (2026-08-05),
     # which the plan's sec. 8 records.
     assert supers == ["base"], (
         f"{TARGET} is ⊂ {supers}, not ⊂ base -- the 2026-10-08 entity decision "
@@ -142,7 +142,7 @@ def test_the_lapsed_reason_is_not_still_published():
 
 
 def test_no_other_schema_declares_this_edge_untyped():
-    """Scope guard. `V_eta_epoch_plan.md:776` proposes the same edge name on a
+    """Scope guard. `did_v2_epoch_plan.md:776` proposes the same edge name on a
     future `<modality>_observation`. If that lands untyped, the same lapse
     starts over one class along -- so this fails on the SECOND occurrence rather
     than after another year of it being nobody's item."""

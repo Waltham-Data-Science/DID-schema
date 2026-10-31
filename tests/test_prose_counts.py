@@ -184,10 +184,9 @@ def test_derivations_match_an_independent_recomputation():
                                         # 2026-10-29 [allowed units are source units]
                                         + len(reg["unit_bindings"]))
 
-    md = subprocess.run(["ls", os.path.join(REPO_ROOT, "schemas")],
+    md = subprocess.run(["find", os.path.join(REPO_ROOT, "docs"), "-name", "*.md"],
                         capture_output=True, text=True, check=True)
-    assert C.derive_plan_documents() == len(
-        [n for n in md.stdout.split() if n.endswith(".md")])
+    assert C.derive_plan_documents() == len(md.stdout.split()) > 0
 
     # `_DELETE_PHASE8` counted by reading the source's set literal directly.
     with open(os.path.join(TOOLS, "veta_record.py")) as fh:

@@ -493,7 +493,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -748,7 +748,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], V_eta_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
+                    "documentation": "True / false per position, sized by the extents of the `along` dimensions: a stimulus presentation's `control condition` (XCO:0000099), true where the presentation was a control (Jess Haley, 2026-10-22 [control as covariate], did_v2_stimulus_response_model_plan.md). One value form (rule `covariate_one_value_form`). New in data_body plan AMENDMENT 6.",
                     "constraints": {}
                 },
                 {

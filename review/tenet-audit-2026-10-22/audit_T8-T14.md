@@ -9,7 +9,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 - Index dispositions of those 163 (index.json): stable persist 69, draft persist 17, stable in_progress 7, stable retire 70.
 - **Live set audited field by field (persist + in_progress): 93 classes, 1172 fields.** The 70 `retire` classes are v1 source tombstones (T13 exempts their spelling). They were only grepped for stale names and are not reported as violations.
 - Binding registry: 11 subject_statement_bindings, 34 relation_bindings, 1 entity_field_binding, 19 entity_type_bindings. Term registry: 508 terms, all `status: decided`.
-- Plan decision lines read: V_eta_tenets.md (T3, T6, T8-T14, and the 3 TEAM-SIGN-OFF lines), data_body plan AMENDMENTS 1-6 with their Decided-by and TEAM-SIGN-OFF lines, source_unit plan (2 sign-offs), time_reference plan sign-offs, method plan (1 sign-off and 6 Decided-by lines), stimulus_response plan Decided-by lines 604-616.
+- Plan decision lines read: did_v2_tenets.md (T3, T6, T8-T14, and the 3 TEAM-SIGN-OFF lines), data_body plan AMENDMENTS 1-6 with their Decided-by and TEAM-SIGN-OFF lines, source_unit plan (2 sign-offs), time_reference plan sign-offs, method plan (1 sign-off and 6 Decided-by lines), stimulus_response plan Decided-by lines 604-616.
 - Not run: `tools/gates.py`. Findings come from the JSON and the plan text, not from validator output.
 
 ---
@@ -167,7 +167,7 @@ Dump of every class/field used for this audit: (session scratchpad) audit/dump.t
 
 ### Stale tenet text (contradicted by later signed decisions or the built schema)
 
-- **T12 and T13** still say "Proposed amendment (2026-10-21, `V_eta_method_plan.md`, ... not signed)" for "a stimulus recipe is a method" and "`parameters` allowed only inside `method`". TEAM-SIGN-OFF [method] (jess, 2026-10-21) says "T12/T13 amended". Rule 4 requires reading the header against the sign-off. Here the tenet header is stale in the cautious direction.
+- **T12 and T13** still say "Proposed amendment (2026-10-21, `did_v2_method_plan.md`, ... not signed)" for "a stimulus recipe is a method" and "`parameters` allowed only inside `method`". TEAM-SIGN-OFF [method] (jess, 2026-10-21) says "T12/T13 amended". Rule 4 requires reading the header against the sign-off. Here the tenet header is stale in the cautious direction.
 - **T11**: "**Leaf** = `<value>_<direction>` ... One direction-suffix set". T3's 2026-10-08 amendment says "there are no leaf classes". T11's grammar has no note pointing there. T3's own composite example list still has `timed_sequence` and `timed_sequence_manipulation`.
 - **T14**:
   - "`datum_type`, stated ONCE on the data type". The schema field is `value.data_type` (T2 itself says "`datum_type` is renamed `data_type`"). T6 and T3 also say `datum_type`.

@@ -27,7 +27,7 @@ verified, and what container/database layout assumptions exist.
 ## V_eta file-reference shape
 
 TODO: describe the target file-reference shape under V_eta. Anchor
-choices in `V_eta_SPEC.md` once finalized.
+choices in `did_v2_SPEC.md` once finalized.
 
 ## Migration rules
 

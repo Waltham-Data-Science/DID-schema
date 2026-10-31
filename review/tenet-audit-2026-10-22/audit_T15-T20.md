@@ -5,7 +5,7 @@ Read-only. Nothing written under /home/user/DID-schema.
 ## Where and when this was measured
 
 - did-schema `claude/ecstatic-pascal-md91fw` at `701a5de`. `git pull` printed "Already up to date."
-- **The working tree changed while I was reading it.** Another process modified 7 files between 14:44 and 14:49 UTC: `V_eta_STATUS.md`, `V_eta_coverage_ledger.*`, `V_eta_data_body_model_plan.md` (it appended a `Decided by ... [index covariates]` line), `did_v2_decisions.json`, `V_eta_go_forward_class_audit.md` and `web/public/class_walkthrough.json`. I did not make these changes. None of the class files, the binding registry, the term registry or the tenets are among them.
+- **The working tree changed while I was reading it.** Another process modified 7 files between 14:44 and 14:49 UTC: `did_v2_STATUS.md`, `V_eta_coverage_ledger.*`, `did_v2_data_body_model_plan.md` (it appended a `Decided by ... [index covariates]` line), `did_v2_decisions.json`, `did_v2_go_forward_class_audit.md` and `web/public/class_walkthrough.json`. I did not make these changes. None of the class files, the binding registry, the term registry or the tenets are among them.
 - Sibling checkouts I used as evidence:
   - NDI-matlab: local `235801928`, which is behind `origin/claude/v2-object-layer` at `584b419`. I re-checked every NDI quote at `584b419`.
   - DID-matlab: detached at `8eec66a`.
@@ -51,14 +51,14 @@ So the row's parent type and the edge's target class contradict each other.
 - **Uncertain:** whether anything enforces `child_types`. A grep found `child_types` only in NDI-matlab `+migrate/+internal/ensembleMembership.m` (a comment: "must_refer is existence-only, never type-checked") and DID-matlab `+did2/+convert/resolveLawnPlateSubjects.m`. A grep that finds nothing is not evidence that nothing enforces it.
 
 **H3. The tenet text says "not signed" for decisions that have been signed (C; CLAUDE.md "a plan's header is not its state").**
-Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs it:
+Six inline markers in `docs/did_v2_tenets.md`, each with the line that signs it:
 
 | tenet line | what it says | what signs it |
 |---|---|---|
 | 804, T17 | "Proposed amendment (2026-10-21 ... not signed)" | `TEAM-SIGN-OFF [tenet amendments 2026-10-21]`: "T17: one event given to several subjects is one distributive statement on a standing group" |
 | 979, T20 | "Proposed 2026-10-21 at Jess Haley's request, not signed." | `TEAM-SIGN-OFF [tenet T20, group entities]` |
-| 915, T19 | "Not signed." | `V_eta_term_registry_plan.md` `TEAM-SIGN-OFF [term registry]`: "tenet T19 (a term already used in an NDI dataset first, ...)" |
-| 58, T2 | "proposed 2026-10-21, `V_eta_method_plan.md`, not signed" | `V_eta_method_plan.md` `TEAM-SIGN-OFF [method]`: "... T12/T13 amended" |
+| 915, T19 | "Not signed." | `did_v2_term_registry_plan.md` `TEAM-SIGN-OFF [term registry]`: "tenet T19 (a term already used in an NDI dataset first, ...)" |
+| 58, T2 | "proposed 2026-10-21, `did_v2_method_plan.md`, not signed" | `did_v2_method_plan.md` `TEAM-SIGN-OFF [method]`: "... T12/T13 amended" |
 | 381, T12 | "not signed" | `TEAM-SIGN-OFF [method]` |
 | 441, T13 | "not signed" | `TEAM-SIGN-OFF [method]` |
 
@@ -112,7 +112,7 @@ Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs i
 **M6. Distance is modelled two ways (B).**
 - relation_bindings has `measured_distance_to` ("the measured-from subject" / "the reference subject").
 - The registry carries distance as a statement variable with a reference-point condition (M4).
-- `V_eta_distance_metadata_plan.md` says: "The `measured_distance_to` term stays in the registry for Part B's use". By T16 a distance is a property (a `variable`), not a relation.
+- `did_v2_distance_metadata_plan.md` says: "The `measured_distance_to` term stays in the registry for Part B's use". By T16 a distance is a property (a `variable`), not a relation.
 
 **M7. Binding variable names do not match the registry's labels (B).**
 - `check_term_registry.py` R8 prints these without failing:
@@ -140,7 +140,7 @@ Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs i
 | `index.json` `notes` | "subject_relation documents, restored subject_statement/subject_assertion ... term_observation" | retired names |
 | `ensemble.json` `neuron_id_#` | "Typed to `subject`" | retired subject class |
 | `did_v2_term_registry.json` `description` | "tools/build_v_eta.py copies it" and "or key" | script deleted; keys replaced by AMENDMENT 6 |
-| `V_eta_duplicate_entities_plan.md` "Where it is stored" | "like the `part_of` relations that make a session a member" | superseded by `included_in` (`TEAM-SIGN-OFF [relation inheritance]`). The T18 text in the tenets was updated; the plan was not. |
+| `did_v2_duplicate_entities_plan.md` "Where it is stored" | "like the `part_of` relations that make a session a member" | superseded by `included_in` (`TEAM-SIGN-OFF [relation inheritance]`). The T18 text in the tenets was updated; the plan was not. |
 
 **L2. Two relation names and their endpoint types.**
 - `orthologous gene mapping` and `gene alias mapping` contain spaces; every other relation name is snake_case.
@@ -163,7 +163,7 @@ Six inline markers in `schemas/V_eta_tenets.md`, each with the line that signs i
 - This may be against T19 ("names nothing the document already carries") and T7.
 
 **L7. Second shapes for decided single shapes.**
-- `frequency_filter` (persist) is a method by another shape: `algorithm` term plus typed setting fields. It is not in `V_eta_method_plan.md`'s touch list, which decided "One `method` shape".
+- `frequency_filter` (persist) is a method by another shape: `algorithm` term plus typed setting fields. It is not in `did_v2_method_plan.md`'s touch list, which decided "One `method` shape".
 - `acquisition_epoch.storage.format` is `char`, while `data_body.format` is an ontology term ([format is an ontology term]).
 - `acquisition_epoch` copies `data`'s `dimensions` and `covariates` without deriving from `data`. Its own documentation acknowledges this: "the class does not derive from `data`".
 

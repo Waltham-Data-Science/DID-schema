@@ -1,7 +1,7 @@
 # Old EMPTY labels that carry assay context: the list (proposal, nothing decided)
 
 **Every row below is Proposed (not decided).** It is the list that
-[old EMPTY labels generalised] (`schemas/V_eta_go_forward_class_audit.md`, Jess
+[old EMPTY labels generalised] (`docs/plans/did_v2_go_forward_class_audit.md`, Jess
 Haley, 2026-10-27) asks Claude to draft: EMPTY terms minted before 2026-10-20
 whose labels carry assay context. Per T19, each row first looks for an existing
 ontology term (which would replace the EMPTY term), and otherwise proposes a

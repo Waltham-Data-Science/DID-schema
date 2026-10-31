@@ -1,6 +1,6 @@
 # Corpus-code audit: review sheet (2026-10-24)
 
-**State: proposed, not decided.** Nothing here is a decision. `schemas/V_eta_go_forward_class_audit.md` cites it as `Proposed (not decided) [corpus code bins]`, and it waits for the team (Jess Haley and Steve Van Hooser) to confirm the bins and answer the questions below.
+**State: proposed, not decided.** Nothing here is a decision. `docs/plans/did_v2_go_forward_class_audit.md` cites it as `Proposed (not decided) [corpus code bins]`, and it waits for the team (Jess Haley and Steve Van Hooser) to confirm the bins and answer the questions below.
 
 Read-only audit of the generic migration code at the locked heads: DID-matlab 7efd113 and NDI-matlab 670f362. Every bin is **PROPOSED**. The full reports, with file, function, decision tag and test for every row, are:
 
@@ -42,8 +42,8 @@ Where a file was searched by grep only, a missing finding means **not measured**
    - (b) NDI `etaShape:curie` rewrites `WBStrain:` to `WormBase:WBStrain`. A (prefix spelling) or B (JH)?
    - (c) `SubjectLocalIdentifier` / `SubjectDocumentIdentifier`: an NDI table-dictionary convention used by more than one lab. A or C?
    - (d) The NewStim recipes are lab software, not an NDI class. C as proposed?
-2. **CORRECTED 2026-10-25: no question here.** The audit read the code against [non-area image node] (2026-10-21). The later line [non-area image node, revisited] (`V_eta_spatial_transcriptomics_plan.md`, 2026-10-22) says a non-area node is "kept on the observation as a condition with a plain label variable ('ontology node') and counted", and that is what `ontology_image` does. The original question, kept for the record:
-   **A decided rule is applied after it was reopened.** `ontology_image` still applies [non-area image node]. `V_eta_spatial_transcriptomics_plan.md` reopened it on 2026-10-22 as **not decided**. Should the code stop applying it?
+2. **CORRECTED 2026-10-25: no question here.** The audit read the code against [non-area image node] (2026-10-21). The later line [non-area image node, revisited] (`did_v2_spatial_transcriptomics_plan.md`, 2026-10-22) says a non-area node is "kept on the observation as a condition with a plain label variable ('ontology node') and counted", and that is what `ontology_image` does. The original question, kept for the record:
+   **A decided rule is applied after it was reopened.** `ontology_image` still applies [non-area image node]. `did_v2_spatial_transcriptomics_plan.md` reopened it on 2026-10-22 as **not decided**. Should the code stop applying it?
 3. **Fabricated values.** `'2024-01-01T00:00:00.000Z'` is written as a timestamp when the source has none. That happens in 14 DID files plus 2 NDI files. `image_stack` also defaults `YXCZT`/`uint16`, and `metadata_editor` writes `'(unnamed dataset)'`. Proposal: a lossless stage records "not stated" instead of a made-up value. Yes?
 4. **The losslessness gap is the real work.** The worst cases:
    - `sliceTetanus` deletes documents;

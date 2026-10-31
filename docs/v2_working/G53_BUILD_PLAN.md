@@ -10,8 +10,8 @@ docs/V2_PLAN.md G69.
 
 | what | value | command |
 |---|---|---|
-| did-schema | HEAD 7c209d5 (branch `claude/ecstatic-pascal-md91fw`, 4 commits ahead of `origin/main` 3d0d1bf; both hold the six decision lines) | `git rev-parse HEAD origin/main`; `git grep -c "assay labels batch" origin/main -- schemas/V_eta_go_forward_class_audit.md` -> 6, same on HEAD |
-| decision lines read | 6 (`[assay labels batch 1]`..`[assay labels batch 6]`, lines 1702-1720) | `grep -n "assay labels batch" schemas/V_eta_go_forward_class_audit.md` |
+| did-schema | HEAD 7c209d5 (branch `claude/ecstatic-pascal-md91fw`, 4 commits ahead of `origin/main` 3d0d1bf; both hold the six decision lines) | `git rev-parse HEAD origin/main`; `git grep -c "assay labels batch" origin/main -- docs/plans/did_v2_go_forward_class_audit.md` -> 6, same on HEAD |
+| decision lines read | 6 (`[assay labels batch 1]`..`[assay labels batch 6]`, lines 1702-1720) | `grep -n "assay labels batch" docs/plans/did_v2_go_forward_class_audit.md` |
 | empty-ontology | `origin/V2` b1a12e2 (2026-10-29, PR #32 merge); `origin/main` 68fa1b5 | `git rev-parse origin/V2 origin/main` |
 | empty-edit.owl classes declared | 408 | `grep -c 'Declaration(Class(obo:EMPTY_'` on `git show origin/V2:src/ontology/empty-edit.owl` |
 | NDI-matlab | `origin/V2` 3ddc46e (PR #1105 merge). NB the lock's `head` is 3e0a2ca; this plan reads `origin/V2` as asked | `git rev-parse origin/V2`; `tools/sibling_lock.json` |
@@ -199,8 +199,8 @@ dictionary entry, which writes "EMPTY:Elevated Plus Maze: open arm (north) - ent
     HEAD:review/tenet-audit-2026-10-22/synonym_audit_alternative_names.md:7
     HEAD:review/tenet-audit-2026-10-22/synonym_audit_writer_strings.md:91
     HEAD:schemas/generated/did_v2_coverage_ledger.json:1
-    HEAD:schemas/V_eta_coverage_ledger.md:1
-    HEAD:schemas/V_eta_go_forward_class_audit.md:6
+    HEAD:docs/generated/did_v2_coverage_ledger.md:1
+    HEAD:docs/plans/did_v2_go_forward_class_audit.md:6
     HEAD:schemas/generated/did_v2_migration_targets.json:1
     HEAD:tests/test_term_registry.py:2
     == empty-ontology: git grep -c -P "$PAT" origin/V2

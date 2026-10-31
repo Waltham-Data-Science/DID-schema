@@ -5,26 +5,26 @@ Rule 4). Each row below is independently signable: to sign one, a team member ad
 sign-off line, in the house format, to the plan document named in the row. `tools/status_board.py`
 reads only `schemas/*.md`, so nothing in this file counts toward any family.
 
-Sources: `schemas/V_eta_spatial_transcriptomics_plan.md` (the #73 decision record, items 1-72)
+Sources: `docs/plans/did_v2_spatial_transcriptomics_plan.md` (the #73 decision record, items 1-72)
 and `review/73/audit2_SUMMARY.md` (the audit 2 decision log, D1-D13). Decider throughout: jess.
 
 ## A. Amendments to lines that ARE signed (sign these first: the signed text is now wrong)
 
 | # | signed line | what changed | amended by | sign in |
 |---|---|---|---|---|
-| A1 | [subject calculation] #67: `_calculation` is reserved for calculator outputs | decided by provenance instead: inputs in the dataset => calculation (T2) | #73 item 3 (2026-09-23) | V_eta_subject_calculation_plan.md |
-| A2 | [calculator] #67: `runtime_environment` "stands" | the run environment is two `software` edges, `interpreter_id` / `operating_system_id` | #73 item 53 | V_eta_subject_calculation_plan.md |
-| A3 | 2026-08-17 confirm sheet: `jrclust_clusters` -> `count_observation` | -> `label_calculation` (spike-sorter output) | #73 item 35 | V_eta_go_forward_class_audit.md |
-| A4 | 2026-08-22 confirm sheet names `session_relative_reference` | that class is deleted (#65 increment 3b); the target is `relative_time_reference` | #65 3b | V_eta_go_forward_class_audit.md |
-| A5 | [tuning] `model_fit[].coefficients` a structure named per model | a NAMED list `{variable, value}`, shared with every fit; `goodness.sse_per_point` | audit 2 D2 | V_eta_tuning_model_plan.md (amendment appended) |
-| A6 | [tuning] #67 `independent_variables[]` | dropped; the dimensions are the value's `keys` | audit 2 D3 | V_eta_tuning_model_plan.md (amendment appended) |
-| A7 | [spike processing parameters] "no `unit` field" | the parameter entry carries a bound `unit` | audit 2 D4 | V_eta_method_parameters_plan.md (amendment appended) |
-| A8 | [stimulus] onsets on a body owned by the manipulation | onsets are the sequence's own time key; `offset` field | audit 2 D11 | V_eta_stimulus_model_plan.md (amendment inline) |
-| A9 | [pyraview pyramid] confirmed 2026-08-13: `voltage_observation` + `sampled_body` is the end state | the levels are `redundant` sampled bodies owned by the RECORDING's observation (second-pass join), not a second `voltage_observation` | audit 2 D7 | V_eta_recording_observation_plan.md; then move `confirmed_targets` -> `decided_targets` in did_v2_migration_targets.json |
+| A1 | [subject calculation] #67: `_calculation` is reserved for calculator outputs | decided by provenance instead: inputs in the dataset => calculation (T2) | #73 item 3 (2026-09-23) | did_v2_subject_calculation_plan.md |
+| A2 | [calculator] #67: `runtime_environment` "stands" | the run environment is two `software` edges, `interpreter_id` / `operating_system_id` | #73 item 53 | did_v2_subject_calculation_plan.md |
+| A3 | 2026-08-17 confirm sheet: `jrclust_clusters` -> `count_observation` | -> `label_calculation` (spike-sorter output) | #73 item 35 | did_v2_go_forward_class_audit.md |
+| A4 | 2026-08-22 confirm sheet names `session_relative_reference` | that class is deleted (#65 increment 3b); the target is `relative_time_reference` | #65 3b | did_v2_go_forward_class_audit.md |
+| A5 | [tuning] `model_fit[].coefficients` a structure named per model | a NAMED list `{variable, value}`, shared with every fit; `goodness.sse_per_point` | audit 2 D2 | did_v2_tuning_model_plan.md (amendment appended) |
+| A6 | [tuning] #67 `independent_variables[]` | dropped; the dimensions are the value's `keys` | audit 2 D3 | did_v2_tuning_model_plan.md (amendment appended) |
+| A7 | [spike processing parameters] "no `unit` field" | the parameter entry carries a bound `unit` | audit 2 D4 | did_v2_method_parameters_plan.md (amendment appended) |
+| A8 | [stimulus] onsets on a body owned by the manipulation | onsets are the sequence's own time key; `offset` field | audit 2 D11 | did_v2_stimulus_model_plan.md (amendment inline) |
+| A9 | [pyraview pyramid] confirmed 2026-08-13: `voltage_observation` + `sampled_body` is the end state | the levels are `redundant` sampled bodies owned by the RECORDING's observation (second-pass join), not a second `voltage_observation` | audit 2 D7 | did_v2_recording_observation_plan.md; then move `confirmed_targets` -> `decided_targets` in did_v2_migration_targets.json |
 
-Also open, carried from earlier: whether the time-reference signature (`V_eta_time_reference_model_plan.md:468`) reaches CHANGE 5 (the `value.clock` uniqueness rule, built).
+Also open, carried from earlier: whether the time-reference signature (`did_v2_time_reference_model_plan.md:468`) reaches CHANGE 5 (the `value.clock` uniqueness rule, built).
 
-## B. Unsigned #73 decisions (each row independently signable in V_eta_spatial_transcriptomics_plan.md)
+## B. Unsigned #73 decisions (each row independently signable in did_v2_spatial_transcriptomics_plan.md)
 
 | item | decision (headline as recorded) |
 |---|---|

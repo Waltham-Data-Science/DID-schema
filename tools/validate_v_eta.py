@@ -36,11 +36,11 @@ written, not hand-edited:
       `decided_targets`, authored) and its `disposition_note`. DID-matlab's did2.build
       refuses to build a listed class (strict mode RetiredClasses, DID-matlab
       #230; Decided by Jess Haley, 2026-10-24 [V2 builder refuses retired],
-      V_eta_go_forward_class_audit.md).
+      did_v2_go_forward_class_audit.md).
   D6  generated/quantity_list_meta.json: every value class, its canonical slots,
       its `source_unit` closed list where one is declared, and every nested
       field that names it as its type (Decided by Jess Haley, 2026-10-27
-      [quantity reference type], V_eta_go_forward_class_audit.md; did-schema
+      [quantity reference type], did_v2_go_forward_class_audit.md; did-schema
       #66, "a derived quantity list ... for tools and the web viewer").
 Default mode writes them; --check writes nothing and fails if any differs.
 The registry's `strength` column is derived too, by
@@ -813,7 +813,7 @@ def d5_class_disposition(t, index_text):
                         "schemas/registry/did_v2_class_dispositions.json and "
                         "schemas/registry/did_v2_migration_decisions.json; do not edit. Decided by Jess "
                         "Haley, 2026-10-24 [V2 builder refuses retired] "
-                        "(V_eta_go_forward_class_audit.md). Reading v1 and the generic "
+                        "(did_v2_go_forward_class_audit.md). Reading v1 and the generic "
                         "migration are not affected."),
         "retired": rows,
     }
@@ -843,7 +843,7 @@ def d6_quantity_list(t):
         "title": "The value classes and their cells (the quantity list)",
         "description": ("DERIVED by tools/validate_v_eta.py (D6) from the class tree; do not "
                         "edit. Decided by Jess Haley, 2026-10-27 [quantity reference type] "
-                        "(V_eta_go_forward_class_audit.md; did-schema #66): a nested quantity "
+                        "(did_v2_go_forward_class_audit.md; did-schema #66): a nested quantity "
                         "names its value class as its type, and this list is derived for tools "
                         "and the web viewer. It lists EVERY value class with a cell, as the decision "
                         "says (\"all value classes, including count, score, gain, ph\"); "

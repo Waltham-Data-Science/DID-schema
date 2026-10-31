@@ -156,7 +156,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "WHICH timeline within the referent the offsets are measured on. NDI times an epoch on several clocks at once and they drift, so '10 seconds in' is ambiguous until the clock is named. FOUR terms (#67): the `approx_` variants de-encode to time_reference.clock_tolerance, `no_time` means NO REFERENCE AT ALL, and `inherited` is what `referent_id` already says. Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any repository in scope; the evidence is in V_eta_clock_alignment_cluster_plan.md and tools/check_empty_ontology_nodes.py.",
+                    "documentation": "WHICH timeline within the referent the offsets are measured on. NDI times an epoch on several clocks at once and they drift, so '10 seconds in' is ambiguous until the clock is named. FOUR terms (#67): the `approx_` variants de-encode to time_reference.clock_tolerance, `no_time` means NO REFERENCE AT ALL, and `inherited` is what `referent_id` already says. Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any repository in scope; the evidence is in did_v2_clock_alignment_cluster_plan.md and tools/check_empty_ontology_nodes.py.",
                     "constraints": {
                         "binding": {
                             "root": "did_clocktype",
@@ -263,7 +263,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -423,7 +423,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -583,7 +583,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",

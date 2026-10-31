@@ -157,7 +157,7 @@ Usage:  python3 tools/check_constraint_refinement.py
         python3 tools/check_constraint_refinement.py --enforce
 
 --enforce applies the DECIDED rule (Jess Haley, 2026-10-27, did-schema
-V_eta_go_forward_class_audit.md [redeclarations only narrow]: "a class that
+did_v2_go_forward_class_audit.md [redeclarations only narrow]: "a class that
 redeclares an inherited field may only narrow it (e.g. `mustBeNonEmpty` false
 to true; true to false is an error)"): it fails on every LOOSENED or DIVERGENT
 row that NARROW_ONLY_EXEMPT does not name. TIGHTENED and IDENTICAL pass.

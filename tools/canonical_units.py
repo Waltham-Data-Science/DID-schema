@@ -1,6 +1,6 @@
 """The canonical-unit list: each dimensioned value kind's canonical slot(s) and
 the registered unit term each slot is in (tenet T14; Jess Haley 2026-10-22
-[units bound], V_eta_data_body_model_plan.md).
+[units bound], did_v2_data_body_model_plan.md).
 
 T14 named this list `_DIM_CANON` in tools/build_v_eta.py; that script was
 deleted 2026-10-21 (OPEN_WORK #128) and the list with it. It is restored here as

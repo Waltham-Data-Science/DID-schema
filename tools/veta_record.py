@@ -157,7 +157,7 @@ _DELETE_UNUSED_LEAVES = {
 
 # v1 classes CARRIED WHOLE AS v1 by decision, with no V2 class: their did-schema
 # tombstones were deleted (Decided by Jess Haley, 2026-10-27 [carried v1
-# validates against NDI templates], V_eta_go_forward_class_audit.md: "a document
+# validates against NDI templates], did_v2_go_forward_class_audit.md: "a document
 # carried whole as v1 is validated against NDI-matlab's v1 templates ... then all
 # `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"). Each
 # has no migrator: DID-matlab v1_to_v2 passes it through unchanged, counted as
@@ -189,7 +189,7 @@ RETIRED_CLASSES = {
     "ontology_image",
     "ontology_label",
     "ontology_table_row",
-    # [linked_session withdrawn] (V_eta_linked_session_plan.md): no writer makes
+    # [linked_session withdrawn] (did_v2_linked_session_plan.md): no writer makes
     # one after NDI-matlab 915bbb3 (#1103); NDI reads an older one as a fallback
     "linked_session",
     # retire classes deleted 2026-10-30 ([one folder, final classes only]): an

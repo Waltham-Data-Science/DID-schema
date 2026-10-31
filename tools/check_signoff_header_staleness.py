@@ -10,14 +10,14 @@ to write" while carrying that marker several hundred lines below.
 
 This is not a cosmetic defect. It cost real time three separate ways:
 
-  * `V_eta_clock_alignment_cluster_plan.md` sat unbuilt for a day because its
+  * `did_v2_clock_alignment_cluster_plan.md` sat unbuilt for a day because its
     header said the family was awaiting a signature that had been present for 474
     lines. That was found by accident.
-  * `V_eta_stimulus_parameter_plan.md` had the identical defect for two days,
+  * `did_v2_stimulus_parameter_plan.md` had the identical defect for two days,
     found on 2026-08-10 while looking for something else.
-  * The same sweep then found FOUR MORE: `V_eta_epoch_plan.md`,
-    `V_eta_ingested_payload_findings.md`, `V_eta_stimulus_response_model_plan.md`
-    and `V_eta_daq_family_decisions.md`. Six documents, five signed families, all
+  * The same sweep then found FOUR MORE: `did_v2_epoch_plan.md`,
+    `did_v2_ingested_payload_findings.md`, `did_v2_stimulus_response_model_plan.md`
+    and `did_v2_daq_family_decisions.md`. Six documents, five signed families, all
     reading as unsigned to anyone who stopped at the header.
 
 The failure mode is specific and one-directional: the header always claims LESS
@@ -48,7 +48,7 @@ KNOWN LIMITATION -- it cannot tell WHICH document a claim is about
 The rule is "a file must not assert that IT is unsigned", but the match is on
 wording alone. A signed document that truthfully says *another* document has no
 signature line trips it as a false positive. That happened on 2026-08-10:
-`V_eta_epoch_plan.md` (signed) recorded that the raw-recording plan is not, and
+`did_v2_epoch_plan.md` (signed) recorded that the raw-recording plan is not, and
 the gate fired.
 
 The fix is NOT to exempt it -- `HISTORICAL-SIGNOFF-CLAIM` means "this quotes a
@@ -79,10 +79,10 @@ Rules 1 and 2 police whether a document admits it is SIGNED. Neither looks at
 what a signature SAYS, and a signature's tail routinely carries a build state.
 Found 2026-08-15, walking PRED's target classes:
 
-  * `V_eta_go_forward_class_audit.md` `TEAM-SIGN-OFF [session]` ends "NOT YET
+  * `did_v2_go_forward_class_audit.md` `TEAM-SIGN-OFF [session]` ends "NOT YET
     BUILT" and names three artifacts. All three exist -- the schema field, the
     migrator, and the NDI-matlab read site.
-  * `V_eta_OPEN_WORK.md` `TEAM-SIGN-OFF [epoch extent -- row #113]` ends "NOT
+  * `did_v2_OPEN_WORK.md` `TEAM-SIGN-OFF [epoch extent -- row #113]` ends "NOT
     YET BUILT". `did2.convert.epochMint` mints the extent references and
     carries twelve `epoch_extent_*` counters for them.
 
@@ -109,7 +109,7 @@ is often nothing above them.
 
 THE FOURTH RULE -- an in-text "not signed" in the tenets
 ---------------------------------------------------------
-Found by the 2026-10-22 tenet audit: six amendments in `V_eta_tenets.md` said
+Found by the 2026-10-22 tenet audit: six amendments in `did_v2_tenets.md` said
 "not signed" (or "proposed ... not signed") inline, beside signatures that
 existed in the same document or in the method and term-registry plans. Rule 1
 only reads the "NO TEAM-SIGN-OFF LINE" form, so none was caught. Jess Haley,
@@ -124,15 +124,18 @@ Usage:  python3 tools/check_signoff_header_staleness.py
 """
 
 import argparse
-import glob
 import os
 import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-SCHEMA_DIR = os.path.join(REPO, "schemas")
-DECISIONS = os.path.join(SCHEMA_DIR, "generated", "did_v2_decisions.json")
+sys.path.insert(0, HERE)
+import doc_paths  # noqa: E402
+
+# The documents: every `.md` under docs/ ([markdown cleanup and rename]).
+DOCS_DIR = doc_paths.DOCS
+DECISIONS = os.path.join(REPO, "schemas", "generated", "did_v2_decisions.json")
 TOOLS_DIR = HERE
 
 # "NO `TEAM-SIGN-OFF` LINE", "no TEAM-SIGN-OFF line", "NO TEAM SIGN-OFF LINE".
@@ -151,7 +154,7 @@ BUILD_STATE = "BUILD-STATE:"
 
 # RULE 4 -- an in-text "not signed" / "not yet signed" in a scoped document.
 NOT_SIGNED_RE = re.compile(r"\bnot\s+(?:yet\s+)?signed\b", re.IGNORECASE)
-IN_TEXT_DOCS = ("V_eta_tenets.md",)
+IN_TEXT_DOCS = ("did_v2_tenets.md",)
 # The note goes AFTER the signature, because a signature is appended at the
 # bottom of a document and there is frequently nothing above it. Asymmetric on
 # purpose; 2 lines of slack above covers a note written as a lead-in.
@@ -291,13 +294,13 @@ def main():
                     help="exit non-zero if any stale header is found")
     args = ap.parse_args()
 
-    paths = glob.glob(os.path.join(SCHEMA_DIR, "*.md"))
+    paths = doc_paths.all_markdown(DOCS_DIR)
     rows, read, signed = scan(paths)
 
     # DENOMINATOR FIRST, unconditionally (Operating Rule 5). "0 stale" is
     # meaningless without "out of how many signed documents" -- a glob that
     # matched nothing would otherwise print the same reassuring zero.
-    print(f'DENOMINATOR: {len(paths)} markdown file(s) under schemas/ globbed, {read} read, {signed} carrying at least one TEAM-SIGN-OFF line')
+    print(f'DENOMINATOR: {len(paths)} markdown file(s) under docs/ globbed, {read} read, {signed} carrying at least one TEAM-SIGN-OFF line')
     if read == 0:
         print("NOTHING WAS READ -- the glob matched no files. This is a failure, "
               "not a pass.")

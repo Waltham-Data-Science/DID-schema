@@ -143,7 +143,7 @@ SECOND_PASS = {
                  "item value as the `control condition` covariate (XCO:0000099, "
                  "logical, true where the presentation was a control; all false for "
                  "a v1 NaN control). Jess Haley, 2026-10-22 [control as covariate], "
-                 "V_eta_stimulus_response_model_plan.md, superseding "
+                 "did_v2_stimulus_response_model_plan.md, superseding "
                  "[control record is a calculation]; responses point at the "
                  "presentation only.",
         "assembler": "the stimulus step of ndi.migrate.local, beside "

@@ -67,7 +67,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- in the second pass a stimulus given as a recipe becomes a `method` document (TEAM-SIGN-OFF [method], V_eta_method_plan.md), not here.",
+                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- in the second pass a stimulus given as a recipe becomes a `method` document (TEAM-SIGN-OFF [method], did_v2_method_plan.md), not here.",
                     "constraints": {},
                     "fields": []
                 }

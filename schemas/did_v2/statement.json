@@ -26,7 +26,7 @@
         {
             "name": "coordinate_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the coordinate system this statement's coordinates are in, one id. Decided by Jess Haley, 2026-10-27 [site frame is a coordinate system] (V_eta_go_forward_class_audit.md): a probe's site X/Y/Z-Coordinate values each link to the probe's one `coordinate_system`. Declared on `statement` so every direction inherits it. A value kind that cannot be read without one (the `position` mixin) declares it required, so a statement with that mixin must give it; did2.build and the cache's required-edge check read the chain's declarations together.",
+            "documentation": "Optional: the coordinate system this statement's coordinates are in, one id. Decided by Jess Haley, 2026-10-27 [site frame is a coordinate system] (did_v2_go_forward_class_audit.md): a probe's site X/Y/Z-Coordinate values each link to the probe's one `coordinate_system`. Declared on `statement` so every direction inherits it. A value kind that cannot be read without one (the `position` mixin) declares it required, so a statement with that mixin must give it; did2.build and the cache's required-edge check read the chain's declarations together.",
             "must_refer_to_document_class": "coordinate_system"
         }
     ],
@@ -217,7 +217,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (V_eta_source_unit_plan.md). Blank when the source gives no unit.",
+                    "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",

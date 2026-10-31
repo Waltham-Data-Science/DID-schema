@@ -553,7 +553,7 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
     # 6 new templates (the gene-expression family + fileReference) that ship
     # v1 documents with no V_eta home and no migrator yet. These are tracked
     # for team disposition separately from this canary -- see PR #69 /
-    # V_eta_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
+    # did_v2_OPEN_WORK.md #NN. The canary still fires on any NEW class landing
     # in this bucket; only the 6 already known are allowed through.
     KNOWN_UNDISPOSITIONED = {
         "cellTypeLabels", "fileReference", "geneListMapping",

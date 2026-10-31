@@ -1,4 +1,4 @@
-"""One `method` shape everywhere (V_eta_method_plan.md, 2026-10-21; Jess Haley: the
+"""One `method` shape everywhere (did_v2_method_plan.md, 2026-10-21; Jess Haley: the
 inline and standalone method blocks must never drift).
 
 Every `method` structure field in the built tree -- at any depth, on any class --

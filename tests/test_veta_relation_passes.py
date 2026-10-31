@@ -1,4 +1,4 @@
-"""Every relation declares what passes along it (V_eta_relation_inheritance_plan.md).
+"""Every relation declares what passes along it (did_v2_relation_inheritance_plan.md).
 
 Tenet T17 reads what reaches a child from its parent off the relation's own
 `passes` in binding_registry_meta.json, so a reader cannot disagree with the

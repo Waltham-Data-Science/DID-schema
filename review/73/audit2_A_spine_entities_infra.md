@@ -6,11 +6,11 @@ Read-only review of the built V_eta tree at branch `claude/ecstatic-pascal-md91f
 
 - **Classes:** 44 of 44 scoped classes read in full from the built JSON, plus `stable/did_schema_meta.json` and `stable/binding_registry_meta.json`. That covers every field, every nested field, every edge, every file record and every documentation string.
 - **Counts:** 313 field declarations (nested ones included), 47 edges, 2 file records, and **362 documentation strings (226 distinct)**.
-- **Yardstick:** read in full: `V_eta_tenets.md` (T1–T15), `V_eta_spatial_transcriptomics_plan.md` (items 1–70), `review/73/OPEN_ITEMS.md` and the previous audit `review/73/audit_A_spine_infra.md`.
+- **Yardstick:** read in full: `did_v2_tenets.md` (T1–T15), `did_v2_spatial_transcriptomics_plan.md` (items 1–70), `review/73/OPEN_ITEMS.md` and the previous audit `review/73/audit_A_spine_infra.md`.
 - **Plan documents checked:** read only in the sections that bear on these classes:
-  - `V_eta_method_parameters_plan.md`: top amendments, the MODEL section and the FINAL MODEL section.
-  - `V_eta_data_body_model_plan.md`: top amendment index.
-  - `V_eta_recording_observation_plan.md`: grep for `observes`.
+  - `did_v2_method_parameters_plan.md`: top amendments, the MODEL section and the FINAL MODEL section.
+  - `did_v2_data_body_model_plan.md`: top amendment index.
+  - `did_v2_recording_observation_plan.md`: grep for `observes`.
   - `review/73/veta_binding_worksheet_73.csv`: all 24 rows.
 - **Mechanical pass denominator:** 213 class schemas in the tree, 564 distinct field names, 72 distinct edge names and 34 file names were used as the "exists" set.
 - **Previously reported items:** items OPEN_ITEMS marks TABLED/BLOCKED (e.g. 24, binding `keys.unit`) are not reported again as new.
@@ -154,7 +154,7 @@ The five most important:
     - `stable/directed_relation.json` `fields[relation]`: `constraints: {}`, doc *"an enumerated ontology term (RO-backed) ... V_eta declares the corpus-exercised minimum (D6)"*.
     - `stable/binding_registry_meta.json` `relation_bindings` holds 26 directed predicates, and nothing links field to registry:
       - It has no row for item 24's *"orthologous gene mapping" | "gene alias mapping"*.
-      - It still lists `observes`. The recording plan says *"the `probe observes specimen` relation is REPLACED by the `instrument_id` edge"* (`V_eta_recording_observation_plan.md:34`).
+      - It still lists `observes`. The recording plan says *"the `probe observes specimen` relation is REPLACED by the `instrument_id` edge"* (`did_v2_recording_observation_plan.md:34`).
       - Its `child_types`/`parent_types` never include `subject_statement` or `data_type`, although `child_id`/`parent_id` accept both (items 22, 27).
       - It has no undirected rows (`undirected_relation.relation`: *"paired_with, same_as"*).
     - Worksheet rows 16–17 list both fields as having no candidate set.
@@ -199,7 +199,7 @@ The five most important:
     - *Suggestion:* rewrite to item 54, and add the NDI reader change to the PR #76 checklist if it is not already there.
 28. **STALE-DOC: the `method_parameters.subject_id` doc calls a subject a "recording".**
     - The doc says: *"settings that apply to ONE recording."*
-    - The plan says *"OPTIONAL -- scoped to one element-subject"* (`V_eta_method_parameters_plan.md:83`). The recording is the epoch scope.
+    - The plan says *"OPTIONAL -- scoped to one element-subject"* (`did_v2_method_parameters_plan.md:83`). The recording is the epoch scope.
     - *Suggestion:* "to one subject (element)".
 
 ### infra
@@ -236,7 +236,7 @@ The five most important:
 ### tenets (yardstick; outside the 44 classes)
 
 33. **STALE-DOC: the tenets name retired edges and classes.**
-    - `V_eta_tenets.md:50,55` (T2): *"records them in `derived_from_#`; `derived_from_#` is declared on `subject_calculation` only"*. T15, in the same file, renames it `input_id`.
+    - `did_v2_tenets.md:50,55` (T2): *"records them in `derived_from_#`; `derived_from_#` is declared on `subject_calculation` only"*. T15, in the same file, renames it `input_id`.
     - `:91` (T4): *"`subject_relation` → `directed_relation`"*. No such class exists.
     - `:459` (T15 vocabulary): lists `acquisition_metadata_reader_id`, renamed `epoch_parameter_reader_id` by item 65.
     - `:472,:474,:481`: table rows for `control_designation` (deleted, item 67) and `acquisition_metadata_reader_#`.

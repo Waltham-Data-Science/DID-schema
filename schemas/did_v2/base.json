@@ -75,7 +75,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The facts this document's source never stated, one entry per missing field: [missing facts are needs info] (Jess Haley, 2026-10-29, V_eta_go_forward_class_audit.md). A required field may be absent only when an entry here names it; an entry must not name a field the document gives. A dataset's import may fill the field and drop the entry. Absent on a document that is missing nothing.",
+            "documentation": "The facts this document's source never stated, one entry per missing field: [missing facts are needs info] (Jess Haley, 2026-10-29, did_v2_go_forward_class_audit.md). A required field may be absent only when an entry here names it; an entry must not name a field the document gives. A dataset's import may fill the field and drop the entry. Absent on a document that is missing nothing.",
             "constraints": {},
             "fields": [
                 {

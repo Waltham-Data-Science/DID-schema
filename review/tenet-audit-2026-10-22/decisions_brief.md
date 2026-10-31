@@ -76,7 +76,7 @@ contrast_sensitivity) and the fit entry's unit fields; register missing units
 (spikes per second; dF/F as a dimensionless ratio).
 
 **D1 [tenet signature text]** ("a"). Tenets lines ~58/381/441 (method amendments;
-signed by `V_eta_method_plan.md` TEAM-SIGN-OFF [method]), ~804 (T17; line 1019),
+signed by `did_v2_method_plan.md` TEAM-SIGN-OFF [method]), ~804 (T17; line 1019),
 ~979 (T20; line 1020): "not signed" → signed, citing the line.
 `check_signoff_header_staleness.py` also catches in-text "not signed".
 **N2 [T1 and T5 signed]** ("N2 yes"): Jess signed the T1 and T5 amendments on
@@ -105,7 +105,7 @@ two uses; stale `acquisition_system ⊂ entity` / `acquisition_metadata_reader_#
 prose (daq decisions doc; daqsystem.m, vintage/map.m, isaQuery.m comments).
 
 **F1 [epoch dissolution before merge]** ("i"). Build the SIGNED acquisition_epoch
-dissolution (V_eta_epoch_plan.md TEAM-SIGN-OFF [epoch] 2026-08-08/08-17 and
+dissolution (did_v2_epoch_plan.md TEAM-SIGN-OFF [epoch] 2026-08-08/08-17 and
 AMENDMENT 1) before merge, with D2: DID pass 1 emits relative_reference + epoch
 anchor + observation edges; NDI second pass attaches the sampled_body (dimensions +
 covariates) to the element entity's observation (spikes: the neuron's spike-time
@@ -184,7 +184,7 @@ vocab_nodes.md with these rulings —
 acquisition_system / acquisition_reader / epoch_file_pattern) stays in EACH
 session in both paths; only descriptive software dedups to the dataset.
 softwareDedup changes. Answers deferred decision 8: keep the three Haley software
-entities (record under "Deferred decision 8" in V_eta_go_forward_class_audit.md).
+entities (record under "Deferred decision 8" in did_v2_go_forward_class_audit.md).
 
 **H2 [required acquisition edges]** ("H2a"). acquisition_system.reader_id and
 epoch_file_pattern_id required.
