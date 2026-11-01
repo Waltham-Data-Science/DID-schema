@@ -30,6 +30,10 @@ NOT_VALUES = {
     "interaction.method.parameters",
     "method.parameters",
     "relation.method.parameters",
+    # 2026-11-01 ([migration record], Jess Haley): a `migration` document's
+    # `method` is the same {term, parameters} block, so its parameter entries take
+    # the condition's `approximate` and, like it, no tolerance.
+    "migration.method.parameters",
 }
 
 

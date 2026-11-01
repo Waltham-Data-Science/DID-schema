@@ -13,8 +13,8 @@
         {
             "name": "owner_id",
             "mustBeNonEmpty": false,
-            "documentation": "The document this body holds the value of: a statement, or a standalone value document (a shared image, waveform or term list; item 20). The edge repeats (T15) when one body holds part of the value of several statements: a raw recording file is shared by the observations of every electrode recorded in it, each observation's channels named by its acquisition_channels_id (Jess Haley, 2026-10-21, did_v2_recording_observation_plan.md). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
-            "must_refer_to_document_class": "statement,value",
+            "documentation": "The document this body holds the value of: a statement, or a standalone value document (a shared image, waveform or term list; item 20). The edge repeats (T15) when one body holds part of the value of several statements: a raw recording file is shared by the observations of every electrode recorded in it, each observation's channels named by its acquisition_channels_id (Jess Haley, 2026-10-21, did_v2_recording_observation_plan.md). A later body appends without rewriting the owner. Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values. A `migration` document's report is its body too ([migration record], Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md: \"the report as its body\").",
+            "must_refer_to_document_class": "statement,value,migration",
             "multiple": true,
             "min_count": 1,
             "ordered": false

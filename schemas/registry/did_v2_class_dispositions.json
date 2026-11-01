@@ -208,6 +208,9 @@
         "method": {
             "disposition": "persist"
         },
+        "migration": {
+            "disposition": "persist"
+        },
         "model_fit": {
             "disposition": "persist"
         },

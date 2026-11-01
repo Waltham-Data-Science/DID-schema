@@ -752,6 +752,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "migration",
+            "family": "core",
+            "class_version": "1.0.0",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/did_v2/migration.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "model_fit",
             "family": "value",
             "class_version": "1.0.0",

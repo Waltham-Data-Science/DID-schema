@@ -14,8 +14,8 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 115 |
-| settled (persist) | 94 |
+| target classes | 116 |
+| settled (persist) | 95 |
 | `retire`, file still in the tree (open: delete it once nothing passes through it, [one folder, final classes only]) | 21 |
 | **still open (`in_progress`)** | **0** |
 | **`retire` with no migrator YET** | **1** |
@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 645 decision line(s) accepted, 2 rejected; 44 cited by a class, 601 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 646 decision line(s) accepted, 2 rejected; 44 cited by a class, 602 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -897,6 +897,7 @@ field). If one decides a class's disposition, that class should cite it.
 - compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1800).
 - unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1802).
 - CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1804).
+- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1806).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

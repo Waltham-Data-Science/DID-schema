@@ -606,7 +606,10 @@ def test_data_body_classes():
     # edge on the parent, still REQUIRED.
     statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
                      if d["name"] == "owner_id")
-    assert statement["must_refer_to_document_class"] == "statement,value"
+    # WIDENED 2026-11-01 ([migration record], Jess Haley,
+    # did_v2_go_forward_class_audit.md: "the report as its body"): a `migration`
+    # document's report is its body.
+    assert statement["must_refer_to_document_class"] == "statement,value,migration"
     # REPEATS since 2026-10-21 (Jess Haley, did_v2_recording_observation_plan.md):
     # a raw recording file is ONE body shared by the observation of every
     # electrode recorded in it, so the edge repeats (T15) -- and the requirement

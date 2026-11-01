@@ -11175,6 +11175,34 @@
             "synonyms": [
                 "zstd"
             ]
+        },
+        {
+            "name": "Data formatting",
+            "node": "EDAM:operation_0335",
+            "definition": "Reformat a file of data (or equivalent entity in memory).",
+            "status": "decided",
+            "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for [migration record] (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md), whose method is \"the term for format conversion\"; T19: an existing EDAM term, whose EDAM synonyms include \"Format conversion\" (OLS4, edam)",
+            "first_used_in": "the `migration` document's method.term (DID-matlab +did2/+convert, Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": [
+                "Format conversion",
+                "File format conversion",
+                "Data reformatting"
+            ]
+        },
+        {
+            "name": "JSON",
+            "node": "EDAM:format_3464",
+            "definition": "JavaScript Object Notation format; a lightweight, text-based format to represent tree-structured data using key-value pairs.",
+            "status": "decided",
+            "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, as the `format` of a `migration` document's report body ([migration record], Jess Haley, 2026-11-01: \"the report as its body\"); T19: an existing EDAM format term (OLS4, edam)",
+            "first_used_in": "the `opaque_body` holding a `migration` document's report (DID-matlab +did2/+convert, Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
