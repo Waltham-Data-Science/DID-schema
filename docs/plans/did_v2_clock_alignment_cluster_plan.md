@@ -505,6 +505,8 @@ untagged line would sign both at once, which is the hole `has_signoff` was built
 
 TEAM-SIGN-OFF [sync configuration]: jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.
 
+AMENDMENT NOTE (not a decision line): TEAM-SIGN-OFF [sync configuration]'s "devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED" was amended by [sync configuration links its rigs] and [sync rule direction is recorded] (2026-10-27: two role-named `acquisition_system` edges, from and to) and by [probe wiring is a relation] (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md: "a clock-sync rule's two ends ... point straight at the `acquisition_system`"; `acquisition_channels` is retired). The rest of the sign-off stands.
+
 TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (⊂ relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.
 
 ### What the review changed, and what it confirmed

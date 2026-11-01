@@ -181,6 +181,14 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # persist class retired 2026-11-01 ([probe wiring is a relation], Jess
+    # Haley, did_v2_go_forward_class_audit.md): a probe's wiring is a
+    # `connected to` directed_relation to its acquisition_system, one condition
+    # per channel type, and a recording names its system by
+    # `acquisition_system_id`. DID-matlab and NDI-matlab write and read the new
+    # shape first (DID-matlab #354, NDI-matlab #1135); NDI still reads the old
+    # documents of a session migrated before.
+    "acquisition_channels",
     # retire classes deleted 2026-11-02 ([ensemble and generic_file checked as
     # v1]): since DID-matlab #351 (dac31a67) pass 1 hands a v1 `ensemble` or
     # `generic_file` on unchanged, checked against NDI's own v1 template and

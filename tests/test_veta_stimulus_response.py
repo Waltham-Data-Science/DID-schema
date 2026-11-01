@@ -578,7 +578,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # [ensemble and generic_file checked as v1]: ensemble and generic_file
     # deleted (handed on as v1 by DID-matlab pass 1, checked against NDI's
     # template). Neither was in the INERT list.
-    assert walked == 104, f"schema count moved; re-derive the inert set ({walked})"
+    # FORTY-SECOND MOVEMENT, re-derived not bumped: 104 -> 103 on 2026-11-02,
+    # [probe wiring is a relation]: acquisition_channels retired (a probe's
+    # wiring is a `connected to` directed_relation). It was not in the INERT list.
+    assert walked == 103, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

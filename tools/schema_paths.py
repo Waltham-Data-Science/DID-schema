@@ -52,9 +52,10 @@ SET = "did_v2"
 # and that no class named after a family sits anywhere else.
 ROOTED_FAMILIES = ("value", "calculation", "data_body", "time_reference", "relation")
 # [acquisition folder] (2026-10-31): `acquisition/` groups the acquisition
-# classes (acquisition_system, acquisition_channels, acquisition_reader,
-# epoch_file_pattern, epoch_parameter_reader, ingestion_manifest); it is a
-# family folder with no root class.
+# classes (acquisition_system, acquisition_reader, epoch_file_pattern,
+# epoch_parameter_reader, ingestion_manifest; acquisition_channels until
+# [probe wiring is a relation] retired it, 2026-11-01); it is a family folder
+# with no root class.
 GROUPING_FAMILIES = ("acquisition",)
 FAMILIES = ROOTED_FAMILIES + GROUPING_FAMILIES
 RETIRING = "retiring"

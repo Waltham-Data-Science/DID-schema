@@ -39,7 +39,7 @@
         {
             "name": "device_id",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: the device that produced the files this system reads (a digitizer, a camera, a computer), an entity of type device; the same entity as an interaction's `instrument_id` when one device does both, with no rule tying the two (Jess Haley 2026-10-22 [instrument and device]). Filled when known (the Haley import's camera, `instrumentFor` in sessionDocuments.m). The acquisition system itself is configuration -- which software reads which files -- not a thing in the world. An epoch reaches its system through the recording interaction's `acquisition_channels_id` and that document's `acquisition_system_id` (Jess Haley 2026-10-22 [epoch to system link]; no `recorded_by` relation).",
+            "documentation": "Optional: the device that produced the files this system reads (a digitizer, a camera, a computer), an entity of type device; the same entity as an interaction's `instrument_id` when one device does both, with no rule tying the two (Jess Haley 2026-10-22 [instrument and device]). Filled when known (the Haley import's camera, `instrumentFor` in sessionDocuments.m). The acquisition system itself is configuration -- which software reads which files -- not a thing in the world. An epoch reaches its system through the recording interaction's `acquisition_system_id` (Jess Haley 2026-10-22 [epoch to system link], no `recorded_by` relation; amended 2026-11-01 [probe wiring is a relation], which retired the `acquisition_channels` document in between); a probe's channels on the system are its `connected to` directed_relation to it.",
             "must_refer_to_document_class": "entity"
         }
     ],

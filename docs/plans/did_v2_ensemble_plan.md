@@ -306,3 +306,5 @@ RE-DERIVED 2026-11-01 (one retire class deleted, Jess Haley [one folder, final c
 RE-DERIVED 2026-11-01 (one retire class deleted, Jess Haley [one folder, final classes only], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **106 distinct V_eta class names** (was 107; -1: openminds_stimulus); tombstone classes compared: 15 (was 16). Re-derive with `check_prose_counts`, do not quote these directly.
 
 RE-DERIVED 2026-11-02 (two retire classes deleted, Jess Haley [ensemble and generic_file checked as v1], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **104 distinct V_eta class names** (was 106; -2: ensemble, generic_file); tombstone classes compared: 13 (was 15). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-11-02 (`acquisition_channels` retired, Jess Haley [probe wiring is a relation], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **103 distinct V_eta class names** (was 104; -1: acquisition_channels). Re-derive with `check_prose_counts`, do not quote.
